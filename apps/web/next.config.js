@@ -1,4 +1,4 @@
-const withTM = require("next-transpile-modules")(["ui"]);
+const withTM = require("next-transpile-modules")(["ui-sample", "@gravis-os/form"]);
 
 module.exports = withTM({
   reactStrictMode: true,
