@@ -14,8 +14,7 @@ import useRouterQueryFilters from './useRouterQueryFilters'
 import getCrudTableColumnDefs from './getCrudTableColumnDefs'
 import usePreviewDrawer from './usePreviewDrawer'
 import { CrudFormProps } from './CrudForm'
-
-const CrudPreviewDrawer = dynamic(() => import('./CrudPreviewDrawer'))
+import CrudPreviewDrawer from './CrudPreviewDrawer'
 
 // TODO@Joel: Abstract this to useListItems()
 const fetchItems = async (args: any = {}) => {

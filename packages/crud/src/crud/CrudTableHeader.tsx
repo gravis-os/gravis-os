@@ -19,8 +19,7 @@ import { CrudModule } from './typings'
 import SearchForm from './SearchForm'
 import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'
-
-const CrudAddDialog = dynamic(() => import('./CrudAddDialog'))
+import CrudAddDialog from './CrudAddDialog'
 
 export interface CrudTableHeaderProps {
   module: CrudModule
