@@ -1,7 +1,7 @@
 // Save joins
-import getRelationalObjectKey from '../form/getRelationalObjectKey'
+import { getRelationalObjectKey } from '@gravis-os/form'
 
-const saveJoins = async (args) => {
+const saveJoins = async args => {
   const { item, values, client, module } = args
 
   const getHelpers = ({ key, value }) => {
@@ -14,8 +14,8 @@ const saveJoins = async (args) => {
       currentColumnName: `${module.table.name}_id`,
       opposingColumnName: `${relationalObjectKey}_id`,
       joinKey,
-      prevValueIds: item[joinKey].map((v) => v.id),
-      currentValueIds: value.map((v) => v.id),
+      prevValueIds: item[joinKey].map(v => v.id),
+      currentValueIds: value.map(v => v.id),
     }
 
     return helpers
@@ -24,26 +24,38 @@ const saveJoins = async (args) => {
   const deletePromises = Object.entries(values).map(([key, value]) => {
     if (!Array.isArray(value)) return
 
-    const { joinTableName, opposingColumnName, prevValueIds, currentValueIds } = getHelpers({ key, value })
+    const { joinTableName, opposingColumnName, prevValueIds, currentValueIds } =
+      getHelpers({ key, value })
 
     // Find difference in prevValue and currentValue arrays
-    const opposingTableIdsToDelete = prevValueIds.filter((prevValueId) => !currentValueIds.includes(prevValueId))
+    const opposingTableIdsToDelete = prevValueIds.filter(
+      prevValueId => !currentValueIds.includes(prevValueId)
+    )
 
     if (!opposingTableIdsToDelete.length) return
 
-    return client.from(joinTableName).delete().in(opposingColumnName, opposingTableIdsToDelete)
+    return client
+      .from(joinTableName)
+      .delete()
+      .in(opposingColumnName, opposingTableIdsToDelete)
   })
 
   const upsertPromises = Object.entries(values).map(([key, value]) => {
     if (!Array.isArray(value)) return
 
-    const { joinTableName, currentColumnName, opposingColumnName, prevValueIds, currentValueIds } = getHelpers({
+    const {
+      joinTableName,
+      currentColumnName,
+      opposingColumnName,
+      prevValueIds,
+      currentValueIds,
+    } = getHelpers({
       key,
       value,
     })
 
     const joinTableRecords = value
-      .map((val) => {
+      .map(val => {
         // Find difference in prevValue and currentValue arrays
         if (prevValueIds.includes(val.id)) return
 

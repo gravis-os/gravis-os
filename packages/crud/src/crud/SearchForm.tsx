@@ -94,7 +94,7 @@ const SearchForm: React.FC<SearchFormProps> = props => {
           {typeof children === 'function'
             ? children(renderProps)
             : renderProps.formJsx}
-          <Button variant="paper" type="submit">
+          <Button variant="contained" type="submit">
             Search
           </Button>
         </Stack>

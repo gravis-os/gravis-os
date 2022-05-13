@@ -31,14 +31,17 @@ export * from './TextField'
 export { default as withDbFormValues } from './withDbFormValues'
 export * from './withDbFormValues'
 
-export { default as getRelationalObjectKey } from './getRelationalObjectKey'
-export * from './getRelationalObjectKey'
+export { default as getDefaultValues } from './getDefaultValues'
+export * from './getDefaultValues'
 
 export { default as getFilterFormValues } from './getFilterFormValues'
 export * from './getFilterFormValues'
 
-export { default as getDefaultValues } from './getDefaultValues'
-export * from './getDefaultValues'
+export { default as getRelationalObjectKey } from './getRelationalObjectKey'
+export * from './getRelationalObjectKey'
+
+export { default as getSearchFormValues } from './getSearchFormValues'
+export * from './getSearchFormValues'
 
 export { default as withoutId } from './withoutId'
 export * from './withoutId'

@@ -5,7 +5,7 @@ import startCase from 'lodash/startCase'
 import get from 'lodash/get'
 import flowRight from 'lodash/flowRight'
 import { Stack, Link } from '@gravis-os/ui'
-import { StorageAvatar } from '@gravis-os/storage'
+import { StorageAvatarWithUpload } from '@gravis-os/storage'
 import CrudTableActionsColumnCellRenderer from './CrudTableActionsColumnCellRenderer'
 
 // ==============================
@@ -79,7 +79,7 @@ const withPreview =
           return (
             <Stack direction="row" alignItems="center" spacing={1}>
               {hasAvatar && (
-                <StorageAvatar
+                <StorageAvatarWithUpload
                   module={module}
                   src={params.data.avatar_src}
                   size={32}

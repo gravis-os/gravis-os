@@ -4,7 +4,7 @@ import {
   MOCK_MODULE,
   MOCK_COLUMN_DEFS,
   MOCK_FORM_SECTIONS,
-} from '../example/example.mocks'
+} from '../mocks/crud.mocks'
 
 export default {
   title: 'Crud/ListPage',

@@ -1,11 +1,21 @@
 import React, { useState } from 'react'
-import { Container, Tabs, TabsProps, Tab, TabProps, Card, CardProps, Divider, CircularProgress } from '@gravis-os/ui'
+import {
+  Container,
+  Tabs,
+  TabsProps,
+  Tab,
+  TabProps,
+  Card,
+  CardProps,
+  Divider,
+  CircularProgress,
+} from '@gravis-os/ui'
 import DetailPageHeader from './DetailPageHeader'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
 import { CrudItem, CrudModule } from './typings'
 import getIsNew from './getIsNew'
 import useGetItem from './useGetItem'
-import { RenderPropsFunction } from '../typings'
+import { RenderPropsFunction } from '../types'
 import CrudForm, { CrudFormProps } from './CrudForm'
 
 interface DetailPageRenderProps {
@@ -32,7 +42,7 @@ export interface DetailPageProps {
   crudFormProps?: Partial<CrudFormProps>
 }
 
-const DetailPage: React.FC<DetailPageProps> = (props) => {
+const DetailPage: React.FC<DetailPageProps> = props => {
   const {
     module,
     children: injectedChildren,
@@ -66,63 +76,75 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   // ==============================
   const hasTabs = tabs && tabs?.length > 0
   const defaultCurrentTab = hasTabs ? tabs[0].value : undefined
-  const [currentTab, setCurrentTab] = useState<string | undefined>(defaultCurrentTab)
+  const [currentTab, setCurrentTab] = useState<string | undefined>(
+    defaultCurrentTab
+  )
   const handleTabsChange = (e, value) => setCurrentTab(value)
-  const renderTabs = () => {
-    return (
-      <>
-        {/* Breadcrumbs */}
-        <DetailPageHeader item={item} module={module} disableTitle={!isNew} />
+  const renderTabs = () => (
+    <>
+      {/* Breadcrumbs */}
+      <DetailPageHeader item={item} module={module} disableTitle={!isNew} />
 
-        {/* Tabs */}
-        {!isNew && (
-          <>
-            {/* Banner */}
-            <DetailBanner item={item} module={module} {...bannerProps} />
+      {/* Tabs */}
+      {!isNew && (
+        <>
+          {/* Banner */}
+          <DetailBanner item={item} module={module} {...bannerProps} />
 
-            <Divider />
+          <Divider />
 
-            {/* Tabs */}
-            <Card
-              square
-              sx={{ mb: 3, ...tabsCardProps?.sx }}
-              contentProps={{
-                sx: { '&&': { py: 0 }, px: 2, ...tabsCardProps?.contentProps?.sx },
-                ...tabsCardProps?.contentProps,
-              }}
-              {...tabsCardProps}
+          {/* Tabs */}
+          <Card
+            square
+            sx={{ mb: 3, ...tabsCardProps?.sx }}
+            contentProps={{
+              sx: {
+                '&&': { py: 0 },
+                px: 2,
+                ...tabsCardProps?.contentProps?.sx,
+              },
+              ...tabsCardProps?.contentProps,
+            }}
+            {...tabsCardProps}
+          >
+            <Tabs
+              onChange={handleTabsChange}
+              scrollButtons="auto"
+              value={currentTab}
+              variant="scrollable"
+              {...tabsProps}
             >
-              <Tabs
-                onChange={handleTabsChange}
-                scrollButtons="auto"
-                value={currentTab}
-                variant="scrollable"
-                {...tabsProps}
-              >
-                {hasTabs &&
-                  tabs.map((tab) => {
-                    const { hidden } = tab
+              {hasTabs &&
+                tabs.map(tab => {
+                  const { hidden } = tab
 
-                    // Hidden
-                    const hasHidden = typeof hidden === 'function' || typeof hidden === 'boolean'
-                    if (hasHidden) {
-                      const shouldHide = typeof hidden === 'function' ? hidden(renderProps) : hidden
-                      if (shouldHide) return
-                    }
+                  // Hidden
+                  const hasHidden =
+                    typeof hidden === 'function' || typeof hidden === 'boolean'
+                  if (hasHidden) {
+                    const shouldHide =
+                      typeof hidden === 'function'
+                        ? hidden(renderProps)
+                        : hidden
+                    if (shouldHide) return
+                  }
 
-                    return <Tab key={tab.value} label={tab.label} value={tab.value} />
-                  })}
-              </Tabs>
-            </Card>
-          </>
-        )}
-      </>
-    )
-  }
-  const renderTab = (currentTab) => {
+                  return (
+                    <Tab key={tab.value} label={tab.label} value={tab.value} />
+                  )
+                })}
+            </Tabs>
+          </Card>
+        </>
+      )}
+    </>
+  )
+  const renderTab = currentTab => {
     if (!hasTabs) return
 
-    const currentTabItem = (tabs as any[]).find(({ value }) => value === currentTab)
+    const currentTabItem = (tabs as any[]).find(
+      ({ value }) => value === currentTab
+    )
     const tabChildrenJsx = currentTabItem.children
 
     const hasRender = Boolean(currentTabItem.render)
@@ -137,8 +159,11 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
     }
   }
   // Add fragment + key to reconcile react tree
-  const tabsChildrenJsx = <React.Fragment key={currentTab}>{renderTab(currentTab)}</React.Fragment>
-  const childrenJsx = typeof children === 'function' ? children(renderProps) : children
+  const tabsChildrenJsx = (
+    <React.Fragment key={currentTab}>{renderTab(currentTab)}</React.Fragment>
+  )
+  const childrenJsx =
+    typeof children === 'function' ? children(renderProps) : children
 
   if (loading && !isNew) return <CircularProgress fullScreen />
 

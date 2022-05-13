@@ -2,7 +2,7 @@ import React from 'react'
 import { Container } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import PageHeader from './PageHeader'
-import { DataTableProps } from '../components'
+import { DataTableProps } from './DataTable'
 import { CrudModule } from './typings'
 import CrudTable, { CrudTableProps } from './CrudTable'
 

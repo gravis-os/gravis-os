@@ -30,6 +30,7 @@
     "ag-grid-community": "^27.1.0",
     "ag-grid-enterprise": "^27.1.0",
     "ag-grid-react": "^27.1.0",
+    "autosuggest-highlight": "^3.2.1",
     "downloadjs": "^1.4.7",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0",
