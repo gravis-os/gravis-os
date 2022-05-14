@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/crud",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "sideEffects": false,
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -27,9 +27,9 @@
     "build:yalc": "npm run build; npm run copy; cd dist/; yalc push; cd ../"
   },
   "dependencies": {
-    "ag-grid-community": "^27.1.0",
-    "ag-grid-enterprise": "^27.1.0",
-    "ag-grid-react": "^27.1.0",
+    "ag-grid-community": "^27.2.0",
+    "ag-grid-enterprise": "^27.2.0",
+    "ag-grid-react": "^27.2.0",
     "autosuggest-highlight": "^3.2.1",
     "downloadjs": "^1.4.7",
     "lodash": "^4.17.21",

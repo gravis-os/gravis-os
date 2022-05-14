@@ -1,9 +1,9 @@
 import React from 'react'
+import { printNumber } from '@gravis-os/utils'
 import Stack, { StackProps } from './Stack'
 import Box from './Box'
 import Divider from './Divider'
 import Typography, { TypographyProps } from './Typography'
-import printNumber from '../utils/printNumber'
 
 const getTitleVariantBySize = (size): TypographyProps['variant'] => {
   switch (size) {

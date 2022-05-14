@@ -16,9 +16,6 @@ export * from './FieldEffectProvider'
 export { default as ControlledTextField } from './ControlledTextField'
 export * from './ControlledTextField'
 
-export { default as metaFormSection } from './metaFormSection'
-export * from './metaFormSection'
-
 export { default as ControlledAmountField } from './ControlledAmountField'
 export * from './ControlledAmountField'
 

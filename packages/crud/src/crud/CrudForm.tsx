@@ -10,6 +10,7 @@ import {
 import { CrudItem, CrudModule } from './typings'
 import useCrudForm, { UseCrudFormArgs } from './useCrudForm'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
+import metaFormSection from './metaFormSection'
 
 const getFormComponentByCrudFormType = type => {
   switch (type) {
@@ -90,7 +91,7 @@ const CrudForm: React.FC<CrudFormProps> = props => {
     item,
     isNew,
     isPreview,
-    sections,
+    sections: [...sections, metaFormSection],
     module,
     disabledFields,
   }

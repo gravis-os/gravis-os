@@ -27,7 +27,8 @@
     "build:yalc": "npm run build; npm run copy; cd dist/; yalc push; cd ../"
   },
   "dependencies": {
-    "downloadjs": "^1.4.7",
+    "@gravis-os/ui": "*",
+    "@gravis-os/storage": "*",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3",
