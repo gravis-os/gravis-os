@@ -27,10 +27,16 @@ module.exports = {
     // Javascript
     'no-shadow': 0,
     'no-case-declarations': 0,
-    'camelcase': 1,
+    camelcase: 1,
     'consistent-return': 1,
     // prettier
-    'prettier/prettier': ['error'],
+    'prettier/prettier': [
+      'error',
+      {
+        semi: false,
+        singleQuote: true,
+      },
+    ],
     // TypeScript
     '@typescript-eslint/no-empty-interface': 0,
     '@typescript-eslint/no-unused-vars': 1,
