@@ -12,13 +12,12 @@ import {
   useUser,
 } from '@gravis-os/auth'
 import { StorageAvatar } from '@gravis-os/storage'
-import RouterLink from 'next/link'
 import ProTip from '../src/ProTip'
 import Copyright from '../src/Copyright'
 
 export const getServerSideProps = withAuthRequired()
 
-const Profile: NextPage = (props) => {
+const Profile: NextPage = () => {
   const { logout } = useAuth()
   const router = useRouter()
 

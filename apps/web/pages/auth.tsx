@@ -2,7 +2,6 @@ import React, { useEffect } from 'react'
 import type { NextPage } from 'next'
 import { useRouter } from 'next/router'
 import { Container, Typography, Box, Button } from '@gravis-os/ui'
-import RouterLink from 'next/link'
 import { AuthForm, useUser, withAuthProvider } from '@gravis-os/auth'
 import ProTip from '../src/ProTip'
 import Copyright from '../src/Copyright'
@@ -13,7 +12,7 @@ const Auth: NextPage = () => {
 
   useEffect(() => {
     if (user && authUser) router.push('/profile')
-  }, [user, authUser])
+  }, [user, authUser, router])
 
   return (
     <Container maxWidth="xs">
