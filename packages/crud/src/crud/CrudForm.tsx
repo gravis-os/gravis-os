@@ -12,14 +12,6 @@ import useCrudForm, { UseCrudFormArgs } from './useCrudForm'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import metaFormSection from './metaFormSection'
 
-const getFormComponentByCrudFormType = type => {
-  switch (type) {
-    case 'form':
-    default:
-      return FormSections
-  }
-}
-
 type HiddenFunction = ({
   isNew,
   isPreview,
@@ -44,10 +36,10 @@ export interface CrudFormProps {
   defaultValues?: Record<string, unknown>
   disabledFields?: string[]
   formProps?: Partial<FormProps<any>>
-  type?: 'quotation' | 'wizard' | 'form'
+  formJsxComponent?: React.JSXElementConstructor<any>
 }
 
-const CrudForm: React.FC<CrudFormProps> = props => {
+const CrudForm: React.FC<CrudFormProps> = (props) => {
   const {
     headerProps,
     disableHeader,
@@ -62,7 +54,7 @@ const CrudForm: React.FC<CrudFormProps> = props => {
     loading,
     defaultValues,
     disabledFields,
-    type = 'form',
+    formJsxComponent: FormJsxComponent = FormSections,
   } = props
   const { route } = module
 
@@ -96,12 +88,6 @@ const CrudForm: React.FC<CrudFormProps> = props => {
     disabledFields,
   }
 
-  // Form Component
-  const FormJsxComponent = useMemo(
-    () => getFormComponentByCrudFormType(type),
-    [type]
-  )
-
   // Loading state
   if (loading) return <CircularProgress fullScreen />
 
@@ -112,7 +98,7 @@ const CrudForm: React.FC<CrudFormProps> = props => {
       formJsx={<FormJsxComponent {...formJsxProps} {...formSectionsProps} />}
       {...formProps}
     >
-      {renderProps => (
+      {(renderProps) => (
         <>
           {!disableHeader && (
             <DetailPageHeader

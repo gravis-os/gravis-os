@@ -31,9 +31,7 @@
     "@gravis-os/storage": "*",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.3",
-    "@gravis-os/ui": "*",
-    "@gravis-os/storage": "*"
+    "typescript": "^4.6.3"
   },
   "peerDependencies": {
     "@emotion/react": ">=11.9.0",
