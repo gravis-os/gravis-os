@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/ui",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "sideEffects": false,
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
@@ -21,10 +21,7 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "copy": "cp package.json dist/ && cp README.md dist/",
-    "rollup:watch": "rollup -c -w",
-    "yalc": "npm run copy; cd dist/; yalc push; cd ../",
-    "build:yalc": "npm run build; npm run copy; cd dist/; yalc push; cd ../"
+    "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\""
   },
   "dependencies": {
     "@gravis-os/utils": "*",

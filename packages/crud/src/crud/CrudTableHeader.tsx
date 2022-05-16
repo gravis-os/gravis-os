@@ -31,7 +31,7 @@ export interface CrudTableHeaderProps {
   addDialogProps?: Record<string, unknown>
 }
 
-const CrudTableHeader: React.FC<CrudTableHeaderProps> = props => {
+const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const {
     filters,
     setFilters,
@@ -100,7 +100,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = props => {
           {/* Filter Button */}
           {hasFilterFormSections && (
             <Stack
-              width={{ xs: '100%', md: 'initial' }}
+              sx={{ width: { xs: '100%', md: 'initial' } }}
               direction="row"
               alignItems="center"
               spacing={1}

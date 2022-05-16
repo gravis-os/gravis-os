@@ -18,7 +18,7 @@ export interface ButtonProps extends MuiButtonProps {
   loading?: boolean
 }
 
-const Button: React.FC<ButtonProps> = props => {
+const Button: React.FC<ButtonProps> = (props) => {
   const {
     loading,
     fullWidthMobile,

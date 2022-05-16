@@ -94,18 +94,20 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
           justifyContent="flex-end"
           spacing={0.5}
         >
-          {actions?.map((action) => (
-            <Button size={size} key={action.key} {...action} />
-          ))}
-          {button ||
-            (buttonProps && (
-              <Button
-                size={size}
-                variant="contained"
-                color="primary"
-                {...buttonProps}
-              />
+          <div>
+            {actions?.map((action) => (
+              <Button size={size} key={action.key} {...action} />
             ))}
+            {button ||
+              (buttonProps && (
+                <Button
+                  size={size}
+                  variant="contained"
+                  color="primary"
+                  {...buttonProps}
+                />
+              ))}
+          </div>
         </Stack>
       </Stack>
 
