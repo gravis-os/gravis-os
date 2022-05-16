@@ -29,7 +29,7 @@ export interface PageHeaderProps
   onClose?: () => void
 }
 
-const PageHeader: React.FC<PageHeaderProps> = props => {
+const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const {
     actions,
     button,
@@ -88,8 +88,13 @@ const PageHeader: React.FC<PageHeaderProps> = props => {
         </Stack>
 
         {/* Right */}
-        <Stack direction="row" alignItems="center" spacing={0.5}>
-          {actions?.map(action => (
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="flex-end"
+          spacing={0.5}
+        >
+          {actions?.map((action) => (
             <Button size={size} key={action.key} {...action} />
           ))}
           {button ||

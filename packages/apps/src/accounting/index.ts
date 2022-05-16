@@ -1,2 +1,2 @@
-export { default as QuotationForm } from './QuotationForm'
-export * from './QuotationForm'
+export { default as QuotationFormSections } from './QuotationFormSections'
+export * from './QuotationFormSections'
