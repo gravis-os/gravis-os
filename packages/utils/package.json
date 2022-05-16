@@ -21,10 +21,7 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "copy": "cp package.json dist/ && cp README.md dist/",
-    "rollup:watch": "rollup -c -w",
-    "yalc": "npm run copy; cd dist/; yalc push; cd ../",
-    "build:yalc": "npm run build; npm run copy; cd dist/; yalc push; cd ../"
+    "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\""
   },
   "dependencies": {
     "lodash": "^4.17.21",
