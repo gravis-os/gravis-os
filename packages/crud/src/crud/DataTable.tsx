@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, SxProps, useMediaQuery } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import AgGrid, { AgGridProps } from '../crud/AgGrid'
+import AgGrid, { AgGridProps } from './AgGrid'
 
 export interface DataTableProps extends AgGridProps {
   sx?: SxProps
@@ -25,11 +25,23 @@ const baseFontSize = 15
  * ColDef API Docs
  * @link https://www.ag-grid.com/javascript-data-grid/column-properties
  */
-const DataTable = React.forwardRef<React.RefObject<any>, React.PropsWithChildren<DataTableProps>>((props, ref) => {
-  const { editable, sx, onGridReady: injectedOnGridReady, defaultColDef, rowData, ...rest } = props
+const DataTable = React.forwardRef<
+  React.RefObject<any>,
+  React.PropsWithChildren<DataTableProps>
+>((props, ref) => {
+  const {
+    editable,
+    sx,
+    onGridReady: injectedOnGridReady,
+    defaultColDef,
+    rowData,
+    ...rest
+  } = props
 
   const isLargeData = rowData && rowData?.length > 800
-  const defaultAgGridProps: AgGridProps = { domLayout: isLargeData ? 'normal' : 'autoHeight' }
+  const defaultAgGridProps: AgGridProps = {
+    domLayout: isLargeData ? 'normal' : 'autoHeight',
+  }
 
   // Responsive
   const theme = useTheme()
@@ -46,7 +58,11 @@ const DataTable = React.forwardRef<React.RefObject<any>, React.PropsWithChildren
         sx={{
           '&.ag-theme-alpine .ag-root-wrapper': { border: 0 },
           '&.ag-theme-alpine, &.ag-theme-alpine .ag-row': {
-            fontSize: { xs: baseFontSize - 2, sm: baseFontSize - 1, md: baseFontSize },
+            fontSize: {
+              xs: baseFontSize - 2,
+              sm: baseFontSize - 1,
+              md: baseFontSize,
+            },
           },
           '&.ag-theme-alpine .ag-header-cell, &.ag-theme-alpine .ag-cell': {
             display: 'flex',
@@ -55,9 +71,10 @@ const DataTable = React.forwardRef<React.RefObject<any>, React.PropsWithChildren
             lineHeight: 1.2,
             ...wrapTextStyles,
           },
-          '&.ag-theme-alpine .ag-header, &.ag-theme-alpine .ag-header-cell-resize::after': {
-            backgroundColor: 'transparent',
-          },
+          '&.ag-theme-alpine .ag-header, &.ag-theme-alpine .ag-header-cell-resize::after':
+            {
+              backgroundColor: 'transparent',
+            },
           '&.ag-theme-alpine .ag-ltr .ag-floating-filter-button': { ml: 0.5 },
 
           // ==============================
@@ -107,7 +124,10 @@ const DataTable = React.forwardRef<React.RefObject<any>, React.PropsWithChildren
                   return columnId
                 })
                 ?.filter(Boolean)
-              return params.columnApi.autoSizeColumns(allColumnIds as string[], true)
+              return params.columnApi.autoSizeColumns(
+                allColumnIds as string[],
+                true
+              )
           }
         }}
         onGridReady={(params) => {

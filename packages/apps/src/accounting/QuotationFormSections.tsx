@@ -124,7 +124,12 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
         </Card>
 
         {/* QuotationLines */}
-        <Box sx={{ backgroundColor: 'background.default', height: 32 }} />
+        <Box>
+          <FormSection
+            {...formSectionProps}
+            {...getSectionPropsByKey('lines')}
+          />
+        </Box>
 
         <Card disableBorderRadiusTop>
           {/* Summary */}

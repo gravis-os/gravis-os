@@ -81,7 +81,7 @@ const useCrudForm = (args: UseCrudFormArgs) => {
   // Submit
   // ==============================
   const queryClient = useQueryClient()
-  const mutationFunction = async nextValues =>
+  const mutationFunction = async (nextValues) =>
     isNew
       ? client.from(table.name).insert([nextValues])
       : client
@@ -90,7 +90,7 @@ const useCrudForm = (args: UseCrudFormArgs) => {
           .match({ [sk]: item[sk] })
   const mutation = useMutation(mutationFunction)
 
-  const handleSubmit = async values => {
+  const handleSubmit = async (values) => {
     // Cleaning function for dbFormValues
     const withValuesArgs = { isNew, user }
     const dbFormValues = flowRight([
@@ -112,7 +112,7 @@ const useCrudForm = (args: UseCrudFormArgs) => {
 
     // Create or Update
     mutation.mutate(nextValues, {
-      onSuccess: async data => {
+      onSuccess: async (data) => {
         queryClient.invalidateQueries(table.name)
 
         // Handle error
@@ -149,7 +149,7 @@ const useCrudForm = (args: UseCrudFormArgs) => {
           })
         }
       },
-      onError: error => {
+      onError: (error) => {
         toast.error('Something went wrong')
         console.error('Error caught:', error)
       },
