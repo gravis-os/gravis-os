@@ -2,20 +2,18 @@ import React, { useState, useEffect } from 'react'
 import { useDropzone } from 'react-dropzone'
 import type { DropzoneOptions } from 'react-dropzone'
 import startCase from 'lodash/startCase'
+import toast from 'react-hot-toast'
 import {
   Avatar,
   Box,
-  IconButton,
-  Link,
   List,
   ListItem,
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
-  Tooltip,
   Typography,
 } from '@mui/material'
-import { Button, ConfirmationDialog } from '@gravis-os/ui'
+import { ConfirmationDialog, Link } from '@gravis-os/ui'
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
@@ -25,14 +23,14 @@ import {
 import getFileMetaFromFile from './getFileMetaFromFile'
 import bytesToSize from './bytesToSize'
 import useFiles, { File } from './useFiles'
+import downloadFromBlobUrl from './downloadFromBlobUrl'
 
 interface DropzoneProps {
   name: string // The field name
   label?: string // The field label
   files?: File[]
   onRemove?: (file: File) => void
-  onRemoveAll?: () => void
-  onUpload?: () => void
+  onUpload?: (files: File[]) => Promise<any>
   dropzoneProps: DropzoneOptions
 }
 
@@ -42,7 +40,6 @@ const Dropzone: React.FC<DropzoneProps> = (props) => {
     name,
     label,
     onRemove,
-    onRemoveAll,
     onUpload,
     dropzoneProps = {},
   } = props
@@ -105,6 +102,7 @@ const Dropzone: React.FC<DropzoneProps> = (props) => {
           <List>
             {files.map((file) => {
               const { path, name, size, type, url, alt }: File = file
+              const handleDownloadClick = async () => downloadFromBlobUrl(file)
               return (
                 <ListItem
                   key={path}
@@ -123,8 +121,8 @@ const Dropzone: React.FC<DropzoneProps> = (props) => {
                         variant="square"
                         src={url}
                         alt={alt || name}
-                        // Revoke data uri after image is loaded
-                        onLoad={() => URL.revokeObjectURL(url)}
+                        onClick={handleDownloadClick}
+                        sx={{ '&:hover': { cursor: 'pointer' } }}
                       />
                     </ListItemAvatar>
                   ) : (
@@ -133,43 +131,26 @@ const Dropzone: React.FC<DropzoneProps> = (props) => {
                     </ListItemIcon>
                   )}
                   <ListItemText
-                    primary={name || alt}
+                    primary={
+                      <Link pointer onClick={handleDownloadClick}>
+                        {name || alt}
+                      </Link>
+                    }
                     primaryTypographyProps={{
                       color: 'textPrimary',
                       variant: 'subtitle2',
                     }}
                     secondary={bytesToSize(size)}
                   />
-                  <ConfirmationDialog onConfirm={() => onRemove?.(file)} />
-                  <Tooltip title="Remove">
-                    <IconButton edge="end" onClick={() => onRemove?.(file)}>
-                      <CloseOutlinedIcon fontSize="small" />
-                    </IconButton>
-                  </Tooltip>
+                  <ConfirmationDialog
+                    onConfirm={() => onRemove?.(file)}
+                    icon={<CloseOutlinedIcon fontSize="small" />}
+                    tooltip="Delete"
+                  />
                 </ListItem>
               )
             })}
           </List>
-          <Box
-            sx={{
-              display: 'flex',
-              justifyContent: 'flex-end',
-              mt: 2,
-            }}
-          >
-            <Button onClick={onRemoveAll} size="small" type="button">
-              Remove All
-            </Button>
-            <Button
-              onClick={onUpload}
-              size="small"
-              sx={{ ml: 2 }}
-              type="button"
-              variant="contained"
-            >
-              Upload
-            </Button>
-          </Box>
         </Box>
       )}
     </div>
@@ -185,8 +166,8 @@ export interface StorageDropzoneProps extends DropzoneProps {
 
 const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
   const {
-    name, // 'gallery_images
     client = supabaseClient,
+    name, // 'gallery_images
     item, // product
     module, // e.g. product
     storageModule, // product_gallery_images
@@ -203,33 +184,14 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
   // State
   const { files, setFiles } = useFiles({ items: foreignRecords })
 
+  // Effects
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
     return () => files.forEach((file) => URL.revokeObjectURL(file.url))
   }, [])
 
-  // ==============================
   // Methods
-  // ==============================
-  const handleDrop = (newFiles: File[]): void => {
-    setFiles((prevFiles) =>
-      [...prevFiles, ...newFiles].map((file) => {
-        return Object.assign(file, {
-          url: URL.createObjectURL(file),
-        })
-      })
-    )
-  }
-
-  const handleRemove = (file: File): void => {
-    return setFiles((prevFiles) =>
-      prevFiles.filter((prevFile) => prevFile.path !== file.path)
-    )
-  }
-
-  const handleRemoveAll = (): void => setFiles([])
-
-  const handleUpload = async () => {
+  const handleUpload = async (files: File[]) => {
     try {
       const fileUploadPromises = files.map(async (file) => {
         const fileMeta = getFileMetaFromFile(file, storageModule.table.name)
@@ -239,27 +201,76 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
 
       const uploadedFileMetas = await Promise.all(fileUploadPromises)
 
-      // If uploaded successfully, save the s3 key to DB
-      if (uploadedFileMetas.length > 0) {
-        const foreignTableRows = uploadedFileMetas.map(
-          (uploadedFileMeta, i) => {
-            const savedFileKey = uploadedFileMeta.data.Key
-            const file = files[i]
-            return {
-              src: savedFileKey,
-              alt: file.name,
-              name: file.name,
-              size: file.size,
-              type: file.type,
-              [`${primaryTableName}_id`]: primaryRecord.id, // The relation_id e.g. product_id,
-            }
-          }
-        )
+      if (!uploadedFileMetas.length) return
 
-        await client.from(foreignTableName).upsert(foreignTableRows)
-      }
+      // If uploaded successfully, save the s3 key to DB
+      const foreignTableRows = uploadedFileMetas.map((uploadedFileMeta, i) => {
+        const savedFileKey = uploadedFileMeta.data.Key
+        const file = files[i]
+        return {
+          src: savedFileKey,
+          alt: file.name,
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          [`${primaryTableName}_id`]: primaryRecord.id, // The relation_id e.g. product_id,
+        }
+      })
+
+      const savedRows = await client
+        .from(foreignTableName)
+        .upsert(foreignTableRows)
+
+      toast.success('Success')
+
+      return savedRows
     } catch (err) {
       console.error('Error caught:', err)
+      toast.success('Error')
+    }
+  }
+  const handleDrop = async (newFiles: File[]): Promise<any> => {
+    try {
+      // Upload files on drop
+      const { data: uploadedFiles } = await handleUpload(newFiles)
+
+      // Set UI after upload success
+      setFiles((prevFiles) =>
+        [...prevFiles, ...newFiles].map((file, i) => {
+          const { id } = file
+
+          // Already existing file (this wasn't just uploaded)
+          if (file.url) return file
+
+          // If the file is new, return the new file with the id
+          return Object.assign(file, { url: URL.createObjectURL(file), id })
+        })
+      )
+
+      toast.success('Success')
+    } catch (err) {
+      console.error('Error caught:', err)
+    }
+  }
+  const handleRemove = async (file): Promise<void> => {
+    try {
+      // Remove from storage
+      const { data, error } = await client.storage
+        .from('public')
+        .remove([file.src])
+
+      if (error) throw new Error('Error removing image')
+
+      // Remove from database
+      await client.from(foreignTableName).delete().match({ id: file.id })
+
+      // Remove from UI
+      setFiles((prevFiles) =>
+        prevFiles.filter((prevFile) => prevFile.url !== file.url)
+      )
+    } catch (err) {
+      console.error('Error caught:', err)
+      toast.error('Error')
     }
   }
 
@@ -275,7 +286,6 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
       }}
       onUpload={handleUpload}
       onRemove={handleRemove}
-      onRemoveAll={handleRemoveAll}
       {...rest}
     />
   )

@@ -13,10 +13,12 @@ import IconButton from './IconButton'
 
 export interface ConfirmationDialogProps {
   onConfirm: () => Promise<void> | void
+  icon?: React.ReactElement
+  tooltip?: string
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
-  const { onConfirm } = props
+  const { tooltip = 'Delete', icon, onConfirm } = props
 
   // State
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false)
@@ -40,9 +42,9 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
         size="small"
         onClick={openDialog}
         sx={{ '&:hover': { color: 'error.main' } }}
-        tooltip="Delete"
+        tooltip={tooltip}
       >
-        <DeleteOutlineOutlinedIcon fontSize="small" />
+        {icon || <DeleteOutlineOutlinedIcon fontSize="small" />}
       </IconButton>
 
       {/* Dialog */}
