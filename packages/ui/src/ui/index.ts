@@ -10,6 +10,9 @@ export * from './Avatar'
 export { default as Breadcrumbs } from './Breadcrumbs'
 export * from './Breadcrumbs'
 
+export { default as ConfirmationDialog } from './ConfirmationDialog'
+export * from './ConfirmationDialog'
+
 export { default as Stack } from './Stack'
 export * from './Stack'
 

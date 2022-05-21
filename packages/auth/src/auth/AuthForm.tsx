@@ -24,7 +24,7 @@ export interface AuthFormProps
   fields?: string[]
 }
 
-const AuthForm: React.FC<AuthFormProps> = props => {
+const AuthForm: React.FC<AuthFormProps> = (props) => {
   const { fields = ['email', 'password'], ...rest } = props
   const form = useForm()
 

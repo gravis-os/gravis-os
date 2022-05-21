@@ -3,7 +3,6 @@ import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
 import { ColDef, ColGroupDef } from 'ag-grid-community/dist/lib/entities/colDef'
 import { useQuery } from 'react-query'
-import dynamic from 'next/dynamic'
 import { FormSectionsProps } from '@gravis-os/form'
 import DataTable from './DataTable'
 import { CrudModule } from './typings'
@@ -67,7 +66,7 @@ export interface CrudTableProps {
   addFormProps?: Partial<CrudFormProps>
 }
 
-const CrudTable: React.FC<CrudTableProps> = props => {
+const CrudTable: React.FC<CrudTableProps> = (props) => {
   const {
     module,
     columnDefs: injectedColumnDefs,

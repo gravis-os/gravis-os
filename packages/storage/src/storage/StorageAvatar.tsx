@@ -5,7 +5,7 @@ import useGetStorageObject from './useGetStorageObject'
 interface StorageAvatarProps extends AvatarProps {
   src?: string // defaultValue to render the image. Storage filepath where image is currently stored
   size?: number // Image size
-  value?: string // Typically the form value
+  value?: string // Typically, the form value
 }
 
 /**
@@ -15,7 +15,7 @@ interface StorageAvatarProps extends AvatarProps {
  *
  * @example <StorageAvatar src={item.avatar_src} alt={item.avatar_alt} />
  */
-const StorageAvatar: React.FC<StorageAvatarProps> = props => {
+const StorageAvatar: React.FC<StorageAvatarProps> = (props) => {
   const { src: filePath, size = 64, value, alt } = props
 
   const { src } = useGetStorageObject({ filePath, value })
@@ -27,8 +27,6 @@ const StorageAvatar: React.FC<StorageAvatarProps> = props => {
       sx={{
         width: size,
         height: size,
-
-        // Color
         backgroundColor: 'transparent',
         borderWidth: '1px',
         color: 'primary.main',

@@ -11,9 +11,9 @@ type UseGetStorageObject = (props: {
   client?: SupabaseClient
 }) => { src: string }
 
-const useGetStorageObject: UseGetStorageObject = props => {
+const useGetStorageObject: UseGetStorageObject = (props) => {
   const {
-    filePath: injectedFilePath,
+    filePath: injectedFilePath, // The S3 file path
     value,
     client = supabaseClient,
     bucketName = 'public',
@@ -21,7 +21,7 @@ const useGetStorageObject: UseGetStorageObject = props => {
 
   // States
   const [savedFilePath, setSavedFilePath] = useState(injectedFilePath || value)
-  const [avatarUrl, setAvatarUrl] = useState('')
+  const [objectUrl, setObjectUrl] = useState('')
 
   // Update state when defaultValue changes
   useEffect(() => {
@@ -30,24 +30,22 @@ const useGetStorageObject: UseGetStorageObject = props => {
 
   // Download image when src exists
   useEffect(() => {
-    const downloadImage = async path => {
+    const fetchStorageObject = async (path) => {
       try {
         const { data, error } = await client.storage
           .from(bucketName)
           .download(path)
         if (error || !data) throw error
-        const url = URL.createObjectURL(data)
-        if (url) setAvatarUrl(url)
+        const objectUrl = URL.createObjectURL(data)
+        if (objectUrl) setObjectUrl(objectUrl)
       } catch (error) {
         console.error('Error downloading image: ', error.message)
       }
     }
-    if (savedFilePath) downloadImage(savedFilePath)
+    if (savedFilePath) fetchStorageObject(savedFilePath)
   }, [bucketName, client.storage, savedFilePath, value])
 
-  return {
-    src: avatarUrl,
-  }
+  return { src: objectUrl }
 }
 
 export default useGetStorageObject

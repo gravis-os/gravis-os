@@ -5,11 +5,11 @@ import AuthForm from './AuthForm'
 import { handleResetPassword } from './SupabaseAuth'
 
 export interface ResetPasswordFormProps extends Partial<FormProps<any>> {
-  authOptions?: Record<string, unknown> & { redirectTo: string }
+  authOptions: Record<string, unknown> & { redirectTo: string }
   boxProps?: AuthBoxProps
 }
 
-const ResetPasswordForm: React.FC<ResetPasswordFormProps> = props => {
+const ResetPasswordForm: React.FC<ResetPasswordFormProps> = (props) => {
   const { authOptions, boxProps, ...rest } = props
 
   return (
@@ -19,7 +19,8 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = props => {
       {...boxProps}
     >
       <AuthForm
-        onSubmit={values => handleResetPassword(values, authOptions)}
+        fields={['email']}
+        onSubmit={(values) => handleResetPassword(values, authOptions)}
         {...rest}
       />
     </AuthBox>

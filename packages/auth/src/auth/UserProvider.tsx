@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { useUser as useAuthUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
+import { useUser as useAuthUser } from '@supabase/supabase-auth-helpers/react'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
@@ -12,7 +12,12 @@ export interface UserProviderProps {
   guestPaths?: string[]
 }
 
-const UserProvider: React.FC<UserProviderProps> = props => {
+/**
+ * DbUserProvider
+ * @param props
+ * @constructor
+ */
+const UserProvider: React.FC<UserProviderProps> = (props) => {
   const {
     select = '*',
     children,
@@ -44,15 +49,16 @@ const UserProvider: React.FC<UserProviderProps> = props => {
       authUser &&
       !loadingAuthUser &&
       (!dbUser || dbUser?.id !== authUser?.id)
-    )
+    ) {
       fetchDbUser()
+    }
   }, [authUser, dbUser, loadingAuthUser, select])
 
   // Guest auth paths
   const router = useRouter()
   const { pathname } = router
-  const guestPaths = ['/', ...injectedGuestPaths]
-  const isGuestPath = guestPaths.some(whitelistPath => {
+  const guestPaths = ['/', '/auth/*', ...injectedGuestPaths]
+  const isGuestPath = guestPaths.some((whitelistPath) => {
     const hasWildcard = whitelistPath.includes('*')
     return hasWildcard
       ? pathname.startsWith(whitelistPath.split('/*')[0])

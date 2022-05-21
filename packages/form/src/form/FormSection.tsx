@@ -1,7 +1,7 @@
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { Grid, GridProps, Card, CardProps } from '@gravis-os/ui'
-import { StorageAvatarWithUpload } from '@gravis-os/storage'
+import { StorageAvatarWithUpload, StorageDropzone } from '@gravis-os/storage'
 import ControlledAmountField from './ControlledAmountField'
 import ControlledRateField from './ControlledRateField'
 import ControlledSwitchField from './ControlledSwitchField'
@@ -46,7 +46,7 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   disabledFields?: string[]
 }
 
-const FormSection: React.FC<FormSectionProps> = props => {
+const FormSection: React.FC<FormSectionProps> = (props) => {
   const {
     disabledFields,
     disableCard,
@@ -65,7 +65,7 @@ const FormSection: React.FC<FormSectionProps> = props => {
   const { control, setValue } = formContext
 
   // Render Form Field
-  const renderFormField = formField => {
+  const renderFormField = (formField) => {
     const { type, module, ...rest } = formField
     const { name, disabled } = rest
 
@@ -87,6 +87,24 @@ const FormSection: React.FC<FormSectionProps> = props => {
         return <ControlledRateField control={control} {...commonProps} />
       case 'switch':
         return <ControlledSwitchField control={control} {...commonProps} />
+      case 'files':
+      case 'images':
+        return (
+          <Controller
+            control={control}
+            render={({ field }) => (
+              <StorageDropzone
+                {...field}
+                editable
+                item={item}
+                module={injectedModule as CrudModule} // Product
+                storageModule={module} // ProductImage[]
+                {...commonProps}
+              />
+            )}
+            {...commonProps}
+          />
+        )
       case 'image':
         return (
           <Controller
@@ -97,7 +115,9 @@ const FormSection: React.FC<FormSectionProps> = props => {
                 editable
                 item={item}
                 module={injectedModule as CrudModule}
-                onUpload={savedFilePath => setValue(field.name, savedFilePath)}
+                onUpload={(savedFilePath) =>
+                  setValue(field.name, savedFilePath)
+                }
                 {...commonProps}
               />
             )}
@@ -138,7 +158,7 @@ const FormSection: React.FC<FormSectionProps> = props => {
   }
 
   // Render Field
-  const renderField = field => {
+  const renderField = (field) => {
     const { key, gridProps, fieldEffect, hidden, ...rest } = field
 
     // Hide field
@@ -179,7 +199,7 @@ const FormSection: React.FC<FormSectionProps> = props => {
         // Field is wrapped in an array for gridding
         case isGridField:
           const gridFieldColumns = field.length
-          return field.map(f =>
+          return field.map((f) =>
             renderField({
               ...f,
               gridProps: { md: 12 / gridFieldColumns, ...f.gridProps },

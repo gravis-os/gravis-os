@@ -25,6 +25,7 @@ module.exports = {
   plugins: ['react', 'import', 'prettier', '@typescript-eslint'],
   rules: {
     // Javascript
+    'arrow-body-style': 0,
     'no-shadow': 0,
     'no-case-declarations': 0,
     camelcase: 1,

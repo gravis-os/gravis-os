@@ -71,7 +71,9 @@ export const handleSignIn: HandleSignIn = async (
       console.error(error)
       return
     }
+
     toast.success('Successfully signed in')
+
     return user
   } catch (err) {
     console.error('Error caught:', err)
@@ -113,12 +115,12 @@ export const handleResetPassword: HandleResetPassword = async (
 // ==============================
 // Handle Recover Password
 // ==============================
-export type HandleRecoverPassword = (
-  values: { accessToken: string; password: string },
-  authOptions?: SupabaseAuthOptions
-) => SupabaseUser
+export type HandleRecoverPassword = (values: {
+  accessToken: string
+  password: string
+}) => SupabaseUser
 
-export const handleRecoverPassword: HandleRecoverPassword = async values => {
+export const handleRecoverPassword: HandleRecoverPassword = async (values) => {
   const { accessToken, password } = values
   if (!password) return toast.error('Please enter your password')
 
@@ -133,7 +135,9 @@ export const handleRecoverPassword: HandleRecoverPassword = async values => {
       console.error(error)
       return
     }
+
     toast.success('Success')
+
     return user
   } catch (err) {
     console.error('Error caught:', err)

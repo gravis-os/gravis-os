@@ -7,6 +7,7 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import { Avatar, AvatarProps, Button, IconButton, Stack } from '@gravis-os/ui'
 import download from 'downloadjs'
+import getFileMetaFromFile from './getFileMetaFromFile'
 
 export interface StorageAvatarWithUploadProps extends AvatarProps {
   module?: any
@@ -23,9 +24,9 @@ export interface StorageAvatarWithUploadProps extends AvatarProps {
   inputProps?: InputHTMLAttributes<HTMLInputElement>
 }
 
-const StorageAvatarWithUpload: React.FC<
-  StorageAvatarWithUploadProps
-> = props => {
+const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
+  props
+) => {
   const {
     name = 'avatar_src',
     src: injectedFilePath,
@@ -55,7 +56,7 @@ const StorageAvatarWithUpload: React.FC<
     setSavedFilePath(injectedFilePath || value)
   }, [injectedFilePath, value])
 
-  const downloadImage = async path => {
+  const fetchDownloadImage = async (path) => {
     try {
       const { data, error } = await client.storage
         .from(bucketName)
@@ -70,10 +71,10 @@ const StorageAvatarWithUpload: React.FC<
 
   // Download image when src exists
   useEffect(() => {
-    if (savedFilePath) downloadImage(savedFilePath)
+    if (savedFilePath) fetchDownloadImage(savedFilePath)
   }, [savedFilePath, value])
 
-  const uploadAvatar = async event => {
+  const uploadAvatar = async (event) => {
     try {
       setUploading(true)
 
@@ -82,10 +83,8 @@ const StorageAvatarWithUpload: React.FC<
       }
 
       const file = event.target.files[0]
-      const fileExt = file.name.split('.').pop()
-      const fileName = `${Math.random()}.${fileExt}`
-      const filePath = `${module.table.name}/${fileName}`
-      const savedFileInfo = { file, fileExt, fileName, filePath }
+      const fileMeta = getFileMetaFromFile(file, module.table.name)
+      const { filePath } = fileMeta
 
       const { data, error: uploadError } = await client.storage
         .from(bucketName)
@@ -95,7 +94,7 @@ const StorageAvatarWithUpload: React.FC<
 
       const savedFileKey = data.Key
 
-      setSavedFileInfo(savedFileInfo)
+      setSavedFileInfo(fileMeta)
       setSavedFilePath(savedFileKey)
 
       if (onUpload) onUpload(savedFileKey)
@@ -120,7 +119,6 @@ const StorageAvatarWithUpload: React.FC<
   const isDocument = Boolean(src?.endsWith('.pdf'))
   const hasDocument = isDocument && avatarUrl
   const documentAlt = item?.[`${name}_alt`] || alt || 'Document'
-
   if (hasDocument) {
     return (
       <Stack direction="row" alignItems="center" spacing={1}>
