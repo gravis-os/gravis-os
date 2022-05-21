@@ -24,7 +24,11 @@
     "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\""
   },
   "dependencies": {
+    "@dnd-kit/core": "^6.0.1",
+    "@dnd-kit/sortable": "^7.0.0",
+    "@dnd-kit/utilities": "^3.2.0",
     "@gravis-os/utils": "*",
+    "clsx": "^1.1.1",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3"
