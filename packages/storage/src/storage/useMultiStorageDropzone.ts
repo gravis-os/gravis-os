@@ -1,26 +1,28 @@
 import { useEffect } from 'react'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import toast from 'react-hot-toast'
-import { DropzoneOptions } from 'react-dropzone'
+import { DropzoneOptions, DropzoneState, useDropzone } from 'react-dropzone'
 import getFileMetaFromFile from './getFileMetaFromFile'
 import useFiles from './useFiles'
 import { File } from './types'
 
-export interface UseStorageDropzoneProps {
+export interface UseMultiStorageDropzoneProps {
   item?: Record<string, any> // The primary module instance (e.g. Product) instance, possibly undefined for a new product
   module: { table: { name } } // Product module
   storageModule: { table: { name } } // ProductImage module
-  setFormValue: (value: any) => any
+  setFormValue: (value: any) => void
+  dropzoneProps?: DropzoneOptions
 }
 
-export type UseStorageDropzone = (props: UseStorageDropzoneProps) => {
-  files?: File[]
-  onRemove?: (file: File) => void
-  dropzoneProps: DropzoneOptions
+export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
+  files: File[]
+  onRemove: (file: File) => void
+  dropzone: DropzoneState
+  dropzoneOptions: DropzoneOptions
 }
 
-const useStorageDropzone: UseStorageDropzone = (props) => {
-  const { item, module, storageModule, setFormValue } = props
+const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
+  const { item, module, storageModule, setFormValue, dropzoneProps } = props
 
   // Vars
   const primaryTableName = module.table.name // Base model e.g. `product`
@@ -60,7 +62,7 @@ const useStorageDropzone: UseStorageDropzone = (props) => {
           name: file.name,
           size: file.size,
           type: file.type,
-          // TODO: Add position here to sort the images
+          // TODO: Add position here to sort images
         }
       })
 
@@ -135,17 +137,23 @@ const useStorageDropzone: UseStorageDropzone = (props) => {
     }
   }
 
+  // Init Dropzone
+  const dropzoneOptions = {
+    accept:
+      'image/*,application/pdf,.doc,.docx,.xls,.xlsx,.csv,.tsv,.ppt,.pptx,.pages,.odt,.rtf' as unknown as DropzoneOptions['accept'],
+    onDrop: handleDrop,
+    ...dropzoneProps,
+  }
+  const dropzone = useDropzone(dropzoneOptions)
+
   return {
     files,
     setFiles,
     onUpload: handleUpload,
     onRemove: handleRemove,
-    dropzoneProps: {
-      accept:
-        'image/*,application/pdf,.doc,.docx,.xls,.xlsx,.csv,.tsv,.ppt,.pptx,.pages,.odt,.rtf' as unknown as DropzoneOptions['accept'],
-      onDrop: handleDrop,
-    },
+    dropzone,
+    dropzoneOptions,
   }
 }
 
-export default useStorageDropzone
+export default useMultiStorageDropzone

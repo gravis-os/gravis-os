@@ -1,7 +1,11 @@
 import React from 'react'
 import { Controller, useFormContext } from 'react-hook-form'
 import { Grid, GridProps, Card, CardProps } from '@gravis-os/ui'
-import { StorageAvatarWithUpload, StorageDropzone } from '@gravis-os/storage'
+import {
+  StorageAvatarWithUpload,
+  StorageDropzone,
+  StorageGallery,
+} from '@gravis-os/storage'
 import ControlledAmountField from './ControlledAmountField'
 import ControlledRateField from './ControlledRateField'
 import ControlledSwitchField from './ControlledSwitchField'
@@ -90,7 +94,6 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
       case 'switch':
         return <ControlledSwitchField control={control} {...commonProps} />
       case 'files':
-      case 'images':
         return (
           <Controller
             control={control}
@@ -101,7 +104,23 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
                 item={item}
                 module={injectedModule as CrudModule} // Product
                 storageModule={module} // ProductImage[]
-                // TODO@Joel: Handle if new item i.e. Product.id does not exist. Need to defer this.
+                {...commonProps}
+              />
+            )}
+            {...commonProps}
+          />
+        )
+      case 'images':
+        return (
+          <Controller
+            control={control}
+            render={({ field }) => (
+              <StorageGallery
+                {...field}
+                editable
+                item={item}
+                module={injectedModule as CrudModule} // Product
+                storageModule={module} // ProductImage[]
                 {...commonProps}
               />
             )}

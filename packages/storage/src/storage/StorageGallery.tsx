@@ -22,14 +22,14 @@ import useMultiStorageDropzone, {
 } from './useMultiStorageDropzone'
 import { File } from './types'
 
-export interface StorageDropzoneProps extends UseMultiStorageDropzoneProps {
+export interface StorageGalleryProps extends UseMultiStorageDropzoneProps {
   name: string // The field name
   dropzoneProps?: DropzoneOptions
   label?: string // The field label
   setValue?: (name: string, value: any) => void
 }
 
-const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
+const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
   const {
     name, // 'gallery_images
     item, // product
@@ -78,16 +78,6 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
         {...getRootProps()}
       >
         <input {...getInputProps()} />
-        <Box
-          sx={{
-            '& img': {
-              width: 100,
-            },
-          }}
-        >
-          {/* TODO@Joel: Move this SVG into the lib */}
-          <img alt="Select file" src="/static/undraw_add_file2_gvbb.svg" />
-        </Box>
         <Box sx={{ p: 2 }}>
           <Typography variant="h6">{`Select ${startCase(
             label || name
@@ -132,7 +122,6 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
                     </ListItemIcon>
                   )}
                   <ListItemText
-                    // TODO: Add ability to edit alt text
                     primary={
                       <Link pointer onClick={handleDownloadClick}>
                         {name || alt}
@@ -159,4 +148,4 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
   )
 }
 
-export default StorageDropzone
+export default StorageGallery
