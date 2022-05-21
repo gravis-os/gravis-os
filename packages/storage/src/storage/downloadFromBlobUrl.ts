@@ -1,5 +1,5 @@
 import download from 'downloadjs'
-import { File } from './useFiles'
+import { File } from './types'
 
 /**
  * Convert blobUrl to blob to enable file renaming with mimeType

@@ -10,8 +10,20 @@ export * from './useGetStorageObject'
 export { default as StorageDropzone } from './StorageDropzone'
 export * from './StorageDropzone'
 
-export { default as bytesToSize } from './bytesToSize'
-export * from './bytesToSize'
-
+// ==============================
+// Hooks
+// ==============================
 export { default as useFiles } from './useFiles'
 export * from './useFiles'
+
+export { default as useStorageDropzone } from './useStorageDropzone'
+export * from './useStorageDropzone'
+
+// ==============================
+// Utils
+// ==============================
+export { default as downloadFromBlobUrl } from './downloadFromBlobUrl'
+export * from './downloadFromBlobUrl'
+
+export { default as bytesToSize } from './bytesToSize'
+export * from './bytesToSize'

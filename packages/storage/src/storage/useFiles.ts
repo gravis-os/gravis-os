@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
-import { FileWithPath } from 'react-dropzone'
+import { File } from './types'
 
 const fetchStorageUrls = async ({ srcs }: { srcs: string[] }) => {
   try {
@@ -18,16 +18,6 @@ const fetchStorageUrls = async ({ srcs }: { srcs: string[] }) => {
   } catch (error) {
     console.error('Error downloading image: ', error.message)
   }
-}
-
-export interface File extends FileWithPath {
-  /**
-   * // This is a blob url. Not a blob. We use it to render into src constructed via URL.createObjectURL(file)
-   * @link https://theflyingmantis.medium.com/blog-and-mime-type-a3a2aa9b7264
-   */
-  url?: string
-  alt?: string
-  id?: number // Database Id
 }
 
 export type UseFiles = ({
