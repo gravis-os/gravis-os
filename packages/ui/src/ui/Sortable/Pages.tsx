@@ -24,8 +24,8 @@ import {
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
+import clsx from 'clsx'
 import { CSS, isKeyboardEvent } from '@dnd-kit/utilities'
-import classNames from 'classnames'
 import { createRange } from './createRange'
 import { Page, Layout, Position } from './Page'
 import type { Props as PageProps } from './Page'
@@ -101,7 +101,7 @@ export function Pages({ layout }: Props) {
         measuring={measuring}
       >
         <SortableContext items={items}>
-          <ul className={classNames('Pages', layout)}>
+          <ul className={clsx('Pages', layout)}>
             {items.map((id, index) => (
               <SortablePage
                 id={id}
