@@ -26,6 +26,7 @@ export interface StorageDropzoneProps extends UseStorageDropzoneProps {
   name: string // The field name
   dropzoneProps?: DropzoneOptions
   label?: string // The field label
+  setValue?: (name: string, value: any) => void
 }
 
 const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
@@ -36,12 +37,14 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
     storageModule, // product_gallery_images
     dropzoneProps: injectedDropzoneProps,
     label,
+    setValue,
   } = props
 
   const { files, onRemove, dropzoneProps } = useStorageDropzone({
     item,
     module,
     storageModule,
+    setFormValue: (value) => setValue(name, value),
   })
 
   const dropzoneOptions = {

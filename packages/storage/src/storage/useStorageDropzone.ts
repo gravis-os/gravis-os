@@ -10,6 +10,7 @@ export interface UseStorageDropzoneProps {
   item?: Record<string, any> // The primary module instance (e.g. Product) instance, possibly undefined for a new product
   module: { table: { name } } // Product module
   storageModule: { table: { name } } // ProductImage module
+  setFormValue: (value: any) => any
 }
 
 export type UseStorageDropzone = (props: UseStorageDropzoneProps) => {
@@ -19,7 +20,7 @@ export type UseStorageDropzone = (props: UseStorageDropzoneProps) => {
 }
 
 const useStorageDropzone: UseStorageDropzone = (props) => {
-  const { item, module, storageModule } = props
+  const { item, module, storageModule, setFormValue } = props
 
   // Vars
   const primaryTableName = module.table.name // Base model e.g. `product`
@@ -49,12 +50,11 @@ const useStorageDropzone: UseStorageDropzone = (props) => {
 
       if (!uploadedFileMetas.length) return
 
-      // If uploaded successfully, save the s3 key to DB
+      // If uploaded successfully, prepare to save the S3 keys to db
       const foreignTableRows = uploadedFileMetas.map((uploadedFileMeta, i) => {
         const savedFileKey = uploadedFileMeta.data.Key
         const file = files[i]
         return {
-          [`${primaryTableName}_id`]: primaryRecord.id, // The relation_id e.g. product_id,
           src: savedFileKey,
           alt: file.name,
           name: file.name,
@@ -64,9 +64,20 @@ const useStorageDropzone: UseStorageDropzone = (props) => {
         }
       })
 
-      const savedRows = await supabaseClient
-        .from(foreignTableName)
-        .upsert(foreignTableRows)
+      // This is a new item, defer db saving action instead by storing in the form value
+      if (!primaryRecord) {
+        setFormValue(foreignTableRows)
+        return foreignTableRows
+      }
+
+      // Save to DB
+      const savedRows = await supabaseClient.from(foreignTableName).upsert(
+        foreignTableRows.map((row) => ({
+          ...row,
+          // The relation_id e.g. product_id
+          [`${primaryTableName}_id`]: primaryRecord.id,
+        }))
+      )
 
       return savedRows
     } catch (err) {

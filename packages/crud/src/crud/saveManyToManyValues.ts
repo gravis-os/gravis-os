@@ -1,7 +1,7 @@
 // Save joins
 import { getRelationalObjectKey } from '@gravis-os/form'
 
-const saveJoins = async args => {
+const saveManyToManyValues = async (args) => {
   const { item, values, client, module } = args
 
   const getHelpers = ({ key, value }) => {
@@ -14,8 +14,8 @@ const saveJoins = async args => {
       currentColumnName: `${module.table.name}_id`,
       opposingColumnName: `${relationalObjectKey}_id`,
       joinKey,
-      prevValueIds: item[joinKey].map(v => v.id),
-      currentValueIds: value.map(v => v.id),
+      prevValueIds: item[joinKey].map((v) => v.id),
+      currentValueIds: value.map((v) => v.id),
     }
 
     return helpers
@@ -29,7 +29,7 @@ const saveJoins = async args => {
 
     // Find difference in prevValue and currentValue arrays
     const opposingTableIdsToDelete = prevValueIds.filter(
-      prevValueId => !currentValueIds.includes(prevValueId)
+      (prevValueId) => !currentValueIds.includes(prevValueId)
     )
 
     if (!opposingTableIdsToDelete.length) return
@@ -55,7 +55,7 @@ const saveJoins = async args => {
     })
 
     const joinTableRecords = value
-      .map(val => {
+      .map((val) => {
         // Find difference in prevValue and currentValue arrays
         if (prevValueIds.includes(val.id)) return
 
@@ -74,4 +74,4 @@ const saveJoins = async args => {
   return Promise.all([...upsertPromises, ...deletePromises])
 }
 
-export default saveJoins
+export default saveManyToManyValues

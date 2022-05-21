@@ -12,8 +12,10 @@ import toast from 'react-hot-toast'
 import { CrudItem, CrudModule } from './typings'
 import getIsNew from './getIsNew'
 import withCreatedUpdatedBy from './withCreatedUpdatedBy'
-import partitionJoinValues from './partitionJoinValues'
-import saveJoins from './saveJoins'
+import partitionManyToManyValues from './partitionManyToManyValues'
+import partitionOneToManyValues from './partitionOneToManyValues'
+import saveManyToManyValues from './saveManyToManyValues'
+import saveOneToManyValues from './saveOneToManyValues'
 
 type UseCrudFormValues = Record<string, any>
 
@@ -104,44 +106,75 @@ const useCrudForm = (args: UseCrudFormArgs) => {
       ? setFormValues({ isNew, values: dbFormValues })
       : dbFormValues
 
-    // Split join values
-    const [nonJoinValues, joinValues] = partitionJoinValues(exposedValues)
+    // Split join (many to many) values
+    const [nonManyToManyValues, manyToManyValues] =
+      partitionManyToManyValues(exposedValues)
+    const [nonOneToManyValues, oneToManyValues] =
+      partitionOneToManyValues(nonManyToManyValues)
 
     // Payload
-    const nextValues = nonJoinValues
+    const nextValues = nonOneToManyValues
 
     // Create or Update
     mutation.mutate(nextValues, {
-      onSuccess: async (data) => {
+      onSuccess: async (result) => {
         queryClient.invalidateQueries(table.name)
 
-        // Handle error
-        const { error } = data
-        if (error) {
+        // Handle errors
+        const { error, data } = result
+        if (error || !data) {
           console.error('error at useCrudForm.mutation()', error.message)
           toast.error('Something went wrong')
           return
         }
 
-        // Toast
-        toast.success('Success')
+        // Saved item, we can get the product.id from here
+        const nextItem = data[0]
 
-        // Manage join values by creating records in join tables
-        const hasJoinValues = Boolean(Object.keys(joinValues).length)
-        if (hasJoinValues) {
-          await saveJoins({ item, values: joinValues, client, module })
+        // Manage many to many values by creating records in join tables
+        const hasManyToManyValues = Boolean(
+          Object.keys(manyToManyValues).length
+        )
+        if (hasManyToManyValues) {
+          await saveManyToManyValues({
+            item: nextItem,
+            values: manyToManyValues,
+            client,
+            module,
+          })
 
           /**
            * Refetch data to get the latest join info because we're comparing against prev value
-           * This is to resolve cases where the user make multiple saveJoins without refreshing
-           * the page/itemQuery, resulting in the comparator function within saveJoins to be outdated
+           * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
+           * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
            * which causes unexpected saves.
            */
           if (refetch) refetch()
         }
 
+        // Manage one to many values by creating records in join tables
+        const hasOneToManyValues = Boolean(Object.keys(oneToManyValues).length)
+        if (hasOneToManyValues) {
+          await saveOneToManyValues({
+            item: nextItem,
+            values: oneToManyValues,
+            client,
+            module,
+          })
+
+          /**
+           * Refetch data to get the latest join info because we're comparing against prev value
+           * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
+           * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
+           * which causes unexpected saves.
+           */
+          if (refetch) refetch()
+        }
+
+        // Toast
+        toast.success('Success')
+
         if (afterSubmit) {
-          const nextItem = data.body?.[0]
           afterSubmit({
             isNew,
             values: nextValues,

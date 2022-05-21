@@ -72,9 +72,11 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     // Calculate if the field is in disabledFields, else fallback to disableProp is available
     const nextDisabled = Boolean(disabledFields?.includes(name)) || disabled
 
-    // Shared props by all form fields
+    // Shared props by all fields
     const commonProps = {
       ...rest,
+      isNew,
+      setValue,
       ...(disabledFields?.length && { disabled: nextDisabled }),
     }
 
@@ -99,6 +101,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
                 item={item}
                 module={injectedModule as CrudModule} // Product
                 storageModule={module} // ProductImage[]
+                // TODO@Joel: Handle if new item i.e. Product.id does not exist. Need to defer this.
                 {...commonProps}
               />
             )}
