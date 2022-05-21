@@ -54,12 +54,13 @@ const useStorageDropzone: UseStorageDropzone = (props) => {
         const savedFileKey = uploadedFileMeta.data.Key
         const file = files[i]
         return {
+          [`${primaryTableName}_id`]: primaryRecord.id, // The relation_id e.g. product_id,
           src: savedFileKey,
           alt: file.name,
           name: file.name,
           size: file.size,
           type: file.type,
-          [`${primaryTableName}_id`]: primaryRecord.id, // The relation_id e.g. product_id,
+          // TODO: Add position here to sort the images
         }
       })
 
@@ -69,14 +70,16 @@ const useStorageDropzone: UseStorageDropzone = (props) => {
 
       return savedRows
     } catch (err) {
+      toast.error('Error')
       console.error('Error caught:', err)
-      toast.success('Error')
     }
   }
   const handleDrop = async (newFiles: File[]): Promise<any> => {
     try {
       // Upload files on drop
-      const { data: uploadedFiles } = await handleUpload(newFiles)
+      const uploaded = await handleUpload(newFiles)
+
+      if (!uploaded) return
 
       // Set UI after upload success
       setFiles((prevFiles) =>
@@ -116,8 +119,8 @@ const useStorageDropzone: UseStorageDropzone = (props) => {
         prevFiles.filter((prevFile) => prevFile.url !== file.url)
       )
     } catch (err) {
-      console.error('Error caught:', err)
       toast.error('Error')
+      console.error('Error caught:', err)
     }
   }
 
