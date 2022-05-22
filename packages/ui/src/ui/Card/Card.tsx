@@ -52,13 +52,17 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   // Padding
   py?: number
 
+  // Flex
+  stretch?: boolean
+
   // Disables
+  disableHeaderDivider?: boolean
   disableLastGutterBottom?: boolean
   disableBorderRadiusTop?: boolean
   disableBorderRadiusBottom?: boolean
 }
 
-const Card: React.FC<CardProps> = props => {
+const Card: React.FC<CardProps> = (props) => {
   const {
     contentProps,
     title,
@@ -73,6 +77,8 @@ const Card: React.FC<CardProps> = props => {
     sx,
     children,
     py,
+    stretch,
+    disableHeaderDivider,
     disableLastGutterBottom,
     disableBorderRadiusTop,
     disableBorderRadiusBottom,
@@ -123,6 +129,9 @@ const Card: React.FC<CardProps> = props => {
         // Padding
         ...(py && { '&& .MuiCardContent-root': { py } }),
 
+        // Stretch
+        ...(stretch && { '&.MuiCard-root': { height: '100%' } }),
+
         // Border Radius
         ...(disableBorderRadiusTop && {
           borderTopLeftRadius: 0,
@@ -139,7 +148,7 @@ const Card: React.FC<CardProps> = props => {
     >
       {hasHeader && (
         <CardHeader
-          divider
+          divider={!disableHeaderDivider}
           titleTypographyProps={{ variant: 'h4' }}
           {...cardHeaderProps}
         />
@@ -159,7 +168,7 @@ const Card: React.FC<CardProps> = props => {
       {children && <CardContent {...cardContentProps}>{children}</CardContent>}
       {links && (
         <CardActions>
-          {links.map(link => {
+          {links.map((link) => {
             const { title, ...rest } = link
 
             return (

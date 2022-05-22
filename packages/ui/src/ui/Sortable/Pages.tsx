@@ -28,12 +28,12 @@ import clsx from 'clsx'
 import { CSS, isKeyboardEvent } from '@dnd-kit/utilities'
 import { createRange } from './createRange'
 import { Page, Layout, Position } from './Page'
-import type { Props as PageProps } from './Page'
+import type { PageProps } from './Page'
 import Box from '../Box'
 
-interface Props {
-  layout: Layout
-}
+export type ItemInterface = {
+  id: UniqueIdentifier
+} & Record<string, unknown>
 
 const measuring: MeasuringConfiguration = {
   droppable: {
@@ -62,106 +62,22 @@ const dropAnimation: DropAnimation = {
   }),
 }
 
-export function Pages({ layout }: Props) {
-  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
-  const [items, setItems] = useState(() =>
-    createRange<UniqueIdentifier>(20, (index) => `${index + 1}`)
-  )
-  const activeIndex = activeId ? items.indexOf(activeId) : -1
-  const sensors = useSensors(
-    useSensor(PointerSensor),
-    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
-  )
-
-  return (
-    <Box
-      sx={{
-        '& .Pages': {
-          display: 'grid',
-          gap: '1rem',
-          padding: '1rem',
-          margin: '0',
-          '&.horizontal': {
-            gridAutoFlow: 'column',
-            gridAutoColumns: 'max-content',
-          },
-          '&.grid': {
-            display: 'grid',
-            gridTemplateColumns: 'repeat(auto-fill, 150px)',
-          },
-        },
-      }}
-    >
-      <DndContext
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        onDragCancel={handleDragCancel}
-        sensors={sensors}
-        collisionDetection={closestCenter}
-        measuring={measuring}
-      >
-        <SortableContext items={items}>
-          <ul className={clsx('Pages', layout)}>
-            {items.map((id, index) => (
-              <SortablePage
-                id={id}
-                index={index + 1}
-                key={id}
-                layout={layout}
-                activeIndex={activeIndex}
-                onRemove={() =>
-                  setItems((items) => items.filter((itemId) => itemId !== id))
-                }
-              />
-            ))}
-          </ul>
-        </SortableContext>
-        <DragOverlay dropAnimation={dropAnimation}>
-          {activeId ? (
-            <PageOverlay id={activeId} layout={layout} items={items} />
-          ) : null}
-        </DragOverlay>
-      </DndContext>
-    </Box>
-  )
-
-  function handleDragStart({ active }: DragStartEvent) {
-    setActiveId(active.id)
+function PageOverlay(
+  props: Omit<PageProps, 'index'> & {
+    sortKeys: UniqueIdentifier[]
+    item: ItemInterface
   }
-
-  function handleDragCancel() {
-    setActiveId(null)
-  }
-
-  function handleDragEnd({ over }: DragEndEvent) {
-    if (over) {
-      const overIndex = items.indexOf(over.id)
-
-      if (activeIndex !== overIndex) {
-        const newIndex = overIndex
-
-        setItems((items) => arrayMove(items, activeIndex, newIndex))
-      }
-    }
-
-    setActiveId(null)
-  }
-}
-
-function PageOverlay({
-  id,
-  items,
-  ...props
-}: Omit<PageProps, 'index'> & { items: UniqueIdentifier[] }) {
+) {
+  const { id, sortKeys, ...rest } = props
   const { activatorEvent, over } = useDndContext()
   const isKeyboardSorting = isKeyboardEvent(activatorEvent)
-  const activeIndex = items.indexOf(id)
-  const overIndex = over?.id ? items.indexOf(over?.id) : -1
+  const activeIndex = sortKeys.indexOf(id)
+  const overIndex = over?.id ? sortKeys.indexOf(over?.id) : -1
 
   return (
     <Page
       id={id}
-      {...props}
+      {...rest}
       clone
       insertPosition={
         isKeyboardSorting && overIndex !== activeIndex
@@ -174,11 +90,16 @@ function PageOverlay({
   )
 }
 
-function SortablePage({
-  id,
-  activeIndex,
-  ...props
-}: PageProps & { activeIndex: number }) {
+function SortablePage(
+  props: PageProps & { activeIndex: number; item: ItemInterface }
+) {
+  const { id, activeIndex, ...rest } = props
+
+  // Init sortable
+  const sortable = useSortable({
+    id,
+    animateLayoutChanges: () => true,
+  })
   const {
     attributes,
     listeners,
@@ -189,15 +110,13 @@ function SortablePage({
     setNodeRef,
     transform,
     transition,
-  } = useSortable({
-    id,
-    animateLayoutChanges: always,
-  })
+  } = sortable
 
   return (
     <Page
-      ref={setNodeRef}
       id={id}
+      ref={setNodeRef}
+      sortable={sortable} // Pass through sortable context
       active={isDragging}
       style={{
         transition,
@@ -210,13 +129,120 @@ function SortablePage({
             : Position.Before
           : undefined
       }
-      {...props}
+      {...rest}
       {...attributes}
       {...listeners}
     />
   )
 }
 
-function always() {
-  return true
+export interface PagesProps {
+  layout: Layout
+  items?: ItemInterface[]
+  renderItem?: PageProps['renderItem']
+}
+
+const defaultItems: any = createRange(20, (index) => ({
+  id: `${index + 1}`,
+  title: `${index + 1}`,
+}))
+
+// TODO@Joel: Rename to Sortable. Rename Page to SortableItem
+export function Pages(props: PagesProps) {
+  const { layout, renderItem, items = defaultItems } = props
+
+  // States
+  const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
+  const [sortKeys, setSortKeys] = useState<UniqueIdentifier[]>(() =>
+    items.map(({ id }) => String(id))
+  )
+
+  // Vars
+  const activeIndex = activeId ? sortKeys.indexOf(activeId) : -1
+  const sensors = useSensors(
+    useSensor(PointerSensor),
+    useSensor(KeyboardSensor, { coordinateGetter: sortableKeyboardCoordinates })
+  )
+
+  // Methods
+  const handleDragStart = ({ active }: DragStartEvent) => {
+    setActiveId(active.id)
+  }
+  const handleDragCancel = () => {
+    setActiveId(null)
+  }
+  const handleDragEnd = ({ over }: DragEndEvent) => {
+    if (over) {
+      const overIndex = sortKeys.indexOf(over.id)
+
+      if (activeIndex !== overIndex) {
+        const newIndex = overIndex
+
+        setSortKeys((sortKeys) => arrayMove(sortKeys, activeIndex, newIndex))
+      }
+    }
+
+    setActiveId(null)
+  }
+  const handleRemoveItem = (id: UniqueIdentifier) =>
+    setSortKeys((sortKeys) => sortKeys.filter((itemId) => itemId !== id))
+
+  return (
+    <Box
+      sx={{
+        '& .Pages': {
+          display: 'grid',
+          gap: 2,
+          padding: 2,
+          margin: 0,
+          '&.horizontal': {
+            gridAutoFlow: 'column',
+            gridAutoColumns: 'max-content',
+          },
+          '&.grid': {
+            display: 'grid',
+            gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
+          },
+        },
+      }}
+    >
+      <DndContext
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+        onDragCancel={handleDragCancel}
+        sensors={sensors}
+        collisionDetection={closestCenter}
+        measuring={measuring}
+      >
+        <SortableContext items={sortKeys}>
+          <ul className={clsx('Pages', layout)}>
+            {sortKeys.map((id, index) => (
+              <SortablePage
+                id={id}
+                index={index + 1}
+                key={id}
+                layout={layout}
+                activeIndex={activeIndex}
+                renderItem={renderItem}
+                item={items.find((item) => String(item.id) === String(id))}
+                onRemove={() => handleRemoveItem(id)}
+              />
+            ))}
+          </ul>
+        </SortableContext>
+
+        <DragOverlay dropAnimation={dropAnimation}>
+          {activeId && (
+            <PageOverlay
+              id={activeId}
+              layout={layout}
+              sortKeys={sortKeys}
+              renderItem={renderItem}
+              item={items.find(({ id }) => String(id) === String(activeId))}
+            />
+          )}
+        </DragOverlay>
+      </DndContext>
+    </Box>
+  )
 }
