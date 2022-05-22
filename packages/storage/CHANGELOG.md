@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.3
+
+### Patch Changes
+
+- Add StorageGallery
+- Updated dependencies
+  - @gravis-os/ui@0.0.7
+
 All notable changes to this project will be documented in this file.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
