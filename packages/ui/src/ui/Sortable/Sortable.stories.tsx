@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import faker from '@faker-js/faker'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
-import { Sortable } from './Sortable'
+import Sortable from './Sortable'
 import { Layout } from './constants'
 import Box from '../Box'
 import Card from '../Card'
 import Avatar from '../Avatar'
 import IconButton from '../IconButton'
-import { createRange } from './createRange'
+import createRange from './createRange'
 
 export default {
   title: 'ui/Sortable',

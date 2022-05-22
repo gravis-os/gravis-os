@@ -24,7 +24,7 @@ import {
 } from '@dnd-kit/sortable'
 import clsx from 'clsx'
 import { CSS } from '@dnd-kit/utilities'
-import { createRange } from './createRange'
+import createRange from './createRange'
 import { ItemProps } from './Item'
 import Box from '../Box'
 import SortableItem from './SortableItem'
@@ -74,7 +74,7 @@ export interface SortableProps {
   setSortKeys?: React.Dispatch<React.SetStateAction<any>>
 }
 
-export function Sortable(props: SortableProps) {
+const Sortable = (props: SortableProps) => {
   const {
     layout,
     renderItem,
@@ -183,3 +183,5 @@ export function Sortable(props: SortableProps) {
     </Box>
   )
 }
+
+export default Sortable
