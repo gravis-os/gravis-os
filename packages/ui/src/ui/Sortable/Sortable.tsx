@@ -1,46 +1,41 @@
 import React, { useState } from 'react'
-import {
-  closestCenter,
-  DndContext,
-  DragOverlay,
-  useSensor,
-  useSensors,
-  PointerSensor,
-  KeyboardSensor,
-  useDndContext,
-  MeasuringStrategy,
-  DropAnimation,
-  defaultDropAnimationSideEffects,
-} from '@dnd-kit/core'
 import type {
-  DragStartEvent,
   DragEndEvent,
+  DragStartEvent,
   MeasuringConfiguration,
   UniqueIdentifier,
 } from '@dnd-kit/core'
 import {
+  closestCenter,
+  defaultDropAnimationSideEffects,
+  DndContext,
+  DragOverlay,
+  DropAnimation,
+  KeyboardSensor,
+  MeasuringStrategy,
+  PointerSensor,
+  useSensor,
+  useSensors,
+} from '@dnd-kit/core'
+import {
   arrayMove,
-  useSortable,
   SortableContext,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
 import clsx from 'clsx'
-import { CSS, isKeyboardEvent } from '@dnd-kit/utilities'
+import { CSS } from '@dnd-kit/utilities'
 import { createRange } from './createRange'
-import { Page, Layout, Position } from './Page'
-import type { PageProps } from './Page'
+import { ItemProps } from './Item'
 import Box from '../Box'
-
-export type ItemInterface = {
-  id: UniqueIdentifier
-} & Record<string, unknown>
+import SortableItem from './SortableItem'
+import OverlayItem from './OverlayItem'
+import { Layout } from './constants'
 
 const measuring: MeasuringConfiguration = {
   droppable: {
     strategy: MeasuringStrategy.Always,
   },
 }
-
 const dropAnimation: DropAnimation = {
   keyframes({ transform }) {
     return [
@@ -61,101 +56,43 @@ const dropAnimation: DropAnimation = {
     },
   }),
 }
-
-function PageOverlay(
-  props: Omit<PageProps, 'index'> & {
-    sortKeys: UniqueIdentifier[]
-    item: ItemInterface
-  }
-) {
-  const { id, sortKeys, ...rest } = props
-  const { activatorEvent, over } = useDndContext()
-  const isKeyboardSorting = isKeyboardEvent(activatorEvent)
-  const activeIndex = sortKeys.indexOf(id)
-  const overIndex = over?.id ? sortKeys.indexOf(over?.id) : -1
-
-  return (
-    <Page
-      id={id}
-      {...rest}
-      clone
-      insertPosition={
-        isKeyboardSorting && overIndex !== activeIndex
-          ? overIndex > activeIndex
-            ? Position.After
-            : Position.Before
-          : undefined
-      }
-    />
-  )
-}
-
-function SortablePage(
-  props: PageProps & { activeIndex: number; item: ItemInterface }
-) {
-  const { id, activeIndex, ...rest } = props
-
-  // Init sortable
-  const sortable = useSortable({
-    id,
-    animateLayoutChanges: () => true,
-  })
-  const {
-    attributes,
-    listeners,
-    index,
-    isDragging,
-    isSorting,
-    over,
-    setNodeRef,
-    transform,
-    transition,
-  } = sortable
-
-  return (
-    <Page
-      id={id}
-      ref={setNodeRef}
-      sortable={sortable} // Pass through sortable context
-      active={isDragging}
-      style={{
-        transition,
-        transform: isSorting ? undefined : CSS.Translate.toString(transform),
-      }}
-      insertPosition={
-        over?.id === id
-          ? index > activeIndex
-            ? Position.After
-            : Position.Before
-          : undefined
-      }
-      {...rest}
-      {...attributes}
-      {...listeners}
-    />
-  )
-}
-
-export interface PagesProps {
-  layout: Layout
-  items?: ItemInterface[]
-  renderItem?: PageProps['renderItem']
-}
-
 const defaultItems: any = createRange(20, (index) => ({
   id: `${index + 1}`,
   title: `${index + 1}`,
 }))
 
-// TODO@Joel: Rename to Sortable. Rename Page to SortableItem
-export function Pages(props: PagesProps) {
-  const { layout, renderItem, items = defaultItems } = props
+export type ItemInterface = {
+  id: UniqueIdentifier
+} & Record<string, unknown>
+
+export interface SortableProps {
+  layout: Layout
+  spacing?: number // Grid gap
+  items?: ItemInterface[]
+  renderItem?: ItemProps['renderItem']
+  sortKeys?: UniqueIdentifier[]
+  setSortKeys?: React.Dispatch<React.SetStateAction<any>>
+}
+
+export function Sortable(props: SortableProps) {
+  const {
+    layout,
+    renderItem,
+    items = defaultItems,
+    spacing = 2,
+    sortKeys: injectedSortKeys,
+    setSortKeys: injectedSetSortKeys,
+  } = props
 
   // States
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
-  const [sortKeys, setSortKeys] = useState<UniqueIdentifier[]>(() =>
+  const [localSortkeys, setLocalSortKeys] = useState<UniqueIdentifier[]>(() =>
     items.map(({ id }) => String(id))
   )
+
+  // Allow external state to override the internal state to lift the state up
+  const sortKeys = injectedSortKeys || localSortkeys
+  const setSortKeys = injectedSetSortKeys || setLocalSortKeys
 
   // Vars
   const activeIndex = activeId ? sortKeys.indexOf(activeId) : -1
@@ -190,10 +127,10 @@ export function Pages(props: PagesProps) {
   return (
     <Box
       sx={{
-        '& .Pages': {
+        '& .Sortable': {
           display: 'grid',
-          gap: 2,
-          padding: 2,
+          gap: spacing,
+          padding: 0,
           margin: 0,
           '&.horizontal': {
             gridAutoFlow: 'column',
@@ -215,9 +152,9 @@ export function Pages(props: PagesProps) {
         measuring={measuring}
       >
         <SortableContext items={sortKeys}>
-          <ul className={clsx('Pages', layout)}>
+          <ul className={clsx('Sortable', layout)}>
             {sortKeys.map((id, index) => (
-              <SortablePage
+              <SortableItem
                 id={id}
                 index={index + 1}
                 key={id}
@@ -233,7 +170,7 @@ export function Pages(props: PagesProps) {
 
         <DragOverlay dropAnimation={dropAnimation}>
           {activeId && (
-            <PageOverlay
+            <OverlayItem
               id={activeId}
               layout={layout}
               sortKeys={sortKeys}

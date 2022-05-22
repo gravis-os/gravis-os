@@ -1,59 +1,27 @@
-import React, { useMemo, forwardRef, HTMLAttributes } from 'react'
+import React, { forwardRef, HTMLAttributes, useMemo } from 'react'
 import type { UniqueIdentifier } from '@dnd-kit/core'
 import clsx from 'clsx'
-import { SortableContextProps } from '@dnd-kit/sortable'
+import { useSortable } from '@dnd-kit/sortable'
 import { removeIcon } from './icons'
 import Box from '../Box'
-import { ItemInterface } from './Pages'
-
-export enum Position {
-  Before = -1,
-  After = 1,
-}
-
-export enum Layout {
-  Horizontal = 'horizontal',
-  Vertical = 'vertical',
-  Grid = 'grid',
-}
-
-export interface RenderItemProps {
-  id: UniqueIdentifier
-  dragProps: any
-  index?: number
-  active?: boolean
-  onRemove?(): void
-  sortable?: SortableContextProps
-  item: ItemInterface
-  layout: Layout
-}
-
-export interface PageProps
-  extends Omit<HTMLAttributes<HTMLButtonElement>, 'id'> {
-  active?: boolean
-  clone?: boolean
-  insertPosition?: Position
-  id: UniqueIdentifier
-  index?: number
-  layout: Layout
-  onRemove?(): void
-  renderItem?: (props: RenderItemProps) => React.ReactNode
-  sortable?: SortableContextProps
-}
+import { ItemInterface } from './Sortable'
+import { Layout, Position } from './constants'
 
 const defaultRenderItem = ({ dragProps, index, active, onRemove, layout }) => (
   <>
     <Box
       sx={{
-        width: layout === Layout.Grid ? '100%' : '150px',
-        height: 200,
-        backgroundColor: 'lightgrey',
+        '&&': {
+          width: layout === Layout.Horizontal ? '150px' : '100%',
+          height: 200,
+          backgroundColor: 'lightgrey',
+        },
       }}
       {...dragProps}
     />
 
     {!active && onRemove && (
-      <button className="Remove" onClick={onRemove}>
+      <button type="button" className="Remove" onClick={onRemove}>
         {removeIcon}
       </button>
     )}
@@ -62,7 +30,26 @@ const defaultRenderItem = ({ dragProps, index, active, onRemove, layout }) => (
   </>
 )
 
-export const Page = forwardRef<HTMLLIElement, PageProps>((props, ref) => {
+export interface RenderItemProps {
+  active?: boolean
+  dragProps: any
+  id: UniqueIdentifier
+  index?: number
+  item: ItemInterface
+  layout: Layout
+  onRemove?(): void
+  sortable?: ReturnType<typeof useSortable>
+}
+
+export interface ItemProps
+  extends Omit<HTMLAttributes<HTMLButtonElement>, 'id'>,
+    Omit<RenderItemProps, 'dragProps'> {
+  clone?: boolean
+  insertPosition?: Position
+  renderItem?: (props: RenderItemProps) => React.ReactNode
+}
+
+const Item = forwardRef<HTMLLIElement, ItemProps>((props, ref) => {
   const {
     id,
     index,
@@ -84,7 +71,7 @@ export const Page = forwardRef<HTMLLIElement, PageProps>((props, ref) => {
       onRemove,
       index,
       id,
-      dragProps: { ...rest, 'data-id': id.toString() },
+      dragProps: { ...rest, className: 'Item', 'data-id': id.toString() },
       sortable,
       item,
       layout,
@@ -100,27 +87,26 @@ export const Page = forwardRef<HTMLLIElement, PageProps>((props, ref) => {
           width: '100%',
           height: '100%',
           position: 'relative',
-          marginBottom: '0.5rem',
           '&.active': {
-            '.Page': {
+            '.Item': {
               backgroundImage: 'none !important',
               backgroundColor: 'rgba(230, 230, 230)',
             },
             '.PageNumber': { opacity: 0.3 },
           },
           '&.clone': {
-            '.Page': {
+            '.Item': {
               transform: 'translate3d(10px, 10px, 0) scale(1.025)',
               animation: 'pop 150ms cubic-bezier(0.18, 0.67, 0.6, 1.22)',
               boxShadow:
-                '0 0 0 1px rgba(63, 63, 68, 0.05),\n        0 1px 6px 0 rgba(34, 33, 81, 0.3)',
+                '0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 6px 0 rgba(34, 33, 81, 0.3)',
               cursor: 'grabbing',
             },
           },
           '&:hover': { '.Remove': { visibility: 'visible' } },
           '&:not(.active, .clone)': {
-            '&.insertBefore,\n    &.insertAfter': {
-              '.Page:after': {
+            '&.insertBefore, &.insertAfter': {
+              '.Item:after': {
                 content: "''",
                 position: 'absolute',
                 backgroundColor: '#4c9ffe',
@@ -128,42 +114,39 @@ export const Page = forwardRef<HTMLLIElement, PageProps>((props, ref) => {
             },
           },
           '&:not(.vertical)': {
-            '&.insertBefore,\n    &.insertAfter': {
-              '.Page:after': { top: '0', bottom: '0', width: '2px' },
+            '&.insertBefore, &.insertAfter': {
+              '.Item:after': { top: '0', bottom: '0', width: '2px' },
             },
             '&.insertBefore': {
               '&.clone': { marginLeft: '-75px' },
-              '.Page:after': { left: '-9px' },
+              '.Item:after': { left: '-9px' },
             },
             '&.insertAfter': {
               '&.clone': { marginLeft: '75px' },
-              '.Page:after': { right: '-9px' },
+              '.Item:after': { right: '-9px' },
             },
           },
           '&.vertical': {
-            '&.insertBefore,\n    &.insertAfter': {
-              '.Page:after': { left: '0', right: '0', height: '2px' },
+            '&.insertBefore, &.insertAfter': {
+              '.Item:after': { left: '0', right: '0', height: '2px' },
             },
             '&.insertBefore': {
               '&.clone': { marginTop: '-125px' },
-              '.Page:after': { top: '-15px' },
+              '.Item:after': { top: '-15px' },
             },
             '&.insertAfter': {
               '&.clone': { marginBottom: '125px' },
-              '.Page:after': { bottom: '-45px' },
+              '.Item:after': { bottom: '-45px' },
             },
           },
         },
-        '& .Page': {
-          position: 'relative',
+        '& .Item': {
+          position: 'static', // Ensure to set static so that :before and :after indicators will show
           display: 'block',
-          width: '100%',
-          height: '200px',
-          backgroundColor: 'rgb(250, 255, 255)',
           backgroundSize: 'cover',
-          borderRadius: '3px',
+          borderRadius: '4px',
           boxShadow:
-            '0 0 0 1px rgba(63, 63, 68, 0.05),\n    0 1px 3px 0 rgba(34, 33, 81, 0.15)',
+            '0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(34, 33, 81, 0.15)',
           outline: 'none',
           appearance: 'none',
           border: 'none',
@@ -269,3 +252,5 @@ export const Page = forwardRef<HTMLLIElement, PageProps>((props, ref) => {
     </Box>
   )
 })
+
+export default Item
