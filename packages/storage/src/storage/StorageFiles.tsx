@@ -1,18 +1,21 @@
 import React from 'react'
 import type { DropzoneOptions } from 'react-dropzone'
-import { useDropzone } from 'react-dropzone'
 import startCase from 'lodash/startCase'
 import {
-  Avatar,
-  Box,
   List,
   ListItem,
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
-  Typography,
 } from '@mui/material'
-import { ConfirmationDialog, Link } from '@gravis-os/ui'
+import {
+  Avatar,
+  Box,
+  Typography,
+  BoxProps,
+  ConfirmationDialog,
+  Link,
+} from '@gravis-os/ui'
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import bytesToSize from './bytesToSize'
@@ -21,15 +24,18 @@ import useMultiStorageDropzone, {
   UseMultiStorageDropzoneProps,
 } from './useMultiStorageDropzone'
 import { File } from './types'
+import FieldLabel from './FieldLabel'
 
-export interface StorageDropzoneProps extends UseMultiStorageDropzoneProps {
+export interface StorageFilesProps
+  extends UseMultiStorageDropzoneProps,
+    BoxProps {
   name: string // The field name
   dropzoneProps?: DropzoneOptions
   label?: string // The field label
   setValue?: (name: string, value: any) => void
 }
 
-const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
+const StorageFiles: React.FC<StorageFilesProps> = (props) => {
   const {
     name, // 'gallery_images
     item, // product
@@ -38,6 +44,7 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
     dropzoneProps,
     label,
     setValue,
+    ...rest
   } = props
 
   const { files, onRemove, dropzone, dropzoneOptions } =
@@ -52,7 +59,11 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
   const { maxFiles } = dropzoneOptions
 
   return (
-    <div>
+    <Box {...rest}>
+      {/* Label */}
+      <FieldLabel>{label || startCase(name)}</FieldLabel>
+
+      {/* Dropzone */}
       <Box
         sx={{
           alignItems: 'center',
@@ -98,6 +109,8 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
           </Typography>
         </Box>
       </Box>
+
+      {/* Files */}
       {files.length > 0 && (
         <Box sx={{ mt: 2 }}>
           <List>
@@ -145,7 +158,7 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
                     secondary={bytesToSize(size)}
                   />
                   <ConfirmationDialog
-                    onConfirm={() => onRemove?.(file)}
+                    onConfirm={() => onRemove(file)}
                     icon={<CloseOutlinedIcon fontSize="small" />}
                     tooltip="Delete"
                   />
@@ -155,8 +168,8 @@ const StorageDropzone: React.FC<StorageDropzoneProps> = (props) => {
           </List>
         </Box>
       )}
-    </div>
+    </Box>
   )
 }
 
-export default StorageDropzone
+export default StorageFiles

@@ -4,8 +4,8 @@ export * from './StorageAvatar'
 export { default as StorageAvatarWithUpload } from './StorageAvatarWithUpload'
 export * from './StorageAvatarWithUpload'
 
-export { default as StorageDropzone } from './StorageDropzone'
-export * from './StorageDropzone'
+export { default as StorageFiles } from './StorageFiles'
+export * from './StorageFiles'
 
 export { default as StorageGallery } from './StorageGallery'
 export * from './StorageGallery'

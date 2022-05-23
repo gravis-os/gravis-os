@@ -76,6 +76,9 @@ export * from './Badge'
 export { default as Skeleton } from './Skeleton'
 export * from './Skeleton'
 
+export { default as Sortable } from './Sortable'
+export * from './Sortable'
+
 export { default as Switch } from './Switch'
 export * from './Switch'
 

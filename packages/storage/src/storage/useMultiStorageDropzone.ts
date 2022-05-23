@@ -62,7 +62,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           name: file.name,
           size: file.size,
           type: file.type,
-          // TODO: Add position here to sort images
+          position: file.position || 0,
         }
       })
 
@@ -89,23 +89,26 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   }
   const handleDrop = async (newFiles: File[]): Promise<any> => {
     try {
-      // Upload files on drop
-      const uploaded = await handleUpload(newFiles)
+      // Upload files on drop (@returns PostgrestResponse)
+      const uploaded: any = await handleUpload(newFiles)
 
+      // Handle degenerate case
       if (!uploaded) return
 
       // Set UI after upload success
-      setFiles((prevFiles) =>
-        [...prevFiles, ...newFiles].map((file, i) => {
-          const { id } = file
-
+      setFiles((prevFiles) => {
+        // We need to assign instead of spread because we need to mount on the File class
+        const newFilesWithId = newFiles.map((newFile, i) =>
+          Object.assign(newFile, { id: uploaded.data[i].id })
+        )
+        return [...prevFiles, ...newFilesWithId].map((file) => {
           // Already existing file (this wasn't just uploaded)
           if (file.url) return file
 
-          // If the file is new, return the new file with the id
-          return Object.assign(file, { url: URL.createObjectURL(file), id })
+          // If the file is new, return the new file
+          return Object.assign(file, { url: URL.createObjectURL(file) })
         })
-      )
+      })
 
       toast.success('Success')
     } catch (err) {
@@ -131,6 +134,8 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       setFiles((prevFiles) =>
         prevFiles.filter((prevFile) => prevFile.url !== file.url)
       )
+
+      // Don't toast here because we let confirmation dialog handle toast for us
     } catch (err) {
       toast.error('Error')
       console.error('Error caught:', err)

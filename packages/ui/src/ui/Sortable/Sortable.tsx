@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import type {
   DragEndEvent,
   DragStartEvent,
@@ -29,7 +29,7 @@ import { ItemProps } from './Item'
 import Box from '../Box'
 import SortableItem from './SortableItem'
 import OverlayItem from './OverlayItem'
-import { Layout } from './constants'
+import { SortableLayout } from './constants'
 
 const measuring: MeasuringConfiguration = {
   droppable: {
@@ -62,13 +62,13 @@ const defaultItems: any = createRange(20, (index) => ({
 }))
 
 export type ItemInterface = {
-  id: UniqueIdentifier
+  id?: UniqueIdentifier
 } & Record<string, unknown>
 
 export interface SortableProps {
-  layout: Layout
+  layout: SortableLayout
   spacing?: number // Grid gap
-  items?: ItemInterface[]
+  items?: ItemInterface[] | []
   renderItem?: ItemProps['renderItem']
   sortKeys?: UniqueIdentifier[]
   setSortKeys?: React.Dispatch<React.SetStateAction<any>>
@@ -84,14 +84,21 @@ const Sortable = (props: SortableProps) => {
     setSortKeys: injectedSetSortKeys,
   } = props
 
+  const getSortKeysFromItems = (items) => items.map(({ id }) => String(id))
+
   // States
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
-  const [localSortkeys, setLocalSortKeys] = useState<UniqueIdentifier[]>(() =>
-    items.map(({ id }) => String(id))
+  const [localSortKeys, setLocalSortKeys] = useState<UniqueIdentifier[]>(() =>
+    getSortKeysFromItems(items)
   )
 
+  // Update state when items change
+  useEffect(() => {
+    if (items) setLocalSortKeys(getSortKeysFromItems(items))
+  }, [items])
+
   // Allow external state to override the internal state to lift the state up
-  const sortKeys = injectedSortKeys || localSortkeys
+  const sortKeys = injectedSortKeys || localSortKeys
   const setSortKeys = injectedSetSortKeys || setLocalSortKeys
 
   // Vars

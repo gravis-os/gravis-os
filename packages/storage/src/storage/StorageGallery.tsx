@@ -1,28 +1,68 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import type { DropzoneOptions } from 'react-dropzone'
-import { useDropzone } from 'react-dropzone'
 import startCase from 'lodash/startCase'
 import {
-  Avatar,
   Box,
-  List,
-  ListItem,
-  ListItemAvatar,
-  ListItemIcon,
-  ListItemText,
   Typography,
-} from '@mui/material'
-import { ConfirmationDialog, Link } from '@gravis-os/ui'
-import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined'
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import bytesToSize from './bytesToSize'
-import downloadFromBlobUrl from './downloadFromBlobUrl'
+  Avatar,
+  BoxProps,
+  ConfirmationDialog,
+  Sortable,
+  SortableLayout,
+  Stack,
+} from '@gravis-os/ui'
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import useMultiStorageDropzone, {
   UseMultiStorageDropzoneProps,
 } from './useMultiStorageDropzone'
-import { File } from './types'
+import FieldLabel from './FieldLabel'
 
-export interface StorageGalleryProps extends UseMultiStorageDropzoneProps {
+const StorageGalleryAvatar = (props) => {
+  const { active, onRemove, item, dragProps, size = 60, ...rest } = props
+  const { title, src, url } = item || {}
+
+  return (
+    <Box
+      sx={{
+        '& .MuiIconButton-root': {
+          visibility: 'hidden',
+        },
+        '&:hover .MuiIconButton-root': {
+          visibility: 'visible',
+        },
+      }}
+    >
+      <Avatar
+        alt={title}
+        src={url || src}
+        size={size}
+        {...dragProps}
+        {...rest}
+      />
+
+      {!active && onRemove && (
+        <ConfirmationDialog
+          onConfirm={() => onRemove(item)}
+          icon={<CancelOutlinedIcon fontSize="small" />}
+          tooltip="Delete"
+          buttonProps={{
+            sx: {
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              '&:hover': { display: 'block', color: 'error.main' },
+            },
+          }}
+        />
+      )}
+    </Box>
+  )
+}
+
+export interface StorageGalleryProps
+  extends UseMultiStorageDropzoneProps,
+    BoxProps {
   name: string // The field name
   dropzoneProps?: DropzoneOptions
   label?: string // The field label
@@ -38,6 +78,7 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
     dropzoneProps,
     label,
     setValue,
+    ...rest
   } = props
 
   const { files, onRemove, dropzone, dropzoneOptions } =
@@ -50,101 +91,91 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
     })
   const { getRootProps, getInputProps, isDragActive } = dropzone
   const { maxFiles } = dropzoneOptions
+  const hasFiles = Boolean(files.length)
+
+  // TODO: Handle sorting and repositioning in DB
+  const [sortKeys, setSortKeys] = useState(() => files.map(({ id }) => id))
+  useEffect(() => {
+    if (files) setSortKeys(files.map(({ id }) => id))
+  }, [files])
+
+  // Styles
+  const avatarSize = 110
+  const avatarSpacing = 1
 
   return (
-    <div>
-      <Box
-        sx={{
-          alignItems: 'center',
-          border: 1,
-          borderRadius: 1,
-          borderStyle: 'dashed',
-          borderColor: 'divider',
-          display: 'flex',
-          flexWrap: 'wrap',
-          justifyContent: 'center',
-          outline: 'none',
-          p: 6,
-          ...(isDragActive && {
-            backgroundColor: 'action.active',
-            opacity: 0.5,
-          }),
-          '&:hover': {
-            backgroundColor: 'action.hover',
-            cursor: 'pointer',
-            opacity: 0.5,
-          },
-        }}
-        {...getRootProps()}
-      >
-        <input {...getInputProps()} />
-        <Box sx={{ p: 2 }}>
-          <Typography variant="h6">{`Select ${startCase(
-            label || name
-          )}`}</Typography>
-          <Typography variant="body1">
-            {`Drop file${maxFiles && maxFiles === 1 ? '' : 's'}`} or{' '}
-            <Link underline="always">browse</Link> through your machine
-          </Typography>
-        </Box>
-      </Box>
-      {files.length > 0 && (
-        <Box sx={{ mt: 2 }}>
-          <List>
-            {files.map((file) => {
-              const { path, name, size, type, url, alt }: File = file
-              const handleDownloadClick = async () => downloadFromBlobUrl(file)
-              return (
-                <ListItem
-                  key={path}
-                  sx={{
-                    border: 1,
-                    borderColor: 'divider',
-                    borderRadius: 1,
-                    '& + &': {
-                      mt: 1,
-                    },
+    <Box {...rest}>
+      {/* Label */}
+      <FieldLabel>{label || startCase(name)}</FieldLabel>
+
+      <Stack direction="row" alignItems="flex-start" spacing={avatarSpacing}>
+        {/* Sortable Files */}
+        {hasFiles && (
+          <Box
+            sx={{
+              overflowY: 'hidden',
+              overflowX: 'scroll',
+              '&::-webkit-scrollbar': {
+                width: 0,
+                background: 'transparent',
+              },
+            }}
+          >
+            <Sortable
+              layout={SortableLayout.Horizontal}
+              spacing={avatarSpacing}
+              sortKeys={sortKeys}
+              setSortKeys={setSortKeys}
+              items={files as any}
+              renderItem={({ onRemove: onRemoveSortableItem, ...rest }) => (
+                <StorageGalleryAvatar
+                  size={avatarSize}
+                  onRemove={async (item) => {
+                    // Remove from db
+                    if (item) await onRemove(item)
+                    // Remove from ui
+                    onRemoveSortableItem()
                   }}
-                >
-                  {type?.startsWith('image') ? (
-                    <ListItemAvatar>
-                      <Avatar
-                        variant="square"
-                        src={url}
-                        alt={alt || name}
-                        onClick={handleDownloadClick}
-                        sx={{ '&:hover': { cursor: 'pointer' } }}
-                      />
-                    </ListItemAvatar>
-                  ) : (
-                    <ListItemIcon>
-                      <FileCopyOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                  )}
-                  <ListItemText
-                    primary={
-                      <Link pointer onClick={handleDownloadClick}>
-                        {name || alt}
-                      </Link>
-                    }
-                    primaryTypographyProps={{
-                      color: 'textPrimary',
-                      variant: 'subtitle2',
-                    }}
-                    secondary={bytesToSize(size)}
-                  />
-                  <ConfirmationDialog
-                    onConfirm={() => onRemove?.(file)}
-                    icon={<CloseOutlinedIcon fontSize="small" />}
-                    tooltip="Delete"
-                  />
-                </ListItem>
-              )
-            })}
-          </List>
-        </Box>
-      )}
-    </div>
+                  {...rest}
+                />
+              )}
+            />
+          </Box>
+        )}
+
+        {/* Dropzone Upload */}
+        <Avatar
+          size={avatarSize}
+          variant="rounded"
+          sx={{
+            border: '1px dashed',
+            borderColor: 'divider',
+            backgroundColor: 'transparent',
+            color: 'primary.main',
+            '&:hover': {
+              cursor: 'pointer',
+              borderColor: 'primary.main',
+              borderStyle: 'solid',
+            },
+            '&:active': { backgroundColor: 'background.default' },
+            ...(isDragActive && {
+              borderColor: 'primary.main',
+              borderStyle: 'solid',
+            }),
+          }}
+          {...getRootProps()}
+        >
+          <Box sx={{ textAlign: 'center' }}>
+            <AddCircleOutlineOutlinedIcon />
+            <Typography variant="subtitle2" color="primary.main">
+              {isDragActive ? 'Upload Photo' : 'Add Photo'}
+              {maxFiles && maxFiles === 1 ? '' : 's'}
+            </Typography>
+          </Box>
+          <input {...getInputProps()} />
+        </Avatar>
+      </Stack>
+    </Box>
   )
 }
 

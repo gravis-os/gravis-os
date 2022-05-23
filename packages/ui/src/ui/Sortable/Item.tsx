@@ -5,14 +5,14 @@ import { useSortable } from '@dnd-kit/sortable'
 import { removeIcon } from './icons'
 import Box from '../Box'
 import { ItemInterface } from './Sortable'
-import { Layout, Position } from './constants'
+import { SortableLayout, SortablePosition } from './constants'
 
 const defaultRenderItem = ({ dragProps, index, active, onRemove, layout }) => (
   <>
     <Box
       sx={{
         '&&': {
-          width: layout === Layout.Horizontal ? '150px' : '100%',
+          width: layout === SortableLayout.Horizontal ? '150px' : '100%',
           height: 200,
           backgroundColor: 'lightgrey',
         },
@@ -36,7 +36,7 @@ export interface RenderItemProps {
   id: UniqueIdentifier
   index?: number
   item: ItemInterface
-  layout: Layout
+  layout: SortableLayout
   onRemove?(): void
   sortable?: ReturnType<typeof useSortable>
 }
@@ -45,7 +45,7 @@ export interface ItemProps
   extends Omit<HTMLAttributes<HTMLButtonElement>, 'id'>,
     Omit<RenderItemProps, 'dragProps'> {
   clone?: boolean
-  insertPosition?: Position
+  insertPosition?: SortablePosition
   renderItem?: (props: RenderItemProps) => React.ReactNode
 }
 
@@ -240,9 +240,9 @@ const Item = forwardRef<HTMLLIElement, ItemProps>((props, ref) => {
           'Wrapper',
           active && 'active',
           clone && 'clone',
-          insertPosition === Position.Before && 'insertBefore',
-          insertPosition === Position.After && 'insertAfter',
-          layout === Layout.Vertical && 'vertical',
+          insertPosition === SortablePosition.Before && 'insertBefore',
+          insertPosition === SortablePosition.After && 'insertAfter',
+          layout === SortableLayout.Vertical && 'vertical',
         ])}
         style={style}
         ref={ref as any}

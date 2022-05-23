@@ -2,7 +2,7 @@ import React from 'react'
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
 import Item, { ItemProps } from './Item'
-import { Position } from './constants'
+import { SortablePosition } from './constants'
 import { ItemInterface } from './Sortable'
 
 export type SortableItemProps = ItemProps & {
@@ -30,7 +30,8 @@ const SortableItem = (props: SortableItemProps) => {
     transition,
   } = sortable
 
-  const position = index > activeIndex ? Position.After : Position.Before
+  const position =
+    index > activeIndex ? SortablePosition.After : SortablePosition.Before
   const insertPosition = over?.id === id && position
 
   return (

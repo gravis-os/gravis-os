@@ -1,6 +1,6 @@
 export * from './constants'
 
-export { default as Sortable } from './Sortable'
+export { default } from './Sortable'
 export * from './Sortable'
 
 export { default as createRange } from './createRange'

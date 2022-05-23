@@ -6,7 +6,7 @@ import {
 
 export interface DialogProps extends MuiDialogProps {}
 
-const Dialog: React.FC<DialogProps> = props => {
+const Dialog: React.FC<DialogProps> = (props) => {
   return <MuiDialog {...props} />
 }
 

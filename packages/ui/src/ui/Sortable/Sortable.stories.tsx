@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import faker from '@faker-js/faker'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import Sortable from './Sortable'
-import { Layout } from './constants'
+import { SortableLayout } from './constants'
 import Box from '../Box'
 import Card from '../Card'
 import Avatar from '../Avatar'
@@ -13,9 +13,9 @@ export default {
   title: 'ui/Sortable',
 }
 
-export const Horizontal = () => <Sortable layout={Layout.Horizontal} />
-export const Vertical = () => <Sortable layout={Layout.Vertical} />
-export const Grid = () => <Sortable layout={Layout.Grid} />
+export const Horizontal = () => <Sortable layout={SortableLayout.Horizontal} />
+export const Vertical = () => <Sortable layout={SortableLayout.Vertical} />
+export const Grid = () => <Sortable layout={SortableLayout.Grid} />
 
 const MyCard = (props) => {
   const { id, active, onRemove, item, dragProps } = props
@@ -90,7 +90,7 @@ export const CustomHorizontal = () => {
           spacing={0.5}
           sortKeys={sortKeys}
           setSortKeys={setSortKeys}
-          layout={Layout.Horizontal}
+          layout={SortableLayout.Horizontal}
           items={MOCK_ITEMS}
           renderItem={(renderProps) => <MyAvatar {...renderProps} />}
         />
@@ -108,7 +108,7 @@ export const CustomGrid = () => {
       <Sortable
         sortKeys={sortKeys}
         setSortKeys={setSortKeys}
-        layout={Layout.Grid}
+        layout={SortableLayout.Grid}
         items={MOCK_ITEMS}
         renderItem={(renderProps) => <MyCard {...renderProps} />}
       />

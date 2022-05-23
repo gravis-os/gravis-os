@@ -7,18 +7,19 @@ import {
   DialogTitle,
 } from '@mui/material'
 import toast from 'react-hot-toast'
-import Button from './Button'
-import Dialog from './Dialog'
+import Button, { ButtonProps } from './Button'
+import Dialog, { DialogProps } from './Dialog'
 import IconButton from './IconButton'
 
-export interface ConfirmationDialogProps {
+export interface ConfirmationDialogProps extends Omit<DialogProps, 'open'> {
   onConfirm: () => Promise<void> | void
   icon?: React.ReactElement
   tooltip?: string
+  buttonProps?: ButtonProps
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
-  const { tooltip = 'Delete', icon, onConfirm } = props
+  const { tooltip = 'Delete', icon, onConfirm, buttonProps, ...rest } = props
 
   // State
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false)
@@ -43,12 +44,13 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
         onClick={openDialog}
         sx={{ '&:hover': { color: 'error.main' } }}
         tooltip={tooltip}
+        {...buttonProps}
       >
         {icon || <DeleteOutlineOutlinedIcon fontSize="small" />}
       </IconButton>
 
       {/* Dialog */}
-      <Dialog open={confirmationDialogOpen} onClose={closeDialog}>
+      <Dialog open={confirmationDialogOpen} onClose={closeDialog} {...rest}>
         <DialogTitle>Confirmation</DialogTitle>
         <DialogContent>
           <DialogContentText>

@@ -3,7 +3,7 @@ import { Controller, useFormContext } from 'react-hook-form'
 import { Grid, GridProps, Card, CardProps } from '@gravis-os/ui'
 import {
   StorageAvatarWithUpload,
-  StorageDropzone,
+  StorageFiles,
   StorageGallery,
 } from '@gravis-os/storage'
 import ControlledAmountField from './ControlledAmountField'
@@ -98,7 +98,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
           <Controller
             control={control}
             render={({ field }) => (
-              <StorageDropzone
+              <StorageFiles
                 {...field}
                 editable
                 item={item}
