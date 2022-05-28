@@ -9,8 +9,8 @@ import {
 import ControlledAmountField from './ControlledAmountField'
 import ControlledRateField from './ControlledRateField'
 import ControlledSwitchField from './ControlledSwitchField'
+import ControlledModelField from './ControlledModelField'
 import { CrudItem, CrudModule } from '../types'
-import ModelField from './ModelField'
 import ControlledTextField from './ControlledTextField'
 import FieldEffectProvider from './FieldEffectProvider'
 import ControlledPercentageField from './ControlledPercentageField'
@@ -148,16 +148,9 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
         )
       case 'model':
         return (
-          <Controller
+          <ControlledModelField
             control={control}
-            render={({ field }) => (
-              <ModelField
-                {...field}
-                module={module}
-                setValue={setValue}
-                {...commonProps}
-              />
-            )}
+            module={module}
             {...commonProps}
           />
         )

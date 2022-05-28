@@ -4,10 +4,11 @@ import styleConfig from '../config/styleConfig'
 import CrudForm from './CrudForm'
 import getCrudItemHref from './getCrudItemHref'
 
-const CrudPreviewDrawer = props => {
+const CrudPreviewDrawer = (props) => {
   const {
     disableManage,
     isListPage,
+    refetch,
     previewModule,
     previewItem,
     resetPreview,
@@ -50,7 +51,12 @@ const CrudPreviewDrawer = props => {
         }}
         {...crudFormProps}
         useCrudFormProps={{
-          afterSubmit: resetPreview,
+          afterSubmit: () => {
+            // Reset preview drawer state
+            resetPreview()
+            // Refetch outer CrudTable List Query data to refresh column values
+            refetch()
+          },
           ...crudFormProps?.useCrudFormProps,
         }}
       />

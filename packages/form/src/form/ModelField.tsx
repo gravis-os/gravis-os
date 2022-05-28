@@ -1,10 +1,15 @@
 import React, { useEffect, useState } from 'react'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
-import { Autocomplete } from '@mui/material'
+import {
+  Autocomplete,
+  AutocompleteProps,
+  createFilterOptions,
+} from '@mui/material'
 import throttle from 'lodash/throttle'
 import startCase from 'lodash/startCase'
 import isEmpty from 'lodash/isEmpty'
-import { CircularProgress } from '@gravis-os/ui'
+import { CircularProgress, Typography, Stack } from '@gravis-os/ui'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import TextField from './TextField'
 import getRelationalObjectKey from './getRelationalObjectKey'
 import { CrudModule } from '../types'
@@ -12,6 +17,10 @@ import { CrudModule } from '../types'
 interface DataItem {
   title: string
 }
+
+const muiAutocompleteFilterOptions = createFilterOptions<DataItem>()
+
+type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
 export interface ModelFieldProps {
   pk?: string
@@ -21,15 +30,22 @@ export interface ModelFieldProps {
   value: any
   multiple?: boolean
 
+  // Mui
+  disableClearable?: ModelAutocompleteProps['disableClearable']
+  fullWidth?: ModelAutocompleteProps['fullWidth']
+
   // Selector
   select?: string
 
   // RHF
   onChange: (value: any) => void
   setValue: (name: string, value: unknown) => void
+
+  // Extensions
+  withCreate?: boolean
 }
 
-const ModelField: React.FC<ModelFieldProps> = props => {
+const ModelField: React.FC<ModelFieldProps> = (props) => {
   const {
     setValue: injectedSetValue,
     select: injectedSelect,
@@ -40,12 +56,13 @@ const ModelField: React.FC<ModelFieldProps> = props => {
     onChange: injectedOnChange,
     value: injectedValue,
     multiple,
+    withCreate,
     ...rest
   } = props
   const { table } = module
 
   // States
-  const getInitialValue = injectedValue =>
+  const getInitialValue = (injectedValue) =>
     injectedValue || (multiple ? [] : null)
   const initialValue = getInitialValue(injectedValue)
   const [value, setValue] = useState<DataItem | DataItem[] | null>(initialValue)
@@ -63,7 +80,7 @@ const ModelField: React.FC<ModelFieldProps> = props => {
   // Reverse lookup object if given a primitive value e.g. id
   const isPrimitiveValue = ['string', 'number'].includes(typeof value)
 
-  const fetchData = React.useMemo(() => {
+  const fetchOptions = React.useMemo(() => {
     const fetchFunction = async () => {
       const defaultSelect = `id, ${pk}`
       const select = injectedSelect
@@ -86,7 +103,7 @@ const ModelField: React.FC<ModelFieldProps> = props => {
        */
       if (!multiple && isPrimitiveValue) {
         const nextValue = nextOptions.find(
-          item => String(item?.id) === String(value)
+          (item) => String(item?.id) === String(value)
         )
         if (nextValue) setValue(nextValue)
       }
@@ -105,23 +122,50 @@ const ModelField: React.FC<ModelFieldProps> = props => {
     // Prevent issue with unnecessary fetch from onSelect
     if (!open) return
     // Fetch data
-    fetchData()
+    fetchOptions()
   }, [inputValue])
 
   // Fetch onOpen so that some options will be populated
   useEffect(() => {
     if (!loading) return
     // Fetch data
-    fetchData()
+    fetchOptions()
   }, [loading])
 
   // Fetch when there is a value to populate options. Reverse look-up object from id
   useEffect(() => {
-    if (value && isPrimitiveValue) fetchData()
+    if (value && isPrimitiveValue) fetchOptions()
   }, [])
+
+  // withCreate: Ability to create new item from an option
+  const withCreateOptions = withCreate && {
+    freeSolo: true,
+    filterOptions: (options: DataItem[], params) => {
+      const { inputValue } = params
+
+      const filtered = muiAutocompleteFilterOptions(options, params)
+
+      // Suggest the creation of a new value
+      const isExisting = options.some((option) => inputValue === option?.[pk])
+      if (inputValue !== '' && !isExisting) {
+        filtered.push({ [pk as 'title']: `Add "${inputValue}"` })
+      }
+
+      return filtered
+    },
+  }
+  const getIsCreateValue = ({ value, pk }) => {
+    if (!value?.[pk]) return
+    return value && pk && value[pk].startsWith('Add "')
+  }
+  const getCreateValue = ({ value, pk }) => {
+    if (!value?.[pk]) return
+    return value && pk && value[pk].split('"')[1]
+  }
 
   return (
     <Autocomplete
+      {...withCreateOptions}
       value={value}
       options={options}
       open={open}
@@ -131,20 +175,44 @@ const ModelField: React.FC<ModelFieldProps> = props => {
       autoComplete
       includeInputInList
       filterSelectedOptions
-      onChange={(event: any, newValue: DataItem | DataItem[] | null) => {
-        setValue(newValue) // Set UI field value only
-        injectedOnChange(newValue) // Expose value to outer form state
+      onChange={(e: any, newValue: DataItem | DataItem[] | null) => {
+        // TODO: Rename this setValue to setDisplayValue instead
+        // Set UI field display value only
+        setValue(newValue)
+
+        // Expose value to outer form state
+        injectedOnChange(newValue)
+
+        if (
+          withCreate &&
+          newValue &&
+          getIsCreateValue({ value: newValue, pk })
+        ) {
+          const createValue = getCreateValue({ value: newValue, pk })
+          // TODO@Joel: Trigger setCreateValue here to trigger modal in useEffect
+          console.log('jjj: ModelField.onChange', {
+            createValue,
+            e,
+            newValue,
+            name,
+            props,
+            options,
+          })
+          // TODO: Reset the createValue once we've created the item
+        }
+
+        // Set model value as object e.g. Item.product = { ... }
         if (name.endsWith('_id')) {
           const relationalObjectKey = getRelationalObjectKey(name)
-          injectedSetValue(relationalObjectKey, newValue) // Set model value as object
+          injectedSetValue(relationalObjectKey, newValue)
         }
       }}
       onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
-      getOptionLabel={option => {
+      getOptionLabel={(option) => {
         if (!option) return
         return typeof option === 'string' ? option : option[pk]
       }}
-      renderInput={params => (
+      renderInput={(params) => (
         <TextField
           label={
             label ||
@@ -167,13 +235,30 @@ const ModelField: React.FC<ModelFieldProps> = props => {
         />
       )}
       renderOption={(props, option, { inputValue }) => {
-        if (
-          isEmpty(option) ||
-          Array.isArray(option) ||
-          typeof option !== 'object'
-        )
-          return null
-        return <li {...props}>{option[pk]}</li>
+        const shouldSkipOption =
+          isEmpty(option) || Array.isArray(option) || typeof option !== 'object'
+        const isCreateValue = getIsCreateValue({ value: option, pk })
+
+        switch (true) {
+          case shouldSkipOption:
+            return null
+          case isCreateValue:
+            return (
+              <li {...props}>
+                <Stack
+                  direction="row"
+                  alignItems="center"
+                  spacing={0.5}
+                  sx={{ color: 'primary.main' }}
+                >
+                  <AddOutlinedIcon fontSize="small" />
+                  <Typography color="inherit">{option[pk]}</Typography>
+                </Stack>
+              </li>
+            )
+          default:
+            return <li {...props}>{option[pk]}</li>
+        }
       }}
       {...rest}
     />

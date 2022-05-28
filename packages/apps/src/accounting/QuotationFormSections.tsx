@@ -67,7 +67,7 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
               />
             </Stack>
 
-            <Divider />
+            <Divider sx={{ '&&': { mt: 0 } }} />
 
             {/* Letter Head */}
             <Stack
@@ -106,7 +106,6 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
                       {...formSectionProps}
                       {...getSectionPropsByKey('total')}
                     />
-
                     {/* Others */}
                     <FormSection
                       {...formSectionProps}
@@ -141,6 +140,11 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
                   <FormSection
                     {...formSectionProps}
                     {...getSectionPropsByKey('notes')}
+                  />
+                  {/* Attachments */}
+                  <FormSection
+                    {...formSectionProps}
+                    {...getSectionPropsByKey('attachments')}
                   />
                 </Grid>
               </Grid>

@@ -41,7 +41,7 @@ export interface UseCrudFormArgs {
   defaultValues?: Record<string, unknown>
 }
 
-const useCrudForm = (args: UseCrudFormArgs) => {
+const useCrudForm = (props: UseCrudFormArgs) => {
   const {
     defaultValues: injectedDefaultValues,
     afterSubmit,
@@ -50,7 +50,7 @@ const useCrudForm = (args: UseCrudFormArgs) => {
     item: injectedItem,
     refetch,
     module,
-  } = args
+  } = props
   const { sk, table } = module
 
   const item = injectedItem || {}

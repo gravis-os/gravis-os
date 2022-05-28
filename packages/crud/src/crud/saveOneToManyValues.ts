@@ -1,6 +1,7 @@
 const saveOneToManyValues = async (props) => {
   const { item, values: oneToManyPairs, client, module } = props
 
+  // `product`
   const primaryTableName = module.table.name
 
   const insertPromises = Object.entries(oneToManyPairs).map(([key, values]) => {
@@ -12,10 +13,10 @@ const saveOneToManyValues = async (props) => {
     }))
 
     // Key is usually gallery_images. Construct foreign table name from relationalKey e.g. product_gallery_image
-    const foreignTableName = `${primaryTableName}_${key.slice(0, -1)}`
+    const foreignTableName = key
 
-    // Batch insert into a single table
-    return client.from(foreignTableName).insert(valuesWithId)
+    // Batch upsert into a single table
+    return client.from(foreignTableName).upsert(valuesWithId)
   })
 
   return Promise.all(insertPromises)

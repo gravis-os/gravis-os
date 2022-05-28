@@ -11,8 +11,8 @@ import CrudTableActionsColumnCellRenderer from './CrudTableActionsColumnCellRend
 // ==============================
 // Column Def HOCs (withColumnDefs)
 // ==============================
-const withTimestampFormat = () => columnDefs =>
-  columnDefs.map(columnDef =>
+const withTimestampFormat = () => (columnDefs) =>
+  columnDefs.map((columnDef) =>
     columnDef.field.endsWith('_at')
       ? {
           valueFormatter: ({ value }) => new Date(value).toLocaleString(),
@@ -20,28 +20,27 @@ const withTimestampFormat = () => columnDefs =>
         }
       : columnDef
   )
-const withHeaderNames = () => columnDefs =>
-  columnDefs.map(columnDef => ({
+const withHeaderNames = () => (columnDefs) =>
+  columnDefs.map((columnDef) => ({
     headerName: startCase(columnDef.field),
     ...columnDef,
   }))
-const withPreview =
-  ({
+const withPreview = (props) => {
+  const {
     setPreview,
     module: injectedModule,
     previewFormSections: injectedPreviewFormSections,
-  }) =>
-  columnDefs =>
-    columnDefs.map((columnDef, i) => {
-      const { field } = columnDef
+  } = props
+  return (columnDefs) => {
+    return columnDefs.map((columnDef, i) => {
+      const { field, previewFormSections } = columnDef
 
       // Always set first column as preview column
       const isFirst = i === 0
       const module = isFirst ? injectedModule : columnDef.module
-      const previewFormSections =
-        columnDef.previewFormSections ||
-        (isFirst && injectedPreviewFormSections)
       const hasPreview = isFirst || (module && previewFormSections)
+
+      // Handle degenerate case
       if (!hasPreview) return columnDef
 
       // Dynamically calculate relation key to access the relation field
@@ -65,11 +64,16 @@ const withPreview =
       // Show preview drawer when clicking on related item
       return {
         ...columnDef,
-        cellRenderer: params => {
+        cellRenderer: (params) => {
           // Methods
           const handlePreviewClick = async () => {
             const previewSlug = get(params.data, relationFieldKey)
-            const previewArgs = { module, previewSlug, previewFormSections }
+            const previewArgs = {
+              module,
+              previewSlug,
+              previewFormSections,
+              columnDef,
+            }
             setPreview(previewArgs)
           }
 
@@ -93,9 +97,11 @@ const withPreview =
         },
       }
     })
+  }
+}
 const withTitle =
   ({ isDesktop }) =>
-  columnDefs =>
+  (columnDefs) =>
     [
       {
         headerName: 'Name',
@@ -106,7 +112,7 @@ const withTitle =
       ...columnDefs.slice(1),
     ]
 
-const getCrudTableColumnDefs = args => {
+const getCrudTableColumnDefs = (props) => {
   const {
     columnDefs: injectedColumnDefs,
     module,
@@ -114,7 +120,7 @@ const getCrudTableColumnDefs = args => {
     setPreview,
     disableDelete,
     disableManage,
-  } = args
+  } = props
 
   // Responsive
   const theme = useTheme()

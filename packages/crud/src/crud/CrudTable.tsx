@@ -95,8 +95,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   ])
   const { filters, setFilters } = useRouterQueryFilters({ filterFields })
 
-  // Fetch items with ReactQuery's composite key using filters as a dep
-  const { data: items } = useQuery(
+  // List items Fetch items with ReactQuery's composite key using filters as a dep
+  const { data: items, refetch } = useQuery(
     [table.name, filters],
     () => fetchItems({ filters, module, setQuery, filterFields }),
     // Only allow authenticated users to fetch CRUD items due to RLS
@@ -144,6 +144,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       {/* Preview Drawer */}
       <CrudPreviewDrawer
         isListPage={isListPage}
+        refetch={refetch}
         {...usePreviewDrawerProps}
         crudFormProps={previewFormProps}
         disableManage={disableManage}
