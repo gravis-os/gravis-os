@@ -10,20 +10,15 @@ const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
     value,
     setValue,
     fieldArray,
+    filters,
     ...rest
   } = props
   const { update } = fieldArray
   const { field } = column.userProvidedColDef
   const name = `lines[${rowIndex}].${field}`
 
-  console.log('jjj: AgGridModelFieldEditor', {
-    name,
-    props,
-  })
-
   const handleChange = (value) => {
     if (!value) return null
-    console.log('jjj: handleChange', { name, value })
     // This really sets the AgGrid values
     update(name, value.id)
   }
@@ -47,8 +42,10 @@ const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
       setValue={setValue}
       onChange={handleChange}
       select={module.select.list}
+      filters={filters}
       disableClearable
       fullWidth
+      {...rest}
     />
   )
 

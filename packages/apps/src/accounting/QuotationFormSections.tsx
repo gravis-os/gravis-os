@@ -27,7 +27,7 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
           justifyContent="space-between"
         >
           <Box minWidth={215}>
-            {/* Sales Person */}
+            {/* Salesperson */}
             <FormSection
               {...formSectionProps}
               {...getSectionPropsByKey('salesperson')}

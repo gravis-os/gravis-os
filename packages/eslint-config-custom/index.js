@@ -54,7 +54,7 @@ module.exports = {
       },
     ],
     'react/no-array-index-key': 0,
-    'react/jsx-props-no-spreading': 'off',
+    'react/jsx-props-no-spreading': 0,
     'react-hooks/exhaustive-deps': 1,
     // import
     'import/extensions': [
@@ -67,7 +67,8 @@ module.exports = {
         tsx: 'never',
       },
     ],
-    'import/prefer-default-export': 'off',
+    'import/prefer-default-export': 0,
+    'import/no-extraneous-dependencies': 0,
   },
   settings: {
     'import/resolver': {

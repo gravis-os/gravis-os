@@ -10,7 +10,7 @@ import {
   Divider,
   CircularProgress,
 } from '@gravis-os/ui'
-import DetailPageHeader from './DetailPageHeader'
+import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
 import { CrudItem, CrudModule } from './typings'
 import getIsNew from './getIsNew'
@@ -34,6 +34,7 @@ interface DetailTab extends Omit<TabProps, 'children' | 'hidden'> {
 export interface DetailPageProps {
   bannerProps?: DetailBannerProps
   children?: React.ReactNode | RenderPropsFunction<DetailPageRenderProps>
+  headerProps?: DetailPageHeaderProps
   module: CrudModule
   tabs?: DetailTab[]
   tabsProps?: TabsProps
@@ -42,7 +43,7 @@ export interface DetailPageProps {
   crudFormProps?: Partial<CrudFormProps>
 }
 
-const DetailPage: React.FC<DetailPageProps> = props => {
+const DetailPage: React.FC<DetailPageProps> = (props) => {
   const {
     module,
     children: injectedChildren,
@@ -52,6 +53,7 @@ const DetailPage: React.FC<DetailPageProps> = props => {
     tabsProps,
     tabsCardProps,
     bannerProps,
+    headerProps,
   } = props
 
   // Get Item
@@ -83,7 +85,12 @@ const DetailPage: React.FC<DetailPageProps> = props => {
   const renderTabs = () => (
     <>
       {/* Breadcrumbs */}
-      <DetailPageHeader item={item} module={module} disableTitle={!isNew} />
+      <DetailPageHeader
+        item={item}
+        module={module}
+        disableTitle={!isNew}
+        {...headerProps}
+      />
 
       {/* Tabs */}
       {!isNew && (
@@ -115,7 +122,7 @@ const DetailPage: React.FC<DetailPageProps> = props => {
               {...tabsProps}
             >
               {hasTabs &&
-                tabs.map(tab => {
+                tabs.map((tab) => {
                   const { hidden } = tab
 
                   // Hidden
@@ -139,7 +146,7 @@ const DetailPage: React.FC<DetailPageProps> = props => {
       )}
     </>
   )
-  const renderTab = currentTab => {
+  const renderTab = (currentTab) => {
     if (!hasTabs) return
 
     const currentTabItem = (tabs as any[]).find(

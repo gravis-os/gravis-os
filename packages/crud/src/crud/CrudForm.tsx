@@ -105,13 +105,14 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
               loading={loading}
               item={item}
               module={module}
+              {...headerProps}
               buttonProps={{
                 key: 'save',
                 type: 'submit' as ButtonProps['type'],
                 title: 'Save',
                 disabled: isSubmitting || !isDirty,
+                ...headerProps?.buttonProps,
               }}
-              {...headerProps}
             />
           )}
           {typeof children === 'function'

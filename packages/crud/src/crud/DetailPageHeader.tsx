@@ -1,6 +1,6 @@
 import React from 'react'
-import PageHeader, { PageHeaderProps } from './PageHeader'
 import { Skeleton } from '@gravis-os/ui'
+import PageHeader, { PageHeaderProps } from './PageHeader'
 import { CrudItem, CrudModule } from './typings'
 import getIsNew from './getIsNew'
 
@@ -24,7 +24,11 @@ const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
   const pageHeaderProps = {
     breadcrumbs: [
       { key: name.plural, title: name.plural, href: route.plural },
-      { key: name.singular, title: isNew ? 'New' : item[pk], href: `${route.plural}/${isNew ? 'new' : item[sk]}` },
+      {
+        key: name.singular,
+        title: isNew ? 'New' : item[pk],
+        href: `${route.plural}/${isNew ? 'new' : item[sk]}`,
+      },
     ],
     title: !disableTitle && `${isNew ? 'Add' : 'Edit'} ${name.singular}`,
     ...rest,
