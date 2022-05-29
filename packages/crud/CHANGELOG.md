@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.10
+
+### Patch Changes
+
+- Fix issue with CrudForm oneToMany partition not working when creating a new item"
+
 ## 0.0.9
 
 ### Patch Changes
