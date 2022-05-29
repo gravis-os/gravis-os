@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.4
+
+### Patch Changes
+
+- 03189c1: Complete StorageGallery component. Renamed StorageDropzone to StorageFiles"
+- Updated dependencies [03189c1]
+  - @gravis-os/ui@0.0.8
+
 ## 0.0.3
 
 ### Patch Changes
