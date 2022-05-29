@@ -8,7 +8,8 @@ const partitionOneToManyValues = (values) => {
         key.endsWith(char)
       )
       const isArrayValue = Array.isArray(value)
-      const isRelationKey = isValidKeyName && isArrayValue
+      const isUndefinedValue = typeof value === 'undefined'
+      const isRelationKey = isValidKeyName && (isArrayValue || isUndefinedValue)
       const nonJoinValues = !isRelationKey
         ? { ...acc[0], [key]: value }
         : acc[0]

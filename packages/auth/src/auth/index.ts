@@ -1,5 +1,6 @@
 // Authy stuff
 export { useUser as useAuthUser } from '@supabase/supabase-auth-helpers/react'
+
 export { withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
 
 export { default as AuthProvider } from './AuthProvider'
@@ -17,10 +18,9 @@ export * from './useAuth'
 export { default as withAuthProvider } from './withAuthProvider'
 export * from './withAuthProvider'
 
-export { default as withAuthRequired } from './withAuthRequired'
-export * from './withAuthRequired'
-
+// ==============================
 // Forms
+// ==============================
 export * from './SupabaseAuth'
 
 export { default as RegisterForm } from './RegisterForm'

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.3
+
+### Patch Changes
+
+- Fix build error with util typing"
+
 ## 0.0.2
 
 ### Patch Changes
