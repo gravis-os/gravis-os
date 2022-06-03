@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.9
+
+### Patch Changes
+
+- e13cb0d: Update Quotation"
+- Updated dependencies [e13cb0d]
+  - @gravis-os/ui@0.0.9
+
 ## 0.0.8
 
 ### Patch Changes
