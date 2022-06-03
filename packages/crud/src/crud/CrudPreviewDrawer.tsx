@@ -38,7 +38,7 @@ const CrudPreviewDrawer = (props) => {
           onClose: resetPreview,
           borderBottom: true,
           size: 'small',
-          actions: [
+          actionButtons: [
             !disableManage && {
               key: 'manage',
               children: 'Manage',

@@ -1,6 +1,7 @@
 import React from 'react'
+import startCase from 'lodash/startCase'
 import { Controller, useFormContext } from 'react-hook-form'
-import { Grid, GridProps, Card, CardProps } from '@gravis-os/ui'
+import { Card, CardProps, Grid, GridProps, StackProps } from '@gravis-os/ui'
 import {
   StorageAvatarWithUpload,
   StorageFiles,
@@ -10,12 +11,23 @@ import ControlledAmountField from './ControlledAmountField'
 import ControlledRateField from './ControlledRateField'
 import ControlledSwitchField from './ControlledSwitchField'
 import ControlledModelField from './ControlledModelField'
-import { CrudItem, CrudModule } from '../types'
+import { CrudItem, CrudModule, RenderPropsFunction } from '../types'
 import ControlledTextField from './ControlledTextField'
 import FieldEffectProvider from './FieldEffectProvider'
 import ControlledPercentageField from './ControlledPercentageField'
 import ControlledPasswordField from './ControlledPasswordField'
 import ControlledHtmlField from './ControlledHtmlField'
+import getRelationalObjectKey from './getRelationalObjectKey'
+import FormSectionReadOnlyStack from './FormSectionReadOnlyStack'
+
+export interface FormSectionRenderReadOnlyProps {
+  item?: Record<string, unknown>
+  name: string
+  module: CrudModule
+  label: string
+  value: Record<string, React.ReactNode>
+  title: string
+}
 
 export type FormSectionFieldFunction = ({
   isNew,
@@ -45,6 +57,12 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   item?: CrudItem
   isNew?: boolean
   isPreview?: boolean
+
+  // Read Only
+  isReadOnly?: boolean
+  readOnlySx?: StackProps['sx']
+  renderReadOnly?: RenderPropsFunction<FormSectionRenderReadOnlyProps>
+
   disableCard?: boolean
   module?: CrudModule
   disabledFields?: string[]
@@ -60,6 +78,12 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     module: injectedModule,
     gridProps,
     fields,
+
+    // Read Only
+    isReadOnly,
+    readOnlySx,
+    renderReadOnly,
+
     ...rest
   } = props
 
@@ -68,10 +92,12 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
   if (!formContext) return null
   const { control, setValue } = formContext
 
-  // Render Form Field
-  const renderFormField = (formField) => {
-    const { type, module, ...rest } = formField
-    const { name, disabled } = rest
+  /**
+   * Render Form Field
+   */
+  const renderField = (args) => {
+    const { type, module, ...rest } = args
+    const { name, disabled, label: injectedLabel } = rest
 
     // Calculate if the field is in disabledFields, else fallback to disableProp is available
     const nextDisabled = Boolean(disabledFields?.includes(name)) || disabled
@@ -82,6 +108,48 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
       isNew,
       setValue,
       ...(disabledFields?.length && { disabled: nextDisabled }),
+    }
+
+    if (isReadOnly) {
+      const label = injectedLabel || startCase(name)
+
+      switch (type) {
+        case 'model':
+          const modelName = getRelationalObjectKey(name)
+          const modelLabel = injectedLabel || startCase(modelName)
+          const modelValue = item[getRelationalObjectKey(name)]
+
+          // Escape if no value found
+          if (!modelValue) return null
+
+          const title = modelValue[module.pk || 'title']
+
+          if (renderReadOnly) {
+            return renderReadOnly({
+              item,
+              name,
+              module,
+              label: modelLabel,
+              value: modelValue,
+              title,
+            })
+          }
+          return (
+            <FormSectionReadOnlyStack
+              label={modelLabel}
+              title={title}
+              sx={readOnlySx}
+            />
+          )
+        default:
+          return (
+            <FormSectionReadOnlyStack
+              label={label}
+              title={item[name]}
+              sx={readOnlySx}
+            />
+          )
+      }
     }
 
     switch (type) {
@@ -173,7 +241,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
   }
 
   // Render Field
-  const renderField = (field) => {
+  const renderFieldWithWrapper = (field) => {
     const { key, gridProps, fieldEffect, hidden, ...rest } = field
 
     // Hide field
@@ -202,7 +270,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     }
 
     // Construct switch
-    const renderFieldJsx = () => {
+    const renderFieldWrapperJsx = () => {
       switch (true) {
         // Custom JSX, injected props and render the JSX directly
         case isJsxField:
@@ -215,17 +283,17 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
         case isGridField:
           const gridFieldColumns = field.length
           return field.map((f) =>
-            renderField({
+            renderFieldWithWrapper({
               ...f,
               gridProps: { md: 12 / gridFieldColumns, ...f.gridProps },
             })
           )
         // Default Field Render based on object shape
         default:
-          return <Grid {...gridItemProps}>{renderFormField(rest)}</Grid>
+          return <Grid {...gridItemProps}>{renderField(rest)}</Grid>
       }
     }
-    const fieldJsx = renderFieldJsx()
+    const fieldJsx = renderFieldWrapperJsx()
 
     // Wrappers
     if (hasFieldEffect) {
@@ -241,7 +309,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
 
   const sectionJsx = (
     <Grid container spacing={2}>
-      {fields.map(renderField)}
+      {fields.map(renderFieldWithWrapper)}
     </Grid>
   )
 

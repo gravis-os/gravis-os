@@ -27,6 +27,9 @@ export * from './ListPage'
 export { default as getIsNew } from './getIsNew'
 export * from './getIsNew'
 
+export { default as ManageColumnsMenuButton } from './ManageColumnsMenuButton'
+export * from './ManageColumnsMenuButton'
+
 export { default as ModelField } from './ModelField'
 export * from './ModelField'
 

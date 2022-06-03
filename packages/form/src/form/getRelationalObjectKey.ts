@@ -1,3 +1,3 @@
-const getRelationalObjectKey = key => `${key.split('_id')[0]}`
+const getRelationalObjectKey = (key) => `${key.split('_id')[0]}`
 
 export default getRelationalObjectKey

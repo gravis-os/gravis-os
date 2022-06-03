@@ -15,7 +15,8 @@ import {
 
 export interface PageHeaderProps
   extends Omit<BoxProps, 'title' | 'borderBottom'> {
-  actions?: ButtonProps[]
+  actions?: React.ReactNode
+  actionButtons?: ButtonProps[]
   breadcrumbs?: BreadcrumbsProps['items']
   breadcrumbsProps?: Omit<BreadcrumbsProps, 'items'>
   borderBottom?: boolean
@@ -32,6 +33,7 @@ export interface PageHeaderProps
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const {
     actions,
+    actionButtons,
     button,
     buttonProps,
     title,
@@ -48,6 +50,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
   } = props
 
   const isSmall = size === 'small'
+  const spacing = isSmall ? 0.5 : 1
 
   return (
     <Box
@@ -66,9 +69,10 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
         alignItems="flex-end"
         spacing={1}
         justifyContent="space-between"
+        sx={{ flexDirection: { xs: 'column', md: 'row' } }}
       >
         {/* Left */}
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack direction="row" alignItems="center" spacing={spacing}>
           {onClose && (
             <IconButton size={size} onClick={onClose}>
               <CloseOutlinedIcon />
@@ -80,7 +84,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
             )}
             {title &&
               (typeof title === 'string' ? (
-                <Typography variant={isSmall ? 'h3' : 'h2'}>{title}</Typography>
+                <Typography variant={isSmall ? 'h4' : 'h2'}>{title}</Typography>
               ) : (
                 title
               ))}
@@ -92,22 +96,23 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
           direction="row"
           alignItems="center"
           justifyContent="flex-end"
-          spacing={0.5}
+          spacing={spacing}
         >
-          <div>
-            {actions?.map((action) => (
-              <Button size={size} key={action.key} {...action} />
+          {actions}
+
+          {actionButtons?.map((action) => (
+            <Button size={size} key={action.key} {...action} />
+          ))}
+
+          {button ||
+            (buttonProps && (
+              <Button
+                size={size}
+                variant="contained"
+                color="primary"
+                {...buttonProps}
+              />
             ))}
-            {button ||
-              (buttonProps && (
-                <Button
-                  size={size}
-                  variant="contained"
-                  color="primary"
-                  {...buttonProps}
-                />
-              ))}
-          </div>
         </Stack>
       </Stack>
 

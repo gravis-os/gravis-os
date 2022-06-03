@@ -7,7 +7,7 @@ export interface ControlledTextFieldProps {
   name: string
 }
 
-const ControlledTextField: React.FC<ControlledTextFieldProps> = props => {
+const ControlledTextField: React.FC<ControlledTextFieldProps> = (props) => {
   const { control, ...rest } = props
   return (
     <Controller

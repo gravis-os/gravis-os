@@ -6,7 +6,7 @@ import {
 
 export interface DividerProps extends MuiDividerProps {}
 
-const Divider: React.FC<DividerProps> = props => {
+const Divider: React.FC<DividerProps> = (props) => {
   return <MuiDivider {...props} />
 }
 

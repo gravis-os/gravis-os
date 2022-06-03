@@ -64,10 +64,11 @@ const gridWrapperSx = {
 }
 
 export interface AgGridProps extends AgGridReactProps {
-  sx?: BoxProps['sx']
+  disableResizeGrid?: boolean
   enableExport?: boolean
   exportProject?: string
   height?: number
+  sx?: BoxProps['sx']
 }
 
 const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
@@ -76,6 +77,7 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
       height: injectedHeight,
       children,
       sx,
+      disableResizeGrid,
       enableExport,
       exportProject,
       onGridReady: injectedOnGridReady,
@@ -93,6 +95,7 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
     // Responsive
     const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
     const resizeGrid = (params) => {
+      if (disableResizeGrid) return
       switch (true) {
         case isDesktop:
           return params.api.sizeColumnsToFit()

@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import { useRouter } from 'next/router'
 import { CircularProgress, ButtonProps } from '@gravis-os/ui'
 import {
@@ -24,7 +24,7 @@ export interface CrudFormProps {
   item?: CrudItem // Typically gets injected via DetailPage cloneElement
   setItem?: React.Dispatch<React.SetStateAction<CrudItem>> // Typically gets injected via DetailPage cloneElement
   disableHeader?: boolean
-  formSectionsProps?: FormSectionsProps
+  formSectionsProps?: Omit<FormSectionsProps, 'sections'>
   sections: FormSectionsProps['sections']
   module: CrudModule
   useCrudFormProps?: Partial<UseCrudFormArgs>
@@ -86,6 +86,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     sections: [...sections, metaFormSection],
     module,
     disabledFields,
+    ...formSectionsProps,
   }
 
   // Loading state
@@ -95,7 +96,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     <Form
       form={form}
       onSubmit={handleSubmit}
-      formJsx={<FormJsxComponent {...formJsxProps} {...formSectionsProps} />}
+      formJsx={<FormJsxComponent {...formJsxProps} />}
       {...formProps}
     >
       {(renderProps) => (

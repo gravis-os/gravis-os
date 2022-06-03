@@ -2,12 +2,18 @@ interface PrintNumberOptions {
   type?: string | 'amount'
   zeroPlaceholder?: string
   dp?: number
+  currency?: string
 }
 
 type PrintNumber = (value: number, options?: PrintNumberOptions) => string
 
 const printNumber: PrintNumber = (value: number, options = {}) => {
-  const { type = 'amount', zeroPlaceholder = '-', dp = 0 } = options
+  const {
+    currency = 'SGD',
+    type = 'amount',
+    zeroPlaceholder = '-',
+    dp = 0,
+  } = options
 
   const isNumber =
     ['number', 'string'].includes(typeof value) && !Number.isNaN(Number(value))
@@ -23,7 +29,7 @@ const printNumber: PrintNumber = (value: number, options = {}) => {
       // If maximumFractionDigits is 2 and roundingIncrement is 5, then the number is rounded to the nearest 0.05 ("nickel rounding").
       return new Intl.NumberFormat('en-SG', {
         style: 'currency',
-        currency: 'SGD',
+        currency,
         maximumFractionDigits: dp,
       }).format(value)
     default:

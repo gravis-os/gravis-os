@@ -34,6 +34,9 @@ export * from './Container'
 export { default as Card } from './Card/Card'
 export * from './Card'
 
+export { default as CheckboxGroup } from './CheckboxGroup'
+export * from './CheckboxGroup'
+
 export { default as StatStack } from './StatStack'
 export * from './StatStack'
 
@@ -54,6 +57,9 @@ export * from './Grid'
 
 export { default as Layout } from './Layout'
 export * from './Layout'
+
+export { default as MenuButton } from './MenuButton'
+export * from './MenuButton'
 
 export { default as Tabs } from './Tabs'
 export * from './Tabs'

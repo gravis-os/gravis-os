@@ -1,11 +1,14 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import { SxProps } from '@mui/material'
+import { Stack } from '@gravis-os/ui'
 import AgGrid, { AgGridProps } from './AgGrid'
 // Framework Components
 import AgGridModelFieldEditor from './AgGridModelFieldEditor'
+import ManageColumnsMenuButton from './ManageColumnsMenuButton'
 
 export interface DataTableProps extends AgGridProps {
   sx?: SxProps
+  actions?: React.ReactNode
 }
 
 /**
@@ -20,27 +23,59 @@ const DataTable = React.forwardRef<
   React.RefObject<any>,
   React.PropsWithChildren<DataTableProps>
 >((props, ref) => {
-  const { frameworkComponents, rowData, ...rest } = props
+  const {
+    actions,
+    frameworkComponents,
+    rowData,
+    columnDefs: injectedColumnDefs,
+    ...rest
+  } = props
+
+  const [columnDefs, setColumnDefs] = useState(injectedColumnDefs)
+  useEffect(() => {
+    setColumnDefs(injectedColumnDefs)
+  }, [injectedColumnDefs])
 
   return (
-    <AgGrid
-      frameworkComponents={{
-        ModelFieldEditor: AgGridModelFieldEditor,
-        ...frameworkComponents,
-      }}
-      ref={ref}
-      rowData={rowData}
-      // Ag Grid Props
-      animateRows
-      enableCellChangeFlash
-      rowHeight={50}
-      rowSelection="multiple"
-      rowDragManaged
-      rowDragMultiRow
-      suppressRowClickSelection
-      suppressMoveWhenRowDragging
-      {...rest}
-    />
+    <>
+      <Stack
+        direction="row"
+        alignItems="flex-end"
+        justifyContent="flex-end"
+        spacing={1}
+        sx={{ mb: 1 }}
+      >
+        {actions}
+
+        {/* ManageColumnsMenuButton */}
+        <ManageColumnsMenuButton
+          initialColumnDefs={injectedColumnDefs}
+          columnDefs={columnDefs}
+          setColumnDefs={setColumnDefs}
+        />
+      </Stack>
+
+      <AgGrid
+        frameworkComponents={{
+          ModelFieldEditor: AgGridModelFieldEditor,
+          ...frameworkComponents,
+        }}
+        ref={ref}
+        columnDefs={columnDefs}
+        rowData={rowData}
+        // Ag Grid Props
+        animateRows
+        disableResizeGrid
+        enableCellChangeFlash
+        rowHeight={50}
+        rowSelection="multiple"
+        rowDragManaged
+        rowDragMultiRow
+        suppressRowClickSelection
+        suppressMoveWhenRowDragging
+        {...rest}
+      />
+    </>
   )
 })
 

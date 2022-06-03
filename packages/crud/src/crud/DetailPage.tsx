@@ -34,7 +34,7 @@ interface DetailTab extends Omit<TabProps, 'children' | 'hidden'> {
 export interface DetailPageProps {
   bannerProps?: DetailBannerProps
   children?: React.ReactNode | RenderPropsFunction<DetailPageRenderProps>
-  headerProps?: DetailPageHeaderProps
+  headerProps?: Omit<DetailPageHeaderProps, 'module'>
   module: CrudModule
   tabs?: DetailTab[]
   tabsProps?: TabsProps
@@ -65,7 +65,12 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
 
   // Detail page shorthand with CrudForm
   const children = formSections ? (
-    <CrudForm {...renderProps} sections={formSections} {...crudFormProps} />
+    <CrudForm
+      {...renderProps}
+      sections={formSections}
+      {...crudFormProps}
+      headerProps={headerProps}
+    />
   ) : (
     injectedChildren
   )

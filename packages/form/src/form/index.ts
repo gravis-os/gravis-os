@@ -7,6 +7,9 @@ export * from './FormSections'
 export { default as FormSection } from './FormSection'
 export * from './FormSection'
 
+export { default as FormSectionReadOnlyStack } from './FormSectionReadOnlyStack'
+export * from './FormSectionReadOnlyStack'
+
 export { default as FieldEffectProvider } from './FieldEffectProvider'
 export * from './FieldEffectProvider'
 

@@ -107,7 +107,15 @@ const Card: React.FC<CardProps> = (props) => {
   // ==============================
   const hasContent = Boolean(Object.keys(content).length)
   const { title: contentTitle, subtitle: contentSubtitle } = content || {}
-  const cardContentProps = contentProps
+  const cardContentProps = {
+    ...contentProps,
+    sx: {
+      ...contentProps?.sx,
+      ...(disableLastGutterBottom && {
+        '&&.MuiCardContent-root': { pb: 1 }, // TODO@Joel: Fix this
+      }),
+    },
+  }
 
   return (
     <MuiCard
@@ -122,9 +130,6 @@ const Card: React.FC<CardProps> = (props) => {
             textTransform: 'none',
           },
         },
-
-        // disableLastGutterBottom
-        ...(disableLastGutterBottom && { paddingBottom: 'initial' }),
 
         // Padding
         ...(py && { '&& .MuiCardContent-root': { py } }),

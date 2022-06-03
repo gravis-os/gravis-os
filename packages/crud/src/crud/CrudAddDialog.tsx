@@ -3,7 +3,7 @@ import { Slide } from '@mui/material'
 import { Dialog } from '@gravis-os/ui'
 import CrudForm from './CrudForm'
 
-const CrudAddDialog = props => {
+const CrudAddDialog = (props) => {
   const {
     addDialogOpen,
     module,
@@ -28,7 +28,7 @@ const CrudAddDialog = props => {
           disableBreadcrumbs: true,
           onClose: resetAddDialogOpen,
           borderBottom: true,
-          actions: [
+          actionButtons: [
             { key: 'cancel', children: 'Cancel', onClick: resetAddDialogOpen },
           ],
         }}
