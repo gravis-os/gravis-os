@@ -22,6 +22,7 @@ import {
   FormSectionReadOnlyStack,
   FormSectionRenderReadOnlyProps,
 } from '@gravis-os/form'
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 
 const CompanyReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
   props
@@ -104,12 +105,16 @@ const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
   )
 }
 
-export interface QuotationFormSectionsProps {
+export interface DocumentFormSectionsProps {
   sections: FormSectionProps[]
+  isReadOnly?: boolean
+  onEdit?: () => void
+  onSave?: () => void
 }
 
-const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
+const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
   const { sections, ...rest } = props
+  const { isReadOnly } = rest
 
   if (!sections?.length) return null
 
@@ -121,8 +126,12 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
   const actionButtons = [
     {
       key: 'edit',
-      children: 'Edit',
-      startIcon: <ModeEditOutlineOutlinedIcon />,
+      children: isReadOnly ? 'Edit' : 'Save',
+      startIcon: isReadOnly ? (
+        <ModeEditOutlineOutlinedIcon />
+      ) : (
+        <SaveOutlinedIcon />
+      ),
     },
     {
       key: 'print',
@@ -157,8 +166,8 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
         >
           {/* Left */}
           <Stack direction="row" alignItems="center" spacing={1}>
-            {actionButtons?.map((action) => (
-              <Button key={action.key} {...action} />
+            {actionButtons?.map((actionButton) => (
+              <Button key={actionButton.key} {...actionButton} />
             ))}
           </Stack>
 
@@ -216,7 +225,7 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
             >
               <Grid container>
                 <Grid item xs={12} md={6}>
-                  <Grid container>
+                  <Grid container spacing={6}>
                     {/* Project + Amount */}
                     <FormSection
                       {...formSectionProps}
@@ -244,7 +253,7 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
                 <Grid xs={0} md={2} />
 
                 <Grid item xs={12} md={4}>
-                  <Grid container>
+                  <Grid container spacing={6}>
                     {/* Total */}
                     <FormSection
                       {...formSectionProps}
@@ -268,7 +277,7 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
           </Stack>
         </Card>
 
-        {/* QuotationLines */}
+        {/* Document Lines */}
         <Box>
           <FormSection
             {...formSectionProps}
@@ -281,12 +290,14 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
           <Stack direction="row" spacing={1} justifyContent="space-between">
             <Grid container>
               <Grid item xs={12} md={6}>
-                <Grid container>
+                <Grid container spacing={4}>
                   {/* Notes */}
                   <FormSection
+                    gridProps={{ spacing: 4 }}
                     {...formSectionProps}
                     {...getSectionPropsByKey('notes')}
                   />
+
                   {/* Attachments */}
                   <FormSection
                     {...formSectionProps}
@@ -306,6 +317,7 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
                       alignItems: 'center',
                       justifyContent: 'space-between',
                     }}
+                    gridProps={{ spacing: 0.5 }}
                     {...formSectionProps}
                     {...getSectionPropsByKey('pricing')}
                   />
@@ -319,4 +331,4 @@ const QuotationFormSections: React.FC<QuotationFormSectionsProps> = (props) => {
   )
 }
 
-export default QuotationFormSections
+export default DocumentFormSections

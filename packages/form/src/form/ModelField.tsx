@@ -358,6 +358,7 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
           getIsCreateOption({ option: newValue, pk })
         ) {
           const createValue = getCreateOption({ option: newValue, pk })
+          console.log('jjj: createValue', { createValue, props })
           // TODO@Joel: Trigger setCreateValue here to trigger modal in useEffect
           // TODO@Joel: Reset `createValue` once we've created the item
         }

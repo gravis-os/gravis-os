@@ -6,13 +6,14 @@ export interface LinkProps extends MuiLinkProps {
   pointer?: boolean
 }
 
-const Link: React.FC<LinkProps> = props => {
+const Link: React.FC<LinkProps> = (props) => {
   const { href, children, pointer, sx, ...rest } = props
 
   const childrenJsx = (
     <MuiLink
       sx={{
         ...(pointer && { cursor: 'pointer' }),
+        '&:hover': { color: 'primary.main' },
         ...sx,
       }}
       {...rest}

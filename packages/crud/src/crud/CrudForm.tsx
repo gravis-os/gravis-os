@@ -116,6 +116,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
               }}
             />
           )}
+
           {typeof children === 'function'
             ? children(renderProps)
             : renderProps.formJsx}

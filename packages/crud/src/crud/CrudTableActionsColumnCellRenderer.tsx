@@ -9,7 +9,14 @@ import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined'
 import { useQueryClient } from 'react-query'
-import { Stack, Dialog, Button, IconButton } from '@gravis-os/ui'
+import {
+  Stack,
+  Dialog,
+  Button,
+  IconButton,
+  MoreIconButton,
+  MoreIconButtonProps,
+} from '@gravis-os/ui'
 import toast from 'react-hot-toast'
 import getCrudItemHref from './getCrudItemHref'
 import { CrudItem, CrudModule } from './typings'
@@ -19,12 +26,17 @@ export interface CrudTableActionsColumnCellRendererProps {
   data: CrudItem
   disableManage?: boolean
   disableDelete?: boolean
+  renderMoreItems?: ({
+    data,
+  }: {
+    data: CrudItem
+  }) => MoreIconButtonProps['items']
 }
 
 const CrudTableActionsColumnCellRenderer: React.FC<
   CrudTableActionsColumnCellRendererProps
-> = props => {
-  const { module, data, disableDelete, disableManage } = props
+> = (props) => {
+  const { module, data, disableDelete, disableManage, renderMoreItems } = props
   const { table } = module
 
   // Query
@@ -69,15 +81,6 @@ const CrudTableActionsColumnCellRenderer: React.FC<
       {/* Delete */}
       {!disableDelete && (
         <>
-          <IconButton
-            size="small"
-            onClick={handleDeleteClick}
-            sx={{ '&:hover': { color: 'error.main' } }}
-            tooltip="Delete"
-          >
-            <DeleteOutlineOutlinedIcon fontSize="small" />
-          </IconButton>
-
           {/* Delete Dialog */}
           <Dialog open={deleteDialogOpen} onClose={handleDeleteDialogClose}>
             <DialogTitle>Delete Confirmation</DialogTitle>
@@ -95,6 +98,21 @@ const CrudTableActionsColumnCellRenderer: React.FC<
           </Dialog>
         </>
       )}
+
+      {/* More */}
+      <MoreIconButton
+        size="small"
+        items={[
+          ...(renderMoreItems ? renderMoreItems({ data }) : []),
+          !disableDelete && {
+            key: 'delete',
+            value: 'delete',
+            label: 'Delete',
+            icon: <DeleteOutlineOutlinedIcon fontSize="small" />,
+            onClick: handleDeleteClick,
+          },
+        ].filter(Boolean)}
+      />
     </Stack>
   )
 }

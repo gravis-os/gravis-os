@@ -29,7 +29,7 @@ export interface FormProps<TFormValues>
   children?: React.ReactNode | RenderPropsFunction<FormRenderPropsInterface>
 }
 
-const Form: React.FC<FormProps<any>> = props => {
+const Form: React.FC<FormProps<any>> = (props) => {
   const {
     onSubmit,
     form: injectedForm,
@@ -64,7 +64,7 @@ const Form: React.FC<FormProps<any>> = props => {
             disabled={isSubmitting}
             {...submitButtonProps}
           >
-            Save
+            {submitButtonProps?.children || 'Save'}
           </Button>
         )
         const formRenderProps: FormRenderPropsInterface = {

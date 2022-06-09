@@ -21,6 +21,8 @@ const metaFormSection = {
       { key: 'updated_by', name: 'updated_by', type: 'input', disabled: true },
     ],
   ],
+  collapsible: true,
+  defaultCollapsed: true,
 }
 
 export default metaFormSection

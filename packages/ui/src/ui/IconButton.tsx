@@ -14,11 +14,19 @@ export interface IconButtonProps extends MuiIconButtonProps {
   tooltip?: string
 }
 
-const IconButton: React.FC<IconButtonProps> = props => {
-  const { title, href, children, tooltip, ...rest } = props
+const IconButton: React.FC<IconButtonProps> = (props) => {
+  const { title, href, children, tooltip, sx, ...rest } = props
 
   const childrenJsx = (
-    <MuiIconButton {...rest}>{children || title}</MuiIconButton>
+    <MuiIconButton
+      sx={{
+        '&:hover': { color: 'primary.main' },
+        ...sx,
+      }}
+      {...rest}
+    >
+      {children || title}
+    </MuiIconButton>
   )
 
   return flowRight([withHref({ href }), withTooltip({ tooltip })])(childrenJsx)

@@ -47,6 +47,10 @@ export interface FormSectionField {
   gridProps?: GridProps
   hidden?: boolean | FormSectionFieldFunction
   disabled?: boolean | FormSectionFieldFunction
+
+  // Filters
+  op?: string
+  filterKey?: string
 }
 
 export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
@@ -117,6 +121,9 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
         case 'model':
           const modelName = getRelationalObjectKey(name)
           const modelLabel = injectedLabel || startCase(modelName)
+
+          if (!item) return null
+
           const modelValue = item[getRelationalObjectKey(name)]
 
           // Escape if no value found
@@ -145,7 +152,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
           return (
             <FormSectionReadOnlyStack
               label={label}
-              title={item[name]}
+              title={item?.[name]}
               sx={readOnlySx}
             />
           )
@@ -308,7 +315,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
   }
 
   const sectionJsx = (
-    <Grid container spacing={2}>
+    <Grid container spacing={2} {...gridProps}>
       {fields.map(renderFieldWithWrapper)}
     </Grid>
   )

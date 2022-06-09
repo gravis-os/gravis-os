@@ -2,6 +2,7 @@ import React from 'react'
 import { useTheme } from '@mui/material/styles'
 import { useMediaQuery } from '@mui/material'
 import startCase from 'lodash/startCase'
+import merge from 'lodash/merge'
 import get from 'lodash/get'
 import flowRight from 'lodash/flowRight'
 import { Stack, Link } from '@gravis-os/ui'
@@ -86,10 +87,16 @@ const withPreview = (props) => {
                 <StorageAvatarWithUpload
                   module={module}
                   src={params.data.avatar_src}
+                  alt={params.data.avatar_alt || params.data.title}
                   size={32}
                 />
               )}
-              <Link color="inherit" onClick={handlePreviewClick} pointer>
+              <Link
+                underline="hover"
+                color="inherit"
+                onClick={handlePreviewClick}
+                pointer
+              >
                 {params.value}
               </Link>
             </Stack>
@@ -112,7 +119,7 @@ const withTitle =
       ...columnDefs.slice(1),
     ]
 
-const getCrudTableColumnDefs = (props) => {
+const useGetCrudTableColumnDefs = (props) => {
   const {
     columnDefs: injectedColumnDefs,
     module,
@@ -134,21 +141,37 @@ const getCrudTableColumnDefs = (props) => {
         withPreview({ setPreview, module, previewFormSections }),
         withHeaderNames(),
         withTitle({ isDesktop }),
-      ])(injectedColumnDefs),
+      ])(injectedColumnDefs).filter(({ field }) => field !== 'actions'),
     [injectedColumnDefs, isDesktop, module, previewFormSections]
   )
 
+  // Actions column
+  const injectedActionsColumnDef = injectedColumnDefs.find(
+    ({ field }) => field === 'actions'
+  )
+  const hasInjectedActionsColumnDef = Boolean(injectedActionsColumnDef)
+  const { renderMoreItems } = injectedActionsColumnDef || {}
+
   return [
     ...(nextColumnDefs as any),
-    {
-      field: 'actions',
-      pinned: isDesktop && 'right',
-      minWidth: 160,
-      editable: false,
-      cellRenderer: CrudTableActionsColumnCellRenderer,
-      cellRendererParams: { module, disableDelete, disableManage },
-    },
+    merge(
+      {},
+      {
+        field: 'actions',
+        pinned: isDesktop && 'right',
+        editable: false,
+        maxWidth: 100,
+        cellRenderer: CrudTableActionsColumnCellRenderer,
+        cellRendererParams: {
+          module,
+          disableDelete,
+          disableManage,
+          renderMoreItems,
+        },
+      },
+      hasInjectedActionsColumnDef ? injectedActionsColumnDef : {}
+    ),
   ].filter(Boolean)
 }
 
-export default getCrudTableColumnDefs
+export default useGetCrudTableColumnDefs

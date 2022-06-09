@@ -54,7 +54,7 @@ Add HtmlField
 
 ### Updated
 
-Fix issue with broken getCrudTableColumnDefs in first column
+Fix issue with broken useGetCrudTableColumnDefs in first column
 
 ## [0.1.1] - 2022-04-17
 

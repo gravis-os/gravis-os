@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   Card as MuiCard,
   CardProps as MuiCardProps,
@@ -12,6 +12,7 @@ import ButtonLink, { ButtonLinkProps } from '../ButtonLink'
 import CardTable, { CardTableProps } from './CardTable'
 import CardList, { CardListProps } from './CardList'
 import CardContent, { CardContentProps } from './CardContent'
+import Collapse from '../Collapse'
 
 interface CardLinkInterface extends ButtonLinkProps {
   key: string
@@ -60,22 +61,30 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   disableLastGutterBottom?: boolean
   disableBorderRadiusTop?: boolean
   disableBorderRadiusBottom?: boolean
+
+  // Collapse
+  collapsible?: boolean
+  defaultCollapsed?: boolean
 }
 
 const Card: React.FC<CardProps> = (props) => {
   const {
+    // Collapsed
+    collapsible,
+    defaultCollapsed,
+
+    children,
+    content = {},
     contentProps,
     title,
     subtitle,
     icon,
     header,
-    content = {},
     list,
     table,
     links,
     actions,
     sx,
-    children,
     py,
     stretch,
     disableHeaderDivider,
@@ -84,6 +93,11 @@ const Card: React.FC<CardProps> = (props) => {
     disableBorderRadiusBottom,
     ...rest
   } = props
+
+  // Collapse
+  const initialCollapsed = defaultCollapsed || false
+  const [collapsed, setCollapsed] = useState(initialCollapsed)
+  const toggleCollapsed = () => setCollapsed(!collapsed)
 
   // ==============================
   // Header
@@ -116,6 +130,45 @@ const Card: React.FC<CardProps> = (props) => {
       }),
     },
   }
+
+  const contentJsx = (
+    <>
+      {hasContent && (
+        <CardContent {...cardContentProps}>
+          <Typography variant="h5" gutterBottom>
+            {contentTitle}
+          </Typography>
+          <Typography variant="body2" color="textSecondary">
+            {contentSubtitle}
+          </Typography>
+        </CardContent>
+      )}
+      {list && <CardList {...list} />}
+      {table && <CardTable {...table} />}
+      {children && <CardContent {...cardContentProps}>{children}</CardContent>}
+      {links && (
+        <CardActions>
+          {links.map((link) => {
+            const { title, ...rest } = link
+
+            return (
+              <ButtonLink color="primary" {...rest}>
+                {title}
+              </ButtonLink>
+            )
+          })}
+        </CardActions>
+      )}
+      {actions && (
+        <CardActions>
+          {actions.map((action, i) => {
+            const { component } = action
+            return <div key={`action-${i}`}>{component}</div>
+          })}
+        </CardActions>
+      )}
+    </>
+  )
 
   return (
     <MuiCard
@@ -153,44 +206,19 @@ const Card: React.FC<CardProps> = (props) => {
     >
       {hasHeader && (
         <CardHeader
+          collapsed={!collapsed}
+          collapsible={collapsible}
+          onCollapsedClick={toggleCollapsed}
           divider={!disableHeaderDivider}
           titleTypographyProps={{ variant: 'h4' }}
           {...cardHeaderProps}
         />
       )}
-      {hasContent && (
-        <CardContent {...cardContentProps}>
-          <Typography variant="h5" gutterBottom>
-            {contentTitle}
-          </Typography>
-          <Typography variant="body2" color="textSecondary">
-            {contentSubtitle}
-          </Typography>
-        </CardContent>
-      )}
-      {list && <CardList {...list} />}
-      {table && <CardTable {...table} />}
-      {children && <CardContent {...cardContentProps}>{children}</CardContent>}
-      {links && (
-        <CardActions>
-          {links.map((link) => {
-            const { title, ...rest } = link
 
-            return (
-              <ButtonLink color="primary" {...rest}>
-                {title}
-              </ButtonLink>
-            )
-          })}
-        </CardActions>
-      )}
-      {actions && (
-        <CardActions>
-          {actions.map((action, i) => {
-            const { component } = action
-            return <div key={`action-${i}`}>{component}</div>
-          })}
-        </CardActions>
+      {collapsible ? (
+        <Collapse in={!collapsed}>{contentJsx}</Collapse>
+      ) : (
+        contentJsx
       )}
     </MuiCard>
   )

@@ -37,6 +37,12 @@ export * from './Card'
 export { default as CheckboxGroup } from './CheckboxGroup'
 export * from './CheckboxGroup'
 
+export { default as Chip } from './Chip'
+export * from './Chip'
+
+export { default as ChipStack } from './ChipStack'
+export * from './ChipStack'
+
 export { default as StatStack } from './StatStack'
 export * from './StatStack'
 
@@ -61,17 +67,14 @@ export * from './Layout'
 export { default as MenuButton } from './MenuButton'
 export * from './MenuButton'
 
+export { default as MoreIconButton } from './MoreIconButton'
+export * from './MoreIconButton'
+
 export { default as Tabs } from './Tabs'
 export * from './Tabs'
 
 export { default as Tab } from './Tab'
 export * from './Tab'
-
-export { default as Chip } from './Chip'
-export * from './Chip'
-
-export { default as ChipStack } from './ChipStack'
-export * from './ChipStack'
 
 export { default as Paper } from './Paper'
 export * from './Paper'

@@ -21,6 +21,9 @@ export * from './DetailPage'
 export { default as DetailPageHeader } from './DetailPageHeader'
 export * from './DetailPageHeader'
 
+export { default as fetchCrudItems } from './fetchCrudItems'
+export * from './fetchCrudItems'
+
 export { default as ListPage } from './ListPage'
 export * from './ListPage'
 
@@ -29,9 +32,6 @@ export * from './getIsNew'
 
 export { default as ManageColumnsMenuButton } from './ManageColumnsMenuButton'
 export * from './ManageColumnsMenuButton'
-
-export { default as ModelField } from './ModelField'
-export * from './ModelField'
 
 export { default as useGetItem } from './useGetItem'
 export * from './useGetItem'

@@ -27,6 +27,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
           const user = await handleSignIn(values, authOptions)
           if (user) router.push(redirectTo)
         }}
+        submitButtonProps={{ children: 'Login' }}
         {...rest}
       />
     </AuthBox>

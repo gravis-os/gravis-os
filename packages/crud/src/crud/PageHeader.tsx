@@ -64,6 +64,12 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
       }}
       {...rest}
     >
+      {/* Breadcrumbs */}
+      {!disableBreadcrumbs && (
+        <Breadcrumbs items={breadcrumbs} {...breadcrumbsProps} />
+      )}
+
+      {/* Title + Actions */}
       <Stack
         direction="row"
         alignItems="flex-end"
@@ -79,9 +85,6 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
             </IconButton>
           )}
           <div>
-            {!disableBreadcrumbs && (
-              <Breadcrumbs items={breadcrumbs} {...breadcrumbsProps} />
-            )}
             {title &&
               (typeof title === 'string' ? (
                 <Typography variant={isSmall ? 'h4' : 'h2'}>{title}</Typography>

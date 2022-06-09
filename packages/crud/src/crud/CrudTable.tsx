@@ -1,5 +1,4 @@
 import React, { useRef } from 'react'
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
 import { ColDef, ColGroupDef } from 'ag-grid-community/dist/lib/entities/colDef'
 import { useQuery } from 'react-query'
@@ -7,40 +6,13 @@ import { FormSectionsProps } from '@gravis-os/form'
 import DataTable from './DataTable'
 import { CrudModule } from './typings'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
-import getQueryFromFilters from './getQueryFromFilters'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
 import useRouterQueryFilters from './useRouterQueryFilters'
-import getCrudTableColumnDefs from './getCrudTableColumnDefs'
+import useGetCrudTableColumnDefs from './useGetCrudTableColumnDefs'
 import usePreviewDrawer from './usePreviewDrawer'
 import { CrudFormProps } from './CrudForm'
 import CrudPreviewDrawer from './CrudPreviewDrawer'
-
-// TODO@Joel: Abstract this to useListItems()
-const fetchItems = async (args: any = {}) => {
-  const { filters = {}, module, setQuery, filterFields } = args
-  const { table, select } = module
-
-  // Prepare query
-  const defaultQuery = supabaseClient
-    .from(table.name)
-    .select(select?.list || '*')
-    .order('id', { ascending: false })
-  const defaultQueryWithFilters = getQueryFromFilters(
-    defaultQuery,
-    filters,
-    filterFields
-  )
-
-  // Fire query
-  const onQuery = await (setQuery
-    ? setQuery(defaultQueryWithFilters)
-    : defaultQueryWithFilters)
-  const { data, error } = onQuery
-
-  if (error) throw new Error(error.message)
-
-  return data
-}
+import fetchCrudItems from './fetchCrudItems'
 
 type CrudTableColumn =
   | ColDef
@@ -98,7 +70,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   // List items Fetch items with ReactQuery's composite key using filters as a dep
   const { data: items, refetch } = useQuery(
     [table.name, filters],
-    () => fetchItems({ filters, module, setQuery, filterFields }),
+    () => fetchCrudItems({ filters, module, setQuery, filterFields }),
     // Only allow authenticated users to fetch CRUD items due to RLS
     { enabled: Boolean(user) }
   )
@@ -114,7 +86,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   const gridRef = useRef(null)
 
   // ColumnDefs
-  const columnDefs = getCrudTableColumnDefs({
+  const columnDefs = useGetCrudTableColumnDefs({
     columnDefs: injectedColumnDefs,
     module,
     disableDelete,

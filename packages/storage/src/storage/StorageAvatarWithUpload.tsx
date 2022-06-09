@@ -101,9 +101,10 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
 
       // If item, autoSave to DB
       if (item) {
+        const altKey = name.replace('_src', '_alt')
         await client
           .from(module.table.name)
-          .update([{ [name]: savedFileKey, [`${name}_alt`]: file.name }])
+          .update([{ [name]: savedFileKey, [altKey]: file.name }])
           .match({ [module.sk]: item[module.sk] })
       }
     } catch (error) {
@@ -145,10 +146,8 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
           if (!fileInputRef.current || !editable) return
           fileInputRef.current.click()
         }}
+        size={size}
         sx={{
-          width: size,
-          height: size,
-
           // Color
           backgroundColor: 'transparent',
           borderWidth: '1px',

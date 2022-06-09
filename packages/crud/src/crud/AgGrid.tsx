@@ -22,42 +22,41 @@ const wrapTextStyles: any = {
 const baseFontSize = 15
 
 const gridWrapperSx = {
-  '&.ag-theme-alpine .ag-root-wrapper': { border: 0 },
-  '&.ag-theme-alpine, &.ag-theme-alpine .ag-row': {
+  '&.ag-grid .ag-root-wrapper': { border: 0 },
+  '&.ag-grid, &.ag-grid .ag-row': {
     fontSize: {
       xs: baseFontSize - 2,
       sm: baseFontSize - 1,
       md: baseFontSize,
     },
   },
-  '&.ag-theme-alpine .ag-header-cell, &.ag-theme-alpine .ag-cell': {
+  '&.ag-grid .ag-header-cell, &.ag-grid .ag-cell': {
     display: 'flex',
     alignItems: 'center',
     px: 2,
     lineHeight: 1.2,
     ...wrapTextStyles,
   },
-  '&.ag-theme-alpine .ag-header, &.ag-theme-alpine .ag-header-cell-resize::after':
-    {
-      backgroundColor: 'transparent',
-    },
-  '&.ag-theme-alpine .ag-ltr .ag-floating-filter-button': { ml: 0.5 },
+  '&.ag-grid .ag-header, &.ag-grid .ag-header-cell-resize::after': {
+    backgroundColor: 'transparent',
+  },
+  '&.ag-grid .ag-ltr .ag-floating-filter-button': { ml: 0.5 },
 
   // ==============================
   // Row
   // ==============================
-  '&.ag-theme-alpine .ag-row-hover': {
+  '&.ag-grid .ag-row-hover': {
     backgroundColor: 'action.hover',
   },
 
   // ==============================
   // Header
   // ==============================
-  '&.ag-theme-alpine .ag-header': {
+  '&.ag-grid .ag-header': {
     borderBottomColor: 'divider',
   },
   // Font sizes
-  '&.ag-theme-alpine .ag-header-cell *': {
+  '&.ag-grid .ag-header-cell *': {
     ...wrapTextStyles,
     fontSize: baseFontSize - 1,
   },
@@ -92,6 +91,10 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
 
     // Theme
     const theme = useTheme()
+
+    // Dark mode
+    const isDarkMode = theme.palette.mode === 'dark'
+
     // Responsive
     const isDesktop = useMediaQuery(theme.breakpoints.up('lg'))
     const resizeGrid = (params) => {
@@ -127,7 +130,7 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
           '&': { '--ag-border-color': theme.palette.divider },
           ...sx,
         }}
-        className="ag-theme-alpine"
+        className={`ag-grid ag-theme-alpine${isDarkMode ? '-dark' : ''}`}
         id="grid-wrapper"
       >
         <AgGridReact
@@ -139,6 +142,8 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
             resizable: true,
             floatingFilter: false,
             suppressMenu: false,
+            flex: 1,
+            minWidth: 150,
             ...rest.defaultColDef,
           }}
           domLayout={isFixedHeight ? 'normal' : 'autoHeight'}
