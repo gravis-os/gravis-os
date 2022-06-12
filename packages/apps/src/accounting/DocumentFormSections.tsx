@@ -228,14 +228,23 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
                       {...getSectionPropsByKey('project')}
                     />
 
+                    {/* Company */}
+                    <FormSection
+                      {...formSectionProps}
+                      {...getSectionPropsByKey('company')}
+                    />
+
+                    {/* Contact */}
+                    <FormSection
+                      renderReadOnly={(props) => (
+                        <ContactReadOnlyFormSection {...props} />
+                      )}
+                      {...formSectionProps}
+                      {...getSectionPropsByKey('contact')}
+                    />
+
                     <Grid item>
                       <Grid container spacing={2}>
-                        {/* Company */}
-                        <FormSection
-                          {...formSectionProps}
-                          {...getSectionPropsByKey('company')}
-                        />
-
                         {/* Addresses */}
                         <FormSection
                           gridProps={{ md: true }}
@@ -273,15 +282,6 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
                         />
                       </Grid>
                     </Grid>
-
-                    {/* Contact */}
-                    <FormSection
-                      renderReadOnly={(props) => (
-                        <ContactReadOnlyFormSection {...props} />
-                      )}
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('contact')}
-                    />
                   </Grid>
                 </Grid>
 

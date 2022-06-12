@@ -170,9 +170,7 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
 
       const defaultSelect = `id, ${pk}`
 
-      const select = injectedSelect
-        ? ` ${pk}, ${injectedSelect}`
-        : defaultSelect
+      const select = injectedSelect ? `${pk}, ${injectedSelect}` : defaultSelect
 
       let query: PostgrestFilterBuilder<DataItem> = supabaseClient
         .from(table.name)
