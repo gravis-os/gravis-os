@@ -31,7 +31,7 @@ interface RenderFieldWithWrapperProps
 }
 const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const { formContext, sectionProps, fieldProps } = props
-  const { gridProps, isNew, isPreview, item } = sectionProps
+  const { isNew, isPreview, item } = sectionProps
 
   /**
    * Handle Recursion case
@@ -46,12 +46,10 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
     return fields.map((field) =>
       renderFieldWithWrapper({
         ...props,
-        sectionProps: {
-          ...sectionProps,
-          gridProps: { md: 12 / gridFieldColumns, ...field.gridProps },
-        },
+        sectionProps,
         fieldProps: {
           ...field,
+          gridProps: { md: 12 / gridFieldColumns, ...field.gridProps },
         },
       })
     )
@@ -65,7 +63,12 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const isJsxField = React.isValidElement(fieldProps)
   if (isJsxField) {
     return (
-      <Grid item xs={12} {...gridProps} sx={{ mb: 3, ...gridProps?.sx }}>
+      <Grid
+        item
+        xs={12}
+        {...sectionProps.gridProps}
+        sx={{ mb: 3, ...sectionProps.gridProps?.sx }}
+      >
         {React.cloneElement<FormSectionJsxFieldProps>(
           fieldProps as React.ReactElement,
           {
@@ -90,7 +93,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
 
   // Define children
   const childrenJsx = (
-    <Grid item xs={12} key={key} {...gridProps}>
+    <Grid item xs={12} key={key} {...fieldProps.gridProps}>
       {renderField(props as RenderFieldProps)}
     </Grid>
   )

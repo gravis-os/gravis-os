@@ -12,3 +12,8 @@ export * from './getQuotationTitle'
 
 export { default as getDocumentTitle } from './getDocumentTitle'
 export * from './getDocumentTitle'
+
+// ==============================
+// Types
+// ==============================
+export * from './types'

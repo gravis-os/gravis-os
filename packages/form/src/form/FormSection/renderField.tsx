@@ -118,6 +118,9 @@ const renderField = (props: RenderFieldProps) => {
   if (isReadOnly) {
     const label = injectedLabel || startCase(name)
 
+    // Handle custom render
+    const hasRenderReadOnly = typeof renderReadOnly === 'function'
+
     switch (type) {
       case FormSectionFieldTypeEnum.MODEL:
         const modelName = getRelationalObjectKey(name)
@@ -130,30 +133,43 @@ const renderField = (props: RenderFieldProps) => {
         // Escape if no value found
         if (!modelValue) return null
 
-        const title = modelValue[module.pk || 'title']
+        const modelTitle = modelValue[module.pk || 'title']
 
-        if (renderReadOnly) {
+        if (hasRenderReadOnly) {
           return renderReadOnly({
             item,
             name,
             module,
             label: modelLabel,
             value: modelValue,
-            title,
+            title: modelTitle,
           })
         }
         return (
           <FormSectionReadOnlyStack
             label={modelLabel}
-            title={title}
+            title={modelTitle}
             sx={readOnlySx}
           />
         )
       default:
+        const title = item?.[name]
+
+        if (hasRenderReadOnly) {
+          return renderReadOnly({
+            item,
+            name,
+            module,
+            label,
+            value: title, // Set value as title
+            title,
+          })
+        }
+
         return (
           <FormSectionReadOnlyStack
             label={label}
-            title={item?.[name]}
+            title={title}
             sx={readOnlySx}
           />
         )

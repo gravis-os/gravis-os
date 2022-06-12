@@ -34,6 +34,10 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   isReadOnly?: boolean
   readOnlySx?: StackProps['sx']
   renderReadOnly?: RenderPropsFunction<FormSectionRenderReadOnlyProps>
+  renderReadOnlySection?: RenderPropsFunction<{
+    title: React.ReactNode
+    item?: CrudItem
+  }>
 
   actionButtons?: ButtonProps[]
 
@@ -56,16 +60,21 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     isReadOnly,
     readOnlySx,
     renderReadOnly,
+    renderReadOnlySection,
 
     ...rest
   } = props
+  const { title } = rest
 
   // Form
   const formContext = useFormContext()
   if (!formContext) return null
 
   // All FormSection fields are wrapped in a Grid container
-  const childrenJsx = (
+  const shouldRenderReadOnlySection = isReadOnly && renderReadOnlySection
+  const childrenJsx = shouldRenderReadOnlySection ? (
+    renderReadOnlySection({ item, title })
+  ) : (
     <Grid container spacing={2}>
       {fields.map((field) =>
         renderFieldWithWrapper({

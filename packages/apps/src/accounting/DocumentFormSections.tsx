@@ -24,57 +24,7 @@ import {
   FormSectionRenderReadOnlyProps,
 } from '@gravis-os/form'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
-
-const CompanyReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
-  props
-) => {
-  const { label, title, value } = props
-  return (
-    <FormSectionReadOnlyStack title={title} label={label}>
-      <Stack direction="row" alignItems="center" spacing={5}>
-        <div>
-          <Typography
-            variant="subtitle1"
-            color="primary"
-            startIcon={<ApartmentOutlinedIcon fontSize="small" />}
-            gutterBottom
-          >
-            Bill to
-          </Typography>
-          <Typography variant="body2">
-            {value.billing_address_line_1}
-          </Typography>
-          <Typography variant="body2">
-            {value.billing_address_line_2} {value.billing_address_postal_code}
-          </Typography>
-          <Typography variant="body2">
-            {value.billing_address_city}, {value.billing_address_country}
-          </Typography>
-        </div>
-
-        <div>
-          <Typography
-            variant="subtitle1"
-            color="primary"
-            startIcon={<LocalShippingOutlinedIcon fontSize="small" />}
-            gutterBottom
-          >
-            Ship to
-          </Typography>
-          <Typography variant="body2">
-            {value.shipping_address_line_1}
-          </Typography>
-          <Typography variant="body2">
-            {value.shipping_address_line_2} {value.shipping_address_postal_code}
-          </Typography>
-          <Typography variant="body2">
-            {value.shipping_address_city}, {value.shipping_address_country}
-          </Typography>
-        </div>
-      </Stack>
-    </FormSectionReadOnlyStack>
-  )
-}
+import { DocumentItem } from './types'
 
 const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
   props
@@ -119,9 +69,6 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
   if (!sections?.length) return null
 
   const formSectionProps = { isReadOnly, disableCard: true, ...rest }
-
-  // TODO@Joel: Remove debug info
-  console.log('jjj: DocumentFormSections', props)
 
   const getSectionPropsByKey = (key: string) =>
     sections.find((section) => section.key === key)
@@ -228,7 +175,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
               justifyContent="space-between"
             >
               <Grid container>
-                <Grid item xs={12} md={6}>
+                <Grid item xs={12} md={7}>
                   <Grid container spacing={6}>
                     {/* Project + Amount */}
                     <FormSection
@@ -237,12 +184,62 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
                     />
                     {/* Company */}
                     <FormSection
-                      renderReadOnly={(props) => (
-                        <CompanyReadOnlyFormSection {...props} />
-                      )}
                       {...formSectionProps}
                       {...getSectionPropsByKey('company')}
                     />
+
+                    {/* Addresses */}
+                    <FormSection
+                      gridProps={{ md: 6 }}
+                      renderReadOnlySection={(props: {
+                        title: React.ReactNode
+                        item?: DocumentItem
+                      }) => {
+                        const { title, item } = props
+                        return (
+                          <FormSectionReadOnlyStack disableTitle label={title}>
+                            <Stack
+                              direction="row"
+                              alignItems="center"
+                              spacing={5}
+                            >
+                              <div>
+                                <Typography
+                                  variant="subtitle1"
+                                  color="primary"
+                                  startIcon={
+                                    <LocalShippingOutlinedIcon fontSize="small" />
+                                  }
+                                  gutterBottom
+                                >
+                                  Ship to
+                                </Typography>
+
+                                <Typography variant="body2">
+                                  {item.shipping_address_line_1}
+                                </Typography>
+                                <Typography variant="body2">
+                                  {item.shipping_address_line_2}{' '}
+                                  {item.shipping_address_postal_code}
+                                </Typography>
+                                <Typography variant="body2">
+                                  {item.shipping_address_city},{' '}
+                                  {item.shipping_address_country}
+                                </Typography>
+                              </div>
+                            </Stack>
+                          </FormSectionReadOnlyStack>
+                        )
+                      }}
+                      {...formSectionProps}
+                      {...getSectionPropsByKey('shipping_address')}
+                    />
+                    <FormSection
+                      gridProps={{ md: 6 }}
+                      {...formSectionProps}
+                      {...getSectionPropsByKey('billing_address')}
+                    />
+
                     {/* Contact */}
                     <FormSection
                       renderReadOnly={(props) => (
@@ -254,7 +251,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
                   </Grid>
                 </Grid>
 
-                <Grid xs={0} md={2} />
+                <Grid xs={0} md={1} />
 
                 <Grid item xs={12} md={4}>
                   <Grid container spacing={6}>
@@ -306,7 +303,6 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
                   <FormSection
                     {...formSectionProps}
                     {...getSectionPropsByKey('attachments')}
-                    // TODO@Joel: Show read only value
                   />
                 </Grid>
               </Grid>
