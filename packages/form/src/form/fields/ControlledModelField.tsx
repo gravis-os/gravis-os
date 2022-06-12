@@ -1,6 +1,6 @@
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
-import { CrudModule } from '../types'
+import { CrudModule } from '../../types'
 import ModelField, { ModelFieldProps } from './ModelField'
 
 export interface ControlledSwitchFieldProps {

@@ -1,23 +1,30 @@
 import React from 'react'
 import startCase from 'lodash/startCase'
 import { Controller, useFormContext } from 'react-hook-form'
-import { Card, CardProps, Grid, GridProps, StackProps } from '@gravis-os/ui'
+import {
+  ButtonProps,
+  Card,
+  CardProps,
+  Grid,
+  GridProps,
+  StackProps,
+} from '@gravis-os/ui'
 import {
   StorageAvatarWithUpload,
   StorageFiles,
   StorageGallery,
 } from '@gravis-os/storage'
-import ControlledAmountField from './ControlledAmountField'
-import ControlledRateField from './ControlledRateField'
-import ControlledSwitchField from './ControlledSwitchField'
-import ControlledModelField from './ControlledModelField'
-import { CrudItem, CrudModule, RenderPropsFunction } from '../types'
-import ControlledTextField from './ControlledTextField'
+import ControlledAmountField from '../fields/ControlledAmountField'
+import ControlledRateField from '../fields/ControlledRateField'
+import ControlledSwitchField from '../fields/ControlledSwitchField'
+import ControlledModelField from '../fields/ControlledModelField'
+import { CrudItem, CrudModule, RenderPropsFunction } from '../../types'
+import ControlledTextField from '../fields/ControlledTextField'
 import FieldEffectProvider from './FieldEffectProvider'
-import ControlledPercentageField from './ControlledPercentageField'
-import ControlledPasswordField from './ControlledPasswordField'
-import ControlledHtmlField from './ControlledHtmlField'
-import getRelationalObjectKey from './getRelationalObjectKey'
+import ControlledPercentageField from '../fields/ControlledPercentageField'
+import ControlledPasswordField from '../fields/ControlledPasswordField'
+import ControlledHtmlField from '../fields/ControlledHtmlField'
+import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import FormSectionReadOnlyStack from './FormSectionReadOnlyStack'
 
 export interface FormSectionRenderReadOnlyProps {
@@ -66,6 +73,8 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   isReadOnly?: boolean
   readOnlySx?: StackProps['sx']
   renderReadOnly?: RenderPropsFunction<FormSectionRenderReadOnlyProps>
+
+  actionButtons?: ButtonProps[]
 
   disableCard?: boolean
   module?: CrudModule
@@ -118,6 +127,8 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
       const label = injectedLabel || startCase(name)
 
       switch (type) {
+        case 'files':
+          return 'Hello world'
         case 'model':
           const modelName = getRelationalObjectKey(name)
           const modelLabel = injectedLabel || startCase(modelName)
@@ -247,7 +258,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     }
   }
 
-  // Render Field
+  // Render Field (contains recursion)
   const renderFieldWithWrapper = (field) => {
     const { key, gridProps, fieldEffect, hidden, ...rest } = field
 
@@ -289,6 +300,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
         // Field is wrapped in an array for gridding
         case isGridField:
           const gridFieldColumns = field.length
+          // This field object is an array of fields if isGridField === true
           return field.map((f) =>
             renderFieldWithWrapper({
               ...f,
@@ -314,15 +326,15 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     return fieldJsx
   }
 
-  const sectionJsx = (
-    <Grid container spacing={2} {...gridProps}>
+  const childrenJsx = (
+    <Grid container spacing={2}>
       {fields.map(renderFieldWithWrapper)}
     </Grid>
   )
 
   return (
     <Grid item xs={12} {...gridProps}>
-      {disableCard ? sectionJsx : <Card {...rest}>{sectionJsx}</Card>}
+      {disableCard ? childrenJsx : <Card {...rest}>{childrenJsx}</Card>}
     </Grid>
   )
 }

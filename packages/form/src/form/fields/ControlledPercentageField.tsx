@@ -8,7 +8,7 @@ export interface ControlledPercentageFieldProps {
   name: string
 }
 
-const NumberFormatField = props => {
+const NumberFormatField = (props) => {
   const { onChange, value, ...rest } = props
   const [displayValue, setDisplayValue] = React.useState(value)
 
@@ -24,7 +24,7 @@ const NumberFormatField = props => {
       fullWidth
       thousandSeparator
       decimalScale={2}
-      onValueChange={target => {
+      onValueChange={(target) => {
         setDisplayValue(target.floatValue)
         if (target.floatValue !== value) {
           // @ts-ignore
@@ -37,9 +37,9 @@ const NumberFormatField = props => {
   )
 }
 
-const ControlledPercentageField: React.FC<
-  ControlledPercentageFieldProps
-> = props => {
+const ControlledPercentageField: React.FC<ControlledPercentageFieldProps> = (
+  props
+) => {
   const { control, ...rest } = props
 
   return (

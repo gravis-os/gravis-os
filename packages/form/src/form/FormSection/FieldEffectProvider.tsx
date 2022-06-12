@@ -12,12 +12,18 @@ export interface FieldEffectProviderProps extends UseFormReturn {
   item: Record<string, unknown>
 }
 
+/**
+ * Ability to set the value of a field by watching on the value of another field.
+ * @param props
+ * @constructor
+ */
 const FieldEffectProvider = (props: FieldEffectProviderProps) => {
   const { item, name, fieldEffect, children, control, setValue } = props
   const { watch: watchKeys, setValue: valueSetter } = fieldEffect
 
-  const watchedArray = useWatch({ control, name: watchKeys })
-  const watchedObject = zipObject(watchKeys, watchedArray)
+  // Get the current form values in an object shape
+  const watchedValues = useWatch({ control, name: watchKeys })
+  const watchedObject = zipObject(watchKeys, watchedValues)
 
   useEffect(() => {
     const nextValue = valueSetter({ values: watchedObject, item })

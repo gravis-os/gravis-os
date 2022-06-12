@@ -15,6 +15,7 @@ import {
   Grid,
   Stack,
   Typography,
+  ButtonProps,
 } from '@gravis-os/ui'
 import {
   FormSection,
@@ -107,18 +108,19 @@ const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
 
 export interface DocumentFormSectionsProps {
   sections: FormSectionProps[]
+  actionButtons?: ButtonProps[]
   isReadOnly?: boolean
-  onEdit?: () => void
-  onSave?: () => void
+  setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
-  const { sections, ...rest } = props
-  const { isReadOnly } = rest
+  const { isReadOnly, setIsReadOnly, sections, ...rest } = props
 
   if (!sections?.length) return null
 
-  const formSectionProps = { disableCard: true, ...rest }
+  const formSectionProps = { isReadOnly, disableCard: true, ...rest }
+
+  console.log('jjj: DocumentFormSections', props)
 
   const getSectionPropsByKey = (key: string) =>
     sections.find((section) => section.key === key)
@@ -132,6 +134,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
       ) : (
         <SaveOutlinedIcon />
       ),
+      onClick: () => setIsReadOnly(!isReadOnly),
     },
     {
       key: 'print',
@@ -148,7 +151,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
       children: 'Margin',
       startIcon: <ShowChartOutlinedIcon />,
     },
-  ].map((item) => ({ ...item, color: 'inherit' as any }))
+  ].map((item) => ({ ...item, color: 'inherit' as ButtonProps['color'] }))
 
   return (
     <Stack spacing={2}>
@@ -165,7 +168,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
           justifyContent="space-between"
         >
           {/* Left */}
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack direction="row" alignItems="center" spacing={0.5}>
             {actionButtons?.map((actionButton) => (
               <Button key={actionButton.key} {...actionButton} />
             ))}
@@ -302,6 +305,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
                   <FormSection
                     {...formSectionProps}
                     {...getSectionPropsByKey('attachments')}
+                    // TODO@Joel: Show read only value
                   />
                 </Grid>
               </Grid>

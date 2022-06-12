@@ -126,7 +126,7 @@ const Card: React.FC<CardProps> = (props) => {
     sx: {
       ...contentProps?.sx,
       ...(disableLastGutterBottom && {
-        '&&.MuiCardContent-root': { pb: 1 }, // TODO@Joel: Fix this
+        '&&.MuiCardContent-root': { pb: 1 },
       }),
     },
   }

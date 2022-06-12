@@ -1,13 +1,13 @@
 import React from 'react'
 import { Typography } from '@gravis-os/ui'
 import FormComponent from './Form'
-import FormSections from './FormSections'
+import FormSections from './FormSection/FormSections'
 
 export default {
   component: FormComponent,
   decorators: [
     // Layout
-    Story => (
+    (Story) => (
       <div style={{ width: '50%', margin: '0 auto' }}>
         <Story />
       </div>
@@ -38,9 +38,9 @@ export default {
         ]}
       />
     ),
-    onSubmit: values =>
+    onSubmit: (values) =>
       window.alert(`Form submitted: ${JSON.stringify(values, null, 2)}`),
-    children: renderProps => {
+    children: (renderProps) => {
       const { formJsx, submitButtonJsx } = renderProps
       return (
         <div>
@@ -52,7 +52,7 @@ export default {
   },
 }
 
-export const Form = args => (
+export const Form = (args) => (
   <>
     <Typography variant="h1">Form</Typography>
     <FormComponent {...args} />

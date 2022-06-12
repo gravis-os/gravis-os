@@ -7,7 +7,7 @@ export interface ControlledHtmlFieldProps {
   name: string
 }
 
-const ControlledHtmlField: React.FC<ControlledHtmlFieldProps> = props => {
+const ControlledHtmlField: React.FC<ControlledHtmlFieldProps> = (props) => {
   const { control, ...rest } = props
   return (
     <Controller

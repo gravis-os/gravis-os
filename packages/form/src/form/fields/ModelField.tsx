@@ -16,8 +16,8 @@ import isEmpty from 'lodash/isEmpty'
 import { CircularProgress, Typography, Stack } from '@gravis-os/ui'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import TextField from './TextField'
-import getRelationalObjectKey from './getRelationalObjectKey'
-import { CrudModule } from '../types'
+import getRelationalObjectKey from '../utils/getRelationalObjectKey'
+import { CrudModule } from '../../types'
 
 type DataItem = Record<string, unknown> & { id?: string | number }
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>

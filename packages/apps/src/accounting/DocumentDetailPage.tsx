@@ -3,15 +3,18 @@ import { Button } from '@gravis-os/ui'
 import { DetailPageProps, DetailPage } from '@gravis-os/crud'
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import omit from 'lodash/omit'
-import DocumentFormSections from './DocumentFormSections'
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
+import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
+import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined'
 import getQuotationTitle from './getQuotationTitle'
+import DocumentFormSections from './DocumentFormSections'
 
 export interface DocumentDetailPageProps extends DetailPageProps {}
 
 const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
   const { module, formSections, headerProps, crudFormProps, ...rest } = props
-
-  const [isReadOnly, setIsReadOnly] = useState(true)
 
   return (
     <DetailPage
@@ -30,9 +33,7 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
         ...headerProps,
       }}
       crudFormProps={{
-        headerProps: { buttonProps: { disabled: true } },
         formJsxComponent: DocumentFormSections,
-        formSectionsProps: { isReadOnly },
         useCrudFormProps: {
           setFormValues: ({ values, isNew }) => omit(values, ['lines']),
           defaultValues: { title: getQuotationTitle() },

@@ -9,9 +9,9 @@ type ControlledPasswordFieldProps = ControllerProps<any, any> & {
   name: string
 }
 
-const ControlledPasswordField: React.FC<
-  ControlledPasswordFieldProps
-> = props => {
+const ControlledPasswordField: React.FC<ControlledPasswordFieldProps> = (
+  props
+) => {
   const { name, control, ...rest } = props
   const [showPassword, setShowPassword] = useState(false)
 

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useRouter } from 'next/router'
 import { CircularProgress, ButtonProps } from '@gravis-os/ui'
 import {
@@ -75,6 +75,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   // Form states
   const { isSubmitting, isDirty } = form.formState
 
+  const [isReadOnly, setIsReadOnly] = useState(true)
+
   // Duck type to test if form is loaded in preview drawer
   const isPreview = Boolean(headerProps)
 
@@ -83,6 +85,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     item,
     isNew,
     isPreview,
+    isReadOnly,
+    setIsReadOnly,
     sections: [...sections, metaFormSection],
     module,
     disabledFields,
