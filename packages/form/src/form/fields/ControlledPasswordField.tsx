@@ -1,13 +1,11 @@
 import React, { useState } from 'react'
-import { Controller, ControllerProps } from 'react-hook-form'
+import { Controller, UseControllerProps } from 'react-hook-form'
 import { Visibility, VisibilityOff } from '@mui/icons-material'
 import { InputAdornment } from '@mui/material'
 import { IconButton } from '@gravis-os/ui'
 import TextField from './TextField'
 
-type ControlledPasswordFieldProps = ControllerProps<any, any> & {
-  name: string
-}
+type ControlledPasswordFieldProps = UseControllerProps
 
 const ControlledPasswordField: React.FC<ControlledPasswordFieldProps> = (
   props

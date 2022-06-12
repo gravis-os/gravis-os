@@ -1,6 +1,6 @@
 import getRelationalObjectKey from './getRelationalObjectKey'
 
-const getDefaultValues = args => {
+const getDefaultValues = (args) => {
   const { item } = args
 
   const relationalObjects = Object.entries(item).reduce((acc, [key, value]) => {

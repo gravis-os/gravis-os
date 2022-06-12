@@ -127,6 +127,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
                       sx: {
                         width: '100%',
                         maxWidth: styleConfig.rightAsideWidth,
+                        boxShadow: styleConfig.rightAsideBoxShadow,
                       },
                     }}
                   >

@@ -2,12 +2,15 @@ import React, { useEffect } from 'react'
 import zipObject from 'lodash/zipObject'
 import { useWatch, FieldPathValues, UseFormReturn } from 'react-hook-form'
 
-export interface FieldEffectProviderProps extends UseFormReturn {
+export interface FieldEffectOptions {
+  setValue: (values: Record<string, unknown>) => any
+  watch: FieldPathValues<any, any>
+}
+
+export interface FieldEffectProviderProps {
   name: string
-  fieldEffect: {
-    setValue: (values: Record<string, unknown>) => any
-    watch: FieldPathValues<any, any>
-  }
+  fieldEffect: FieldEffectOptions
+  formContext: UseFormReturn
   children: React.ReactElement
   item: Record<string, unknown>
 }
@@ -18,7 +21,8 @@ export interface FieldEffectProviderProps extends UseFormReturn {
  * @constructor
  */
 const FieldEffectProvider = (props: FieldEffectProviderProps) => {
-  const { item, name, fieldEffect, children, control, setValue } = props
+  const { item, name, fieldEffect, formContext, children } = props
+  const { control, setValue } = formContext
   const { watch: watchKeys, setValue: valueSetter } = fieldEffect
 
   // Get the current form values in an object shape

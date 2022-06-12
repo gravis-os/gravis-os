@@ -2,7 +2,12 @@ import React from 'react'
 import pick from 'lodash/pick'
 import { useForm } from 'react-hook-form'
 import { Stack } from '@gravis-os/ui'
-import { Form, FormProps, FormSections } from '@gravis-os/form'
+import {
+  Form,
+  FormProps,
+  FormSectionField,
+  FormSections,
+} from '@gravis-os/form'
 
 const authFormFields = {
   email: {
@@ -39,7 +44,9 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
               key: 'account',
               title: 'Account',
               subtitle: 'Enter your credentials',
-              fields: Object.values(pick(authFormFields, fields)),
+              fields: Object.values(
+                pick(authFormFields, fields)
+              ) as FormSectionField[],
             },
           ]}
         />

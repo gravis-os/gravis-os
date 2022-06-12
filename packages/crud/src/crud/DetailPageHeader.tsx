@@ -4,15 +4,44 @@ import PageHeader, { PageHeaderProps } from './PageHeader'
 import { CrudItem, CrudModule } from './typings'
 import getIsNew from './getIsNew'
 
+const getTitlePrefix = ({
+  isNew,
+  isPreview,
+  isReadOnly,
+}: {
+  isNew?: boolean
+  isPreview?: boolean
+  isReadOnly?: boolean
+}) => {
+  switch (true) {
+    case isNew:
+      return 'Add'
+    case isPreview && isReadOnly:
+      return 'Preview'
+    default:
+      return 'Edit'
+  }
+}
+
 export interface DetailPageHeaderProps extends PageHeaderProps {
   item?: CrudItem
   module: CrudModule
   disableTitle?: boolean
   loading?: boolean
+  isPreview?: boolean
+  isReadOnly?: boolean
 }
 
 const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
-  const { loading, disableTitle, item: injectedItem, module, ...rest } = props
+  const {
+    isReadOnly,
+    isPreview,
+    loading,
+    disableTitle,
+    item: injectedItem,
+    module,
+    ...rest
+  } = props
   const { pk = 'title', sk = 'slug', name, route } = module
 
   const item = injectedItem || {}
@@ -20,23 +49,27 @@ const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
   // isNew
   const isNew = getIsNew(item)
 
-  // Page Header
-  const pageHeaderProps = {
-    breadcrumbs: [
-      { key: name.plural, title: name.plural, href: route.plural },
-      {
-        key: name.singular,
-        title: isNew ? 'New' : item[pk],
-        href: `${route.plural}/${isNew ? 'new' : item[sk]}`,
-      },
-    ],
-    title: !disableTitle && `${isNew ? 'Add' : 'Edit'} ${name.singular}`,
-    ...rest,
-  }
+  // Title
+  const title =
+    !disableTitle &&
+    `${getTitlePrefix({ isNew, isPreview, isReadOnly })} ${name.singular}`
 
   if (loading) return <Skeleton />
 
-  return <PageHeader {...pageHeaderProps} />
+  return (
+    <PageHeader
+      title={title}
+      breadcrumbs={[
+        { key: name.plural, title: name.plural, href: route.plural },
+        {
+          key: name.singular,
+          title: isNew ? 'New' : item[pk],
+          href: `${route.plural}/${isNew ? 'new' : item[sk]}`,
+        },
+      ]}
+      {...rest}
+    />
+  )
 }
 
 export default DetailPageHeader

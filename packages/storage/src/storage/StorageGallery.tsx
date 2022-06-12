@@ -61,12 +61,12 @@ const StorageGalleryAvatar = (props) => {
 }
 
 export interface StorageGalleryProps
-  extends UseMultiStorageDropzoneProps,
+  extends Omit<UseMultiStorageDropzoneProps, 'setFormValue'>,
     BoxProps {
   name: string // The field name
   dropzoneProps?: DropzoneOptions
   label?: string // The field label
-  setValue?: (name: string, value: any) => void
+  setValue?: (name: string, value: unknown) => void
 }
 
 const StorageGallery: React.FC<StorageGalleryProps> = (props) => {

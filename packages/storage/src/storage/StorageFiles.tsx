@@ -27,7 +27,7 @@ import { File } from './types'
 import FieldLabel from './FieldLabel'
 
 export interface StorageFilesProps
-  extends UseMultiStorageDropzoneProps,
+  extends Omit<UseMultiStorageDropzoneProps, 'setFormValue'>,
     BoxProps {
   name: string // The field name
   dropzoneProps?: DropzoneOptions

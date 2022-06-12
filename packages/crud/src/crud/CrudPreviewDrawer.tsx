@@ -24,7 +24,11 @@ const CrudPreviewDrawer = (props) => {
       open={Boolean(previewItem || (isListPage && previewLoading))}
       onClose={resetPreview}
       PaperProps={{
-        sx: { width: '100%', maxWidth: styleConfig.rightAsideWidth },
+        sx: {
+          width: '100%',
+          maxWidth: styleConfig.rightAsideWidth,
+          boxShadow: styleConfig.rightAsideBoxShadow,
+        },
       }}
     >
       <CrudForm

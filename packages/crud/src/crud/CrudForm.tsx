@@ -87,7 +87,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     isPreview,
     isReadOnly,
     setIsReadOnly,
-    sections: [...sections, metaFormSection],
+    sections: [...sections, metaFormSection] as FormSectionsProps['sections'],
     module,
     disabledFields,
     ...formSectionsProps,
@@ -109,8 +109,20 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
             <DetailPageHeader
               loading={loading}
               item={item}
+              isPreview={isPreview}
+              isReadOnly={isReadOnly}
               module={module}
               {...headerProps}
+              actionButtons={[
+                ...(headerProps?.actionButtons || []),
+                {
+                  key: 'edit',
+                  type: 'button' as ButtonProps['type'],
+                  title: isReadOnly ? 'Edit' : 'Cancel',
+                  disabled: isSubmitting || (isDirty && !isReadOnly),
+                  onClick: () => setIsReadOnly(!isReadOnly),
+                },
+              ]}
               buttonProps={{
                 key: 'save',
                 type: 'submit' as ButtonProps['type'],

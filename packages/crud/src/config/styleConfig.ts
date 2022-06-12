@@ -1,8 +1,7 @@
 const styleConfig = {
-  headerHeight: 64,
-  layoutGutterTop: 24,
   searchWidth: 560,
-  rightAsideWidth: 440,
+  rightAsideWidth: 480,
+  rightAsideBoxShadow: 3,
 }
 
 export default styleConfig

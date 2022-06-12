@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import startCase from 'lodash/startCase'
 import {
   TextField as MuiTextField,
-  TextFieldProps as MuiTextFieldProps,
+  StandardTextFieldProps as MuiTextFieldProps,
 } from '@mui/material'
 
 interface OptionItem {
@@ -11,13 +11,13 @@ interface OptionItem {
   label: string
 }
 
-export type TextFieldProps = MuiTextFieldProps & {
+export interface TextFieldProps extends MuiTextFieldProps {
   options?: string[] | OptionItem[]
   disableLabel?: boolean
   disableBorders?: boolean
 }
 
-const TextField: React.FC<TextFieldProps> = props => {
+const TextField: React.FC<TextFieldProps> = (props) => {
   const {
     disableBorders,
     disableLabel,
@@ -59,7 +59,7 @@ const TextField: React.FC<TextFieldProps> = props => {
   if (options) {
     return (
       <MuiTextField {...textFieldProps} select SelectProps={{ native: true }}>
-        {(options as any[]).map(option => {
+        {(options as any[]).map((option) => {
           const isObjectOption = typeof option === 'object'
           const pk = Object.keys(option).includes('title') ? 'title' : 'label'
 

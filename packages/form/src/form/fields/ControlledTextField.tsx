@@ -1,11 +1,8 @@
 import React from 'react'
-import { Control, Controller } from 'react-hook-form'
-import TextField from './TextField'
+import { Controller, UseControllerProps } from 'react-hook-form'
+import TextField, { TextFieldProps } from './TextField'
 
-export interface ControlledTextFieldProps {
-  control: Control
-  name: string
-}
+export type ControlledTextFieldProps = UseControllerProps & TextFieldProps
 
 const ControlledTextField: React.FC<ControlledTextFieldProps> = (props) => {
   const { control, ...rest } = props

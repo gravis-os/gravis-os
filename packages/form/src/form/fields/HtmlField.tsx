@@ -9,14 +9,14 @@ const minHeight = 170
 const borderRadius = 4
 
 export interface HtmlFieldProps {
-  name?: string
+  name: string
   label?: string
   placeholder?: string
   children?: React.ReactNode
   onChange?: (value) => void
 }
 
-const HtmlField: React.FC<HtmlFieldProps> = props => {
+const HtmlField: React.FC<HtmlFieldProps> = (props) => {
   const { children, name, label, placeholder, onChange, ...rest } = props
 
   const { quill: quillRef, quillRef: quillEditorRef } = useQuill({
