@@ -5,7 +5,7 @@ import { Stack } from '@gravis-os/ui'
 import {
   Form,
   FormProps,
-  FormSectionField,
+  FormSectionFieldProps,
   FormSections,
 } from '@gravis-os/form'
 
@@ -46,7 +46,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
               subtitle: 'Enter your credentials',
               fields: Object.values(
                 pick(authFormFields, fields)
-              ) as FormSectionField[],
+              ) as FormSectionFieldProps[],
             },
           ]}
         />

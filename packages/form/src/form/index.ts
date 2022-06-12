@@ -13,6 +13,12 @@ export * from './FormSection/FormSectionReadOnlyStack'
 export { default as FieldEffectProvider } from './FormSection/FieldEffectProvider'
 export * from './FormSection/FieldEffectProvider'
 
+export { default as renderField } from './FormSection/renderField'
+export * from './FormSection/renderField'
+
+export { default as renderFieldWithWrapper } from './FormSection/renderFieldWithWrapper'
+export * from './FormSection/renderFieldWithWrapper'
+
 // ==============================
 // Fields
 // ==============================

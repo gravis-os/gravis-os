@@ -16,7 +16,7 @@ export interface ListPageProps {
   crudTableProps?: CrudTableProps
 }
 
-const ListPage: React.FC<ListPageProps> = props => {
+const ListPage: React.FC<ListPageProps> = (props) => {
   const {
     crudTableProps,
     searchFormSections: injectedSearchFormSections,

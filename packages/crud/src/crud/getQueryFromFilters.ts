@@ -1,9 +1,9 @@
-import { FormSectionField } from '@gravis-os/form'
+import { FormSectionFieldProps } from '@gravis-os/form'
 
 interface GetQueryFromFiltersProps {
   query: any
   filters: Record<string, unknown>
-  filterFields: FormSectionField[]
+  filterFields: FormSectionFieldProps[]
 }
 
 const getQueryFromFilters = ({
@@ -26,7 +26,7 @@ const getQueryFromFilters = ({
 
     const currentFilterField =
       filterFields.find((filterField) => filterField.name === key) ||
-      ({} as FormSectionField)
+      ({} as FormSectionFieldProps)
     const op = currentFilterField.op || 'eq'
     const filterKey = currentFilterField.filterKey || key
 
