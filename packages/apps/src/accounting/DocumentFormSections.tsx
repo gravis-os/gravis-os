@@ -120,6 +120,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
 
   const formSectionProps = { isReadOnly, disableCard: true, ...rest }
 
+  // TODO@Joel: Remove debug info
   console.log('jjj: DocumentFormSections', props)
 
   const getSectionPropsByKey = (key: string) =>

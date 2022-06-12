@@ -33,6 +33,7 @@ export interface CrudFormProps {
   children?: FormProps<any>['children']
   refetch?: () => Promise<CrudItem>
   loading?: boolean
+  disableReadOnlyButton?: boolean
   defaultValues?: Record<string, unknown>
   disabledFields?: string[]
   formProps?: Partial<FormProps<any>>
@@ -54,6 +55,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     loading,
     defaultValues,
     disabledFields,
+    disableReadOnlyButton,
     formJsxComponent: FormJsxComponent = FormSections,
   } = props
   const { route } = module
@@ -115,13 +117,15 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
               {...headerProps}
               actionButtons={[
                 ...(headerProps?.actionButtons || []),
-                {
-                  key: 'edit',
-                  type: 'button' as ButtonProps['type'],
-                  title: isReadOnly ? 'Edit' : 'Cancel',
-                  disabled: isSubmitting || (isDirty && !isReadOnly),
-                  onClick: () => setIsReadOnly(!isReadOnly),
-                },
+                ...(!disableReadOnlyButton && [
+                  {
+                    key: 'edit',
+                    type: 'button' as ButtonProps['type'],
+                    title: isReadOnly ? 'Edit' : 'Cancel',
+                    disabled: isSubmitting || (isDirty && !isReadOnly),
+                    onClick: () => setIsReadOnly(!isReadOnly),
+                  },
+                ]),
               ]}
               buttonProps={{
                 key: 'save',

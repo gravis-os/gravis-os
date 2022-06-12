@@ -33,6 +33,7 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
         ...headerProps,
       }}
       crudFormProps={{
+        disableReadOnlyButton: true,
         formJsxComponent: DocumentFormSections,
         useCrudFormProps: {
           setFormValues: ({ values, isNew }) => omit(values, ['lines']),
