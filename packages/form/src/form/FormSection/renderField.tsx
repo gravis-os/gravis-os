@@ -54,6 +54,7 @@ export type FormSectionFieldBooleanFunction = ({
   isNew: boolean
   isPreview: boolean
   isDetail: boolean
+  formContext: UseFormReturn
 }) => boolean
 
 export interface FormSectionFieldProps {
@@ -93,6 +94,7 @@ const renderField = (props: RenderFieldProps) => {
   const { control, setValue } = formContext
   const {
     isNew,
+    isPreview,
     isReadOnly,
     item,
     disabledFields,
@@ -100,19 +102,28 @@ const renderField = (props: RenderFieldProps) => {
     readOnlySx,
     module: injectedModule,
   } = sectionProps
-  const { type, module, key, gridProps, fieldEffect, hidden, ...rest } =
-    fieldProps
-  const { name, disabled, label: injectedLabel } = rest
+  const { type, module, key, gridProps, fieldEffect, ...rest } = fieldProps
+  const { name, disabled, hidden, label: injectedLabel } = rest
 
   // Calculate if the field is in disabledFields, else fallback to check if the disabled prop is defined
-  const isDisabled = Boolean(disabledFields?.includes(name) || disabled)
+  const isDisabled = Boolean(
+    disabledFields?.includes(name) || typeof disabled === 'function'
+      ? (disabled as FormSectionFieldBooleanFunction)({
+          isNew,
+          isPreview,
+          isDetail: !isNew && !isPreview,
+          formContext,
+        })
+      : disabled
+  )
 
   // Shared props by all fields
   const commonProps = {
     ...rest,
     isNew,
     setValue,
-    ...(disabledFields?.length && { disabled: isDisabled }),
+    disabled: isDisabled,
+    hidden: hidden as boolean, // Cast as boolean. Typing purposes
   }
 
   if (isReadOnly) {

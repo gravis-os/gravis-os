@@ -26,6 +26,50 @@ import {
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import { DocumentItem } from './types'
 
+const AddressReadOnlyFormSection: React.FC<{
+  title?: React.ReactNode
+  icon?: React.ReactElement
+  item?: DocumentItem
+  prefix?: string
+}> = (props) => {
+  const { icon, title, item: injectedItem, prefix: injectedPrefix } = props
+
+  // Fallback with typing intact for safety reasons
+  const item = injectedItem || ({} as DocumentItem)
+
+  const prefix = injectedPrefix ? `${injectedPrefix}_` : ''
+  const cityCountryArray = [
+    item[`${prefix}address_city`],
+    item[`${prefix}address_country`],
+  ].filter(Boolean)
+
+  return (
+    <Stack direction="row" alignItems="center" spacing={5}>
+      <div>
+        {title && (
+          <Typography
+            variant="subtitle1"
+            color="primary"
+            startIcon={icon}
+            gutterBottom
+          >
+            {title}
+          </Typography>
+        )}
+
+        <Typography variant="body2">
+          {item[`${prefix}address_line_1`] || '-'}
+        </Typography>
+        <Typography variant="body2">
+          {item[`${prefix}address_line_2`]}{' '}
+          {item[`${prefix}address_postal_code`]}
+        </Typography>
+        <Typography variant="body2">{cityCountryArray.join(', ')}</Typography>
+      </div>
+    </Stack>
+  )
+}
+
 const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
   props
 ) => {
@@ -90,6 +134,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
       startIcon: <LocalPrintshopOutlinedIcon />,
     },
     {
+      // TODO@Joel: Setup delete action here. Pass a deleteHandler down from CrudForm.
       key: 'delete',
       children: 'Delete',
       startIcon: <DeleteOutlineOutlinedIcon />,
@@ -176,69 +221,58 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
             >
               <Grid container>
                 <Grid item xs={12} md={7}>
-                  <Grid container spacing={6}>
+                  <Grid container spacing={5}>
                     {/* Project + Amount */}
                     <FormSection
                       {...formSectionProps}
                       {...getSectionPropsByKey('project')}
                     />
-                    {/* Company */}
-                    <FormSection
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('company')}
-                    />
 
-                    {/* Addresses */}
-                    <FormSection
-                      gridProps={{ md: 6 }}
-                      renderReadOnlySection={(props: {
-                        title: React.ReactNode
-                        item?: DocumentItem
-                      }) => {
-                        const { title, item } = props
-                        return (
-                          <FormSectionReadOnlyStack disableTitle label={title}>
-                            <Stack
-                              direction="row"
-                              alignItems="center"
-                              spacing={5}
-                            >
-                              <div>
-                                <Typography
-                                  variant="subtitle1"
-                                  color="primary"
-                                  startIcon={
-                                    <LocalShippingOutlinedIcon fontSize="small" />
-                                  }
-                                  gutterBottom
-                                >
-                                  Ship to
-                                </Typography>
+                    <Grid item>
+                      <Grid container spacing={2}>
+                        {/* Company */}
+                        <FormSection
+                          {...formSectionProps}
+                          {...getSectionPropsByKey('company')}
+                        />
 
-                                <Typography variant="body2">
-                                  {item.shipping_address_line_1}
-                                </Typography>
-                                <Typography variant="body2">
-                                  {item.shipping_address_line_2}{' '}
-                                  {item.shipping_address_postal_code}
-                                </Typography>
-                                <Typography variant="body2">
-                                  {item.shipping_address_city},{' '}
-                                  {item.shipping_address_country}
-                                </Typography>
-                              </div>
-                            </Stack>
-                          </FormSectionReadOnlyStack>
-                        )
-                      }}
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('shipping_address')}
-                    />
-                    <FormSection
-                      gridProps={{ md: 6 }}
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('billing_address')}
-                    />
+                        {/* Addresses */}
+                        <FormSection
+                          gridProps={{ md: true }}
+                          renderReadOnlySection={(props: {
+                            label: React.ReactNode
+                            item?: DocumentItem
+                          }) => (
+                            <AddressReadOnlyFormSection
+                              prefix="shipping"
+                              icon={
+                                <LocalShippingOutlinedIcon fontSize="small" />
+                              }
+                              title="Ship to"
+                              {...props}
+                            />
+                          )}
+                          {...formSectionProps}
+                          {...getSectionPropsByKey('shipping_address')}
+                        />
+                        <FormSection
+                          gridProps={{ md: true }}
+                          renderReadOnlySection={(props: {
+                            label: React.ReactNode
+                            item?: DocumentItem
+                          }) => (
+                            <AddressReadOnlyFormSection
+                              prefix="billing"
+                              icon={<ApartmentOutlinedIcon fontSize="small" />}
+                              title="Bill to"
+                              {...props}
+                            />
+                          )}
+                          {...formSectionProps}
+                          {...getSectionPropsByKey('billing_address')}
+                        />
+                      </Grid>
+                    </Grid>
 
                     {/* Contact */}
                     <FormSection
@@ -254,7 +288,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
                 <Grid xs={0} md={1} />
 
                 <Grid item xs={12} md={4}>
-                  <Grid container spacing={6}>
+                  <Grid container spacing={5}>
                     {/* Total */}
                     <FormSection
                       {...formSectionProps}

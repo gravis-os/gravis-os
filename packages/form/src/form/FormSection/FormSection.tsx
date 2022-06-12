@@ -24,6 +24,8 @@ export interface FormSectionRenderReadOnlyProps {
 export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   key: string
   fields: FormSectionFieldProps[] | FormSectionFieldProps[][] // Recursive nested type
+
+  // Note that this only controls the section.gridProps. There is also a field.gridProps
   gridProps?: GridProps
 
   item?: CrudItem
@@ -35,7 +37,7 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   readOnlySx?: StackProps['sx']
   renderReadOnly?: RenderPropsFunction<FormSectionRenderReadOnlyProps>
   renderReadOnlySection?: RenderPropsFunction<{
-    title: React.ReactNode
+    label: React.ReactNode
     item?: CrudItem
   }>
 
@@ -73,7 +75,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
   // All FormSection fields are wrapped in a Grid container
   const shouldRenderReadOnlySection = isReadOnly && renderReadOnlySection
   const childrenJsx = shouldRenderReadOnlySection ? (
-    renderReadOnlySection({ item, title })
+    renderReadOnlySection({ item, label: title })
   ) : (
     <Grid container spacing={2}>
       {fields.map((field) =>

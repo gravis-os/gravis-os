@@ -4,19 +4,17 @@ import PageHeader, { PageHeaderProps } from './PageHeader'
 import { CrudItem, CrudModule } from './typings'
 import getIsNew from './getIsNew'
 
-const getTitlePrefix = ({
-  isNew,
-  isPreview,
-  isReadOnly,
-}: {
+const getTitlePrefix = (props: {
   isNew?: boolean
   isPreview?: boolean
   isReadOnly?: boolean
 }) => {
+  const { isNew, isPreview, isReadOnly } = props
+
   switch (true) {
     case isNew:
       return 'Add'
-    case isPreview && isReadOnly:
+    case isReadOnly:
       return 'Preview'
     default:
       return 'Edit'

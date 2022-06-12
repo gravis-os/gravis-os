@@ -9,7 +9,7 @@ export interface ControlledSwitchFieldProps {
   subtitle?: string
 }
 
-const SwitchField = props => {
+const SwitchField = (props) => {
   const { label, subtitle, ...rest } = props
   const { name, value } = rest
 
@@ -38,7 +38,7 @@ const SwitchField = props => {
   )
 }
 
-const ControlledSwitchField: React.FC<ControlledSwitchFieldProps> = props => {
+const ControlledSwitchField: React.FC<ControlledSwitchFieldProps> = (props) => {
   const { control, ...rest } = props
 
   return (

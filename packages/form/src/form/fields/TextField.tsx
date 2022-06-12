@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import startCase from 'lodash/startCase'
+import isNil from 'lodash/isNil'
 import {
   TextField as MuiTextField,
   StandardTextFieldProps as MuiTextFieldProps,
@@ -26,14 +27,14 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     sx,
     ...rest
   } = props
-  const { name, onChange } = rest
+  const { name, value, onChange } = rest
 
   const textFieldProps = {
     label: !disableLabel ? startCase(name) : null,
     fullWidth: true,
     InputLabelProps: {
       ...InputLabelProps,
-      ...(rest.value ? { shrink: Boolean(rest.value) } : {}),
+      ...(!isNil(value) ? { shrink: Boolean(value) } : {}),
     },
     sx: {
       ...sx,

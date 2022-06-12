@@ -6,6 +6,7 @@ import FieldEffectProvider, {
 } from './FieldEffectProvider'
 import { FormSectionProps } from './FormSection'
 import renderField, {
+  FormSectionFieldBooleanFunction,
   FormSectionFieldProps,
   RenderFieldProps,
 } from './renderField'
@@ -84,11 +85,17 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const { key, fieldEffect, hidden } = fieldProps
 
   // Hide field
-  const shouldHide =
+  const shouldHide = Boolean(
     hidden &&
-    (typeof hidden === 'function'
-      ? hidden({ isNew, isPreview, isDetail: !isNew && !isPreview })
-      : hidden)
+      (typeof hidden === 'function'
+        ? (hidden as FormSectionFieldBooleanFunction)({
+            isNew,
+            isPreview,
+            isDetail: !isNew && !isPreview,
+            formContext,
+          })
+        : hidden)
+  )
   if (shouldHide) return null
 
   // Define children
