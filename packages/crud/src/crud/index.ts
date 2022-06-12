@@ -27,11 +27,26 @@ export * from './fetchCrudItems'
 export { default as ListPage } from './ListPage'
 export * from './ListPage'
 
-export { default as getIsNew } from './getIsNew'
-export * from './getIsNew'
-
 export { default as ManageColumnsMenuButton } from './ManageColumnsMenuButton'
 export * from './ManageColumnsMenuButton'
 
+export { default as CrudAddDialog } from './CrudAddDialog'
+export * from './CrudAddDialog'
+
+export { default as ModelFieldWithCrud } from './ModelFieldWithCrud'
+export * from './ModelFieldWithCrud'
+
+// ==============================
+// Hooks
+// ==============================
 export { default as useGetItem } from './useGetItem'
 export * from './useGetItem'
+
+export { default as useAddDialog } from './useAddDialog'
+export * from './useAddDialog'
+
+// ==============================
+// Utils
+// ==============================
+export { default as getIsNew } from './getIsNew'
+export * from './getIsNew'

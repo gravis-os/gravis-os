@@ -23,7 +23,7 @@ export interface FormSectionJsxFieldProps {
  * has to be render function because of recursion
  * Where Wrapper could be a Grid, React.ElementType, etc.
  */
-interface RenderFieldWithWrapperProps
+export interface RenderFieldWithWrapperProps
   extends Omit<RenderFieldProps, 'fieldProps'> {
   fieldProps:
     | FormSectionFieldProps
@@ -50,7 +50,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
         sectionProps,
         fieldProps: {
           ...field,
-          gridProps: { md: 12 / gridFieldColumns, ...field.gridProps },
+          gridProps: { md: 12 / gridFieldColumns, ...field?.gridProps },
         },
       })
     )
@@ -100,7 +100,12 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
 
   // Define children
   const childrenJsx = (
-    <Grid item xs={12} key={key} {...fieldProps.gridProps}>
+    <Grid
+      item
+      xs={12}
+      key={key}
+      {...(fieldProps as FormSectionFieldProps).gridProps}
+    >
       {renderField(props as RenderFieldProps)}
     </Grid>
   )

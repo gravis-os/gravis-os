@@ -55,8 +55,9 @@ export interface ModelFieldProps {
   setValue: (name: string, value: any) => void
   value: any
 
-  // Extensions
+  // withCreate
   withCreate?: boolean
+  onCreateClick?: (e, value: any) => void
 
   /**
    * `filters`
@@ -111,8 +112,11 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
 
     // Extensions
     multiple,
-    withCreate,
     filters,
+
+    // withCreate
+    withCreate,
+    onCreateClick,
 
     // Component
     setQuery,
@@ -304,130 +308,136 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
   }
 
   return (
-    <Autocomplete
-      {...withCreateOptions}
-      multiple={multiple}
-      open={open}
-      options={options}
-      value={displayValue}
-      onOpen={() => setOpen(true)}
-      onClose={() => setOpen(false)}
-      autoComplete
-      includeInputInList
-      filterOptions={(options: DataItem[], params) => {
-        const { inputValue } = params
+    <>
+      <Autocomplete
+        {...withCreateOptions}
+        multiple={multiple}
+        open={open}
+        options={options}
+        value={displayValue}
+        onOpen={() => setOpen(true)}
+        onClose={() => setOpen(false)}
+        autoComplete
+        includeInputInList
+        filterOptions={(options: DataItem[], params) => {
+          const { inputValue } = params
 
-        /**
-         * Disable client-side filter by escaping here when using server-side filters.
-         * Always show all options since they would already be filtered
-         * in the search query.
-         */
-        if (filters) return options
+          /**
+           * Disable client-side filter by escaping here when using server-side filters.
+           * Always show all options since they would already be filtered
+           * in the search query.
+           */
+          if (filters) return options
 
-        // Client-side filter options
-        const clientSideFilteredOptions = getClientSideFilterOptions(
-          options,
-          params
-        )
-
-        // Suggest the creation of a new value
-        if (withCreate) {
-          const isExisting = options.some(
-            (option) => inputValue === option?.[pk]
+          // Client-side filter options
+          const clientSideFilteredOptions = getClientSideFilterOptions(
+            options,
+            params
           )
-          if (inputValue !== '' && !isExisting) {
-            clientSideFilteredOptions.push({ [pk]: `Add "${inputValue}"` })
-          }
-        }
 
-        return clientSideFilteredOptions
-      }}
-      filterSelectedOptions
-      onChange={(e, newValue: DataItem | DataItem[] | null) => {
-        // Set UI field display value only
-        setDisplayValue(newValue)
-
-        // Expose value to outer form state
-        injectedOnChange(newValue)
-
-        if (
-          withCreate &&
-          newValue &&
-          getIsCreateOption({ option: newValue, pk })
-        ) {
-          const createValue = getCreateOption({ option: newValue, pk })
-          // TODO@Joel: Trigger setCreateValue here to trigger modal in useEffect. Reset `createValue` once we've created the item
-        }
-
-        // Set model value as object e.g. Item.product = { ... }
-        if (name.endsWith('_id')) {
-          const relationalObjectKey = getRelationalObjectKey(name)
-          setFormValue(relationalObjectKey, newValue)
-        }
-      }}
-      onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
-      getOptionLabel={(option) => {
-        if (!option) return
-        return typeof option === 'string' ? option : option[pk]
-      }}
-      renderInput={(params) => (
-        <TextField
-          label={
-            label ||
-            `Select ${startCase(
-              name.endsWith('_id') ? name.split('_id')[0] : name
-            )}`
-          }
-          {...params}
-          InputProps={{
-            ...params.InputProps,
-            endAdornment: (
-              <>
-                {loading ? (
-                  <CircularProgress color="inherit" size={20} />
-                ) : null}
-                {params.InputProps.endAdornment}
-              </>
-            ),
-          }}
-        />
-      )}
-      renderOption={(props, option: DataItem | null, { inputValue }) => {
-        const shouldSkipOption =
-          isEmpty(option) || Array.isArray(option) || typeof option !== 'object'
-        const isCreateOption = getIsCreateOption({ option, pk })
-
-        // Handle degenerate case where option is an empty object
-        if (shouldSkipOption) return null
-
-        // Careful, option might be null
-        const primitiveOptionValue: React.ReactNode = renderOption
-          ? renderOption({ option, pk })
-          : (option[pk] as string)
-
-        switch (true) {
-          case isCreateOption:
-            return (
-              <li {...props}>
-                <Stack
-                  direction="row"
-                  alignItems="center"
-                  spacing={0.5}
-                  sx={{ color: 'primary.main' }}
-                >
-                  <AddOutlinedIcon fontSize="small" />
-                  <Typography color="inherit">
-                    {primitiveOptionValue}
-                  </Typography>
-                </Stack>
-              </li>
+          // Suggest the creation of a new value
+          if (withCreate) {
+            const isExisting = options.some(
+              (option) => inputValue === option?.[pk]
             )
-          default:
-            return <li {...props}>{primitiveOptionValue}</li>
-        }
-      }}
-      {...rest}
-    />
+            if (inputValue !== '' && !isExisting) {
+              clientSideFilteredOptions.push({ [pk]: `Add "${inputValue}"` })
+            }
+          }
+
+          return clientSideFilteredOptions
+        }}
+        filterSelectedOptions
+        onChange={(e, newValue: DataItem | DataItem[] | null) => {
+          // Set UI field display value only
+          setDisplayValue(newValue)
+
+          // Expose value to outer form state
+          injectedOnChange(newValue)
+
+          if (
+            onCreateClick &&
+            withCreate &&
+            newValue &&
+            getIsCreateOption({ option: newValue, pk })
+          ) {
+            const createValue = getCreateOption({ option: newValue, pk })
+            onCreateClick(e, createValue)
+            // TODO@Joel: Trigger setCreateValue here to trigger modal in useEffect. Reset `createValue` once we've created the item
+          }
+
+          // Set model value as object e.g. Item.product = { ... }
+          if (name.endsWith('_id')) {
+            const relationalObjectKey = getRelationalObjectKey(name)
+            setFormValue(relationalObjectKey, newValue)
+          }
+        }}
+        onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+        getOptionLabel={(option) => {
+          if (!option) return
+          return typeof option === 'string' ? option : option[pk]
+        }}
+        renderInput={(params) => (
+          <TextField
+            label={
+              label ||
+              `Select ${startCase(
+                name.endsWith('_id') ? name.split('_id')[0] : name
+              )}`
+            }
+            {...params}
+            InputProps={{
+              ...params.InputProps,
+              endAdornment: (
+                <>
+                  {loading ? (
+                    <CircularProgress color="inherit" size={20} />
+                  ) : null}
+                  {params.InputProps.endAdornment}
+                </>
+              ),
+            }}
+          />
+        )}
+        renderOption={(props, option: DataItem | null, { inputValue }) => {
+          const shouldSkipOption =
+            isEmpty(option) ||
+            Array.isArray(option) ||
+            typeof option !== 'object'
+          const isCreateOption = getIsCreateOption({ option, pk })
+
+          // Handle degenerate case where option is an empty object
+          if (shouldSkipOption) return null
+
+          // Careful, option might be null
+          const primitiveOptionValue: React.ReactNode = renderOption
+            ? renderOption({ option, pk })
+            : (option[pk] as string)
+
+          switch (true) {
+            case isCreateOption:
+              return (
+                <li {...props}>
+                  <Stack
+                    direction="row"
+                    alignItems="center"
+                    spacing={0.5}
+                    sx={{ color: 'primary.main' }}
+                  >
+                    <AddOutlinedIcon fontSize="small" />
+                    <Typography color="inherit">
+                      {primitiveOptionValue}
+                    </Typography>
+                  </Stack>
+                </li>
+              )
+            default:
+              return <li {...props}>{primitiveOptionValue}</li>
+          }
+        }}
+        {...rest}
+      />
+    </>
   )
 }
 

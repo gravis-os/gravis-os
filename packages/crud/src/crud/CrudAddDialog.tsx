@@ -1,9 +1,14 @@
 import React from 'react'
 import { Slide } from '@mui/material'
 import { Dialog } from '@gravis-os/ui'
-import CrudForm from './CrudForm'
+import CrudForm, { CrudFormProps } from './CrudForm'
+import { UseAddDialogReturn } from './useAddDialog'
 
-const CrudAddDialog = (props) => {
+export interface CrudAddDialogProps extends UseAddDialogReturn {
+  crudFormProps?: CrudFormProps
+}
+
+const CrudAddDialog: React.FC<CrudAddDialogProps> = (props) => {
   const {
     addDialogOpen,
     module,

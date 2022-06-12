@@ -1,16 +1,12 @@
 import React from 'react'
-import { Control, Controller } from 'react-hook-form'
-import { CrudModule } from '../../types'
+import { Controller, UseControllerProps } from 'react-hook-form'
 import ModelField, { ModelFieldProps } from './ModelField'
 
-export interface ControlledSwitchFieldProps {
-  control: Control
-  name: string
-  module: CrudModule
-  setValue: ModelFieldProps['setValue']
-}
+export interface ControlledModelFieldProps
+  extends UseControllerProps,
+    Omit<ModelFieldProps, 'onChange' | 'value'> {}
 
-const ControlledSwitchField: React.FC<ControlledSwitchFieldProps> = (props) => {
+const ControlledModelField: React.FC<ControlledModelFieldProps> = (props) => {
   const { control, setValue, module, ...rest } = props
 
   return (
@@ -24,4 +20,4 @@ const ControlledSwitchField: React.FC<ControlledSwitchFieldProps> = (props) => {
   )
 }
 
-export default ControlledSwitchField
+export default ControlledModelField

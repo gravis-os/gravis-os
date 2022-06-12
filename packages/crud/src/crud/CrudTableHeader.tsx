@@ -1,7 +1,6 @@
 import React, { useState } from 'react'
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
-import dynamic from 'next/dynamic'
 import {
   Button,
   Box,
@@ -27,7 +26,9 @@ export interface CrudTableHeaderProps {
   searchFormSections?: FormSectionsProps['sections']
   addFormSections?: FormSectionsProps['sections']
   filters: Record<string, unknown>
-  setFilters: React.Dispatch<React.SetStateAction<any[] | {}>>
+  setFilters: React.Dispatch<
+    React.SetStateAction<any[] | Record<string, unknown>>
+  >
   addDialogProps?: Record<string, unknown>
 }
 

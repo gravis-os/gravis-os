@@ -9,8 +9,9 @@ import {
   StackProps,
 } from '@gravis-os/ui'
 import { CrudItem, CrudModule, RenderPropsFunction } from '../../types'
-import renderFieldWithWrapper from './renderFieldWithWrapper'
-import { FormSectionFieldProps } from './renderField'
+import renderFieldWithWrapper, {
+  RenderFieldWithWrapperProps,
+} from './renderFieldWithWrapper'
 
 export interface FormSectionRenderReadOnlyProps {
   item?: Record<string, unknown>
@@ -23,7 +24,7 @@ export interface FormSectionRenderReadOnlyProps {
 
 export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   key: string
-  fields: FormSectionFieldProps[] | FormSectionFieldProps[][] // Recursive nested type
+  fields: Array<RenderFieldWithWrapperProps['fieldProps']>
 
   // Note that this only controls the section.gridProps. There is also a field.gridProps
   gridProps?: GridProps

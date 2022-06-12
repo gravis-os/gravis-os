@@ -1,6 +1,16 @@
 import { useState } from 'react'
+import { FormSectionProps } from '@gravis-os/form'
+import { CrudModule } from '../types'
 
-const useAddDialog = (props) => {
+export interface UseAddDialogReturn {
+  addDialogOpen: boolean
+  addFormSections: FormSectionProps[]
+  module: CrudModule
+  resetAddDialogOpen: () => void
+  setAddDialogOpen: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const useAddDialog = (props): UseAddDialogReturn => {
   const { module, addFormSections } = props
 
   // States
@@ -8,11 +18,11 @@ const useAddDialog = (props) => {
   const resetAddDialogOpen = () => setAddDialogOpen(false)
 
   return {
-    module,
     addDialogOpen,
-    setAddDialogOpen,
-    resetAddDialogOpen,
     addFormSections,
+    module,
+    resetAddDialogOpen,
+    setAddDialogOpen,
   }
 }
 

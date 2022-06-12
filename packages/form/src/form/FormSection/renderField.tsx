@@ -71,6 +71,7 @@ export interface FormSectionFieldProps {
   // Manage state
   hidden?: boolean | FormSectionFieldBooleanFunction
   disabled?: boolean | FormSectionFieldBooleanFunction
+  required?: boolean
 
   // For setting value
   fieldEffect?: FieldEffectOptions
@@ -78,6 +79,9 @@ export interface FormSectionFieldProps {
   // Filters
   op?: string
   filterKey?: string
+
+  // Render - manage custom renders for installing hooks
+  render?: ({ children }: { children: React.ReactNode }) => React.ReactNode
 }
 
 export interface RenderFieldProps {
@@ -102,7 +106,8 @@ const renderField = (props: RenderFieldProps) => {
     readOnlySx,
     module: injectedModule,
   } = sectionProps
-  const { type, module, key, gridProps, fieldEffect, ...rest } = fieldProps
+  const { type, module, key, gridProps, fieldEffect, render, ...rest } =
+    fieldProps
   const { name, disabled, hidden, label: injectedLabel } = rest
 
   // Calculate if the field is in disabledFields, else fallback to check if the disabled prop is defined
@@ -190,90 +195,97 @@ const renderField = (props: RenderFieldProps) => {
   // ==============================
   // Render
   // ==============================
-  switch (type) {
-    case FormSectionFieldTypeEnum.AMOUNT:
-      return <ControlledAmountField control={control} {...commonProps} />
-    case FormSectionFieldTypeEnum.PERCENTAGE:
-      return <ControlledPercentageField control={control} {...commonProps} />
-    case FormSectionFieldTypeEnum.RATE:
-      return <ControlledRateField control={control} {...commonProps} />
-    case FormSectionFieldTypeEnum.SWITCH:
-      return <ControlledSwitchField control={control} {...commonProps} />
-    case FormSectionFieldTypeEnum.FILES:
-      return (
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <StorageFiles
-              {...field}
-              item={item}
-              module={injectedModule as CrudModule} // Product
-              storageModule={module} // ProductImage[]
-              {...commonProps}
-            />
-          )}
-          {...commonProps}
-        />
-      )
-    case FormSectionFieldTypeEnum.IMAGES:
-      return (
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <StorageGallery
-              {...field}
-              item={item}
-              module={injectedModule as CrudModule} // Product
-              storageModule={module} // ProductImage[]
-              {...commonProps}
-            />
-          )}
-          {...commonProps}
-        />
-      )
-    case FormSectionFieldTypeEnum.IMAGE:
-      return (
-        <Controller
-          control={control}
-          render={({ field }) => (
-            <StorageAvatarWithUpload
-              {...field}
-              editable
-              item={item}
-              module={injectedModule as CrudModule}
-              onUpload={(savedFilePath) => setValue(field.name, savedFilePath)}
-              {...commonProps}
-            />
-          )}
-          {...commonProps}
-        />
-      )
-    case FormSectionFieldTypeEnum.MODEL:
-      return (
-        <ControlledModelField
-          control={control}
-          module={module}
-          {...commonProps}
-        />
-      )
-    case FormSectionFieldTypeEnum.PASSWORD:
-      return <ControlledPasswordField control={control} {...commonProps} />
-    case FormSectionFieldTypeEnum.HTML:
-      return <ControlledHtmlField control={control} {...commonProps} />
-    case FormSectionFieldTypeEnum.TEXTAREA:
-      return (
-        <ControlledTextField
-          control={control}
-          multiline
-          rows={4}
-          {...commonProps}
-        />
-      )
-    case FormSectionFieldTypeEnum.TEXT:
-    case FormSectionFieldTypeEnum.INPUT:
-    default:
-      return <ControlledTextField control={control} {...commonProps} />
+  const getChildrenJsx = () => {
+    switch (type) {
+      case FormSectionFieldTypeEnum.AMOUNT:
+        return <ControlledAmountField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.PERCENTAGE:
+        return <ControlledPercentageField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.RATE:
+        return <ControlledRateField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.SWITCH:
+        return <ControlledSwitchField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.FILES:
+        return (
+          <Controller
+            control={control}
+            render={({ field }) => (
+              <StorageFiles
+                {...field}
+                item={item}
+                module={injectedModule as CrudModule} // Product
+                storageModule={module} // ProductImage[]
+                {...commonProps}
+              />
+            )}
+            {...commonProps}
+          />
+        )
+      case FormSectionFieldTypeEnum.IMAGES:
+        return (
+          <Controller
+            control={control}
+            render={({ field }) => (
+              <StorageGallery
+                {...field}
+                item={item}
+                module={injectedModule as CrudModule} // Product
+                storageModule={module} // ProductImage[]
+                {...commonProps}
+              />
+            )}
+            {...commonProps}
+          />
+        )
+      case FormSectionFieldTypeEnum.IMAGE:
+        return (
+          <Controller
+            control={control}
+            render={({ field }) => (
+              <StorageAvatarWithUpload
+                {...field}
+                editable
+                item={item}
+                module={injectedModule as CrudModule}
+                onUpload={(savedFilePath) =>
+                  setValue(field.name, savedFilePath)
+                }
+                {...commonProps}
+              />
+            )}
+            {...commonProps}
+          />
+        )
+      case FormSectionFieldTypeEnum.MODEL:
+        return (
+          <ControlledModelField
+            control={control}
+            module={module}
+            {...commonProps}
+          />
+        )
+      case FormSectionFieldTypeEnum.PASSWORD:
+        return <ControlledPasswordField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.HTML:
+        return <ControlledHtmlField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.TEXTAREA:
+        return (
+          <ControlledTextField
+            control={control}
+            multiline
+            rows={4}
+            {...commonProps}
+          />
+        )
+      case FormSectionFieldTypeEnum.TEXT:
+      case FormSectionFieldTypeEnum.INPUT:
+      default:
+        return <ControlledTextField control={control} {...commonProps} />
+    }
   }
+  const childrenJsx = getChildrenJsx()
+
+  return render ? render({ children: childrenJsx }) : childrenJsx
 }
 
 export default renderField
