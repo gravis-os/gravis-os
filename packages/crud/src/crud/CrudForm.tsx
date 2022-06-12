@@ -77,7 +77,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   // Form states
   const { isSubmitting, isDirty } = form.formState
 
-  const [isReadOnly, setIsReadOnly] = useState(true)
+  const [isReadOnly, setIsReadOnly] = useState(!isNew)
 
   // Duck type to test if form is loaded in preview drawer
   const isPreview = Boolean(headerProps)
@@ -117,15 +117,16 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
               {...headerProps}
               actionButtons={[
                 ...(headerProps?.actionButtons || []),
-                ...(!disableReadOnlyButton && [
-                  {
-                    key: 'edit',
-                    type: 'button' as ButtonProps['type'],
-                    title: isReadOnly ? 'Edit' : 'Cancel',
-                    disabled: isSubmitting || (isDirty && !isReadOnly),
-                    onClick: () => setIsReadOnly(!isReadOnly),
-                  },
-                ]),
+                ...(!disableReadOnlyButton &&
+                  !isNew && [
+                    {
+                      key: 'edit',
+                      type: 'button' as ButtonProps['type'],
+                      title: isReadOnly ? 'Edit' : 'Cancel',
+                      disabled: isSubmitting || (isDirty && !isReadOnly),
+                      onClick: () => setIsReadOnly(!isReadOnly),
+                    },
+                  ]),
               ]}
               buttonProps={{
                 key: 'save',
