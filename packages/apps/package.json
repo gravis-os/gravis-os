@@ -25,6 +25,7 @@
     "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\""
   },
   "dependencies": {
+    "@gravis-os/crud": "*",
     "@gravis-os/form": "*",
     "@gravis-os/ui": "*",
     "lodash": "^4.17.21",
