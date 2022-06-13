@@ -112,14 +112,15 @@ const renderField = (props: RenderFieldProps) => {
 
   // Calculate if the field is in disabledFields, else fallback to check if the disabled prop is defined
   const isDisabled = Boolean(
-    disabledFields?.includes(name) || typeof disabled === 'function'
-      ? (disabled as FormSectionFieldBooleanFunction)({
-          isNew,
-          isPreview,
-          isDetail: !isNew && !isPreview,
-          formContext,
-        })
-      : disabled
+    disabledFields?.includes(name) ||
+      (typeof disabled === 'function'
+        ? (disabled as FormSectionFieldBooleanFunction)({
+            isNew,
+            isPreview,
+            isDetail: !isNew && !isPreview,
+            formContext,
+          })
+        : disabled)
   )
 
   // Shared props by all fields
