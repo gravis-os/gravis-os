@@ -129,6 +129,8 @@ const useCrudForm = (props: UseCrudFormArgs) => {
         }
 
         // Saved item, we can get the product.id from here
+        // nextItem does not contain the relations.
+        // use item to get the relations.
         const nextItem = data[0]
 
         // Manage many to many values by creating records in join tables
@@ -137,7 +139,7 @@ const useCrudForm = (props: UseCrudFormArgs) => {
         )
         if (hasManyToManyValues) {
           await saveManyToManyValues({
-            item: nextItem,
+            item,
             values: manyToManyValues,
             client,
             module,
