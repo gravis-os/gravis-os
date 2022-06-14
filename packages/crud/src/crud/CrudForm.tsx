@@ -34,6 +34,7 @@ export interface CrudFormProps {
   refetch?: () => Promise<CrudItem>
   loading?: boolean
   disableReadOnlyButton?: boolean
+  disableRedirectOnSuccess?: boolean
   defaultValues?: Record<string, unknown>
   disabledFields?: string[]
   formProps?: Partial<FormProps<any>>
@@ -56,13 +57,16 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     defaultValues,
     disabledFields,
     disableReadOnlyButton,
+    disableRedirectOnSuccess,
     formJsxComponent: FormJsxComponent = FormSections,
   } = props
   const { route } = module
 
   // Lifecycle
   const router = useRouter()
-  const afterSubmit = ({ isNew }) => router.push(`/${route.plural}`)
+  const afterSubmit = ({ isNew }) => {
+    return !disableRedirectOnSuccess && router.push(`/${route.plural}`)
+  }
 
   // useCrudForm
   const { form, isNew, handleSubmit } = useCrudForm({
@@ -92,6 +96,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     sections: [...sections, metaFormSection] as FormSectionsProps['sections'],
     module,
     disabledFields,
+    formContext: form,
+    onSubmit: form.handleSubmit(handleSubmit), // For remote submits
     ...formSectionsProps,
   }
 

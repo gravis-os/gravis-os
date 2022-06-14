@@ -24,6 +24,7 @@ import {
   FormSectionRenderReadOnlyProps,
 } from '@gravis-os/form'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
+import { UseFormReturn } from 'react-hook-form'
 import { DocumentItem } from './types'
 
 const AddressReadOnlyFormSection: React.FC<{
@@ -105,10 +106,19 @@ export interface DocumentFormSectionsProps {
   actionButtons?: ButtonProps[]
   isReadOnly?: boolean
   setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>
+  formContext: UseFormReturn
+  onSubmit: () => Promise<void>
 }
 
 const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
-  const { isReadOnly, setIsReadOnly, sections, ...rest } = props
+  const {
+    formContext,
+    onSubmit,
+    isReadOnly,
+    setIsReadOnly,
+    sections,
+    ...rest
+  } = props
 
   if (!sections?.length) return null
 
@@ -126,7 +136,12 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
       ) : (
         <SaveOutlinedIcon />
       ),
-      onClick: () => setIsReadOnly(!isReadOnly),
+      onClick: async () => {
+        if (isReadOnly) return setIsReadOnly(!isReadOnly)
+
+        await onSubmit()
+        setIsReadOnly(!isReadOnly)
+      },
     },
     {
       key: 'print',

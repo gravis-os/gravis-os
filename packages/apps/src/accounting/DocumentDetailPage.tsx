@@ -29,9 +29,17 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
       }}
       crudFormProps={{
         disableReadOnlyButton: true,
+        disableRedirectOnSuccess: true,
         formJsxComponent: DocumentFormSections,
         useCrudFormProps: {
-          setFormValues: ({ values, isNew }) => omit(values, ['lines']),
+          setFormValues: (props) => {
+            const { values, isNew } = props
+            // TODO@Alex: Save lines properly into DB
+
+            // Temp fix to avoid network error: "column _.lines does not exist"
+            // TODO@Alex: Instead of omitting, get the useCrudForm to save to the relation automatically to DB based on quotation_line
+            return omit(values, ['lines'])
+          },
           defaultValues: { title: getQuotationTitle() },
         },
         ...crudFormProps,
