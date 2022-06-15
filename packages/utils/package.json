@@ -22,7 +22,9 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\""
+    "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\"",
+    "reset": "rm -rf dist && rm -rf node_modules && npx yalc remove --all",
+    "setup": "yarn && yarn build && npx yalc push"
   },
   "dependencies": {
     "lodash": "^4.17.21",
