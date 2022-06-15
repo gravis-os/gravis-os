@@ -1,5 +1,6 @@
-import React, { forwardRef, useImperativeHandle, useState } from 'react'
+import React, { forwardRef } from 'react'
 import { ModelField } from '@gravis-os/form'
+import { useController } from 'react-hook-form'
 
 const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
   const {
@@ -7,40 +8,32 @@ const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
     column,
     rowIndex,
     options,
-    value,
+    value: injectedValue,
     setValue,
     fieldArray,
     filters,
+    control,
     ...rest
   } = props
-  const { update } = fieldArray
   const { field } = column.userProvidedColDef
   const name = `lines[${rowIndex}].${field}`
 
-  const handleChange = (value) => {
-    if (!value) return null
-    // This really sets the AgGrid values
-    update(name, value.id)
-  }
-
-  useImperativeHandle(ref, () => {
-    return {
-      getValue: () => {
-        return value
-      },
-      afterGuiAttached: () => {
-        setValue(value)
-      },
-    }
+  const {
+    field: { onChange, onBlur, value },
+  } = useController({
+    name,
+    control,
+    defaultValue: injectedValue,
   })
 
   return (
     <ModelField
       module={module}
-      name={name}
       value={value}
       setValue={setValue}
-      onChange={handleChange}
+      onChange={onChange}
+      onBlur={onBlur}
+      name={name}
       select={module.select.list}
       filters={filters}
       disableClearable
