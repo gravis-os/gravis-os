@@ -111,7 +111,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     module,
     disabledFields,
     formContext,
-    onSubmit, // For remote submits be sure to wrap in RHF.handleSubmit e.g. formContext.handleSubmit(onSubmit)
+    onSubmit, // For remote submits be sure to wrap in RHF.handleSubmit e.g. formContext.handleSubmit(onSubmit)()
     onDelete,
     ...formSectionsProps,
   }

@@ -138,7 +138,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
       onClick: async () => {
         if (isReadOnly) return setIsReadOnly(!isReadOnly)
 
-        await formContext.handleSubmit(onSubmit)
+        await formContext.handleSubmit(onSubmit)()
         setIsReadOnly(!isReadOnly)
       },
     },

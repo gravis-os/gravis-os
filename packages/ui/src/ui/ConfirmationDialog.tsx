@@ -38,7 +38,10 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
   const handleConfirmButtonClick = async () => {
     try {
       if (onConfirm) await onConfirm()
-      !disableToastSuccess && toast.success('Success')
+
+      if (!disableToastSuccess) {
+        toast.success('Success')
+      }
     } catch (err) {
       toast.error('Error')
       console.error('Error caught:', err)
