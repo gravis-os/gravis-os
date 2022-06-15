@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useForm } from 'react-hook-form'
+import { useForm, UseFormReturn } from 'react-hook-form'
 import {
   supabaseClient,
   SupabaseClient,
@@ -38,13 +38,28 @@ export interface UseCrudFormArgs {
     isNew,
     item,
   }: UseCrudFormValuesInterface & { item: CrudItem }) => void
+  afterDelete?: ({
+    values,
+    item,
+  }: {
+    values: UseCrudFormValuesInterface['values']
+    item: CrudItem
+  }) => void
   defaultValues?: Record<string, unknown>
 }
 
-const useCrudForm = (props: UseCrudFormArgs) => {
+export interface UseCrudFormReturn {
+  formContext: UseFormReturn
+  isNew: boolean
+  onSubmit: any // (values: UseCrudFormValues) => Promise<void> // Combination of create and update
+  onDelete: (values: UseCrudFormValues) => Promise<void>
+}
+
+const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const {
     defaultValues: injectedDefaultValues,
     afterSubmit,
+    afterDelete,
     setFormValues,
     client = supabaseClient,
     item: injectedItem,
@@ -83,16 +98,18 @@ const useCrudForm = (props: UseCrudFormArgs) => {
   // Submit
   // ==============================
   const queryClient = useQueryClient()
-  const mutationFunction = async (nextValues) =>
+  const queryMatcher = { [sk]: item[sk] } // e.g. { id: 1 }
+  const createOrUpdateMutationFunction = async (nextValues) =>
     isNew
       ? client.from(table.name).insert([nextValues])
-      : client
-          .from(table.name)
-          .update([nextValues])
-          .match({ [sk]: item[sk] })
-  const mutation = useMutation(mutationFunction)
+      : client.from(table.name).update([nextValues]).match(queryMatcher)
+  const deleteMutationFunction = async () =>
+    client.from(table.name).delete().match(queryMatcher)
+  const createOrUpdateMutation = useMutation(createOrUpdateMutationFunction)
+  const deleteMutation = useMutation(deleteMutationFunction)
 
-  const handleSubmit = async (values) => {
+  // onSubmit will manage create and update function
+  const onSubmit = async (values) => {
     // Cleaning function for dbFormValues
     const withValuesArgs = { isNew, user }
     const dbFormValues = flowRight([
@@ -116,14 +133,17 @@ const useCrudForm = (props: UseCrudFormArgs) => {
     const nextValues = nonOneToManyValues
 
     // Create or Update
-    mutation.mutate(nextValues, {
+    createOrUpdateMutation.mutate(nextValues, {
       onSuccess: async (result) => {
         queryClient.invalidateQueries(table.name)
 
         // Handle errors
         const { error, data } = result
         if (error || !data) {
-          console.error('error at useCrudForm.mutation()', error.message)
+          console.error(
+            'error at useCrudForm.createOrUpdateMutation()',
+            error.message
+          )
           toast.error('Something went wrong')
           return
         }
@@ -191,7 +211,43 @@ const useCrudForm = (props: UseCrudFormArgs) => {
     })
   }
 
-  return { form, isNew, handleSubmit }
+  const onDelete = async (values) => {
+    // Delete
+    deleteMutation.mutate(values, {
+      onSuccess: async (result) => {
+        queryClient.invalidateQueries(table.name)
+
+        // Handle errors
+        const { error, data } = result
+        if (error || !data) {
+          console.error('error at useCrudForm.deleteMutation()', error.message)
+          toast.error('Something went wrong')
+          return
+        }
+
+        // Saved item, we can get the product.id from here
+        // nextItem does not contain the relations.
+        // use item to get the relations.
+        const nextItem = data[0]
+
+        // Toast
+        toast.success('Success')
+
+        if (afterDelete) {
+          afterDelete({
+            values,
+            item: nextItem,
+          })
+        }
+      },
+      onError: (error) => {
+        toast.error('Something went wrong')
+        console.error('Error caught:', error)
+      },
+    })
+  }
+
+  return { formContext: form, isNew, onSubmit, onDelete }
 }
 
 export default useCrudForm

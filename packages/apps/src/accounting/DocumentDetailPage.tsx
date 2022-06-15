@@ -3,6 +3,7 @@ import { Button } from '@gravis-os/ui'
 import { DetailPage, DetailPageProps } from '@gravis-os/crud'
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import omit from 'lodash/omit'
+import { useRouter } from 'next/router'
 import getQuotationTitle from './getQuotationTitle'
 import DocumentFormSections from './DocumentFormSections'
 
@@ -10,6 +11,8 @@ export interface DocumentDetailPageProps extends DetailPageProps {}
 
 const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
   const { module, formSections, headerProps, crudFormProps, ...rest } = props
+
+  const router = useRouter()
 
   return (
     <DetailPage
@@ -32,6 +35,7 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
         disableRedirectOnSuccess: true,
         formJsxComponent: DocumentFormSections,
         useCrudFormProps: {
+          afterDelete: () => router.push(module.route.plural),
           setFormValues: (props) => {
             const { values, isNew } = props
             // TODO@Alex: Save lines properly into DB

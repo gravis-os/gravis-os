@@ -8,7 +8,7 @@ import {
   FormSectionsProps,
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from './typings'
-import useCrudForm, { UseCrudFormArgs } from './useCrudForm'
+import useCrudForm, { UseCrudFormArgs, UseCrudFormReturn } from './useCrudForm'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import metaFormSection from './metaFormSection'
 
@@ -41,6 +41,20 @@ export interface CrudFormProps {
   formJsxComponent?: React.JSXElementConstructor<any>
 }
 
+export interface CrudFormJsxProps extends FormSectionsProps {
+  item?: CrudItem
+  isNew: boolean
+  isPreview: boolean
+  isReadOnly: boolean
+  setIsReadOnly: React.Dispatch<React.SetStateAction<boolean>>
+  sections: FormSectionsProps['sections']
+  module: CrudModule
+  disabledFields: CrudFormProps['disabledFields']
+  formContext: UseCrudFormReturn['formContext']
+  onSubmit: UseCrudFormReturn['onSubmit']
+  onDelete: UseCrudFormReturn['onDelete']
+}
+
 const CrudForm: React.FC<CrudFormProps> = (props) => {
   const {
     headerProps,
@@ -69,7 +83,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   }
 
   // useCrudForm
-  const { form, isNew, handleSubmit } = useCrudForm({
+  const { formContext, isNew, onSubmit, onDelete } = useCrudForm({
     afterSubmit,
     item,
     refetch,
@@ -79,7 +93,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   })
 
   // Form states
-  const { isSubmitting, isDirty } = form.formState
+  const { isSubmitting, isDirty } = formContext.formState
 
   const [isReadOnly, setIsReadOnly] = useState(!isNew)
 
@@ -87,7 +101,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   const isPreview = Boolean(headerProps)
 
   // Form JSX Props
-  const formJsxProps = {
+  const formJsxProps: CrudFormJsxProps = {
     item,
     isNew,
     isPreview,
@@ -96,8 +110,9 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     sections: [...sections, metaFormSection] as FormSectionsProps['sections'],
     module,
     disabledFields,
-    formContext: form,
-    onSubmit: form.handleSubmit(handleSubmit), // For remote submits
+    formContext,
+    onSubmit, // For remote submits be sure to wrap in RHF.handleSubmit e.g. formContext.handleSubmit(onSubmit)
+    onDelete,
     ...formSectionsProps,
   }
 
@@ -106,8 +121,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
 
   return (
     <Form
-      form={form}
-      onSubmit={handleSubmit}
+      form={formContext}
+      onSubmit={onSubmit}
       formJsx={<FormJsxComponent {...formJsxProps} />}
       {...formProps}
     >

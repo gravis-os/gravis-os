@@ -16,10 +16,20 @@ export interface ConfirmationDialogProps extends Omit<DialogProps, 'open'> {
   icon?: React.ReactElement
   tooltip?: string
   buttonProps?: ButtonProps
+  buttonComponent?: React.ElementType
+  disableToastSuccess?: boolean
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
-  const { tooltip = 'Delete', icon, onConfirm, buttonProps, ...rest } = props
+  const {
+    buttonComponent: ButtonComponent,
+    tooltip = 'Delete',
+    icon,
+    onConfirm,
+    buttonProps,
+    disableToastSuccess,
+    ...rest
+  } = props
 
   // State
   const [confirmationDialogOpen, setConfirmationDialogOpen] = useState(false)
@@ -28,7 +38,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
   const handleConfirmButtonClick = async () => {
     try {
       if (onConfirm) await onConfirm()
-      toast.success('Success')
+      !disableToastSuccess && toast.success('Success')
     } catch (err) {
       toast.error('Error')
       console.error('Error caught:', err)
@@ -37,17 +47,25 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
     }
   }
 
+  const defaultButtonProps = {
+    onClick: openDialog,
+    tooltip,
+  }
+
   return (
     <>
-      <IconButton
-        size="small"
-        onClick={openDialog}
-        sx={{ '&:hover': { color: 'error.main' } }}
-        tooltip={tooltip}
-        {...buttonProps}
-      >
-        {icon || <DeleteOutlineOutlinedIcon fontSize="small" />}
-      </IconButton>
+      {ButtonComponent ? (
+        <ButtonComponent {...defaultButtonProps} {...buttonProps} />
+      ) : (
+        <IconButton
+          size="small"
+          {...defaultButtonProps}
+          {...buttonProps}
+          sx={{ '&:hover': { color: 'error.main' }, ...buttonProps?.sx }}
+        >
+          {icon || <DeleteOutlineOutlinedIcon fontSize="small" />}
+        </IconButton>
+      )}
 
       {/* Dialog */}
       <Dialog open={confirmationDialogOpen} onClose={closeDialog} {...rest}>

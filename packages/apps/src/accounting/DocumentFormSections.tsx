@@ -7,10 +7,12 @@ import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined'
+import { CrudFormJsxProps } from '@gravis-os/crud'
 import {
   Button,
   Box,
   Card,
+  ConfirmationDialog,
   Divider,
   Grid,
   Stack,
@@ -101,22 +103,19 @@ const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
   )
 }
 
-export interface DocumentFormSectionsProps {
-  sections: FormSectionProps[]
+export interface DocumentFormSectionsProps extends CrudFormJsxProps {
   actionButtons?: ButtonProps[]
-  isReadOnly?: boolean
-  setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>
-  formContext: UseFormReturn
-  onSubmit: () => Promise<void>
 }
 
 const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
   const {
     formContext,
     onSubmit,
+    onDelete,
     isReadOnly,
     setIsReadOnly,
     sections,
+    item,
     ...rest
   } = props
 
@@ -139,7 +138,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
       onClick: async () => {
         if (isReadOnly) return setIsReadOnly(!isReadOnly)
 
-        await onSubmit()
+        await formContext.handleSubmit(onSubmit)
         setIsReadOnly(!isReadOnly)
       },
     },
@@ -148,12 +147,18 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
       children: 'Print',
       startIcon: <LocalPrintshopOutlinedIcon />,
     },
-    {
-      // TODO@Joel: Setup delete action here. Pass a deleteHandler down from CrudForm.
-      key: 'delete',
-      children: 'Delete',
-      startIcon: <DeleteOutlineOutlinedIcon />,
-    },
+    <ConfirmationDialog
+      buttonComponent={Button}
+      buttonProps={{
+        key: 'delete',
+        children: 'Delete',
+        startIcon: <DeleteOutlineOutlinedIcon />,
+        tooltip: 'Delete',
+        color: 'inherit',
+      }}
+      disableToastSuccess
+      onConfirm={() => onDelete(item)}
+    />,
     {
       key: 'margin',
       children: 'Margin',
@@ -177,9 +182,12 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
         >
           {/* Left */}
           <Stack direction="row" alignItems="center" spacing={0.5}>
-            {actionButtons?.map((actionButton) => (
-              <Button key={actionButton.key} {...actionButton} />
-            ))}
+            {actionButtons?.map((actionButton) => {
+              const isReactElement = React.isValidElement(actionButton)
+              if (isReactElement) return actionButton
+
+              return <Button key={actionButton.key} {...actionButton} />
+            })}
           </Stack>
 
           {/* Right */}
