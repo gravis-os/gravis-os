@@ -21,12 +21,10 @@ import {
 } from '@gravis-os/ui'
 import {
   FormSection,
-  FormSectionProps,
   FormSectionReadOnlyStack,
   FormSectionRenderReadOnlyProps,
 } from '@gravis-os/form'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
-import { UseFormReturn } from 'react-hook-form'
 import { DocumentItem } from './types'
 
 const AddressReadOnlyFormSection: React.FC<{
@@ -121,7 +119,7 @@ const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
 
   if (!sections?.length) return null
 
-  const formSectionProps = { isReadOnly, disableCard: true, ...rest }
+  const formSectionProps = { isReadOnly, disableCard: true, item, ...rest }
 
   const getSectionPropsByKey = (key: string) =>
     sections.find((section) => section.key === key)

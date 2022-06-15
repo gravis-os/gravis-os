@@ -162,6 +162,7 @@ const renderField = (props: RenderFieldProps) => {
             title: modelTitle,
           })
         }
+
         return (
           <FormSectionReadOnlyStack
             label={modelLabel}
