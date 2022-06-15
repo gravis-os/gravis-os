@@ -1,25 +1,39 @@
+import omit from 'lodash/omit'
+import omitBy from 'lodash/omitBy'
+import partition from 'lodash/partition'
+
 const saveOneToManyValues = async (props) => {
   const { item, values: oneToManyPairs, client, module } = props
 
   // `product`
   const primaryTableName = module.table.name
 
-  const insertPromises = Object.entries(oneToManyPairs).map(([key, values]) => {
-    if (!Array.isArray(values)) return
+  const upsertPromises = Object.entries(oneToManyPairs).map(([key, rows]) => {
+    if (!Array.isArray(rows)) return null
 
-    const valuesWithId = values.map((value) => ({
-      ...value,
-      [`${primaryTableName}_id`]: item.id, // product_id = 1
-    }))
+    const [insertRowsWithIds, updateRows] = partition(
+      rows.map((row) => ({
+        // Filter away relations data
+        ...omitBy(row, (value) => typeof value === 'object' && value !== null),
+        [`${primaryTableName}_id`]: item.id, // product_id = 1
+      })),
+      ({ id }) => typeof id === 'string'
+    )
+    const insertRows = insertRowsWithIds.map((row) => omit(row, 'id'))
 
-    // Key is usually gallery_images. Construct foreign table name from relationalKey e.g. product_gallery_image
-    const foreignTableName = key
+    if (!module.relations?.[key]?.table?.name) return null
+    const foreignTableName = module.relations[key].table.name
+
+    const promises = [
+      updateRows.length > 0 && client.from(foreignTableName).upsert(updateRows),
+      insertRows.length > 0 && client.from(foreignTableName).insert(insertRows),
+    ].filter(Boolean)
 
     // Batch upsert into a single table
-    return client.from(foreignTableName).upsert(valuesWithId)
+    return Promise.all(promises)
   })
 
-  return Promise.all(insertPromises)
+  return Promise.all(upsertPromises)
 }
 
 export default saveOneToManyValues
