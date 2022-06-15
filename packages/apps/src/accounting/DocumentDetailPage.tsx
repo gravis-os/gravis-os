@@ -3,13 +3,18 @@ import { Button } from '@gravis-os/ui'
 import { DetailPage, DetailPageProps } from '@gravis-os/crud'
 import ArrowRightAltOutlinedIcon from '@mui/icons-material/ArrowRightAltOutlined'
 import { useRouter } from 'next/router'
-import getQuotationTitle from './getQuotationTitle'
 import DocumentFormSections from './DocumentFormSections'
+import getDocumentTitle from './getDocumentTitle'
+import getDocumentPrefixByType from './getDocumentPrefixByType'
+import { DocumentTypeEnum } from './constants'
 
-export interface DocumentDetailPageProps extends DetailPageProps {}
+export interface DocumentDetailPageProps extends DetailPageProps {
+  type: DocumentTypeEnum
+}
 
 const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
-  const { module, formSections, headerProps, crudFormProps, ...rest } = props
+  const { type, module, formSections, headerProps, crudFormProps, ...rest } =
+    props
 
   const router = useRouter()
 
@@ -39,7 +44,9 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
             const { values, isNew } = props
             return values
           },
-          defaultValues: { title: getQuotationTitle() },
+          defaultValues: {
+            title: getDocumentTitle({ prefix: getDocumentPrefixByType(type) }),
+          },
         },
         ...crudFormProps,
       }}

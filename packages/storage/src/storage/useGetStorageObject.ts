@@ -42,7 +42,7 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
         console.error('Error downloading image: ', error.message)
       }
     }
-    if (savedFilePath) fetchStorageObject(savedFilePath)
+    if (!objectUrl && savedFilePath) fetchStorageObject(savedFilePath)
   }, [bucketName, client.storage, savedFilePath, value])
 
   return { src: objectUrl }

@@ -14,6 +14,7 @@ export { default as getDocumentTitle } from './getDocumentTitle'
 export * from './getDocumentTitle'
 
 // ==============================
-// Types
+// Misc
 // ==============================
 export * from './types'
+export * from './constants'
