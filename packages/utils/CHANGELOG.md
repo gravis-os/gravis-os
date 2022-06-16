@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.5
+
+### Patch Changes
+
+- 2315a3e: Apps Document feature overhaul
+
 ## 0.0.4
 
 ### Patch Changes

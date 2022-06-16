@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.13
+
+### Patch Changes
+
+- 2315a3e: Apps Document feature overhaul
+- fe49642: Update Quotation to Document"
+- Updated dependencies [2315a3e]
+- Updated dependencies [fe49642]
+  - @gravis-os/auth@0.0.4
+  - @gravis-os/form@0.0.10
+  - @gravis-os/storage@0.0.5
+  - @gravis-os/ui@0.0.10
+
 ## 0.0.11
 
 ### Patch Changes

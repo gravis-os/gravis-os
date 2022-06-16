@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.10
+
+### Patch Changes
+
+- 2315a3e: Apps Document feature overhaul
+- fe49642: Update Quotation to Document"
+- Updated dependencies [2315a3e]
+  - @gravis-os/utils@0.0.5
+
 ## 0.0.9
 
 ### Patch Changes
