@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.17
+
+### Patch Changes
+
+- 91adcfb: Fix typings
+- Updated dependencies [91adcfb]
+  - @gravis-os/form@0.0.14
+
 ## 0.0.16
 
 ### Patch Changes

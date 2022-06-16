@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.9
+
+### Patch Changes
+
+- 91adcfb: Fix typings
+- Updated dependencies [91adcfb]
+  - @gravis-os/crud@0.0.17
+  - @gravis-os/form@0.0.14
+
 ## 0.0.8
 
 ### Patch Changes
