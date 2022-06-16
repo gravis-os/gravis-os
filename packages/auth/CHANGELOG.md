@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.5
+
+### Patch Changes
+
+- Update packages sitewide to fix build issues"
+- Updated dependencies
+  - @gravis-os/form@0.0.12
+  - @gravis-os/ui@0.0.11
+
 ## 0.0.4
 
 ### Patch Changes

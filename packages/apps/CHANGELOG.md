@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.8
+
+### Patch Changes
+
+- Update packages sitewide to fix build issues"
+- Updated dependencies
+  - @gravis-os/crud@0.0.16
+  - @gravis-os/form@0.0.12
+  - @gravis-os/ui@0.0.11
+
 ## 0.0.7
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.16
+
+### Patch Changes
+
+- Update packages sitewide to fix build issues"
+- Updated dependencies
+  - @gravis-os/auth@0.0.5
+  - @gravis-os/form@0.0.12
+  - @gravis-os/storage@0.0.6
+  - @gravis-os/ui@0.0.11
+
 ## 0.0.15
 
 ### Patch Changes

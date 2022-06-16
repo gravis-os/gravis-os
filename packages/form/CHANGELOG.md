@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.12
+
+### Patch Changes
+
+- Update packages sitewide to fix build issues"
+- Updated dependencies
+  - @gravis-os/storage@0.0.6
+  - @gravis-os/ui@0.0.11
+
 ## 0.0.11
 
 ### Patch Changes
