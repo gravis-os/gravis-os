@@ -105,7 +105,7 @@ export interface DocumentFormSectionsProps extends CrudFormJsxProps {
   actionButtons?: ButtonProps[]
 }
 
-const DocumentFormSections: React.FC<DocumentFormSectionsProps> = (props) => {
+const DocumentFormSections: React.FC<any> = (props) => {
   const {
     formContext,
     onSubmit,

@@ -12,7 +12,8 @@ export interface DocumentDetailPageProps extends DetailPageProps {
   type: DocumentTypeEnum
 }
 
-const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
+// TODO@Joel: Fix this typing
+const DocumentDetailPage: React.FC<any> = (props) => {
   const { type, module, formSections, headerProps, crudFormProps, ...rest } =
     props
 

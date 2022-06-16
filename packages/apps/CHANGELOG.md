@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.7
+
+### Patch Changes
+
+- Fix typing error to get build going
+
 ## 0.0.6
 
 ### Patch Changes
