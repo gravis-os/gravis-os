@@ -5,12 +5,12 @@ import CrudAddDialog from './CrudAddDialog'
 import { CrudModule } from '../types'
 
 export interface RenderModelFieldWithCrudProps {
-  children: React.ReactElement
+  children: any // Something's wrong with the React.ReactNode here
   module: CrudModule
   addFormSections: FormSectionProps[]
 }
 
-const ModelFieldWithCrud = (props: RenderModelFieldWithCrudProps) => {
+const ModelFieldWithCrud: React.FC<RenderModelFieldWithCrudProps> = (props) => {
   const { children, module, addFormSections } = props
   const useAddDialogProps = useAddDialog({ module, addFormSections })
   const { setAddDialogOpen } = useAddDialogProps

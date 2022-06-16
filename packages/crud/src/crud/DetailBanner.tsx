@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardProps, Stack, Typography } from '@gravis-os/ui'
 import { StorageAvatarWithUpload } from '@gravis-os/storage'
-import { CrudItem, CrudModule } from './typings'
+import { CrudItem, CrudModule } from '../types'
 
 export interface DetailBannerProps {
   cardProps?: CardProps
@@ -9,7 +9,7 @@ export interface DetailBannerProps {
   item: CrudItem
 }
 
-const DetailBanner: React.FC<DetailBannerProps> = props => {
+const DetailBanner: React.FC<DetailBannerProps> = (props) => {
   const { item, module, cardProps } = props
   const { title, subtitle } = item || {}
 

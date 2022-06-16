@@ -6,7 +6,7 @@ import {
   FormSections,
   FormSectionsProps,
 } from '@gravis-os/form'
-import { CrudModule } from './typings'
+import { CrudModule } from '../types'
 import useFilterForm, { UseFilterFormArgs } from './useFilterForm'
 
 export interface FilterFormProps {
@@ -19,7 +19,7 @@ export interface FilterFormProps {
   children?: FormProps<any>['children']
 }
 
-const FilterForm: React.FC<FilterFormProps> = props => {
+const FilterForm: React.FC<FilterFormProps> = (props) => {
   const {
     onSubmit,
     useFilterFormProps,
@@ -46,7 +46,7 @@ const FilterForm: React.FC<FilterFormProps> = props => {
         <FormSections disableCard sections={sections} {...formSectionsProps} />
       }
     >
-      {renderProps => {
+      {(renderProps) => {
         const { submitButtonJsx } = renderProps
         return (
           <>

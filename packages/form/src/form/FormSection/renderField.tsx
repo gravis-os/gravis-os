@@ -17,7 +17,7 @@ import ControlledModelField from '../fields/ControlledModelField'
 import ControlledPasswordField from '../fields/ControlledPasswordField'
 import ControlledHtmlField from '../fields/ControlledHtmlField'
 import ControlledTextField from '../fields/ControlledTextField'
-import { CrudModule } from '../../types'
+import { CrudModule, RenderPropsFunction } from '../../types'
 import { FormSectionProps } from './FormSection'
 import { FieldEffectOptions } from './FieldEffectProvider'
 
@@ -64,6 +64,9 @@ export interface FormSectionFieldProps {
   label?: string
   type?: FormSectionFieldTypeEnum | string // Should not have string type but adding so as to prevent having to TS casting downstream
   module?: CrudModule
+  multiple?: boolean
+  options?: string[] | Array<{ key: string; value: string; label: string }>
+  select?: any // Can either be MUI textfield select or react-query selector
 
   // Manage layout
   gridProps?: GridProps
@@ -73,15 +76,18 @@ export interface FormSectionFieldProps {
   disabled?: boolean | FormSectionFieldBooleanFunction
   required?: boolean
 
-  // For setting value
+  // For setting valu
   fieldEffect?: FieldEffectOptions
+
+  // withCreate function
+  withCreate?: boolean
 
   // Filters
   op?: string
   filterKey?: string
 
   // Render - manage custom renders for installing hooks
-  render?: ({ children }: { children: React.ReactNode }) => React.ReactNode
+  render?: ({ children }: { children: React.ReactNode }) => any // Typings not working here should be React.ReactNode
 }
 
 export interface RenderFieldProps {

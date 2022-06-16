@@ -12,10 +12,9 @@ import {
 } from '@gravis-os/ui'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
-import { CrudItem, CrudModule } from './typings'
+import { CrudItem, CrudModule, RenderPropsFunction } from '../types'
 import getIsNew from './getIsNew'
 import useGetItem from './useGetItem'
-import { RenderPropsFunction } from '../types'
 import CrudForm, { CrudFormProps } from './CrudForm'
 
 interface DetailPageRenderProps {
@@ -39,7 +38,7 @@ export interface DetailPageProps {
   tabs?: DetailTab[]
   tabsProps?: TabsProps
   tabsCardProps?: CardProps
-  formSections?: CrudFormProps['sections'] | any // TODO@Joel: Fix this typing
+  formSections?: CrudFormProps['sections']
   crudFormProps?: Partial<CrudFormProps>
 }
 

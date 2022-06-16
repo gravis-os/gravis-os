@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
 import { useQuery } from 'react-query'
-import { CrudItem, CrudModule } from './typings'
+import { CrudItem, CrudModule } from '../types'
 
 export interface UseGetItemArgs {
   module: CrudModule
@@ -49,7 +49,9 @@ const useGetItem = (props: UseGetItemArgs): UseGetItemResult => {
   // Differentiate queryKey between single query and nested query with array length
   // to prevent filtering and have separate queries
   const isDetailPage = Boolean(!injectedSlug)
-  const queryKey = isDetailPage ? [table.name, slug] : [table.name, routerSlug, slug]
+  const queryKey = isDetailPage
+    ? [table.name, slug]
+    : [table.name, routerSlug, slug]
 
   // Fetch
   const onUseQuery = useQuery(queryKey, () => getItem({ slug }), {

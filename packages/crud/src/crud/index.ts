@@ -1,5 +1,3 @@
-export * from './typings'
-
 export { default as CrudForm } from './CrudForm'
 export * from './CrudForm'
 
@@ -50,3 +48,5 @@ export * from './useAddDialog'
 // ==============================
 export { default as getIsNew } from './getIsNew'
 export * from './getIsNew'
+
+export * from '../types'

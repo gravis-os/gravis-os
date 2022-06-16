@@ -14,7 +14,7 @@ import {
 import { FormSectionsProps } from '@gravis-os/form'
 import styleConfig from '../config/styleConfig'
 import FilterForm from './FilterForm'
-import { CrudModule } from './typings'
+import { CrudModule } from '../types'
 import SearchForm from './SearchForm'
 import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'

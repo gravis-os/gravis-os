@@ -19,7 +19,7 @@ import {
 } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
 import getCrudItemHref from './getCrudItemHref'
-import { CrudItem, CrudModule } from './typings'
+import { CrudItem, CrudModule } from '../types'
 
 export interface CrudTableActionsColumnCellRendererProps {
   module: CrudModule

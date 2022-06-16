@@ -8,11 +8,11 @@ import {
   FormSections,
   FormSectionsProps,
 } from '@gravis-os/form'
-import { CrudItem, CrudModule } from './typings'
+import { CrudItem, CrudModule } from '../types'
 import useSearchForm, { UseSearchFormArgs } from './useSearchForm'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 
-const getDefaultValuesFromFields = fields =>
+const getDefaultValuesFromFields = (fields) =>
   fields.reduce((acc, field) => {
     const { name } = field
     return { ...acc, [name]: '' }
@@ -28,7 +28,7 @@ export interface SearchFormProps {
   children?: FormProps<any>['children']
 }
 
-const SearchForm: React.FC<SearchFormProps> = props => {
+const SearchForm: React.FC<SearchFormProps> = (props) => {
   const {
     onSubmit,
     useSearchFormProps,
@@ -89,7 +89,7 @@ const SearchForm: React.FC<SearchFormProps> = props => {
         />
       }
     >
-      {renderProps => (
+      {(renderProps) => (
         <Stack direction="row" alignItems="center" spacing={1}>
           {typeof children === 'function'
             ? children(renderProps)

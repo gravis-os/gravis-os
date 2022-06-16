@@ -4,7 +4,7 @@ import {
   SupabaseClient,
 } from '@supabase/supabase-auth-helpers/nextjs'
 import { getSearchFormValues } from '@gravis-os/form'
-import { CrudModule } from './typings'
+import { CrudModule } from '../types'
 
 interface UseSearchFormValues {
   values: Record<string, any>
@@ -38,7 +38,7 @@ const useSearchForm = (args: UseSearchFormArgs) => {
   const { reset } = form
 
   // Submit
-  const handleSubmit = async values => {
+  const handleSubmit = async (values) => {
     try {
       const searchFormValues = getSearchFormValues({ values })
       const nextValues = setFormValues
