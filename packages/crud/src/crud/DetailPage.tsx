@@ -39,7 +39,7 @@ export interface DetailPageProps {
   tabs?: DetailTab[]
   tabsProps?: TabsProps
   tabsCardProps?: CardProps
-  formSections?: CrudFormProps['sections']
+  formSections?: CrudFormProps['sections'] | any // TODO@Joel: Fix this typing
   crudFormProps?: Partial<CrudFormProps>
 }
 

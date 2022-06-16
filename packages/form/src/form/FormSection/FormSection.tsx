@@ -45,7 +45,7 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   actionButtons?: ButtonProps[]
 
   disableCard?: boolean
-  module?: CrudModule
+  module?: CrudModule | any // TODO@Joel: Fix this typing
   disabledFields?: string[]
 }
 

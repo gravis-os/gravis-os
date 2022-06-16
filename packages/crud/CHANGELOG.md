@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.15
+
+### Patch Changes
+
+- Fix typing issues
+- Updated dependencies
+  - @gravis-os/form@0.0.11
+
 ## 0.0.14
 
 ### Patch Changes
