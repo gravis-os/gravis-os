@@ -1,3 +1,4 @@
+// TODO@Joel: Deprecate this in favour of the duplicate in src/types/index.ts
 export interface CrudModule {
   pk?: string // primary key - used for display e.g. title
   sk?: string // slug key - used for route e.g. slug

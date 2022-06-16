@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.14
+
+### Patch Changes
+
+- Update typing in Gravis
+
+  - [CLI Usage](https://turborepo.org/docs/reference/command-line-reference)
+
 ## 0.0.13
 
 ### Patch Changes
