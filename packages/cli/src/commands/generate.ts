@@ -1,5 +1,4 @@
 import { GluegunToolbox } from 'gluegun'
-import { camelCase, startCase, kebabCase } from 'lodash'
 
 module.exports = {
   name: 'generate',
@@ -11,7 +10,12 @@ module.exports = {
       template: { generate },
       print: { info, error },
     } = toolbox
+    // Dynamic import deps for better perf
+    const { camelCase, startCase, kebabCase } = await import('lodash')
 
+    // 1. Prompt for name if not provided
+    // More info on prompter here: $ gluegun kitchen
+    // @link https://github.com/infinitered/gluegun/blob/master/docs/toolbox-prompt.md
     const getNameOrPrompt = async (name?: string) => {
       if (!name) {
         const result = await prompt.ask({
@@ -31,8 +35,7 @@ module.exports = {
     }
     const name = await getNameOrPrompt(parameters.first)
 
-    // Handle case where name is not provided.
-
+    // We got all that we need. Prepare inputs.
     const module = {
       name: {
         camelCase: camelCase(name), // projectGroup
@@ -40,20 +43,48 @@ module.exports = {
         kebabCase: kebabCase(name), // project-group
       },
     }
-
     const commonProps = { props: { name } }
+    const templateFolder = 'CrudGen'
 
-    const generatePromises = [
-      // Generate config file
-      generate({
-        ...commonProps,
-        template: 'moduleConfig.ts.ejs',
+    const files = [
+      {
+        template: 'pages/modules/index.tsx.ejs',
+        target: `pages/${module.name.kebabCase}s/index.tsx`,
+      },
+      {
+        template: 'pages/modules/[slug].tsx.ejs',
+        target: `pages/${module.name.kebabCase}s/[slug].tsx`,
+      },
+      {
+        template: 'src/modules/Module/__tests__/module.test.jsx.ejs',
+        target: `src/modules/${module.name.titleCase}/__tests__/${module.name.camelCase}.test.jsx`,
+      },
+      {
+        template: 'src/modules/Module/moduleConfig.ts.ejs',
         target: `src/modules/${module.name.titleCase}/${module.name.camelCase}Config.ts`,
-      }),
+      },
     ]
+
+    const generatePromises = files.reduce((acc, file) => {
+      const template = `${templateFolder}/${file.template}`
+
+      // Where to copy this file to.
+      const target = file.target.replace('.ejs', '')
+
+      /*
+        First argument is the template,
+        Second is the target, where to put the file
+        The third is the argument to be passed into the file
+        returns a promise
+      */
+      const gen = generate({ ...commonProps, template, target })
+
+      return acc.concat([gen])
+    }, [])
 
     await Promise.all(generatePromises)
 
+    // Thank you.
     info(`Generated new ${module.name.titleCase} module.`)
   },
 }

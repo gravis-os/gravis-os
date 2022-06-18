@@ -25,5 +25,6 @@ test('generates file', async () => {
   expect(foomodel).toContain(`name: 'foo'`)
 
   // cleanup artifact
+  filesystem.remove('pages/foos')
   filesystem.remove('src/modules/Foo')
 })
