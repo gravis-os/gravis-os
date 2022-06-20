@@ -48,7 +48,7 @@ module.exports = {
 
       return result.pluralName
     }
-    const pluralName = await promptPluralName()
+    const pluralName = parameters.second || (await promptPluralName())
 
     // ==============================
     // Validate inputs

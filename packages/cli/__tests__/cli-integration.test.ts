@@ -16,15 +16,15 @@ test('outputs help', async () => {
 })
 
 test('generates file', async () => {
-  const output = await cli('generate foo')
+  const output = await cli('generate Foo Foos')
 
   expect(output).toContain('Generated new Foo module.')
-  const foomodel = filesystem.read('src/modules/Foo/fooConfig.ts')
+  const fooConfig = filesystem.read('src/modules/Foo/fooConfig.tsx')
 
-  expect(foomodel).toContain(`module.exports = {`)
-  expect(foomodel).toContain(`name: 'foo'`)
+  expect(fooConfig).toContain(`export const fooModule = {`)
+  expect(fooConfig).toContain(`name: 'foo'`)
 
   // cleanup artifact
-  filesystem.remove('pages/foos')
+  filesystem.remove('pages/dashboard/foos')
   filesystem.remove('src/modules/Foo')
 })
