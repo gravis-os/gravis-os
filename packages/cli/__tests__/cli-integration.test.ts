@@ -15,6 +15,7 @@ test('outputs help', async () => {
   expect(output).toContain('0.0.1')
 })
 
+// @example $ gravis generate ProjectGroup ProjectGroups
 test('generates file', async () => {
   const output = await cli('generate Foo Foos')
 
