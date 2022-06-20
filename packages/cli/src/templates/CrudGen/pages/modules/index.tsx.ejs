@@ -1,0 +1,32 @@
+import React from 'react'
+import type { NextPage } from 'next'
+import Head from 'next/head'
+import { withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
+import { routes } from 'app/routes'
+import { ListPage } from '@gravis-os/crud'
+import { DashboardLayout } from '../../../src/components/dashboard/dashboard-layout'
+import {
+  <%= props.module.name.camelCase %>ColumnDefs,
+  <%= props.module.name.camelCase %>Module,
+  <%= props.module.name.camelCase %>PreviewFormSections,
+} from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>Config'
+
+export const getServerSideProps = withPageAuth({ redirectTo: routes.AUTH_FAILURE_REDIRECT })
+
+const <%= props.module.name.titleCase %>ListPage: NextPage = () => {
+  return (
+    <DashboardLayout>
+      <Head>
+        <title>Dashboard: <%= props.module.name.startCase %> List</title>
+      </Head>
+
+      <ListPage
+        module={<%= props.module.name.camelCase %>Module}
+        columnDefs={<%= props.module.name.camelCase %>ColumnDefs}
+        previewFormSections={<%= props.module.name.camelCase %>PreviewFormSections}
+      />
+    </DashboardLayout>
+  )
+}
+
+export default <%= props.module.name.titleCase %>ListPage

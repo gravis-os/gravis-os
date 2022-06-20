@@ -1,0 +1,24 @@
+import React from 'react'
+import { withPageAuth } from '@supabase/supabase-auth-helpers/nextjs'
+import { routes } from 'app/routes'
+import Head from 'next/head'
+import { NextPage } from 'next'
+import { DetailPage } from '@gravis-os/crud'
+import { DashboardLayout } from '../../../src/components/dashboard/dashboard-layout'
+import { <%= props.module.name.camelCase %>FormSections, <%= props.module.name.camelCase %>Module } from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>Config'
+
+export const getServerSideProps = withPageAuth({ redirectTo: routes.AUTH_FAILURE_REDIRECT })
+
+const <%= props.module.name.titleCase %>DetailPage: NextPage = () => {
+  return (
+    <DashboardLayout>
+      <Head>
+        <title>Dashboard: <%= props.module.name.titleCase %> Detail</title>
+      </Head>
+
+      <DetailPage module={<%= props.module.name.camelCase %>Module} formSections={<%= props.module.name.camelCase %>FormSections} />
+    </DashboardLayout>
+  )
+}
+
+export default <%= props.module.name.titleCase %>DetailPage

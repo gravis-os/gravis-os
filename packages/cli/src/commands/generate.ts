@@ -11,57 +11,84 @@ module.exports = {
       print: { info, error },
     } = toolbox
     // Dynamic import deps for better perf
-    const { camelCase, startCase, kebabCase } = await import('lodash')
+    const { camelCase, startCase, kebabCase, snakeCase } = await import(
+      'lodash'
+    )
 
     // 1. Prompt for name if not provided
     // More info on prompter here: $ gluegun kitchen
     // @link https://github.com/infinitered/gluegun/blob/master/docs/toolbox-prompt.md
-    const getNameOrPrompt = async (name?: string) => {
-      if (!name) {
-        const result = await prompt.ask({
-          type: 'input',
-          name: 'name',
-          message: 'What is the name of the module?',
-        })
-        if (result && result.name) return result.name
-        // if they didn't provide one, we error out
-        if (!result.name) {
-          error('No name specified!')
-          return
-        }
-      }
+    const getOrPromptSingularName = async () => {
+      const result = await prompt.ask({
+        type: 'input',
+        name: 'name',
+        message:
+          'What is the singular name of the module? (in TitleCase with no spaces) e.g. ProjectGroup',
+      })
 
-      return name
+      // if they didn't provide one, we error out
+      if (!result.name) return error('No name specified!')
+
+      return result.name
     }
-    const name = await getNameOrPrompt(parameters.first)
 
+    const singularName = parameters.first || (await getOrPromptSingularName())
+
+    // Plural name
+    const promptPluralName = async () => {
+      const result = await prompt.ask({
+        type: 'input',
+        name: 'pluralName',
+        message:
+          'What is the plural name of the module? (in TitleCase with no spaces) e.g. ProjectGroups',
+      })
+
+      // if they didn't provide one, we error out
+      if (!result.pluralName) return error('No plural name specified!')
+
+      return result.pluralName
+    }
+    const pluralName = await promptPluralName()
+
+    // ==============================
+    // Validate inputs
+    // ==============================
+    if (!singularName || !pluralName) return
+
+    // ==========================================
     // We got all that we need. Prepare inputs.
+    // ==========================================
+    const getNameWithCasings = (name: string) => ({
+      camelCase: camelCase(name), // projectGroup
+      titleCase: startCase(name).replace(' ', ''), // ProjectGroup
+      kebabCase: kebabCase(name), // project-group
+      lowerSnakeCase: snakeCase(name).toLowerCase(), // project_group
+      upperSnakeCase: snakeCase(name).toUpperCase(), // PROJECT_GROUP
+      startCase: startCase(name), // Project Group
+    })
     const module = {
-      name: {
-        camelCase: camelCase(name), // projectGroup
-        titleCase: startCase(name).replace(' ', ''), // ProjectGroup
-        kebabCase: kebabCase(name), // project-group
-      },
+      name: getNameWithCasings(singularName),
+      pluralName: getNameWithCasings(pluralName || singularName),
     }
-    const commonProps = { props: { name } }
+    const commonProps = { props: { name: singularName, module } }
     const templateFolder = 'CrudGen'
 
     const files = [
       {
         template: 'pages/modules/index.tsx.ejs',
-        target: `pages/${module.name.kebabCase}s/index.tsx`,
+        target: `pages/dashboard/${module.name.kebabCase}s/index.tsx`,
       },
       {
         template: 'pages/modules/[slug].tsx.ejs',
-        target: `pages/${module.name.kebabCase}s/[slug].tsx`,
+        target: `pages/dashboard/${module.name.kebabCase}s/[slug].tsx`,
       },
       {
         template: 'src/modules/Module/__tests__/module.test.jsx.ejs',
         target: `src/modules/${module.name.titleCase}/__tests__/${module.name.camelCase}.test.jsx`,
       },
       {
-        template: 'src/modules/Module/moduleConfig.ts.ejs',
-        target: `src/modules/${module.name.titleCase}/${module.name.camelCase}Config.ts`,
+        template: 'src/modules/Module/moduleConfig.tsx.ejs',
+        target: `src/modules/${module.name.titleCase}/${module.name.camelCase}Config.tsx`,
       },
     ]
 
