@@ -24,3 +24,6 @@ $ npm publish
 
 MIT - see LICENSE
 
+# References
+- https://github.com/infinitered/gluegun
+- https://infinitered.github.io/gluegun/#/./tutorial-making-a-movie-cli?id=generate-a-new-cli
