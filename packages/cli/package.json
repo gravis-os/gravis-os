@@ -1,8 +1,9 @@
 {
-  "name": "gravis-cli",
+  "name": "@gravis-os/cli",
   "version": "0.0.1",
   "description": "gravis CLI",
-  "private": true,
+  "sideEffects": false,
+  "private": false,
   "types": "build/types/types.d.ts",
   "bin": {
     "gravis": "bin/gravis"

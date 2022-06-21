@@ -1,6 +1,17 @@
-# gravis CLI
+# GravisOS CLI
 
 A CLI for gravis.
+
+## Installation
+`npm install -g @gravis-os/cli`
+
+or 
+
+`npx @gravis-os/cli <COMMAND>`
+
+## Usage
+
+`gravis --help`
 
 ## Customizing your CLI
 
