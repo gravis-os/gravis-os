@@ -8,14 +8,14 @@ import Button from '@mui/material/Button'
 import {
   useAuth,
   withAuthProvider,
-  withAuthRequired,
+  withPageAuth,
   useUser,
 } from '@gravis-os/auth'
 import { StorageAvatar } from '@gravis-os/storage'
 import ProTip from '../src/ProTip'
 import Copyright from '../src/Copyright'
 
-export const getServerSideProps = withAuthRequired()
+export const getServerSideProps = withPageAuth()
 
 const Profile: NextPage = () => {
   const { logout } = useAuth()
