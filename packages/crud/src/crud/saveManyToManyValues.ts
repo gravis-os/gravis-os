@@ -14,7 +14,7 @@ const saveManyToManyValues = async (args) => {
       currentColumnName: `${module.table.name}_id`,
       opposingColumnName: `${relationalObjectKey}_id`,
       joinKey,
-      prevValueIds: item[joinKey].map((v) => v.id),
+      prevValueIds: item[joinKey]?.map((v) => v.id) || [],
       currentValueIds: value.map((v) => v.id),
     }
 
