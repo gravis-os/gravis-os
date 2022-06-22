@@ -59,6 +59,7 @@ const baseTheme = {
     },
     button: {
       fontWeight: 600,
+      textTransform: 'none',
     },
   },
 }

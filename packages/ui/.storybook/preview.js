@@ -20,6 +20,10 @@ import 'quill/dist/quill.snow.css'
 // Storybook Parameters
 // ==============================
 export const parameters = {
+  // @link https://github.com/storybookjs/storybook/issues/17025#issuecomment-1055654634
+  docs: {
+    source: { type: 'code' }, // Default here is 'dynamic'
+  },
   controls: {
     matchers: {
       color: /(background|color)$/i,
@@ -27,7 +31,20 @@ export const parameters = {
     },
   },
   nextRouter: { Provider: RouterContext.Provider },
-  msw: { handlers: mswHandlers }
+  msw: { handlers: mswHandlers },
+  backgrounds: {
+    default: 'light',
+    values: [
+      {
+        name: 'dark',
+        value: '#222',
+      },
+      {
+        name: 'light',
+        value: '#eee',
+      },
+    ],
+  }
 }
 
 // ==============================

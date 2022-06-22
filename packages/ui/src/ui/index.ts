@@ -85,11 +85,32 @@ export * from './Badge'
 export { default as Skeleton } from './Skeleton'
 export * from './Skeleton'
 
-export { default as Sortable } from './Sortable'
-export * from './Sortable'
-
 export { default as Switch } from './Switch'
 export * from './Switch'
 
 export { default as Tooltip } from './Tooltip'
 export * from './Tooltip'
+
+// ==============================
+// Components
+// ==============================
+export { default as Header } from './Header'
+export * from './Header'
+
+export { default as MegaSearch } from './MegaSearch'
+export * from './MegaSearch'
+
+export { default as Footer } from './Footer'
+export * from './Footer'
+
+export { default as FaqAccordion } from './FaqAccordion'
+export * from './FaqAccordion'
+
+export { default as NavAccordion } from './NavAccordion'
+export * from './NavAccordion'
+
+export { default as SubHeader } from './SubHeader'
+export * from './SubHeader'
+
+export { default as Sortable } from './Sortable'
+export * from './Sortable'

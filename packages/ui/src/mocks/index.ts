@@ -1,1 +1,1 @@
-export * from './crud.mocks'
+export * from './mocks'
