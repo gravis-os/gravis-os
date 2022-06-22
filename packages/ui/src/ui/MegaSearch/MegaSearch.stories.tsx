@@ -94,7 +94,7 @@ const tabs = [
   },
 ]
 
-export const Primary = (props) => (
+export const Basic = (props) => (
   <Box p={3}>
     <MegaSearch
       {...defaultMegaSearchProps}

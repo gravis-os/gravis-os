@@ -10,7 +10,7 @@ import IconButton from '../IconButton'
 import createRange from './createRange'
 
 export default {
-  title: 'ui/Sortable',
+  title: 'Components/Sortable',
 }
 
 export const Horizontal = () => <Sortable layout={SortableLayout.Horizontal} />

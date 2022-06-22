@@ -1,12 +1,12 @@
 import React from 'react'
-import { Badge, Box, Button, ButtonProps, Typography } from '@mui/material'
+import { Badge, Box, Button, ButtonProps } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import Header, { NAV_ITEM_SEARCH_PRESET } from './Header'
 import SubHeader from '../SubHeader'
-import { MOCK_SUB_HEADER_PROPS } from '../../mocks'
+import { MOCK_SUB_HEADER_PROPS, MOCK_LOGO_JSX } from '../../mocks'
 
 export default {
   title: 'Components/Header',
@@ -14,16 +14,8 @@ export default {
   parameters: { layout: 'fullscreen' },
 }
 
-// Setup
-const Logo = () => {
-  return (
-    <Typography fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: 1 }}>
-      LOGO
-    </Typography>
-  )
-}
 const defaultHeaderProps = {
-  logo: Logo,
+  logo: () => MOCK_LOGO_JSX,
   navItems: [
     {
       name: 'foo',
@@ -230,7 +222,7 @@ export const withLogoCenter = (props) => {
             {
               name: 'logo',
               title: 'Logo',
-              children: <Logo />,
+              children: MOCK_LOGO_JSX,
               hideInMobileDrawer: true,
               showInMobileBar: true,
             },

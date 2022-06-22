@@ -11,11 +11,11 @@ export interface FooterProps {
   companyName: string
   navItems: FooterNavItem[]
   socialMediaLinks?: Record<string, string>
-  logo?: React.JSXElementConstructor<any>
+  logo?: React.ReactElement
 }
 
 const Footer: React.FC<FooterProps> = (props) => {
-  const { logo: Logo, companyName, socialMediaLinks, navItems } = props
+  const { logo, companyName, socialMediaLinks, navItems } = props
 
   return (
     <Box
@@ -27,7 +27,7 @@ const Footer: React.FC<FooterProps> = (props) => {
       <Container>
         <Box sx={{ py: { xs: 0, md: 4 } }}>
           <Grid container spacing={{ xs: 1, md: 5 }}>
-            {Logo && (
+            {logo && (
               <Grid item xs={12} md={4}>
                 <Box
                   pt={2}
@@ -35,7 +35,7 @@ const Footer: React.FC<FooterProps> = (props) => {
                   display="flex"
                   justifyContent={{ xs: 'center', md: 'flex-start' }}
                 >
-                  <Logo size="sm" />
+                  {logo}
                 </Box>
               </Grid>
             )}

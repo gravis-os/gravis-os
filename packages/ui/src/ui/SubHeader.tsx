@@ -38,7 +38,7 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
     setIsMobileMenuOpen(!isMobileMenuOpen)
   const handleLinkClick = () => setIsMobileMenuOpen(false)
 
-  const linksJSX = (
+  const linksJsx = (
     <Stack
       direction={{ xs: 'column', md: 'row' }}
       sx={{ mr: { xs: 0, md: 2 } }}
@@ -91,7 +91,7 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
             </Box>
 
             {/* Links: Desktop */}
-            <Box sx={{ display: { xs: 'none', md: 'block' } }}>{linksJSX}</Box>
+            <Box sx={{ display: { xs: 'none', md: 'block' } }}>{linksJsx}</Box>
             {/* Links: Mobile Trigger */}
             <Box sx={{ display: { xs: 'block', md: 'none' } }}>
               <IconButton
@@ -122,7 +122,7 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
 
           {/* Links Mobile */}
           <Collapse in={isMobileMenuOpen}>
-            <Box py={2}>{linksJSX}</Box>
+            <Box py={2}>{linksJsx}</Box>
           </Collapse>
         </Container>
       </AppBar>

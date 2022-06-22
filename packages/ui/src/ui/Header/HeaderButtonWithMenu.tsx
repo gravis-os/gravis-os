@@ -29,17 +29,17 @@ export type NavItemClickFunction = (
 ) => void
 
 export interface RecursiveNavItemInterface {
-  title: string | JSX.Element
+  title: string | React.ReactElement
   href?: string
   onClick?: NavItemClickFunction
 }
 
 export interface HeaderButtonWithMenuProps {
   name: string
-  title: string | JSX.Element
+  title: string | React.ReactElement
 
   items?: RecursiveNavItemInterface[]
-  renderItems?: ({ popupState: PopupState }) => JSX.Element
+  renderItems?: ({ popupState: PopupState }) => React.ReactElement
 
   isOpenOnHover?: boolean
   fullWidth?: boolean
@@ -101,7 +101,7 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
                 if (injectedOnClick) injectedOnClick(e, item)
               }
 
-              const navItemJSX = (
+              const navItemJsx = (
                 <MenuItem
                   key={key}
                   onClick={handleClick}
@@ -117,11 +117,11 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
                 </MenuItem>
               )
 
-              if (injectedOnClick) return navItemJSX
+              if (injectedOnClick) return navItemJsx
 
               return (
                 <Link href={item.href} key={key}>
-                  {navItemJSX}
+                  {navItemJsx}
                 </Link>
               )
             })}

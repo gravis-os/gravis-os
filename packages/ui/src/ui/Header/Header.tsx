@@ -56,7 +56,7 @@ export interface HeaderProps extends AppBarProps {
         center?: HeaderNavItem[]
         right?: HeaderNavItem[]
       }
-  logo?: React.JSXElementConstructor<any>
+  logo?: React.ElementType
   transparent?: boolean
 }
 
@@ -141,7 +141,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             if (injectedOnClick)
               nextButtonProps.onClick = (e) => injectedOnClick(e, navItem)
 
-            const navItemButtonJSX = hasNestedMenu ? (
+            const navItemButtonJsx = hasNestedMenu ? (
               <HeaderButtonWithMenu
                 ButtonProps={nextButtonProps}
                 name={key}
@@ -156,12 +156,12 @@ const Header: React.FC<HeaderProps> = (props) => {
             if (navItem.href) {
               return (
                 <RouterLink href={navItem.href} passHref>
-                  {navItemButtonJSX}
+                  {navItemButtonJsx}
                 </RouterLink>
               )
             }
 
-            return navItemButtonJSX
+            return navItemButtonJsx
           }
           return (
             <Box {...navItemWrapperProps}>

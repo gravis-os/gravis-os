@@ -1,7 +1,6 @@
 import React from 'react'
 import Footer from './Footer'
-
-const Logo = () => <div>Logo</div>
+import { MOCK_LOGO_JSX } from '../../mocks'
 
 export default {
   component: Footer,
@@ -9,7 +8,7 @@ export default {
 }
 
 const defaultFooterProps = {
-  logo: Logo,
+  logo: MOCK_LOGO_JSX,
   companyName: 'Acme Inc.',
   navItems: [
     {
@@ -33,4 +32,4 @@ const defaultFooterProps = {
   ],
 }
 
-export const Primary = (props) => <Footer {...defaultFooterProps} {...props} />
+export const Basic = (props) => <Footer {...defaultFooterProps} {...props} />

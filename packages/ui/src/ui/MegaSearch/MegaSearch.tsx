@@ -141,7 +141,7 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
       {dropdowns.map((dropdown) => {
         const { control, ...rest } = dropdown
         const { name } = dropdown
-        const dropdownJSX = <MegaSearchAutocomplete key={name} {...rest} />
+        const dropdownJsx = <MegaSearchAutocomplete key={name} {...rest} />
 
         if (control) {
           return (
@@ -161,7 +161,7 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
           )
         }
 
-        return dropdownJSX
+        return dropdownJsx
       })}
       <Button
         sx={{
