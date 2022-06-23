@@ -52,7 +52,7 @@ const renderBlockItem = (props) => {
   const { sx, type, title, gridItems, ...rest } = props
   return (
     <Box sx={sx} {...rest}>
-      {renderChildren({ type, title, gridItems })}
+      {renderChildren({ type, title })}
     </Box>
   )
 }
