@@ -3,7 +3,7 @@ import LandingLayout from './LandingLayout'
 import {
   MOCK_HEADER_PROPS,
   MOCK_FOOTER_PROPS,
-  MOCK_BLOCK_JSX,
+  MOCK_BLOCKS_JSX,
 } from '../../mocks'
 
 export default {
@@ -13,7 +13,7 @@ export default {
   args: {
     headerProps: MOCK_HEADER_PROPS,
     footerProps: MOCK_FOOTER_PROPS,
-    children: MOCK_BLOCK_JSX,
+    children: MOCK_BLOCKS_JSX,
   },
 }
 

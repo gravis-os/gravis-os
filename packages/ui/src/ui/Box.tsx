@@ -17,6 +17,7 @@ const Box: React.FC<BoxProps> = (props) => {
         flexDirection: 'column',
         justifyContent: 'center',
         alignItems: 'center',
+        textAlign: 'center',
       }),
       ...sx,
     },

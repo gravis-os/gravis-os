@@ -2,6 +2,8 @@ import React from 'react'
 import Typography from '../ui/Typography'
 import Box from '../ui/Box'
 import Container from '../ui/Container'
+import Block from '../ui/Block/Block'
+import { BlockItemTypeEnum } from '../ui/Block/BlockItem'
 
 export const MOCK_LOGO_JSX = (
   <Typography fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: 1 }}>
@@ -83,27 +85,63 @@ export const MOCK_FOOTER_PROPS = {
   ],
 }
 
-export const MOCK_BLOCK_PROPS = {
-  py: 15,
-  sx: { backgroundColor: 'background.paper' },
-  center: true,
-  reveal: true,
-  textAlign: 'center',
+const renderBlocks = (blocks) => {
+  return (
+    <>
+      {blocks.map((block) => {
+        return <Block key={block.key} {...block} />
+      })}
+    </>
+  )
 }
 
-export const MOCK_BLOCK_JSX = (
-  <Box {...MOCK_BLOCK_PROPS}>
-    <Container maxWidth="sm">
-      <Typography variant="overline" color="text.secondary" gutterBottom>
-        What we do
-      </Typography>
-      <Typography variant="h3" gutterBottom>
-        Custom Business Software Made for Market Leaders
-      </Typography>
-      <Typography variant="h5" color="text.secondary">
-        We build modern system architectures and scalable applications that
-        radically transform business performance.
-      </Typography>
-    </Container>
-  </Box>
-)
+const MOCK_BLOCK_PROPS = {
+  overline: 'What we do',
+  title: 'Custom Business Software Made for Market Leaders',
+  subtitle:
+    'We build modern system architectures and scalable applications that radically transform business performance.',
+}
+
+export const MOCK_BLOCK_ITEM_TYPES = {
+  OVERLINE: { type: BlockItemTypeEnum.OVERLINE, title: 'What we do' },
+  TITLE: {
+    type: BlockItemTypeEnum.TITLE,
+    title: 'Custom Business Software Made for Market Leaders',
+  },
+  SUBTITLE: {
+    type: BlockItemTypeEnum.SUBTITLE,
+    title:
+      'We build modern system architectures and scalable applications that radically transform business performance.',
+  },
+  BODY: {
+    type: BlockItemTypeEnum.BODY,
+    title:
+      'At the core of One X Tech is a software engineering team specialising in ReactJS, GraphQL, NodeJS, and the extended JavaScript ecosystem',
+  },
+}
+
+const MOCK_BLOCK_ITEMS = [
+  MOCK_BLOCK_ITEM_TYPES.OVERLINE,
+  MOCK_BLOCK_ITEM_TYPES.TITLE,
+  MOCK_BLOCK_ITEM_TYPES.SUBTITLE,
+]
+
+export const MOCK_BLOCK = {
+  items: MOCK_BLOCK_ITEMS,
+}
+
+export const MOCK_BLOCKS = [
+  { key: 'intro', ...MOCK_BLOCK_PROPS, center: true, maxWidth: 'sm' },
+  {
+    key: 'features',
+    ...MOCK_BLOCK_PROPS,
+    grid: {
+      spacing: 10,
+      items: [MOCK_BLOCK_PROPS, MOCK_BLOCK_PROPS],
+    },
+  },
+  { key: 'contact', ...MOCK_BLOCK_PROPS },
+  { key: 'cta', ...MOCK_BLOCK_PROPS },
+]
+
+export const MOCK_BLOCKS_JSX = renderBlocks(MOCK_BLOCKS)

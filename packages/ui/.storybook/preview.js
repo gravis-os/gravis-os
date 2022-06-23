@@ -37,7 +37,7 @@ export const parameters = {
   },
   darkMode: {
     // Current theme
-    current: 'dark',
+    current: 'light',
   },
   nextRouter: { Provider: RouterContext.Provider },
   msw: { handlers: mswHandlers },
