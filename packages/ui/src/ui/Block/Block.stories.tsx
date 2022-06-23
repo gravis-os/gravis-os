@@ -104,6 +104,120 @@ GridWithFeatures.args = {
   ],
 }
 
+export const GridWithIconsOnSingleRow = Template.bind({})
+GridWithIconsOnSingleRow.args = {
+  center: true,
+  items: [
+    ...MOCK_BLOCK.items,
+    {
+      sx: { mt: { xs: 5, md: 10 } },
+      gridProps: { spacing: { xs: 5 } },
+      gridItems: [
+        {
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+      ],
+    },
+  ],
+}
+
+export const GridWithIconsOnDoubleRow = Template.bind({})
+GridWithIconsOnDoubleRow.args = {
+  center: true,
+  items: [
+    ...MOCK_BLOCK.items,
+    {
+      sx: { mt: { xs: 5, md: 10 } },
+      gridProps: { spacing: { xs: 5 } },
+      gridItems: [
+        {
+          md: 4,
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          md: 4,
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          md: 4,
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          md: 4,
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          md: 4,
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          md: 4,
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.ICON,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+      ],
+    },
+  ],
+}
+
 export const HalfGrid = Template.bind({})
 HalfGrid.args = {
   items: [

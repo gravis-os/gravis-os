@@ -1,4 +1,5 @@
 import React from 'react'
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import Typography from '../ui/Typography'
 import Block from '../ui/Block/Block'
 import { BlockItemTypeEnum } from '../ui/Block/BlockItem'
@@ -84,6 +85,11 @@ export const MOCK_FOOTER_PROPS = {
 }
 
 export const MOCK_BLOCK_ITEM_TYPES = {
+  ICON: {
+    type: BlockItemTypeEnum.ICON,
+    title: AddCircleOutlineOutlinedIcon,
+    titleProps: { sx: { fontSize: 'h2.fontSize' } },
+  },
   OVERLINE: { type: BlockItemTypeEnum.OVERLINE, title: 'What we do' },
   TITLE: {
     type: BlockItemTypeEnum.TITLE,

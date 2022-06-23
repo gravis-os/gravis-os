@@ -4,6 +4,7 @@ import Grid, { GridProps } from '../Grid'
 import Box, { BoxProps } from '../Box'
 
 export enum BlockItemTypeEnum {
+  ICON = 'icon',
   OVERLINE = 'overline',
   TITLE = 'title',
   SUBTITLE = 'subtitle',
@@ -63,6 +64,9 @@ const renderChildren = ({ type, title, titleProps }) => {
           {title}
         </Typography>
       )
+    case BlockItemTypeEnum.ICON:
+      const Icon = title
+      return <Icon {...titleProps} />
     case BlockItemTypeEnum.H1:
     case BlockItemTypeEnum.H2:
     case BlockItemTypeEnum.H3:
