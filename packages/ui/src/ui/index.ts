@@ -97,6 +97,9 @@ export * from './Tooltip'
 export { default as Header } from './Header'
 export * from './Header'
 
+export { default as LandingLayout } from './LandingLayout'
+export * from './LandingLayout'
+
 export { default as MegaSearch } from './MegaSearch'
 export * from './MegaSearch'
 

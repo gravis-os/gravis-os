@@ -239,7 +239,11 @@ const Header: React.FC<HeaderProps> = (props) => {
         }}
       >
         <Container>
-          <Toolbar variant="dense" sx={{ justifyContent: 'space-between' }}>
+          <Toolbar
+            disableGutters
+            variant="dense"
+            sx={{ justifyContent: 'space-between' }}
+          >
             {/* Left */}
             <Box display="flex" alignItems="center">
               {Logo && <Logo />}

@@ -8,28 +8,29 @@ export interface BoxProps extends MuiBoxProps {
 }
 
 const Box: React.FC<BoxProps> = (props) => {
-  const { reveal, center, sx, ...rest } = props
+  const { reveal, center, sx, children, ...rest } = props
 
-  const childrenJsx = (
-    <MuiBox
-      sx={{
-        ...(center && {
-          display: 'flex',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }),
-        ...sx,
-      }}
-      {...rest}
-    />
-  )
+  const boxProps = {
+    sx: {
+      ...(center && {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+      }),
+      ...sx,
+    },
+    ...rest,
+  }
 
   return reveal ? (
-    <Reveal {...(typeof reveal === 'object' ? reveal : {})}>
-      {childrenJsx}
-    </Reveal>
+    <MuiBox {...boxProps}>
+      <Reveal {...(typeof reveal === 'object' ? reveal : {})}>
+        {children}
+      </Reveal>
+    </MuiBox>
   ) : (
-    childrenJsx
+    <MuiBox {...boxProps}>{children}</MuiBox>
   )
 }
 

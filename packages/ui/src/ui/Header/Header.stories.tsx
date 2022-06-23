@@ -6,7 +6,11 @@ import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import Header, { NAV_ITEM_SEARCH_PRESET } from './Header'
 import SubHeader from '../SubHeader'
-import { MOCK_SUB_HEADER_PROPS, MOCK_LOGO_JSX } from '../../mocks'
+import {
+  MOCK_HEADER_PROPS,
+  MOCK_SUB_HEADER_PROPS,
+  MOCK_LOGO_JSX,
+} from '../../mocks'
 
 export default {
   title: 'Components/Header',
@@ -14,17 +18,6 @@ export default {
   parameters: { layout: 'fullscreen' },
 }
 
-const defaultHeaderProps = {
-  logo: () => MOCK_LOGO_JSX,
-  navItems: [
-    {
-      name: 'foo',
-      title: 'Foo',
-      onClick: () => window.alert('You clicked on Foo'),
-    },
-    { name: 'bar', title: 'Bar', href: '#' },
-  ],
-}
 const handleRecursiveNavItemClick = (e, item) =>
   window.alert(`You clicked on: ${item.title}`)
 const defaultButtonProps = {
@@ -34,11 +27,11 @@ const defaultButtonProps = {
 }
 
 // Stories
-export const Basic = (props) => <Header {...defaultHeaderProps} {...props} />
+export const Basic = (props) => <Header {...MOCK_HEADER_PROPS} {...props} />
 
 export const Transparent = (props) => (
   <>
-    <Header {...defaultHeaderProps} {...props} transparent />
+    <Header {...MOCK_HEADER_PROPS} {...props} transparent />
     <Box height={260} py={10} bgcolor="primary.main" />
   </>
 )
@@ -46,7 +39,7 @@ export const Transparent = (props) => (
 export const withSubHeader = (props) => {
   return (
     <>
-      <Header {...defaultHeaderProps} {...props} />
+      <Header {...MOCK_HEADER_PROPS} {...props} />
       <SubHeader {...MOCK_SUB_HEADER_PROPS} />
     </>
   )
@@ -56,7 +49,7 @@ export const withSearch = (props) => {
   return (
     <>
       <Header
-        {...defaultHeaderProps}
+        {...MOCK_HEADER_PROPS}
         navItems={{
           center: [
             {
@@ -71,7 +64,7 @@ export const withSearch = (props) => {
             },
           ],
           right: [
-            ...defaultHeaderProps.navItems,
+            ...MOCK_HEADER_PROPS.navItems,
             {
               name: 'login/signup',
               title: 'login/signup',
@@ -89,9 +82,9 @@ export const withItems = (props) => {
   return (
     <>
       <Header
-        {...defaultHeaderProps}
+        {...MOCK_HEADER_PROPS}
         navItems={[
-          ...defaultHeaderProps.navItems,
+          ...MOCK_HEADER_PROPS.navItems,
           {
             name: 'on-click',
             title: 'onClick',
@@ -154,9 +147,9 @@ export const withMegaComponent = (props) => {
   return (
     <>
       <Header
-        {...defaultHeaderProps}
+        {...MOCK_HEADER_PROPS}
         navItems={[
-          ...defaultHeaderProps.navItems,
+          ...MOCK_HEADER_PROPS.navItems,
           {
             name: 'onclick-mega-list',
             title: 'onClick Mega List',
@@ -217,7 +210,7 @@ export const withLogoCenter = (props) => {
     <>
       <Header
         navItems={{
-          left: [...defaultHeaderProps.navItems],
+          left: [...MOCK_HEADER_PROPS.navItems],
           center: [
             {
               name: 'logo',
@@ -245,7 +238,7 @@ export const withKitchenSink = (props) => {
   return (
     <>
       <Header
-        {...defaultHeaderProps}
+        {...MOCK_HEADER_PROPS}
         navItems={{
           left: [
             {
@@ -294,7 +287,7 @@ export const withKitchenSink = (props) => {
               ],
               disableBackdrop: true,
             },
-            ...defaultHeaderProps.navItems,
+            ...MOCK_HEADER_PROPS.navItems,
           ],
           right: [
             {

@@ -2,7 +2,7 @@ import React from 'react'
 import { addDecorator } from '@storybook/react'
 import Layout from './Layout'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import themeConfig from '../src/config/themeConfig'
+import { landingTheme } from '../src/themes'
 // Next 12
 import { RouterContext } from "next/dist/shared/lib/router-context"
 // React Query
@@ -54,7 +54,7 @@ export const parameters = {
 addDecorator(storyFn => <Layout>{storyFn()}</Layout>)
 
 // Theme
-const theme = createTheme(themeConfig.theme.light)
+const theme = createTheme(landingTheme.light)
 addDecorator(storyFn => (
   <ThemeProvider theme={theme}>
     {storyFn()}

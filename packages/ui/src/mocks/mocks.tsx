@@ -22,6 +22,18 @@ export const MOCK_FAQ_ACCORDION_ITEMS = [
   { key: 'baz', title: 'Baz', content: MOCK_CONTENT },
 ]
 
+export const MOCK_HEADER_PROPS = {
+  logo: () => MOCK_LOGO_JSX,
+  navItems: [
+    {
+      name: 'foo',
+      title: 'Foo',
+      onClick: () => window.alert('You clicked on Foo'),
+    },
+    { name: 'bar', title: 'Bar', href: '#' },
+  ],
+}
+
 export const MOCK_SUB_HEADER_PROPS = {
   title: 'Product Design',
   links: [
@@ -42,4 +54,29 @@ export const MOCK_SUB_HEADER_PROPS = {
     title: 'View Pricing',
     href: '/',
   },
+}
+
+export const MOCK_FOOTER_PROPS = {
+  logo: MOCK_LOGO_JSX,
+  companyName: 'Acme Inc.',
+  navItems: [
+    {
+      title: 'What We Do',
+      items: [
+        { title: 'Product Design', href: '#' },
+        { title: 'Pricing', href: '#' },
+      ],
+    },
+    {
+      title: 'Learn more',
+      items: [
+        { title: 'Work', href: '#' },
+        { title: 'About', href: '#' },
+      ],
+    },
+    {
+      title: 'Support',
+      items: [{ title: 'Contact', href: '#' }],
+    },
+  ],
 }
