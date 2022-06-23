@@ -85,16 +85,6 @@ export const MOCK_FOOTER_PROPS = {
   ],
 }
 
-const renderBlocks = (blocks) => {
-  return (
-    <>
-      {blocks.map((block) => {
-        return <Block key={block.key} {...block} />
-      })}
-    </>
-  )
-}
-
 const MOCK_BLOCK_PROPS = {
   overline: 'What we do',
   title: 'Custom Business Software Made for Market Leaders',
@@ -128,20 +118,24 @@ const MOCK_BLOCK_ITEMS = [
 
 export const MOCK_BLOCK = {
   items: MOCK_BLOCK_ITEMS,
+  center: true,
+  maxWidth: 'sm',
 }
 
 export const MOCK_BLOCKS = [
-  { key: 'intro', ...MOCK_BLOCK_PROPS, center: true, maxWidth: 'sm' },
-  {
-    key: 'features',
-    ...MOCK_BLOCK_PROPS,
-    grid: {
-      spacing: 10,
-      items: [MOCK_BLOCK_PROPS, MOCK_BLOCK_PROPS],
-    },
-  },
-  { key: 'contact', ...MOCK_BLOCK_PROPS },
-  { key: 'cta', ...MOCK_BLOCK_PROPS },
+  { key: 'intro', ...MOCK_BLOCK },
+  { key: 'features', ...MOCK_BLOCK },
+  { key: 'contact', ...MOCK_BLOCK },
 ]
+
+const renderBlocks = (blocks) => {
+  return (
+    <>
+      {blocks.map((block) => {
+        return <Block key={block.key} {...block} />
+      })}
+    </>
+  )
+}
 
 export const MOCK_BLOCKS_JSX = renderBlocks(MOCK_BLOCKS)
