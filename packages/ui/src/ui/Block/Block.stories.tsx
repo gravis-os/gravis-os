@@ -43,22 +43,59 @@ DynamicContent.args = {
 
 export const Grid = Template.bind({})
 Grid.args = {
+  center: true,
   items: [
     ...MOCK_BLOCK.items,
     {
-      sx: { mt: 5 },
-      gridProps: { spacing: { xs: 5, md: 15 } },
+      sx: { mt: 10 },
+      gridProps: { spacing: { xs: 5, md: 20 } },
       gridItems: [
         {
-          center: true,
+          sx: { textAlign: 'left' },
           items: [
             ...MOCK_BLOCK.items,
             { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
           ],
         },
         {
+          sx: { textAlign: 'left' },
           items: [
             ...MOCK_BLOCK.items,
+            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
+          ],
+        },
+      ],
+    },
+  ],
+}
+
+export const GridWithIcons = Template.bind({})
+Grid.args = {
+  center: true,
+  items: [
+    ...MOCK_BLOCK.items,
+    {
+      sx: { mt: { xs: 5, md: 10 } },
+      gridProps: { spacing: { xs: 5, md: 10 } },
+      gridItems: [
+        {
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.H5,
+            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
+          ],
+        },
+        {
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.H5,
+            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
+          ],
+        },
+        {
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.H5,
             { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
           ],
         },

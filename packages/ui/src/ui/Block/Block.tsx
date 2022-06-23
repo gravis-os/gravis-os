@@ -2,7 +2,6 @@ import React from 'react'
 import BlockItem, { BlockItemProps } from './BlockItem'
 import Container, { ContainerProps } from '../Container'
 import Box, { BoxProps } from '../Box'
-import Grid from '../Grid'
 
 export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
   items: BlockItemProps[]

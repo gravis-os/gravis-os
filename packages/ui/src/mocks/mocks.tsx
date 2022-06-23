@@ -99,6 +99,10 @@ export const MOCK_BLOCK_ITEM_TYPES = {
     title:
       'At the core of One X Tech is a software engineering team specialising in ReactJS, GraphQL, NodeJS, and the extended JavaScript ecosystem',
   },
+  H5: {
+    type: BlockItemTypeEnum.H5,
+    title: 'Application Development',
+  },
 }
 
 const MOCK_BLOCK_ITEMS = [
@@ -109,14 +113,12 @@ const MOCK_BLOCK_ITEMS = [
 
 export const MOCK_BLOCK = {
   items: MOCK_BLOCK_ITEMS,
-  center: true,
-  maxWidth: 'sm',
 }
 
 export const MOCK_BLOCKS = [
-  { key: 'intro', ...MOCK_BLOCK },
-  { key: 'features', ...MOCK_BLOCK },
-  { key: 'contact', ...MOCK_BLOCK },
+  { key: 'intro', ...MOCK_BLOCK, maxWidth: 'sm', center: true },
+  { key: 'features', ...MOCK_BLOCK, maxWidth: 'sm', center: true },
+  { key: 'contact', ...MOCK_BLOCK, maxWidth: 'sm', center: true },
 ]
 
 const renderBlocks = (blocks) => {

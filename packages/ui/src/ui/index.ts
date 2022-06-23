@@ -94,6 +94,9 @@ export * from './Tooltip'
 // ==============================
 // Components
 // ==============================
+export { default as Block } from './Block'
+export * from './Block'
+
 export { default as Header } from './Header'
 export * from './Header'
 
