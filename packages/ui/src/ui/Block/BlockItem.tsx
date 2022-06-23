@@ -1,5 +1,5 @@
 import React from 'react'
-import Typography from '../Typography'
+import Typography, { TypographyProps } from '../Typography'
 import Grid, { GridProps } from '../Grid'
 import Box, { BoxProps } from '../Box'
 
@@ -28,32 +28,38 @@ export interface BlockItemProps extends BoxProps {
   gridProps?: GridProps
   gridItemProps?: GridProps
   title: React.ReactNode
+  titleProps?: TypographyProps
   type?: BlockItemTypeEnum
 }
 
-const renderChildren = ({ type, title }) => {
+const renderChildren = ({ type, title, titleProps }) => {
   switch (type) {
     case BlockItemTypeEnum.OVERLINE:
       return (
-        <Typography variant="overline" color="text.secondary" gutterBottom>
+        <Typography
+          variant="overline"
+          color="text.secondary"
+          gutterBottom
+          {...titleProps}
+        >
           {title}
         </Typography>
       )
     case BlockItemTypeEnum.TITLE:
       return (
-        <Typography variant="h3" gutterBottom>
+        <Typography variant="h3" gutterBottom {...titleProps}>
           {title}
         </Typography>
       )
     case BlockItemTypeEnum.SUBTITLE:
       return (
-        <Typography variant="h5" color="text.secondary">
+        <Typography variant="h5" color="text.secondary" {...titleProps}>
           {title}
         </Typography>
       )
     case BlockItemTypeEnum.BODY:
       return (
-        <Typography variant="body1" color="text.secondary">
+        <Typography variant="body1" color="text.secondary" {...titleProps}>
           {title}
         </Typography>
       )
@@ -68,17 +74,21 @@ const renderChildren = ({ type, title }) => {
     case BlockItemTypeEnum.BODY1:
     case BlockItemTypeEnum.BODY2:
     case BlockItemTypeEnum.CAPTION:
-      return <Typography variant={type}>{title}</Typography>
+      return (
+        <Typography variant={type} {...titleProps}>
+          {title}
+        </Typography>
+      )
     default:
       return null
   }
 }
 
 const renderBlockItem = (props) => {
-  const { sx, type, title, ...rest } = props
+  const { sx, type, title, titleProps, ...rest } = props
   return (
     <Box sx={sx} {...rest}>
-      {renderChildren({ type, title })}
+      {renderChildren({ type, title, titleProps })}
     </Box>
   )
 }

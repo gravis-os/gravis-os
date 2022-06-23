@@ -69,8 +69,8 @@ Grid.args = {
   ],
 }
 
-export const GridWithIcons = Template.bind({})
-Grid.args = {
+export const GridWithFeatures = Template.bind({})
+GridWithFeatures.args = {
   center: true,
   items: [
     ...MOCK_BLOCK.items,
@@ -81,22 +81,22 @@ Grid.args = {
         {
           sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
-            MOCK_BLOCK_ITEM_TYPES.H5,
-            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
           ],
         },
         {
           sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
-            MOCK_BLOCK_ITEM_TYPES.H5,
-            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
           ],
         },
         {
           sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
-            MOCK_BLOCK_ITEM_TYPES.H5,
-            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
           ],
         },
       ],
