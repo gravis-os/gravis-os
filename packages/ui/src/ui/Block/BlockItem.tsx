@@ -101,22 +101,16 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
       <Box sx={sx}>
         <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
           {gridItems.map((gridItem) => {
-            const {
-              items,
-              sx,
-              gridItemProps: injectedGridItemProps,
-              ...rest
-            } = gridItem
+            const { items, ...rest } = gridItem
             return (
               <Grid
                 item
                 xs={12}
                 md
-                sx={sx}
                 {...gridItemProps} // Spread to all grid items
-                {...injectedGridItemProps} // Specific to a grid item
+                {...rest}
               >
-                {items.map((item) => renderBlockItem({ ...item, ...rest }))}
+                {items.map((item) => renderBlockItem(item))}
               </Grid>
             )
           })}

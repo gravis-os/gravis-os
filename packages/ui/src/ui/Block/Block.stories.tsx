@@ -103,3 +103,45 @@ GridWithFeatures.args = {
     },
   ],
 }
+
+export const HalfGrid = Template.bind({})
+HalfGrid.args = {
+  items: [
+    {
+      gridItems: [
+        {
+          sx: { textAlign: 'right' },
+          items: [...MOCK_BLOCK.items],
+        },
+        {
+          sx: { textAlign: 'left' },
+          items: [...MOCK_BLOCK.items],
+        },
+      ],
+    },
+  ],
+}
+
+export const LeftWingGrid = Template.bind({})
+LeftWingGrid.args = {
+  items: [
+    {
+      gridItems: [
+        { md: 7, items: MOCK_BLOCK.items },
+        { md: 5, items: MOCK_BLOCK.items },
+      ],
+    },
+  ],
+}
+
+export const RightWingGrid = Template.bind({})
+RightWingGrid.args = {
+  items: [
+    {
+      gridItems: [
+        { md: 5, items: MOCK_BLOCK.items },
+        { md: 7, items: MOCK_BLOCK.items },
+      ],
+    },
+  ],
+}
