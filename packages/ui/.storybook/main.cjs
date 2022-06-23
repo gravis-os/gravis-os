@@ -4,7 +4,7 @@ const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin')
 module.exports = {
   core: { builder: 'webpack5' },
   stories: ['../src/**/*.stories.mdx', '../src/**/*.stories.@(js|jsx|ts|tsx)'],
-  addons: ['@storybook/addon-links', '@storybook/addon-essentials', 'storybook-addon-next-router'],
+  addons: ['@storybook/addon-links', '@storybook/addon-essentials', 'storybook-addon-next-router', 'storybook-dark-mode'],
   // For MUI theming to work in Storybook
   features: { emotionAlias: false },
   framework: '@storybook/react',

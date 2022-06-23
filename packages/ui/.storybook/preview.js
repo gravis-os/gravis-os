@@ -1,8 +1,11 @@
 import React from 'react'
 import { addDecorator } from '@storybook/react'
+import { useDarkMode } from 'storybook-dark-mode'
+import { themes } from '@storybook/theming'
 import Layout from './Layout'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { landingTheme } from '../src/themes'
+import { CssBaseline } from '@mui/material'
 // Next 12
 import { RouterContext } from "next/dist/shared/lib/router-context"
 // React Query
@@ -32,21 +35,12 @@ export const parameters = {
       date: /Date$/,
     },
   },
+  darkMode: {
+    // Current theme
+    current: 'dark',
+  },
   nextRouter: { Provider: RouterContext.Provider },
   msw: { handlers: mswHandlers },
-  backgrounds: {
-    default: 'light',
-    values: [
-      {
-        name: 'dark',
-        value: '#222',
-      },
-      {
-        name: 'light',
-        value: '#eee',
-      },
-    ],
-  }
 }
 
 // ==============================
@@ -56,12 +50,18 @@ export const parameters = {
 addDecorator(storyFn => <Layout>{storyFn()}</Layout>)
 
 // Theme
-const theme = createTheme(landingTheme.light)
-addDecorator(storyFn => (
-  <ThemeProvider theme={theme}>
-    {storyFn()}
-  </ThemeProvider>
-))
+const selectedTheme = landingTheme
+const lightTheme = createTheme(selectedTheme.light)
+const darkTheme = createTheme(selectedTheme.dark)
+addDecorator(storyFn => {
+  const isDarkMode = useDarkMode()
+  return (
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <CssBaseline />
+      {storyFn()}
+    </ThemeProvider>
+  )
+})
 
 // Next Router
 const mockRouter = {

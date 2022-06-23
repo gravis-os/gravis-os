@@ -85,7 +85,7 @@ export const MOCK_FOOTER_PROPS = {
 
 export const MOCK_BLOCK_PROPS = {
   py: 15,
-  sx: { backgroundColor: 'common.white' },
+  sx: { backgroundColor: 'background.paper' },
   center: true,
   reveal: true,
   textAlign: 'center',

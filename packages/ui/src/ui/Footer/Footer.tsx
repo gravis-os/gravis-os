@@ -22,7 +22,7 @@ const Footer: React.FC<FooterProps> = (props) => {
       component="footer"
       textAlign={{ xs: 'center', md: 'left' }}
       py={2}
-      bgcolor="white"
+      bgcolor="background.paper"
     >
       <Container>
         <Box sx={{ py: { xs: 0, md: 4 } }}>
