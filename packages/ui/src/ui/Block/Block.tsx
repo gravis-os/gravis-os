@@ -1,6 +1,6 @@
 import React from 'react'
 import BlockItem, { BlockItemProps } from './BlockItem'
-import Container, { ContainerProps } from '../Container'
+import { ContainerProps } from '../Container'
 import Box, { BoxProps } from '../Box'
 
 export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
@@ -22,11 +22,18 @@ const Block: React.FC<BlockProps> = (props) => {
       }}
       {...rest}
     >
-      <Container maxWidth={maxWidth} {...containerProps}>
+      <>
         {items.map((item, i) => {
-          return <BlockItem key={`block-item-${i}`} {...item} />
+          return (
+            <BlockItem
+              key={`block-item-${i}`}
+              maxWidth={maxWidth}
+              containerProps={containerProps}
+              {...item}
+            />
+          )
         })}
-      </Container>
+      </>
     </Box>
   )
 }

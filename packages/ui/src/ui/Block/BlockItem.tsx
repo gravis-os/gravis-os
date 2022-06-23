@@ -2,6 +2,7 @@ import React from 'react'
 import Typography, { TypographyProps } from '../Typography'
 import Grid, { GridProps } from '../Grid'
 import Box, { BoxProps } from '../Box'
+import Container, { ContainerProps } from '../Container'
 
 export enum BlockItemTypeEnum {
   ICON = 'icon',
@@ -25,6 +26,7 @@ export enum BlockItemTypeEnum {
 }
 
 export interface BlockItemProps extends BoxProps {
+  containerProps?: ContainerProps
   gridItems?: BlockItemProps[]
   gridProps?: GridProps
   gridItemProps?: GridProps
@@ -98,32 +100,39 @@ const renderBlockItem = (props) => {
 }
 
 const BlockItem: React.FC<BlockItemProps> = (props) => {
-  const { sx, gridItems, gridItemProps, gridProps } = props
+  const { sx, gridItems, gridItemProps, gridProps, maxWidth, containerProps } =
+    props
 
   if (gridItems) {
     return (
       <Box sx={sx}>
-        <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
-          {gridItems.map((gridItem) => {
-            const { items, ...rest } = gridItem
-            return (
-              <Grid
-                item
-                xs={12}
-                md
-                {...gridItemProps} // Spread to all grid items
-                {...rest}
-              >
-                {items.map((item) => renderBlockItem(item))}
-              </Grid>
-            )
-          })}
-        </Grid>
+        <Container maxWidth={maxWidth} {...containerProps}>
+          <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
+            {gridItems.map((gridItem) => {
+              const { items, ...rest } = gridItem
+              return (
+                <Grid
+                  item
+                  xs={12}
+                  md
+                  {...gridItemProps} // Spread to all grid items
+                  {...rest}
+                >
+                  {items.map((item) => renderBlockItem(item))}
+                </Grid>
+              )
+            })}
+          </Grid>
+        </Container>
       </Box>
     )
   }
 
-  return renderBlockItem(props)
+  return (
+    <Container maxWidth={maxWidth} {...containerProps}>
+      {renderBlockItem(props)}
+    </Container>
+  )
 }
 
 export default BlockItem
