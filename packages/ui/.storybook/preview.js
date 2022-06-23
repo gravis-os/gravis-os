@@ -15,6 +15,8 @@ import mswHandlers from '../src/mocks/mswHandlers'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import 'quill/dist/quill.snow.css'
+// Custom Fonts
+import '../src/styles/fonts.css'
 
 // ==============================
 // Storybook Parameters

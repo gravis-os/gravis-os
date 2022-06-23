@@ -1,5 +1,7 @@
 import React from 'react'
-import { Typography } from '@mui/material'
+import Typography from '../ui/Typography'
+import Box from '../ui/Box'
+import Container from '../ui/Container'
 
 export const MOCK_LOGO_JSX = (
   <Typography fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: 1 }}>
@@ -80,3 +82,28 @@ export const MOCK_FOOTER_PROPS = {
     },
   ],
 }
+
+export const MOCK_BLOCK_PROPS = {
+  py: 15,
+  sx: { backgroundColor: 'common.white' },
+  center: true,
+  reveal: true,
+  textAlign: 'center',
+}
+
+export const MOCK_BLOCK_JSX = (
+  <Box {...MOCK_BLOCK_PROPS}>
+    <Container maxWidth="sm">
+      <Typography variant="overline" color="text.secondary" gutterBottom>
+        What we do
+      </Typography>
+      <Typography variant="h3" gutterBottom>
+        Custom Business Software Made for Market Leaders
+      </Typography>
+      <Typography variant="h5" color="text.secondary">
+        We build modern system architectures and scalable applications that
+        radically transform business performance.
+      </Typography>
+    </Container>
+  </Box>
+)

@@ -1,4 +1,9 @@
-const baseTheme = {
+import merge from 'lodash/merge'
+import { createTheme } from '@mui/material'
+
+const defaultMuiTheme = createTheme()
+
+const baseTheme = merge({}, defaultMuiTheme, {
   typography: {
     h1: {
       fontWeight: 700,
@@ -62,6 +67,6 @@ const baseTheme = {
       textTransform: 'none',
     },
   },
-}
+})
 
 export default baseTheme
