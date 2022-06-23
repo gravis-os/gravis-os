@@ -1,7 +1,5 @@
 import React from 'react'
 import Typography from '../ui/Typography'
-import Box from '../ui/Box'
-import Container from '../ui/Container'
 import Block from '../ui/Block/Block'
 import { BlockItemTypeEnum } from '../ui/Block/BlockItem'
 
@@ -83,13 +81,6 @@ export const MOCK_FOOTER_PROPS = {
       items: [{ title: 'Contact', href: '#' }],
     },
   ],
-}
-
-const MOCK_BLOCK_PROPS = {
-  overline: 'What we do',
-  title: 'Custom Business Software Made for Market Leaders',
-  subtitle:
-    'We build modern system architectures and scalable applications that radically transform business performance.',
 }
 
 export const MOCK_BLOCK_ITEM_TYPES = {
