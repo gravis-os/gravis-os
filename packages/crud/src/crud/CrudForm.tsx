@@ -89,6 +89,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     refetch,
     module,
     defaultValues,
+    sections,
     ...useCrudFormProps,
   })
 
