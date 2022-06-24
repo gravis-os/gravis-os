@@ -1,7 +1,6 @@
 import React from 'react'
 import { addDecorator } from '@storybook/react'
 import { useDarkMode } from 'storybook-dark-mode'
-import { themes } from '@storybook/theming'
 import Layout from './Layout'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { landingTheme } from '../src/themes'
@@ -18,8 +17,6 @@ import mswHandlers from '../src/mocks/mswHandlers'
 import 'ag-grid-community/dist/styles/ag-grid.css'
 import 'ag-grid-community/dist/styles/ag-theme-alpine.css'
 import 'quill/dist/quill.snow.css'
-// Custom Fonts
-import '../src/styles/fonts.css'
 
 // ==============================
 // Storybook Parameters
@@ -35,10 +32,7 @@ export const parameters = {
       date: /Date$/,
     },
   },
-  darkMode: {
-    // Current theme
-    current: 'light',
-  },
+  darkMode: { current: 'light' },
   nextRouter: { Provider: RouterContext.Provider },
   msw: { handlers: mswHandlers },
 }
@@ -62,32 +56,6 @@ addDecorator(storyFn => {
     </ThemeProvider>
   )
 })
-
-// Next Router
-const mockRouter = {
-  basePath: '',
-  pathname: '/',
-  route: '/',
-  asPath: '/',
-  query: {},
-  push: () => {},
-  replace: () => {},
-  reload: () => {},
-  back: () => {},
-  prefetch: () => {},
-  beforePopState: () => {},
-  events: {
-    on: () => {},
-    off: () => {},
-    emit: () => {},
-  },
-  isFallback: false,
-};
-addDecorator(storyFn => (
-  <RouterContext.Provider value={mockRouter}>
-    {storyFn()}
-  </RouterContext.Provider>
-))
 
 // React Query
 const queryClient = new QueryClient()

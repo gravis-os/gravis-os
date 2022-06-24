@@ -41,6 +41,11 @@ DynamicContent.args = {
   ],
 }
 
+export const WithImage = Template.bind({})
+WithImage.args = {
+  items: [MOCK_BLOCK_ITEM_TYPES.IMAGE, ...MOCK_BLOCK.items],
+}
+
 export const Grid = Template.bind({})
 Grid.args = {
   center: true,

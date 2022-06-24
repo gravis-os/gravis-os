@@ -3,8 +3,10 @@ import Typography, { TypographyProps } from '../Typography'
 import Grid, { GridProps } from '../Grid'
 import Box, { BoxProps } from '../Box'
 import Container, { ContainerProps } from '../Container'
+import Image from '../Image'
 
 export enum BlockItemTypeEnum {
+  IMAGE = 'image',
   ICON = 'icon',
   OVERLINE = 'overline',
   TITLE = 'title',
@@ -69,6 +71,9 @@ const renderChildren = ({ type, title, titleProps }) => {
     case BlockItemTypeEnum.ICON:
       const Icon = title
       return <Icon {...titleProps} />
+    case BlockItemTypeEnum.IMAGE:
+      const src = title
+      return <Image src={src} {...titleProps} />
     case BlockItemTypeEnum.H1:
     case BlockItemTypeEnum.H2:
     case BlockItemTypeEnum.H3:
