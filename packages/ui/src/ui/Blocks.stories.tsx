@@ -23,12 +23,11 @@ const Template = (args) => <Blocks {...args} />
 export const Basic = Template.bind({})
 Basic.args = {}
 
-export const WingGridWithImageViaBlocks = Template.bind({})
-WingGridWithImageViaBlocks.args = {
+export const WingGridWithImageViaRowSpacing = Template.bind({})
+WingGridWithImageViaRowSpacing.args = {
   items: [
     {
-      pt: 5,
-      pb: 0,
+      spacing: { xs: 5, md: 10 },
       items: [
         {
           type: BlockItemTypeEnum.GRID,
@@ -38,58 +37,23 @@ WingGridWithImageViaBlocks.args = {
             { md: 7, items: MOCK_BLOCK.items },
           ],
         },
-      ],
-    },
-    {
-      pt: 5,
-      pb: 0,
-      items: [
         {
           type: BlockItemTypeEnum.GRID,
           gridProps: {
             alignItems: 'center',
-            sx: {
-              flexWrap: { xs: 'wrap-reverse', md: 'wrap' },
-            },
+            reverse: { xs: true, md: false },
           },
           gridItems: [
             { md: 7, items: MOCK_BLOCK.items },
             { md: 5, items: [MOCK_BLOCK_ITEM_TYPES.IMAGE] },
           ],
         },
-      ],
-    },
-  ],
-}
-
-export const WingGridWithImageViaRowSpacing = Template.bind({})
-WingGridWithImageViaRowSpacing.args = {
-  items: [
-    {
-      spacing: { xs: 5, md: 10 },
-      items: [
         {
           type: BlockItemTypeEnum.GRID,
-          gridProps: {
-            alignItems: 'center',
-          },
+          gridProps: { alignItems: 'center' },
           gridItems: [
             { md: 5, items: [MOCK_BLOCK_ITEM_TYPES.IMAGE] },
             { md: 7, items: MOCK_BLOCK.items },
-          ],
-        },
-        {
-          type: BlockItemTypeEnum.GRID,
-          gridProps: {
-            alignItems: 'center',
-            sx: {
-              // TODO@Joel: Make this reverse a part of the Grid API
-              flexWrap: { xs: 'wrap-reverse', md: 'wrap' },
-            },
-          },
-          gridItems: [
-            { md: 7, items: MOCK_BLOCK.items },
-            { md: 5, items: [MOCK_BLOCK_ITEM_TYPES.IMAGE] },
           ],
         },
       ],
