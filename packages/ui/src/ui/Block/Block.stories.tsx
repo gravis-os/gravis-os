@@ -80,13 +80,14 @@ GridWithFeatures.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
-      maxWidth: 'md',
+      maxWidth: 'lg',
       sx: { mt: { xs: 5, md: 7.5 } },
       gridProps: { spacing: { xs: 5 } },
       gridItems: [
         {
           sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
+            MOCK_BLOCK_ITEM_TYPES.IMAGE,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY,
           ],
@@ -94,6 +95,15 @@ GridWithFeatures.args = {
         {
           sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
+            MOCK_BLOCK_ITEM_TYPES.IMAGE,
+            { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
+            MOCK_BLOCK_ITEM_TYPES.BODY,
+          ],
+        },
+        {
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+          items: [
+            MOCK_BLOCK_ITEM_TYPES.IMAGE,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY,
           ],
