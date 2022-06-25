@@ -52,6 +52,7 @@ Grid.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
+      type: BlockItemTypeEnum.GRID,
       sx: { mt: 10 },
       gridProps: { spacing: { xs: 5, md: 20 } },
       gridItems: [
@@ -80,6 +81,7 @@ GridWithFeatures.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
+      type: BlockItemTypeEnum.GRID,
       maxWidth: 'lg',
       sx: { mt: { xs: 5, md: 7.5 } },
       gridProps: { spacing: { xs: 5 } },
@@ -119,6 +121,7 @@ GridWithIconsOnSingleRow.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
+      type: BlockItemTypeEnum.GRID,
       sx: { mt: { xs: 5, md: 10 } },
       gridProps: { spacing: { xs: 5 } },
       gridItems: [
@@ -165,6 +168,7 @@ GridWithIconsOnDoubleRow.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
+      type: BlockItemTypeEnum.GRID,
       sx: { mt: { xs: 5, md: 10 } },
       gridProps: { spacing: { xs: 5 } },
       gridItems: [
@@ -231,6 +235,7 @@ export const HalfGrid = Template.bind({})
 HalfGrid.args = {
   items: [
     {
+      type: BlockItemTypeEnum.GRID,
       gridItems: [
         {
           sx: { textAlign: 'right' },
@@ -249,6 +254,7 @@ export const LeftWingGrid = Template.bind({})
 LeftWingGrid.args = {
   items: [
     {
+      type: BlockItemTypeEnum.GRID,
       gridItems: [
         { md: 7, items: MOCK_BLOCK.items },
         { md: 5, items: MOCK_BLOCK.items },
@@ -261,6 +267,7 @@ export const RightWingGrid = Template.bind({})
 RightWingGrid.args = {
   items: [
     {
+      type: BlockItemTypeEnum.GRID,
       gridItems: [
         { md: 5, items: MOCK_BLOCK.items },
         { md: 7, items: MOCK_BLOCK.items },

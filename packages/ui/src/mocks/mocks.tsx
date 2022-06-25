@@ -136,8 +136,8 @@ export const MOCK_BLOCKS = [
 const renderBlocks = (blocks) => {
   return (
     <>
-      {blocks.map((block) => {
-        return <Block key={block.key} {...block} />
+      {blocks.map((block, i) => {
+        return <Block key={`block-${i}`} {...block} />
       })}
     </>
   )

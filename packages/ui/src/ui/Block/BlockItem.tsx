@@ -13,6 +13,9 @@ export enum BlockItemTypeEnum {
   SUBTITLE = 'subtitle',
   BODY = 'body',
 
+  // Grid
+  GRID = 'grid',
+
   // Typography
   H1 = 'h1',
   H2 = 'h2',
@@ -73,7 +76,7 @@ const renderChildren = ({ type, title, titleProps }) => {
       return <Icon {...titleProps} />
     case BlockItemTypeEnum.IMAGE:
       const src = title
-      return <Image src={src} {...titleProps} />
+      return <Image src={src} layout="responsive" {...titleProps} />
     case BlockItemTypeEnum.H1:
     case BlockItemTypeEnum.H2:
     case BlockItemTypeEnum.H3:
@@ -105,10 +108,17 @@ const renderBlockItem = (props) => {
 }
 
 const BlockItem: React.FC<BlockItemProps> = (props) => {
-  const { sx, gridItems, gridItemProps, gridProps, maxWidth, containerProps } =
-    props
+  const {
+    type,
+    sx,
+    gridItems,
+    gridItemProps,
+    gridProps,
+    maxWidth,
+    containerProps,
+  } = props
 
-  if (gridItems) {
+  if (type === BlockItemTypeEnum.GRID && gridItems) {
     return (
       <Box sx={sx}>
         <Container maxWidth={maxWidth} {...containerProps}>
