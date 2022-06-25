@@ -18,3 +18,7 @@ declare module '*.svg' {
 
 declare module '*.png'
 declare module '*.jpg'
+
+// Fonts
+declare module '*.woff'
+declare module '*.woff2'

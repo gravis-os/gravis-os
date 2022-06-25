@@ -1,64 +1,50 @@
 import merge from 'lodash/merge'
-import { createTheme, responsiveFontSizes } from '@mui/material'
+import baseTheme from '../Base/baseTheme'
 
-const muiTheme = responsiveFontSizes(createTheme())
-const muiDarkTheme = responsiveFontSizes(
-  createTheme({ palette: { mode: 'dark' } })
-)
-const baseTheme = {
-  components: {
-    MuiLink: {
-      defaultProps: {
-        underline: 'hover',
-      },
-    },
-    MuiPaper: {
-      styleOverrides: {
-        root: {
-          backgroundImage: 'none',
-        },
-      },
-    },
-    MuiToolbar: {
-      defaultProps: {
-        disableGutters: true,
-      },
-    },
-    MuiTypography: {
-      defaultProps: {
-        color: 'text.primary',
-      },
-    },
-  },
-  typography: {
-    fontFamily: "-apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif",
-    overline: {
-      display: 'block',
-      fontWeight: 'bold',
-      letterSpacing: 2,
-    },
-    button: {
-      textTransform: 'none',
-    },
-  },
-}
-
-// ==============================
-// Typography
-// ==============================
 const headerFontFamily =
-  "Publico Headline, Source Sans Pro, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
+  "-apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
 const subtitleFontFamily =
-  "Publico Text, Source Sans Pro, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
+  "-apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
 
-const baseLandingTheme = {
+const baseLandingThemeConfig = {
   typography: {
-    htmlFontSize: 14,
-    h1: { fontFamily: headerFontFamily },
-    h2: { fontFamily: headerFontFamily },
-    h3: { fontFamily: headerFontFamily },
-    h4: { fontFamily: headerFontFamily },
-    h5: { fontFamily: subtitleFontFamily },
+    /**
+     * Ensure to set this manually on the html tag in the template.
+     * If you're using storybook then set this in .storybook/preview-head.html
+     */
+    htmlFontSize: 16,
+    h1: {
+      fontFamily: headerFontFamily,
+      fontSize: '2.5rem',
+      [baseTheme.light.breakpoints.up('sm')]: { fontSize: '3rem' },
+      [baseTheme.light.breakpoints.up('md')]: { fontSize: '3.25rem' },
+      [baseTheme.light.breakpoints.up('lg')]: { fontSize: '3.75rem' },
+      lineHeight: 1.05,
+      fontWeight: 'bold',
+      '&.MuiTypography-gutterBottom': { marginBottom: '0.3em' },
+    },
+    h2: { fontFamily: headerFontFamily, lineHeight: 1.15, fontWeight: 'bold' },
+    h3: { fontFamily: headerFontFamily, lineHeight: 1.15, fontWeight: 'bold' },
+    h4: { fontFamily: headerFontFamily, fontWeight: 'bold' },
+    h5: { fontFamily: subtitleFontFamily, fontWeight: 'medium' },
+    subtitle1: {
+      fontFamily: subtitleFontFamily,
+      fontSize: '1.25rem',
+      [baseTheme.light.breakpoints.up('sm')]: { fontSize: '1.25rem' },
+      [baseTheme.light.breakpoints.up('md')]: { fontSize: '1.25rem' },
+      [baseTheme.light.breakpoints.up('lg')]: { fontSize: '1.5rem' },
+      lineHeight: 1.33,
+    },
+    overline: {
+      fontFamily: subtitleFontFamily,
+      fontSize: '0.75rem',
+      [baseTheme.light.breakpoints.up('sm')]: { fontSize: '0.75rem' },
+      [baseTheme.light.breakpoints.up('md')]: { fontSize: '0.75rem' },
+      [baseTheme.light.breakpoints.up('lg')]: { fontSize: '0.8rem' },
+      letterSpacing: 2,
+      lineHeight: 1.33,
+      '&.MuiTypography-gutterBottom': { marginBottom: '1em' },
+    },
   },
 }
 
@@ -66,8 +52,8 @@ const baseLandingTheme = {
 // Export
 // ==============================
 const landingTheme = {
-  light: merge({}, muiTheme, baseTheme, baseLandingTheme),
-  dark: merge({}, muiDarkTheme, baseTheme, baseLandingTheme),
+  light: merge({}, baseTheme.light, baseLandingThemeConfig),
+  dark: merge({}, baseTheme.dark, baseLandingThemeConfig),
 }
 
 export default landingTheme

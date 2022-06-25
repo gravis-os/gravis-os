@@ -9,13 +9,28 @@ export interface TypographyProps extends MuiTypographyProps {
   startIcon?: React.ReactElement
   endIcon?: React.ReactElement
   spacing?: StackProps['spacing']
+  maxWidth?: string // percentage e.g. '80%'
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
-  const { startIcon, endIcon, spacing = 0.5, ...rest } = props
+  const { maxWidth, startIcon, endIcon, spacing = 0.5, sx, ...rest } = props
   const { color } = rest
 
-  const childrenJsx = <MuiTypography {...rest} />
+  const childrenJsx = (
+    <MuiTypography
+      sx={{
+        ...(maxWidth && {
+          maxWidth: {
+            xs: '100%',
+            md: typeof maxWidth === 'boolean' ? '80%' : maxWidth,
+          },
+          mx: 'auto',
+        }),
+        ...sx,
+      }}
+      {...rest}
+    />
+  )
 
   if (startIcon || endIcon) {
     const getIconColor = (color) => {

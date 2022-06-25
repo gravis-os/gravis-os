@@ -28,6 +28,7 @@ export const MOCK_FAQ_ACCORDION_ITEMS = [
 
 export const MOCK_HEADER_PROPS = {
   logo: () => MOCK_LOGO_JSX,
+  disableBoxShadow: true,
   navItems: [
     {
       name: 'foo',
@@ -111,10 +112,12 @@ export const MOCK_BLOCK_ITEM_TYPES = {
     title:
       'At the core of One X Tech is a software engineering team specialising in ReactJS, GraphQL, NodeJS, and the extended JavaScript ecosystem',
   },
-  H5: {
-    type: BlockItemTypeEnum.H5,
+  H1: {
+    type: BlockItemTypeEnum.H1,
     title: 'Application Development',
+    titleProps: { gutterBottom: true },
   },
+  H5: { type: BlockItemTypeEnum.H5, title: 'Application Development' },
 }
 
 const MOCK_BLOCK_ITEMS = [
@@ -145,8 +148,19 @@ const renderBlocks = (blocks) => {
 
 export const MOCK_BLOCKS_JSX = renderBlocks(MOCK_BLOCKS)
 
+export const MOCK_BLOCK_HERO = {
+  maxWidth: 'md',
+  center: true,
+  pb: 5,
+  items: [
+    MOCK_BLOCK_ITEM_TYPES.OVERLINE,
+    MOCK_BLOCK_ITEM_TYPES.H1,
+    MOCK_BLOCK_ITEM_TYPES.SUBTITLE,
+  ],
+}
+
 export const MOCK_BLOCK_ALTERNATE_WING_GRID = {
-  spacing: { xs: 5, md: 10 },
+  spacing: { xs: 5, md: 20 },
   items: [
     {
       type: BlockItemTypeEnum.GRID,

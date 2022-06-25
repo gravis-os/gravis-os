@@ -58,10 +58,11 @@ export interface HeaderProps extends AppBarProps {
       }
   logo?: React.ElementType
   transparent?: boolean
+  disableBoxShadow?: boolean
 }
 
 const Header: React.FC<HeaderProps> = (props) => {
-  const { transparent, logo: Logo, navItems, ...rest } = props
+  const { disableBoxShadow, transparent, logo: Logo, navItems, ...rest } = props
 
   // State
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
@@ -232,8 +233,9 @@ const Header: React.FC<HeaderProps> = (props) => {
         color={transparent ? 'transparent' : 'inherit'}
         {...rest}
         sx={{
-          boxShadow:
-            '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
+          boxShadow: disableBoxShadow
+            ? 'none'
+            : '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
           color: transparent ? 'white' : 'inherit',
           ...rest?.sx,
         }}
