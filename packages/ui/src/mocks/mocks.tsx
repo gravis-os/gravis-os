@@ -144,3 +144,36 @@ const renderBlocks = (blocks) => {
 }
 
 export const MOCK_BLOCKS_JSX = renderBlocks(MOCK_BLOCKS)
+
+export const MOCK_BLOCK_ALTERNATE_WING_GRID = {
+  spacing: { xs: 5, md: 10 },
+  items: [
+    {
+      type: BlockItemTypeEnum.GRID,
+      gridProps: { alignItems: 'center' },
+      gridItems: [
+        { md: 5, items: [MOCK_BLOCK_ITEM_TYPES.IMAGE] },
+        { md: 7, items: MOCK_BLOCK.items },
+      ],
+    },
+    {
+      type: BlockItemTypeEnum.GRID,
+      gridProps: {
+        alignItems: 'center',
+        reverse: { xs: true, md: false },
+      },
+      gridItems: [
+        { md: 7, items: MOCK_BLOCK.items },
+        { md: 5, items: [MOCK_BLOCK_ITEM_TYPES.IMAGE] },
+      ],
+    },
+    {
+      type: BlockItemTypeEnum.GRID,
+      gridProps: { alignItems: 'center' },
+      gridItems: [
+        { md: 5, items: [MOCK_BLOCK_ITEM_TYPES.IMAGE] },
+        { md: 7, items: MOCK_BLOCK.items },
+      ],
+    },
+  ],
+}

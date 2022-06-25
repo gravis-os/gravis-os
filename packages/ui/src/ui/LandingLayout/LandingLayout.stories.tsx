@@ -3,8 +3,10 @@ import LandingLayout from './LandingLayout'
 import {
   MOCK_HEADER_PROPS,
   MOCK_FOOTER_PROPS,
-  MOCK_BLOCKS_JSX,
+  MOCK_BLOCK,
+  MOCK_BLOCK_ALTERNATE_WING_GRID,
 } from '../../mocks'
+import Blocks from '../Blocks'
 
 export default {
   title: 'Components/LandingLayout',
@@ -13,7 +15,7 @@ export default {
   args: {
     headerProps: MOCK_HEADER_PROPS,
     footerProps: MOCK_FOOTER_PROPS,
-    children: MOCK_BLOCKS_JSX,
+    children: <Blocks items={[MOCK_BLOCK, MOCK_BLOCK_ALTERNATE_WING_GRID]} />,
   },
 }
 
