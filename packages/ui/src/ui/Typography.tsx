@@ -5,11 +5,11 @@ import {
 } from '@mui/material'
 import Stack, { StackProps } from './Stack'
 
-export interface TypographyProps extends MuiTypographyProps {
+export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   startIcon?: React.ReactElement
   endIcon?: React.ReactElement
   spacing?: StackProps['spacing']
-  maxWidth?: string // percentage e.g. '80%'
+  maxWidth?: boolean | string // percentage e.g. '80%'
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {

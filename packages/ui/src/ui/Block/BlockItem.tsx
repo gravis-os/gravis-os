@@ -28,7 +28,7 @@ export enum BlockItemTypeEnum {
   BUTTON = 'button',
 }
 
-// TODO@Joel: Special buttons, background image, flipping sections background colors
+// TODO@Joel: Special buttons
 
 export interface BlockItemProps extends BoxProps {
   containerProps?: ContainerProps

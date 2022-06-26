@@ -19,6 +19,8 @@ const publicoLandingThemeConfig = {
     h3: { fontFamily: headerFontFamily, fontWeight: 300 },
     h4: { fontFamily: headerFontFamily, fontWeight: 300 },
     h5: { fontFamily: subtitleFontFamily, fontWeight: 400 },
+    subtitle1: { fontFamily: subtitleFontFamily, fontWeight: 400 },
+    subtitle2: { fontFamily: subtitleFontFamily, fontWeight: 400 },
   },
   components: {
     // Self-hosted font: https://mui.com/material-ui/customization/typography/#self-hosted-fonts

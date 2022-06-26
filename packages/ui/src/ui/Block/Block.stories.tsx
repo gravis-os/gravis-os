@@ -2,6 +2,8 @@ import React from 'react'
 import Block from './Block'
 import { MOCK_BLOCK, MOCK_BLOCK_ITEM_TYPES } from '../../mocks'
 import { BlockItemTypeEnum } from './BlockItem'
+import MOCK_RAINBOW_GRADIENT_1_IMAGE from '../../../public/images/mock_rainbow_gradient_1.jpg'
+import MOCK_DARK_BLUE_GRADIENT_1_IMAGE from '../../../public/images/mock_dark_blue_gradient_1.jpg'
 
 export default {
   title: 'ui/Block',
@@ -44,6 +46,23 @@ DynamicContent.args = {
 export const WithImage = Template.bind({})
 WithImage.args = {
   items: [MOCK_BLOCK_ITEM_TYPES.IMAGE, ...MOCK_BLOCK.items],
+}
+
+export const BackgroundImage = Template.bind({})
+BackgroundImage.args = {
+  backgroundImageProps: {
+    src: MOCK_RAINBOW_GRADIENT_1_IMAGE,
+    alt: 'MOCK_RAINBOW_GRADIENT_1_IMAGE',
+  },
+}
+
+export const DarkMode = Template.bind({})
+DarkMode.args = {
+  backgroundImageProps: {
+    src: MOCK_DARK_BLUE_GRADIENT_1_IMAGE,
+    alt: 'MOCK_DARK_BLUE_GRADIENT_1_IMAGE',
+  },
+  dark: true,
 }
 
 export const Grid = Template.bind({})

@@ -65,7 +65,6 @@ GravisTheme.args = {
     {
       maxWidth: 'md',
       center: true,
-      pb: 5,
       items: [
         {
           type: BlockItemTypeEnum.OVERLINE,
@@ -82,9 +81,8 @@ GravisTheme.args = {
           title:
             'Power next-generation business operations with all the modules you need in one place.',
           titleProps: {
-            gutterBottom: true,
             color: 'text.secondary',
-            sx: { maxWidth: { xs: '100%', md: '80%' }, mx: 'auto' },
+            maxWidth: '60%',
           },
         },
       ],
@@ -93,7 +91,7 @@ GravisTheme.args = {
       maxWidth: 'md',
       center: true,
       backgroundImageProps: {
-        src: MOCK_IMAGE_1,
+        src: 'https://source.unsplash.com/random/?username=gradienta&orientation=landscape',
         alt: 'MOCK_IMAGE',
       },
       items: [
@@ -103,17 +101,17 @@ GravisTheme.args = {
           title: 'Features',
         },
         {
-          type: BlockItemTypeEnum.H1,
+          type: BlockItemTypeEnum.H2,
           title: 'A Powerful All-in-One Platform for Retailers & Distributors',
           titleProps: { gutterBottom: true },
         },
         {
-          type: BlockItemTypeEnum.SUBTITLE1,
+          type: BlockItemTypeEnum.SUBTITLE2,
           title:
             'Answer a few short questions and we’ll help you find the right services for your business.',
           titleProps: {
             color: 'text.secondary',
-            sx: { maxWidth: { xs: '100%', md: '80%' }, mx: 'auto' },
+            maxWidth: true,
           },
         },
       ],

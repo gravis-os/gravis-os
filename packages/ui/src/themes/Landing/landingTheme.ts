@@ -37,10 +37,10 @@ const baseLandingThemeConfig = {
     },
     subtitle2: {
       fontFamily: subtitleFontFamily,
-      fontSize: '1.25rem',
-      [baseTheme.light.breakpoints.up('sm')]: { fontSize: '1.25rem' },
-      [baseTheme.light.breakpoints.up('md')]: { fontSize: '1.25rem' },
-      [baseTheme.light.breakpoints.up('lg')]: { fontSize: '1.5rem' },
+      fontSize: '1rem',
+      [baseTheme.light.breakpoints.up('sm')]: { fontSize: '1rem' },
+      [baseTheme.light.breakpoints.up('md')]: { fontSize: '1rem' },
+      [baseTheme.light.breakpoints.up('lg')]: { fontSize: '1.25rem' },
       lineHeight: 1.33,
     },
     overline: {
