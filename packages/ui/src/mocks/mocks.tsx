@@ -98,32 +98,43 @@ export const MOCK_BLOCK_ITEM_TYPES = {
     titleProps: { alt: 'MOCK_IMAGE' },
   },
   OVERLINE: { type: BlockItemTypeEnum.OVERLINE, title: 'What we do' },
-  TITLE: {
-    type: BlockItemTypeEnum.TITLE,
-    title: 'Custom Business Software Made for Market Leaders',
-  },
-  SUBTITLE: {
-    type: BlockItemTypeEnum.SUBTITLE,
-    title:
-      'We build modern system architectures and scalable applications that radically transform business performance.',
-  },
-  BODY: {
-    type: BlockItemTypeEnum.BODY,
-    title:
-      'At the core of One X Tech is a software engineering team specialising in ReactJS, GraphQL, NodeJS, and the extended JavaScript ecosystem',
-  },
   H1: {
     type: BlockItemTypeEnum.H1,
     title: 'Application Development',
     titleProps: { gutterBottom: true },
   },
+  H3: {
+    type: BlockItemTypeEnum.H3,
+    title: 'Application Development',
+    titleProps: { gutterBottom: true },
+  },
+  H4: {
+    type: BlockItemTypeEnum.H4,
+    title: 'Application Development',
+    titleProps: { gutterBottom: true },
+  },
   H5: { type: BlockItemTypeEnum.H5, title: 'Application Development' },
+  SUBTITLE1: {
+    type: BlockItemTypeEnum.SUBTITLE1,
+    title:
+      'We build modern system architectures and scalable applications that radically transform business performance.',
+  },
+  SUBTITLE2: {
+    type: BlockItemTypeEnum.SUBTITLE2,
+    title:
+      'We build modern system architectures and scalable applications that radically transform business performance.',
+  },
+  BODY1: {
+    type: BlockItemTypeEnum.BODY1,
+    title:
+      'At the core of One X Tech is a software engineering team specialising in ReactJS, GraphQL, NodeJS, and the extended JavaScript ecosystem',
+  },
 }
 
 const MOCK_BLOCK_ITEMS = [
   MOCK_BLOCK_ITEM_TYPES.OVERLINE,
-  MOCK_BLOCK_ITEM_TYPES.TITLE,
-  MOCK_BLOCK_ITEM_TYPES.SUBTITLE,
+  MOCK_BLOCK_ITEM_TYPES.H3,
+  MOCK_BLOCK_ITEM_TYPES.SUBTITLE2,
 ]
 
 export const MOCK_BLOCK = {
@@ -136,18 +147,6 @@ export const MOCK_BLOCKS = [
   { key: 'contact', ...MOCK_BLOCK, maxWidth: 'sm', center: true },
 ]
 
-const renderBlocks = (blocks) => {
-  return (
-    <>
-      {blocks.map((block, i) => {
-        return <Block key={`block-${i}`} {...block} />
-      })}
-    </>
-  )
-}
-
-export const MOCK_BLOCKS_JSX = renderBlocks(MOCK_BLOCKS)
-
 export const MOCK_BLOCK_HERO = {
   maxWidth: 'md',
   center: true,
@@ -155,7 +154,7 @@ export const MOCK_BLOCK_HERO = {
   items: [
     MOCK_BLOCK_ITEM_TYPES.OVERLINE,
     MOCK_BLOCK_ITEM_TYPES.H1,
-    MOCK_BLOCK_ITEM_TYPES.SUBTITLE,
+    MOCK_BLOCK_ITEM_TYPES.SUBTITLE1,
   ],
 }
 

@@ -3,20 +3,12 @@ import Typography, { TypographyProps } from '../Typography'
 import Grid, { GridProps } from '../Grid'
 import Box, { BoxProps } from '../Box'
 import Container, { ContainerProps } from '../Container'
-import Image from '../Image'
+import Image, { ImageProps } from '../Image'
+import Button, { ButtonProps } from '../Button'
 
 export enum BlockItemTypeEnum {
-  IMAGE = 'image',
-  ICON = 'icon',
+  // Default Typography
   OVERLINE = 'overline',
-  TITLE = 'title',
-  SUBTITLE = 'subtitle',
-  BODY = 'body',
-
-  // Grid
-  GRID = 'grid',
-
-  // Typography
   H1 = 'h1',
   H2 = 'h2',
   H3 = 'h3',
@@ -28,7 +20,15 @@ export enum BlockItemTypeEnum {
   SUBTITLE1 = 'subtitle1',
   SUBTITLE2 = 'subtitle2',
   CAPTION = 'caption',
+
+  // Custom
+  IMAGE = 'image',
+  ICON = 'icon',
+  GRID = 'grid',
+  BUTTON = 'button',
 }
+
+// TODO@Joel: Special buttons, background image, flipping sections background colors
 
 export interface BlockItemProps extends BoxProps {
   containerProps?: ContainerProps
@@ -36,7 +36,7 @@ export interface BlockItemProps extends BoxProps {
   gridProps?: GridProps
   gridItemProps?: GridProps
   title: React.ReactNode
-  titleProps?: TypographyProps
+  titleProps?: TypographyProps | ImageProps | ButtonProps
   type?: BlockItemTypeEnum
 }
 
@@ -53,27 +53,11 @@ const renderChildren = ({ type, title, titleProps }) => {
           {title}
         </Typography>
       )
-    case BlockItemTypeEnum.TITLE:
-      return (
-        <Typography variant="h3" gutterBottom {...titleProps}>
-          {title}
-        </Typography>
-      )
-    case BlockItemTypeEnum.SUBTITLE:
-      return (
-        <Typography variant="h5" color="text.secondary" {...titleProps}>
-          {title}
-        </Typography>
-      )
-    case BlockItemTypeEnum.BODY:
-      return (
-        <Typography variant="body1" color="text.secondary" {...titleProps}>
-          {title}
-        </Typography>
-      )
     case BlockItemTypeEnum.ICON:
       const Icon = title
       return <Icon {...titleProps} />
+    case BlockItemTypeEnum.BUTTON:
+      return <Button {...titleProps}>{title}</Button>
     case BlockItemTypeEnum.IMAGE:
       const src = title
       return <Image src={src} layout="responsive" {...titleProps} />

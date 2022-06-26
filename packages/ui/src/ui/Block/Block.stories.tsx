@@ -60,14 +60,14 @@ Grid.args = {
           sx: { textAlign: 'left' },
           items: [
             ...MOCK_BLOCK.items,
-            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
+            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY1 },
           ],
         },
         {
           sx: { textAlign: 'left' },
           items: [
             ...MOCK_BLOCK.items,
-            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY },
+            { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY1 },
           ],
         },
       ],
@@ -91,7 +91,7 @@ GridWithFeatures.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.IMAGE,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -99,7 +99,7 @@ GridWithFeatures.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.IMAGE,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -107,7 +107,7 @@ GridWithFeatures.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.IMAGE,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
       ],
@@ -130,7 +130,7 @@ GridWithIconsOnSingleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -138,7 +138,7 @@ GridWithIconsOnSingleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -146,7 +146,7 @@ GridWithIconsOnSingleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -154,7 +154,7 @@ GridWithIconsOnSingleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
       ],
@@ -178,7 +178,7 @@ GridWithIconsOnDoubleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -187,7 +187,7 @@ GridWithIconsOnDoubleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -196,7 +196,7 @@ GridWithIconsOnDoubleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -205,7 +205,7 @@ GridWithIconsOnDoubleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -214,7 +214,7 @@ GridWithIconsOnDoubleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
         {
@@ -223,7 +223,7 @@ GridWithIconsOnDoubleRow.args = {
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
-            MOCK_BLOCK_ITEM_TYPES.BODY,
+            MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
         },
       ],

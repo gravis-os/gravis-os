@@ -5,6 +5,7 @@ import BlockItem, { BlockItemProps } from './BlockItem'
 import { ContainerProps } from '../Container'
 import Box, { BoxProps } from '../Box'
 import Stack, { StackProps } from '../Stack'
+import Image from '../Image'
 
 type GetBlockPaddingFunction = (props: SxProps) => SxProps
 
@@ -53,33 +54,48 @@ const Block: React.FC<BlockProps> = (props) => {
     sx,
     maxWidth,
     containerProps,
+    reveal = true,
+
+    backgroundImageProps,
+
     ...rest
   } = props
 
-  return (
+  const hasBackgroundImage = Boolean(backgroundImageProps)
+
+  const childrenJsx = (
     <Box
-      reveal
       sx={{
         ...getBlockPadding({ pt, pb, py }),
-        backgroundColor: 'background.paper',
+        ...(hasBackgroundImage
+          ? { position: 'relative' }
+          : { backgroundColor: 'background.paper' }),
         ...sx,
       }}
       {...rest}
     >
-      <Stack spacing={spacing} {...stackProps}>
-        {items.map((item, i) => {
-          return (
-            <BlockItem
-              key={`block-item-${i}`}
-              maxWidth={maxWidth}
-              containerProps={containerProps}
-              {...item}
-            />
-          )
-        })}
-      </Stack>
+      {hasBackgroundImage && (
+        <Image layout="fill" objectFit="cover" {...backgroundImageProps} />
+      )}
+
+      <Box reveal={reveal}>
+        <Stack spacing={spacing} {...stackProps}>
+          {items.map((item, i) => {
+            return (
+              <BlockItem
+                key={`block-item-${i}`}
+                maxWidth={maxWidth}
+                containerProps={containerProps}
+                {...item}
+              />
+            )
+          })}
+        </Stack>
+      </Box>
     </Box>
   )
+
+  return childrenJsx
 }
 
 export default Block

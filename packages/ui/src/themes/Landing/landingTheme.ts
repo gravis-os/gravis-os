@@ -35,6 +35,14 @@ const baseLandingThemeConfig = {
       [baseTheme.light.breakpoints.up('lg')]: { fontSize: '1.5rem' },
       lineHeight: 1.33,
     },
+    subtitle2: {
+      fontFamily: subtitleFontFamily,
+      fontSize: '1.25rem',
+      [baseTheme.light.breakpoints.up('sm')]: { fontSize: '1.25rem' },
+      [baseTheme.light.breakpoints.up('md')]: { fontSize: '1.25rem' },
+      [baseTheme.light.breakpoints.up('lg')]: { fontSize: '1.5rem' },
+      lineHeight: 1.33,
+    },
     overline: {
       fontFamily: subtitleFontFamily,
       fontSize: '0.75rem',

@@ -9,3 +9,6 @@ export * from './appleLandingTheme'
 
 export { default as gravisLandingTheme } from './gravisLandingTheme'
 export * from './gravisLandingTheme'
+
+export { default as vercelLandingTheme } from './vercelLandingTheme'
+export * from './vercelLandingTheme'

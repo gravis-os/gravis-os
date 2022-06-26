@@ -14,8 +14,10 @@ import {
   appleLandingTheme,
   gravisLandingTheme,
   publicoLandingTheme,
+  vercelLandingTheme,
 } from '../../themes'
 import { BlockItemTypeEnum } from '../Block/BlockItem'
+import MOCK_IMAGE_1 from '../../../public/images/mock_app_card_image_1.png'
 
 export default {
   title: 'Components/LandingLayout',
@@ -87,12 +89,51 @@ GravisTheme.args = {
         },
       ],
     },
+    {
+      maxWidth: 'md',
+      center: true,
+      backgroundImageProps: {
+        src: MOCK_IMAGE_1,
+        alt: 'MOCK_IMAGE',
+      },
+      items: [
+        {
+          type: BlockItemTypeEnum.OVERLINE,
+          titleProps: { color: 'text.primary' },
+          title: 'Features',
+        },
+        {
+          type: BlockItemTypeEnum.H1,
+          title: 'A Powerful All-in-One Platform for Retailers & Distributors',
+          titleProps: { gutterBottom: true },
+        },
+        {
+          type: BlockItemTypeEnum.SUBTITLE1,
+          title:
+            'Answer a few short questions and we’ll help you find the right services for your business.',
+          titleProps: {
+            color: 'text.secondary',
+            sx: { maxWidth: { xs: '100%', md: '80%' }, mx: 'auto' },
+          },
+        },
+      ],
+    },
     MOCK_BLOCK_ALTERNATE_WING_GRID,
   ],
 }
 
 export const PublicoTheme = (args) => {
   const { theme } = useTheme(publicoLandingTheme)
+  return (
+    <ThemeProvider theme={theme}>
+      <CssBaseline />
+      <Basic {...args} />
+    </ThemeProvider>
+  )
+}
+
+export const VercelTheme = (args) => {
+  const { theme } = useTheme(vercelLandingTheme)
   return (
     <ThemeProvider theme={theme}>
       <CssBaseline />

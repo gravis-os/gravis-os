@@ -1,45 +1,64 @@
 import merge from 'lodash/merge'
 import landingTheme from './landingTheme'
-import SourceSansProRegular from '../../../public/fonts/Source Sans Pro/SourceSansPro-Regular.ttf'
-import SourceSansProBold from '../../../public/fonts/Source Sans Pro/SourceSansPro-Bold.ttf'
 import baseTheme from '../Base/baseTheme'
 
 const headerFontFamily =
-  "Source Sans Pro, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
-const subtitleFontFamily =
-  "Source Sans Pro, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
+  "SF Pro Display, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
+const subtitleFontFamily = headerFontFamily
 
 const appleLandingThemeConfig = {
   typography: {
     h1: {
       fontFamily: headerFontFamily,
       [baseTheme.light.breakpoints.up('lg')]: {
-        fontSize: '5.3556rem',
+        fontSize: baseTheme.light.typography.pxToRem(96),
       },
     },
-    h2: { fontFamily: headerFontFamily },
-    h3: { fontFamily: headerFontFamily },
-    h4: { fontFamily: headerFontFamily },
+    h2: {
+      fontFamily: headerFontFamily,
+      [baseTheme.light.breakpoints.up('lg')]: {
+        fontSize: baseTheme.light.typography.pxToRem(80),
+      },
+    },
+    h3: {
+      fontFamily: headerFontFamily,
+      fontWeight: 600,
+      lineHeight: 1.08349,
+      [baseTheme.light.breakpoints.up('lg')]: {
+        fontSize: baseTheme.light.typography.pxToRem(64),
+      },
+    },
+    h4: {
+      fontFamily: headerFontFamily,
+      fontWeight: 600,
+      lineHeight: 1.08349,
+      [baseTheme.light.breakpoints.up('lg')]: {
+        fontSize: baseTheme.light.typography.pxToRem(48),
+      },
+    },
     h5: { fontFamily: subtitleFontFamily },
-  },
-  components: {
-    // Self-hosted font: https://mui.com/material-ui/customization/typography/#self-hosted-fonts
-    MuiCssBaseline: {
-      styleOverrides: `
-        @font-face {
-            font-family: 'Source Sans Pro';
-            font-style: normal;
-            font-weight: 400;
-            src: url(${SourceSansProRegular});
-        }
-        
-        @font-face {
-            font-family: 'Source Sans Pro';
-            font-style: bold;
-            font-weight: 700;
-            src: url(${SourceSansProBold});
-        }
-      `,
+    subtitle1: {
+      fontFamily: headerFontFamily,
+      fontWeight: 'medium',
+      lineHeight: 1.25,
+      [baseTheme.light.breakpoints.up('lg')]: {
+        fontSize: baseTheme.light.typography.pxToRem(32),
+      },
+    },
+    subtitle2: {
+      fontFamily: headerFontFamily,
+      fontWeight: 'medium',
+      lineHeight: 1.14286,
+      [baseTheme.light.breakpoints.up('lg')]: {
+        fontSize: baseTheme.light.typography.pxToRem(28),
+      },
+    },
+    body1: {
+      fontFamily: headerFontFamily,
+      fontWeight: 'regular',
+      [baseTheme.light.breakpoints.up('lg')]: {
+        fontSize: baseTheme.light.typography.pxToRem(19),
+      },
     },
   },
 }
