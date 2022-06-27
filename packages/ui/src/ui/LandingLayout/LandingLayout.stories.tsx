@@ -4,11 +4,11 @@ import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import LandingLayout from './LandingLayout'
 import {
-  MOCK_HEADER_PROPS,
-  MOCK_FOOTER_PROPS,
-  MOCK_BLOCK_HERO,
   MOCK_BLOCK_ALTERNATE_WING_GRID,
+  MOCK_BLOCK_HERO,
   MOCK_BLOCK_ITEM_TYPES,
+  MOCK_FOOTER_PROPS,
+  MOCK_HEADER_PROPS,
   MOCK_RIGHT_WING_GRID_ITEMS,
 } from '../../mocks'
 import Blocks from '../Blocks'
@@ -87,10 +87,43 @@ GravisTheme.args = {
             maxWidth: '60%',
           },
         },
+
         {
-          type: BlockItemTypeEnum.BUTTON,
-          title: 'Get Started',
-          titleProps: { variant: 'contained', size: 'large', sx: { mt: 3 } },
+          type: BlockItemTypeEnum.STACK,
+          sx: { mt: 3 },
+          stackProps: {
+            center: true,
+            direction: 'row',
+            reverseDirectionOnMobile: true,
+          },
+          stackItems: [
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.BUTTON,
+                  title: 'Request Support',
+                  titleProps: {
+                    variant: 'outlined',
+                    size: 'large',
+                    fullWidthOnMobile: true,
+                  },
+                },
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.BUTTON,
+                  title: 'Get Started',
+                  titleProps: {
+                    variant: 'contained',
+                    size: 'large',
+                    fullWidthOnMobile: true,
+                  },
+                },
+              ],
+            },
+          ],
         },
       ],
     },

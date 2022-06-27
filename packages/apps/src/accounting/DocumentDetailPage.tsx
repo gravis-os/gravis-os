@@ -27,7 +27,7 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
           <Button
             variant="contained"
             endIcon={<ArrowRightAltOutlinedIcon />}
-            fullWidthMobile
+            fullWidthOnMobile
           >
             Move to Sales Order
           </Button>

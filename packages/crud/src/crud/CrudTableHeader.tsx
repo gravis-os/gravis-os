@@ -116,7 +116,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
                     onClick={() => setOpenFilterDrawer(!openFilterDrawer)}
                     variant="outlined"
                     startIcon={<FilterListOutlinedIcon />}
-                    fullWidthMobile
+                    fullWidthOnMobile
                   >
                     Filters
                   </Button>
@@ -159,7 +159,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           <Button
             startIcon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
             variant="contained"
-            fullWidthMobile
+            fullWidthOnMobile
             {...(hasAddFormSections
               ? { onClick: () => setAddDialogOpen(true) }
               : { href: `/${route.plural}/new` })}

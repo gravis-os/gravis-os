@@ -5,6 +5,7 @@ import Box, { BoxProps } from '../Box'
 import Container, { ContainerProps } from '../Container'
 import Image, { ImageProps } from '../Image'
 import Button, { ButtonProps } from '../Button'
+import Stack, { StackProps } from '../Stack'
 
 export enum BlockItemTypeEnum {
   // Default Typography
@@ -21,19 +22,30 @@ export enum BlockItemTypeEnum {
   SUBTITLE2 = 'subtitle2',
   CAPTION = 'caption',
 
+  // Layout
+  GRID = 'grid',
+  STACK = 'stack',
+
   // Custom
   IMAGE = 'image',
   ICON = 'icon',
-  GRID = 'grid',
   BUTTON = 'button',
   LINK = 'link',
 }
 
 export interface BlockItemProps extends BoxProps {
   containerProps?: ContainerProps
-  gridItems?: BlockItemProps[]
+
+  // Grid
   gridProps?: GridProps
+  gridItems?: BlockItemProps[]
   gridItemProps?: GridProps
+
+  // Stack
+  stackProps?: StackProps
+  stackItems?: BlockItemProps[]
+  stackItemProps?: StackProps
+
   title: React.ReactNode
   titleProps?: TypographyProps | ImageProps | ButtonProps
   type?: BlockItemTypeEnum
@@ -134,6 +146,13 @@ const renderGrid = (props) => {
               )
             }
 
+            // Inform dev to provide Griditem.items as it is required.
+            if (!Array.isArray(items)) {
+              throw new Error(
+                `GridItem.items need to be defined as an array for title: "${gridItem.title}".`
+              )
+            }
+
             return (
               <Grid {...gridItemProps}>
                 {items.map((item) => renderBlockItem(item))}
@@ -146,20 +165,85 @@ const renderGrid = (props) => {
   )
 }
 
-const BlockItem: React.FC<BlockItemProps> = (props) => {
+const renderStack = (props) => {
   const {
     type,
     sx,
-    gridItems,
-    gridItemProps,
-    gridProps,
+
+    stackItems,
+    stackItemProps: injectedStackItemProps,
+    stackProps,
+
+    // Container
     maxWidth,
     containerProps,
   } = props
 
-  if (type === BlockItemTypeEnum.GRID && gridItems) {
-    return renderGrid(props)
-  }
+  return (
+    <Box sx={sx}>
+      <Container maxWidth={maxWidth} {...containerProps}>
+        <Stack spacing={1} {...stackProps}>
+          {stackItems.map((stackItem, i) => {
+            const { items, ...rest } = stackItem
+
+            // StackItem is a Box
+            // Wrapper stackItemProps abstracted for common use
+            const stackItemProps = {
+              fullWidthOnMobile: true,
+              ...injectedStackItemProps, // Spread to all stack items
+              ...rest,
+            }
+
+            // Manage recursive stacks
+            const hasNestedStackItems = Boolean(rest?.stackItems)
+            if (hasNestedStackItems) {
+              return (
+                <Box key={`nested-stack-item-${i}`} {...stackItemProps}>
+                  {renderStack(stackItem)}
+                </Box>
+              )
+            }
+
+            // Inform dev to provide Stackitem.items as it is required.
+            if (!Array.isArray(items)) {
+              throw new Error(
+                `StackItem.items need to be defined as an array for title: "${stackItem.title}".`
+              )
+            }
+
+            return (
+              <Box key={`stack-item-${i}`} {...stackItemProps}>
+                {items.map((item) => renderBlockItem(item))}
+              </Box>
+            )
+          })}
+        </Stack>
+      </Container>
+    </Box>
+  )
+}
+
+const BlockItem: React.FC<BlockItemProps> = (props) => {
+  const {
+    type,
+    sx,
+
+    // Grid
+    gridProps,
+    gridItems,
+    gridItemProps,
+
+    // Stack
+    stackProps,
+    stackItems,
+    stackItemProps,
+
+    maxWidth,
+    containerProps,
+  } = props
+
+  if (type === BlockItemTypeEnum.GRID && gridItems) return renderGrid(props)
+  if (type === BlockItemTypeEnum.STACK && stackItems) return renderStack(props)
 
   return (
     <Container maxWidth={maxWidth} {...containerProps}>
