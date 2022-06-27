@@ -90,6 +90,62 @@ const renderBlockItem = (props) => {
   )
 }
 
+const renderGrid = (props) => {
+  const {
+    type,
+    sx,
+    gridItems,
+    gridItemProps: injectedGridItemProps,
+    gridProps,
+    maxWidth,
+    containerProps,
+  } = props
+  return (
+    <Box sx={sx}>
+      <Container maxWidth={maxWidth} {...containerProps}>
+        <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
+          {gridItems.map((gridItem, i) => {
+            const { items, ...rest } = gridItem
+
+            // Wrapper gridItem props abstracted for common use
+            const gridItemProps = {
+              item: true,
+              xs: 12,
+              md: true,
+              ...injectedGridItemProps, // Spread to all grid items
+              ...rest,
+            }
+
+            // Manage recursive grids
+            const hasNestedGridItems = Boolean(rest?.gridItems)
+            if (hasNestedGridItems) {
+              return (
+                <Grid key={`nested-grid-item-${i}`} {...gridItemProps}>
+                  {renderGrid({
+                    ...gridItem,
+
+                    // Disable container for nested grids to avoid extra padding
+                    containerProps: {
+                      ...gridItem.containerProps,
+                      disableGutters: true,
+                    },
+                  })}
+                </Grid>
+              )
+            }
+
+            return (
+              <Grid {...gridItemProps}>
+                {items.map((item) => renderBlockItem(item))}
+              </Grid>
+            )
+          })}
+        </Grid>
+      </Container>
+    </Box>
+  )
+}
+
 const BlockItem: React.FC<BlockItemProps> = (props) => {
   const {
     type,
@@ -102,28 +158,7 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
   } = props
 
   if (type === BlockItemTypeEnum.GRID && gridItems) {
-    return (
-      <Box sx={sx}>
-        <Container maxWidth={maxWidth} {...containerProps}>
-          <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
-            {gridItems.map((gridItem) => {
-              const { items, ...rest } = gridItem
-              return (
-                <Grid
-                  item
-                  xs={12}
-                  md
-                  {...gridItemProps} // Spread to all grid items
-                  {...rest}
-                >
-                  {items.map((item) => renderBlockItem(item))}
-                </Grid>
-              )
-            })}
-          </Grid>
-        </Container>
-      </Box>
-    )
+    return renderGrid(props)
   }
 
   return (

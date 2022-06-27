@@ -147,6 +147,9 @@ export const MOCK_BLOCKS = [
   { key: 'contact', ...MOCK_BLOCK, maxWidth: 'sm', center: true },
 ]
 
+// ==============================
+// Templates
+// ==============================
 export const MOCK_BLOCK_HERO = {
   maxWidth: 'md',
   center: true,
@@ -157,6 +160,26 @@ export const MOCK_BLOCK_HERO = {
     MOCK_BLOCK_ITEM_TYPES.SUBTITLE1,
   ],
 }
+
+export const MOCK_RIGHT_WING_GRID_ITEMS = [
+  {
+    md: 4,
+    items: [MOCK_BLOCK_ITEM_TYPES.IMAGE],
+  },
+  {
+    md: 8,
+    items: [
+      {
+        ...MOCK_BLOCK_ITEM_TYPES.H5,
+        titleProps: { gutterBottom: true },
+      },
+      {
+        ...MOCK_BLOCK_ITEM_TYPES.BODY1,
+        titleProps: { color: 'text.secondary' },
+      },
+    ],
+  },
+]
 
 export const MOCK_BLOCK_ALTERNATE_WING_GRID = {
   spacing: { xs: 5, md: 20 },

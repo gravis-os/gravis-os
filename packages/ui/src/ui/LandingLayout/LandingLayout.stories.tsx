@@ -9,6 +9,7 @@ import {
   MOCK_BLOCK_HERO,
   MOCK_BLOCK_ALTERNATE_WING_GRID,
   MOCK_BLOCK_ITEM_TYPES,
+  MOCK_RIGHT_WING_GRID_ITEMS,
 } from '../../mocks'
 import Blocks from '../Blocks'
 import {
@@ -189,85 +190,50 @@ GravisTheme.args = {
         {
           type: BlockItemTypeEnum.GRID,
           maxWidth: 'lg',
-          sx: { mt: { xs: 5, md: 7.5 } },
-          gridProps: { spacing: { xs: 5 } },
+          sx: { mt: { xs: 5, md: 9 } },
+          gridProps: { spacing: { xs: 5, md: 9 } },
           gridItems: [
-            // {
-            //   md: 6,
-            //   sx: { textAlign: { xs: 'center', md: 'left' } },
-            //   // TODO@Joel: This breaks the build. See if we can nest the grid.
-            //   gridItems: [
-            //     MOCK_BLOCK_ITEM_TYPES.IMAGE,
-            //     {
-            //       items: [
-            //         {
-            //           ...MOCK_BLOCK_ITEM_TYPES.H5,
-            //           titleProps: { gutterBottom: true },
-            //         },
-            //         MOCK_BLOCK_ITEM_TYPES.BODY1,
-            //       ],
-            //     },
-            //   ],
-            // },
             {
+              type: BlockItemTypeEnum.GRID,
               md: 6,
               sx: { textAlign: { xs: 'center', md: 'left' } },
-              items: [
-                MOCK_BLOCK_ITEM_TYPES.IMAGE,
-                {
-                  ...MOCK_BLOCK_ITEM_TYPES.H5,
-                  titleProps: { gutterBottom: true },
-                },
-                MOCK_BLOCK_ITEM_TYPES.BODY1,
-              ],
+              gridProps: { spacing: { xs: 3 } },
+              gridItems: MOCK_RIGHT_WING_GRID_ITEMS,
             },
             {
+              type: BlockItemTypeEnum.GRID,
               md: 6,
               sx: { textAlign: { xs: 'center', md: 'left' } },
-              items: [
-                MOCK_BLOCK_ITEM_TYPES.IMAGE,
-                {
-                  ...MOCK_BLOCK_ITEM_TYPES.H5,
-                  titleProps: { gutterBottom: true },
-                },
-                MOCK_BLOCK_ITEM_TYPES.BODY1,
-              ],
+              gridProps: { spacing: { xs: 3 } },
+              gridItems: MOCK_RIGHT_WING_GRID_ITEMS,
             },
             {
+              type: BlockItemTypeEnum.GRID,
               md: 6,
               sx: { textAlign: { xs: 'center', md: 'left' } },
-              items: [
-                MOCK_BLOCK_ITEM_TYPES.IMAGE,
-                {
-                  ...MOCK_BLOCK_ITEM_TYPES.H5,
-                  titleProps: { gutterBottom: true },
-                },
-                MOCK_BLOCK_ITEM_TYPES.BODY1,
-              ],
+              gridProps: { spacing: { xs: 3 } },
+              gridItems: MOCK_RIGHT_WING_GRID_ITEMS,
             },
             {
+              type: BlockItemTypeEnum.GRID,
               md: 6,
               sx: { textAlign: { xs: 'center', md: 'left' } },
-              items: [
-                MOCK_BLOCK_ITEM_TYPES.IMAGE,
-                {
-                  ...MOCK_BLOCK_ITEM_TYPES.H5,
-                  titleProps: { gutterBottom: true },
-                },
-                MOCK_BLOCK_ITEM_TYPES.BODY1,
-              ],
+              gridProps: { spacing: { xs: 3 } },
+              gridItems: MOCK_RIGHT_WING_GRID_ITEMS,
             },
             {
+              type: BlockItemTypeEnum.GRID,
               md: 6,
               sx: { textAlign: { xs: 'center', md: 'left' } },
-              items: [
-                MOCK_BLOCK_ITEM_TYPES.IMAGE,
-                {
-                  ...MOCK_BLOCK_ITEM_TYPES.H5,
-                  titleProps: { gutterBottom: true },
-                },
-                MOCK_BLOCK_ITEM_TYPES.BODY1,
-              ],
+              gridProps: { spacing: { xs: 3 } },
+              gridItems: MOCK_RIGHT_WING_GRID_ITEMS,
+            },
+            {
+              type: BlockItemTypeEnum.GRID,
+              md: 6,
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              gridProps: { spacing: { xs: 3 } },
+              gridItems: MOCK_RIGHT_WING_GRID_ITEMS,
             },
           ],
         },
