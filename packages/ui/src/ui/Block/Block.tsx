@@ -1,6 +1,5 @@
 import React from 'react'
-import isNil from 'lodash/isNil'
-import { SxProps, Theme } from '@mui/material'
+import { Theme } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import BlockItem, { BlockItemProps } from './BlockItem'
 import { ContainerProps } from '../Container'
@@ -8,32 +7,7 @@ import Box, { BoxProps } from '../Box'
 import Stack, { StackProps } from '../Stack'
 import Image, { ImageProps } from '../Image'
 import landingTheme from '../../themes/Landing/landingTheme'
-
-type GetBlockPaddingFunction = (props: SxProps) => SxProps
-
-const getBlockPadding: GetBlockPaddingFunction = ({ pt, pb, py }) => {
-  // Handle py: 0 gracefully while avoiding 0 from returning a false value
-  if (py === 0) return { py }
-
-  // Handle injected py immediately
-  if (typeof py === 'number') return { py }
-
-  const defaultPadding = { xs: 5, md: 15 }
-  const defaultPy = { py: defaultPadding }
-
-  // Handle case where pt/pb is provided without py. Manage overrides
-  const hasPt = !isNil(pt)
-  const hasPb = !isNil(pb)
-  if (hasPt || hasPb) {
-    return {
-      ...(hasPt ? { pt } : { pt: defaultPadding }),
-      ...(hasPb ? { pb } : { pb: defaultPadding }),
-    }
-  }
-
-  // Default py value
-  return defaultPy
-}
+import getBlockPadding from './getBlockPadding'
 
 export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
   items: BlockItemProps[]

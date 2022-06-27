@@ -8,6 +8,7 @@ import {
   MOCK_FOOTER_PROPS,
   MOCK_BLOCK_HERO,
   MOCK_BLOCK_ALTERNATE_WING_GRID,
+  MOCK_BLOCK_ITEM_TYPES,
 } from '../../mocks'
 import Blocks from '../Blocks'
 import {
@@ -17,7 +18,6 @@ import {
   vercelLandingTheme,
 } from '../../themes'
 import { BlockItemTypeEnum } from '../Block/BlockItem'
-import MOCK_IMAGE_1 from '../../../public/images/mock_app_card_image_1.png'
 
 export default {
   title: 'Components/LandingLayout',
@@ -63,6 +63,7 @@ export const GravisTheme = (args) => {
 GravisTheme.args = {
   blocks: [
     {
+      key: 'hero',
       maxWidth: 'md',
       center: true,
       items: [
@@ -85,11 +86,198 @@ GravisTheme.args = {
             maxWidth: '60%',
           },
         },
+        {
+          type: BlockItemTypeEnum.BUTTON,
+          title: 'Get Started',
+          titleProps: { variant: 'contained', size: 'large', sx: { mt: 3 } },
+        },
       ],
     },
     {
+      key: 'features',
       maxWidth: 'md',
       center: true,
+      dark: true,
+      items: [
+        {
+          type: BlockItemTypeEnum.OVERLINE,
+          titleProps: { color: 'text.primary' },
+          title: 'Features',
+        },
+        {
+          type: BlockItemTypeEnum.H2,
+          title: 'A Powerful All-in-One Platform for Retailers & Distributors',
+          titleProps: { gutterBottom: true },
+        },
+        {
+          type: BlockItemTypeEnum.SUBTITLE2,
+          title:
+            'Answer a few short questions and we’ll help you find the right services for your business.',
+          titleProps: {
+            color: 'text.secondary',
+            maxWidth: true,
+          },
+        },
+        {
+          type: BlockItemTypeEnum.GRID,
+          maxWidth: 'lg',
+          sx: { mt: { xs: 5, md: 7.5 } },
+          gridProps: { spacing: { xs: 5 } },
+          gridItems: [
+            {
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              items: [
+                MOCK_BLOCK_ITEM_TYPES.IMAGE,
+                {
+                  ...MOCK_BLOCK_ITEM_TYPES.H5,
+                  titleProps: { gutterBottom: true },
+                },
+                MOCK_BLOCK_ITEM_TYPES.BODY1,
+              ],
+            },
+            {
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              items: [
+                MOCK_BLOCK_ITEM_TYPES.IMAGE,
+                {
+                  ...MOCK_BLOCK_ITEM_TYPES.H5,
+                  titleProps: { gutterBottom: true },
+                },
+                MOCK_BLOCK_ITEM_TYPES.BODY1,
+              ],
+            },
+            {
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              items: [
+                MOCK_BLOCK_ITEM_TYPES.IMAGE,
+                {
+                  ...MOCK_BLOCK_ITEM_TYPES.H5,
+                  titleProps: { gutterBottom: true },
+                },
+                MOCK_BLOCK_ITEM_TYPES.BODY1,
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      key: 'features-with-two-columns',
+      maxWidth: 'md',
+      center: true,
+      dark: true,
+      items: [
+        {
+          type: BlockItemTypeEnum.OVERLINE,
+          titleProps: { color: 'text.primary' },
+          title: 'Features',
+        },
+        {
+          type: BlockItemTypeEnum.H2,
+          title: 'A Powerful All-in-One Platform for Retailers & Distributors',
+          titleProps: { gutterBottom: true },
+        },
+        {
+          type: BlockItemTypeEnum.SUBTITLE2,
+          title:
+            'Answer a few short questions and we’ll help you find the right services for your business.',
+          titleProps: {
+            color: 'text.secondary',
+            maxWidth: true,
+          },
+        },
+        {
+          type: BlockItemTypeEnum.GRID,
+          maxWidth: 'lg',
+          sx: { mt: { xs: 5, md: 7.5 } },
+          gridProps: { spacing: { xs: 5 } },
+          gridItems: [
+            // {
+            //   md: 6,
+            //   sx: { textAlign: { xs: 'center', md: 'left' } },
+            //   // TODO@Joel: This breaks the build. See if we can nest the grid.
+            //   gridItems: [
+            //     MOCK_BLOCK_ITEM_TYPES.IMAGE,
+            //     {
+            //       items: [
+            //         {
+            //           ...MOCK_BLOCK_ITEM_TYPES.H5,
+            //           titleProps: { gutterBottom: true },
+            //         },
+            //         MOCK_BLOCK_ITEM_TYPES.BODY1,
+            //       ],
+            //     },
+            //   ],
+            // },
+            {
+              md: 6,
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              items: [
+                MOCK_BLOCK_ITEM_TYPES.IMAGE,
+                {
+                  ...MOCK_BLOCK_ITEM_TYPES.H5,
+                  titleProps: { gutterBottom: true },
+                },
+                MOCK_BLOCK_ITEM_TYPES.BODY1,
+              ],
+            },
+            {
+              md: 6,
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              items: [
+                MOCK_BLOCK_ITEM_TYPES.IMAGE,
+                {
+                  ...MOCK_BLOCK_ITEM_TYPES.H5,
+                  titleProps: { gutterBottom: true },
+                },
+                MOCK_BLOCK_ITEM_TYPES.BODY1,
+              ],
+            },
+            {
+              md: 6,
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              items: [
+                MOCK_BLOCK_ITEM_TYPES.IMAGE,
+                {
+                  ...MOCK_BLOCK_ITEM_TYPES.H5,
+                  titleProps: { gutterBottom: true },
+                },
+                MOCK_BLOCK_ITEM_TYPES.BODY1,
+              ],
+            },
+            {
+              md: 6,
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              items: [
+                MOCK_BLOCK_ITEM_TYPES.IMAGE,
+                {
+                  ...MOCK_BLOCK_ITEM_TYPES.H5,
+                  titleProps: { gutterBottom: true },
+                },
+                MOCK_BLOCK_ITEM_TYPES.BODY1,
+              ],
+            },
+            {
+              md: 6,
+              sx: { textAlign: { xs: 'center', md: 'left' } },
+              items: [
+                MOCK_BLOCK_ITEM_TYPES.IMAGE,
+                {
+                  ...MOCK_BLOCK_ITEM_TYPES.H5,
+                  titleProps: { gutterBottom: true },
+                },
+                MOCK_BLOCK_ITEM_TYPES.BODY1,
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
+      key: 'features-with-background-image',
+      maxWidth: 'md',
+      center: true,
+      dark: true,
       backgroundImageProps: {
         src: 'https://source.unsplash.com/random/?username=gradienta&orientation=landscape',
         alt: 'MOCK_IMAGE',

@@ -40,6 +40,7 @@ const baseThemeConfig = {
     },
     button: {
       textTransform: 'none',
+      fontWeight: 'bold',
     },
   },
 }

@@ -56,8 +56,13 @@ BackgroundImage.args = {
   },
 }
 
-export const DarkMode = Template.bind({})
-DarkMode.args = {
+export const DarkModeWithBackgroundColor = Template.bind({})
+DarkModeWithBackgroundColor.args = {
+  dark: true,
+}
+
+export const DarkModeWithBackgroundImage = Template.bind({})
+DarkModeWithBackgroundImage.args = {
   backgroundImageProps: {
     src: MOCK_DARK_BLUE_GRADIENT_1_IMAGE,
     alt: 'MOCK_DARK_BLUE_GRADIENT_1_IMAGE',
