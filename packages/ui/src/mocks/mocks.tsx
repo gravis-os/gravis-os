@@ -154,6 +154,7 @@ export const MOCK_BLOCK_HERO = {
   maxWidth: 'md',
   center: true,
   pb: 5,
+  sx: { backgroundColor: 'background.paper' },
   items: [
     MOCK_BLOCK_ITEM_TYPES.OVERLINE,
     MOCK_BLOCK_ITEM_TYPES.H1,
@@ -182,6 +183,7 @@ export const MOCK_RIGHT_WING_GRID_ITEMS = [
 ]
 
 export const MOCK_BLOCK_ALTERNATE_WING_GRID = {
+  sx: { backgroundColor: 'background.paper' },
   spacing: { xs: 5, md: 20 },
   items: [
     {

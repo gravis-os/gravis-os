@@ -67,6 +67,7 @@ GravisTheme.args = {
       key: 'hero',
       maxWidth: 'md',
       center: true,
+      sx: { backgroundColor: 'background.paper' },
       items: [
         {
           type: BlockItemTypeEnum.OVERLINE,

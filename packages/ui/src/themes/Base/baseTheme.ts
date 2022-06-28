@@ -7,6 +7,18 @@ const muiDarkTheme = responsiveFontSizes(
 )
 
 const baseThemeConfig = {
+  typography: {
+    fontFamily: "-apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif",
+    overline: {
+      display: 'block',
+      fontWeight: 'bold',
+      letterSpacing: 2,
+    },
+    button: {
+      textTransform: 'none',
+      fontWeight: 'bold',
+    },
+  },
   components: {
     MuiLink: {
       defaultProps: {
@@ -31,23 +43,24 @@ const baseThemeConfig = {
       },
     },
   },
-  typography: {
-    fontFamily: "-apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif",
-    overline: {
-      display: 'block',
-      fontWeight: 'bold',
-      letterSpacing: 2,
-    },
-    button: {
-      textTransform: 'none',
-      fontWeight: 'bold',
-    },
-  },
 }
 
 const baseTheme = {
-  light: merge({}, muiLightTheme, baseThemeConfig),
-  dark: merge({}, muiDarkTheme, baseThemeConfig),
+  light: merge({}, muiLightTheme, baseThemeConfig, {
+    palette: {
+      background: {
+        default: '#fafafa',
+      },
+    },
+  }),
+  dark: merge({}, muiDarkTheme, baseThemeConfig, {
+    palette: {
+      background: {
+        default: '#000',
+        paper: '#151516',
+      },
+    },
+  }),
 }
 
 export default baseTheme
