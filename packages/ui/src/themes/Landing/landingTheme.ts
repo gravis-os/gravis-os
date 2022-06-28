@@ -23,8 +23,12 @@ const baseLandingThemeConfig = {
       fontWeight: 'bold',
       '&.MuiTypography-gutterBottom': { marginBottom: '0.3em' },
     },
-    h2: { fontFamily: headerFontFamily, lineHeight: 1.15, fontWeight: 'bold' },
-    h3: { fontFamily: headerFontFamily, lineHeight: 1.15, fontWeight: 'bold' },
+    h2: { fontFamily: headerFontFamily, lineHeight: 1.07, fontWeight: 'bold' },
+    h3: {
+      fontFamily: headerFontFamily,
+      lineHeight: 1.08349,
+      fontWeight: 'bold',
+    },
     h4: { fontFamily: headerFontFamily, fontWeight: 'bold' },
     h5: { fontFamily: subtitleFontFamily, fontWeight: 'medium' },
     subtitle1: {

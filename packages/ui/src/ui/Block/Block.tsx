@@ -56,6 +56,7 @@ const Block: React.FC<BlockProps> = (props) => {
   const hasBackgroundImage = Boolean(backgroundImageProps)
 
   const childrenJsx = (
+    // Section layer
     <Box
       sx={{
         ...getBlockPadding({ pt, pb, py }),
@@ -66,6 +67,7 @@ const Block: React.FC<BlockProps> = (props) => {
       }}
       {...rest}
     >
+      {/* Background Image */}
       {hasBackgroundImage && (
         <Image
           layout="fill"
@@ -75,6 +77,7 @@ const Block: React.FC<BlockProps> = (props) => {
         />
       )}
 
+      {/* Content */}
       <Box reveal={reveal}>
         <Stack spacing={spacing} {...stackProps}>
           {items.map((item, i) => {
@@ -92,6 +95,7 @@ const Block: React.FC<BlockProps> = (props) => {
     </Box>
   )
 
+  // Dark mode wrapper activated by `dark` prop
   return dark ? (
     <ThemeProvider
       theme={(outerTheme: Theme) => {

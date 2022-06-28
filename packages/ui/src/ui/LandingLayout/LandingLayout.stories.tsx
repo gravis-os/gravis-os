@@ -64,6 +64,63 @@ export const GravisTheme = (args) => {
 GravisTheme.args = {
   blocks: [
     {
+      key: 'explore',
+      center: true,
+      // dark: true,
+      items: [
+        {
+          type: BlockItemTypeEnum.GRID,
+          gridProps: { spacing: { xs: 3 } },
+          gridItems: [
+            {
+              type: BlockItemTypeEnum.GRID,
+              boxProps: {
+                sx: {
+                  borderRadius: 5,
+                  p: 5,
+                  backgroundColor: 'background.paper',
+                },
+              },
+              items: [
+                { type: BlockItemTypeEnum.OVERLINE, title: 'Accessories' },
+                {
+                  type: BlockItemTypeEnum.H3,
+                  title: 'Explore Mac accessories.',
+                },
+                {
+                  type: BlockItemTypeEnum.BUTTON,
+                  title: 'Shop',
+                  titleProps: { variant: 'contained', sx: { mt: 2 } },
+                },
+              ],
+            },
+            {
+              type: BlockItemTypeEnum.GRID,
+              boxProps: {
+                sx: {
+                  borderRadius: 4,
+                  p: 5,
+                  backgroundColor: 'background.paper',
+                },
+              },
+              items: [
+                { type: BlockItemTypeEnum.OVERLINE, title: 'Accessories' },
+                {
+                  type: BlockItemTypeEnum.H3,
+                  title: 'Explore Mac accessories.',
+                },
+                {
+                  type: BlockItemTypeEnum.BUTTON,
+                  title: 'Shop',
+                  titleProps: { variant: 'contained', sx: { mt: 2 } },
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+    {
       key: 'hero',
       maxWidth: 'md',
       center: true,

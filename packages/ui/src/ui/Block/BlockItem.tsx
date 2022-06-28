@@ -34,6 +34,10 @@ export enum BlockItemTypeEnum {
 }
 
 export interface BlockItemProps extends BoxProps {
+  // BoxProps - Wrapper of a BlockItem
+  boxProps?: BoxProps
+
+  // Container
   containerProps?: ContainerProps
 
   // Grid
@@ -46,6 +50,7 @@ export interface BlockItemProps extends BoxProps {
   stackItems?: BlockItemProps[]
   stackItemProps?: StackProps
 
+  // Core
   title: React.ReactNode
   titleProps?: TypographyProps | ImageProps | ButtonProps
   type?: BlockItemTypeEnum
@@ -117,7 +122,7 @@ const renderGrid = (props) => {
       <Container maxWidth={maxWidth} {...containerProps}>
         <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
           {gridItems.map((gridItem, i) => {
-            const { items, ...rest } = gridItem
+            const { items, boxProps, ...rest } = gridItem
 
             // Wrapper gridItem props abstracted for common use
             const gridItemProps = {
@@ -153,9 +158,12 @@ const renderGrid = (props) => {
               )
             }
 
+            // Render GridItem
             return (
               <Grid {...gridItemProps}>
-                {items.map((item) => renderBlockItem(item))}
+                <Box {...boxProps}>
+                  {items.map((item) => renderBlockItem(item))}
+                </Box>
               </Grid>
             )
           })}
@@ -223,6 +231,11 @@ const renderStack = (props) => {
   )
 }
 
+/**
+ * Box(rest) > Container(containerProps) > Box(boxProps) > renderGrid/renderStack > renderBlockItem > renderChildren
+ * @param props
+ * @constructor
+ */
 const BlockItem: React.FC<BlockItemProps> = (props) => {
   const {
     type,
@@ -242,9 +255,9 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
     containerProps,
   } = props
 
+  // Render
   if (type === BlockItemTypeEnum.GRID && gridItems) return renderGrid(props)
   if (type === BlockItemTypeEnum.STACK && stackItems) return renderStack(props)
-
   return (
     <Container maxWidth={maxWidth} {...containerProps}>
       {renderBlockItem(props)}
