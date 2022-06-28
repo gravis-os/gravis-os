@@ -11,6 +11,7 @@ import { CrudItem, CrudModule } from '../types'
 import useCrudForm, { UseCrudFormArgs, UseCrudFormReturn } from './useCrudForm'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import metaFormSection from './metaFormSection'
+import CrudFormProvider from '../providers/CrudFormProvider'
 
 type HiddenFunction = ({
   isNew,
@@ -83,7 +84,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   }
 
   // useCrudForm
-  const { formContext, isNew, onSubmit, onDelete } = useCrudForm({
+  const crudForm = useCrudForm({
     afterSubmit,
     item,
     refetch,
@@ -91,6 +92,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     defaultValues,
     ...useCrudFormProps,
   })
+  const { formContext, isNew, onSubmit, onDelete } = crudForm
 
   // Form states
   const { isSubmitting, isDirty } = formContext.formState
@@ -120,51 +122,53 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   if (loading) return <CircularProgress fullScreen />
 
   return (
-    <Form
-      form={formContext}
-      onSubmit={onSubmit}
-      formJsx={<FormJsxComponent {...formJsxProps} />}
-      {...formProps}
-    >
-      {(renderProps) => (
-        <>
-          {!disableHeader && (
-            <DetailPageHeader
-              loading={loading}
-              item={item}
-              isPreview={isPreview}
-              isReadOnly={isReadOnly}
-              module={module}
-              {...headerProps}
-              actionButtons={[
-                ...(headerProps?.actionButtons || []),
-                ...(!disableReadOnlyButton &&
-                  !isNew && [
-                    {
-                      key: 'edit',
-                      type: 'button' as ButtonProps['type'],
-                      title: isReadOnly ? 'Edit' : 'Cancel',
-                      disabled: isSubmitting || (isDirty && !isReadOnly),
-                      onClick: () => setIsReadOnly(!isReadOnly),
-                    },
-                  ]),
-              ]}
-              buttonProps={{
-                key: 'save',
-                type: 'submit' as ButtonProps['type'],
-                title: 'Save',
-                disabled: isSubmitting || !isDirty,
-                ...headerProps?.buttonProps,
-              }}
-            />
-          )}
+    <CrudFormProvider {...crudForm}>
+      <Form
+        form={formContext}
+        onSubmit={onSubmit}
+        formJsx={<FormJsxComponent {...formJsxProps} />}
+        {...formProps}
+      >
+        {(renderProps) => (
+          <>
+            {!disableHeader && (
+              <DetailPageHeader
+                loading={loading}
+                item={item}
+                isPreview={isPreview}
+                isReadOnly={isReadOnly}
+                module={module}
+                {...headerProps}
+                actionButtons={[
+                  ...(headerProps?.actionButtons || []),
+                  ...(!disableReadOnlyButton &&
+                    !isNew && [
+                      {
+                        key: 'edit',
+                        type: 'button' as ButtonProps['type'],
+                        title: isReadOnly ? 'Edit' : 'Cancel',
+                        disabled: isSubmitting || (isDirty && !isReadOnly),
+                        onClick: () => setIsReadOnly(!isReadOnly),
+                      },
+                    ]),
+                ]}
+                buttonProps={{
+                  key: 'save',
+                  type: 'submit' as ButtonProps['type'],
+                  title: 'Save',
+                  disabled: isSubmitting || !isDirty,
+                  ...headerProps?.buttonProps,
+                }}
+              />
+            )}
 
-          {typeof children === 'function'
-            ? children(renderProps)
-            : renderProps.formJsx}
-        </>
-      )}
-    </Form>
+            {typeof children === 'function'
+              ? children(renderProps)
+              : renderProps.formJsx}
+          </>
+        )}
+      </Form>
+    </CrudFormProvider>
   )
 }
 
