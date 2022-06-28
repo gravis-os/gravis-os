@@ -6,6 +6,7 @@ import Container, { ContainerProps } from '../Container'
 import Image, { ImageProps } from '../Image'
 import Button, { ButtonProps } from '../Button'
 import Stack, { StackProps } from '../Stack'
+import Link, { LinkProps } from '../Link'
 
 export enum BlockItemTypeEnum {
   // Default Typography
@@ -52,7 +53,7 @@ export interface BlockItemProps extends BoxProps {
 
   // Core
   title: React.ReactNode
-  titleProps?: TypographyProps | ImageProps | ButtonProps
+  titleProps?: TypographyProps | ImageProps | ButtonProps | LinkProps
   type?: BlockItemTypeEnum
 }
 
@@ -74,6 +75,12 @@ const renderChildren = ({ type, title, titleProps }) => {
       return <Icon {...titleProps} />
     case BlockItemTypeEnum.BUTTON:
       return <Button {...titleProps}>{title}</Button>
+    case BlockItemTypeEnum.LINK:
+      return (
+        <Link displayBlock {...titleProps}>
+          {title}
+        </Link>
+      )
     case BlockItemTypeEnum.IMAGE:
       const src = title
       return <Image src={src} layout="responsive" {...titleProps} />

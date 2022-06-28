@@ -66,7 +66,8 @@ GravisTheme.args = {
     {
       key: 'explore',
       center: true,
-      // dark: true,
+      dark: true,
+      maxWidth: 'xl',
       items: [
         {
           type: BlockItemTypeEnum.GRID,
@@ -104,15 +105,29 @@ GravisTheme.args = {
                 },
               },
               items: [
-                { type: BlockItemTypeEnum.OVERLINE, title: 'Accessories' },
+                { type: BlockItemTypeEnum.OVERLINE, title: 'Continuity' },
                 {
                   type: BlockItemTypeEnum.H3,
-                  title: 'Explore Mac accessories.',
+                  title: 'All your devices. One seamless experience.',
                 },
                 {
-                  type: BlockItemTypeEnum.BUTTON,
-                  title: 'Shop',
-                  titleProps: { variant: 'contained', sx: { mt: 2 } },
+                  type: BlockItemTypeEnum.BODY1,
+                  title:
+                    'Because Apple makes iPhone, iPad, Apple Watch and Mac, they work together like no other devices can.',
+                  titleProps: {
+                    color: 'text.secondary',
+                    sx: { mt: 1 },
+                    maxWidth: '90%',
+                  },
+                },
+                {
+                  type: BlockItemTypeEnum.LINK,
+                  title: 'Learn more',
+                  titleProps: {
+                    pointer: true,
+                    rightCaret: true,
+                    sx: { mt: 2 },
+                  },
                 },
               ],
             },
