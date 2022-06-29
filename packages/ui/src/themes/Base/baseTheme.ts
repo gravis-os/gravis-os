@@ -57,7 +57,7 @@ const baseTheme = {
     palette: {
       background: {
         default: '#000',
-        paper: '#151516',
+        paper: '#1d1d1f',
       },
     },
   }),

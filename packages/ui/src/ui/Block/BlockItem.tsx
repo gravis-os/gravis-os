@@ -106,12 +106,8 @@ const renderChildren = ({ type, title, titleProps }) => {
 }
 
 const renderBlockItem = (props) => {
-  const { sx, type, title, titleProps, ...rest } = props
-  return (
-    <Box sx={sx} {...rest}>
-      {renderChildren({ type, title, titleProps })}
-    </Box>
-  )
+  const { boxProps, type, title, titleProps } = props
+  return <Box {...boxProps}>{renderChildren({ type, title, titleProps })}</Box>
 }
 
 const renderGrid = (props) => {

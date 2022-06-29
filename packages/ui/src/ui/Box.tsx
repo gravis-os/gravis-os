@@ -5,11 +5,13 @@ import Reveal from './Reveal'
 export interface BoxProps extends MuiBoxProps {
   fullWidthOnMobile?: boolean
   center?: boolean
+  stretch?: boolean
   reveal?: boolean | Record<string, unknown>
 }
 
 const Box: React.FC<BoxProps> = (props) => {
-  const { fullWidthOnMobile, reveal, center, sx, children, ...rest } = props
+  const { stretch, fullWidthOnMobile, reveal, center, sx, children, ...rest } =
+    props
 
   const boxProps = {
     sx: {
@@ -25,6 +27,11 @@ const Box: React.FC<BoxProps> = (props) => {
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
+      }),
+
+      // Stretch
+      ...(stretch && {
+        height: '100%',
       }),
 
       ...sx,

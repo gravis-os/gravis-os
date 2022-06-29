@@ -18,7 +18,7 @@ const gravisLandingThemeConfig = {
         fontSize: baseTheme.light.typography.pxToRem(48),
       },
     },
-    h3: { fontFamily: headerFontFamily },
+    h3: { fontFamily: headerFontFamily, fontWeight: 600 },
     h4: { fontFamily: headerFontFamily },
     h5: { fontFamily: subtitleFontFamily },
   },

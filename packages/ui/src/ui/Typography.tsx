@@ -9,7 +9,7 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   startIcon?: React.ReactElement
   endIcon?: React.ReactElement
   spacing?: StackProps['spacing']
-  maxWidth?: boolean | string // percentage e.g. '80%'
+  maxWidth?: boolean | string // percentage e.g. '80%'. Shorthand for sx.maxWidth
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
@@ -20,10 +20,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     <MuiTypography
       sx={{
         ...(maxWidth && {
-          maxWidth: {
-            xs: '100%',
-            md: typeof maxWidth === 'boolean' ? '80%' : maxWidth,
-          },
+          maxWidth: typeof maxWidth === 'boolean' ? '80%' : maxWidth,
           mx: 'auto',
         }),
         ...sx,
