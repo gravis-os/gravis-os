@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.18
+
+### Patch Changes
+
+- Overall bugfixes and enhancements mainly related to SalesOrder workflow"
+- Updated dependencies
+  - @gravis-os/auth@0.0.6
+  - @gravis-os/form@0.0.15
+  - @gravis-os/storage@0.0.7
+  - @gravis-os/ui@0.0.12
+
 ## 0.0.17
 
 ### Patch Changes

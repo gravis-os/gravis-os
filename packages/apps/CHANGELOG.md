@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.10
+
+### Patch Changes
+
+- Overall bugfixes and enhancements mainly related to SalesOrder workflow"
+- Updated dependencies
+  - @gravis-os/crud@0.0.18
+  - @gravis-os/form@0.0.15
+  - @gravis-os/ui@0.0.12
+
 ## 0.0.9
 
 ### Patch Changes

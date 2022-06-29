@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.12
+
+### Patch Changes
+
+- Overall bugfixes and enhancements mainly related to SalesOrder workflow"
+- Updated dependencies
+  - @gravis-os/utils@0.0.7
+
 ## 0.0.11
 
 ### Patch Changes
