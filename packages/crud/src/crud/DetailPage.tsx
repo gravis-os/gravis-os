@@ -1,14 +1,13 @@
-import React, { useState } from 'react'
+import React from 'react'
 import {
-  Container,
-  Tabs,
-  TabsProps,
-  Tab,
-  TabProps,
-  Card,
-  CardProps,
-  Divider,
   CircularProgress,
+  Container,
+  Divider,
+  Tabs,
+  TabContent,
+  useTabs,
+  TabsProps,
+  UseTabsProps,
 } from '@gravis-os/ui'
 import { ContainerProps } from '@mui/material'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
@@ -23,25 +22,19 @@ interface DetailPageRenderProps {
   module: CrudModule
 }
 
-type HiddenFunction = ({ item }: DetailPageRenderProps) => boolean
-
-interface DetailTab extends Omit<TabProps, 'children' | 'hidden'> {
-  children?: React.ReactElement
-  render?: ({ item }: DetailPageRenderProps) => React.ReactElement
-  hidden?: boolean | HiddenFunction
-}
-
 export interface DetailPageProps {
   bannerProps?: DetailBannerProps
   children?: React.ReactNode | RenderPropsFunction<DetailPageRenderProps>
   headerProps?: Omit<DetailPageHeaderProps, 'module'>
   module: CrudModule
-  tabs?: DetailTab[]
-  tabsProps?: TabsProps
-  tabsCardProps?: CardProps
   formSections?: CrudFormProps['sections']
   crudFormProps?: Partial<CrudFormProps>
   containerProps?: ContainerProps
+
+  // Tabs
+  tabs?: TabsProps['tabs']
+  tabsProps?: TabsProps
+  useTabsProps?: UseTabsProps
 }
 
 const DetailPage: React.FC<DetailPageProps> = (props) => {
@@ -50,12 +43,13 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
     children: injectedChildren,
     formSections,
     crudFormProps,
-    tabs,
-    tabsProps,
-    tabsCardProps,
     bannerProps,
     headerProps,
     containerProps,
+    // Tabs
+    tabs: injectedTabs,
+    tabsProps,
+    useTabsProps,
   } = props
 
   // Get Item
@@ -80,111 +74,61 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   // isNew
   const isNew = getIsNew(item)
 
-  // ==============================
-  // Tabs
-  // ==============================
-  const hasTabs = tabs && tabs?.length > 0
-  const defaultCurrentTab = hasTabs ? tabs[0].value : undefined
-  const [currentTab, setCurrentTab] = useState<string | undefined>(
-    defaultCurrentTab
-  )
-  const handleTabsChange = (e, value) => setCurrentTab(value)
-  const renderTabs = () => (
-    <>
-      {/* Breadcrumbs */}
-      <DetailPageHeader
-        item={item}
-        module={module}
-        disableTitle={!isNew}
-        {...headerProps}
-      />
-
-      {/* Tabs */}
-      {!isNew && (
-        <>
-          {/* Banner */}
-          <DetailBanner item={item} module={module} {...bannerProps} />
-
-          <Divider />
-
-          {/* Tabs */}
-          <Card
-            square
-            sx={{ mb: 3, ...tabsCardProps?.sx }}
-            contentProps={{
-              sx: {
-                '&&': { py: 0 },
-                px: 2,
-                ...tabsCardProps?.contentProps?.sx,
-              },
-              ...tabsCardProps?.contentProps,
-            }}
-            {...tabsCardProps}
-          >
-            <Tabs
-              onChange={handleTabsChange}
-              scrollButtons="auto"
-              value={currentTab}
-              variant="scrollable"
-              {...tabsProps}
-            >
-              {hasTabs &&
-                tabs.map((tab) => {
-                  const { hidden } = tab
-
-                  // Hidden
-                  const hasHidden =
-                    typeof hidden === 'function' || typeof hidden === 'boolean'
-                  if (hasHidden) {
-                    const shouldHide =
-                      typeof hidden === 'function'
-                        ? hidden(renderProps)
-                        : hidden
-                    if (shouldHide) return
-                  }
-
-                  return (
-                    <Tab key={tab.value} label={tab.label} value={tab.value} />
-                  )
-                })}
-            </Tabs>
-          </Card>
-        </>
-      )}
-    </>
-  )
-  const renderTab = (currentTab) => {
-    if (!hasTabs) return
-
-    const currentTabItem = (tabs as any[]).find(
-      ({ value }) => value === currentTab
-    )
-    const tabChildrenJsx = currentTabItem.children
-
-    const hasRender = Boolean(currentTabItem.render)
-
-    switch (true) {
-      case hasRender:
-        return currentTabItem.render(renderProps)
-      case React.isValidElement(tabChildrenJsx):
-        return React.cloneElement(tabChildrenJsx, renderProps)
-      default:
-        return tabChildrenJsx
-    }
-  }
-  // Add fragment + key to reconcile react tree
-  const tabsChildrenJsx = (
-    <React.Fragment key={currentTab}>{renderTab(currentTab)}</React.Fragment>
-  )
+  // Children
   const childrenJsx =
     typeof children === 'function' ? children(renderProps) : children
 
+  // ==============================
+  // Tabs
+  // ==============================
+  const onUseTabs = useTabs({ tabs: injectedTabs, ...useTabsProps })
+  const { hasTabs, currentTab, tabs } = onUseTabs
+
+  // Manage loading
   if (loading && !isNew) return <CircularProgress fullScreen />
 
   return (
     <Container {...containerProps}>
-      {hasTabs && renderTabs()}
-      {hasTabs ? tabsChildrenJsx : childrenJsx}
+      {/* If tabs exists */}
+      {hasTabs && (
+        <>
+          {/* Breadcrumbs */}
+          <DetailPageHeader
+            item={item}
+            module={module}
+            disableTitle={!isNew}
+            {...headerProps}
+          />
+
+          {/* Tabs */}
+          {!isNew && (
+            <>
+              {/* Banner */}
+              <DetailBanner item={item} module={module} {...bannerProps} />
+
+              <Divider />
+
+              {/* Tabs */}
+              <Tabs
+                tabContentProps={renderProps}
+                {...onUseTabs}
+                {...tabsProps}
+              />
+            </>
+          )}
+        </>
+      )}
+
+      {/* Content */}
+      {hasTabs ? (
+        <TabContent
+          currentTab={currentTab}
+          tabs={tabs}
+          tabContentProps={renderProps}
+        />
+      ) : (
+        childrenJsx
+      )}
     </Container>
   )
 }

@@ -1,10 +1,10 @@
 import React from 'react'
 import { Tabs as MuiTabs, TabsProps as MuiTabsProps } from '@mui/material'
 
-export interface TabsProps extends MuiTabsProps {}
+export interface TabsBaseProps extends MuiTabsProps {}
 
-const Tabs: React.FC<TabsProps> = props => {
+const TabsBase: React.FC<TabsBaseProps> = (props) => {
   return <MuiTabs {...props} />
 }
 
-export default Tabs
+export default TabsBase
