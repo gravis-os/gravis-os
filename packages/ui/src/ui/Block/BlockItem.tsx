@@ -26,6 +26,10 @@ export enum BlockItemTypeEnum {
   // Layout
   GRID = 'grid',
   STACK = 'stack',
+  CARD = 'card',
+
+  // Card
+  CARD_ABSOLUTE_BOTTOM_IMAGE = 'card_absolute_bottom_image',
 
   // Custom
   IMAGE = 'image',
@@ -51,39 +55,57 @@ export interface BlockItemProps extends BoxProps {
   stackItems?: BlockItemProps[]
   stackItemProps?: StackProps
 
+  // Card
+  cardItems?: BlockItemProps[]
+
   // Core
   title: React.ReactNode
   titleProps?: TypographyProps | ImageProps | ButtonProps | LinkProps
   type?: BlockItemTypeEnum
 }
 
-const renderChildren = ({ type, title, titleProps }) => {
+const renderBlockItem = ({ boxProps, type, title, titleProps }) => {
   switch (type) {
     case BlockItemTypeEnum.OVERLINE:
       return (
-        <Typography
-          variant="overline"
-          color="text.secondary"
-          gutterBottom
-          {...titleProps}
-        >
-          {title}
-        </Typography>
+        <Box {...boxProps}>
+          <Typography
+            variant="overline"
+            color="text.secondary"
+            gutterBottom
+            {...titleProps}
+          >
+            {title}
+          </Typography>
+        </Box>
       )
     case BlockItemTypeEnum.ICON:
       const Icon = title
-      return <Icon {...titleProps} />
+      return (
+        <Box {...boxProps}>
+          <Icon {...titleProps} />
+        </Box>
+      )
     case BlockItemTypeEnum.BUTTON:
-      return <Button {...titleProps}>{title}</Button>
+      return (
+        <Box {...boxProps}>
+          <Button {...titleProps}>{title}</Button>
+        </Box>
+      )
     case BlockItemTypeEnum.LINK:
       return (
-        <Link displayBlock {...titleProps}>
-          {title}
-        </Link>
+        <Box {...boxProps}>
+          <Link displayBlock {...titleProps}>
+            {title}
+          </Link>
+        </Box>
       )
     case BlockItemTypeEnum.IMAGE:
-      const src = title
-      return <Image src={src} layout="responsive" {...titleProps} />
+      return (
+        <Box {...boxProps}>
+          <Image src={title} layout="responsive" {...titleProps} />
+        </Box>
+      )
     case BlockItemTypeEnum.H1:
     case BlockItemTypeEnum.H2:
     case BlockItemTypeEnum.H3:
@@ -96,18 +118,35 @@ const renderChildren = ({ type, title, titleProps }) => {
     case BlockItemTypeEnum.BODY2:
     case BlockItemTypeEnum.CAPTION:
       return (
-        <Typography variant={type} {...titleProps}>
-          {title}
-        </Typography>
+        <Box {...boxProps}>
+          <Typography variant={type} {...titleProps}>
+            {title}
+          </Typography>
+        </Box>
+      )
+    // Card
+    case BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE:
+      return (
+        <Box
+          {...boxProps}
+          sx={{
+            width: '100%',
+            position: { xs: 'static', md: 'absolute' },
+            bottom: 0,
+            ...boxProps?.sx,
+          }}
+        >
+          <Image
+            src={title}
+            layout="responsive"
+            {...titleProps}
+            sx={{ mt: 5, ...titleProps?.sx }}
+          />
+        </Box>
       )
     default:
       return null
   }
-}
-
-const renderBlockItem = (props) => {
-  const { boxProps, type, title, titleProps } = props
-  return <Box {...boxProps}>{renderChildren({ type, title, titleProps })}</Box>
 }
 
 const renderGrid = (props) => {
@@ -254,18 +293,46 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
     stackItems,
     stackItemProps,
 
+    // Card
+    cardItems,
+
     maxWidth,
     containerProps,
   } = props
 
-  // Render
-  if (type === BlockItemTypeEnum.GRID && gridItems) return renderGrid(props)
-  if (type === BlockItemTypeEnum.STACK && stackItems) return renderStack(props)
-  return (
-    <Container maxWidth={maxWidth} {...containerProps}>
-      {renderBlockItem(props)}
-    </Container>
-  )
+  switch (true) {
+    case Boolean(type === BlockItemTypeEnum.STACK && stackItems):
+      return renderStack(props)
+    case Boolean(type === BlockItemTypeEnum.GRID && gridItems):
+      return renderGrid(props)
+    // Extension of GridItem actually, just with presets. Apple-like cards
+    case Boolean(type === BlockItemTypeEnum.CARD && cardItems):
+      return renderGrid({
+        ...props,
+        gridProps: { spacing: { xs: 3 }, ...gridProps },
+        gridItems: cardItems.map((cardItem) => ({
+          boxProps: {
+            stretch: true,
+            ...cardItem.cardProps,
+            sx: {
+              position: 'relative',
+              backgroundColor: 'background.paper',
+              borderRadius: 5,
+              pt: 6,
+              pb: 4,
+              ...cardItem.cardProps?.sx,
+            },
+          },
+          ...cardItem,
+        })),
+      })
+    default:
+      return (
+        <Container maxWidth={maxWidth} {...containerProps}>
+          {renderBlockItem(props)}
+        </Container>
+      )
+  }
 }
 
 export default BlockItem

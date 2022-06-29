@@ -3,12 +3,11 @@ import { useDarkMode } from 'storybook-dark-mode'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
 import LandingLayout from './LandingLayout'
-import MOCK_DEVICE_FLATLAY_IMAGE_1 from '../../../public/images/mock_device_flatlay_image_1.jpg'
-import MOCK_DEVICE_FLATLAY_IMAGE_2 from '../../../public/images/mock_device_flatlay_image_2.jpeg'
 import {
   MOCK_BLOCK_ALTERNATE_WING_GRID,
   MOCK_BLOCK_HERO,
   MOCK_BLOCK_ITEM_TYPES,
+  MOCK_CARD_ITEMS,
   MOCK_FOOTER_PROPS,
   MOCK_HEADER_PROPS,
   MOCK_RIGHT_WING_GRID_ITEMS,
@@ -203,104 +202,7 @@ GravisTheme.args = {
       center: true,
       dark: true,
       maxWidth: 'xl',
-      items: [
-        {
-          type: BlockItemTypeEnum.GRID,
-          gridProps: { spacing: { xs: 3 } },
-          gridItems: [
-            {
-              type: BlockItemTypeEnum.GRID,
-              boxProps: {
-                stretch: true,
-                sx: {
-                  position: 'relative',
-                  borderRadius: 5,
-                  backgroundColor: 'background.paper',
-                  pt: 6,
-                  pb: 4,
-                  minHeight: { xs: 500, sm: 560, md: 660 },
-                },
-              },
-              items: [
-                { type: BlockItemTypeEnum.OVERLINE, title: 'Accessories' },
-                {
-                  type: BlockItemTypeEnum.H3,
-                  title: 'Explore Mac accessories.',
-                  titleProps: { maxWidth: '80%' },
-                },
-                {
-                  type: BlockItemTypeEnum.BUTTON,
-                  title: 'Shop',
-                  titleProps: { variant: 'contained', sx: { mt: 2 } },
-                },
-                {
-                  type: BlockItemTypeEnum.IMAGE,
-                  title: MOCK_DEVICE_FLATLAY_IMAGE_1,
-                  titleProps: { sx: { mt: 5 } },
-                  boxProps: {
-                    sx: {
-                      width: '100%',
-                      position: { xs: 'static', md: 'absolute' },
-                      bottom: 0,
-                    },
-                  },
-                },
-              ],
-            },
-            {
-              type: BlockItemTypeEnum.GRID,
-              boxProps: {
-                stretch: true,
-                sx: {
-                  position: 'relative',
-                  borderRadius: 5,
-                  pt: 6,
-                  backgroundColor: 'background.paper',
-                  minHeight: { xs: 500, sm: 560, md: 660 },
-                },
-              },
-              items: [
-                { type: BlockItemTypeEnum.OVERLINE, title: 'Continuity' },
-                {
-                  type: BlockItemTypeEnum.H3,
-                  title: 'All your devices. One seamless experience.',
-                  titleProps: { maxWidth: '80%' },
-                },
-                {
-                  type: BlockItemTypeEnum.BODY1,
-                  title:
-                    'Because Apple makes iPhone, iPad, Apple Watch and Mac, they work together like no other devices can.',
-                  titleProps: {
-                    sx: { mt: 1.5 },
-                    maxWidth: '60%',
-                  },
-                },
-                {
-                  type: BlockItemTypeEnum.LINK,
-                  title: 'Learn more',
-                  titleProps: {
-                    pointer: true,
-                    rightCaret: true,
-                    sx: { mt: 2 },
-                  },
-                },
-                {
-                  type: BlockItemTypeEnum.IMAGE,
-                  title: MOCK_DEVICE_FLATLAY_IMAGE_2,
-                  titleProps: { sx: { mt: 6 } },
-                  boxProps: {
-                    sx: {
-                      width: '100%',
-                      position: { xs: 'static', md: 'absolute' },
-                      bottom: 0,
-                    },
-                  },
-                },
-              ],
-            },
-          ],
-        },
-      ],
+      items: MOCK_CARD_ITEMS,
     },
     {
       key: 'features-with-two-columns',

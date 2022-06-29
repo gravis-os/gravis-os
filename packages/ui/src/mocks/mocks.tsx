@@ -1,9 +1,10 @@
 import React from 'react'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import MOCK_IMAGE_1 from '../../public/images/mock_app_card_image_1.png'
-import Typography from '../ui/Typography'
-import Block from '../ui/Block/Block'
+import MOCK_DEVICE_FLATLAY_IMAGE_1 from '../../public/images/mock_device_flatlay_image_1.jpg'
+import MOCK_DEVICE_FLATLAY_IMAGE_2 from '../../public/images/mock_device_flatlay_image_2.jpeg'
 import { BlockItemTypeEnum } from '../ui/Block/BlockItem'
+import Typography from '../ui/Typography'
 
 export const MOCK_LOGO_JSX = (
   <Typography fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: 1 }}>
@@ -145,6 +146,69 @@ export const MOCK_BLOCKS = [
   { key: 'intro', ...MOCK_BLOCK, maxWidth: 'sm', center: true },
   { key: 'features', ...MOCK_BLOCK, maxWidth: 'sm', center: true },
   { key: 'contact', ...MOCK_BLOCK, maxWidth: 'sm', center: true },
+]
+
+export const MOCK_CARD_ITEMS = [
+  {
+    type: BlockItemTypeEnum.CARD,
+    cardItems: [
+      {
+        type: BlockItemTypeEnum.CARD,
+        cardProps: { sx: { minHeight: { xs: 500, sm: 560, md: 660 } } },
+        items: [
+          { type: BlockItemTypeEnum.OVERLINE, title: 'Accessories' },
+          {
+            type: BlockItemTypeEnum.H3,
+            title: 'Explore Mac accessories.',
+            titleProps: { maxWidth: '80%' },
+          },
+          {
+            type: BlockItemTypeEnum.BUTTON,
+            title: 'Shop',
+            titleProps: { variant: 'contained', sx: { mt: 2 } },
+          },
+          {
+            type: BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE,
+            title: MOCK_DEVICE_FLATLAY_IMAGE_1,
+          },
+        ],
+      },
+      {
+        type: BlockItemTypeEnum.CARD,
+        cardProps: { sx: { minHeight: { xs: 500, sm: 560, md: 660 } } },
+        items: [
+          { type: BlockItemTypeEnum.OVERLINE, title: 'Continuity' },
+          {
+            type: BlockItemTypeEnum.H3,
+            title: 'All your devices. One seamless experience.',
+            titleProps: { maxWidth: '80%' },
+          },
+          {
+            type: BlockItemTypeEnum.BODY1,
+            title:
+              'Because Apple makes iPhone, iPad, Apple Watch and Mac, they work together like no other devices can.',
+            titleProps: {
+              sx: { mt: 1.5 },
+              maxWidth: '60%',
+            },
+          },
+          {
+            type: BlockItemTypeEnum.LINK,
+            title: 'Learn more',
+            titleProps: {
+              pointer: true,
+              rightCaret: true,
+              sx: { mt: 2 },
+            },
+          },
+          {
+            type: BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE,
+            title: MOCK_DEVICE_FLATLAY_IMAGE_2,
+          },
+        ],
+      },
+    ],
+  },
 ]
 
 // ==============================
