@@ -7,7 +7,12 @@ import {
 import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
 import flowRight from 'lodash/flowRight'
 import { useMutation, useQueryClient } from 'react-query'
-import { withDbFormValues, getDefaultValues, withoutId } from '@gravis-os/form'
+import {
+  withDbFormValues,
+  getDefaultValues,
+  withoutId,
+  FormSectionsProps,
+} from '@gravis-os/form'
 import toast from 'react-hot-toast'
 import { CrudItem, CrudModule } from '../types'
 import getIsNew from './getIsNew'
@@ -16,6 +21,7 @@ import partitionManyToManyValues from './partitionManyToManyValues'
 import partitionOneToManyValues from './partitionOneToManyValues'
 import saveManyToManyValues from './saveManyToManyValues'
 import saveOneToManyValues from './saveOneToManyValues'
+import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 
 type UseCrudFormValues = Record<string, any>
 
@@ -46,6 +52,7 @@ export interface UseCrudFormArgs {
     item: CrudItem
   }) => void
   defaultValues?: Record<string, unknown>
+  sections?: FormSectionsProps['sections']
 }
 
 export interface UseCrudFormReturn {
@@ -65,6 +72,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     item: injectedItem,
     refetch,
     module,
+    sections,
   } = props
   const { sk, table } = module
 
@@ -110,6 +118,8 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
   // onSubmit will manage create and update function
   const onSubmit = async (values) => {
+    const fieldDefs = sections && getFieldDefsFromSections(sections)
+
     // Cleaning function for dbFormValues
     const withValuesArgs = { isNew, user }
     const dbFormValues = flowRight([
@@ -163,6 +173,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             values: manyToManyValues,
             client,
             module,
+            fieldDefs,
           })
 
           /**

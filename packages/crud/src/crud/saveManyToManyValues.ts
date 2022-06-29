@@ -1,8 +1,9 @@
 // Save joins
 import { getRelationalObjectKey } from '@gravis-os/form'
+import pick from 'lodash/pick'
 
 const saveManyToManyValues = async (args) => {
-  const { item, values, client, module } = args
+  const { item, values, client, module, fieldDefs } = args
 
   const getHelpers = ({ key, value }) => {
     const relationalObjectKey = getRelationalObjectKey(key)
@@ -59,9 +60,16 @@ const saveManyToManyValues = async (args) => {
         // Find difference in prevValue and currentValue arrays
         if (prevValueIds.includes(val.id)) return
 
+        // Pick out declared extra columns of many-to-many table for saving
+        const manyToManyExtraColumns = fieldDefs?.[key]
+          ?.manyToManyExtraColumnKeys?.length
+          ? pick(val, fieldDefs[key].manyToManyExtraColumnKeys)
+          : null
+
         return {
           [currentColumnName]: item.id,
           [opposingColumnName]: val.id,
+          ...manyToManyExtraColumns,
         }
       })
       .filter(Boolean)

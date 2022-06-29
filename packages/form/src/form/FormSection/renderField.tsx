@@ -88,6 +88,9 @@ export interface FormSectionFieldProps {
 
   // Render - manage custom renders for installing hooks
   render?: ({ children }: { children: React.ReactNode }) => any // Typings not working here should be React.ReactNode
+
+  // Declares the column names of non-foreign keys on the related many-to-many table for saving
+  manyToManyExtraColumnKeys?: string[]
 }
 
 export interface RenderFieldProps {
