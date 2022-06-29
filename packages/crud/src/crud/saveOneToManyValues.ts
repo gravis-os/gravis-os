@@ -17,7 +17,7 @@ const saveOneToManyValues = async (props) => {
         ...omitBy(row, (value) => typeof value === 'object' && value !== null),
         [`${primaryTableName}_id`]: item.id, // product_id = 1
       })),
-      ({ id }) => typeof id === 'string'
+      ({ id }) => !id || typeof id === 'string'
     )
     const insertRows = insertRowsWithIds.map((row) => omit(row, 'id'))
 
