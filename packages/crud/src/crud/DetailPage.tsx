@@ -10,6 +10,7 @@ import {
   Divider,
   CircularProgress,
 } from '@gravis-os/ui'
+import { ContainerProps } from '@mui/material'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
 import { CrudItem, CrudModule, RenderPropsFunction } from '../types'
@@ -40,6 +41,7 @@ export interface DetailPageProps {
   tabsCardProps?: CardProps
   formSections?: CrudFormProps['sections']
   crudFormProps?: Partial<CrudFormProps>
+  containerProps?: ContainerProps
 }
 
 const DetailPage: React.FC<DetailPageProps> = (props) => {
@@ -53,6 +55,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
     tabsCardProps,
     bannerProps,
     headerProps,
+    containerProps,
   } = props
 
   // Get Item
@@ -179,7 +182,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   if (loading && !isNew) return <CircularProgress fullScreen />
 
   return (
-    <Container>
+    <Container {...containerProps}>
       {hasTabs && renderTabs()}
       {hasTabs ? tabsChildrenJsx : childrenJsx}
     </Container>
