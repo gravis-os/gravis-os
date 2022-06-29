@@ -2,7 +2,7 @@ import React from 'react'
 import { addDecorator } from '@storybook/react'
 import Layout from './Layout'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import themeConfig from '../src/config/themeConfig'
+import { themeConfig } from '@gravis-os/ui'
 // Next 12
 import { RouterContext } from "next/dist/shared/lib/router-context"
 // React Query
