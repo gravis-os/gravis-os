@@ -12,6 +12,8 @@ import {
   BoxProps,
   BreadcrumbsProps,
 } from '@gravis-os/ui'
+import useCrudFormContext from '../hooks/useCrudFormContext'
+import { UseCrudFormReturn } from './useCrudForm'
 
 export interface PageHeaderProps
   extends Omit<BoxProps, 'title' | 'borderBottom'> {
@@ -22,6 +24,7 @@ export interface PageHeaderProps
   borderBottom?: boolean
   buttonProps?: ButtonProps
   button?: React.ReactElement
+  renderButton?: (params: UseCrudFormReturn) => React.ReactElement
   disableGutterBottom?: boolean
   disableBreadcrumbs?: boolean
   divider?: boolean
@@ -34,6 +37,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const {
     actions,
     actionButtons,
+    renderButton,
     button,
     buttonProps,
     title,
@@ -48,6 +52,8 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
     sx,
     ...rest
   } = props
+
+  const crudFormContext = useCrudFormContext()
 
   const isSmall = size === 'small'
   const spacing = isSmall ? 0.5 : 1
@@ -107,15 +113,16 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
             <Button size={size} key={action.key} {...action} />
           ))}
 
-          {button ||
-            (buttonProps && (
-              <Button
-                size={size}
-                variant="contained"
-                color="primary"
-                {...buttonProps}
-              />
-            ))}
+          {renderButton?.(crudFormContext) ??
+            (button ||
+              (buttonProps && (
+                <Button
+                  size={size}
+                  variant="contained"
+                  color="primary"
+                  {...buttonProps}
+                />
+              )))}
         </Stack>
       </Stack>
 
