@@ -32,7 +32,7 @@ export interface DetailPageProps {
   containerProps?: ContainerProps
 
   // Tabs
-  tabs?: TabsProps['tabs']
+  tabs?: TabsProps['items']
   tabsProps?: TabsProps
   useTabsProps?: UseTabsProps
 }
@@ -82,7 +82,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   // Tabs
   // ==============================
   const onUseTabs = useTabs({ tabs: injectedTabs, ...useTabsProps })
-  const { hasTabs, currentTab, tabs } = onUseTabs
+  const { hasTabs, currentTab, items: tabs } = onUseTabs
 
   // Manage loading
   if (loading && !isNew) return <CircularProgress fullScreen />
@@ -123,7 +123,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
       {hasTabs ? (
         <TabContent
           currentTab={currentTab}
-          tabs={tabs}
+          items={tabs}
           tabContentProps={renderProps}
         />
       ) : (

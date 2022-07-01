@@ -8,7 +8,7 @@ export interface UseTabsReturn {
   currentTab?: TabsProps['currentTab']
   handleTabsChange: TabsProps['handleTabsChange']
   hasTabs: TabsProps['hasTabs']
-  tabs: TabsProps['tabs']
+  items: TabsProps['items']
 }
 
 const useTabs = (props: UseTabsProps): UseTabsReturn => {
@@ -25,7 +25,7 @@ const useTabs = (props: UseTabsProps): UseTabsReturn => {
     currentTab,
     handleTabsChange,
     hasTabs,
-    tabs,
+    items: tabs,
   }
 }
 

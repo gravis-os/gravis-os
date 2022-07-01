@@ -38,6 +38,9 @@ export interface StatStackItem {
   overline: string
   subtitle?: string
   formatType?: 'amount' | string
+  titleTypographyProps?: TypographyProps
+  subtitleTypographyProps?: TypographyProps
+  overlineTypographyProps?: TypographyProps
 }
 
 export interface StatStackProps extends StackProps {
@@ -50,7 +53,7 @@ export interface StatStackProps extends StackProps {
   overlineTypographyProps?: TypographyProps
 }
 
-const StatStack: React.FC<StatStackProps> = props => {
+const StatStack: React.FC<StatStackProps> = (props) => {
   const {
     items,
     titleTypographyProps,
@@ -70,7 +73,7 @@ const StatStack: React.FC<StatStackProps> = props => {
       divider={<Divider orientation="vertical" flexItem />}
       {...rest}
     >
-      {items.map(item => {
+      {items.map((item) => {
         const { key, title, overline, subtitle, formatType } = item
 
         return (
@@ -85,10 +88,14 @@ const StatStack: React.FC<StatStackProps> = props => {
                   variant={getOverlineVariantBySize(size)}
                   color="text.secondary"
                   {...overlineTypographyProps}
-                  sx={{
-                    textTransform: 'uppercase',
-                    ...overlineTypographyProps?.sx,
-                  }}
+                  {...item.overlineTypographyProps}
+                  sx={
+                    {
+                      textTransform: 'uppercase',
+                      ...overlineTypographyProps?.sx,
+                      ...item.overlineTypographyProps?.sx,
+                    } as any
+                  }
                 >
                   {overline}
                 </Typography>
@@ -97,6 +104,7 @@ const StatStack: React.FC<StatStackProps> = props => {
                 <Typography
                   variant={getTitleVariantBySize(size)}
                   {...titleTypographyProps}
+                  {...item.titleTypographyProps}
                 >
                   {typeof title === 'number'
                     ? printNumber(title, { type: formatType })
@@ -109,7 +117,14 @@ const StatStack: React.FC<StatStackProps> = props => {
                 <Typography
                   variant={getSubtitleVariantBySize(size)}
                   {...subtitleTypographyProps}
-                  sx={{ mt: 1.5, ...subtitleTypographyProps?.sx }}
+                  {...item.subtitleTypographyProps}
+                  sx={
+                    {
+                      mt: 1.5,
+                      ...subtitleTypographyProps?.sx,
+                      ...item.subtitleTypographyProps?.sx,
+                    } as any
+                  }
                 >
                   {subtitle}
                 </Typography>

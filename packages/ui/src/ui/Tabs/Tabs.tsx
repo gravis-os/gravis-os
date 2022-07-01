@@ -5,36 +5,39 @@ import Tab, { TabProps } from './Tab'
 
 export interface TabItem extends Omit<TabProps, 'children' | 'hidden'> {
   children?: React.ReactElement
-  render?: ({ item }: Record<string, unknown>) => React.ReactElement
-  hidden?: boolean | (({ item }: Record<string, unknown>) => boolean)
+  render?: ({ item }: any) => React.ReactElement
+  hidden?: boolean | (({ item }: any) => boolean)
 }
 
 export interface TabsProps extends CardProps {
   currentTab?: string
+  disableGutterBottom?: boolean
   handleTabsChange: (e, value: string) => void
   hasTabs: boolean
-  tabs: TabItem[]
+  items: TabItem[]
   tabsProps?: TabsBaseProps
   tabContentProps?: Record<string, unknown> // RenderProps
 }
 
 const Tabs: React.FC<TabsProps> = (props) => {
   const {
-    tabContentProps,
-    tabs,
-    handleTabsChange,
     currentTab,
+    disableGutterBottom,
+    tabContentProps,
+    items,
+    handleTabsChange,
     tabsProps,
     ...rest
   } = props
 
-  if (!tabs?.length) return null
+  // Terminate if no tabs
+  if (!items?.length) return null
 
   return (
     <Card
       square
       {...rest}
-      sx={{ mb: 3, ...rest?.sx }}
+      sx={{ ...(!disableGutterBottom && { mb: 3 }), ...rest?.sx }}
       contentProps={{
         sx: {
           '&&': { py: 0 },
@@ -51,7 +54,7 @@ const Tabs: React.FC<TabsProps> = (props) => {
         variant="scrollable"
         {...tabsProps}
       >
-        {tabs?.map((tab) => {
+        {items?.map((tab) => {
           const { hidden } = tab
 
           // Hidden

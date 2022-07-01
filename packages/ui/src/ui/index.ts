@@ -73,6 +73,9 @@ export * from './MoreIconButton'
 export { default as Tabs } from './Tabs'
 export * from './Tabs'
 
+export { default as List } from './List'
+export * from './List'
+
 export { default as Paper } from './Paper'
 export * from './Paper'
 

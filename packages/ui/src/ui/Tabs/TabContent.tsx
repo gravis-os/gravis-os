@@ -2,17 +2,17 @@ import React from 'react'
 import { TabsProps } from './Tabs'
 
 export interface TabContentProps {
-  tabs: TabsProps['tabs']
+  items: TabsProps['items']
   currentTab?: TabsProps['currentTab']
   tabContentProps?: TabsProps['tabContentProps']
 }
 
 const TabContent: React.FC<TabContentProps> = (props) => {
-  const { tabs, currentTab, tabContentProps } = props
+  const { items, currentTab, tabContentProps } = props
 
-  if (!tabs?.length) return null
+  if (!items?.length) return null
 
-  const currentTabItem = (tabs as any[]).find(
+  const currentTabItem = (items as any[]).find(
     ({ value }) => value === currentTab
   )
   const tabChildrenJsx = currentTabItem.children

@@ -3,7 +3,7 @@ import { Grid as MuiGrid, GridProps as MuiGridProps } from '@mui/material'
 
 export interface GridProps extends MuiGridProps {}
 
-const Grid: React.FC<GridProps> = props => {
+const Grid: React.FC<GridProps> = (props) => {
   const { ...rest } = props
   const { item, container, spacing } = rest
 
@@ -12,7 +12,7 @@ const Grid: React.FC<GridProps> = props => {
     ...rest,
   }
 
-  if (container) gridProps.spacing = spacing || 2
+  if (container) gridProps.spacing = typeof spacing === 'number' ? spacing : 2
 
   return <MuiGrid {...gridProps} />
 }

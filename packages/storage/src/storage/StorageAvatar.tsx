@@ -16,7 +16,7 @@ interface StorageAvatarProps extends AvatarProps {
  * @example <StorageAvatar src={item.avatar_src} alt={item.avatar_alt} />
  */
 const StorageAvatar: React.FC<StorageAvatarProps> = (props) => {
-  const { src: filePath, size = 64, value, alt } = props
+  const { src: filePath, size = 64, value, alt, ...rest } = props
 
   const { src } = useGetStorageObject({ filePath, value })
 
@@ -32,6 +32,7 @@ const StorageAvatar: React.FC<StorageAvatarProps> = (props) => {
         borderStyle: src ? 'solid' : 'dashed',
         borderColor: src ? 'transparent' : 'primary.main',
       }}
+      {...rest}
     />
   )
 }
