@@ -15,7 +15,7 @@ import CrudPreviewDrawer from './CrudPreviewDrawer'
 import fetchCrudItems from './fetchCrudItems'
 
 type CrudTableColumn =
-  | ColDef
+  | (ColDef & { hide: boolean | (({ user }) => boolean) })
   | (ColGroupDef & {
       hasAvatar?: boolean
     })
@@ -91,6 +91,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     module,
     disableDelete,
     disableManage,
+    user,
     // For Preview
     setPreview,
     previewFormSections,

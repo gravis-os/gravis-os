@@ -118,6 +118,13 @@ const withTitle =
       },
       ...columnDefs.slice(1),
     ]
+const withHide =
+  ({ user }) =>
+  (columnDefs) =>
+    columnDefs.map(({ hide, ...rest }) => ({
+      ...rest,
+      hide: typeof hide === 'function' ? hide({ user }) : hide,
+    }))
 
 const useGetCrudTableColumnDefs = (props) => {
   const {
@@ -127,6 +134,7 @@ const useGetCrudTableColumnDefs = (props) => {
     setPreview,
     disableDelete,
     disableManage,
+    user,
   } = props
 
   // Responsive
@@ -141,6 +149,7 @@ const useGetCrudTableColumnDefs = (props) => {
         withPreview({ setPreview, module, previewFormSections }),
         withHeaderNames(),
         withTitle({ isDesktop }),
+        withHide({ user }),
       ])(injectedColumnDefs).filter(({ field }) => field !== 'actions'),
     [injectedColumnDefs, isDesktop, module, previewFormSections]
   )
