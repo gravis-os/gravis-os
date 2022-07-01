@@ -8,6 +8,7 @@ import {
   Autocomplete,
   AutocompleteProps,
   createFilterOptions,
+  TextFieldProps,
 } from '@mui/material'
 import debounce from 'lodash/debounce'
 import startCase from 'lodash/startCase'
@@ -42,6 +43,8 @@ export interface ModelFieldProps {
   name: string
   label?: string
   multiple?: boolean
+  error?: TextFieldProps['error']
+  helperText?: TextFieldProps['helperText']
 
   // Mui
   disableClearable?: ModelAutocompleteProps['disableClearable']
@@ -126,6 +129,10 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
     onChange: injectedOnChange,
     setValue: setFormValue,
     value: formValue,
+
+    // Error
+    error,
+    helperText,
 
     ...rest
   } = props
@@ -397,6 +404,8 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
                 </>
               ),
             }}
+            error={error}
+            helperText={helperText}
           />
         )}
         renderOption={(props, option: DataItem | null, { inputValue }) => {
