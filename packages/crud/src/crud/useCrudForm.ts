@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useForm, UseFormReturn } from 'react-hook-form'
+import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form'
 import {
   supabaseClient,
   SupabaseClient,
@@ -31,7 +31,7 @@ interface UseCrudFormValuesInterface {
   values: UseCrudFormValues
 }
 
-export interface UseCrudFormArgs {
+export interface UseCrudFormArgs extends UseFormProps {
   module: CrudModule
   item?: CrudItem
   refetch?: () => Promise<CrudItem>
@@ -67,6 +67,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     refetch,
     module,
     sections,
+    ...rest
   } = props
   const { sk, table } = module
 
@@ -87,7 +88,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     : getDefaultValues({ isNew, item: { ...injectedDefaultValues, ...item } })
 
   // Form
-  const form = useForm({ defaultValues })
+  const form = useForm({ defaultValues, ...rest })
   const { reset } = form
 
   // Reset form when dbItem is returned
