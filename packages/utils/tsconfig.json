@@ -1,0 +1,6 @@
+{
+  "extends": "tsconfig/tsconfig.base.json",
+  "include": ["./src/**/*", "typings.d.ts"],
+  "exclude": ["node_modules", "dist"]
+}
+

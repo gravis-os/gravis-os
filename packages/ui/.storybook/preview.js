@@ -1,8 +1,10 @@
 import React from 'react'
 import { addDecorator } from '@storybook/react'
+import { useDarkMode } from 'storybook-dark-mode'
 import Layout from './Layout'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import themeConfig from '../src/config/themeConfig'
+import { gravisLandingTheme } from '../src/themes'
+import { CssBaseline } from '@mui/material'
 // Next 12
 import { RouterContext } from "next/dist/shared/lib/router-context"
 // React Query
@@ -20,14 +22,19 @@ import 'quill/dist/quill.snow.css'
 // Storybook Parameters
 // ==============================
 export const parameters = {
+  // @link https://github.com/storybookjs/storybook/issues/17025#issuecomment-1055654634
+  docs: {
+    source: { type: 'code' }, // Default here is 'dynamic'
+  },
   controls: {
     matchers: {
       color: /(background|color)$/i,
       date: /Date$/,
     },
   },
+  darkMode: { current: 'light' }, // 'light' | 'dark'
   nextRouter: { Provider: RouterContext.Provider },
-  msw: { handlers: mswHandlers }
+  msw: { handlers: mswHandlers },
 }
 
 // ==============================
@@ -37,38 +44,18 @@ export const parameters = {
 addDecorator(storyFn => <Layout>{storyFn()}</Layout>)
 
 // Theme
-const theme = createTheme(themeConfig.theme.light)
-addDecorator(storyFn => (
-  <ThemeProvider theme={theme}>
-    {storyFn()}
-  </ThemeProvider>
-))
-
-// Next Router
-const mockRouter = {
-  basePath: '',
-  pathname: '/',
-  route: '/',
-  asPath: '/',
-  query: {},
-  push: () => {},
-  replace: () => {},
-  reload: () => {},
-  back: () => {},
-  prefetch: () => {},
-  beforePopState: () => {},
-  events: {
-    on: () => {},
-    off: () => {},
-    emit: () => {},
-  },
-  isFallback: false,
-};
-addDecorator(storyFn => (
-  <RouterContext.Provider value={mockRouter}>
-    {storyFn()}
-  </RouterContext.Provider>
-))
+const selectedTheme = gravisLandingTheme
+const lightTheme = createTheme(selectedTheme.light)
+const darkTheme = createTheme(selectedTheme.dark)
+addDecorator(storyFn => {
+  const isDarkMode = useDarkMode()
+  return (
+    <ThemeProvider theme={isDarkMode ? darkTheme : lightTheme}>
+      <CssBaseline />
+      {storyFn()}
+    </ThemeProvider>
+  )
+})
 
 // React Query
 const queryClient = new QueryClient()

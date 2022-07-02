@@ -22,6 +22,9 @@ export * from './Button'
 export { default as IconButton } from './IconButton'
 export * from './IconButton'
 
+export { default as Image } from './Image'
+export * from './Image'
+
 export { default as Link } from './Link'
 export * from './Link'
 
@@ -85,11 +88,14 @@ export * from './Badge'
 export { default as Skeleton } from './Skeleton'
 export * from './Skeleton'
 
-export { default as Sortable } from './Sortable'
-export * from './Sortable'
-
 export { default as Switch } from './Switch'
 export * from './Switch'
 
 export { default as Tooltip } from './Tooltip'
 export * from './Tooltip'
+
+export { default as Sortable } from './Sortable'
+export * from './Sortable'
+
+export { default as Reveal } from './Reveal'
+export * from './Reveal'

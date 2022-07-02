@@ -13,7 +13,7 @@ export interface ButtonProps extends MuiButtonProps {
   title?: string
   href?: string
   component?: React.JSXElementConstructor<any> | string
-  fullWidthMobile?: boolean
+  fullWidthOnMobile?: boolean
   tooltip?: string
   loading?: boolean
 }
@@ -21,7 +21,7 @@ export interface ButtonProps extends MuiButtonProps {
 const Button: React.FC<ButtonProps> = (props) => {
   const {
     loading,
-    fullWidthMobile,
+    fullWidthOnMobile,
     tooltip,
     href,
     title,
@@ -36,7 +36,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   const childrenJsx = (
     <MuiButton
       sx={{
-        ...(fullWidthMobile && {
+        ...(fullWidthOnMobile && {
           width: { xs: '100%', md: 'initial' },
         }),
         ...sx,
