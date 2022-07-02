@@ -42,7 +42,7 @@ export const getResponsiveSxProp = ({
   targetCssKey: string
   // Remap css value
   setCssValue?: (cssValue: ResponsiveSxProp) => ResponsiveSxProp
-}): Record<string, string | number | boolean> => {
+}) => {
   // Handle case where cssValue is nil
   if (isNil(cssValue)) return {}
 

@@ -35,7 +35,7 @@ const Box: React.FC<BoxProps> = (props) => {
       }),
 
       ...sx,
-    },
+    } as BoxProps['sx'],
     ...rest,
   }
 

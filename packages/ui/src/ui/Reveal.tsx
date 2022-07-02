@@ -5,6 +5,7 @@ export interface RevealProps {
   cascade?: boolean
   bottom?: boolean
   left?: boolean
+  children?: React.ReactNode
 }
 
 const Reveal: React.FC<RevealProps> = (props) => {

@@ -1,9 +1,10 @@
 import React from 'react'
 import NextImage, { ImageProps as NextImageProps } from 'next/image'
-import Box from './Box'
+import Box, { BoxProps } from './Box'
 
 export interface ImageProps extends NextImageProps {
   disablePointerEvents?: boolean
+  sx?: BoxProps['sx']
 }
 
 /**
@@ -23,7 +24,7 @@ const Image: React.FC<ImageProps> = (props) => {
 
   return (
     <Box {...boxProps}>
-      <NextImage unoptimized {...rest} />
+      <NextImage {...rest} />
     </Box>
   )
 }

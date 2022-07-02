@@ -1,7 +1,7 @@
 import React from 'react'
 import { Stack as MuiStack, StackProps as MuiStackProps } from '@mui/material'
 
-const getColumnOrRow = (direction: string) =>
+const getColumnOrRow = (direction) =>
   direction === 'column' ? 'row' : 'column'
 
 export interface StackProps extends MuiStackProps {
@@ -39,7 +39,7 @@ const Stack: React.FC<StackProps> = (props) => {
       }),
 
       ...sx,
-    },
+    } as StackProps['sx'],
     ...rest,
   }
 

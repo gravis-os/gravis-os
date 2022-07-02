@@ -6,7 +6,7 @@ import {
 
 export interface ContainerProps extends MuiContainerProps {}
 
-const Container: React.FC<ContainerProps> = props => {
+const Container: React.FC<ContainerProps> = (props) => {
   return <MuiContainer {...props} />
 }
 
