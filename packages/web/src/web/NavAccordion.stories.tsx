@@ -3,7 +3,6 @@ import NavAccordion from './NavAccordion'
 import { MOCK_NAV_ACCORDION_ITEMS } from '../mocks'
 
 export default {
-  title: 'ui/NavAccordion',
   component: NavAccordion,
   args: { title: 'Title', items: MOCK_NAV_ACCORDION_ITEMS },
 }

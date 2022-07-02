@@ -22,7 +22,6 @@ import {
 import { BlockItemTypeEnum } from '../Block/BlockItem'
 
 export default {
-  title: 'Components/LandingLayout',
   component: LandingLayout,
   parameters: { layout: 'fullscreen' },
   args: {

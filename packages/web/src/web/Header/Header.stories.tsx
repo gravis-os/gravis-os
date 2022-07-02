@@ -13,7 +13,6 @@ import {
 } from '../../mocks'
 
 export default {
-  title: 'Components/Header',
   component: Header,
   parameters: { layout: 'fullscreen' },
 }

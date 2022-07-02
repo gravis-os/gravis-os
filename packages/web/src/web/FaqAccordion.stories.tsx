@@ -1,9 +1,8 @@
 import React from 'react'
-import { MOCK_FAQ_ACCORDION_ITEMS } from 'AccordionLinksmocks'
 import FaqAccordion from './FaqAccordion'
+import { MOCK_FAQ_ACCORDION_ITEMS } from '../mocks'
 
 export default {
-  title: 'ui/FaqAccordion',
   component: FaqAccordion,
   args: { items: MOCK_FAQ_ACCORDION_ITEMS },
 }

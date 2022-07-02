@@ -6,7 +6,6 @@ import MOCK_RAINBOW_GRADIENT_1_IMAGE from '../../../public/images/mock_rainbow_g
 import MOCK_DARK_BLUE_GRADIENT_1_IMAGE from '../../../public/images/mock_dark_blue_gradient_1.jpg'
 
 export default {
-  title: 'ui/Block',
   component: Block,
   args: MOCK_BLOCK,
   parameters: {

@@ -3,7 +3,6 @@ import Blocks from './Blocks'
 import { MOCK_BLOCK_ALTERNATE_WING_GRID, MOCK_BLOCKS } from '../../mocks'
 
 export default {
-  title: 'ui/Blocks',
   component: Blocks,
   args: {
     items: MOCK_BLOCKS,

@@ -10,7 +10,6 @@ import MegaSearchTabs from './MegaSearchTabs'
 
 export default {
   component: MegaSearch,
-  title: 'Components/MegaSearch',
 }
 
 const defaultMegaSearchProps = {
