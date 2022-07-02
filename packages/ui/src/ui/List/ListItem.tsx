@@ -86,6 +86,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
           {...endIconProps}
           sx={{
             mr: 0,
+            justifyContent: 'flex-end',
             ...endIconProps?.sx,
           }}
         >
