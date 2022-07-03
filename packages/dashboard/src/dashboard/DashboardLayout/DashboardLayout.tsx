@@ -183,6 +183,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               : leftAsideWidth
           }
           sx={{
+            overflowX: 'hidden',
             marginTop: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
             ...(isMiniVariant && {
               transition: theme.transitions.create(['width'], {
@@ -201,6 +202,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             items={leftAsideListItems.map((item) => ({
               ...item,
               disableGutters: true,
+              hasTooltip: isMiniVariant && !leftAsideOpen,
               textProps: {
                 ...(isMiniVariant &&
                   !leftAsideOpen && {
@@ -216,6 +218,18 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               buttonProps: {
                 sx: {
                   ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
+                },
+                ...(isMiniVariant &&
+                  !leftAsideOpen && {
+                    onClick: () => setLeftAsideOpen(true),
+                  }),
+              },
+              collapseProps: {
+                sx: {
+                  ...(isMiniVariant &&
+                    !isLeftAsideOpen && {
+                      display: 'none',
+                    }),
                 },
               },
             }))}

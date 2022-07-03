@@ -10,6 +10,8 @@ import {
   ListItemButtonProps as MuiListItemButtonProps,
 } from '@mui/material'
 import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
+import withTooltip from '../withTooltip'
+import { TooltipProps } from '../Tooltip'
 
 export interface ListItemProps
   extends Omit<MuiListItemProps, 'title' | 'onClick'> {
@@ -37,6 +39,11 @@ export interface ListItemProps
   // Open state
   defaultOpen?: boolean
   open?: boolean
+
+  // Tooltip
+  tooltip?: TooltipProps['title']
+  hasTooltip?: boolean
+  tooltipProps?: TooltipProps
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
@@ -60,6 +67,11 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     disableGutters,
     disablePadding,
 
+    // Tooltip
+    hasTooltip,
+    tooltip,
+    tooltipProps,
+
     ...rest
   } = props
 
@@ -71,7 +83,6 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
   const listItemProps = {
     disablePadding: disablePadding || hasButton,
-    disableGutters,
     ...rest,
   }
 
@@ -112,7 +123,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     </>
   )
 
-  return (
+  const listItemJsx = (
     <MuiListItem {...listItemProps}>
       {hasButton ? (
         <MuiListItemButton {...listItemButtonProps}>
@@ -123,6 +134,13 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       )}
     </MuiListItem>
   )
+
+  return withTooltip({
+    tooltip: hasTooltip && title,
+    arrow: true,
+    placement: 'right',
+    ...tooltipProps,
+  })(listItemJsx)
 }
 
 export default ListItem

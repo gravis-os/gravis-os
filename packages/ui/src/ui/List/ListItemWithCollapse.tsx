@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from 'react'
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
-import Collapse from '../Collapse'
+import Collapse, { CollapseProps } from '../Collapse'
 import ListItem, { ListItemProps } from './ListItem'
-import List, { ListProps } from './List'
+import List from './List'
 
 const INITIAL_LIST_PL = 2
 const NESTED_LIST_PL_INDENT = 2
@@ -11,10 +11,18 @@ const NESTED_LIST_PL_INDENT = 2
 export interface ListItemWithCollapseProps
   extends Omit<ListItemProps, 'depth'> {
   depth: number
+  collapseProps?: CollapseProps
 }
 
 const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
-  const { open: injectedOpen, defaultOpen, depth, items, ...rest } = props
+  const {
+    collapseProps,
+    open: injectedOpen,
+    defaultOpen,
+    depth,
+    items,
+    ...rest
+  } = props
 
   const initialOpen =
     typeof defaultOpen === 'boolean' ? defaultOpen : Boolean(injectedOpen)
@@ -39,7 +47,7 @@ const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
       />
 
       {/* Inner */}
-      <Collapse in={open} timeout="auto" unmountOnExit>
+      <Collapse in={open} timeout="auto" unmountOnExit {...collapseProps}>
         <List
           disablePadding
           key={`nested-list-${depth}`}
