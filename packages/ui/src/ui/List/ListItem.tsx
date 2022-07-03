@@ -3,13 +3,12 @@ import {
   ListItem as MuiListItem,
   ListItemText as MuiListItemText,
   ListItemTextProps as MuiListItemTextProps,
-  ListItemIcon as MuiListItemIcon,
-  ListItemIconProps as MuiListItemIconProps,
   ListItemAvatar as MuiListItemAvatar,
   ListItemAvatarProps as MuiListItemAvatarProps,
   ListItemButton as MuiListItemButton,
   ListItemButtonProps as MuiListItemButtonProps,
 } from '@mui/material'
+import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
 
 export interface ListItemProps {
   key: string
@@ -23,8 +22,8 @@ export interface ListItemProps {
   end?: React.ReactElement
   startIcon?: React.ReactElement
   endIcon?: React.ReactElement
-  startIconProps?: MuiListItemIconProps
-  endIconProps?: MuiListItemIconProps
+  startIconProps?: ListItemIconProps
+  endIconProps?: ListItemIconProps
 
   onClick?: MuiListItemButtonProps['onClick']
 
@@ -77,12 +76,12 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   const childrenJsx = (
     <>
       {startIcon && (
-        <MuiListItemIcon {...startIconProps}>{startIcon}</MuiListItemIcon>
+        <ListItemIcon {...startIconProps}>{startIcon}</ListItemIcon>
       )}
       {listItemAvatarProps && <MuiListItemAvatar {...listItemAvatarProps} />}
       {listItemTextProps && <MuiListItemText {...listItemTextProps} />}
       {endIcon && (
-        <MuiListItemIcon
+        <ListItemIcon
           {...endIconProps}
           sx={{
             mr: 0,
@@ -91,7 +90,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
           }}
         >
           {endIcon}
-        </MuiListItemIcon>
+        </ListItemIcon>
       )}
     </>
   )

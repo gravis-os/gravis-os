@@ -4,10 +4,21 @@ import dashboardLayoutConfig from './dashboardLayoutConfig'
 
 export interface ResponsiveDrawerProps extends DrawerProps {
   width: number
+  mobileDrawerProps?: DrawerProps
+  desktopDrawerProps?: DrawerProps
 }
 
 const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
-  const { anchor = 'left', children, width, open, onClose } = props
+  const {
+    mobileDrawerProps,
+    desktopDrawerProps,
+    anchor = 'left',
+    children,
+    width,
+    open,
+    onClose,
+    sx,
+  } = props
 
   const commonDrawerProps = {
     anchor,
@@ -18,6 +29,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         width,
         marginTop: `${dashboardLayoutConfig.headerHeight}px`,
         boxSizing: 'border-box',
+        ...sx,
       },
     },
   }
@@ -35,6 +47,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         onClose={onClose}
         // Better open performance on mobile.
         ModalProps={{ keepMounted: true }}
+        {...mobileDrawerProps}
       />
 
       {/* Desktop Drawer */}
@@ -46,6 +59,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
           ...commonDrawerProps?.sx,
         }}
         {...commonDrawerProps}
+        {...desktopDrawerProps}
       />
     </>
   )

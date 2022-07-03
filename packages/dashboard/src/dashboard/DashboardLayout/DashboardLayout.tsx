@@ -19,7 +19,13 @@ import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer from './ResponsiveDrawer'
 
-const { leftAsideWidth, rightAsideWidth, headerHeight } = dashboardLayoutConfig
+const {
+  leftAsideWidth,
+  rightAsideWidth,
+  miniVariantWidth,
+  miniVariantListItemMinHeight,
+  headerHeight,
+} = dashboardLayoutConfig
 
 const MOCK_TABS = [
   {
@@ -123,6 +129,9 @@ export interface DashboardLayoutProps {
   // Disables
   disablePadding?: boolean
 
+  // Minivariant
+  isMiniVariant?: boolean
+
   children?: React.ReactNode
 }
 
@@ -165,6 +174,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     onLeftSecondaryAsideCollapse,
     mobileHeaderMenuItems,
     mobileHeaderDrawerProps,
+    isMiniVariant,
+    leftAsideListItems,
+    rightAsideListItems,
   } = props
 
   // States
@@ -200,44 +212,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const hasMobileHeader = mobileHeaderMenuItems && !isDesktop
   const hasMobileHeaderLogoAvatarMobileSrc = Boolean(
     hasMobileHeader && logoAvatarProps.mobileSrc
-  )
-
-  const drawerJsx = (
-    <div>
-      <List
-        dense
-        items={[
-          { key: 'quotations', title: '3 Quotations Pending' },
-          { key: 'delivery-orders', title: '3 Delivery Orders Pending' },
-          { key: 'sales-orders', title: '3 Sales Orders Pending' },
-          { key: 'purchase-orders', title: '3 Purchase Orders Pending' },
-        ].map((item) => ({
-          ...item,
-          disableGutters: true,
-          startIcon: <ReceiptOutlinedIcon color="primary" />,
-          endIcon: <ChevronRightOutlinedIcon color="primary" />,
-          onClick: () => window.alert('You clicked me'),
-          buttonProps: { sx: { px: 3 } },
-        }))}
-      />
-      <Divider />
-      <List
-        dense
-        items={[
-          { key: 'quotations', title: '3 Quotations Pending' },
-          { key: 'delivery-orders', title: '3 Delivery Orders Pending' },
-          { key: 'sales-orders', title: '3 Sales Orders Pending' },
-          { key: 'purchase-orders', title: '3 Purchase Orders Pending' },
-        ].map((item) => ({
-          ...item,
-          disableGutters: true,
-          startIcon: <ReceiptOutlinedIcon color="primary" />,
-          endIcon: <ChevronRightOutlinedIcon color="primary" />,
-          onClick: () => window.alert('You clicked me'),
-          buttonProps: { sx: { px: 3 } },
-        }))}
-      />
-    </div>
   )
 
   const tabs = useTabs({ tabs: MOCK_TABS })
@@ -283,6 +257,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           marginTop: `${headerHeight + (disablePadding ? 0 : 24)}px`,
           // Drawer effects
           ...(isLeftAsideOpen && { ml: { md: `${leftAsideWidth}px` } }),
+          ...(isMiniVariant &&
+            !isLeftAsideOpen && { ml: `${miniVariantWidth}px` }),
           ...(isRightAsideOpen && { mr: { md: `${rightAsideWidth}px` } }),
           transition: theme.transitions.create(['margin'], {
             easing: theme.transitions.easing.sharp,
@@ -293,11 +269,54 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         {/* Left Aside */}
         <Box component="nav">
           <ResponsiveDrawer
-            width={leftAsideWidth}
+            width={
+              isMiniVariant
+                ? isLeftAsideOpen
+                  ? leftAsideWidth
+                  : headerHeight
+                : leftAsideWidth
+            }
+            sx={{
+              ...(isMiniVariant && {
+                transition: theme.transitions.create(['width'], {
+                  easing: theme.transitions.easing.sharp,
+                  duration: theme.transitions.duration.leavingScreen,
+                }),
+              }),
+            }}
             open={isLeftAsideOpen}
             onClose={() => setLeftAsideOpen(false)}
+            desktopDrawerProps={{
+              variant: isMiniVariant ? 'permanent' : 'persistent',
+            }}
           >
-            {drawerJsx}
+            <List
+              items={leftAsideListItems.map((item) => ({
+                ...item,
+                disableGutters: true,
+                startIcon: <ReceiptOutlinedIcon color="primary" />,
+                endIcon: <ChevronRightOutlinedIcon color="primary" />,
+                onClick: () => window.alert('You clicked me'),
+                textProps: {
+                  ...(isMiniVariant &&
+                    !leftAsideOpen && {
+                      sx: {
+                        opacity: 0,
+                        transition: theme.transitions.create(['opacity'], {
+                          easing: theme.transitions.easing.sharp,
+                          duration: theme.transitions.duration.leavingScreen,
+                        }),
+                      },
+                    }),
+                },
+                buttonProps: {
+                  sx: {
+                    px: 3,
+                    ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
+                  },
+                },
+              }))}
+            />
           </ResponsiveDrawer>
         </Box>
 
@@ -322,7 +341,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             open={isRightAsideOpen}
             onClose={() => setRightAsideOpen(false)}
           >
-            {drawerJsx}
+            <List
+              dense
+              items={rightAsideListItems.map((item) => ({
+                ...item,
+                disableGutters: true,
+                startIcon: <ReceiptOutlinedIcon color="primary" />,
+                endIcon: <ChevronRightOutlinedIcon color="primary" />,
+                onClick: () => window.alert('You clicked me'),
+                buttonProps: { sx: { px: 3 } },
+              }))}
+            />
           </ResponsiveDrawer>
         </Box>
       </Box>

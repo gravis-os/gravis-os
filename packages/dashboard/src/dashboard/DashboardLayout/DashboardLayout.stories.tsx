@@ -8,6 +8,18 @@ export default {
     logo: 'My App',
     children: 'Hello World',
     disablePadding: true,
+    leftAsideListItems: [
+      { key: 'quotations', title: '3 Quotations Pending' },
+      { key: 'delivery-orders', title: '3 Delivery Orders Pending' },
+      { key: 'sales-orders', title: '3 Sales Orders Pending' },
+      { key: 'purchase-orders', title: '3 Purchase Orders Pending' },
+    ],
+    rightAsideListItems: [
+      { key: 'quotations', title: '3 Quotations Pending' },
+      { key: 'delivery-orders', title: '3 Delivery Orders Pending' },
+      { key: 'sales-orders', title: '3 Sales Orders Pending' },
+      { key: 'purchase-orders', title: '3 Purchase Orders Pending' },
+    ],
   },
 }
 
