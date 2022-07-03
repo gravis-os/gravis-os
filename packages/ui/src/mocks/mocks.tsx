@@ -5,27 +5,27 @@ export const MOCK_LIST_ITEMS = [
   {
     key: 'quotations',
     title: '3 Quotations Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
   {
     key: 'delivery-orders',
     title: '3 Delivery Orders Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
   {
     key: 'sales-orders',
     title: '3 Sales Orders Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
   {
     key: 'purchase-orders',
     title: '3 Purchase Orders Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
   {
     key: 'invoices',
     title: '4 Invoices Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
 ]
 
@@ -33,7 +33,7 @@ export const MOCK_NESTED_LIST_ITEMS = [
   {
     key: 'nested-quotations',
     title: 'Nested Quotations',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
     items: [
       {
         ...MOCK_LIST_ITEMS[0],
@@ -45,7 +45,7 @@ export const MOCK_NESTED_LIST_ITEMS = [
   {
     key: 'nested-delivery-orders',
     title: 'Nested Delivery Orders',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
     items: [MOCK_LIST_ITEMS[2], MOCK_LIST_ITEMS[3]],
   },
 ]

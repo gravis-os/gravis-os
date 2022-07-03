@@ -1,15 +1,19 @@
 import React from 'react'
-import { Drawer, DrawerProps } from '@mui/material'
+import { Drawer, DrawerProps, Theme } from '@mui/material'
 import { Box } from '@gravis-os/ui'
+import { ThemeProvider } from '@mui/material/styles'
+import dashboardTheme from '../../themes/Dashboard/dashboardTheme'
 
 export interface ResponsiveDrawerProps extends DrawerProps {
   width: number
   mobileDrawerProps?: DrawerProps
   desktopDrawerProps?: DrawerProps
+  dark?: boolean
 }
 
 const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
   const {
+    dark,
     mobileDrawerProps,
     desktopDrawerProps,
     anchor = 'left',
@@ -33,7 +37,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     } as DrawerProps['sx'],
   }
 
-  return (
+  const drawerJsx = (
     <Box component="nav">
       {/* Mobile Drawer */}
       <Drawer
@@ -61,6 +65,31 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         {...desktopDrawerProps}
       />
     </Box>
+  )
+
+  return dark ? (
+    <ThemeProvider
+      theme={(outerTheme: Theme) => {
+        const innerTheme = {
+          ...outerTheme, // Outer theme would normally be the light theme
+          palette: {
+            /**
+             * Set to dark mode with the default changes to dark mode palette
+             * @link https://mui.com/material-ui/customization/dark-mode/#dark-mode-by-default
+             * @note that mode: 'dark', does nothing because we're using a custom palette
+             */
+            mode: 'dark',
+            ...dashboardTheme.dark.palette,
+          },
+        }
+
+        return innerTheme
+      }}
+    >
+      {drawerJsx}
+    </ThemeProvider>
+  ) : (
+    drawerJsx
   )
 }
 

@@ -28,6 +28,7 @@ export interface ListItemProps
   endIcon?: React.ReactElement
   startIconProps?: ListItemIconProps
   endIconProps?: ListItemIconProps
+  iconProps?: ListItemIconProps
 
   onClick?: MuiListItemButtonProps['onClick']
 
@@ -61,6 +62,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     end,
     endIcon,
     endIconProps,
+    iconProps,
 
     onClick,
 
@@ -96,7 +98,11 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     ...injectedListItemTextProps,
   }
 
-  const commonIconProps = { dense: rest.dense }
+  const commonIconProps = {
+    dense: rest.dense,
+    ...iconProps,
+    sx: { color: 'primary.main', ...iconProps?.sx },
+  }
 
   const childrenJsx = (
     <>
@@ -111,11 +117,14 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         <ListItemIcon
           {...commonIconProps}
           {...endIconProps}
-          sx={{
-            mr: 0,
-            justifyContent: 'flex-end',
-            ...endIconProps?.sx,
-          }}
+          sx={
+            {
+              mr: 0,
+              justifyContent: 'flex-end',
+              ...commonIconProps?.sx,
+              ...endIconProps?.sx,
+            } as ListItemIconProps['sx']
+          }
         >
           {endIcon}
         </ListItemIcon>

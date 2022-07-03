@@ -17,29 +17,29 @@ export const MOCK_LIST_ITEMS = [
   {
     key: 'quotations',
     title: '3 Quotations Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
   {
     key: 'delivery-orders',
     title: '3 Delivery Orders Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
   {
     key: 'sales-orders',
     title: '3 Sales Orders Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
   {
     key: 'purchase-orders',
     title: '3 Purchase Orders Pending',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
   },
   { key: 'divider', divider: true },
   {
     key: 'view-all-orders',
     title: 'View All Orders',
-    startIcon: <ReceiptOutlinedIcon color="primary" />,
-    endIcon: <ChevronRightOutlinedIcon color="primary" />,
+    startIcon: <ReceiptOutlinedIcon />,
+    endIcon: <ChevronRightOutlinedIcon />,
   },
 ]
 

@@ -31,28 +31,30 @@ const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
     setOpen(open)
   }, [open])
 
+  // Props that are shared by both parent and children ListItems
+  const commonListItemProps = {
+    iconProps: rest?.iconProps,
+    textProps: rest?.textProps,
+    buttonProps: rest?.buttonProps,
+  }
+
   return (
     <>
-      {/* Outer */}
+      {/* ParentListItem (Outer) */}
       <ListItem
         {...rest}
-        endIcon={
-          open ? (
-            <ExpandLessOutlinedIcon color="primary" />
-          ) : (
-            <ExpandMoreOutlinedIcon color="primary" />
-          )
-        }
+        endIcon={open ? <ExpandLessOutlinedIcon /> : <ExpandMoreOutlinedIcon />}
         onClick={() => setOpen(!open)}
       />
 
-      {/* Inner */}
+      {/* ChildrenListItem (Inner) */}
       <Collapse in={open} timeout="auto" unmountOnExit {...collapseProps}>
         <List
           disablePadding
           key={`nested-list-${depth}`}
           items={items.map((item) => ({
             ...item,
+            ...commonListItemProps,
             // Recurse this
             depth: depth + 1,
             buttonProps: {

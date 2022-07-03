@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { AppBar, Toolbar, useMediaQuery, useTheme } from '@mui/material'
-import { Box, IconButton, List } from '@gravis-os/ui'
+import { Box, IconButton, List, ListItemProps } from '@gravis-os/ui'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined'
@@ -26,6 +26,12 @@ export interface DashboardLayoutProps {
   // Minivariant
   isMiniVariant?: boolean
   disableClipUnderAppBar?: boolean
+
+  // Dark mode
+  darkLeftAside?: boolean
+
+  // Aside Props
+  leftAsideListItemProps?: ListItemProps
 
   children?: React.ReactNode
 }
@@ -74,6 +80,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     leftAsideListItems,
     rightAsideListItems,
     disableClipUnderAppBar,
+    darkLeftAside,
+    leftAsideListItemProps,
   } = props
 
   // States
@@ -175,6 +183,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       >
         {/* Left Aside */}
         <ResponsiveDrawer
+          dark={darkLeftAside}
           width={
             isMiniVariant
               ? isLeftAsideOpen
@@ -232,6 +241,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                     }),
                 },
               },
+              ...leftAsideListItemProps,
             }))}
           />
         </ResponsiveDrawer>

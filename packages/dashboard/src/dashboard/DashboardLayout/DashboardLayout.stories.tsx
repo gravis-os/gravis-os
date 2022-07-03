@@ -56,6 +56,14 @@ MinivariantWithNestedList.args = {
   ],
 }
 
+export const DarkMinivariantWithNestedList = (props) => (
+  <DashboardLayout {...props} />
+)
+DarkMinivariantWithNestedList.args = {
+  ...MinivariantWithNestedList.args,
+  darkLeftAside: true,
+}
+
 export const MinivariantWithDisableClipUnderAppBar = (props) => (
   <DashboardLayout {...props} />
 )
@@ -87,4 +95,17 @@ MinivariantWithDisableClipUnderAppBarAndGrid.args = {
       </Grid>
     </>
   ),
+}
+
+export const DarkMinivariantWithDisableClipUnderAppBarAndGrid = (props) => (
+  <DashboardLayout {...props} />
+)
+DarkMinivariantWithDisableClipUnderAppBarAndGrid.args = {
+  ...MinivariantWithDisableClipUnderAppBarAndGrid.args,
+  darkLeftAside: true,
+  leftAsideListItemProps: {
+    iconProps: {
+      sx: { color: 'text.secondary' },
+    },
+  },
 }
