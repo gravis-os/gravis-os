@@ -13,19 +13,13 @@ import {
 } from '@gravis-os/ui'
 
 import MenuIcon from '@mui/icons-material/Menu'
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer from './ResponsiveDrawer'
 
-const {
-  leftAsideWidth,
-  rightAsideWidth,
-  miniVariantWidth,
-  miniVariantListItemMinHeight,
-  headerHeight,
-} = dashboardLayoutConfig
+const { leftAsideWidth, rightAsideWidth, miniVariantWidth, headerHeight } =
+  dashboardLayoutConfig
 
 const MOCK_TABS = [
   {
@@ -273,7 +267,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               isMiniVariant
                 ? isLeftAsideOpen
                   ? leftAsideWidth
-                  : headerHeight
+                  : miniVariantWidth
                 : leftAsideWidth
             }
             sx={{
@@ -291,12 +285,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             }}
           >
             <List
+              disablePadding={isMiniVariant}
               items={leftAsideListItems.map((item) => ({
                 ...item,
                 disableGutters: true,
-                startIcon: <ReceiptOutlinedIcon color="primary" />,
                 endIcon: <ChevronRightOutlinedIcon color="primary" />,
-                onClick: () => window.alert('You clicked me'),
                 textProps: {
                   ...(isMiniVariant &&
                     !leftAsideOpen && {
@@ -346,9 +339,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               items={rightAsideListItems.map((item) => ({
                 ...item,
                 disableGutters: true,
-                startIcon: <ReceiptOutlinedIcon color="primary" />,
                 endIcon: <ChevronRightOutlinedIcon color="primary" />,
-                onClick: () => window.alert('You clicked me'),
                 buttonProps: { sx: { px: 3 } },
               }))}
             />

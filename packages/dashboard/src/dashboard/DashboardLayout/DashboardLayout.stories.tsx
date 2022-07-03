@@ -1,25 +1,16 @@
 import React from 'react'
 import DashboardLayout from './DashboardLayout'
+import { MOCK_LOGO_JSX, MOCK_LIST_ITEMS } from '../../mocks'
 
 export default {
   component: DashboardLayout,
   parameters: { layout: 'fullscreen' },
   args: {
-    logo: 'My App',
+    logo: MOCK_LOGO_JSX,
     children: 'Hello World',
     disablePadding: true,
-    leftAsideListItems: [
-      { key: 'quotations', title: '3 Quotations Pending' },
-      { key: 'delivery-orders', title: '3 Delivery Orders Pending' },
-      { key: 'sales-orders', title: '3 Sales Orders Pending' },
-      { key: 'purchase-orders', title: '3 Purchase Orders Pending' },
-    ],
-    rightAsideListItems: [
-      { key: 'quotations', title: '3 Quotations Pending' },
-      { key: 'delivery-orders', title: '3 Delivery Orders Pending' },
-      { key: 'sales-orders', title: '3 Sales Orders Pending' },
-      { key: 'purchase-orders', title: '3 Purchase Orders Pending' },
-    ],
+    leftAsideListItems: MOCK_LIST_ITEMS,
+    rightAsideListItems: MOCK_LIST_ITEMS,
   },
 }
 
