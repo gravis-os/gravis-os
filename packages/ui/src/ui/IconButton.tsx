@@ -16,11 +16,12 @@ export interface IconButtonProps extends MuiIconButtonProps {
 
 const IconButton: React.FC<IconButtonProps> = (props) => {
   const { title, href, children, tooltip, sx, ...rest } = props
+  const { color } = rest
 
   const childrenJsx = (
     <MuiIconButton
       sx={{
-        '&:hover': { color: 'primary.main' },
+        '&:hover': { color: color || 'primary.main' },
         ...sx,
       }}
       {...rest}
