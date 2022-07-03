@@ -120,7 +120,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           zIndex: (theme) => theme.zIndex.drawer + 1,
           ...(disableClipUnderAppBar && {
             left: leftAsideOpen ? leftAsideWidth : miniVariantWidth,
-            transition: theme.transitions.create(['left'], {
+            width: leftAsideOpen
+              ? `calc(100% - ${leftAsideWidth}px)`
+              : `calc(100% - ${miniVariantWidth}px)`,
+            transition: theme.transitions.create(['left', 'width'], {
               easing: theme.transitions.easing.sharp,
               duration: theme.transitions.duration.leavingScreen,
             }),

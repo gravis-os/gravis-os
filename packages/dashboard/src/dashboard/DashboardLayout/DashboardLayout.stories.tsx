@@ -1,5 +1,13 @@
 import React from 'react'
-import { TabContent, Tabs, useTabs } from '@gravis-os/ui'
+import {
+  Card,
+  List,
+  Grid,
+  Typography,
+  TabContent,
+  Tabs,
+  useTabs,
+} from '@gravis-os/ui'
 import DashboardLayout from './DashboardLayout'
 import { MOCK_TABS, MOCK_LOGO_JSX, MOCK_LIST_ITEMS } from '../../mocks'
 
@@ -31,14 +39,6 @@ export const Basic = (props) => <DashboardLayout {...props} />
 export const Minivariant = (props) => <DashboardLayout {...props} />
 Minivariant.args = { isMiniVariant: true }
 
-export const MinivariantWithDisableClipUnderAppBar = (props) => (
-  <DashboardLayout {...props} />
-)
-MinivariantWithDisableClipUnderAppBar.args = {
-  isMiniVariant: true,
-  disableClipUnderAppBar: true,
-}
-
 export const MinivariantWithNestedList = (props) => (
   <DashboardLayout {...props} />
 )
@@ -54,4 +54,37 @@ MinivariantWithNestedList.args = {
     },
     ...MOCK_LIST_ITEMS,
   ],
+}
+
+export const MinivariantWithDisableClipUnderAppBar = (props) => (
+  <DashboardLayout {...props} />
+)
+MinivariantWithDisableClipUnderAppBar.args = {
+  ...MinivariantWithNestedList.args,
+  disableClipUnderAppBar: true,
+}
+
+export const MinivariantWithDisableClipUnderAppBarAndGrid = (props) => (
+  <DashboardLayout {...props} />
+)
+MinivariantWithDisableClipUnderAppBarAndGrid.args = {
+  ...MinivariantWithNestedList.args,
+  defaultLeftAsideOpen: false,
+  defaultRightAsideOpen: false,
+  disableClipUnderAppBar: true,
+  children: (
+    <>
+      <Grid container spacing={0}>
+        <Grid item md={3}>
+          <Card square sx={{ minHeight: { md: '100vh' }, height: '100%' }}>
+            <Typography variant="h5">Welcome back!</Typography>
+            <List items={MOCK_LIST_ITEMS} />
+          </Card>
+        </Grid>
+        <Grid item md={9}>
+          <DashboardLayoutChildren />
+        </Grid>
+      </Grid>
+    </>
+  ),
 }

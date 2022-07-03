@@ -1,9 +1,7 @@
 import merge from 'lodash/merge'
-import { createTheme } from '@mui/material'
+import { baseTheme } from '@gravis-os/ui'
 
-const defaultMuiTheme = createTheme()
-
-const dashboardThemeConfig = merge({}, defaultMuiTheme, {
+const dashboardThemeConfig = {
   typography: {
     h1: {
       fontWeight: 700,
@@ -67,11 +65,18 @@ const dashboardThemeConfig = merge({}, defaultMuiTheme, {
       textTransform: 'none',
     },
   },
-})
+  components: {
+    MuiToolbar: {
+      defaultProps: {
+        disableGutters: false,
+      },
+    },
+  },
+}
 
 const dashboardTheme = {
-    light: dashboardThemeConfig,
-    dark: dashboardThemeConfig,
+  light: merge({}, baseTheme.light, dashboardThemeConfig),
+  dark: merge({}, baseTheme.dark, dashboardThemeConfig),
 }
 
 export default dashboardTheme

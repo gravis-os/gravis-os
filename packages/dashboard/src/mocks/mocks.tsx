@@ -4,7 +4,11 @@ import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
 
 export const MOCK_LOGO_JSX = (
-  <Typography fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: 1 }}>
+  <Typography
+    fontWeight="bold"
+    sx={{ lineHeight: 1, letterSpacing: 1 }}
+    color="inherit"
+  >
     LOGO
   </Typography>
 )

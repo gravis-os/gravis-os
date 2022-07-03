@@ -1,5 +1,5 @@
 import merge from 'lodash/merge'
-import baseTheme from '../Base/baseTheme'
+import { baseTheme } from '@gravis-os/ui'
 
 const headerFontFamily =
   "-apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
