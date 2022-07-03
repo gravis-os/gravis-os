@@ -1,6 +1,6 @@
 import React from 'react'
 import { Drawer, DrawerProps } from '@mui/material'
-import dashboardLayoutConfig from './dashboardLayoutConfig'
+import { Box } from '@gravis-os/ui'
 
 export interface ResponsiveDrawerProps extends DrawerProps {
   width: number
@@ -27,15 +27,14 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     sx: {
       '& .MuiDrawer-paper': {
         width,
-        marginTop: `${dashboardLayoutConfig.headerHeight}px`,
         boxSizing: 'border-box',
         ...sx,
       },
-    },
+    } as DrawerProps['sx'],
   }
 
   return (
-    <>
+    <Box component="nav">
       {/* Mobile Drawer */}
       <Drawer
         variant="temporary"
@@ -61,7 +60,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         {...commonDrawerProps}
         {...desktopDrawerProps}
       />
-    </>
+    </Box>
   )
 }
 

@@ -3,6 +3,7 @@ import { AppBar, Toolbar, useMediaQuery, useTheme } from '@mui/material'
 import { Box, IconButton, List } from '@gravis-os/ui'
 
 import MenuIcon from '@mui/icons-material/Menu'
+import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer from './ResponsiveDrawer'
@@ -24,6 +25,7 @@ export interface DashboardLayoutProps {
 
   // Minivariant
   isMiniVariant?: boolean
+  disableClipUnderAppBar?: boolean
 
   children?: React.ReactNode
 }
@@ -67,9 +69,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     onLeftSecondaryAsideCollapse,
     mobileHeaderMenuItems,
     mobileHeaderDrawerProps,
+
     isMiniVariant,
     leftAsideListItems,
     rightAsideListItems,
+    disableClipUnderAppBar,
   } = props
 
   // States
@@ -112,7 +116,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       {/* Header */}
       <AppBar
         position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        sx={{
+          zIndex: (theme) => theme.zIndex.drawer + 1,
+          ...(disableClipUnderAppBar && {
+            left: leftAsideOpen ? leftAsideWidth : miniVariantWidth,
+            transition: theme.transitions.create(['left'], {
+              easing: theme.transitions.easing.sharp,
+              duration: theme.transitions.duration.leavingScreen,
+            }),
+          }),
+        }}
       >
         <Toolbar>
           {/* Left Menu Icon */}
@@ -122,7 +135,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             onClick={() => setLeftAsideOpen(!leftAsideOpen)}
             sx={{ mr: 1 }}
           >
-            <MenuIcon />
+            {isLeftAsideOpen ? <MenuOpenOutlinedIcon /> : <MenuIcon />}
           </IconButton>
 
           {/* Logo */}
@@ -158,55 +171,53 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         }}
       >
         {/* Left Aside */}
-        <Box component="nav">
-          <ResponsiveDrawer
-            width={
-              isMiniVariant
-                ? isLeftAsideOpen
-                  ? leftAsideWidth
-                  : miniVariantWidth
-                : leftAsideWidth
-            }
-            sx={{
-              ...(isMiniVariant && {
-                transition: theme.transitions.create(['width'], {
-                  easing: theme.transitions.easing.sharp,
-                  duration: theme.transitions.duration.leavingScreen,
-                }),
+        <ResponsiveDrawer
+          width={
+            isMiniVariant
+              ? isLeftAsideOpen
+                ? leftAsideWidth
+                : miniVariantWidth
+              : leftAsideWidth
+          }
+          sx={{
+            marginTop: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
+            ...(isMiniVariant && {
+              transition: theme.transitions.create(['width'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
               }),
-            }}
-            open={isLeftAsideOpen}
-            onClose={() => setLeftAsideOpen(false)}
-            desktopDrawerProps={{
-              variant: isMiniVariant ? 'permanent' : 'persistent',
-            }}
-          >
-            <List
-              disablePadding
-              items={leftAsideListItems.map((item) => ({
-                ...item,
-                disableGutters: true,
-                textProps: {
-                  ...(isMiniVariant &&
-                    !leftAsideOpen && {
-                      sx: {
-                        opacity: 0,
-                        transition: theme.transitions.create(['opacity'], {
-                          easing: theme.transitions.easing.sharp,
-                          duration: theme.transitions.duration.leavingScreen,
-                        }),
-                      },
-                    }),
+            }),
+          }}
+          open={isLeftAsideOpen}
+          onClose={() => setLeftAsideOpen(false)}
+          desktopDrawerProps={{
+            variant: isMiniVariant ? 'permanent' : 'persistent',
+          }}
+        >
+          <List
+            items={leftAsideListItems.map((item) => ({
+              ...item,
+              disableGutters: true,
+              textProps: {
+                ...(isMiniVariant &&
+                  !leftAsideOpen && {
+                    sx: {
+                      opacity: 0,
+                      transition: theme.transitions.create(['opacity'], {
+                        easing: theme.transitions.easing.sharp,
+                        duration: theme.transitions.duration.leavingScreen,
+                      }),
+                    },
+                  }),
+              },
+              buttonProps: {
+                sx: {
+                  ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
                 },
-                buttonProps: {
-                  sx: {
-                    ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
-                  },
-                },
-              }))}
-            />
-          </ResponsiveDrawer>
-        </Box>
+              },
+            }))}
+          />
+        </ResponsiveDrawer>
 
         {/* Main */}
         <Box
@@ -220,23 +231,21 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         </Box>
 
         {/* Right Aside */}
-        <Box component="nav">
-          <ResponsiveDrawer
-            anchor="right"
-            width={rightAsideWidth}
-            open={isRightAsideOpen}
-            onClose={() => setRightAsideOpen(false)}
-          >
-            <List
-              dense
-              disablePadding
-              items={rightAsideListItems.map((item) => ({
-                ...item,
-                disableGutters: true,
-              }))}
-            />
-          </ResponsiveDrawer>
-        </Box>
+        <ResponsiveDrawer
+          anchor="right"
+          width={rightAsideWidth}
+          open={isRightAsideOpen}
+          onClose={() => setRightAsideOpen(false)}
+          sx={{ marginTop: `${headerHeight}px` }}
+        >
+          <List
+            dense
+            items={rightAsideListItems.map((item) => ({
+              ...item,
+              disableGutters: true,
+            }))}
+          />
+        </ResponsiveDrawer>
       </Box>
     </Box>
   )

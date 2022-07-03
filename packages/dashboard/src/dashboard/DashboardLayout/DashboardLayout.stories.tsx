@@ -31,6 +31,14 @@ export const Basic = (props) => <DashboardLayout {...props} />
 export const Minivariant = (props) => <DashboardLayout {...props} />
 Minivariant.args = { isMiniVariant: true }
 
+export const MinivariantWithDisableClipUnderAppBar = (props) => (
+  <DashboardLayout {...props} />
+)
+MinivariantWithDisableClipUnderAppBar.args = {
+  isMiniVariant: true,
+  disableClipUnderAppBar: true,
+}
+
 export const MinivariantWithNestedList = (props) => (
   <DashboardLayout {...props} />
 )

@@ -15,7 +15,7 @@ const List: React.FC<ListProps> = (props) => {
   if (!items.length) return null
 
   return (
-    <MuiList {...rest}>
+    <MuiList disablePadding {...rest}>
       {items.map((item, i) => {
         const key = item.key || `list-item-${i}`
         const listItemProps = { dense, ...item }
