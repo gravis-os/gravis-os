@@ -1,6 +1,7 @@
 import React from 'react'
 import {
   ListItem as MuiListItem,
+  ListItemProps as MuiListItemProps,
   ListItemText as MuiListItemText,
   ListItemTextProps as MuiListItemTextProps,
   ListItemAvatar as MuiListItemAvatar,
@@ -10,7 +11,8 @@ import {
 } from '@mui/material'
 import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
 
-export interface ListItemProps {
+export interface ListItemProps
+  extends Omit<MuiListItemProps, 'title' | 'onClick'> {
   key: string
   title?: MuiListItemTextProps['primary']
   subtitle?: MuiListItemTextProps['secondary']
@@ -26,9 +28,6 @@ export interface ListItemProps {
   endIconProps?: ListItemIconProps
 
   onClick?: MuiListItemButtonProps['onClick']
-
-  disableGutters?: boolean
-  disablePadding?: boolean
 
   // NestedItems
   depth?: number
@@ -86,15 +85,20 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     ...injectedListItemTextProps,
   }
 
+  const commonIconProps = { dense: rest.dense }
+
   const childrenJsx = (
     <>
       {startIcon && (
-        <ListItemIcon {...startIconProps}>{startIcon}</ListItemIcon>
+        <ListItemIcon {...commonIconProps} {...startIconProps}>
+          {startIcon}
+        </ListItemIcon>
       )}
       {listItemAvatarProps && <MuiListItemAvatar {...listItemAvatarProps} />}
       {listItemTextProps && <MuiListItemText {...listItemTextProps} />}
       {endIcon && (
         <ListItemIcon
+          {...commonIconProps}
           {...endIconProps}
           sx={{
             mr: 0,

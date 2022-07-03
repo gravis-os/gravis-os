@@ -10,6 +10,7 @@ export interface ListProps extends MuiListProps {
 
 const List: React.FC<ListProps> = (props) => {
   const { items, ...rest } = props
+  const { dense } = rest
 
   if (!items.length) return null
 
@@ -17,6 +18,7 @@ const List: React.FC<ListProps> = (props) => {
     <MuiList {...rest}>
       {items.map((item, i) => {
         const key = item.key || `list-item-${i}`
+        const listItemProps = { dense, ...item }
 
         // Divider
         const isDivider = Boolean(item.divider)
@@ -25,10 +27,12 @@ const List: React.FC<ListProps> = (props) => {
         // Nested List
         const hasNestedItems = Boolean(item.items)
         if (hasNestedItems) {
-          return <ListItemWithCollapse key={key} depth={i + 1} {...item} />
+          return (
+            <ListItemWithCollapse key={key} depth={i + 1} {...listItemProps} />
+          )
         }
 
-        return <ListItem key={key} {...item} />
+        return <ListItem key={key} {...listItemProps} />
       })}
     </MuiList>
   )
