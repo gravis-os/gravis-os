@@ -83,13 +83,13 @@ MinivariantWithDisableClipUnderAppBarAndGrid.args = {
   children: (
     <>
       <Grid container spacing={0}>
-        <Grid item md={3}>
+        <Grid item sm={3}>
           <Card square sx={{ minHeight: { md: '100vh' }, height: '100%' }}>
             <Typography variant="h5">Welcome back!</Typography>
             <List items={MOCK_LIST_ITEMS} />
           </Card>
         </Grid>
-        <Grid item md={9}>
+        <Grid item sm={9}>
           <DashboardLayoutChildren />
         </Grid>
       </Grid>
