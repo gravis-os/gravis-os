@@ -182,7 +182,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             }}
           >
             <List
-              disablePadding={isMiniVariant}
+              disablePadding
               items={leftAsideListItems.map((item) => ({
                 ...item,
                 disableGutters: true,
@@ -229,6 +229,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           >
             <List
               dense
+              disablePadding
               items={rightAsideListItems.map((item) => ({
                 ...item,
                 disableGutters: true,
