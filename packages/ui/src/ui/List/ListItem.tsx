@@ -28,6 +28,10 @@ export interface ListItemProps {
   onClick?: MuiListItemButtonProps['onClick']
 
   disableGutters?: boolean
+  disablePadding?: boolean
+
+  // NestedItems
+  items?: ListItemProps[]
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
@@ -49,11 +53,19 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     onClick,
 
     disableGutters,
+    disablePadding,
 
     ...rest
   } = props
 
+  const listItemButtonProps = {
+    onClick,
+    ...injectedListItemButtonProps,
+  }
+  const hasButton = Boolean(onClick || listItemButtonProps)
+
   const listItemProps = {
+    disablePadding: disablePadding || hasButton,
     disableGutters,
     ...rest,
   }
@@ -66,11 +78,6 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     primary: title,
     secondary: subtitle,
     ...injectedListItemTextProps,
-  }
-
-  const listItemButtonProps = {
-    onClick,
-    ...injectedListItemButtonProps,
   }
 
   const childrenJsx = (
@@ -97,7 +104,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
   return (
     <MuiListItem {...listItemProps}>
-      {onClick || listItemButtonProps ? (
+      {hasButton ? (
         <MuiListItemButton {...listItemButtonProps}>
           {childrenJsx}
         </MuiListItemButton>

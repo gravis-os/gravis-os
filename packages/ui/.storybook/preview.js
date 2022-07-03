@@ -3,7 +3,7 @@ import { addDecorator } from '@storybook/react'
 import { useDarkMode } from 'storybook-dark-mode'
 import Layout from './Layout'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { gravisLandingTheme } from '../src/themes'
+import { baseTheme } from '../src/themes'
 import { CssBaseline } from '@mui/material'
 // Next 12
 import { RouterContext } from "next/dist/shared/lib/router-context"
@@ -44,7 +44,7 @@ export const parameters = {
 addDecorator(storyFn => <Layout>{storyFn()}</Layout>)
 
 // Theme
-const selectedTheme = gravisLandingTheme
+const selectedTheme = baseTheme
 const lightTheme = createTheme(selectedTheme.light)
 const darkTheme = createTheme(selectedTheme.dark)
 addDecorator(storyFn => {
