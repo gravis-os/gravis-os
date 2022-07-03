@@ -1,6 +1,7 @@
 import React from 'react'
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
 import { Typography } from '@gravis-os/ui'
+import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
+import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
 
 export const MOCK_LOGO_JSX = (
   <Typography fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: 1 }}>
@@ -28,6 +29,13 @@ export const MOCK_LIST_ITEMS = [
     key: 'purchase-orders',
     title: '3 Purchase Orders Pending',
     startIcon: <ReceiptOutlinedIcon color="primary" />,
+  },
+  { key: 'divider', divider: true },
+  {
+    key: 'view-all-orders',
+    title: 'View All Orders',
+    startIcon: <ReceiptOutlinedIcon color="primary" />,
+    endIcon: <ChevronRightOutlinedIcon color="primary" />,
   },
 ]
 

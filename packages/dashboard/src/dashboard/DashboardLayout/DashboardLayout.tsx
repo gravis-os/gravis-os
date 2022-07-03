@@ -1,8 +1,7 @@
 import React, { useEffect, useState } from 'react'
-import { useTheme, useMediaQuery, Drawer, AppBar, Toolbar } from '@mui/material'
+import { useTheme, useMediaQuery, AppBar, Toolbar } from '@mui/material'
 import {
   Box,
-  Divider,
   IconButton,
   List,
   Typography,
@@ -13,7 +12,6 @@ import {
 } from '@gravis-os/ui'
 
 import MenuIcon from '@mui/icons-material/Menu'
-import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer from './ResponsiveDrawer'
@@ -289,7 +287,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               items={leftAsideListItems.map((item) => ({
                 ...item,
                 disableGutters: true,
-                endIcon: <ChevronRightOutlinedIcon color="primary" />,
                 textProps: {
                   ...(isMiniVariant &&
                     !leftAsideOpen && {
@@ -304,7 +301,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                 },
                 buttonProps: {
                   sx: {
-                    px: 3,
                     ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
                   },
                 },
@@ -339,8 +335,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               items={rightAsideListItems.map((item) => ({
                 ...item,
                 disableGutters: true,
-                endIcon: <ChevronRightOutlinedIcon color="primary" />,
-                buttonProps: { sx: { px: 3 } },
               }))}
             />
           </ResponsiveDrawer>

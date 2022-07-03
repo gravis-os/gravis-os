@@ -2,6 +2,7 @@ import React from 'react'
 import { List as MuiList, ListProps as MuiListProps } from '@mui/material'
 import ListItem, { ListItemProps } from './ListItem'
 import ListItemWithCollapse from './ListItemWithCollapse'
+import Divider from '../Divider'
 
 export interface ListProps extends MuiListProps {
   items: ListItemProps[]
@@ -16,6 +17,10 @@ const List: React.FC<ListProps> = (props) => {
     <MuiList {...rest}>
       {items.map((item, i) => {
         const key = item.key || `list-item-${i}`
+
+        // Divider
+        const isDivider = Boolean(item.divider)
+        if (isDivider) return <Divider />
 
         // Nested List
         const hasNestedItems = Boolean(item.items)

@@ -31,7 +31,13 @@ export interface ListItemProps {
   disablePadding?: boolean
 
   // NestedItems
+  depth?: number
   items?: ListItemProps[]
+  // Divider
+  divider?: boolean
+  // Open state
+  defaultOpen?: boolean
+  open?: boolean
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {

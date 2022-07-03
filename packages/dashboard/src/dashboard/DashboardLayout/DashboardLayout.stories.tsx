@@ -18,3 +18,20 @@ export const Basic = ({ ...rest }) => <DashboardLayout {...rest} />
 
 export const Minivariant = ({ ...rest }) => <DashboardLayout {...rest} />
 Minivariant.args = { isMiniVariant: true }
+
+export const MinivariantWithNestedList = ({ ...rest }) => (
+  <DashboardLayout {...rest} />
+)
+MinivariantWithNestedList.args = {
+  ...Minivariant.args,
+  leftAsideListItems: [
+    {
+      ...MOCK_LIST_ITEMS[0],
+      key: 'nested-quotations',
+      title: 'All Quotations',
+      defaultOpen: false,
+      items: [MOCK_LIST_ITEMS[1], MOCK_LIST_ITEMS[2]],
+    },
+    ...MOCK_LIST_ITEMS,
+  ],
+}
