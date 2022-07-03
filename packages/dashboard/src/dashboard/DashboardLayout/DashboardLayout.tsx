@@ -1,15 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useTheme, useMediaQuery, AppBar, Toolbar } from '@mui/material'
-import {
-  Box,
-  IconButton,
-  List,
-  Typography,
-  Stack,
-  Tabs,
-  TabContent,
-  useTabs,
-} from '@gravis-os/ui'
+import { AppBar, Toolbar, useMediaQuery, useTheme } from '@mui/material'
+import { Box, IconButton, List } from '@gravis-os/ui'
 
 import MenuIcon from '@mui/icons-material/Menu'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
@@ -18,96 +9,6 @@ import ResponsiveDrawer from './ResponsiveDrawer'
 
 const { leftAsideWidth, rightAsideWidth, miniVariantWidth, headerHeight } =
   dashboardLayoutConfig
-
-const MOCK_TABS = [
-  {
-    key: 'finance',
-    value: 'finance',
-    label: 'Finance',
-    children: (
-      <Box p={3}>
-        <Stack spacing={2}>
-          {/* Header */}
-          <Box>
-            <Typography variant="h4">Overview</Typography>
-            <Typography variant="body1" color="text.secondary">
-              View finance progress
-            </Typography>
-          </Box>
-
-          <Box sx={{ mt: 2 }}>
-            <Typography paragraph>
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-              eiusmod tempor incididunt ut labore et dolore magna aliqua.
-              Rhoncus dolor purus non enim praesent elementum facilisis leo vel.
-              Risus at ultrices mi tempus imperdiet. Semper risus in hendrerit
-              gravida rutrum quisque non tellus. Convallis convallis tellus id
-              interdum velit laoreet id donec ultrices. Odio morbi quis commodo
-              odio aenean sed adipiscing. Amet nisl suscipit adipiscing bibendum
-              est ultricies integer quis. Cursus euismod quis viverra nibh cras.
-              Metus vulputate eu scelerisque felis imperdiet proin fermentum
-              leo. Mauris commodo quis imperdiet massa tincidunt. Cras tincidunt
-              lobortis feugiat vivamus at augue. At augue eget arcu dictum
-              varius duis at consectetur lorem. Velit sed ullamcorper morbi
-              tincidunt. Lorem donec massa sapien faucibus et molestie ac.
-            </Typography>
-            <Typography paragraph>
-              Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-              ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-              elementum integer enim neque volutpat ac tincidunt. Ornare
-              suspendisse sed nisi lacus sed viverra tellus. Purus sit amet
-              volutpat consequat mauris. Elementum eu facilisis sed odio morbi.
-              Euismod lacinia at quis risus sed vulputate odio. Morbi tincidunt
-              ornare massa eget egestas purus viverra accumsan in. In hendrerit
-              gravida rutrum quisque non tellus orci ac. Pellentesque nec nam
-              aliquam sem et tortor. Habitant morbi tristique senectus et.
-              Adipiscing elit duis tristique sollicitudin nibh sit. Ornare
-              aenean euismod elementum nisi quis eleifend. Commodo viverra
-              maecenas accumsan lacus vel facilisis. Nulla posuere sollicitudin
-              aliquam ultrices sagittis orci a.
-            </Typography>
-          </Box>
-        </Stack>
-      </Box>
-    ),
-  },
-  {
-    key: 'sales',
-    value: 'sales',
-    label: 'Sales',
-    children: (
-      <Box p={3}>
-        <Stack spacing={2}>
-          {/* Header */}
-          <Box>
-            <Typography variant="h4">Overview</Typography>
-            <Typography variant="body1" color="text.secondary">
-              View sales progress
-            </Typography>
-          </Box>
-        </Stack>
-      </Box>
-    ),
-  },
-  {
-    key: 'procurement',
-    value: 'procurement',
-    label: 'Procurement',
-    children: (
-      <Box p={3}>
-        <Stack spacing={2}>
-          {/* Header */}
-          <Box>
-            <Typography variant="h4">Overview</Typography>
-            <Typography variant="body1" color="text.secondary">
-              View procurement progress
-            </Typography>
-          </Box>
-        </Stack>
-      </Box>
-    ),
-  },
-]
 
 export interface DashboardLayoutProps {
   // Logo
@@ -205,8 +106,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const hasMobileHeaderLogoAvatarMobileSrc = Boolean(
     hasMobileHeader && logoAvatarProps.mobileSrc
   )
-
-  const tabs = useTabs({ tabs: MOCK_TABS })
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -317,9 +216,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             ...(!disablePadding && { p: 3 }),
           }}
         >
-          {/* Tabs */}
-          <Tabs disableGutterBottom {...tabs} />
-          <TabContent {...tabs} />
+          {children}
         </Box>
 
         {/* Right Aside */}
