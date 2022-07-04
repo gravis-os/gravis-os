@@ -22,6 +22,7 @@ import CrudAddDialog from './CrudAddDialog'
 
 export interface CrudTableHeaderProps {
   module: CrudModule
+  disableAdd?: boolean
   filterFormSections?: FormSectionsProps['sections']
   searchFormSections?: FormSectionsProps['sections']
   addFormSections?: FormSectionsProps['sections']
@@ -37,6 +38,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     filters,
     setFilters,
     module,
+    disableAdd,
     addDialogProps,
     addFormSections = [],
     searchFormSections = [],
@@ -156,17 +158,18 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           )}
 
           {/* Add Button */}
-          <Button
-            startIcon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
-            variant="contained"
-            fullWidthMobile
-            {...(hasAddFormSections
-              ? { onClick: () => setAddDialogOpen(true) }
-              : { href: `/${route.plural}/new` })}
-          >
-            Add {name.singular}
-          </Button>
-
+          {!disableAdd && (
+            <Button
+              startIcon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
+              variant="contained"
+              fullWidthMobile
+              {...(hasAddFormSections
+                ? { onClick: () => setAddDialogOpen(true) }
+                : { href: `/${route.plural}/new` })}
+            >
+              Add {name.singular}
+            </Button>
+          )}
           {/* Add Dialog */}
           <CrudAddDialog {...useAddDialogProps} {...addDialogProps} />
         </Stack>

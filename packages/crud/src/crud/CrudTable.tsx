@@ -25,6 +25,7 @@ export interface CrudTableProps {
   columnDefs?: CrudTableColumn[] | null
   setQuery?: (query) => Promise<any>
   headerProps?: Partial<CrudTableHeaderProps>
+  disableAdd?: boolean
   disableDelete?: boolean
   disableManage?: boolean
   isListPage?: boolean
@@ -44,6 +45,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     columnDefs: injectedColumnDefs,
 
     headerProps,
+    disableAdd,
     disableDelete,
     disableManage,
     setQuery,
@@ -57,7 +59,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     previewFormProps,
     addFormProps,
   } = props
-  const { table, select } = module
+  const { table } = module
   const { user } = useUser()
 
   // Filters
@@ -104,6 +106,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
         filters={filters}
         setFilters={setFilters}
         searchFormSections={searchFormSections}
+        disableAdd={disableAdd}
         filterFormSections={filterFormSections}
         addFormSections={addFormSections}
         {...headerProps}
