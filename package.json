@@ -12,7 +12,8 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "yalc:publish": "@gravis-os/ui @gravis-os/crud @gravis-os/apps @gravis-os/utils @gravis-os/storage @gravis-os/auth @gravis-os/form"
   },
   "config": {
     "commitizen": {
