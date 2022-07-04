@@ -7,6 +7,7 @@ import getCrudItemHref from './getCrudItemHref'
 const CrudPreviewDrawer = (props) => {
   const {
     disableManage,
+    disablePreview,
     isListPage,
     refetch,
     previewModule,
@@ -17,11 +18,14 @@ const CrudPreviewDrawer = (props) => {
     crudFormProps,
   } = props
 
+  // We only want to show loading state from useGetItem if CrudTable is in ListPage
+  const isOpen =
+    !disablePreview && Boolean(previewItem || (isListPage && previewLoading))
+
   return (
     <Drawer
       anchor="right"
-      // We only want to show loading state from useGetItem if CrudTable is in ListPage
-      open={Boolean(previewItem || (isListPage && previewLoading))}
+      open={isOpen}
       onClose={resetPreview}
       PaperProps={{
         sx: {
