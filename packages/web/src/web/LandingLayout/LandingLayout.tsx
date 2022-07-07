@@ -1,6 +1,5 @@
 import React from 'react'
-import { Box, Stack, StackProps } from '@gravis-os/ui'
-import Header, { HeaderProps } from '../Header'
+import { Box, Stack, StackProps, Header, HeaderProps } from '@gravis-os/ui'
 import Footer, { FooterProps } from '../Footer'
 
 export interface LandingLayoutProps extends StackProps {

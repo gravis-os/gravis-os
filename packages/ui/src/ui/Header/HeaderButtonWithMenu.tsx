@@ -21,7 +21,7 @@ import {
   bindTrigger,
   usePopupState,
 } from 'material-ui-popup-state/hooks'
-import { Link } from '@gravis-os/ui'
+import Link from '../Link'
 
 export type NavItemClickFunction = (e: React.MouseEvent, item: any) => void
 

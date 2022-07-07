@@ -49,6 +49,12 @@ export * from './Dialog'
 export { default as Drawer } from './Drawer'
 export * from './Drawer'
 
+export { default as Grid } from './Grid'
+export * from './Grid'
+
+export { default as Header } from './Header'
+export * from './Header'
+
 export { default as IconButton } from './IconButton'
 export * from './IconButton'
 
@@ -57,9 +63,6 @@ export * from './Image'
 
 export { default as Link } from './Link'
 export * from './Link'
-
-export { default as Grid } from './Grid'
-export * from './Grid'
 
 export { default as Layout } from './Layout'
 export * from './Layout'
@@ -72,6 +75,9 @@ export * from './MenuButton'
 
 export { default as MoreIconButton } from './MoreIconButton'
 export * from './MoreIconButton'
+
+export { default as NavAccordion } from './NavAccordion'
+export * from './NavAccordion'
 
 export { default as Paper } from './Paper'
 export * from './Paper'

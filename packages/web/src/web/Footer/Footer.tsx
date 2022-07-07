@@ -1,6 +1,13 @@
 import React from 'react'
-import { Box, Container, Divider, Grid, Stack, Typography } from '@gravis-os/ui'
-import NavAccordion from '../NavAccordion'
+import {
+  NavAccordion,
+  Box,
+  Container,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from '@gravis-os/ui'
 
 interface FooterNavItem {
   title: string

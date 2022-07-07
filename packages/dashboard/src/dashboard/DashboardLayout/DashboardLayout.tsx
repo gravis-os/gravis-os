@@ -17,6 +17,7 @@ export interface DashboardLayoutProps {
 
   // Default states
   defaultLeftAsideOpen?: boolean
+  defaultRightAsideOpen?: boolean
   defaultLeftSecondaryAsideOpen?: boolean
   defaultRightSecondaryAsideOpen?: boolean
 
@@ -31,50 +32,55 @@ export interface DashboardLayoutProps {
   darkLeftAside?: boolean
 
   // Aside Props
+  leftAsideListItems?: ListItemProps['items']
+  rightAsideListItems?: ListItemProps['items']
   leftAsideListItemProps?: ListItemProps
+
+  // Disables
+  disableLeftAsideCollapse?: boolean
+  disableRightAsideCollapse?: boolean
 
   children?: React.ReactNode
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const {
-    loading,
-    leftSecondaryAsideLoading,
-    logoTitle,
     logo,
-    logoAvatarProps,
-    logoLinkComponent: LogoLinkComponent = 'a',
-    logoLinkProps = { href: '/' },
-    userAvatarProps,
-    headerProps,
-    leftSecondaryAside,
-    onSearch,
-    title,
-    breadcrumbs,
     children,
-    rightAside,
-    rightAsideProps,
-    leftAsideMenu,
-    appVersion,
-    footer,
-    callout,
     defaultLeftAsideOpen = true,
     defaultRightAsideOpen = true,
     defaultLeftSecondaryAsideOpen = false,
     defaultRightSecondaryAsideOpen = true,
-    gutterBottom,
     disablePadding,
-    disablePaddingTop,
-    drawer,
-    drawerProps,
-    isDrawerVisible,
-    onDrawerClose,
     disableLeftAsideCollapse,
     disableRightAsideCollapse,
-    onLeftAsideCollapse,
-    onLeftSecondaryAsideCollapse,
-    mobileHeaderMenuItems,
-    mobileHeaderDrawerProps,
+
+    // loading,
+    // leftSecondaryAsideLoading,
+    // logoTitle,
+    // logoLinkProps = { href: '/' },
+    // userAvatarProps,
+    // headerProps,
+    // leftSecondaryAside,
+    // onSearch,
+    // title,
+    // breadcrumbs,
+    // rightAside,
+    // rightAsideProps,
+    // leftAsideMenu,
+    // appVersion,
+    // footer,
+    // callout,
+    // gutterBottom,
+    // disablePaddingTop,
+    // drawer,
+    // drawerProps,
+    // isDrawerVisible,
+    // onDrawerClose,
+    // onLeftAsideCollapse,
+    // onLeftSecondaryAsideCollapse,
+    // mobileHeaderDrawerProps,
+    // mobileHeaderMenuItems,
 
     isMiniVariant,
     leftAsideListItems,
@@ -114,10 +120,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   // Booleans
   const isLeftAsideOpen = disableLeftAsideCollapse || leftAsideOpen
   const isRightAsideOpen = disableRightAsideCollapse || rightAsideOpen
-  const hasMobileHeader = mobileHeaderMenuItems && !isDesktop
-  const hasMobileHeaderLogoAvatarMobileSrc = Boolean(
-    hasMobileHeader && logoAvatarProps.mobileSrc
-  )
 
   return (
     <Box sx={{ display: 'flex' }}>
@@ -185,6 +187,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         <ResponsiveDrawer
           dark={darkLeftAside}
           width={
+            // eslint-disable-next-line no-nested-ternary
             isMiniVariant
               ? isLeftAsideOpen
                 ? leftAsideWidth
