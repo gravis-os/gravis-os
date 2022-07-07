@@ -62,6 +62,10 @@ export const GravisTheme = (args) => {
   )
 }
 GravisTheme.args = {
+  headerProps: {
+    ...MOCK_HEADER_PROPS,
+    transparent: true,
+  },
   blocks: [
     {
       key: 'hero',

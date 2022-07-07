@@ -1,7 +1,14 @@
 import React, { useEffect, useState } from 'react'
 import { AppBar, Toolbar, useMediaQuery, useTheme } from '@mui/material'
-import { Box, IconButton, List, ListItemProps } from '@gravis-os/ui'
-
+import {
+  Box,
+  IconButton,
+  List,
+  ListItemProps,
+  Header,
+  HeaderProps,
+  MOCK_DASHBOARD_HEADER_PROPS,
+} from '@gravis-os/ui'
 import MenuIcon from '@mui/icons-material/Menu'
 import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
@@ -39,6 +46,8 @@ export interface DashboardLayoutProps {
   // Disables
   disableLeftAsideCollapse?: boolean
   disableRightAsideCollapse?: boolean
+
+  headerProps?: HeaderProps
 
   children?: React.ReactNode
 }
@@ -88,6 +97,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     disableClipUnderAppBar,
     darkLeftAside,
     leftAsideListItemProps,
+    headerProps,
   } = props
 
   // States
@@ -121,13 +131,18 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const isLeftAsideOpen = disableLeftAsideCollapse || leftAsideOpen
   const isRightAsideOpen = disableRightAsideCollapse || rightAsideOpen
 
+  const layoutProps = {
+    leftAsideOpen,
+    setLeftAsideOpen,
+    isLeftAsideOpen,
+  }
+
   return (
     <Box sx={{ display: 'flex' }}>
-      {/* Header */}
-      <AppBar
+      <Header
         position="fixed"
+        {...headerProps}
         sx={{
-          zIndex: (theme) => theme.zIndex.drawer + 1,
           ...(disableClipUnderAppBar && {
             left: leftAsideOpen ? leftAsideWidth : miniVariantWidth,
             width: leftAsideOpen
@@ -138,36 +153,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               duration: theme.transitions.duration.leavingScreen,
             }),
           }),
+          ...headerProps?.sx,
         }}
-      >
-        <Toolbar>
-          {/* Left Menu Icon */}
-          <IconButton
-            color="inherit"
-            edge="start"
-            onClick={() => setLeftAsideOpen(!leftAsideOpen)}
-            sx={{ mr: 1 }}
-          >
-            {isLeftAsideOpen ? <MenuOpenOutlinedIcon /> : <MenuIcon />}
-          </IconButton>
-
-          {/* Logo */}
-          <Box sx={{ flexGrow: 1 }}>{logo}</Box>
-
-          {/* Right Menu Icon */}
-          <IconButton
-            color="inherit"
-            edge="end"
-            onClick={() => setRightAsideOpen(!rightAsideOpen)}
-          >
-            <InfoOutlinedIcon />
-          </IconButton>
-        </Toolbar>
-      </AppBar>
+        renderProps={layoutProps}
+      />
 
       {/* Body */}
       <Box
         sx={{
+          zIndex: (theme) => theme.zIndex.appBar - 1,
           display: 'flex',
           flex: '1 1 auto',
           maxWidth: '100%',

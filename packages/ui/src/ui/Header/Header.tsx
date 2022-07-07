@@ -1,5 +1,4 @@
 import React from 'react'
-import Headroom from 'react-headroom'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
@@ -7,27 +6,30 @@ import {
   AppBarProps,
   Box,
   Button,
-  Container,
+  ButtonProps,
   IconButton,
   List,
   SwipeableDrawer,
   Toolbar,
+  ToolbarProps,
 } from '@mui/material'
 import RouterLink from 'next/link'
 import { SxProps } from '@mui/system'
-import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
+import HeaderSearch from './HeaderSearch'
 import NavAccordion from '../NavAccordion'
 import HeaderButtonWithMenu, {
   HeaderButtonWithMenuProps,
   NavItemClickFunction,
 } from './HeaderButtonWithMenu'
+import Container, { ContainerProps } from '../Container'
+import HideOnScroll from './HideOnScroll'
 
 // Constants
 const DRAWER_ANCHOR_POSITION = 'right'
-const DRAWER_WIDTH = 250
+const DRAWER_WIDTH = 320
 
 // Presets
-export const NAV_ITEM_SEARCH_PRESET = 'NAV_ITEM_SEARCH_PRESET'
+export const NAV_ITEM_SEARCH_PRESET = 'search'
 
 interface HeaderNavItem extends HeaderButtonWithMenuProps {
   // Clicks
@@ -41,14 +43,12 @@ interface HeaderNavItem extends HeaderButtonWithMenuProps {
   hideInMobileDrawer?: boolean
   showInMobileBar?: boolean
   preset?: any // NavItemSearchPreset
-}
-
-// Presets
-interface NavItemSearchPreset extends HeaderSearchProps {
-  type: typeof NAV_ITEM_SEARCH_PRESET
+  render?: any
 }
 
 export interface HeaderProps extends AppBarProps {
+  containerProps?: ContainerProps
+  toolbarProps?: ToolbarProps
   navItems:
     | HeaderNavItem[]
     | {
@@ -59,10 +59,20 @@ export interface HeaderProps extends AppBarProps {
   logo?: React.ElementType
   transparent?: boolean
   disableBoxShadow?: boolean
+  renderProps?: any
 }
 
 const Header: React.FC<HeaderProps> = (props) => {
-  const { disableBoxShadow, transparent, logo: Logo, navItems, ...rest } = props
+  const {
+    containerProps,
+    toolbarProps,
+    disableBoxShadow,
+    transparent,
+    logo: Logo,
+    navItems,
+    renderProps,
+    ...rest
+  } = props
 
   // State
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
@@ -82,7 +92,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     const { type, ...presetProps } = preset
 
     switch (type) {
-      case NAV_ITEM_SEARCH_PRESET:
+      case 'search':
         return <HeaderSearch {...presetProps} />
       default:
         return null
@@ -92,60 +102,65 @@ const Header: React.FC<HeaderProps> = (props) => {
     if (!Array.isArray(navItems)) return null
 
     return navItems.map((navItem: HeaderNavItem) => {
-      const { name, children, showInMobileBar, preset } = navItem
-
-      // Get key
-      const key = name
+      const { key, children, showInMobileBar, preset, render } = navItem
 
       // Get classes
       const navItemWrapperProps = {
         key,
         sx: {
-          display: { xs: 'none', md: 'block' },
-          ...(showInMobileBar && { display: 'block' }),
+          display: { xs: 'none', md: 'flex' },
+          ...(showInMobileBar && { display: 'flex' }),
         },
       }
 
       switch (true) {
+        case Boolean(render):
+          return (
+            <Box component="div" alignItems="center" {...navItemWrapperProps}>
+              {render({ ...renderProps, navItem })}
+            </Box>
+          )
         // Render children override
         case Boolean(children):
           return (
-            <Box component="div" {...navItemWrapperProps}>
+            <Box component="div" alignItems="center" {...navItemWrapperProps}>
               {children}
             </Box>
           )
         // Render presets
         case Boolean(preset):
           return (
-            <Box component="div" {...navItemWrapperProps}>
+            <Box component="div" alignItems="center" {...navItemWrapperProps}>
               {renderPreset(navItem)}
             </Box>
           )
         // Render children
         default:
           const renderHeaderNavItemButton = (navItem: HeaderNavItem) => {
-            const { ButtonProps, onClick: injectedOnClick, ...rest } = navItem
+            const { buttonProps, onClick: injectedOnClick, ...rest } = navItem
             const { items, renderItems } = rest
 
             // Render nested menu if hasItems
             const hasNestedMenu = items?.length > 0 || Boolean(renderItems)
 
             // Calculate button props
-            const nextButtonProps = {
-              ...ButtonProps,
+            const nextButtonProps: ButtonProps = {
+              ...buttonProps,
               sx: {
-                ...ButtonProps?.sx,
+                ...buttonProps?.sx,
                 padding: (theme) => theme.spacing(1.5, 2),
                 borderRadius: 0,
+                whiteSpace: 'nowrap',
               },
+              ...(injectedOnClick && {
+                onClick: (e) => injectedOnClick(e, navItem),
+              }),
             }
-            if (injectedOnClick)
-              nextButtonProps.onClick = (e) => injectedOnClick(e, navItem)
 
             const navItemButtonJsx = hasNestedMenu ? (
               <HeaderButtonWithMenu
-                ButtonProps={nextButtonProps}
-                name={key}
+                key={key}
+                buttonProps={nextButtonProps}
                 {...rest}
               />
             ) : (
@@ -192,7 +207,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     return mobileNavItems.map((navItem) => {
       // Omit redundant props
       const {
-        name,
+        key,
         isOpenOnHover,
         onClick: injectedOnClick,
         renderItems,
@@ -203,12 +218,11 @@ const Header: React.FC<HeaderProps> = (props) => {
         ...accordionLinksNavItem
       } = navItem
 
-      const key = name
-
-      if (preset)
+      if (preset) {
         return (
           <React.Fragment key={key}>{renderPreset(navItem)}</React.Fragment>
         )
+      }
 
       return (
         <NavAccordion
@@ -224,35 +238,47 @@ const Header: React.FC<HeaderProps> = (props) => {
   }
 
   // Sx
-  const navItemGroupSx = { display: 'flex', alignItems: 'center' }
+  const navItemGroupSx = { display: 'flex', alignItems: 'stretch' }
 
   return (
-    <Box component={Headroom} sx={{ position: 'relative', zIndex: 'appBar' }}>
+    <HideOnScroll threshold={10}>
       <AppBar
         position={transparent ? 'absolute' : 'sticky'}
-        color={transparent ? 'transparent' : 'inherit'}
+        {...(transparent && { color: 'transparent' })}
         {...rest}
         sx={{
+          zIndex: (theme) => theme.zIndex.appBar + 1,
+          width: '100%',
+
+          // Scroll
+          overflowX: 'scroll',
+          overflowY: 'hidden',
+          '&::-webkit-scrollbar': { display: 'none' },
+
           boxShadow: disableBoxShadow
             ? 'none'
             : '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
-          color: transparent ? 'white' : 'inherit',
+          ...(transparent && { color: 'white' }),
           ...rest?.sx,
         }}
       >
-        <Container>
+        <Container {...containerProps}>
           <Toolbar
             disableGutters
             variant="dense"
-            sx={{ justifyContent: 'space-between' }}
+            {...toolbarProps}
+            sx={{
+              justifyContent: 'space-between',
+              alignItems: 'stretch',
+              ...toolbarProps?.sx,
+            }}
           >
             {/* Left */}
-            <Box display="flex" alignItems="center">
-              {Logo && <Logo />}
-              {isGroupedNavItems && (
-                <Box ml={Logo ? 2 : -2} sx={navItemGroupSx}>
-                  {renderNavItems('left' in navItems && navItems.left)}
-                </Box>
+            <Box sx={navItemGroupSx}>
+              {renderNavItems(
+                isGroupedNavItems
+                  ? 'left' in navItems && navItems.left
+                  : navItems
               )}
             </Box>
 
@@ -284,7 +310,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             </Box>
 
             {/* Hamburger menu */}
-            <Box sx={{ display: { xs: 'block', md: 'none' } }}>
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton
                 edge="end"
                 color="inherit"
@@ -323,7 +349,7 @@ const Header: React.FC<HeaderProps> = (props) => {
           </Box>
         </SwipeableDrawer>
       </AppBar>
-    </Box>
+    </HideOnScroll>
   )
 }
 

@@ -1,8 +1,8 @@
 import merge from 'lodash/merge'
+import { baseTheme } from '@gravis-os/ui'
 import landingTheme from './landingTheme'
 import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
 import InterBold from '../../../public/fonts/Inter/Inter-Bold.ttf'
-import baseTheme from '../Base/baseTheme'
 
 const headerFontFamily =
   "Inter, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"

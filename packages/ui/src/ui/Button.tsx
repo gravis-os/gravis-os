@@ -9,13 +9,14 @@ import withHref from './withHref'
 import withTooltip from './withTooltip'
 import CircularProgress from './CircularProgress'
 
-export interface ButtonProps extends MuiButtonProps {
+export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   title?: string
   href?: string
   component?: React.JSXElementConstructor<any> | string
   fullWidthOnMobile?: boolean
   tooltip?: string
   loading?: boolean
+  variant?: 'contained' | 'outlined' | 'text' | 'paper'
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -27,17 +28,27 @@ const Button: React.FC<ButtonProps> = (props) => {
     title,
     children,
     sx,
+    variant,
     ...rest
   } = props
+  const { color } = rest
 
+  const isCustomVariant = ['paper'].includes(variant)
   const buttonProps = loading ? omit(rest, ['startIcon', 'endIcon']) : rest
-
   const childrenJsxContent = children || title
   const childrenJsx = (
     <MuiButton
+      variant={isCustomVariant ? 'text' : variant}
       sx={{
         ...(fullWidthOnMobile && {
           width: { xs: '100%', md: 'initial' },
+        }),
+        ...(variant === 'paper' && {
+          backgroundColor: 'background.paper',
+          '&:hover': {
+            backgroundColor: 'background.paper',
+            color: `${color || 'primary'}.dark`,
+          },
         }),
         ...sx,
       }}

@@ -1,6 +1,9 @@
 import React from 'react'
 import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
-import Typography from '../ui/Typography'
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
+import AccountCircleIcon from '@mui/icons-material/AccountCircle'
+import { Badge, Box, Button, ButtonProps, Stack, Typography } from '../ui'
 
 export const MOCK_LIST_ITEMS = [
   {
@@ -52,7 +55,10 @@ export const MOCK_NESTED_LIST_ITEMS = [
 ]
 
 export const MOCK_LOGO_JSX = (
-  <Typography fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: 1 }}>
+  <Typography
+    fontWeight="bold"
+    sx={{ lineHeight: 1, letterSpacing: 1, color: 'inherit' }}
+  >
     LOGO
   </Typography>
 )
@@ -71,11 +77,11 @@ export const MOCK_HEADER_PROPS = {
   disableBoxShadow: true,
   navItems: [
     {
-      name: 'foo',
+      key: 'foo',
       title: 'Foo',
       onClick: () => window.alert('You clicked on Foo'),
     },
-    { name: 'bar', title: 'Bar', href: '#' },
+    { key: 'bar', title: 'Bar', href: '#' },
   ],
 }
 
@@ -99,4 +105,183 @@ export const MOCK_SUB_HEADER_PROPS = {
     title: 'View Pricing',
     href: '/',
   },
+}
+
+const handleRecursiveNavItemClick = (e, item) =>
+  window.alert(`You clicked on: ${item.title}`)
+
+export const MOCK_HEADER_NAV_ITEMS = {
+  left: [
+    {
+      key: 'search',
+      title: 'Search',
+      preset: {
+        type: 'search',
+        onSearch: (searchValue) => window.alert(`Searched: ${searchValue}`),
+      },
+    },
+    {
+      key: 'shop',
+      title: 'Shop',
+      items: [
+        {
+          title: 'foo',
+          onClick: handleRecursiveNavItemClick,
+        },
+        {
+          title: 'bar',
+          href: '#',
+        },
+        {
+          title: 'baz',
+          href: '#',
+        },
+      ],
+    },
+    {
+      key: 'disable-backdrop',
+      title: 'Disable Backdrop',
+      items: [
+        {
+          title: 'foo',
+          onClick: handleRecursiveNavItemClick,
+        },
+        {
+          title: 'bar',
+          href: '#',
+        },
+        {
+          title: 'baz',
+          href: '#',
+        },
+      ],
+      disableBackdrop: true,
+    },
+    {
+      key: 'onclick-mega-list',
+      title: 'onClick Mega List',
+      fullWidth: true,
+      items: [
+        {
+          title: 'alpha',
+          onClick: handleRecursiveNavItemClick,
+        },
+        {
+          title: 'bravo',
+          href: '#',
+        },
+        {
+          title: 'charlie',
+          href: '#',
+        },
+      ],
+    },
+    {
+      key: 'onclick-mega-menu',
+      title: 'onClick Mega Menu',
+      fullWidth: true,
+      renderItems: ({ popupState }) => {
+        return (
+          <Box sx={{ p: 5, textAlign: 'center' }}>
+            <Button onClick={() => popupState.close()}>Close</Button>
+          </Box>
+        )
+      },
+    },
+  ],
+  right: [
+    {
+      key: 'notifications',
+      title: (
+        <Badge badgeContent={4} color="error">
+          <NotificationsNoneIcon />
+        </Badge>
+      ),
+      isOpenOnHover: true,
+      onClick: () => window.alert('You clicked on notifications'),
+      renderItems: ({ popupState }) => {
+        return (
+          <Box sx={{ p: 5, textAlign: 'center' }}>
+            <Button onClick={() => popupState.close()}>Close</Button>
+          </Box>
+        )
+      },
+      hideInMobileDrawer: true,
+      showInMobileBar: true,
+    },
+    {
+      key: 'cart',
+      title: (
+        <Badge badgeContent={4} color="error">
+          <ShoppingCartOutlinedIcon />
+        </Badge>
+      ),
+      renderItems: ({ popupState }) => {
+        return (
+          <Box sx={{ minWidth: 200, p: 1 }}>
+            <div>
+              <h3>Shopping Cart</h3>
+              <ul>
+                <li>Item 1</li>
+                <li>Item 2</li>
+                <li>Item 3</li>
+              </ul>
+            </div>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={() => popupState.close()}
+            >
+              Close
+            </Button>
+          </Box>
+        )
+      },
+      hideInMobileDrawer: true,
+      showInMobileBar: true,
+    },
+    {
+      key: 'profile',
+      title: (
+        <Stack direction="row" alignItems="center" spacing={1}>
+          <AccountCircleIcon />
+          <Typography variant="button" color="inherit">
+            Sally Gullerimo
+          </Typography>
+        </Stack>
+      ),
+      items: [
+        {
+          title: 'foo',
+          onClick: handleRecursiveNavItemClick,
+        },
+        {
+          title: 'bar',
+          href: '#',
+        },
+        {
+          title: 'baz',
+          href: '#',
+        },
+      ],
+      showInMobileBar: true,
+    },
+    {
+      key: 'login/signup',
+      title: 'login/signup',
+      children: (
+        <Button size="small" variant="paper">
+          Get Started
+        </Button>
+      ),
+    },
+  ],
+}
+
+export const MOCK_DASHBOARD_HEADER_PROPS = {
+  disableBoxShadow: true,
+  navItems: MOCK_HEADER_NAV_ITEMS,
+  color: 'primary',
+  containerProps: { maxWidth: false },
+  toolbarProps: { variant: 'regular' },
 }

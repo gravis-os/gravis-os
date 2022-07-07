@@ -6,7 +6,6 @@ import {
   Button,
   ButtonProps,
   Collapse,
-  Container,
   IconButton,
   Link,
   Toolbar,
@@ -15,6 +14,7 @@ import {
 } from '@mui/material'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
 import RouterLink from 'next/link'
+import Container, { ContainerProps } from '../Container'
 
 interface SubHeaderButton {
   title: string
@@ -27,10 +27,11 @@ export interface SubHeaderProps extends Omit<AppBarProps, 'color' | 'title'> {
   button?: SubHeaderButton
   links?: SubHeaderButton[]
   blend?: 'light' | 'dark'
+  containerProps?: ContainerProps
 }
 
 const SubHeader: React.FC<SubHeaderProps> = (props) => {
-  const { blend = 'light', links, title, button } = props
+  const { containerProps, blend = 'light', links, title, button } = props
 
   // isMobileMenuOpen state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -77,7 +78,7 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
         }}
       >
-        <Container>
+        <Container {...containerProps}>
           <Toolbar variant="dense">
             {/* Title */}
             <Box sx={{ flexGrow: 1 }}>

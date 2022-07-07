@@ -7,7 +7,11 @@ import MOCK_DEVICE_FLATLAY_IMAGE_2 from '../../public/images/mock_device_flatlay
 import { BlockItemTypeEnum } from '../web/Block/BlockItem'
 
 export const MOCK_LOGO_JSX = (
-  <Typography fontWeight="bold" sx={{ lineHeight: 1, letterSpacing: 1 }}>
+  <Typography
+    color="inherit"
+    fontWeight="bold"
+    sx={{ lineHeight: 1, letterSpacing: 1 }}
+  >
     LOGO
   </Typography>
 )
@@ -32,11 +36,11 @@ export const MOCK_HEADER_PROPS = {
   disableBoxShadow: true,
   navItems: [
     {
-      name: 'foo',
+      key: 'foo',
       title: 'Foo',
       onClick: () => window.alert('You clicked on Foo'),
     },
-    { name: 'bar', title: 'Bar', href: '#' },
+    { key: 'bar', title: 'Bar', href: '#' },
   ],
 }
 

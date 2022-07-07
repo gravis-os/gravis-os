@@ -1,5 +1,5 @@
 export default {
-  headerHeight: 64,
+  headerHeight: 56,
   leftAsideWidth: 350,
   rightAsideWidth: 280,
   miniVariantListItemMinHeight: 48,

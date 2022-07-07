@@ -32,7 +32,7 @@ export interface RecursiveNavItemInterface {
 }
 
 export interface HeaderButtonWithMenuProps {
-  name: string
+  key: string
   title: string | React.ReactElement
 
   items?: RecursiveNavItemInterface[]
@@ -40,20 +40,20 @@ export interface HeaderButtonWithMenuProps {
 
   isOpenOnHover?: boolean
   fullWidth?: boolean
-  ButtonProps?: ButtonProps
+  buttonProps?: ButtonProps
   disableBackdrop?: boolean
 }
 
 const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
   const {
     disableBackdrop,
-    name,
+    key,
     title,
     items,
     renderItems,
     fullWidth,
     isOpenOnHover,
-    ButtonProps,
+    buttonProps,
   } = props
 
   // Refs
@@ -61,7 +61,7 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
   const containerRef = React.useRef(null)
 
   // Popper
-  const popupState = usePopupState({ variant: 'popper', popupId: name })
+  const popupState = usePopupState({ variant: 'popper', popupId: key })
 
   const bindAction = isOpenOnHover ? bindHover : bindTrigger
   const Transition = fullWidth ? Slide : Grow
@@ -134,7 +134,7 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
         {...bindAction(popupState)}
         color="inherit"
         endIcon={<ArrowDropDownOutlinedIcon />}
-        {...ButtonProps}
+        {...buttonProps}
       >
         {title}
       </Button>

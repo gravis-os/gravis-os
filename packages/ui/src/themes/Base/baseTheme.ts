@@ -5,6 +5,7 @@ const muiLightTheme = responsiveFontSizes(createTheme())
 const muiDarkTheme = responsiveFontSizes(
   createTheme({ palette: { mode: 'dark' } })
 )
+const muiDefaultTheme = muiLightTheme
 
 const baseThemeConfig = {
   typography: {
@@ -35,6 +36,13 @@ const baseThemeConfig = {
     MuiToolbar: {
       defaultProps: {
         disableGutters: true,
+      },
+      styleOverrides: {
+        regular: {
+          [muiDefaultTheme.breakpoints.up('sm')]: {
+            minHeight: 56,
+          },
+        },
       },
     },
     MuiTypography: {

@@ -7,9 +7,14 @@ import {
   TabContent,
   Tabs,
   useTabs,
+  MOCK_DASHBOARD_HEADER_PROPS,
+  IconButton,
 } from '@gravis-os/ui'
-import DashboardLayout from './DashboardLayout'
+import MenuIcon from '@mui/icons-material/Menu'
+import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import { MOCK_TABS, MOCK_LOGO_JSX, MOCK_LIST_ITEMS } from '../../mocks'
+import DashboardLayout from './DashboardLayout'
 
 const DashboardLayoutChildren = (props) => {
   const tabs = useTabs({ tabs: MOCK_TABS })
@@ -31,6 +36,31 @@ export default {
     leftAsideListItems: MOCK_LIST_ITEMS,
     children: <DashboardLayoutChildren />,
     rightAsideListItems: MOCK_LIST_ITEMS,
+    headerProps: {
+      ...MOCK_DASHBOARD_HEADER_PROPS,
+      navItems: {
+        ...MOCK_DASHBOARD_HEADER_PROPS.navItems,
+        left: [
+          {
+            key: 'left-aside-menu-toggle',
+            render: (props) => {
+              const { setLeftAsideOpen, leftAsideOpen, isLeftAsideOpen } = props
+              return (
+                <IconButton
+                  color="inherit"
+                  edge="start"
+                  onClick={() => setLeftAsideOpen(!leftAsideOpen)}
+                  sx={{ mr: 1 }}
+                >
+                  {isLeftAsideOpen ? <MenuOpenOutlinedIcon /> : <MenuIcon />}
+                </IconButton>
+              )
+            },
+          },
+          ...MOCK_DASHBOARD_HEADER_PROPS.navItems.left,
+        ],
+      },
+    },
   },
 }
 
