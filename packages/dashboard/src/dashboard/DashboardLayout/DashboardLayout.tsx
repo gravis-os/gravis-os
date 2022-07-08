@@ -135,6 +135,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     leftAsideOpen,
     setLeftAsideOpen,
     isLeftAsideOpen,
+    rightAsideOpen,
+    setRightAsideOpen,
+    isRightAsideOpen,
   }
 
   return (

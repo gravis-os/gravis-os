@@ -56,7 +56,6 @@ export interface HeaderProps extends AppBarProps {
         center?: HeaderNavItem[]
         right?: HeaderNavItem[]
       }
-  logo?: React.ElementType
   transparent?: boolean
   disableBoxShadow?: boolean
   renderProps?: any
@@ -68,7 +67,6 @@ const Header: React.FC<HeaderProps> = (props) => {
     toolbarProps,
     disableBoxShadow,
     transparent,
-    logo: Logo,
     navItems,
     renderProps,
     ...rest
@@ -110,6 +108,7 @@ const Header: React.FC<HeaderProps> = (props) => {
         sx: {
           display: { xs: 'none', md: 'flex' },
           ...(showInMobileBar && { display: 'flex' }),
+          '& > button': { whiteSpace: 'nowrap' },
         },
       }
 

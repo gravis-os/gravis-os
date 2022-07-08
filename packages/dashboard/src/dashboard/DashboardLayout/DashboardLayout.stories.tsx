@@ -39,7 +39,6 @@ export default {
     headerProps: {
       ...MOCK_DASHBOARD_HEADER_PROPS,
       navItems: {
-        ...MOCK_DASHBOARD_HEADER_PROPS.navItems,
         left: [
           {
             key: 'left-aside-menu-toggle',
@@ -58,6 +57,24 @@ export default {
             },
           },
           ...MOCK_DASHBOARD_HEADER_PROPS.navItems.left,
+        ],
+        right: [
+          ...MOCK_DASHBOARD_HEADER_PROPS.navItems.right,
+          {
+            key: 'right-aside-menu-toggle',
+            render: (props) => {
+              const { setRightAsideOpen, rightAsideOpen } = props
+              return (
+                <IconButton
+                  color="inherit"
+                  edge="end"
+                  onClick={() => setRightAsideOpen(!rightAsideOpen)}
+                >
+                  <InfoOutlinedIcon />
+                </IconButton>
+              )
+            },
+          },
         ],
       },
     },
