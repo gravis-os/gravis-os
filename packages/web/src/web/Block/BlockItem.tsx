@@ -335,6 +335,7 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
               borderRadius: 5,
               pt: 6,
               pb: 4,
+              overflow: 'hidden',
               ...cardItem.cardProps?.sx,
             },
           },
