@@ -3,7 +3,7 @@ import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import { Badge, Box, Button, ButtonProps, Stack, Typography } from '../ui'
+import { Badge, Box, Button, Stack, Typography } from '../ui'
 
 export const MOCK_LIST_ITEMS = [
   {
@@ -73,9 +73,16 @@ export const MOCK_NAV_ACCORDION_ITEMS = [
 ]
 
 export const MOCK_HEADER_PROPS = {
-  logo: () => MOCK_LOGO_JSX,
   disableBoxShadow: true,
   navItems: [
+    {
+      key: 'logo',
+      title: 'Logo',
+      children: MOCK_LOGO_JSX,
+      onClick: () => window.alert('You clicked on Foo'),
+      sx: { mr: 1 },
+      showOnMobileBar: true,
+    },
     {
       key: 'foo',
       title: 'Foo',
@@ -112,6 +119,7 @@ const handleRecursiveNavItemClick = (e, item) =>
 
 export const MOCK_HEADER_NAV_ITEMS = {
   left: [
+    MOCK_HEADER_PROPS.navItems[0],
     {
       key: 'search',
       title: 'Search',
@@ -207,7 +215,7 @@ export const MOCK_HEADER_NAV_ITEMS = {
         )
       },
       hideInMobileDrawer: true,
-      showInMobileBar: true,
+      showOnMobileBar: true,
     },
     {
       key: 'cart',
@@ -238,7 +246,7 @@ export const MOCK_HEADER_NAV_ITEMS = {
         )
       },
       hideInMobileDrawer: true,
-      showInMobileBar: true,
+      showOnMobileBar: true,
     },
     {
       key: 'profile',
@@ -264,7 +272,7 @@ export const MOCK_HEADER_NAV_ITEMS = {
           href: '#',
         },
       ],
-      showInMobileBar: true,
+      showOnMobileBar: true,
     },
     {
       key: 'login/signup',
@@ -279,9 +287,8 @@ export const MOCK_HEADER_NAV_ITEMS = {
 }
 
 export const MOCK_DASHBOARD_HEADER_PROPS = {
+  containerProps: { maxWidth: false },
   disableBoxShadow: true,
   navItems: MOCK_HEADER_NAV_ITEMS,
-  color: 'primary',
-  containerProps: { maxWidth: false },
   toolbarProps: { variant: 'regular' },
 }

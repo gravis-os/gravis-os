@@ -41,9 +41,9 @@ interface HeaderNavItem extends HeaderButtonWithMenuProps {
 
   // Custom
   hideInMobileDrawer?: boolean
-  showInMobileBar?: boolean
+  showOnMobileBar?: boolean
   preset?: any // NavItemSearchPreset
-  render?: any
+  render?: (renderProps: any) => React.ReactNode
 }
 
 export interface HeaderProps extends AppBarProps {
@@ -59,6 +59,8 @@ export interface HeaderProps extends AppBarProps {
   transparent?: boolean
   disableBoxShadow?: boolean
   renderProps?: any
+  darkText?: boolean
+  center?: boolean
 }
 
 const Header: React.FC<HeaderProps> = (props) => {
@@ -69,6 +71,8 @@ const Header: React.FC<HeaderProps> = (props) => {
     transparent,
     navItems,
     renderProps,
+    darkText,
+    center,
     ...rest
   } = props
 
@@ -100,19 +104,21 @@ const Header: React.FC<HeaderProps> = (props) => {
     if (!Array.isArray(navItems)) return null
 
     return navItems.map((navItem: HeaderNavItem) => {
-      const { key, children, showInMobileBar, preset, render } = navItem
+      const { key, children, showOnMobileBar, preset, render, sx } = navItem
 
       // Get classes
       const navItemWrapperProps = {
         key,
         sx: {
           display: { xs: 'none', md: 'flex' },
-          ...(showInMobileBar && { display: 'flex' }),
+          ...(showOnMobileBar && { display: 'flex' }),
           '& > button': { whiteSpace: 'nowrap' },
+          ...sx,
         },
       }
 
       switch (true) {
+        // Render with renderProps to access state
         case Boolean(render):
           return (
             <Box component="div" alignItems="center" {...navItemWrapperProps}>
@@ -213,7 +219,7 @@ const Header: React.FC<HeaderProps> = (props) => {
         fullWidth,
         preset,
         hideInMobileDrawer,
-        showInMobileBar,
+        showOnMobileBar,
         ...accordionLinksNavItem
       } = navItem
 
@@ -254,10 +260,14 @@ const Header: React.FC<HeaderProps> = (props) => {
           overflowY: 'hidden',
           '&::-webkit-scrollbar': { display: 'none' },
 
+          // Box Shadow
           boxShadow: disableBoxShadow
             ? 'none'
             : '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
-          ...(transparent && { color: 'white' }),
+
+          // Transparent
+          ...(transparent && !darkText && { color: 'white' }),
+
           ...rest?.sx,
         }}
       >
@@ -289,6 +299,14 @@ const Header: React.FC<HeaderProps> = (props) => {
                 justifyContent: 'center',
                 textAlign: 'center',
                 '& > *': { width: '100%' },
+
+                // Flex box if we pass in center: true
+                ...(center && {
+                  '& > .MuiBox-root': {
+                    justifyContent: 'center',
+                  },
+                }),
+
                 ...(hasNavItemCenterGroup && {
                   marginLeft: { xs: 6, md: 2 },
                   marginRight: 2,
@@ -300,11 +318,20 @@ const Header: React.FC<HeaderProps> = (props) => {
             </Box>
 
             {/* Right */}
-            <Box sx={navItemGroupSx}>
+            <Box
+              sx={{
+                ...navItemGroupSx,
+
+                // Flex box if we pass in center: true
+                ...(center && {
+                  '& > .MuiBox-root': {
+                    justifyContent: 'flex-end',
+                  },
+                }),
+              }}
+            >
               {renderNavItems(
-                isGroupedNavItems
-                  ? 'right' in navItems && navItems.right
-                  : navItems
+                isGroupedNavItems && 'right' in navItems && navItems.right
               )}
             </Box>
 

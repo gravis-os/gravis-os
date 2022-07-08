@@ -2,6 +2,7 @@ import React from 'react'
 import { useDarkMode } from 'storybook-dark-mode'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import { CssBaseline } from '@mui/material'
+import { MOCK_HEADER_PROPS } from '@gravis-os/ui'
 import LandingLayout from './LandingLayout'
 import {
   MOCK_BLOCK_ALTERNATE_WING_GRID,
@@ -9,7 +10,6 @@ import {
   MOCK_BLOCK_ITEM_TYPES,
   MOCK_CARD_ITEMS,
   MOCK_FOOTER_PROPS,
-  MOCK_HEADER_PROPS,
   MOCK_RIGHT_WING_GRID_ITEMS,
 } from '../../mocks'
 import Blocks from '../Block/Blocks'
@@ -65,6 +65,7 @@ GravisTheme.args = {
   headerProps: {
     ...MOCK_HEADER_PROPS,
     transparent: true,
+    darkText: true,
   },
   blocks: [
     {

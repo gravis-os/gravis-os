@@ -31,19 +31,6 @@ export const MOCK_NAV_ACCORDION_ITEMS = [
   { key: 'baz', title: 'Baz', href: '/' },
 ]
 
-export const MOCK_HEADER_PROPS = {
-  logo: () => MOCK_LOGO_JSX,
-  disableBoxShadow: true,
-  navItems: [
-    {
-      key: 'foo',
-      title: 'Foo',
-      onClick: () => window.alert('You clicked on Foo'),
-    },
-    { key: 'bar', title: 'Bar', href: '#' },
-  ],
-}
-
 export const MOCK_FOOTER_PROPS = {
   logo: MOCK_LOGO_JSX,
   companyName: 'Acme Inc.',

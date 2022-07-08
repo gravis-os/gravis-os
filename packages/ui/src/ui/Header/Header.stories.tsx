@@ -1,12 +1,12 @@
 import React from 'react'
-import { Badge, Box, Button, ButtonProps } from '@mui/material'
+import { Badge, Box } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import Header, { NAV_ITEM_SEARCH_PRESET } from './Header'
+import Button, { ButtonProps } from '../Button'
 import SubHeader from './SubHeader'
 import {
   MOCK_HEADER_PROPS,
-  MOCK_HEADER_NAV_ITEMS,
   MOCK_SUB_HEADER_PROPS,
   MOCK_DASHBOARD_HEADER_PROPS,
   MOCK_LOGO_JSX,
@@ -15,6 +15,7 @@ import {
 export default {
   component: Header,
   parameters: { layout: 'fullscreen' },
+  args: { ...MOCK_HEADER_PROPS },
 }
 
 const handleRecursiveNavItemClick = (e, item) =>
@@ -23,234 +24,206 @@ const handleRecursiveNavItemClick = (e, item) =>
 const defaultButtonProps = {
   size: 'small' as ButtonProps['size'],
   onClick: () => window.alert('Clicked'),
-  variant: 'contained' as ButtonProps['variant'],
-}
+  variant: 'paper',
+} as const
 
 // Stories
-export const Basic = (props) => <Header {...MOCK_HEADER_PROPS} {...props} />
+export const Basic = (props) => <Header {...props} />
 
-export const Transparent = (props) => (
+export const Transparent = (props) => <Header {...props} />
+Transparent.args = { transparent: true, darkText: true }
+
+export const TransparentOnBackground = (props) => (
   <>
-    <Header {...MOCK_HEADER_PROPS} {...props} transparent />
-    <Box height="50vh" py={10} bgcolor="secondary.main" />
+    <Header {...props} />
+    <Box height="50vh" py={10} bgcolor="common.black" />
   </>
 )
+TransparentOnBackground.args = { transparent: true }
 
-export const withSubHeader = (props) => {
+export const WithSubHeader = (props) => {
   return (
     <>
-      <Header {...MOCK_HEADER_PROPS} {...props} />
+      <Header {...props} />
       <SubHeader {...MOCK_SUB_HEADER_PROPS} />
     </>
   )
 }
 
-export const withSearch = (props) => {
-  return (
-    <>
-      <Header
-        {...MOCK_HEADER_PROPS}
-        navItems={{
-          center: [
-            {
-              key: 'Search',
-              title: 'Search',
-              preset: {
-                type: NAV_ITEM_SEARCH_PRESET,
-                onSearch: (searchValue) =>
-                  window.alert(`Searched: ${searchValue}`),
-                fullWidth: true,
-              },
-            },
-          ],
-          right: [
-            ...MOCK_HEADER_PROPS.navItems,
-            {
-              key: 'login/signup',
-              title: 'login/signup',
-              children: <Button {...defaultButtonProps}>Get Started</Button>,
-            },
-          ],
-        }}
-        {...props}
-      />
-    </>
-  )
+export const WithSearch = (props) => <Header {...props} />
+WithSearch.args = {
+  navItems: {
+    center: [
+      {
+        key: 'Search',
+        title: 'Search',
+        preset: {
+          type: NAV_ITEM_SEARCH_PRESET,
+          onSearch: (searchValue) => window.alert(`Searched: ${searchValue}`),
+          fullWidth: true,
+        },
+      },
+    ],
+    right: [
+      ...MOCK_HEADER_PROPS.navItems,
+      {
+        key: 'login/signup',
+        title: 'login/signup',
+        children: <Button {...defaultButtonProps}>Get Started</Button>,
+      },
+    ],
+  },
 }
 
-export const withItems = (props) => {
-  return (
-    <>
-      <Header
-        {...MOCK_HEADER_PROPS}
-        navItems={[
-          ...MOCK_HEADER_PROPS.navItems,
+export const WithItems = (props) => <Header {...props} />
+WithItems.args = {
+  navItems: {
+    left: [
+      ...MOCK_HEADER_PROPS.navItems,
+      {
+        key: 'on-click',
+        title: 'onClick',
+        items: [
           {
-            key: 'on-click',
-            title: 'onClick',
-            items: [
-              {
-                title: 'foo',
-                onClick: handleRecursiveNavItemClick,
-              },
-              {
-                title: 'bar',
-                href: '#',
-              },
-              {
-                title: 'baz',
-                href: '#',
-              },
-            ],
+            title: 'foo',
+            onClick: handleRecursiveNavItemClick,
           },
           {
-            key: 'on-hover',
-            title: 'onHover',
-            isOpenOnHover: true,
-            items: [
-              {
-                title: 'qux',
-                onClick: handleRecursiveNavItemClick,
-              },
-              {
-                title: 'zulu',
-                href: '#',
-              },
-              {
-                title: 'yankee',
-                href: '#',
-              },
-            ],
+            title: 'bar',
+            href: '#',
           },
           {
-            key: 'account',
-            title: <AccountCircle />,
-            items: [
-              {
-                title: 'Profile',
-                onClick: handleRecursiveNavItemClick,
-              },
-              {
-                title: 'Logout',
-                onClick: handleRecursiveNavItemClick,
-              },
-            ],
+            title: 'baz',
+            href: '#',
           },
-        ]}
-        {...props}
-      />
-    </>
-  )
+        ],
+      },
+      {
+        key: 'on-hover',
+        title: 'onHover',
+        isOpenOnHover: true,
+        items: [
+          {
+            title: 'qux',
+            onClick: handleRecursiveNavItemClick,
+          },
+          {
+            title: 'zulu',
+            href: '#',
+          },
+          {
+            title: 'yankee',
+            href: '#',
+          },
+        ],
+      },
+    ],
+    right: [
+      {
+        key: 'account',
+        title: <AccountCircle />,
+        items: [
+          {
+            title: 'Profile',
+            onClick: handleRecursiveNavItemClick,
+          },
+          {
+            title: 'Logout',
+            onClick: handleRecursiveNavItemClick,
+          },
+        ],
+      },
+    ],
+  },
 }
 
-export const withMegaComponent = (props) => {
-  return (
-    <>
-      <Header
-        {...MOCK_HEADER_PROPS}
-        navItems={[
-          ...MOCK_HEADER_PROPS.navItems,
+export const WithMegaComponent = (props) => <Header {...props} />
+WithMegaComponent.args = {
+  navItems: {
+    left: [
+      ...MOCK_HEADER_PROPS.navItems,
+      {
+        key: 'onclick-mega-list',
+        title: 'onClick Mega List',
+        fullWidth: true,
+        items: [
           {
-            key: 'onclick-mega-list',
-            title: 'onClick Mega List',
-            fullWidth: true,
-            items: [
-              {
-                title: 'alpha',
-                onClick: handleRecursiveNavItemClick,
-              },
-              {
-                title: 'bravo',
-                href: '#',
-              },
-              {
-                title: 'charlie',
-                href: '#',
-              },
-            ],
+            title: 'alpha',
+            onClick: handleRecursiveNavItemClick,
           },
           {
-            key: 'onclick-mega-menu',
-            title: 'onClick Mega Menu',
-            fullWidth: true,
-            renderItems: ({ popupState }) => {
-              return (
-                <Box sx={{ p: 5, textAlign: 'center' }}>
-                  <Button onClick={() => popupState.close()}>Close</Button>
-                </Box>
-              )
-            },
+            title: 'bravo',
+            href: '#',
           },
           {
-            key: 'mail',
-            title: (
-              <Badge badgeContent={4} color="primary">
-                <MailIcon color="action" />
-              </Badge>
-            ),
-            isOpenOnHover: true,
-            onClick: () => window.alert('You clicked on mail'),
-            renderItems: ({ popupState }) => {
-              return (
-                <Box sx={{ p: 5, textAlign: 'center' }}>
-                  <Button onClick={() => popupState.close()}>Close</Button>
-                </Box>
-              )
-            },
+            title: 'charlie',
+            href: '#',
           },
-        ]}
-        {...props}
-      />
-    </>
-  )
+        ],
+      },
+      {
+        key: 'onclick-mega-menu',
+        title: 'onClick Mega Menu',
+        fullWidth: true,
+        renderItems: ({ popupState }) => {
+          return (
+            <Box sx={{ p: 5, textAlign: 'center' }}>
+              <Button onClick={() => popupState.close()}>Close</Button>
+            </Box>
+          )
+        },
+      },
+    ],
+    right: [
+      {
+        key: 'mail',
+        title: (
+          <Badge badgeContent={4} color="error">
+            <MailIcon />
+          </Badge>
+        ),
+        isOpenOnHover: true,
+        onClick: () => window.alert('You clicked on mail'),
+        renderItems: ({ popupState }) => {
+          return (
+            <Box sx={{ p: 5, textAlign: 'center' }}>
+              <Button onClick={() => popupState.close()}>Close</Button>
+            </Box>
+          )
+        },
+      },
+    ],
+  },
 }
 
-export const withLogoCenter = (props) => {
-  return (
-    <>
-      <Header
-        navItems={{
-          left: [...MOCK_HEADER_PROPS.navItems],
-          center: [
-            {
-              key: 'logo',
-              title: 'Logo',
-              children: MOCK_LOGO_JSX,
-              hideInMobileDrawer: true,
-              showInMobileBar: true,
-            },
-          ],
-          right: [
-            {
-              key: 'login/signup',
-              title: 'login/signup',
-              children: <Button {...defaultButtonProps}>Get Started</Button>,
-            },
-          ],
-        }}
-        {...props}
-      />
-    </>
-  )
+export const WithLogoCenter = (props) => <Header {...props} />
+WithLogoCenter.args = {
+  center: true,
+  navItems: {
+    left: [MOCK_HEADER_PROPS.navItems[1], MOCK_HEADER_PROPS.navItems[2]],
+    center: [
+      {
+        key: 'logo',
+        title: 'Logo',
+        children: MOCK_LOGO_JSX,
+        hideInMobileDrawer: true,
+        showOnMobileBar: true,
+      },
+    ],
+    right: [
+      {
+        key: 'login/signup',
+        title: 'login/signup',
+        children: <Button {...defaultButtonProps}>Get Started</Button>,
+      },
+    ],
+  },
 }
 
-export const withKitchenSink = (props) => {
+export const WithDashboardHeader = (props) => {
   return (
     <>
-      <Header
-        {...MOCK_HEADER_PROPS}
-        navItems={MOCK_HEADER_NAV_ITEMS}
-        {...props}
-      />
-      <SubHeader {...MOCK_SUB_HEADER_PROPS} />
-    </>
-  )
-}
-
-export const DashboardHeader = (props) => {
-  return (
-    <>
-      <Header {...MOCK_DASHBOARD_HEADER_PROPS} {...props} />
+      <Header {...props} />
       <SubHeader
         {...MOCK_SUB_HEADER_PROPS}
         containerProps={{ maxWidth: false }}
@@ -259,3 +232,4 @@ export const DashboardHeader = (props) => {
     </>
   )
 }
+WithDashboardHeader.args = MOCK_DASHBOARD_HEADER_PROPS

@@ -5,6 +5,7 @@ import {
   Button as MuiButton,
   ButtonProps as MuiButtonProps,
 } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 import withHref from './withHref'
 import withTooltip from './withTooltip'
 import CircularProgress from './CircularProgress'
@@ -46,7 +47,8 @@ const Button: React.FC<ButtonProps> = (props) => {
         ...(variant === 'paper' && {
           backgroundColor: 'background.paper',
           '&:hover': {
-            backgroundColor: 'background.paper',
+            backgroundColor: (theme) =>
+              alpha(theme.palette.background.paper, 0.8),
             color: `${color || 'primary'}.dark`,
           },
         }),
