@@ -24,7 +24,7 @@
     "build-storybook": "build-storybook",
     "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\"",
     "reset": "rm -rf dist && rm -rf node_modules && npx yalc remove --all",
-    "setup": "yarn && yalc link @gravis-os/utils && yarn build && npx yalc push"
+    "yalc:push": "yalc push"
   },
   "dependencies": {
     "@gravis-os/ui": "*",

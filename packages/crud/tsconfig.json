@@ -1,6 +1,15 @@
 {
   "extends": "tsconfig/tsconfig.base.json",
   "include": ["./src/**/*", "typings.d.ts"],
-  "exclude": ["node_modules", "dist"]
+  "exclude": ["node_modules", "dist"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@gravis-os/ui": ["../../packages/ui/src/*"],
+      "@gravis-os/form": ["../../packages/form/src/*"],
+      "@gravis-os/crud": ["../../packages/crud/src/*"],
+      "@gravis-os/auth": ["../../packages/auth/src/*"]
+    }
+  }
 }
 

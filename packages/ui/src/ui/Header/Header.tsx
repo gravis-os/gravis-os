@@ -31,7 +31,7 @@ const DRAWER_WIDTH = 320
 // Presets
 export const NAV_ITEM_SEARCH_PRESET = 'search'
 
-interface HeaderNavItem extends HeaderButtonWithMenuProps {
+export interface HeaderNavItem extends HeaderButtonWithMenuProps {
   // Clicks
   href?: string
   onClick?: NavItemClickFunction

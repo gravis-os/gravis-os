@@ -24,7 +24,7 @@
     "build-storybook": "build-storybook",
     "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\"",
     "reset": "rm -rf dist && rm -rf node_modules && npx yalc remove --all",
-    "setup": "yarn && yarn build && npx yalc push"
+    "yalc:push": "yalc push"
   },
   "dependencies": {
     "lodash": "^4.17.21",

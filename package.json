@@ -12,7 +12,9 @@
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "changeset": "changeset",
-    "commit": "git-cz"
+    "commit": "git-cz",
+    "yalc:push": "turbo run yalc:push",
+    "watch": "turbo run watch"
   },
   "config": {
     "commitizen": {

@@ -4,6 +4,8 @@
   "exclude": ["node_modules", "dist"],
   "compilerOptions": {
     "baseUrl": ".",
-    "paths": { "@gravis-os/ui": ["../../packages/ui/src/*"] }
+    "paths": {
+      "@gravis-os/ui": ["../../packages/ui/src/*"]
+    }
   }
 }
