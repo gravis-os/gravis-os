@@ -27,9 +27,7 @@ const List: React.FC<ListProps> = (props) => {
         // Nested List
         const hasNestedItems = Boolean(item.items)
         if (hasNestedItems) {
-          return (
-            <ListItemWithCollapse key={key} depth={i + 1} {...listItemProps} />
-          )
+          return <ListItemWithCollapse key={key} depth={1} {...listItemProps} />
         }
 
         return <ListItem key={key} {...listItemProps} />

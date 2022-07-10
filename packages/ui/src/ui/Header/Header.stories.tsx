@@ -2,7 +2,7 @@ import React from 'react'
 import { Badge, Box } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
-import Header, { NAV_ITEM_SEARCH_PRESET } from './Header'
+import Header from './Header'
 import Button, { ButtonProps } from '../Button'
 import SubHeader from './SubHeader'
 import {
@@ -58,14 +58,13 @@ WithSearch.args = {
         key: 'Search',
         title: 'Search',
         preset: {
-          type: NAV_ITEM_SEARCH_PRESET,
+          type: 'search',
           onSearch: (searchValue) => window.alert(`Searched: ${searchValue}`),
           fullWidth: true,
         },
       },
     ],
     right: [
-      ...MOCK_HEADER_PROPS.navItems,
       {
         key: 'login/signup',
         title: 'login/signup',
@@ -79,7 +78,7 @@ export const WithItems = (props) => <Header {...props} />
 WithItems.args = {
   navItems: {
     left: [
-      ...MOCK_HEADER_PROPS.navItems,
+      ...MOCK_HEADER_PROPS.navItems.left,
       {
         key: 'on-click',
         title: 'onClick',
@@ -141,7 +140,7 @@ export const WithMegaComponent = (props) => <Header {...props} />
 WithMegaComponent.args = {
   navItems: {
     left: [
-      ...MOCK_HEADER_PROPS.navItems,
+      ...MOCK_HEADER_PROPS.navItems.left,
       {
         key: 'onclick-mega-list',
         title: 'onClick Mega List',
@@ -200,7 +199,10 @@ export const WithLogoCenter = (props) => <Header {...props} />
 WithLogoCenter.args = {
   center: true,
   navItems: {
-    left: [MOCK_HEADER_PROPS.navItems[1], MOCK_HEADER_PROPS.navItems[2]],
+    left: [
+      MOCK_HEADER_PROPS.navItems.left[1],
+      MOCK_HEADER_PROPS.navItems.left[2],
+    ],
     center: [
       {
         key: 'logo',

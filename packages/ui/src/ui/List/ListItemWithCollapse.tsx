@@ -5,8 +5,8 @@ import Collapse, { CollapseProps } from '../Collapse'
 import ListItem, { ListItemProps } from './ListItem'
 import List from './List'
 
-const INITIAL_LIST_PL = 2
-const NESTED_LIST_PL_INDENT = 2
+const INITIAL_LIST_PL = 2.5
+const INDENTED_LIST_PL = 2
 
 export interface ListItemWithCollapseProps
   extends Omit<ListItemProps, 'depth'> {
@@ -52,19 +52,22 @@ const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
         <List
           disablePadding
           key={`nested-list-${depth}`}
-          items={items.map((item) => ({
-            ...item,
-            ...commonListItemProps,
-            // Recurse this
-            depth: depth + 1,
-            buttonProps: {
-              sx: {
-                // Calculate indentation of inner items recursively
-                pl: INITIAL_LIST_PL + NESTED_LIST_PL_INDENT * depth,
-                ...item.buttonProps?.sx,
+          items={items.map((item, j) => {
+            console.log('jjj: Loop', { item, props, j, depth })
+            return {
+              ...item,
+              ...commonListItemProps,
+              // Recurse this
+              depth: depth + 1,
+              buttonProps: {
+                sx: {
+                  // Calculate indentation of inner items recursively
+                  pl: INITIAL_LIST_PL + INDENTED_LIST_PL * depth,
+                  ...item.buttonProps?.sx,
+                },
               },
-            },
-          }))}
+            }
+          })}
         />
       </Collapse>
     </>

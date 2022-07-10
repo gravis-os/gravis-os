@@ -33,7 +33,7 @@ export interface RecursiveNavItemInterface {
 
 export interface HeaderButtonWithMenuProps {
   key: string
-  title: string | React.ReactElement
+  title: React.ReactNode
 
   items?: RecursiveNavItemInterface[]
   renderItems?: ({ popupState: PopupState }) => React.ReactElement

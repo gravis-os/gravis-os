@@ -18,7 +18,7 @@ const Link: React.FC<LinkProps> = (props) => {
       sx={{
         ...(pointer && { cursor: 'pointer' }),
         ...(displayBlock && { display: 'block' }),
-        '&:hover': { color: 'primary.main' },
+        '&:hover': { color: rest.color || 'primary.main' },
         ...sx,
       }}
       {...rest}

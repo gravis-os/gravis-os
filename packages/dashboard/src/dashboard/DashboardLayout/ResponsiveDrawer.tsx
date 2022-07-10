@@ -49,7 +49,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         }}
         onClose={onClose}
         // Better open performance on mobile.
-        ModalProps={{ keepMounted: true }}
+        ModalProps={{ keepMounted: true, disableScrollLock: true }}
         {...mobileDrawerProps}
       />
 

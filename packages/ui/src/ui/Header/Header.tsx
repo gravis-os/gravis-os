@@ -15,7 +15,7 @@ import {
 } from '@mui/material'
 import RouterLink from 'next/link'
 import { SxProps } from '@mui/system'
-import HeaderSearch from './HeaderSearch'
+import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
 import NavAccordion from '../NavAccordion'
 import HeaderButtonWithMenu, {
   HeaderButtonWithMenuProps,
@@ -24,55 +24,52 @@ import HeaderButtonWithMenu, {
 import Container, { ContainerProps } from '../Container'
 import HideOnScroll from './HideOnScroll'
 
-// Constants
-const DRAWER_ANCHOR_POSITION = 'right'
-const DRAWER_WIDTH = 320
+export interface HeaderNavItem
+  extends Omit<HeaderButtonWithMenuProps, 'title'> {
+  sx?: SxProps
+  title?: HeaderButtonWithMenuProps['title']
+  children?: React.ReactNode
 
-// Presets
-export const NAV_ITEM_SEARCH_PRESET = 'search'
-
-export interface HeaderNavItem extends HeaderButtonWithMenuProps {
   // Clicks
   href?: string
   onClick?: NavItemClickFunction
 
-  sx?: SxProps
-  children?: React.ReactNode
-
   // Custom
   hideInMobileDrawer?: boolean
   showOnMobileBar?: boolean
-  preset?: any // NavItemSearchPreset
+  preset?: {
+    type: 'search'
+  } & Record<string, unknown> // NavItemSearchPreset
   render?: (renderProps: any) => React.ReactNode
 }
 
 export interface HeaderProps extends AppBarProps {
   containerProps?: ContainerProps
   toolbarProps?: ToolbarProps
-  navItems:
-    | HeaderNavItem[]
-    | {
-        left?: HeaderNavItem[]
-        center?: HeaderNavItem[]
-        right?: HeaderNavItem[]
-      }
+  navItems: {
+    left?: HeaderNavItem[]
+    center?: HeaderNavItem[]
+    right?: HeaderNavItem[]
+  }
   transparent?: boolean
   disableBoxShadow?: boolean
   renderProps?: any
   darkText?: boolean
   center?: boolean
+  disableScrollTrigger?: boolean
 }
 
 const Header: React.FC<HeaderProps> = (props) => {
   const {
     containerProps,
-    toolbarProps,
+    center,
+    darkText,
     disableBoxShadow,
-    transparent,
+    disableScrollTrigger,
     navItems,
     renderProps,
-    darkText,
-    center,
+    toolbarProps,
+    transparent,
     ...rest
   } = props
 
@@ -95,13 +92,20 @@ const Header: React.FC<HeaderProps> = (props) => {
 
     switch (type) {
       case 'search':
-        return <HeaderSearch {...presetProps} />
+        return (
+          <HeaderSearch {...(presetProps as unknown as HeaderSearchProps)} />
+        )
       default:
         return null
     }
   }
   const renderNavItems = (navItems) => {
-    if (!Array.isArray(navItems)) return null
+    if (
+      !navItems ||
+      !Array.isArray(navItems) ||
+      navItems.filter(Boolean).length === 0
+    )
+      return null
 
     return navItems.map((navItem: HeaderNavItem) => {
       const { key, children, showOnMobileBar, preset, render, sx } = navItem
@@ -166,7 +170,7 @@ const Header: React.FC<HeaderProps> = (props) => {
               <HeaderButtonWithMenu
                 key={key}
                 buttonProps={nextButtonProps}
-                {...rest}
+                {...(rest as HeaderButtonWithMenuProps)}
               />
             ) : (
               <Button color="inherit" {...nextButtonProps}>
@@ -196,6 +200,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     const getCombinedMobileNavItems = (navItems) => {
       return Object.values(navItems).reduce(
         (acc: HeaderNavItem[], navItemGroup: HeaderNavItem[]) => {
+          if (!navItemGroup) return acc
           const navItemGroupWithoutHideOnMobile = navItemGroup.filter(
             (navItemGroupItem) => !navItemGroupItem.hideInMobileDrawer
           )
@@ -245,137 +250,139 @@ const Header: React.FC<HeaderProps> = (props) => {
   // Sx
   const navItemGroupSx = { display: 'flex', alignItems: 'stretch' }
 
-  return (
-    <HideOnScroll threshold={10}>
-      <AppBar
-        position={transparent ? 'absolute' : 'sticky'}
-        {...(transparent && { color: 'transparent' })}
-        {...rest}
-        sx={{
-          zIndex: (theme) => theme.zIndex.appBar + 1,
-          width: '100%',
+  // ChildrenJsx
+  const childrenJsx = (
+    <AppBar
+      position={transparent ? 'absolute' : 'sticky'}
+      {...(transparent && { color: 'transparent' })}
+      {...rest}
+      sx={{
+        zIndex: (theme) => theme.zIndex.appBar + 1,
+        width: '100%',
 
-          // Scroll
-          overflowX: 'scroll',
-          overflowY: 'hidden',
-          '&::-webkit-scrollbar': { display: 'none' },
+        // Scroll
+        overflowX: 'scroll',
+        overflowY: 'hidden',
+        '&::-webkit-scrollbar': { display: 'none' },
 
-          // Box Shadow
-          boxShadow: disableBoxShadow
-            ? 'none'
-            : '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
+        // Box Shadow
+        boxShadow: disableBoxShadow
+          ? 'none'
+          : '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
 
-          // Transparent
-          ...(transparent && !darkText && { color: 'white' }),
+        // Transparent
+        ...(transparent && !darkText && { color: 'white' }),
 
-          ...rest?.sx,
-        }}
-      >
-        <Container {...containerProps}>
-          <Toolbar
-            disableGutters
-            variant="dense"
-            {...toolbarProps}
-            sx={{
-              justifyContent: 'space-between',
-              alignItems: 'stretch',
-              ...toolbarProps?.sx,
-            }}
-          >
-            {/* Left */}
-            <Box sx={navItemGroupSx}>
-              {renderNavItems(
-                isGroupedNavItems
-                  ? 'left' in navItems && navItems.left
-                  : navItems
-              )}
-            </Box>
-
-            {/* Center */}
-            <Box
-              sx={{
-                ...navItemGroupSx,
-                flexGrow: 1,
-                justifyContent: 'center',
-                textAlign: 'center',
-                '& > *': { width: '100%' },
-
-                // Flex box if we pass in center: true
-                ...(center && {
-                  '& > .MuiBox-root': {
-                    justifyContent: 'center',
-                  },
-                }),
-
-                ...(hasNavItemCenterGroup && {
-                  marginLeft: { xs: 6, md: 2 },
-                  marginRight: 2,
-                }),
-              }}
-            >
-              {isGroupedNavItems &&
-                renderNavItems('center' in navItems && navItems.center)}
-            </Box>
-
-            {/* Right */}
-            <Box
-              sx={{
-                ...navItemGroupSx,
-
-                // Flex box if we pass in center: true
-                ...(center && {
-                  '& > .MuiBox-root': {
-                    justifyContent: 'flex-end',
-                  },
-                }),
-              }}
-            >
-              {renderNavItems(
-                isGroupedNavItems && 'right' in navItems && navItems.right
-              )}
-            </Box>
-
-            {/* Hamburger menu */}
-            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                edge="end"
-                color="inherit"
-                aria-label="menu"
-                onClick={openDrawer}
-              >
-                <MenuIcon />
-              </IconButton>
-            </Box>
-          </Toolbar>
-        </Container>
-
-        {/* Mobile navItems */}
-        <SwipeableDrawer
-          anchor={DRAWER_ANCHOR_POSITION}
-          open={isDrawerOpen}
-          onOpen={openDrawer}
-          onClose={closeDrawer}
+        ...rest?.sx,
+      }}
+    >
+      <Container {...containerProps}>
+        <Toolbar
+          disableGutters
+          variant="dense"
+          {...toolbarProps}
+          sx={{
+            justifyContent: 'space-between',
+            alignItems: 'stretch',
+            ...toolbarProps?.sx,
+          }}
         >
+          {/* Left */}
+          <Box sx={navItemGroupSx}>
+            {renderNavItems(
+              isGroupedNavItems ? 'left' in navItems && navItems.left : navItems
+            )}
+          </Box>
+
+          {/* Center */}
           <Box
-            width={DRAWER_WIDTH}
-            role="presentation"
-            onKeyDown={(e) => {
-              if (e.key === 'Escape') return closeDrawer()
+            sx={{
+              ...navItemGroupSx,
+              flexGrow: 1,
+              justifyContent: 'center',
+              textAlign: 'center',
+              '& > *': { width: '100%' },
+
+              // Flex box if we pass in center: true
+              ...(center && {
+                '& > .MuiBox-root': {
+                  justifyContent: 'center',
+                },
+              }),
+
+              ...(hasNavItemCenterGroup && {
+                marginLeft: { xs: 6, md: 2 },
+                marginRight: 2,
+              }),
             }}
           >
-            <Box textAlign="right">
-              <IconButton color="inherit" onClick={closeDrawer}>
-                <CloseOutlinedIcon />
-              </IconButton>
-            </Box>
-
-            <List dense sx={{ py: 0 }}>
-              {renderMobileNavItems(navItems)}
-            </List>
+            {isGroupedNavItems &&
+              renderNavItems('center' in navItems && navItems.center)}
           </Box>
-        </SwipeableDrawer>
-      </AppBar>
-    </HideOnScroll>
+
+          {/* Right */}
+          <Box
+            sx={{
+              ...navItemGroupSx,
+
+              // Flex box if we pass in center: true
+              ...(center && {
+                '& > .MuiBox-root': {
+                  justifyContent: 'flex-end',
+                },
+              }),
+            }}
+          >
+            {renderNavItems(
+              isGroupedNavItems && 'right' in navItems && navItems.right
+            )}
+          </Box>
+
+          {/* Hamburger menu */}
+          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+            <IconButton
+              edge="end"
+              color="inherit"
+              aria-label="menu"
+              onClick={openDrawer}
+            >
+              <MenuIcon />
+            </IconButton>
+          </Box>
+        </Toolbar>
+      </Container>
+
+      {/* Mobile navItems */}
+      <SwipeableDrawer
+        anchor="right"
+        open={isDrawerOpen}
+        onOpen={openDrawer}
+        onClose={closeDrawer}
+      >
+        <Box
+          width={320}
+          role="presentation"
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') return closeDrawer()
+          }}
+        >
+          <Box textAlign="right">
+            <IconButton color="inherit" onClick={closeDrawer}>
+              <CloseOutlinedIcon />
+            </IconButton>
+          </Box>
+          <List dense sx={{ py: 0 }}>
+            {renderMobileNavItems(navItems)}
+          </List>
+        </Box>
+      </SwipeableDrawer>
+    </AppBar>
+  )
+
+  return !disableScrollTrigger ? (
+    <HideOnScroll threshold={10}>{childrenJsx}</HideOnScroll>
+  ) : (
+    childrenJsx
   )
 }
 

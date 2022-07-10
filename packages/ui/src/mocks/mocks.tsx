@@ -74,22 +74,24 @@ export const MOCK_NAV_ACCORDION_ITEMS = [
 
 export const MOCK_HEADER_PROPS = {
   disableBoxShadow: true,
-  navItems: [
-    {
-      key: 'logo',
-      title: 'Logo',
-      children: MOCK_LOGO_JSX,
-      onClick: () => window.alert('You clicked on Foo'),
-      sx: { mr: 1 },
-      showOnMobileBar: true,
-    },
-    {
-      key: 'foo',
-      title: 'Foo',
-      onClick: () => window.alert('You clicked on Foo'),
-    },
-    { key: 'bar', title: 'Bar', href: '#' },
-  ],
+  navItems: {
+    left: [
+      {
+        key: 'logo',
+        title: 'Logo',
+        children: MOCK_LOGO_JSX,
+        onClick: () => window.alert('You clicked on Foo'),
+        sx: { mr: 1 },
+        showOnMobileBar: true,
+      },
+      {
+        key: 'foo',
+        title: 'Foo',
+        onClick: () => window.alert('You clicked on Foo'),
+      },
+      { key: 'bar', title: 'Bar', href: '#' },
+    ],
+  },
 }
 
 export const MOCK_SUB_HEADER_PROPS = {
@@ -119,7 +121,7 @@ const handleRecursiveNavItemClick = (e, item) =>
 
 export const MOCK_HEADER_NAV_ITEMS = {
   left: [
-    MOCK_HEADER_PROPS.navItems[0],
+    MOCK_HEADER_PROPS.navItems.left[0],
     {
       key: 'search',
       title: 'Search',

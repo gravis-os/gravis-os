@@ -10,8 +10,8 @@ import {
   ListItemButtonProps as MuiListItemButtonProps,
 } from '@mui/material'
 import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
-import withTooltip from '../withTooltip'
 import { TooltipProps } from '../Tooltip'
+import withTooltip from '../withTooltip'
 
 export interface ListItemProps
   extends Omit<MuiListItemProps, 'title' | 'onClick'> {
@@ -30,6 +30,7 @@ export interface ListItemProps
   endIconProps?: ListItemIconProps
   iconProps?: ListItemIconProps
 
+  href?: string
   onClick?: MuiListItemButtonProps['onClick']
 
   // NestedItems
@@ -55,6 +56,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
     title,
     subtitle,
+    href,
 
     start,
     startIcon,
@@ -79,6 +81,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
   const listItemButtonProps = {
     onClick,
+    href,
     ...injectedListItemButtonProps,
   }
   const hasButton = Boolean(onClick || listItemButtonProps)

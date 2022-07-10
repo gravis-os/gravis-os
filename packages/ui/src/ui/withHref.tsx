@@ -3,8 +3,9 @@ import RouterLink from 'next/link'
 
 const withHref =
   ({ href }) =>
-  children => {
+  (children) => {
     if (!href) return children
+
     return (
       <RouterLink href={href} passHref>
         {children}
