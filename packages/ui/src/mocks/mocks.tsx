@@ -3,7 +3,8 @@ import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
 import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import { Badge, Box, Button, Stack, Typography } from '../ui'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+import { Badge, Box, Button, IconButton, Stack, Typography } from '../ui'
 
 export const MOCK_LIST_ITEMS = [
   {
@@ -284,6 +285,21 @@ export const MOCK_HEADER_NAV_ITEMS = {
           Get Started
         </Button>
       ),
+    },
+    {
+      key: 'right-aside-menu-toggle',
+      render: (props) => {
+        const { setRightAsideOpen, rightAsideOpen } = props
+        return (
+          <IconButton
+            color="inherit"
+            edge="end"
+            onClick={() => setRightAsideOpen(!rightAsideOpen)}
+          >
+            <InfoOutlinedIcon />
+          </IconButton>
+        )
+      },
     },
   ],
 }
