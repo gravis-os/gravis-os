@@ -5,8 +5,7 @@ import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer from './ResponsiveDrawer'
 import DashboardLayoutHeader from './DashboardLayoutHeader'
 
-const { leftAsideWidth, rightAsideWidth, miniVariantWidth, headerHeight } =
-  dashboardLayoutConfig
+const { miniVariantWidth, headerHeight } = dashboardLayoutConfig
 
 export interface DashboardLayoutProps {
   // Default states
@@ -23,10 +22,14 @@ export interface DashboardLayoutProps {
   // Dark mode
   darkLeftAside?: boolean
 
-  // Aside Props
+  // Left Aside Props
+  leftAsideWidth?: number
   leftAsideListItems?: ListItemProps['items']
-  rightAsideListItems?: ListItemProps['items']
   leftAsideListItemProps?: ListItemProps
+
+  // Right Aside
+  rightAsideListItems?: ListItemProps['items']
+  rightAsideWidth?: number
 
   // Other elements
   headerProps?: HeaderProps
@@ -39,28 +42,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     defaultLeftAsideOpen = true,
     defaultRightAsideOpen = true,
     disablePadding,
-
-    // loading,
-    // userAvatarProps,
-    // onSearch,
-    // title,
-    // breadcrumbs,
-    // rightAside,
-    // rightAsideProps,
-    // leftAsideMenu,
-    // appVersion,
-    // footer,
-    // callout,
-    // gutterBottom,
-    // disablePaddingTop,
-    // drawer,
-    // drawerProps,
-    // isDrawerVisible,
-    // onDrawerClose,
-    // onLeftAsideCollapse,
-    // mobileHeaderDrawerProps,
-    // mobileHeaderMenuItems,
-
+    leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
+    rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
     isMiniVariant,
     leftAsideListItems,
     rightAsideListItems,
