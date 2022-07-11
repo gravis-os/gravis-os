@@ -94,6 +94,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     leftAsideOpen,
     setLeftAsideOpen,
     isLeftAsideOpen,
+
     rightAsideOpen,
     setRightAsideOpen,
     isRightAsideOpen,
@@ -181,11 +182,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           }}
         >
           <List
-            items={leftAsideListItems.map((item) => ({
-              ...item,
+            items={leftAsideListItems}
+            listItemProps={{
               disableGutters: true,
               hasTooltip: isMiniVariantLeftAsideClosed,
               textProps: {
+                primaryTypographyProps: { variant: 'subtitle2' },
                 ...(isMiniVariantLeftAsideClosed && {
                   sx: {
                     opacity: 0,
@@ -212,7 +214,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                 },
               },
               ...leftAsideListItemProps,
-            }))}
+            }}
           />
         </ResponsiveDrawer>
 

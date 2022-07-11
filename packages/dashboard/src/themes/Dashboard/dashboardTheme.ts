@@ -40,12 +40,12 @@ const dashboardThemeConfig = {
     },
     subtitle1: {
       fontSize: '1rem',
-      fontWeight: 500,
+      fontWeight: 600,
       lineHeight: 1.75,
     },
     subtitle2: {
       fontSize: '0.875rem',
-      fontWeight: 500,
+      fontWeight: 600,
       lineHeight: 1.57,
     },
     overline: {
