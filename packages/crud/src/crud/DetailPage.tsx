@@ -10,9 +10,9 @@ import {
   UseTabsProps,
 } from '@gravis-os/ui'
 import { ContainerProps } from '@mui/material'
+import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
-import { CrudItem, CrudModule, RenderPropsFunction } from '../types'
 import getIsNew from './getIsNew'
 import useGetItem from './useGetItem'
 import CrudForm, { CrudFormProps } from './CrudForm'

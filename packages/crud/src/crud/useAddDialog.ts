@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FormSectionProps } from '@gravis-os/form'
-import { CrudModule } from '../types'
+import { CrudModule } from '@gravis-os/types'
 
 export interface UseAddDialogReturn {
   addDialogOpen: boolean

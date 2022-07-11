@@ -1,6 +1,6 @@
 import { useState } from 'react'
 import { FormSectionsProps } from '@gravis-os/form'
-import { CrudModule } from '../types'
+import { CrudModule } from '@gravis-os/types'
 import useGetItem from './useGetItem'
 
 const usePreviewDrawer = (props) => {

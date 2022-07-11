@@ -49,4 +49,4 @@ export * from './useAddDialog'
 export { default as getIsNew } from './getIsNew'
 export * from './getIsNew'
 
-export * from '../types'
+export * from '@gravis-os/types'

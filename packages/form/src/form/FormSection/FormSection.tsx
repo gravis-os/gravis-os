@@ -8,7 +8,7 @@ import {
   GridProps,
   StackProps,
 } from '@gravis-os/ui'
-import { CrudItem, CrudModule, RenderPropsFunction } from '../../types'
+import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
 import renderFieldWithWrapper, {
   RenderFieldWithWrapperProps,
 } from './renderFieldWithWrapper'

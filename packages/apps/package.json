@@ -30,6 +30,7 @@
     "@gravis-os/crud": "*",
     "@gravis-os/form": "*",
     "@gravis-os/ui": "*",
+    "@gravis-os/types": "*",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3"

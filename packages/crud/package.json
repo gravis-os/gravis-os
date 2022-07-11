@@ -38,7 +38,8 @@
     "@gravis-os/ui": "*",
     "@gravis-os/form": "*",
     "@gravis-os/storage": "*",
-    "@gravis-os/auth": "*"
+    "@gravis-os/auth": "*",
+    "@gravis-os/types": "*"
   },
   "peerDependencies": {
     "@emotion/react": ">=11.9.0",

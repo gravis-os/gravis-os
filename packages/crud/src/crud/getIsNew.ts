@@ -1,4 +1,4 @@
-import { CrudItem } from '../types'
+import { CrudItem } from '@gravis-os/types'
 
 const getIsNew = (item?: CrudItem | Record<string, unknown>): boolean => {
   const hasItem = item && Object.keys(item).length

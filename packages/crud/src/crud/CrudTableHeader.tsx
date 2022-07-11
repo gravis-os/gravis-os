@@ -12,9 +12,9 @@ import {
   ChipStackProps,
 } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
+import { CrudModule } from '@gravis-os/types'
 import styleConfig from '../config/styleConfig'
 import FilterForm from './FilterForm'
-import { CrudModule } from '../types'
 import SearchForm from './SearchForm'
 import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'

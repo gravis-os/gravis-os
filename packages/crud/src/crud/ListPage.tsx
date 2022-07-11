@@ -1,9 +1,9 @@
 import React from 'react'
 import { Container } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
+import { CrudModule } from '@gravis-os/types'
 import PageHeader from './PageHeader'
 import { DataTableProps } from './DataTable'
-import { CrudModule } from '../types'
 import CrudTable, { CrudTableProps } from './CrudTable'
 
 export interface ListPageProps {

@@ -14,7 +14,7 @@ import {
   FormSectionsProps,
 } from '@gravis-os/form'
 import toast from 'react-hot-toast'
-import { CrudItem, CrudModule } from '../types'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import getIsNew from './getIsNew'
 import withCreatedUpdatedBy from './withCreatedUpdatedBy'
 import partitionManyToManyValues from './partitionManyToManyValues'

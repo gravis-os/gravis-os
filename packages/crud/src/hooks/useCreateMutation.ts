@@ -1,6 +1,6 @@
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { MutationFunction, useMutation, UseMutationResult } from 'react-query'
-import { CrudModule } from '../types'
+import { CrudModule } from '@gravis-os/types'
 
 export interface UseCreateActionArg {
   module: CrudModule

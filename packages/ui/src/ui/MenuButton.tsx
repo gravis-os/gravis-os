@@ -14,8 +14,8 @@ import {
   ListItemIconProps,
   ListItemTextProps,
 } from '@mui/material'
+import { RenderPropsFunction } from '@gravis-os/types'
 import GvsButton, { ButtonProps } from './Button'
-import { RenderPropsFunction } from '../types'
 
 const renderItems = ({
   items,

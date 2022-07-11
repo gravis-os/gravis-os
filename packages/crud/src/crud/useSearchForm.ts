@@ -4,7 +4,7 @@ import {
   SupabaseClient,
 } from '@supabase/supabase-auth-helpers/nextjs'
 import { getSearchFormValues } from '@gravis-os/form'
-import { CrudModule } from '../types'
+import { CrudModule } from '@gravis-os/types'
 
 interface UseSearchFormValues {
   values: Record<string, any>

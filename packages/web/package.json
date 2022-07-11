@@ -28,6 +28,7 @@
   },
   "dependencies": {
     "@gravis-os/ui": "*",
+    "@gravis-os/types": "*",
     "clsx": "^1.1.1",
     "lodash": "^4.17.21",
     "material-ui-popup-state": "^3.1.1",

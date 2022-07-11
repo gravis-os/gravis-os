@@ -9,7 +9,7 @@ import {
   ListItemText,
   ListProps,
 } from '@mui/material'
-import { RenderPropsFunction } from '../../types'
+import { RenderPropsFunction } from '@gravis-os/types'
 
 interface CardListRenderPropsInterface {
   item: any
@@ -32,7 +32,7 @@ export interface CardListProps extends ListProps {
   AvatarComponent?: any
 }
 
-const CardList: React.FC<CardListProps> = props => {
+const CardList: React.FC<CardListProps> = (props) => {
   const { items, map, disableAvatar, sx, AvatarComponent, ...rest } = props
 
   return (

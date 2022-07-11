@@ -6,7 +6,7 @@ import {
   FormSections,
   FormSectionsProps,
 } from '@gravis-os/form'
-import { CrudModule } from '../types'
+import { CrudModule } from '@gravis-os/types'
 import useFilterForm, { UseFilterFormArgs } from './useFilterForm'
 
 export interface FilterFormProps {

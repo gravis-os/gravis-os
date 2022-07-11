@@ -1,7 +1,7 @@
 import React from 'react'
 import { Card, CardProps, Stack, Typography } from '@gravis-os/ui'
 import { StorageAvatarWithUpload } from '@gravis-os/storage'
-import { CrudItem, CrudModule } from '../types'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 
 export interface DetailBannerProps {
   cardProps?: CardProps

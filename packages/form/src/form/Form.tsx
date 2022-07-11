@@ -7,7 +7,7 @@ import {
   UseFormReturn,
 } from 'react-hook-form'
 import { Button, ButtonProps } from '@gravis-os/ui'
-import { RenderPropsFunction } from '../types'
+import { RenderPropsFunction } from '@gravis-os/types'
 
 export interface FormRenderPropsInterface {
   formJsx: React.ReactElement

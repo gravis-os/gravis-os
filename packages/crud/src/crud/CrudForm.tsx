@@ -7,7 +7,7 @@ import {
   FormProps,
   FormSectionsProps,
 } from '@gravis-os/form'
-import { CrudItem, CrudModule } from '../types'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import useCrudForm, { UseCrudFormArgs, UseCrudFormReturn } from './useCrudForm'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import metaFormSection from './metaFormSection'

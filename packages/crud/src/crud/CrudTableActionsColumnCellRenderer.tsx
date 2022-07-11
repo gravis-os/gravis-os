@@ -18,8 +18,8 @@ import {
   MoreIconButtonProps,
 } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import getCrudItemHref from './getCrudItemHref'
-import { CrudItem, CrudModule } from '../types'
 
 export interface CrudTableActionsColumnCellRendererProps {
   module: CrudModule

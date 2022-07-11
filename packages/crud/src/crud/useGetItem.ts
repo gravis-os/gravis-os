@@ -2,7 +2,7 @@ import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
 import { useQuery } from 'react-query'
-import { CrudItem, CrudModule } from '../types'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 
 export interface UseGetItemArgs {
   module: CrudModule

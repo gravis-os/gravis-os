@@ -1,7 +1,7 @@
 import React from 'react'
 import { Skeleton } from '@gravis-os/ui'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import PageHeader, { PageHeaderProps } from './PageHeader'
-import { CrudItem, CrudModule } from '../types'
 import getIsNew from './getIsNew'
 
 const getTitlePrefix = (props: {

@@ -5,7 +5,8 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@gravis-os/utils": ["../../packages/utils/src/*"]
+      "@gravis-os/utils": ["../../packages/utils/src/*"],
+      "@gravis-os/types": ["../../packages/types/src/*"]
     }
   }
 }

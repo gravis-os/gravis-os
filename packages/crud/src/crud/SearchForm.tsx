@@ -8,7 +8,7 @@ import {
   FormSections,
   FormSectionsProps,
 } from '@gravis-os/form'
-import { CrudItem, CrudModule } from '../types'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import useSearchForm, { UseSearchFormArgs } from './useSearchForm'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 

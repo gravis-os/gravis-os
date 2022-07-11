@@ -17,7 +17,7 @@ import ControlledModelField from '../fields/ControlledModelField'
 import ControlledPasswordField from '../fields/ControlledPasswordField'
 import ControlledHtmlField from '../fields/ControlledHtmlField'
 import ControlledTextField from '../fields/ControlledTextField'
-import { CrudModule, RenderPropsFunction } from '../../types'
+import { CrudModule, RenderPropsFunction } from '@gravis-os/types'
 import { FormSectionProps } from './FormSection'
 import { FieldEffectOptions } from './FieldEffectProvider'
 

@@ -2,7 +2,7 @@ import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
 import { SupabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { getFilterFormValues } from '@gravis-os/form'
-import { CrudModule } from '../types'
+import { CrudModule } from '@gravis-os/types'
 
 interface UseFilterFormValues {
   values: Record<string, any>
