@@ -4,7 +4,7 @@ import TabsBase, { TabsBaseProps } from './TabsBase'
 import Tab, { TabProps } from './Tab'
 
 export interface TabItem extends Omit<TabProps, 'children' | 'hidden'> {
-  children?: React.ReactElement
+  children?: React.ReactNode
   render?: ({ item }: any) => React.ReactElement
   hidden?: boolean | (({ item }: any) => boolean)
 }
