@@ -7,6 +7,9 @@ export * from './CrudTable'
 export { default as CrudTableHeader } from './CrudTableHeader'
 export * from './CrudTableHeader'
 
+export { default as CrudTableActionsColumnCellRenderer } from './CrudTableActionsColumnCellRenderer'
+export * from './CrudTableActionsColumnCellRenderer'
+
 export { default as CrudFormLayout } from './CrudFormLayout'
 export * from './CrudFormLayout'
 
@@ -42,6 +45,9 @@ export * from './useGetItem'
 
 export { default as useAddDialog } from './useAddDialog'
 export * from './useAddDialog'
+
+export { default as useCrudForm } from './useCrudForm'
+export * from './useCrudForm'
 
 // ==============================
 // Utils
