@@ -15,7 +15,7 @@ import CrudPreviewDrawer from './CrudPreviewDrawer'
 import fetchCrudItems from './fetchCrudItems'
 
 type CrudTableColumn =
-  | (ColDef & { hide: boolean | (({ user }) => boolean) })
+  | (ColDef & { hide?: boolean | (({ user }) => boolean) })
   | (ColGroupDef & {
       hasAvatar?: boolean
     })
