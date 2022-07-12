@@ -1,4 +1,5 @@
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { PostgrestResponse } from '@supabase/postgrest-js'
 import { MutationFunction, useMutation, UseMutationResult } from 'react-query'
 import { CrudModule } from '../types'
 
@@ -12,7 +13,12 @@ export interface UseCreateActionReturn<
   TVariables = unknown,
   TContext = unknown
 > {
-  createMutation: UseMutationResult<TData, TError, TVariables, TContext>
+  createMutation: UseMutationResult<
+    PostgrestResponse<TData>,
+    TError,
+    TVariables,
+    TContext
+  >
 }
 
 const useCreateMutation = <
@@ -25,12 +31,16 @@ const useCreateMutation = <
 ): UseCreateActionReturn<TData, TError, TVariables, TContext> => {
   const { module } = args
   const { table } = module
-  const createMutationFunction: MutationFunction<TData, TVariables> = async (
-    nextValues
-  ) => supabaseClient.from(table.name).insert([nextValues]) as unknown as TData
-  const createMutation = useMutation<TData, TError, TVariables, TContext>(
-    createMutationFunction
-  )
+  const createMutationFunction: MutationFunction<
+    PostgrestResponse<TData>,
+    TVariables
+  > = async (nextValues) => supabaseClient.from(table.name).insert([nextValues])
+  const createMutation = useMutation<
+    PostgrestResponse<TData>,
+    TError,
+    TVariables,
+    TContext
+  >(createMutationFunction)
   return { createMutation }
 }
 
