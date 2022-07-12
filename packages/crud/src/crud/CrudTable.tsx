@@ -4,7 +4,7 @@ import { ColDef, ColGroupDef } from 'ag-grid-community/dist/lib/entities/colDef'
 import { useQuery } from 'react-query'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import DataTable from './DataTable'
+import DataTable, { DataTableProps } from './DataTable'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
 import useRouterQueryFilters from './useRouterQueryFilters'
@@ -22,9 +22,11 @@ type CrudTableColumn =
 
 export interface CrudTableProps {
   module: CrudModule
+  addModule?: CrudModule
   columnDefs?: CrudTableColumn[] | null
   setQuery?: (query) => Promise<any>
   headerProps?: Partial<CrudTableHeaderProps>
+  disableAdd?: boolean
   disableDelete?: boolean
   disableManage?: boolean
   disablePreview?: boolean
@@ -37,14 +39,17 @@ export interface CrudTableProps {
 
   previewFormProps?: Partial<CrudFormProps>
   addFormProps?: Partial<CrudFormProps>
+  dataTableProps?: Partial<DataTableProps>
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
   const {
     module,
+    addModule = module,
     columnDefs: injectedColumnDefs,
 
     headerProps,
+    disableAdd,
     disableDelete,
     disableManage,
     disablePreview,
@@ -58,6 +63,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     previewFormProps,
     addFormProps,
+    dataTableProps,
   } = props
   const { table, select } = module
   const { user } = useUser()
@@ -103,6 +109,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       {/* Header */}
       <CrudTableHeader
         module={module}
+        disableAdd={disableAdd}
+        addModule={addModule}
         filters={filters}
         setFilters={setFilters}
         searchFormSections={searchFormSections}
@@ -126,7 +134,12 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       />
 
       {/* DataTable */}
-      <DataTable ref={gridRef} rowData={items} columnDefs={columnDefs} />
+      <DataTable
+        ref={gridRef}
+        rowData={items}
+        columnDefs={columnDefs}
+        {...dataTableProps}
+      />
     </>
   )
 }
