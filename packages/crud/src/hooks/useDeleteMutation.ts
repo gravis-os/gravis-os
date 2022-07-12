@@ -1,7 +1,7 @@
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { PostgrestResponse } from '@supabase/postgrest-js'
 import { MutationFunction, useMutation, UseMutationResult } from 'react-query'
-import { CrudModule } from '../types'
+import { CrudModule } from '@gravis-os/types'
 
 export interface UseDeleteActionArg {
   module: CrudModule
