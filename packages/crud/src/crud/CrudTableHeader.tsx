@@ -13,6 +13,7 @@ import {
 } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
+import { ButtonProps } from '@mui/material'
 import styleConfig from '../config/styleConfig'
 import FilterForm from './FilterForm'
 import SearchForm from './SearchForm'
@@ -22,6 +23,8 @@ import CrudAddDialog from './CrudAddDialog'
 
 export interface CrudTableHeaderProps {
   module: CrudModule
+  disableAdd?: boolean
+  addModule?: CrudModule
   filterFormSections?: FormSectionsProps['sections']
   searchFormSections?: FormSectionsProps['sections']
   addFormSections?: FormSectionsProps['sections']
@@ -30,6 +33,7 @@ export interface CrudTableHeaderProps {
     React.SetStateAction<any[] | Record<string, unknown>>
   >
   addDialogProps?: Record<string, unknown>
+  renderAddButton?: (buttonProps: ButtonProps) => React.ReactElement
 }
 
 const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
@@ -37,10 +41,13 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     filters,
     setFilters,
     module,
+    disableAdd,
+    addModule = module,
     addDialogProps,
     addFormSections = [],
     searchFormSections = [],
     filterFormSections = [],
+    renderAddButton,
   } = props
   const { route, name } = module
 
@@ -52,7 +59,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false)
 
   // Add Dialog
-  const useAddDialogProps = useAddDialog({ module, addFormSections })
+  const useAddDialogProps = useAddDialog({ module: addModule, addFormSections })
   const { setAddDialogOpen } = useAddDialogProps
 
   // Methods
@@ -156,16 +163,19 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           )}
 
           {/* Add Button */}
-          <Button
-            startIcon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
-            variant="contained"
-            fullWidthOnMobile
-            {...(hasAddFormSections
-              ? { onClick: () => setAddDialogOpen(true) }
-              : { href: `/${route.plural}/new` })}
-          >
-            Add {name.singular}
-          </Button>
+          {!disableAdd &&
+            (renderAddButton?.({ onClick: () => setAddDialogOpen(true) }) || (
+              <Button
+                startIcon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
+                variant="contained"
+                fullWidthOnMobile
+                {...(hasAddFormSections
+                  ? { onClick: () => setAddDialogOpen(true) }
+                  : { href: `/${route.plural}/new` })}
+              >
+                Add {name.singular}
+              </Button>
+            ))}
 
           {/* Add Dialog */}
           <CrudAddDialog {...useAddDialogProps} {...addDialogProps} />

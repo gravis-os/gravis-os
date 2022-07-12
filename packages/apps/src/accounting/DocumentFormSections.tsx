@@ -21,6 +21,7 @@ import {
 } from '@gravis-os/ui'
 import {
   FormSection,
+  FormSectionProps,
   FormSectionReadOnlyStack,
   FormSectionRenderReadOnlyProps,
 } from '@gravis-os/form'
@@ -123,6 +124,29 @@ const DocumentFormSections: React.FC<any> = (props) => {
 
   const getSectionPropsByKey = (key: string) =>
     sections.find((section) => section.key === key)
+  const sectionKeys = [
+    'salesperson',
+    'status',
+    'title',
+    'published_at',
+    'project',
+    'company',
+    'contact',
+    'shipping_address',
+    'billing_address',
+    'total',
+    'order',
+    'payment',
+    'lines',
+    'notes',
+    'attachments',
+    'pricing',
+  ]
+  const sectionsPropsByKey: Record<string, FormSectionProps> =
+    sectionKeys.reduce(
+      (acc, key) => ({ ...acc, [key]: getSectionPropsByKey(key) }),
+      {}
+    )
 
   const actionButtons = [
     {
@@ -136,8 +160,10 @@ const DocumentFormSections: React.FC<any> = (props) => {
       onClick: async () => {
         if (isReadOnly) return setIsReadOnly(!isReadOnly)
 
-        await formContext.handleSubmit(onSubmit)()
-        setIsReadOnly(!isReadOnly)
+        await formContext.handleSubmit(async (values) => {
+          await onSubmit(values)
+          setIsReadOnly(true)
+        })()
       },
     },
     {
@@ -192,19 +218,23 @@ const DocumentFormSections: React.FC<any> = (props) => {
           <Box sx={{ width: '100%' }}>
             <Grid container>
               {/* Salesperson */}
-              <FormSection
-                gridProps={{ xs: 6 }}
-                {...formSectionProps}
-                {...getSectionPropsByKey('salesperson')}
-              />
+              {Boolean(sectionsPropsByKey.salesperson) && (
+                <FormSection
+                  gridProps={{ xs: 6 }}
+                  {...formSectionProps}
+                  {...sectionsPropsByKey.salesperson}
+                />
+              )}
 
               {/* Status */}
-              <FormSection
-                gridProps={{ xs: 6 }}
-                readOnlySx={{ textAlign: 'right' }}
-                {...formSectionProps}
-                {...getSectionPropsByKey('status')}
-              />
+              {Boolean(sectionsPropsByKey.status) && (
+                <FormSection
+                  gridProps={{ xs: 6 }}
+                  readOnlySx={{ textAlign: 'right' }}
+                  {...formSectionProps}
+                  {...sectionsPropsByKey.status}
+                />
+              )}
             </Grid>
           </Box>
         </Stack>
@@ -221,14 +251,18 @@ const DocumentFormSections: React.FC<any> = (props) => {
               spacing={1}
               justifyContent="space-between"
             >
-              <FormSection
-                {...formSectionProps}
-                {...getSectionPropsByKey('title')}
-              />
-              <FormSection
-                {...formSectionProps}
-                {...getSectionPropsByKey('published_at')}
-              />
+              {Boolean(sectionsPropsByKey.title) && (
+                <FormSection
+                  {...formSectionProps}
+                  {...sectionsPropsByKey.title}
+                />
+              )}
+              {Boolean(sectionsPropsByKey.published_at) && (
+                <FormSection
+                  {...formSectionProps}
+                  {...sectionsPropsByKey.published_at}
+                />
+              )}
             </Stack>
 
             <Divider sx={{ '&&': { mt: 0 } }} />
@@ -244,63 +278,75 @@ const DocumentFormSections: React.FC<any> = (props) => {
                 <Grid item xs={12} md={7}>
                   <Grid container spacing={5}>
                     {/* Project + Amount */}
-                    <FormSection
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('project')}
-                    />
+                    {Boolean(sectionsPropsByKey.project) && (
+                      <FormSection
+                        {...formSectionProps}
+                        {...sectionsPropsByKey.project}
+                      />
+                    )}
 
                     {/* Company */}
-                    <FormSection
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('company')}
-                    />
+                    {Boolean(sectionsPropsByKey.company) && (
+                      <FormSection
+                        {...formSectionProps}
+                        {...sectionsPropsByKey.company}
+                      />
+                    )}
 
                     {/* Contact */}
-                    <FormSection
-                      renderReadOnly={(props) => (
-                        <ContactReadOnlyFormSection {...props} />
-                      )}
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('contact')}
-                    />
+                    {Boolean(sectionsPropsByKey.contact) && (
+                      <FormSection
+                        renderReadOnly={(props) => (
+                          <ContactReadOnlyFormSection {...props} />
+                        )}
+                        {...formSectionProps}
+                        {...sectionsPropsByKey.contact}
+                      />
+                    )}
 
                     <Grid item>
                       <Grid container spacing={2}>
                         {/* Addresses */}
-                        <FormSection
-                          gridProps={{ md: true }}
-                          renderReadOnlySection={(props: {
-                            label: React.ReactNode
-                            item?: DocumentItem
-                          }) => (
-                            <AddressReadOnlyFormSection
-                              prefix="shipping"
-                              icon={
-                                <LocalShippingOutlinedIcon fontSize="small" />
-                              }
-                              title="Ship to"
-                              {...props}
-                            />
-                          )}
-                          {...formSectionProps}
-                          {...getSectionPropsByKey('shipping_address')}
-                        />
-                        <FormSection
-                          gridProps={{ md: true }}
-                          renderReadOnlySection={(props: {
-                            label: React.ReactNode
-                            item?: DocumentItem
-                          }) => (
-                            <AddressReadOnlyFormSection
-                              prefix="billing"
-                              icon={<ApartmentOutlinedIcon fontSize="small" />}
-                              title="Bill to"
-                              {...props}
-                            />
-                          )}
-                          {...formSectionProps}
-                          {...getSectionPropsByKey('billing_address')}
-                        />
+                        {Boolean(sectionsPropsByKey.shipping_address) && (
+                          <FormSection
+                            gridProps={{ md: true }}
+                            renderReadOnlySection={(props: {
+                              label: React.ReactNode
+                              item?: DocumentItem
+                            }) => (
+                              <AddressReadOnlyFormSection
+                                prefix="shipping"
+                                icon={
+                                  <LocalShippingOutlinedIcon fontSize="small" />
+                                }
+                                title="Ship to"
+                                {...props}
+                              />
+                            )}
+                            {...formSectionProps}
+                            {...sectionsPropsByKey.shipping_address}
+                          />
+                        )}
+                        {Boolean(sectionsPropsByKey.billing_address) && (
+                          <FormSection
+                            gridProps={{ md: true }}
+                            renderReadOnlySection={(props: {
+                              label: React.ReactNode
+                              item?: DocumentItem
+                            }) => (
+                              <AddressReadOnlyFormSection
+                                prefix="billing"
+                                icon={
+                                  <ApartmentOutlinedIcon fontSize="small" />
+                                }
+                                title="Bill to"
+                                {...props}
+                              />
+                            )}
+                            {...formSectionProps}
+                            {...sectionsPropsByKey.billing_address}
+                          />
+                        )}
                       </Grid>
                     </Grid>
                   </Grid>
@@ -311,21 +357,27 @@ const DocumentFormSections: React.FC<any> = (props) => {
                 <Grid item xs={12} md={4}>
                   <Grid container spacing={5}>
                     {/* Total */}
-                    <FormSection
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('total')}
-                    />
+                    {Boolean(sectionsPropsByKey.total) && (
+                      <FormSection
+                        {...formSectionProps}
+                        {...sectionsPropsByKey.total}
+                      />
+                    )}
                     {/* Others */}
-                    <FormSection
-                      readOnlySx={{ textAlign: 'right' }}
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('order')}
-                    />
-                    <FormSection
-                      readOnlySx={{ textAlign: 'right' }}
-                      {...formSectionProps}
-                      {...getSectionPropsByKey('payment')}
-                    />
+                    {Boolean(sectionsPropsByKey.order) && (
+                      <FormSection
+                        readOnlySx={{ textAlign: 'right' }}
+                        {...formSectionProps}
+                        {...sectionsPropsByKey.order}
+                      />
+                    )}
+                    {Boolean(sectionsPropsByKey.payment) && (
+                      <FormSection
+                        readOnlySx={{ textAlign: 'right' }}
+                        {...formSectionProps}
+                        {...sectionsPropsByKey.payment}
+                      />
+                    )}
                   </Grid>
                 </Grid>
               </Grid>
@@ -335,10 +387,9 @@ const DocumentFormSections: React.FC<any> = (props) => {
 
         {/* Document Lines */}
         <Box>
-          <FormSection
-            {...formSectionProps}
-            {...getSectionPropsByKey('lines')}
-          />
+          {Boolean(sectionsPropsByKey.lines) && (
+            <FormSection {...formSectionProps} {...sectionsPropsByKey.lines} />
+          )}
         </Box>
 
         <Card disableBorderRadiusTop>
@@ -348,17 +399,21 @@ const DocumentFormSections: React.FC<any> = (props) => {
               <Grid item xs={12} md={6}>
                 <Grid container spacing={4}>
                   {/* Notes */}
-                  <FormSection
-                    gridProps={{ spacing: 4 }}
-                    {...formSectionProps}
-                    {...getSectionPropsByKey('notes')}
-                  />
+                  {Boolean(sectionsPropsByKey.notes) && (
+                    <FormSection
+                      gridProps={{ spacing: 4 }}
+                      {...formSectionProps}
+                      {...sectionsPropsByKey.notes}
+                    />
+                  )}
 
                   {/* Attachments */}
-                  <FormSection
-                    {...formSectionProps}
-                    {...getSectionPropsByKey('attachments')}
-                  />
+                  {Boolean(sectionsPropsByKey.attachments) && (
+                    <FormSection
+                      {...formSectionProps}
+                      {...sectionsPropsByKey.attachments}
+                    />
+                  )}
                 </Grid>
               </Grid>
 
@@ -367,16 +422,18 @@ const DocumentFormSections: React.FC<any> = (props) => {
               <Grid item xs={12} md={4}>
                 <Grid container>
                   {/* Pricing */}
-                  <FormSection
-                    readOnlySx={{
-                      flexDirection: 'row',
-                      alignItems: 'center',
-                      justifyContent: 'space-between',
-                    }}
-                    gridProps={{ spacing: 0.5 }}
-                    {...formSectionProps}
-                    {...getSectionPropsByKey('pricing')}
-                  />
+                  {Boolean(sectionsPropsByKey.pricing) && (
+                    <FormSection
+                      readOnlySx={{
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'space-between',
+                      }}
+                      gridProps={{ spacing: 0.5 }}
+                      {...formSectionProps}
+                      {...sectionsPropsByKey.pricing}
+                    />
+                  )}
                 </Grid>
               </Grid>
             </Grid>

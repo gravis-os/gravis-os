@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { useForm, UseFormReturn } from 'react-hook-form'
+import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form'
 import {
   supabaseClient,
   SupabaseClient,
@@ -26,31 +26,24 @@ import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 type UseCrudFormValues = Record<string, any>
 
 interface UseCrudFormValuesInterface {
+  isNew?: boolean
+  item?: CrudItem
   values: UseCrudFormValues
-  isNew: boolean
 }
 
-export interface UseCrudFormArgs {
+export interface UseCrudFormArgs extends UseFormProps {
   module: CrudModule
   item?: CrudItem
   refetch?: () => Promise<CrudItem>
   client?: SupabaseClient
+  createOnSubmit?: boolean
   setFormValues?: ({
     values,
     isNew,
+    item,
   }: UseCrudFormValuesInterface) => Record<string, unknown>
-  afterSubmit?: ({
-    values,
-    isNew,
-    item,
-  }: UseCrudFormValuesInterface & { item: CrudItem }) => void
-  afterDelete?: ({
-    values,
-    item,
-  }: {
-    values: UseCrudFormValuesInterface['values']
-    item: CrudItem
-  }) => void
+  afterSubmit?: ({ values, isNew, item }: UseCrudFormValuesInterface) => unknown
+  afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => unknown
   defaultValues?: Record<string, unknown>
   sections?: FormSectionsProps['sections']
 }
@@ -69,15 +62,16 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     afterDelete,
     setFormValues,
     client = supabaseClient,
+    createOnSubmit,
     item: injectedItem,
     refetch,
     module,
     sections,
+    ...rest
   } = props
   const { sk, table } = module
 
-  const item = injectedItem || {}
-
+  const item = injectedItem || ({} as CrudItem)
   // User
   const { user } = useUser()
 
@@ -94,7 +88,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     : getDefaultValues({ isNew, item: { ...injectedDefaultValues, ...item } })
 
   // Form
-  const form = useForm({ defaultValues })
+  const form = useForm({ defaultValues, ...rest })
   const { reset } = form
 
   // Reset form when dbItem is returned
@@ -108,7 +102,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const queryClient = useQueryClient()
   const queryMatcher = { [sk]: item[sk] } // e.g. { id: 1 }
   const createOrUpdateMutationFunction = async (nextValues) =>
-    isNew
+    createOnSubmit || isNew
       ? client.from(table.name).insert([nextValues])
       : client.from(table.name).update([nextValues]).match(queryMatcher)
   const deleteMutationFunction = async () =>
@@ -130,7 +124,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
     // Expose values to outer scope
     const exposedValues = setFormValues
-      ? setFormValues({ isNew, values: dbFormValues })
+      ? setFormValues({ item, isNew, values: dbFormValues })
       : dbFormValues
 
     // Split join (many to many) values

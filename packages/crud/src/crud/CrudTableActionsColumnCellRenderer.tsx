@@ -31,12 +31,20 @@ export interface CrudTableActionsColumnCellRendererProps {
   }: {
     data: CrudItem
   }) => MoreIconButtonProps['items']
+  children?: React.ReactNode
 }
 
 const CrudTableActionsColumnCellRenderer: React.FC<
   CrudTableActionsColumnCellRendererProps
 > = (props) => {
-  const { module, data, disableDelete, disableManage, renderMoreItems } = props
+  const {
+    module,
+    data,
+    disableDelete,
+    disableManage,
+    renderMoreItems,
+    children,
+  } = props
   const { table } = module
 
   // Query
@@ -98,6 +106,8 @@ const CrudTableActionsColumnCellRenderer: React.FC<
           </Dialog>
         </>
       )}
+
+      {children}
 
       {/* More */}
       <MoreIconButton

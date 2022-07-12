@@ -4,7 +4,7 @@ import { ColDef, ColGroupDef } from 'ag-grid-community/dist/lib/entities/colDef'
 import { useQuery } from 'react-query'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import DataTable from './DataTable'
+import DataTable, { DataTableProps } from './DataTable'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
 import useRouterQueryFilters from './useRouterQueryFilters'
@@ -15,18 +15,21 @@ import CrudPreviewDrawer from './CrudPreviewDrawer'
 import fetchCrudItems from './fetchCrudItems'
 
 type CrudTableColumn =
-  | ColDef
+  | (ColDef & { hide?: boolean | (({ user }) => boolean) })
   | (ColGroupDef & {
       hasAvatar?: boolean
     })
 
 export interface CrudTableProps {
   module: CrudModule
+  addModule?: CrudModule
   columnDefs?: CrudTableColumn[] | null
   setQuery?: (query) => Promise<any>
   headerProps?: Partial<CrudTableHeaderProps>
+  disableAdd?: boolean
   disableDelete?: boolean
   disableManage?: boolean
+  disablePreview?: boolean
   isListPage?: boolean
 
   previewFormSections?: FormSectionsProps['sections']
@@ -36,16 +39,20 @@ export interface CrudTableProps {
 
   previewFormProps?: Partial<CrudFormProps>
   addFormProps?: Partial<CrudFormProps>
+  dataTableProps?: Partial<DataTableProps>
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
   const {
     module,
+    addModule = module,
     columnDefs: injectedColumnDefs,
 
     headerProps,
+    disableAdd,
     disableDelete,
     disableManage,
+    disablePreview,
     setQuery,
     isListPage,
 
@@ -56,6 +63,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     previewFormProps,
     addFormProps,
+    dataTableProps,
   } = props
   const { table, select } = module
   const { user } = useUser()
@@ -91,6 +99,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     module,
     disableDelete,
     disableManage,
+    user,
     // For Preview
     setPreview,
     previewFormSections,
@@ -101,6 +110,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       {/* Header */}
       <CrudTableHeader
         module={module}
+        disableAdd={disableAdd}
+        addModule={addModule}
         filters={filters}
         setFilters={setFilters}
         searchFormSections={searchFormSections}
@@ -120,10 +131,16 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
         {...usePreviewDrawerProps}
         crudFormProps={previewFormProps}
         disableManage={disableManage}
+        disablePreview={disablePreview}
       />
 
       {/* DataTable */}
-      <DataTable ref={gridRef} rowData={items} columnDefs={columnDefs} />
+      <DataTable
+        ref={gridRef}
+        rowData={items}
+        columnDefs={columnDefs}
+        {...dataTableProps}
+      />
     </>
   )
 }
