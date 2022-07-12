@@ -23,17 +23,18 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
         disableReadOnlyButton: true,
         disableRedirectOnSuccess: true,
         formJsxComponent: DocumentFormSections,
+        ...crudFormProps,
         useCrudFormProps: {
           afterDelete: () => router.push(module.route.plural),
           setFormValues: (props) => {
-            const { values, isNew } = props
+            const { values } = props
             return values
           },
           defaultValues: {
             title: getDocumentTitle({ prefix: getDocumentPrefixByType(type) }),
           },
+          ...crudFormProps?.useCrudFormProps,
         },
-        ...crudFormProps,
       }}
       {...rest}
     />
