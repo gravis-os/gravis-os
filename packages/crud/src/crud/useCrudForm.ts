@@ -35,6 +35,7 @@ export interface UseCrudFormArgs {
   item?: CrudItem
   refetch?: () => Promise<CrudItem>
   client?: SupabaseClient
+  createAlways?: boolean
   setFormValues?: ({
     values,
     isNew,
@@ -69,6 +70,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     afterDelete,
     setFormValues,
     client = supabaseClient,
+    createAlways,
     item: injectedItem,
     refetch,
     module,
@@ -108,7 +110,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const queryClient = useQueryClient()
   const queryMatcher = { [sk]: item[sk] } // e.g. { id: 1 }
   const createOrUpdateMutationFunction = async (nextValues) =>
-    isNew
+    createAlways || isNew
       ? client.from(table.name).insert([nextValues])
       : client.from(table.name).update([nextValues]).match(queryMatcher)
   const deleteMutationFunction = async () =>
