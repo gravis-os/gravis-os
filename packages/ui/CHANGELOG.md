@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.13
+
+### Patch Changes
+
+- Add types, dashboard, web packages. Squashed bugs"
+- 96c9535: Abstract Tabs in DetailPage to UI
+- 3326527: Add Tabs & List UI components"
+- Updated dependencies
+  - @gravis-os/types@0.0.2
+  - @gravis-os/utils@0.0.8
+
 ## 0.0.12
 
 ### Patch Changes

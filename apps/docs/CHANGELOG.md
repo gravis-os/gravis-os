@@ -1,6 +1,6 @@
-# Changelog
+# docs
 
-## 0.0.2
+## 0.0.1
 
 ### Patch Changes
 
@@ -8,5 +8,8 @@
 - Updated dependencies
 - Updated dependencies [96c9535]
 - Updated dependencies [3326527]
-  - @gravis-os/types@0.0.2
+  - @gravis-os/auth@0.0.7
+  - @gravis-os/form@0.0.16
+  - @gravis-os/storage@0.0.8
   - @gravis-os/ui@0.0.13
+  - @gravis-os/utils@0.0.8

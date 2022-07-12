@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.8
+
+### Patch Changes
+
+- Add types, dashboard, web packages. Squashed bugs"
+- 3326527: Add Tabs & List UI components"
+- Updated dependencies
+- Updated dependencies [96c9535]
+- Updated dependencies [3326527]
+  - @gravis-os/types@0.0.2
+  - @gravis-os/ui@0.0.13
+
 ## 0.0.7
 
 ### Patch Changes

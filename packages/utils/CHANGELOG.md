@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.8
+
+### Patch Changes
+
+- Add types, dashboard, web packages. Squashed bugs"
+- Updated dependencies
+  - @gravis-os/types@0.0.2
+
 ## 0.0.7
 
 ### Patch Changes
