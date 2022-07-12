@@ -40,6 +40,7 @@ export interface CrudFormProps {
   disabledFields?: string[]
   formProps?: Partial<FormProps<any>>
   formJsxComponent?: React.JSXElementConstructor<any>
+  formJsxComponentProps?: Record<string, unknown>
 }
 
 export interface CrudFormJsxProps extends FormSectionsProps {
@@ -74,6 +75,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     disableReadOnlyButton,
     disableRedirectOnSuccess,
     formJsxComponent: FormJsxComponent = FormSections,
+    formJsxComponentProps,
   } = props
   const { route } = module
 
@@ -117,6 +119,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     onSubmit, // For remote submits be sure to wrap in RHF.handleSubmit e.g. formContext.handleSubmit(onSubmit)()
     onDelete,
     ...formSectionsProps,
+    ...formJsxComponentProps,
   }
 
   // Loading state

@@ -20,7 +20,7 @@ export interface DataTableProps extends AgGridProps {
  * @link https://www.ag-grid.com/javascript-data-grid/column-properties
  */
 const DataTable = React.forwardRef<
-  React.RefObject<any>,
+  unknown,
   React.PropsWithChildren<DataTableProps>
 >((props, ref) => {
   const {
