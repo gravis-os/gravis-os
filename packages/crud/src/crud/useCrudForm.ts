@@ -26,8 +26,9 @@ import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 type UseCrudFormValues = Record<string, any>
 
 interface UseCrudFormValuesInterface {
+  isNew?: boolean
+  item?: CrudItem
   values: UseCrudFormValues
-  isNew: boolean
 }
 
 export interface UseCrudFormArgs {
@@ -40,19 +41,9 @@ export interface UseCrudFormArgs {
     values,
     isNew,
     item,
-  }: UseCrudFormValuesInterface & { item: CrudItem }) => Record<string, unknown>
-  afterSubmit?: ({
-    values,
-    isNew,
-    item,
-  }: UseCrudFormValuesInterface & { item: CrudItem }) => void
-  afterDelete?: ({
-    values,
-    item,
-  }: {
-    values: UseCrudFormValuesInterface['values']
-    item: CrudItem
-  }) => void
+  }: UseCrudFormValuesInterface) => Record<string, unknown>
+  afterSubmit?: ({ values, isNew, item }: UseCrudFormValuesInterface) => void
+  afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => void
   defaultValues?: Record<string, unknown>
   sections?: FormSectionsProps['sections']
 }
