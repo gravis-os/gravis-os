@@ -42,8 +42,8 @@ export interface UseCrudFormArgs extends UseFormProps {
     isNew,
     item,
   }: UseCrudFormValuesInterface) => Record<string, unknown>
-  afterSubmit?: ({ values, isNew, item }: UseCrudFormValuesInterface) => void
-  afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => void
+  afterSubmit?: ({ values, isNew, item }: UseCrudFormValuesInterface) => unknown
+  afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => unknown
   defaultValues?: Record<string, unknown>
   sections?: FormSectionsProps['sections']
 }

@@ -81,7 +81,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
 
   // Lifecycle
   const router = useRouter()
-  const afterSubmit = ({ isNew }) => {
+  const afterSubmit = () => {
     return !disableRedirectOnSuccess && router.push(`/${route.plural}`)
   }
 
