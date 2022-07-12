@@ -24,7 +24,7 @@ export interface PageHeaderProps
   borderBottom?: boolean
   buttonProps?: ButtonProps
   button?: React.ReactElement
-  renderButton?: (params: UseCrudFormReturn) => React.ReactElement
+  renderButton?: (params: UseCrudFormReturn) => React.ReactNode
   disableGutterBottom?: boolean
   disableBreadcrumbs?: boolean
   divider?: boolean

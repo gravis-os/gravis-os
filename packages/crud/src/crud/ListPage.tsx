@@ -3,12 +3,11 @@ import { Container } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import PageHeader from './PageHeader'
-import { DataTableProps } from './DataTable'
 import CrudTable, { CrudTableProps } from './CrudTable'
 
 export interface ListPageProps {
   module: CrudModule
-  columnDefs?: DataTableProps['columnDefs']
+  columnDefs?: CrudTableProps['columnDefs']
   filterFormSections?: FormSectionsProps['sections']
   searchFormSections?: FormSectionsProps['sections']
   previewFormSections?: FormSectionsProps['sections']
