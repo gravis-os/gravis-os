@@ -104,7 +104,8 @@ export interface RenderFieldProps {
  */
 const renderField = (props: RenderFieldProps) => {
   const { formContext, sectionProps, fieldProps } = props
-  const { control, setValue } = formContext
+  const { control, setValue, formState } = formContext
+  const { errors } = formState
   const {
     isNew,
     isPreview,
@@ -139,6 +140,8 @@ const renderField = (props: RenderFieldProps) => {
     setValue,
     disabled: isDisabled,
     hidden: hidden as boolean, // Cast as boolean. Typing purposes
+    error: Boolean(errors[name]),
+    helperText: errors[name]?.message,
   }
 
   if (isReadOnly) {
