@@ -28,6 +28,7 @@ const CrudAddDialog: React.FC<CrudAddDialogProps> = (props) => {
       <CrudForm
         module={module}
         sections={addFormSections}
+        {...crudFormProps}
         headerProps={{
           sx: { mt: 2, px: 2 },
           disableBreadcrumbs: true,
@@ -36,8 +37,8 @@ const CrudAddDialog: React.FC<CrudAddDialogProps> = (props) => {
           actionButtons: [
             { key: 'cancel', children: 'Cancel', onClick: resetAddDialogOpen },
           ],
+          ...crudFormProps?.headerProps,
         }}
-        {...crudFormProps}
         useCrudFormProps={{
           afterSubmit: resetAddDialogOpen,
           ...crudFormProps?.useCrudFormProps,
