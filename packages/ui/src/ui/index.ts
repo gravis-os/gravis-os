@@ -88,6 +88,9 @@ export * from './Reveal'
 export { default as Skeleton } from './Skeleton'
 export * from './Skeleton'
 
+export { default as SplitButton } from './SplitButton'
+export * from './SplitButton'
+
 export { default as Switch } from './Switch'
 export * from './Switch'
 
