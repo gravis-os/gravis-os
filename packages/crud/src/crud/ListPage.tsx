@@ -13,7 +13,7 @@ export interface ListPageProps {
   searchFormSections?: FormSectionsProps['sections']
   previewFormSections?: FormSectionsProps['sections']
   addFormSections?: FormSectionsProps['sections']
-  crudTableProps?: Omit<CrudTableProps, 'module'>
+  crudTableProps?: Partial<CrudTableProps>
 }
 
 const ListPage: React.FC<ListPageProps> = (props) => {
