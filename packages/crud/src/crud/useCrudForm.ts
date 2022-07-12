@@ -39,7 +39,8 @@ export interface UseCrudFormArgs {
   setFormValues?: ({
     values,
     isNew,
-  }: UseCrudFormValuesInterface) => Record<string, unknown>
+    item,
+  }: UseCrudFormValuesInterface & { item: CrudItem }) => Record<string, unknown>
   afterSubmit?: ({
     values,
     isNew,
@@ -78,8 +79,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   } = props
   const { sk, table } = module
 
-  const item = injectedItem || {}
-
+  const item = injectedItem || ({} as CrudItem)
   // User
   const { user } = useUser()
 
@@ -132,7 +132,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
     // Expose values to outer scope
     const exposedValues = setFormValues
-      ? setFormValues({ isNew, values: dbFormValues })
+      ? setFormValues({ item, isNew, values: dbFormValues })
       : dbFormValues
 
     // Split join (many to many) values
