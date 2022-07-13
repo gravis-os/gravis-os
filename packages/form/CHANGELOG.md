@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.17
+
+### Patch Changes
+
+- Update build
+- Updated dependencies
+  - @gravis-os/storage@0.0.9
+  - @gravis-os/types@0.0.3
+  - @gravis-os/ui@0.0.14
+
 ## 0.0.16
 
 ### Patch Changes

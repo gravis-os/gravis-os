@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.14
+
+### Patch Changes
+
+- Update build
+- Updated dependencies
+  - @gravis-os/types@0.0.3
+  - @gravis-os/utils@0.0.9
+
 ## 0.0.13
 
 ### Patch Changes

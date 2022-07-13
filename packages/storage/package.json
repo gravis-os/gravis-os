@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/storage",
-  "version": "0.0.8",
+  "version": "0.0.9",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
