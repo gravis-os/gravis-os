@@ -9,7 +9,7 @@ export default {
   },
 }
 
-export const Basic = ({ ...rest }) => <List {...rest} />
+export const Basic = (props) => <List {...props} />
 
-export const NestedList = ({ ...rest }) => <List {...rest} />
+export const NestedList = (props) => <List {...props} />
 NestedList.args = { items: MOCK_NESTED_LIST_ITEMS }

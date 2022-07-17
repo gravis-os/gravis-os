@@ -66,15 +66,15 @@ const textFieldSx = {
 interface MegaSearchAutocompleteProps {
   control?: ControllerProps<any, any>['control']
   name: string
-  options: AutocompleteProps<any, any, any, any>['options']
+  options: Partial<AutocompleteProps<any, any, any, any>['options']>
   Icon: React.JSXElementConstructor<IconProps>
   sx?: SxProps
   AutocompleteProps?: Partial<AutocompleteProps<any, any, any, any>>
   label: string
   placeholder: string
-  title: React.ReactNode
-  onChange: any
-  value: any
+  title?: React.ReactNode
+  onChange?: any
+  value?: any
 }
 
 const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (

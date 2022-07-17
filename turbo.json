@@ -13,6 +13,7 @@
     "yalc:push": {
       "dependsOn": ["build"]
     },
-    "watch": {}
+    "watch": {},
+    "tslint": {}
   }
 }

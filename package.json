@@ -14,7 +14,8 @@
     "changeset": "changeset",
     "commit": "git-cz",
     "yalc:push": "turbo run yalc:push",
-    "watch": "turbo run watch"
+    "watch": "turbo run watch",
+    "tslint": "turbo run tslint"
   },
   "config": {
     "commitizen": {
