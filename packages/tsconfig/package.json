@@ -1,14 +1,8 @@
 {
-  "name": "tsconfig",
+  "name": "@gravis-os/tsconfig",
   "version": "0.0.1",
-  "private": true,
   "main": "index.js",
-  "files": [
-    "base.json",
-    "nextjs.json",
-    "react-library.json",
-    "tsconfig.base.json",
-    "tsconfig.cjs.json",
-    "tsconfig.esm.json"
-  ]
+  "publishConfig": {
+     "access": "public"
+   }
 }

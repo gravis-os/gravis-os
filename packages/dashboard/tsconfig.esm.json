@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/tsconfig.esm.json",
+  "extends": "@gravis-os/tsconfig/tsconfig.esm.json",
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist/esm",

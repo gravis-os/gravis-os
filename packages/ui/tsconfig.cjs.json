@@ -1,5 +1,5 @@
 {
-  "extends": "tsconfig/tsconfig.cjs.json",
+  "extends": "@gravis-os/tsconfig/tsconfig.cjs.json",
   "compilerOptions": {
     "baseUrl": ".",
     "outDir": "dist/cjs",
