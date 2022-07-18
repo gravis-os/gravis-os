@@ -11,9 +11,9 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
   const { headerProps, footerProps, children, sx, ...rest } = props
   return (
     <Stack sx={{ minHeight: '100vh', ...sx }} {...rest}>
-      <Header {...headerProps} />
+      {headerProps && <Header {...headerProps} />}
       <Box sx={{ flexGrow: 1 }}>{children}</Box>
-      <Footer {...footerProps} />
+      {footerProps && <Footer {...footerProps} />}
     </Stack>
   )
 }

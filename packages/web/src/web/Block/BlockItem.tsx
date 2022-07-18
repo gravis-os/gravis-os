@@ -72,7 +72,7 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
   cardProps?: CardProps
 
   // Core
-  title: React.ReactNode
+  title?: React.ReactNode
   titleProps?: TypographyProps | ImageProps | ButtonProps | LinkProps
   type?: BlockItemTypeEnum
 }

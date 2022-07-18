@@ -1,8 +1,6 @@
 import merge from 'lodash/merge'
 import { baseTheme } from '@gravis-os/ui'
 import landingTheme from './landingTheme'
-import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
-import InterBold from '../../../public/fonts/Inter/Inter-Bold.ttf'
 
 const headerFontFamily =
   "Inter, -apple-system, Roboto, 'Helvetica Neue', Arial, sans-serif"
@@ -21,26 +19,6 @@ const vercelLandingThemeConfig = {
     h3: { fontFamily: headerFontFamily },
     h4: { fontFamily: headerFontFamily },
     h5: { fontFamily: subtitleFontFamily },
-  },
-  components: {
-    // Self-hosted font: https://mui.com/material-ui/customization/typography/#self-hosted-fonts
-    MuiCssBaseline: {
-      styleOverrides: `
-        @font-face {
-            font-family: 'Inter';
-            font-style: normal;
-            font-weight: 400;
-            src: url(${InterRegular});
-        }
-        
-        @font-face {
-            font-family: 'Inter';
-            font-style: bold;
-            font-weight: 700;
-            src: url(${InterBold});
-        }
-      `,
-    },
   },
 }
 

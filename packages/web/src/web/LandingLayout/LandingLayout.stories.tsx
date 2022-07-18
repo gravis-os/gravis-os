@@ -20,6 +20,12 @@ import {
   vercelLandingTheme,
 } from '../../themes'
 import { BlockItemTypeEnum } from '../Block/BlockItem'
+import PublicoHeadlineLight from '../../../public/fonts/Publico/PublicoHeadline-Light-Web.woff2'
+import PublicoTextSemibold from '../../../public/fonts/Publico/PublicoText-Semibold-Web.woff2'
+import PublicoTextRoman from '../../../public/fonts/Publico/PublicoText-Roman-Web.woff2'
+
+import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
+import InterBold from '../../../public/fonts/Inter/Inter-Bold.ttf'
 
 export default {
   component: LandingLayout,
@@ -323,7 +329,57 @@ GravisTheme.args = {
 export const PublicoTheme = (args) => {
   const { theme } = useTheme(publicoLandingTheme)
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider
+      theme={createTheme(theme, {
+        components: {
+          // Self-hosted font: https://mui.com/material-ui/customization/typography/#self-hosted-fonts
+          MuiCssBaseline: {
+            styleOverrides: `
+        @font-face {
+            font-family: 'Publico Headline';
+            src: url(${PublicoHeadlineLight});
+            font-weight: 300;
+            font-style: normal;
+            font-stretch: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Publico Headline';
+            src: url(${PublicoHeadlineLight});
+            font-weight: 400;
+            font-style: normal;
+            font-stretch: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Publico Headline';
+            src: url(${PublicoHeadlineLight});
+            font-weight: 500;
+            font-style: normal;
+            font-stretch: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Publico Text';
+            src: url(${PublicoTextSemibold});
+            font-weight: 600;
+            font-style: normal;
+            font-stretch: normal;
+            font-display: swap;
+        }
+        @font-face {
+            font-family: 'Publico Text';
+            src: url(${PublicoTextRoman});
+            font-weight: 400;
+            font-style: normal;
+            font-stretch: normal;
+            font-display: swap;
+        }
+      `,
+          },
+        },
+      })}
+    >
       <CssBaseline />
       <Basic {...args} />
     </ThemeProvider>
@@ -333,7 +389,30 @@ export const PublicoTheme = (args) => {
 export const VercelTheme = (args) => {
   const { theme } = useTheme(vercelLandingTheme)
   return (
-    <ThemeProvider theme={theme}>
+    <ThemeProvider
+      theme={createTheme(theme, {
+        components: {
+          // Self-hosted font: https://mui.com/material-ui/customization/typography/#self-hosted-fonts
+          MuiCssBaseline: {
+            styleOverrides: `
+        @font-face {
+            font-family: 'Inter';
+            font-style: normal;
+            font-weight: 400;
+            src: url(${InterRegular});
+        }
+        
+        @font-face {
+            font-family: 'Inter';
+            font-style: bold;
+            font-weight: 700;
+            src: url(${InterBold});
+        }
+      `,
+          },
+        },
+      })}
+    >
       <CssBaseline />
       <Basic {...args} />
     </ThemeProvider>
