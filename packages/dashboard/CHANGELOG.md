@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.4
+
+### Patch Changes
+
+- cd20132: Updated tsconfig, eslint, web and dashboard packages
+- Updated dependencies [cd20132]
+  - @gravis-os/types@0.0.4
+  - @gravis-os/ui@0.0.15
+
 ## 0.0.3
 
 ### Patch Changes
