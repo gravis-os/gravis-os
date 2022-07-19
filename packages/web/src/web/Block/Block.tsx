@@ -89,7 +89,7 @@ const Block: React.FC<BlockProps> = (props) => {
       )}
 
       {/* Content */}
-      <Box reveal={reveal}>
+      <Box sx={{ width: '100%' }} reveal={reveal}>
         <Stack spacing={spacing} {...stackProps}>
           {items.map((item, i) => {
             return (

@@ -17,6 +17,8 @@ import {
   Link,
   LinkProps,
   CardProps,
+  Divider,
+  DividerProps,
 } from '@gravis-os/ui'
 
 export enum BlockItemTypeEnum {
@@ -47,6 +49,7 @@ export enum BlockItemTypeEnum {
   ICON = 'icon',
   BUTTON = 'button',
   LINK = 'link',
+  DIVIDER = 'divider',
 }
 
 export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
@@ -73,7 +76,12 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
 
   // Core
   title?: React.ReactNode
-  titleProps?: TypographyProps | ImageProps | ButtonProps | LinkProps
+  titleProps?:
+    | TypographyProps
+    | ImageProps
+    | ButtonProps
+    | LinkProps
+    | DividerProps
   type?: BlockItemTypeEnum
 }
 
@@ -99,6 +107,12 @@ const renderBlockItem = (props) => {
       return (
         <Box {...boxProps}>
           <Icon {...titleProps} />
+        </Box>
+      )
+    case BlockItemTypeEnum.DIVIDER:
+      return (
+        <Box {...boxProps}>
+          <Divider {...titleProps} />
         </Box>
       )
     case BlockItemTypeEnum.BUTTON:
