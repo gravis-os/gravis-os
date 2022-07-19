@@ -32,9 +32,14 @@ const Grid: React.FC<GridProps> = (props) => {
       ...sx,
     },
     ...rest,
+    // Set default spacing = 2, else override with spacing prop
+    ...(container && {
+      spacing:
+        typeof spacing === 'number' || typeof spacing === 'object'
+          ? spacing
+          : 2,
+    }),
   }
-
-  if (container) gridProps.spacing = typeof spacing === 'number' ? spacing : 2
 
   return <MuiGrid {...gridProps} />
 }
