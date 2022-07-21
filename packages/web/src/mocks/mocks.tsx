@@ -1,6 +1,7 @@
 import React from 'react'
 import { Typography } from '@gravis-os/ui'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+// TODO: Remove images from mock files
 import MOCK_IMAGE_1 from '../../public/images/mock_app_card_image_1.png'
 import MOCK_DEVICE_FLATLAY_IMAGE_1 from '../../public/images/mock_device_flatlay_image_1.jpg'
 import MOCK_DEVICE_FLATLAY_IMAGE_2 from '../../public/images/mock_device_flatlay_image_2.jpeg'
