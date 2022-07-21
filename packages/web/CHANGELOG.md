@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.6
+
+### Patch Changes
+
+- Bump web version for testing
+
 ## 0.0.5
 
 ### Patch Changes
