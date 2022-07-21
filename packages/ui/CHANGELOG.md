@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.16
+
+### Patch Changes
+
+- Minor updates to web and ui packages
+
 ## 0.0.15
 
 ### Patch Changes

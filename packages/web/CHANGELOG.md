@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.5
+
+### Patch Changes
+
+- Minor updates to web and ui packages
+- Updated dependencies
+  - @gravis-os/ui@0.0.16
+
 ## 0.0.4
 
 ### Patch Changes
