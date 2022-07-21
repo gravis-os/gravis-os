@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.9
+
+### Patch Changes
+
+- Remove mock data from web"
+
 ## 0.0.8
 
 ### Patch Changes
