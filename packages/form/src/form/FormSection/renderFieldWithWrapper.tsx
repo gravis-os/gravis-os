@@ -15,6 +15,7 @@ export interface FormSectionJsxFieldProps {
   formContext: UseFormReturn
   item: FormSectionProps['item']
   isNew: FormSectionProps['isNew']
+  isReadOnly: FormSectionProps['isReadOnly']
 }
 
 /**
@@ -32,7 +33,7 @@ export interface RenderFieldWithWrapperProps
 }
 const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const { formContext, sectionProps, fieldProps } = props
-  const { isNew, isPreview, item } = sectionProps
+  const { isNew, isPreview, item, isReadOnly } = sectionProps
 
   /**
    * Handle Recursion case
@@ -76,6 +77,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
             formContext,
             item,
             isNew,
+            isReadOnly,
           }
         )}
       </Grid>
