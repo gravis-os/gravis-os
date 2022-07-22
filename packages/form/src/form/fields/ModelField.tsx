@@ -41,7 +41,7 @@ export interface ModelFieldProps {
   pk?: string
   module: CrudModule
   name: string
-  label?: string
+  label?: string | false
   multiple?: boolean
   error?: TextFieldProps['error']
   helperText?: TextFieldProps['helperText']
@@ -387,10 +387,12 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
         renderInput={(params) => (
           <TextField
             label={
-              label ||
-              `Select ${startCase(
-                name.endsWith('_id') ? name.split('_id')[0] : name
-              )}`
+              label === false
+                ? null
+                : label ||
+                  `Select ${startCase(
+                    name.endsWith('_id') ? name.split('_id')[0] : name
+                  )}`
             }
             {...params}
             InputProps={{
