@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  forwardRef,
+} from 'react'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import {
   PostgrestResponse,
@@ -103,7 +109,7 @@ export interface ModelFieldProps {
   }) => React.ReactNode
 }
 
-const ModelField: React.FC<ModelFieldProps> = (props) => {
+const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const {
     name,
     label,
@@ -386,6 +392,7 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
         }}
         renderInput={(params) => (
           <TextField
+            inputRef={ref}
             label={
               label === false
                 ? null
@@ -450,6 +457,6 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
       />
     </>
   )
-}
+})
 
 export default ModelField
