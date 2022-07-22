@@ -67,7 +67,7 @@ const DataTable = React.forwardRef<
         animateRows
         disableResizeGrid
         enableCellChangeFlash
-        rowHeight={50}
+        rowHeight={56}
         rowSelection="multiple"
         rowDragManaged
         rowDragMultiRow
