@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useState, useMemo } from 'react'
+import React, {
+  useCallback,
+  useEffect,
+  useState,
+  useMemo,
+  forwardRef,
+} from 'react'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import {
   PostgrestResponse,
@@ -41,7 +47,7 @@ export interface ModelFieldProps {
   pk?: string
   module: CrudModule
   name: string
-  label?: string
+  label?: string | false
   multiple?: boolean
   error?: TextFieldProps['error']
   helperText?: TextFieldProps['helperText']
@@ -103,7 +109,7 @@ export interface ModelFieldProps {
   }) => React.ReactNode
 }
 
-const ModelField: React.FC<ModelFieldProps> = (props) => {
+const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const {
     name,
     label,
@@ -386,11 +392,14 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
         }}
         renderInput={(params) => (
           <TextField
+            inputRef={ref}
             label={
-              label ||
-              `Select ${startCase(
-                name.endsWith('_id') ? name.split('_id')[0] : name
-              )}`
+              label === false
+                ? null
+                : label ||
+                  `Select ${startCase(
+                    name.endsWith('_id') ? name.split('_id')[0] : name
+                  )}`
             }
             {...params}
             InputProps={{
@@ -448,6 +457,6 @@ const ModelField: React.FC<ModelFieldProps> = (props) => {
       />
     </>
   )
-}
+})
 
 export default ModelField
