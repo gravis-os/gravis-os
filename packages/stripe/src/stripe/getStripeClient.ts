@@ -2,7 +2,7 @@ import { loadStripe, Stripe } from '@stripe/stripe-js'
 
 let stripePromise: Promise<Stripe | null>
 
-const getStripeJsClient = () => {
+const getStripeClient = () => {
   if (!stripePromise) {
     stripePromise = loadStripe(
       process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY_LIVE ??
@@ -14,4 +14,4 @@ const getStripeJsClient = () => {
   return stripePromise
 }
 
-export default getStripeJsClient
+export default getStripeClient

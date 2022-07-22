@@ -1,8 +1,10 @@
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
-import StripePrivateInstance from './StripePrivateInstance'
-import { Customer, UserDetails, StripePrice, StripeProduct } from './types'
-import toDateTime from './utils/toDateTime'
+import getStripeNode from '../stripe/getStripeNode'
+import { Customer, UserDetails, StripePrice, StripeProduct } from '../types'
+import toDateTime from '../utils/toDateTime'
+
+const stripeNode = getStripeNode()
 
 // Note: supabaseAdmin uses the SERVICE_ROLE_KEY which you must only use in a secure server-side context
 // as it has admin privileges and overwrites RLS policies!
@@ -72,7 +74,7 @@ const createOrRetrieveCustomer = async ({
       }
     if (email) customerData.email = email
 
-    const customer = await StripePrivateInstance.customers.create(customerData)
+    const customer = await stripeNode.customers.create(customerData)
 
     // Now insert the customer ID into our Supabase mapping table.
     const { error: supabaseError } = await supabaseAdmin
@@ -100,7 +102,7 @@ const copyBillingDetailsToCustomer = async (
 
   if (!name || !phone || !address) return
 
-  await StripePrivateInstance.customers.update(customer, {
+  await stripeNode.customers.update(customer, {
     name,
     phone,
     // @ts-ignore
@@ -131,12 +133,9 @@ const manageSubscriptionStatusChange = async (
 
   const { id: uuid } = customerData || {}
 
-  const subscription = await StripePrivateInstance.subscriptions.retrieve(
-    subscriptionId,
-    {
-      expand: ['default_payment_method'],
-    }
-  )
+  const subscription = await stripeNode.subscriptions.retrieve(subscriptionId, {
+    expand: ['default_payment_method'],
+  })
   // Upsert the latest status of the subscription object.
   const subscriptionData = {
     id: subscription.id,
