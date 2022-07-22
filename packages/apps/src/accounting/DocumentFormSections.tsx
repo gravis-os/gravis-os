@@ -125,6 +125,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
   const getSectionPropsByKey = (key: string) =>
     sections.find((section) => section.key === key)
   const sectionKeys = [
+    'assignee',
     'salesperson',
     'status',
     'title',
@@ -132,11 +133,16 @@ const DocumentFormSections: React.FC<any> = (props) => {
     'project',
     'company',
     'contact',
+    'warehouse',
     'shipping_address',
     'billing_address',
     'total',
     'order',
     'payment',
+    'ready_at',
+    'arrived_at',
+    'ship_via',
+    'shipped_at',
     'lines',
     'notes',
     'attachments',
@@ -217,6 +223,15 @@ const DocumentFormSections: React.FC<any> = (props) => {
           {/* Right */}
           <Box sx={{ width: '100%' }}>
             <Grid container>
+              {/* Assignee */}
+              {Boolean(sectionsPropsByKey.assignee) && (
+                <FormSection
+                  gridProps={{ xs: 6 }}
+                  {...formSectionProps}
+                  {...sectionsPropsByKey.assignee}
+                />
+              )}
+
               {/* Salesperson */}
               {Boolean(sectionsPropsByKey.salesperson) && (
                 <FormSection
@@ -304,6 +319,17 @@ const DocumentFormSections: React.FC<any> = (props) => {
                       />
                     )}
 
+                    {/* Warehouse */}
+                    {Boolean(sectionsPropsByKey.warehouse) && (
+                      <FormSection
+                        renderReadOnly={(props) => (
+                          <ContactReadOnlyFormSection {...props} />
+                        )}
+                        {...formSectionProps}
+                        {...sectionsPropsByKey.warehouse}
+                      />
+                    )}
+
                     <Grid item>
                       <Grid container spacing={2}>
                         {/* Addresses */}
@@ -378,6 +404,44 @@ const DocumentFormSections: React.FC<any> = (props) => {
                         {...sectionsPropsByKey.payment}
                       />
                     )}
+                    <Grid container>
+                      <Grid item xs={12} md={6}>
+                        {Boolean(sectionsPropsByKey.ready_at) && (
+                          <FormSection
+                            readOnlySx={{ textAlign: 'right' }}
+                            {...formSectionProps}
+                            {...sectionsPropsByKey.ready_at}
+                          />
+                        )}
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        {Boolean(sectionsPropsByKey.arrived_at) && (
+                          <FormSection
+                            readOnlySx={{ textAlign: 'right' }}
+                            {...formSectionProps}
+                            {...sectionsPropsByKey.arrived_at}
+                          />
+                        )}
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        {Boolean(sectionsPropsByKey.ship_via) && (
+                          <FormSection
+                            readOnlySx={{ textAlign: 'right' }}
+                            {...formSectionProps}
+                            {...sectionsPropsByKey.ship_via}
+                          />
+                        )}
+                      </Grid>
+                      <Grid item xs={12} md={6}>
+                        {Boolean(sectionsPropsByKey.shipped_at) && (
+                          <FormSection
+                            readOnlySx={{ textAlign: 'right' }}
+                            {...formSectionProps}
+                            {...sectionsPropsByKey.shipped_at}
+                          />
+                        )}
+                      </Grid>
+                    </Grid>
                   </Grid>
                 </Grid>
               </Grid>
