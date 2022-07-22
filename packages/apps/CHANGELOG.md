@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.14
+
+### Patch Changes
+
+- Add new section to DocumentFormSections
+- Updated dependencies
+  - @gravis-os/crud@0.0.23
+  - @gravis-os/form@0.0.19
+
 ## 0.0.13
 
 ### Patch Changes
