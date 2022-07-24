@@ -1,5 +1,4 @@
 export * from './hooks'
 export * from './utils'
 export * from './types'
-export * from './stripe'
-export * from './supabase'
+export * from './client'

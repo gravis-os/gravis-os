@@ -1,0 +1,92 @@
+model StripeProduct {
+  id          String        @id // Stripe product id is a string `product_xxxxxxxxxxxxx`
+  created_at  DateTime?     @default(now()) @db.Timestamptz(6)
+  updated_at  DateTime?     @default(now()) @db.Timestamptz(6)
+  created_by  String?       @db.Uuid
+  updated_by  String?       @db.Uuid
+  status      String?
+  active      Boolean?
+  name        String?
+  description String?
+  image       String?
+  metadata    Json?
+  prices      StripePrice[]
+
+  @@map("stripe_product")
+}
+
+model StripePrice {
+  id                String               @id // Stripe price id is a string `price_xxxxxxxxxxxxx`
+  created_at        DateTime?            @default(now()) @db.Timestamptz(6)
+  updated_at        DateTime?            @default(now()) @db.Timestamptz(6)
+  created_by        String?              @db.Uuid
+  updated_by        String?              @db.Uuid
+  status            String?
+  active            Boolean?
+  unit_amount       BigInt?
+  currency          String?
+  type              String?
+  interval          String?
+  interval_count    Int?
+  trial_period_days Int?
+  metadata          Json?
+  product_id        String? // Stripe product id is a string `product_xxxxxxxxxxxxx`
+  products          StripeProduct?          @relation(fields: [product_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  subscriptions     StripeSubscription[]
+
+  @@map("stripe_price")
+}
+
+model StripeSubscription {
+  id                   String       @id // Stripe subscription id is a string `sub_xxxxxxxxxxxxx`
+  created_at           DateTime?    @db.Timestamptz @default(now())
+  updated_at           DateTime?    @db.Timestamptz @default(now())
+  created_by           String?      @db.Uuid
+  updated_by           String?      @db.Uuid
+  status               String?
+  metadata             Json?
+  quantity             Int?
+  cancel_at_period_end Boolean?
+  created              DateTime     @db.Timestamptz @default(now())
+  current_period_start DateTime     @db.Timestamptz @default(now())
+  current_period_end   DateTime     @db.Timestamptz @default(now())
+  ended_at             DateTime?    @db.Timestamptz @default(now())
+  cancel_at            DateTime?    @db.Timestamptz @default(now())
+  canceled_at          DateTime?    @db.Timestamptz @default(now())
+  trial_start          DateTime?    @db.Timestamptz @default(now())
+  trial_end            DateTime?    @db.Timestamptz @default(now())
+
+  // Relations
+  price_id             String?      // Stripe price id is a string `price_xxxxxxxxxxxxx`
+  price                StripePrice? @relation(fields: [price_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+  user_id              String       @db.Uuid
+  user                 User         @relation(fields: [user_id], references: [id], onDelete: NoAction, onUpdate: NoAction)
+
+  @@map("stripe_subscription")
+}
+
+model User {
+  id                 String               @id @db.Uuid
+  created_at DateTime?                    @db.Timestamptz @default(now())
+  updated_at DateTime?                    @db.Timestamptz @default(now())
+  created_by         String?              @db.Uuid
+  updated_by         String?              @db.Uuid
+  status             String?
+  title              String
+  slug               String
+  subtitle           String?
+  description        String?
+  first_name         String?
+  last_name          String?
+  full_name          String?
+  email              String?
+  mobile             String?
+  avatar_src         String?
+  avatar_alt         String?
+  billing_address    Json?
+  payment_method     Json?
+  stripe_customer_id String? // Stripe customer id is a string `cus_xxxxxxxxxxxxx`
+  subscriptions      StripeSubscription[]
+
+  @@map("user")
+}

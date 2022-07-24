@@ -1,8 +1,9 @@
 import axios from 'axios'
 import { useMutation } from 'react-query'
+import stripeConfig from '../config/stripeConfig'
 
 const stripeCreatePortalLinkMutationFn = () => {
-  return axios.post('/api/stripe-create-portal-link')
+  return axios.post(stripeConfig.apiRoutes.createPortalLink)
 }
 
 const useStripeCreatePortalLinkMutation = () => {

@@ -1,21 +1,22 @@
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
-import getStripeNode from '../stripe/getStripeNode'
-import { Customer, UserDetails, StripePrice, StripeProduct } from '../types'
-import toDateTime from '../utils/toDateTime'
-
-const stripeNode = getStripeNode()
+import { Customer, UserDetails, StripePrice, StripeProduct } from '../../types'
+import toDateTime from '../../utils/toDateTime'
+import { initStripeNode } from '../index'
 
 /**
- * const stripeSupabaseAdmin = getStripeSupabaseAdmin(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+ * initStripeSupabaseAdmin()
+ * Factory Function
+ * const stripeSupabaseAdmin = initStripeSupabaseAdmin(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
  */
-const getStripeSupabaseAdmin = (
+const initStripeSupabaseAdmin = (
   supabaseUrl = '',
   supabaseServiceRoleKey = ''
 ) => {
   // ==============================
   // Initializer
   // ==============================
+  const StripeNode = initStripeNode(process.env.STRIPE_SECRET_KEY)
   // Note: supabaseAdmin uses the SERVICE_ROLE_KEY which you must only use in a secure server-side context
   // as it has admin privileges and overwrites RLS policies!
   const supabaseAdmin = createClient(supabaseUrl, supabaseServiceRoleKey)
@@ -84,7 +85,7 @@ const getStripeSupabaseAdmin = (
       }
       if (email) customerData.email = email
 
-      const customer = await stripeNode.customers.create(customerData)
+      const customer = await StripeNode.customers.create(customerData)
 
       // Now insert the customer ID into our Supabase mapping table.
       const { error: supabaseError } = await supabaseAdmin
@@ -111,7 +112,7 @@ const getStripeSupabaseAdmin = (
 
     if (!name || !phone || !address) return
 
-    await stripeNode.customers.update(customer, {
+    await StripeNode.customers.update(customer, {
       name,
       phone,
       // @ts-ignore
@@ -141,7 +142,7 @@ const getStripeSupabaseAdmin = (
 
     const { id: uuid } = customerData || {}
 
-    const subscription = await stripeNode.subscriptions.retrieve(
+    const subscription = await StripeNode.subscriptions.retrieve(
       subscriptionId,
       {
         expand: ['default_payment_method'],
@@ -208,4 +209,4 @@ const getStripeSupabaseAdmin = (
   }
 }
 
-export default getStripeSupabaseAdmin
+export default initStripeSupabaseAdmin

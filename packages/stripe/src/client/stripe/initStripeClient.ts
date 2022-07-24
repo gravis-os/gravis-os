@@ -2,7 +2,7 @@ import { loadStripe, Stripe } from '@stripe/stripe-js'
 
 let stripePromise: Promise<Stripe | null>
 
-const getStripeClient = (stripePublicKey = '') => {
+const initStripeClient = (stripePublicKey = '') => {
   if (!stripePromise) {
     stripePromise = loadStripe(stripePublicKey)
   }
@@ -10,4 +10,4 @@ const getStripeClient = (stripePublicKey = '') => {
   return stripePromise
 }
 
-export default getStripeClient
+export default initStripeClient

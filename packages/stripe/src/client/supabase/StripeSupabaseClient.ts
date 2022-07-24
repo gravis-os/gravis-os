@@ -1,5 +1,5 @@
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
-import { StripeProductWithPrice } from '../types'
+import { StripeProductWithPrice } from '../../types'
 
 const fetchActiveProductsWithPrices = async (): Promise<
   StripeProductWithPrice[]
