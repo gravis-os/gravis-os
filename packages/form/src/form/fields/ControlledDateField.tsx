@@ -4,14 +4,17 @@ import DateField from './DateField'
 
 export interface ControlledDateFieldProps
   extends Omit<ControllerProps, 'render'> {
+  label?: string
   datePickerProps?: React.ComponentProps<typeof DateField>
 }
 
 const ControlledDateField: React.FC<ControlledDateFieldProps> = (props) => {
-  const { datePickerProps, ...rest } = props
+  const { datePickerProps, label, ...rest } = props
   return (
     <Controller
-      render={({ field }) => <DateField {...field} {...datePickerProps} />}
+      render={({ field }) => (
+        <DateField label={label} {...field} {...datePickerProps} />
+      )}
       defaultValue={new Date()}
       {...rest}
     />
