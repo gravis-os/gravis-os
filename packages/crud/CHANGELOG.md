@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- rebuild
+
+- Updated dependencies []:
+  - @gravis-os/form@0.0.21
+
+## 0.0.24
+
+### Patch Changes
+
+- [#31](https://github.com/gravis-os/gravis-os/pull/31) [`828b3f3`](https://github.com/gravis-os/gravis-os/commit/828b3f3f41b5f0f710b43e4532bb4086303599bb) Thanks [@al1xt](https://github.com/al1xt)! - allow disabling of some features in useGetCrudTableColumnDefs
+
+- Updated dependencies [[`ab2df15`](https://github.com/gravis-os/gravis-os/commit/ab2df15f8b2705ff9027b7aed219a0fc127bda1d)]:
+  - @gravis-os/form@0.0.20
+
 ## 0.0.23
 
 ### Patch Changes
