@@ -28,6 +28,8 @@ export interface CrudTableProps {
   disableDelete?: boolean
   disableManage?: boolean
   disablePreview?: boolean
+  disableTitle?: boolean
+  disableActions?: boolean
   isListPage?: boolean
 
   previewFormSections?: FormSectionsProps['sections']
@@ -51,6 +53,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     disableDelete,
     disableManage,
     disablePreview,
+    disableTitle,
+    disableActions,
     setQuery,
     isListPage,
 
@@ -97,6 +101,9 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     module,
     disableDelete,
     disableManage,
+    disablePreview,
+    disableTitle,
+    disableActions,
     user,
     // For Preview
     setPreview,
