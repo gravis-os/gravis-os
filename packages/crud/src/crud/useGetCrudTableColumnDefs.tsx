@@ -7,6 +7,7 @@ import get from 'lodash/get'
 import flowRight from 'lodash/flowRight'
 import { Stack, Link } from '@gravis-os/ui'
 import { StorageAvatarWithUpload } from '@gravis-os/storage'
+import { ColDef } from 'ag-grid-community'
 import CrudTableActionsColumnCellRenderer from './CrudTableActionsColumnCellRenderer'
 
 // ==============================
@@ -14,7 +15,7 @@ import CrudTableActionsColumnCellRenderer from './CrudTableActionsColumnCellRend
 // ==============================
 const withTimestampFormat = () => (columnDefs) =>
   columnDefs.map((columnDef) =>
-    columnDef.field.endsWith('_at')
+    columnDef.field?.endsWith('_at')
       ? {
           valueFormatter: ({ value }) => new Date(value).toLocaleString(),
           ...columnDef,
@@ -23,7 +24,7 @@ const withTimestampFormat = () => (columnDefs) =>
   )
 const withHeaderNames = () => (columnDefs) =>
   columnDefs.map((columnDef) => ({
-    headerName: startCase(columnDef.field),
+    headerName: columnDef.field && startCase(columnDef.field),
     ...columnDef,
   }))
 const withPreview = (props) => {
@@ -31,6 +32,7 @@ const withPreview = (props) => {
     setPreview,
     module: injectedModule,
     previewFormSections: injectedPreviewFormSections,
+    disablePreview,
   } = props
   return (columnDefs) => {
     return columnDefs.map((columnDef, i) => {
@@ -39,14 +41,15 @@ const withPreview = (props) => {
       // Always set first column as preview column
       const isFirst = i === 0
       const module = isFirst ? injectedModule : columnDef.module
-      const hasPreview = isFirst || (module && previewFormSections)
+      const hasPreview =
+        !disablePreview && (isFirst || (module && previewFormSections))
 
       // Handle degenerate case
       if (!hasPreview) return columnDef
 
       // Dynamically calculate relation key to access the relation field
       const getRelationFieldKey = () => {
-        const hasRelation = field.includes('.')
+        const hasRelation = field?.includes('.')
         switch (true) {
           case hasRelation:
             // Return 'id' if current module is a join table
@@ -107,17 +110,19 @@ const withPreview = (props) => {
   }
 }
 const withTitle =
-  ({ isDesktop }) =>
+  ({ isDesktop, disableTitle }) =>
   (columnDefs) =>
-    [
-      {
-        headerName: 'Name',
-        minWidth: 160,
-        pinned: isDesktop && 'left',
-        ...columnDefs[0],
-      },
-      ...columnDefs.slice(1),
-    ]
+    disableTitle
+      ? columnDefs
+      : [
+          {
+            headerName: 'Name',
+            minWidth: 160,
+            pinned: isDesktop && 'left',
+            ...columnDefs[0],
+          },
+          ...columnDefs.slice(1),
+        ]
 const withHide =
   ({ user }) =>
   (columnDefs) =>
@@ -134,6 +139,9 @@ const useGetCrudTableColumnDefs = (props) => {
     setPreview,
     disableDelete,
     disableManage,
+    disablePreview,
+    disableTitle,
+    disableActions,
     user,
   } = props
 
@@ -146,12 +154,26 @@ const useGetCrudTableColumnDefs = (props) => {
     () =>
       flowRight([
         withTimestampFormat(),
-        withPreview({ setPreview, module, previewFormSections }),
+        withPreview({
+          setPreview,
+          module,
+          previewFormSections,
+          disablePreview,
+        }),
         withHeaderNames(),
-        withTitle({ isDesktop }),
+        withTitle({ isDesktop, disableTitle }),
         withHide({ user }),
       ])(injectedColumnDefs).filter(({ field }) => field !== 'actions'),
-    [injectedColumnDefs, isDesktop, module, previewFormSections]
+    [
+      disablePreview,
+      disableTitle,
+      injectedColumnDefs,
+      isDesktop,
+      module,
+      previewFormSections,
+      setPreview,
+      user,
+    ]
   )
 
   // Actions column
@@ -161,26 +183,27 @@ const useGetCrudTableColumnDefs = (props) => {
   const hasInjectedActionsColumnDef = Boolean(injectedActionsColumnDef)
   const { renderMoreItems } = injectedActionsColumnDef || {}
 
-  return [
-    ...(nextColumnDefs as any),
-    merge(
-      {},
-      {
-        field: 'actions',
-        pinned: isDesktop && 'right',
-        editable: false,
-        maxWidth: 100,
-        cellRenderer: CrudTableActionsColumnCellRenderer,
-        cellRendererParams: {
-          module,
-          disableDelete,
-          disableManage,
-          renderMoreItems,
+  const actionColumnDef = disableActions
+    ? null
+    : merge(
+        {},
+        {
+          field: 'actions',
+          pinned: isDesktop && 'right',
+          editable: false,
+          maxWidth: 100,
+          cellRenderer: CrudTableActionsColumnCellRenderer,
+          cellRendererParams: {
+            module,
+            disableDelete,
+            disableManage,
+            renderMoreItems,
+          },
         },
-      },
-      hasInjectedActionsColumnDef ? injectedActionsColumnDef : {}
-    ),
-  ].filter(Boolean)
+        hasInjectedActionsColumnDef ? injectedActionsColumnDef : null
+      )
+
+  return [...nextColumnDefs, actionColumnDef].filter(Boolean) as ColDef[]
 }
 
 export default useGetCrudTableColumnDefs
