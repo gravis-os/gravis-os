@@ -7,6 +7,7 @@ import {
   StorageGallery,
 } from '@gravis-os/storage'
 import { GridProps } from '@gravis-os/ui'
+import { CrudModule } from '@gravis-os/types'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import FormSectionReadOnlyStack from './FormSectionReadOnlyStack'
 import ControlledAmountField from '../fields/ControlledAmountField'
@@ -17,9 +18,9 @@ import ControlledModelField from '../fields/ControlledModelField'
 import ControlledPasswordField from '../fields/ControlledPasswordField'
 import ControlledHtmlField from '../fields/ControlledHtmlField'
 import ControlledTextField from '../fields/ControlledTextField'
-import { CrudModule, RenderPropsFunction } from '@gravis-os/types'
 import { FormSectionProps } from './FormSection'
 import { FieldEffectOptions } from './FieldEffectProvider'
+import ControlledDateField from '../fields/ControlledDateField'
 
 export enum FormSectionFieldTypeEnum {
   // String
@@ -44,6 +45,9 @@ export enum FormSectionFieldTypeEnum {
 
   // Objects/Arrays
   MODEL = 'model',
+
+  // Date
+  DATE = 'date',
 }
 
 export type FormSectionFieldBooleanFunction = ({
@@ -211,6 +215,8 @@ const renderField = (props: RenderFieldProps) => {
   // ==============================
   const getChildrenJsx = () => {
     switch (type) {
+      case FormSectionFieldTypeEnum.DATE:
+        return <ControlledDateField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.AMOUNT:
         return <ControlledAmountField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.PERCENTAGE:
