@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.22
+
+### Patch Changes
+
+- fix date fields
+
 ## 0.0.21
 
 ### Patch Changes
