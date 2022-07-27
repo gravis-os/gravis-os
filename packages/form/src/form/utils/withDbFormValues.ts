@@ -13,7 +13,11 @@ const getValuesWithRelationalKeysFromRelationalObjects = (values) => {
         [key]: value.map(getValuesWithRelationalKeysFromRelationalObjects),
       }
     }
-    if (typeof value === 'object' && value !== null) {
+    if (
+      typeof value === 'object' &&
+      value !== null &&
+      !(value instanceof Date)
+    ) {
       return {
         ...acc,
         [key]: getValuesWithRelationalKeysFromRelationalObjects(value),
