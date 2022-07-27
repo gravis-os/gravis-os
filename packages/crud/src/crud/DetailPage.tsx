@@ -85,7 +85,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   const { hasTabs, currentTab, items: tabs } = onUseTabs
 
   // Manage loading
-  if (loading && !isNew) return <CircularProgress fullScreen />
+  if (loading) return <CircularProgress fullScreen />
 
   return (
     <Container {...containerProps}>
