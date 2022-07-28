@@ -129,6 +129,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     <CrudFormProvider {...crudForm}>
       <Form
         form={formContext}
+        isReadOnly={isReadOnly}
+        setIsReadOnly={setIsReadOnly}
         onSubmit={onSubmit}
         formJsx={<FormJsxComponent {...formJsxProps} />}
         {...formProps}
