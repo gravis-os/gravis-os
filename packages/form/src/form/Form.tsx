@@ -8,9 +8,11 @@ import {
 } from 'react-hook-form'
 import { Button, ButtonProps } from '@gravis-os/ui'
 import { RenderPropsFunction } from '@gravis-os/types'
+import { Stack } from '@mui/material'
 
 export interface FormRenderPropsInterface {
   formJsx: React.ReactElement
+  formControlJsx: React.ReactElement
   submitButtonJsx: React.ReactElement
   form: UseFormReturn<any>
 }
@@ -24,6 +26,8 @@ export interface FormProps<TFormValues>
   onSubmit: SubmitHandler<TFormValues> // Submit action of the form
 
   form?: UseFormReturn<TFormValues> // Rhf form object
+  isReadOnly?: boolean
+  setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>
   useFormProps?: UseFormProps<any>
   submitButtonProps?: ButtonProps
   children?: React.ReactNode | RenderPropsFunction<FormRenderPropsInterface>
@@ -33,6 +37,8 @@ const Form: React.FC<FormProps<any>> = (props) => {
   const {
     onSubmit,
     form: injectedForm,
+    isReadOnly,
+    setIsReadOnly,
     useFormProps = {},
     formJsx,
     children,
@@ -67,8 +73,37 @@ const Form: React.FC<FormProps<any>> = (props) => {
             {submitButtonProps?.children || 'Save'}
           </Button>
         )
+        const formControlJsx = isReadOnly ? (
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={() => setIsReadOnly(false)}
+            fullWidth
+            {...submitButtonProps}
+          >
+            {submitButtonProps?.children || 'Edit'}
+          </Button>
+        ) : (
+          <Stack spacing={1}>
+            {submitButtonJsx}
+            <Button
+              variant="contained"
+              sx={{
+                backgroundColor: 'grey.300',
+                color: 'text.primary',
+                '&:hover': { backgroundColor: 'grey.400' },
+              }}
+              onClick={() => setIsReadOnly(true)}
+              fullWidth
+              {...submitButtonProps}
+            >
+              {submitButtonProps?.children || 'Cancel'}
+            </Button>
+          </Stack>
+        )
         const formRenderProps: FormRenderPropsInterface = {
           formJsx,
+          formControlJsx,
           submitButtonJsx,
           form,
         }
