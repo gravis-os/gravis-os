@@ -41,6 +41,7 @@ module.exports = {
         name: 'pluralName',
         message:
           'What is the plural name of the module? (in TitleCase with no spaces) e.g. ProjectGroups',
+        initial: `${singularName}s`,
       })
 
       // if they didn't provide one, we error out
