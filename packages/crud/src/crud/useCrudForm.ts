@@ -183,7 +183,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
         const hasOneToManyValues = Boolean(Object.keys(oneToManyValues).length)
         if (hasOneToManyValues) {
           await saveOneToManyValues({
-            item: nextItem,
+            item,
             values: oneToManyValues,
             client,
             module,

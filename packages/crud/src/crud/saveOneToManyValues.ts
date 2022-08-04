@@ -1,6 +1,7 @@
 import omit from 'lodash/omit'
 import omitBy from 'lodash/omitBy'
 import partition from 'lodash/partition'
+import differenceBy from 'lodash/differenceBy'
 
 const saveOneToManyValues = async (props) => {
   const { item, values: oneToManyPairs, client, module } = props
@@ -20,6 +21,7 @@ const saveOneToManyValues = async (props) => {
       ({ id }) => !id || typeof id === 'string'
     )
     const insertRows = insertRowsWithIds.map((row) => omit(row, 'id'))
+    const deleteIds = differenceBy(item[key], rows, 'id').map(({ id }) => id)
 
     if (!module.relations?.[key]?.table?.name) return null
     const foreignTableName = module.relations[key].table.name
@@ -27,6 +29,8 @@ const saveOneToManyValues = async (props) => {
     const promises = [
       updateRows.length > 0 && client.from(foreignTableName).upsert(updateRows),
       insertRows.length > 0 && client.from(foreignTableName).insert(insertRows),
+      deleteIds.length > 0 &&
+        client.from(foreignTableName).delete().in('id', deleteIds),
     ].filter(Boolean)
 
     // Batch upsert into a single table
