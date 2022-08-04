@@ -84,6 +84,16 @@ const withPreview = (props) => {
           // Show with avatar if avatar_src is present
           const { hasAvatar } = columnDef
 
+          const linkProps = {
+            href: disablePreview
+              ? module.route?.plural?.concat(`/${params.data[module.sk]}`) ?? ''
+              : null,
+            onClick: disablePreview ? null : handlePreviewClick,
+            underline: 'hover' as const,
+            color: 'inherit',
+            pointer: true,
+          }
+
           return (
             <Stack direction="row" alignItems="center" spacing={1}>
               {hasAvatar && (
@@ -94,14 +104,7 @@ const withPreview = (props) => {
                   size={32}
                 />
               )}
-              <Link
-                underline="hover"
-                color="inherit"
-                onClick={handlePreviewClick}
-                pointer
-              >
-                {params.value}
-              </Link>
+              <Link {...linkProps}>{params.value}</Link>
             </Stack>
           )
         },
