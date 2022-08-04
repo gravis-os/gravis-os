@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.0.16
+
+### Patch Changes
+
+- rebuild
+
+- Updated dependencies []:
+  - @gravis-os/crud@0.0.27
+  - @gravis-os/form@0.0.25
+
+## 0.0.15
+
+### Patch Changes
+
+- [#35](https://github.com/gravis-os/gravis-os/pull/35) [`1aef26f`](https://github.com/gravis-os/gravis-os/commit/1aef26f29c74224212193b27ad8a3dbb1f8b78fc) Thanks [@al1xt](https://github.com/al1xt)! - remove hash from getDocumentTitle
+
+- Updated dependencies [[`b30d66f`](https://github.com/gravis-os/gravis-os/commit/b30d66fe356f0e73624af1050f122a2bc2428a5d), [`1befa46`](https://github.com/gravis-os/gravis-os/commit/1befa46010ec1a12e030afc6b96a71ce02c30927), [`5c1de70`](https://github.com/gravis-os/gravis-os/commit/5c1de704390ef08b93c1b3f3021408d5d50cb242)]:
+  - @gravis-os/crud@0.0.26
+  - @gravis-os/form@0.0.24
+
 ## 0.0.14
 
 ### Patch Changes

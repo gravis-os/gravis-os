@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- rebuild
+
+## 0.0.24
+
+### Patch Changes
+
+- [#33](https://github.com/gravis-os/gravis-os/pull/33) [`1befa46`](https://github.com/gravis-os/gravis-os/commit/1befa46010ec1a12e030afc6b96a71ce02c30927) Thanks [@winter-steve](https://github.com/winter-steve)! - Expose form control elements (i.e. edit, cancel, save button) through render props to be consumed downstream. Ensure that form is rendered only after item fetching is completed
+
 ## 0.0.23
 
 ### Patch Changes

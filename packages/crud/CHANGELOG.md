@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.0.27
+
+### Patch Changes
+
+- rebuild
+
+- Updated dependencies []:
+  - @gravis-os/form@0.0.25
+
+## 0.0.26
+
+### Patch Changes
+
+- [#25](https://github.com/gravis-os/gravis-os/pull/25) [`b30d66f`](https://github.com/gravis-os/gravis-os/commit/b30d66fe356f0e73624af1050f122a2bc2428a5d) Thanks [@al1xt](https://github.com/al1xt)! - show link automatically when preview is disabled
+
+* [#33](https://github.com/gravis-os/gravis-os/pull/33) [`1befa46`](https://github.com/gravis-os/gravis-os/commit/1befa46010ec1a12e030afc6b96a71ce02c30927) Thanks [@winter-steve](https://github.com/winter-steve)! - Expose form control elements (i.e. edit, cancel, save button) through render props to be consumed downstream. Ensure that form is rendered only after item fetching is completed
+
+- [#34](https://github.com/gravis-os/gravis-os/pull/34) [`5c1de70`](https://github.com/gravis-os/gravis-os/commit/5c1de704390ef08b93c1b3f3021408d5d50cb242) Thanks [@al1xt](https://github.com/al1xt)! - allow deleting 1-M relations with useCrudForm
+
+- Updated dependencies [[`1befa46`](https://github.com/gravis-os/gravis-os/commit/1befa46010ec1a12e030afc6b96a71ce02c30927)]:
+  - @gravis-os/form@0.0.24
+
 ## 0.0.25
 
 ### Patch Changes
