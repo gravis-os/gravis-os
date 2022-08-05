@@ -1,10 +1,26 @@
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { PostgrestResponse } from '@supabase/postgrest-js'
-import { MutationFunction, useMutation, UseMutationResult } from 'react-query'
+import {
+  MutationFunction,
+  useMutation,
+  UseMutationOptions,
+  UseMutationResult,
+} from 'react-query'
 import { CrudModule } from '@gravis-os/types'
 
-export interface UseCreateActionArg {
+export interface UseCreateActionArg<
+  TData = unknown,
+  TError = unknown,
+  TVariables = unknown,
+  TContext = unknown
+> {
   module: CrudModule
+  options?: UseMutationOptions<
+    PostgrestResponse<TData>,
+    TError,
+    TVariables,
+    TContext
+  >
 }
 
 export interface UseCreateActionReturn<
@@ -27,20 +43,25 @@ const useCreateMutation = <
   TVariables = unknown,
   TContext = unknown
 >(
-  args: UseCreateActionArg
+  args: UseCreateActionArg<TData, TError, TVariables, TContext>
 ): UseCreateActionReturn<TData, TError, TVariables, TContext> => {
-  const { module } = args
+  const { module, options } = args
   const { table } = module
   const createMutationFunction: MutationFunction<
     PostgrestResponse<TData>,
     TVariables
-  > = async (nextValues) => supabaseClient.from(table.name).insert([nextValues])
-  const createMutation = useMutation<
+  > = async (nextValues: TVariables) =>
+    supabaseClient.from<TData>(table.name).insert([nextValues])
+  const nextOptions: UseMutationOptions<
     PostgrestResponse<TData>,
     TError,
     TVariables,
     TContext
-  >(createMutationFunction)
+  > = {
+    mutationFn: createMutationFunction,
+    ...options,
+  }
+  const createMutation = useMutation(nextOptions)
   return { createMutation }
 }
 
