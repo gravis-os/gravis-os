@@ -1,5 +1,4 @@
 import axios from 'axios'
-import { useMutation } from 'react-query'
 import config from '../config/config'
 
 const useAuthServerApi = () => {
@@ -13,17 +12,17 @@ const useAuthServerApi = () => {
       password: string
       email_confirm?: boolean
     }) =>
-      axios.post('/api/auth-server/create-user', {
+      axios.post(config.apiRoutes.createUser, {
         email,
         password,
         email_confirm,
       }),
 
     handleDeleteUser: async ({ id }: { id: string }) =>
-      axios.post('/api/auth-server/delete-user', { id }),
+      axios.post(config.apiRoutes.deleteUser, { id }),
 
     handleSendInvite: async ({ email }: { email: string }) => {
-      return axios.post('/api/auth-server/invite-user-by-email', {
+      return axios.post(config.apiRoutes.inviteUserByEmail, {
         email,
       })
     },
@@ -34,7 +33,7 @@ const useAuthServerApi = () => {
      * @link https://github.com/supabase/supabase/discussions/3526
      */
     handleResendInvite: async ({ email }: { email: string }) => {
-      return axios.post('/api/auth-server/generate-link', {
+      return axios.post(config.apiRoutes.generateLink, {
         type: 'recovery',
         email,
         options: {
@@ -45,18 +44,6 @@ const useAuthServerApi = () => {
   }
 
   return AuthServerMethods
-
-  // return useMutation(mutationFn, {
-  //   onSuccess: ({ data }) => {
-  //     const { url, error } = data
-  //
-  //     // Redirect user out with the checkout url
-  //     return window.location.assign(url)
-  //   },
-  //   onError: (error) => {
-  //     if (error) return window.alert((error as Error).message)
-  //   },
-  // })
 }
 
 export default useAuthServerApi
