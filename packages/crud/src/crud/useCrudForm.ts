@@ -159,7 +159,23 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     // Payload
     const nextValues = nonOneToManyValues
 
-    // Fire Action
+    // HandleSuccess - Gets fired after both actions are completed
+    const handleSuccess = async ({ item: nextItem }) => {
+      // Toast
+      toast.success('Success')
+
+      if (afterSubmit) {
+        afterSubmit({
+          isNew,
+          rawValues: values, // Original form values before clean
+          values: nextValues, // Submitted values
+          item: nextItem,
+          toast,
+        })
+      }
+    }
+
+    // Fire Action - Allow user to inject custom onSubmit, or use default for Create/Update
     switch (true) {
       // Override default submit action to just get values and manual override outside
       case typeof injectedOnSubmit === 'function':
@@ -170,7 +186,11 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
           afterSubmit,
         }
         // Trigger injectedOnSubmit
-        return injectedOnSubmit(injectedOnSubmitArgs)
+        const onInjectedOnSubmit = await injectedOnSubmit(injectedOnSubmitArgs)
+        if (!onInjectedOnSubmit) return
+
+        // Handle success
+        return handleSuccess({ item: onInjectedOnSubmit })
       // Default action: Create or Update
       default:
         createOrUpdateMutation.mutate(nextValues, {
@@ -236,18 +256,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
               if (refetch) refetch()
             }
 
-            // Toast
-            toast.success('Success')
-
-            if (afterSubmit) {
-              afterSubmit({
-                isNew,
-                rawValues: values, // Original form values before clean
-                values: nextValues, // Submitted values
-                item: nextItem,
-                toast,
-              })
-            }
+            return handleSuccess({ item: nextItem })
           },
           onError: (error) => {
             toast.error('Something went wrong')
