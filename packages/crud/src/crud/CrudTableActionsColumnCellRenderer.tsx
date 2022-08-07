@@ -21,16 +21,19 @@ import toast from 'react-hot-toast'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import getCrudItemHref from './getCrudItemHref'
 
+type RenderMoreItemsFunction<CrudItem> = ({
+  data,
+}: {
+  data: CrudItem
+}) => MoreIconButtonProps['items']
+
 export interface CrudTableActionsColumnCellRendererProps {
   module: CrudModule
   data: CrudItem
   disableManage?: boolean
   disableDelete?: boolean
-  renderMoreItems?: ({
-    data,
-  }: {
-    data: CrudItem
-  }) => MoreIconButtonProps['items']
+  afterDelete?: ({ data }: { data: CrudItem | any }) => Promise<void>
+  renderMoreItems?: RenderMoreItemsFunction<CrudItem>
   children?: React.ReactNode
 }
 
@@ -41,6 +44,7 @@ const CrudTableActionsColumnCellRenderer: React.FC<
     module,
     data,
     disableDelete,
+    afterDelete,
     disableManage,
     renderMoreItems,
     children,
@@ -59,12 +63,26 @@ const CrudTableActionsColumnCellRenderer: React.FC<
     try {
       await supabaseClient.from(table.name).delete().match({ id: data.id })
       queryClient.invalidateQueries(table.name)
+      if (afterDelete) await afterDelete({ data })
+      handleDeleteDialogClose()
       toast.success('Success')
     } catch (err) {
       toast.error('Error')
       console.error('Error caught:', err)
     }
   }
+
+  // MoreItems
+  const moreItems = [
+    ...(renderMoreItems ? renderMoreItems({ data }) : []),
+    !disableDelete && {
+      key: 'delete',
+      value: 'delete',
+      label: 'Delete',
+      icon: <DeleteOutlineOutlinedIcon fontSize="small" />,
+      onClick: handleDeleteClick,
+    },
+  ].filter(Boolean)
 
   return (
     <Stack
@@ -110,19 +128,7 @@ const CrudTableActionsColumnCellRenderer: React.FC<
       {children}
 
       {/* More */}
-      <MoreIconButton
-        size="small"
-        items={[
-          ...(renderMoreItems ? renderMoreItems({ data }) : []),
-          !disableDelete && {
-            key: 'delete',
-            value: 'delete',
-            label: 'Delete',
-            icon: <DeleteOutlineOutlinedIcon fontSize="small" />,
-            onClick: handleDeleteClick,
-          },
-        ].filter(Boolean)}
-      />
+      <MoreIconButton size="small" items={moreItems} />
     </Stack>
   )
 }

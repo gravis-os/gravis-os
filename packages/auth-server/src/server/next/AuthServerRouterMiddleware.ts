@@ -1,10 +1,8 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+import camelCase from 'lodash/camelCase'
+import { withApiAuth } from '@supabase/supabase-auth-helpers/nextjs'
 import config from '../../config/config'
-import handleAuthServerCreateUser from './handlers/auth-server-create-user'
-
-const routesToHandlers = {
-  [config.apiRoutes.createUser]: handleAuthServerCreateUser,
-}
+import { initSupabaseAdminClient } from '../index'
 
 export interface AuthServerMiddlewareProps {}
 
@@ -26,24 +24,44 @@ const AuthServerRouterMiddleware = (
       query: { supabase: injectedRoute },
     } = req
 
-    // @example `create-checkout-session`
+    // @example `create-user`
     const route = Array.isArray(injectedRoute)
       ? injectedRoute[0]
       : injectedRoute
 
-    // Options
-    const nextConfig = {
-      ...config,
-      ...injectedConfig, // User options from downstream
+    // Only allow valid routes
+    const isValidRoute = Object.values(config.apiRoutes).includes(
+      `/api/auth-server/${route}`
+    )
+    if (!isValidRoute) res.status(404).end()
+
+    // Only allow POST Requests
+    if (req.method !== 'POST') {
+      res.setHeader('Allow', 'POST')
+      res.status(405).end('Method Not Allowed')
     }
 
-    // Happy path
-    const handler = routesToHandlers[`/api/auth-server/${route}`]
-    if (handler) return handler(req, res, nextConfig)
+    // Init
+    const SupabaseAdminClient = initSupabaseAdminClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.SUPABASE_SERVICE_ROLE_KEY
+    )
 
-    // Fallback to 404
-    res.status(404).end()
+    try {
+      const functionKey = camelCase(route)
+      const result = await SupabaseAdminClient[`${functionKey}`](req.body)
+      const { data, error } = result
+      if (error) throw new Error(error.message) // Throw the error out for bottom catch
+      res.status(200).json({ data })
+    } catch (err) {
+      console.error('Error caught:', err.message)
+      res.status(500).json({ error: { statusCode: 500, message: err.message } })
+    }
   }
 }
 
-export default AuthServerRouterMiddleware
+export default (config = {}) => {
+  return withApiAuth(async (req, res) => {
+    return AuthServerRouterMiddleware(config)(req, res)
+  })
+}

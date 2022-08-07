@@ -1,6 +1,5 @@
 import React, { useRef } from 'react'
 import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
-import { ColDef, ColGroupDef } from 'ag-grid-community/dist/lib/entities/colDef'
 import { useQuery } from 'react-query'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
@@ -8,20 +7,19 @@ import DataTable, { DataTableProps } from './DataTable'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
 import useRouterQueryFilters from './useRouterQueryFilters'
-import useGetCrudTableColumnDefs from './useGetCrudTableColumnDefs'
+import useGetCrudTableColumnDefs, {
+  UseGetCrudTableColumnDefsProps,
+} from './useGetCrudTableColumnDefs/useGetCrudTableColumnDefs'
 import usePreviewDrawer from './usePreviewDrawer'
 import { CrudFormProps } from './CrudForm'
 import CrudPreviewDrawer from './CrudPreviewDrawer'
 import fetchCrudItems from './fetchCrudItems'
-
-type CrudTableColumn =
-  | (Omit<ColDef, 'hide'> & { hide?: boolean | (({ user }) => boolean) })
-  | (ColGroupDef & { hasAvatar?: boolean })
+import { CrudTableColumnDef } from '../types'
 
 export interface CrudTableProps {
   module: CrudModule
   addModule?: CrudModule
-  columnDefs?: CrudTableColumn[] | null
+  columnDefs?: CrudTableColumnDef[]
   setQuery?: (query) => Promise<any>
   headerProps?: Partial<CrudTableHeaderProps>
   disableAdd?: boolean
@@ -40,6 +38,7 @@ export interface CrudTableProps {
   previewFormProps?: Partial<CrudFormProps>
   addFormProps?: Partial<CrudFormProps>
   dataTableProps?: Partial<DataTableProps>
+  useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
@@ -66,8 +65,9 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     previewFormProps,
     addFormProps,
     dataTableProps,
+    useGetCrudTableColumnDefsProps,
   } = props
-  const { table, select } = module
+  const { table } = module
   const { user } = useUser()
 
   // Filters
@@ -108,6 +108,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     // For Preview
     setPreview,
     previewFormSections,
+    // Expose extension
+    ...useGetCrudTableColumnDefsProps,
   })
 
   return (

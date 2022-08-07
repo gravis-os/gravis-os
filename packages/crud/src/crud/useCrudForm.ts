@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import { useEffect } from 'react'
 import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form'
 import {
   supabaseClient,
@@ -11,6 +11,7 @@ import {
   withDbFormValues,
   getDefaultValues,
   withoutId,
+  withSkipOnSubmit,
   FormSectionsProps,
 } from '@gravis-os/form'
 import toast from 'react-hot-toast'
@@ -22,6 +23,7 @@ import partitionOneToManyValues from './partitionOneToManyValues'
 import saveManyToManyValues from './saveManyToManyValues'
 import saveOneToManyValues from './saveOneToManyValues'
 import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
+import getFieldsFromFormSections from './getFieldsFromFormSections'
 
 type UseCrudFormValues = Record<string, any>
 
@@ -51,7 +53,16 @@ export interface UseCrudFormArgs extends UseFormProps {
     toast: any
     afterSubmit: UseCrudFormArgs['afterSubmit']
   }) => unknown // Override submit action
-  afterSubmit?: ({ values, isNew, item }: UseCrudFormValuesInterface) => unknown
+  afterSubmit?: ({
+    rawValues, // Values before clean
+    values, // Values after clean
+    isNew,
+    item,
+    toast,
+  }: UseCrudFormValuesInterface & {
+    rawValues: UseCrudFormValues
+    toast: any
+  }) => unknown
   afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => unknown
   defaultValues?: Record<string, unknown>
   sections?: FormSectionsProps['sections']
@@ -125,11 +136,13 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     const fieldDefs = sections && getFieldDefsFromSections(sections)
 
     // Cleaning function for dbFormValues
-    const withValuesArgs = { isNew, user }
+    const fields = getFieldsFromFormSections(sections)
+    const withValuesArgs = { isNew, user, fields }
     const dbFormValues = flowRight([
       withCreatedUpdatedBy(withValuesArgs),
       withoutId(withValuesArgs),
       withDbFormValues(withValuesArgs),
+      withSkipOnSubmit(withValuesArgs),
     ])(values)
 
     // Expose values to outer scope
@@ -229,8 +242,10 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             if (afterSubmit) {
               afterSubmit({
                 isNew,
-                values: nextValues,
+                rawValues: values, // Original form values before clean
+                values: nextValues, // Submitted values
                 item: nextItem,
+                toast,
               })
             }
           },

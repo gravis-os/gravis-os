@@ -60,3 +60,6 @@ export * from './utils/getSearchFormValues'
 
 export { default as withoutId } from './utils/withoutId'
 export * from './utils/withoutId'
+
+export { default as withSkipOnSubmit } from './utils/withSkipOnSubmit'
+export * from './utils/withSkipOnSubmit'

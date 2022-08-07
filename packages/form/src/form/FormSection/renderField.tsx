@@ -95,6 +95,9 @@ export interface FormSectionFieldProps {
 
   // Declares the column names of non-foreign keys on the related many-to-many table for saving
   manyToManyExtraColumnKeys?: string[]
+
+  // Submission
+  skipOnSubmit?: boolean
 }
 
 export interface RenderFieldProps {

@@ -1,10 +1,12 @@
 import React from 'react'
 import { Slide } from '@mui/material'
-import { Dialog } from '@gravis-os/ui'
+import { Dialog, DialogProps } from '@gravis-os/ui'
 import CrudForm, { CrudFormProps } from './CrudForm'
 import { UseAddDialogReturn } from './useAddDialog'
 
-export interface CrudAddDialogProps extends UseAddDialogReturn {
+export interface CrudAddDialogProps
+  extends UseAddDialogReturn,
+    Omit<DialogProps, 'open'> {
   crudFormProps?: CrudFormProps
 }
 
@@ -15,6 +17,7 @@ const CrudAddDialog: React.FC<CrudAddDialogProps> = (props) => {
     resetAddDialogOpen,
     addFormSections,
     crudFormProps,
+    ...rest
   } = props
 
   return (
@@ -23,7 +26,8 @@ const CrudAddDialog: React.FC<CrudAddDialogProps> = (props) => {
       onClose={resetAddDialogOpen}
       fullScreen
       TransitionComponent={Slide}
-      TransitionProps={{ direction: 'up' } as any}
+      TransitionProps={{ direction: 'up' } as DialogProps['TransitionProps']}
+      {...rest}
     >
       <CrudForm
         module={module}
@@ -40,8 +44,11 @@ const CrudAddDialog: React.FC<CrudAddDialogProps> = (props) => {
           ...crudFormProps?.headerProps,
         }}
         useCrudFormProps={{
-          afterSubmit: resetAddDialogOpen,
           ...crudFormProps?.useCrudFormProps,
+          afterSubmit: async (...args) => {
+            await crudFormProps?.useCrudFormProps?.afterSubmit?.(...args)
+            resetAddDialogOpen()
+          },
         }}
       />
     </Dialog>

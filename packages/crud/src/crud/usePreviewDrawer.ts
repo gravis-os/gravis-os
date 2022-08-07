@@ -1,9 +1,26 @@
 import { useState } from 'react'
 import { FormSectionsProps } from '@gravis-os/form'
-import { CrudModule } from '@gravis-os/types'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import useGetItem from './useGetItem'
 
-const usePreviewDrawer = (props) => {
+export interface UsePreviewDrawerProps {
+  module: CrudModule
+  previewFormSections: FormSectionsProps['sections']
+}
+
+export interface UsePreviewDrawerReturn {
+  previewSlug?: string
+  previewModule?: CrudModule
+  previewFormSections?: FormSectionsProps['sections']
+  previewItem?: CrudItem
+  previewLoading?: boolean
+  setPreview: ({ module, previewSlug, previewFormSections }) => void
+  resetPreview?: () => void
+}
+
+const usePreviewDrawer = (
+  props: UsePreviewDrawerProps
+): UsePreviewDrawerReturn => {
   const {
     module: injectedModule,
     previewFormSections: injectedPreviewFormSections,

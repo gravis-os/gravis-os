@@ -36,6 +36,7 @@ export interface CrudFormProps {
   loading?: boolean
   disableReadOnlyButton?: boolean
   disableRedirectOnSuccess?: boolean
+  disableMetaSection?: boolean
   defaultValues?: Record<string, unknown>
   disabledFields?: string[]
   formProps?: Partial<FormProps<any>>
@@ -60,6 +61,11 @@ export interface CrudFormJsxProps extends FormSectionsProps {
 const CrudForm: React.FC<CrudFormProps> = (props) => {
   const {
     headerProps,
+    defaultValues,
+    disabledFields,
+    disableReadOnlyButton,
+    disableRedirectOnSuccess,
+    disableMetaSection,
     disableHeader,
     useCrudFormProps,
     sections,
@@ -70,10 +76,6 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     module,
     children,
     loading,
-    defaultValues,
-    disabledFields,
-    disableReadOnlyButton,
-    disableRedirectOnSuccess,
     formJsxComponent: FormJsxComponent = FormSections,
     formJsxComponentProps,
   } = props
@@ -112,7 +114,10 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     isPreview,
     isReadOnly,
     setIsReadOnly,
-    sections: [...sections, metaFormSection] as FormSectionsProps['sections'],
+    sections: [
+      ...sections,
+      !isNew && !disableMetaSection && metaFormSection,
+    ].filter(Boolean) as FormSectionsProps['sections'],
     module,
     disabledFields,
     formContext,
