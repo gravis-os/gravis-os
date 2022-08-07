@@ -36,12 +36,21 @@ export interface UseCrudFormArgs extends UseFormProps {
   item?: CrudItem
   refetch?: () => Promise<CrudItem>
   client?: SupabaseClient
-  createOnSubmit?: boolean
+  createOnSubmit?: boolean // Always create onSubmit only. Never update.
   setFormValues?: ({
     values,
     isNew,
     item,
   }: UseCrudFormValuesInterface) => Record<string, unknown>
+  onSubmit?: ({
+    values,
+    isNew,
+    toast,
+    afterSubmit,
+  }: UseCrudFormValuesInterface & {
+    toast: any
+    afterSubmit: UseCrudFormArgs['afterSubmit']
+  }) => unknown // Override submit action
   afterSubmit?: ({ values, isNew, item }: UseCrudFormValuesInterface) => unknown
   afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => unknown
   defaultValues?: Record<string, unknown>
@@ -58,6 +67,7 @@ export interface UseCrudFormReturn {
 const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const {
     defaultValues: injectedDefaultValues,
+    onSubmit: injectedOnSubmit,
     afterSubmit,
     afterDelete,
     setFormValues,
@@ -136,84 +146,100 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     // Payload
     const nextValues = nonOneToManyValues
 
-    // Create or Update
-    createOrUpdateMutation.mutate(nextValues, {
-      onSuccess: async (result) => {
-        queryClient.invalidateQueries(table.name)
-
-        // Handle errors
-        const { error, data } = result
-        if (error || !data) {
-          console.error(
-            'error at useCrudForm.createOrUpdateMutation()',
-            error.message
-          )
-          toast.error('Something went wrong')
-          return
+    // Fire Action
+    switch (true) {
+      // Override default submit action to just get values and manual override outside
+      case typeof injectedOnSubmit === 'function':
+        const injectedOnSubmitArgs = {
+          isNew,
+          values: nextValues,
+          toast,
+          afterSubmit,
         }
+        // Trigger injectedOnSubmit
+        return injectedOnSubmit(injectedOnSubmitArgs)
+      // Default action: Create or Update
+      default:
+        createOrUpdateMutation.mutate(nextValues, {
+          onSuccess: async (result) => {
+            queryClient.invalidateQueries(table.name)
 
-        // Saved item, we can get the product.id from here
-        // nextItem does not contain the relations.
-        // use item to get the relations.
-        const nextItem = data[0]
+            // Handle errors
+            const { error, data } = result
+            if (error || !data) {
+              console.error(
+                'error at useCrudForm.createOrUpdateMutation()',
+                error.message
+              )
+              toast.error('Something went wrong')
+              return
+            }
 
-        // Manage many to many values by creating records in join tables
-        const hasManyToManyValues = Boolean(
-          Object.keys(manyToManyValues).length
-        )
-        if (hasManyToManyValues) {
-          await saveManyToManyValues({
-            item,
-            values: manyToManyValues,
-            client,
-            module,
-            fieldDefs,
-          })
+            // Saved item, we can get the product.id from here
+            // nextItem does not contain the relations.
+            // use item to get the relations.
+            const nextItem = data[0]
 
-          /**
-           * Refetch data to get the latest join info because we're comparing against prev value
-           * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
-           * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
-           * which causes unexpected saves.
-           */
-          if (refetch) refetch()
-        }
+            // Manage many to many values by creating records in join tables
+            const hasManyToManyValues = Boolean(
+              Object.keys(manyToManyValues).length
+            )
+            if (hasManyToManyValues) {
+              await saveManyToManyValues({
+                item,
+                values: manyToManyValues,
+                client,
+                module,
+                fieldDefs,
+              })
 
-        // Manage one to many values by creating records in join tables
-        const hasOneToManyValues = Boolean(Object.keys(oneToManyValues).length)
-        if (hasOneToManyValues) {
-          await saveOneToManyValues({
-            item,
-            values: oneToManyValues,
-            client,
-            module,
-          })
+              /**
+               * Refetch data to get the latest join info because we're comparing against prev value
+               * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
+               * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
+               * which causes unexpected saves.
+               */
+              if (refetch) refetch()
+            }
 
-          /**
-           * Refetch data to get the latest join info because we're comparing against prev value
-           * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
-           * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
-           * which causes unexpected saves.
-           */
-          if (refetch) refetch()
-        }
+            // Manage one to many values by creating records in join tables
+            const hasOneToManyValues = Boolean(
+              Object.keys(oneToManyValues).length
+            )
+            if (hasOneToManyValues) {
+              await saveOneToManyValues({
+                item,
+                values: oneToManyValues,
+                client,
+                module,
+              })
 
-        // Toast
-        toast.success('Success')
+              /**
+               * Refetch data to get the latest join info because we're comparing against prev value
+               * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
+               * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
+               * which causes unexpected saves.
+               */
+              if (refetch) refetch()
+            }
 
-        if (afterSubmit) {
-          afterSubmit({
-            isNew,
-            values: nextValues,
-            item: nextItem,
-          })
-        }
-      },
-      onError: (error) => {
-        toast.error('Something went wrong')
-        console.error('Error caught:', error)
-      },
-    })
+            // Toast
+            toast.success('Success')
+
+            if (afterSubmit) {
+              afterSubmit({
+                isNew,
+                values: nextValues,
+                item: nextItem,
+              })
+            }
+          },
+          onError: (error) => {
+            toast.error('Something went wrong')
+            console.error('Error caught:', error)
+          },
+        })
+    }
   }
 
   const onDelete = async (values) => {
