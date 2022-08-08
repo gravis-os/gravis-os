@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
-import { useQuery } from 'react-query'
+import { useQuery, UseQueryResult } from 'react-query'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 
 export interface UseGetItemArgs {
@@ -9,11 +9,11 @@ export interface UseGetItemArgs {
   slug?: string | null
 }
 
-export interface UseGetItemResult {
+export type UseGetItemResult = {
   item: CrudItem
   loading: boolean
   error: unknown
-}
+} & Omit<UseQueryResult, 'error'>
 
 const useGetItem = (props: UseGetItemArgs): UseGetItemResult => {
   const { module, slug: injectedSlug } = props
