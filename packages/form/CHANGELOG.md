@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.26
+
+### Patch Changes
+
+- [#36](https://github.com/gravis-os/gravis-os/pull/36) [`0ff725c`](https://github.com/gravis-os/gravis-os/commit/0ff725cf83f1a85e083db2664effd128e380bd42) Thanks [@winter-steve](https://github.com/winter-steve)! - add NumberField component
+
 ## 0.0.25
 
 ### Patch Changes
