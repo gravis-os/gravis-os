@@ -1,10 +1,7 @@
 import { useEffect } from 'react'
 import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form'
-import {
-  supabaseClient,
-  SupabaseClient,
-} from '@supabase/supabase-auth-helpers/nextjs'
-import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
+import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { useUser } from '@supabase/auth-helpers-react/components/UserProvider'
 import flowRight from 'lodash/flowRight'
 import { useMutation, useQueryClient } from 'react-query'
 import {

@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
 import { DropzoneOptions, DropzoneState, useDropzone } from 'react-dropzone'
 import getFileMetaFromFile from './getFileMetaFromFile'

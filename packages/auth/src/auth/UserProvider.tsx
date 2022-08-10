@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useUser as useAuthUser } from '@supabase/supabase-auth-helpers/react'
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
 import UserContext from './UserContext'

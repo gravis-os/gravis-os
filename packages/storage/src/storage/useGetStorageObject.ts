@@ -1,8 +1,5 @@
 import { useEffect, useState } from 'react'
-import {
-  supabaseClient,
-  SupabaseClient,
-} from '@supabase/supabase-auth-helpers/nextjs'
+import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 type UseGetStorageObject = (props: {
   value?: string // Typically the form value

@@ -1,4 +1,4 @@
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import type { ApiError } from '@supabase/gotrue-js'
 
 export interface UseAuthOutput {

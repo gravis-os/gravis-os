@@ -1,4 +1,4 @@
-import { getUser, withApiAuth } from '@supabase/supabase-auth-helpers/nextjs'
+import { getUser, withApiAuth } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
 import { initStripeNode, initStripeSupabaseAdmin } from '../../index'
 

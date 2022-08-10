@@ -1,5 +1,5 @@
 import React, { useRef } from 'react'
-import { useUser } from '@supabase/supabase-auth-helpers/react/components/UserProvider'
+import { useUser } from '@supabase/auth-helpers-react/components/UserProvider'
 import { useQuery } from 'react-query'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
