@@ -1,11 +1,22 @@
 import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
 import { PostgrestResponse } from '@supabase/postgrest-js'
-import { MutationFunction, useMutation, UseMutationResult } from 'react-query'
+import {
+  MutationFunction,
+  useMutation,
+  UseMutationOptions,
+  UseMutationResult,
+} from 'react-query'
 import { CrudModule } from '@gravis-os/types'
 
-export interface UseDeleteActionArg {
+export interface UseDeleteActionArg<TData, TError, TVariables, TContext> {
   module: CrudModule
   item: unknown
+  options?: UseMutationOptions<
+    PostgrestResponse<TData>,
+    TError,
+    TVariables,
+    TContext
+  >
 }
 
 export interface UseDeleteActionReturn<
@@ -28,24 +39,28 @@ const useDeleteMutation = <
   TVariables = unknown,
   TContext = unknown
 >(
-  args: UseDeleteActionArg
+  args: UseDeleteActionArg<TData, TError, TVariables, TContext>
 ): UseDeleteActionReturn<TData, TError, TVariables, TContext> => {
-  const { module, item } = args
+  const { module, item, options } = args
   const { sk, table } = module
   const deleteMutationFunction: MutationFunction<
     PostgrestResponse<TData>,
     TVariables
   > = async () =>
     supabaseClient
-      .from(table.name)
+      .from<TData>(table.name)
       .delete()
       .match({ [sk]: item[sk] })
-  const deleteMutation = useMutation<
+  const nextOptions: UseMutationOptions<
     PostgrestResponse<TData>,
     TError,
     TVariables,
     TContext
-  >(deleteMutationFunction)
+  > = {
+    mutationFn: deleteMutationFunction,
+    ...options,
+  }
+  const deleteMutation = useMutation(nextOptions)
   return { deleteMutation }
 }
 
