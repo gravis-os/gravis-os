@@ -11,6 +11,7 @@ import {
 } from '@gravis-os/ui'
 import { ContainerProps } from '@mui/material'
 import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
+import { omit } from 'lodash'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
 import getIsNew from './getIsNew'
@@ -57,7 +58,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   const { item, loading } = onUseGetItem
 
   // renderProps for injection later
-  const renderProps = { module, ...onUseGetItem }
+  const renderProps = { module, ...omit(onUseGetItem, 'refetch') }
 
   // Detail page shorthand with CrudForm
   const children = formSections ? (
