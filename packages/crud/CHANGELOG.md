@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.29
+
+### Patch Changes
+
+- [#39](https://github.com/gravis-os/gravis-os/pull/39) [`04466dc`](https://github.com/gravis-os/gravis-os/commit/04466dc41859899cfc575629d2f3f48eb927e6e1) Thanks [@al1xt](https://github.com/al1xt)! - fix bannerProps typing for DetailPageProps and allow options for mutation hooks
+
+* [#37](https://github.com/gravis-os/gravis-os/pull/37) [`356c1b9`](https://github.com/gravis-os/gravis-os/commit/356c1b904dbcc2276b39944023350e6a3154b10b) Thanks [@winter-steve](https://github.com/winter-steve)! - update useGetItem return type to include react-query's return values
+
 ## 0.0.28
 
 ### Patch Changes
