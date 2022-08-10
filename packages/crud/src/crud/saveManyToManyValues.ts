@@ -7,11 +7,16 @@ const saveManyToManyValues = async (args) => {
 
   const getHelpers = ({ key, value }) => {
     const relationalObjectKey = getRelationalObjectKey(key)
+    const isInjectedRelation = Boolean(module?.relations?.[relationalObjectKey])
     const joinKey = `${relationalObjectKey}_ids`
+
+    const joinTableName = isInjectedRelation
+      ? module.relations[relationalObjectKey]?.table?.name
+      : `${module.table.name}_${relationalObjectKey}`
 
     const helpers = {
       relationalObjectKey,
-      joinTableName: `${module.table.name}_${relationalObjectKey}`,
+      joinTableName,
       currentColumnName: `${module.table.name}_id`,
       opposingColumnName: `${relationalObjectKey}_id`,
       joinKey,
