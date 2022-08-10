@@ -9,11 +9,11 @@ export interface UseGetItemArgs {
   slug?: string | null
 }
 
-export type UseGetItemResult = {
+export interface UseGetItemResult extends Omit<UseQueryResult, 'error'> {
   item: CrudItem
   loading: boolean
   error: unknown
-} & Omit<UseQueryResult, 'error'>
+}
 
 const useGetItem = (props: UseGetItemArgs): UseGetItemResult => {
   const { module, slug: injectedSlug } = props
