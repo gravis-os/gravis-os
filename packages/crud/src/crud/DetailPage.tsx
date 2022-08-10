@@ -23,7 +23,7 @@ interface DetailPageRenderProps {
 }
 
 export interface DetailPageProps {
-  bannerProps?: DetailBannerProps
+  bannerProps?: Partial<DetailBannerProps>
   children?: React.ReactNode | RenderPropsFunction<DetailPageRenderProps>
   headerProps?: Omit<DetailPageHeaderProps, 'module'>
   module: CrudModule
