@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.28
+
+### Patch Changes
+
+- [#38](https://github.com/gravis-os/gravis-os/pull/38) [`74302e3`](https://github.com/gravis-os/gravis-os/commit/74302e3c768d3ec7e98d8a1fc2714dbaad87a591) Thanks [@winter-steve](https://github.com/winter-steve)! - allow saveManyToManyValues to handle explicitly declared relations from the module config
+
 ## 0.0.27
 
 ### Patch Changes
