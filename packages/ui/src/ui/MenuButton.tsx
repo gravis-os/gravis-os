@@ -15,6 +15,7 @@ import {
   ListItemTextProps,
 } from '@mui/material'
 import { RenderPropsFunction } from '@gravis-os/types'
+import { ArrowDropDownOutlined } from '@mui/icons-material'
 import GvsButton, { ButtonProps } from './Button'
 
 const renderItems = ({
@@ -117,7 +118,12 @@ const MenuButton: React.FC<MenuButtonProps> = (props) => {
     <PopupState variant="popover" popupId={String(title)}>
       {(popupState) => (
         <>
-          <Button {...bindTrigger(popupState)} size={size} {...rest}>
+          <Button
+            {...bindTrigger(popupState)}
+            size={size}
+            endIcon={<ArrowDropDownOutlined fontSize="small" />}
+            {...rest}
+          >
             {title}
           </Button>
 

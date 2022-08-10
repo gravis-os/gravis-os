@@ -1,5 +1,5 @@
 import React from 'react'
-import { Container } from '@gravis-os/ui'
+import { Container, ContainerProps } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import PageHeader from './PageHeader'
@@ -13,6 +13,7 @@ export interface ListPageProps {
   previewFormSections?: FormSectionsProps['sections']
   addFormSections?: FormSectionsProps['sections']
   crudTableProps?: Partial<CrudTableProps>
+  containerProps?: ContainerProps
 }
 
 const ListPage: React.FC<ListPageProps> = (props) => {
@@ -24,6 +25,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     addFormSections,
     columnDefs,
     module,
+    containerProps,
   } = props
   const { name, route } = module
 
@@ -42,7 +44,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
   ]
 
   return (
-    <Container>
+    <Container maxWidth="xl" {...containerProps}>
       <PageHeader {...pageHeaderProps} />
 
       <CrudTable

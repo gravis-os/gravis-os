@@ -1,10 +1,9 @@
 import merge from 'lodash/merge'
-import { createTheme, responsiveFontSizes } from '@mui/material'
+import { createTheme } from '@mui/material'
 
-const muiLightTheme = responsiveFontSizes(createTheme())
-const muiDarkTheme = responsiveFontSizes(
-  createTheme({ palette: { mode: 'dark' } })
-)
+const muiLightTheme = createTheme()
+const muiDarkTheme = createTheme({ palette: { mode: 'dark' } })
+
 const muiDefaultTheme = muiLightTheme
 
 const baseThemeConfig = {

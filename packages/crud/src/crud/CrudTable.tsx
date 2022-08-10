@@ -143,6 +143,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
       {/* DataTable */}
       <DataTable
+        module={module}
         ref={gridRef}
         rowData={items}
         columnDefs={columnDefs}

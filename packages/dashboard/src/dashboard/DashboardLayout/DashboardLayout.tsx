@@ -14,6 +14,7 @@ export interface DashboardLayoutProps {
 
   // Disables
   disablePadding?: boolean
+  disableGutters?: boolean
 
   // Minivariant
   isMiniVariant?: boolean
@@ -41,6 +42,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     children,
     defaultLeftAsideOpen = true,
     defaultRightAsideOpen = true,
+    disableGutters,
     disablePadding,
     leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
     rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
@@ -111,7 +113,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           display: 'flex',
           flex: '1 1 auto',
           maxWidth: '100%',
-          marginTop: `${headerHeight + (disablePadding ? 0 : 24)}px`,
+          marginTop: `${headerHeight + (disablePadding ? 24 : 0)}px`,
 
           // Left aside
           ...(isLeftAsideOpen && { ml: { md: `${leftAsideWidth}px` } }),
@@ -207,6 +209,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           sx={{
             flexGrow: 1,
             ...(!disablePadding && { p: 3 }),
+            ...(disableGutters && { px: 0 }), // Remove horizontal padding
           }}
         >
           {children}

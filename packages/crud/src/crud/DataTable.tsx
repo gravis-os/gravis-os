@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { SxProps } from '@mui/material'
-import { Stack } from '@gravis-os/ui'
+import { Stack, Card, Typography } from '@gravis-os/ui'
+import { CrudModule } from '@gravis-os/types'
 import AgGrid, { AgGridProps } from './AgGrid'
 // Framework Components
 import AgGridModelFieldEditor from './AgGridModelFieldEditor'
@@ -9,6 +10,7 @@ import ManageColumnsMenuButton from './ManageColumnsMenuButton'
 export interface DataTableProps extends AgGridProps {
   sx?: SxProps
   actions?: React.ReactNode
+  module: CrudModule
 }
 
 /**
@@ -28,6 +30,7 @@ const DataTable = React.forwardRef<
     frameworkComponents,
     rowData,
     columnDefs: injectedColumnDefs,
+    module,
     ...rest
   } = props
 
@@ -36,25 +39,45 @@ const DataTable = React.forwardRef<
     setColumnDefs(injectedColumnDefs)
   }, [injectedColumnDefs])
 
+  // Title
+  const TitleIcon = module?.Icon
+
   return (
     <>
-      <Stack
-        direction="row"
-        alignItems="flex-end"
-        justifyContent="flex-end"
-        spacing={1}
-        sx={{ mb: 1 }}
+      {/* DataTableHeader */}
+      <Card
+        square
+        py={1}
+        disableLastGutterBottom
+        sx={{ borderBottom: 1, borderColor: 'divider' }}
       >
-        {actions}
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={1}
+        >
+          {/* Left */}
+          <Stack direction="row" spacing={1} alignItems="center">
+            {TitleIcon && <TitleIcon sx={{ color: 'primary.main' }} />}
+            <Typography variant="h5">{module.name.plural}</Typography>
+          </Stack>
 
-        {/* ManageColumnsMenuButton */}
-        <ManageColumnsMenuButton
-          initialColumnDefs={injectedColumnDefs}
-          columnDefs={columnDefs}
-          setColumnDefs={setColumnDefs}
-        />
-      </Stack>
+          {/* Right */}
+          <Stack direction="row" justifyContent="flex-end">
+            {actions}
 
+            {/* ManageColumnsMenuButton */}
+            <ManageColumnsMenuButton
+              initialColumnDefs={injectedColumnDefs}
+              columnDefs={columnDefs}
+              setColumnDefs={setColumnDefs}
+            />
+          </Stack>
+        </Stack>
+      </Card>
+
+      {/* AgGrid */}
       <AgGrid
         frameworkComponents={{
           ModelFieldEditor: AgGridModelFieldEditor,

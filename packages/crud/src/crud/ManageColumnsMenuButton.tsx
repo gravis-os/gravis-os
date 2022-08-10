@@ -1,5 +1,5 @@
 import React from 'react'
-import { CheckboxGroup, MenuButton } from '@gravis-os/ui'
+import { CheckboxGroup, MenuButton, ButtonProps } from '@gravis-os/ui'
 import xor from 'lodash/xor'
 import { ColDef } from 'ag-grid-community/dist/lib/entities/colDef'
 
@@ -7,7 +7,7 @@ export interface ManageColumnDef extends ColDef {
   field?: string
 }
 
-export interface ManageColumnsMenuButtonProps {
+export interface ManageColumnsMenuButtonProps extends ButtonProps {
   initialColumnDefs: ManageColumnDef[]
   columnDefs: ManageColumnDef[]
   setColumnDefs: React.Dispatch<React.SetStateAction<ManageColumnDef[]>>
@@ -16,15 +16,16 @@ export interface ManageColumnsMenuButtonProps {
 const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
   props
 ) => {
-  const { columnDefs, setColumnDefs, initialColumnDefs } = props
+  const { columnDefs, setColumnDefs, initialColumnDefs, sx, ...rest } = props
 
   return (
     <MenuButton
       title="Columns"
       size="small"
-      variant="outlined"
       color="inherit"
-      sx={{ color: 'text.secondary' }}
+      variant="text"
+      sx={{ color: 'text.secondary', ...sx }}
+      {...rest}
     >
       {() => {
         const getIsExcludedColumn = (field: string) =>
