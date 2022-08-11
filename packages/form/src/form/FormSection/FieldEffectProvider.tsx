@@ -1,12 +1,14 @@
 import React, { useEffect } from 'react'
 import zipObject from 'lodash/zipObject'
-import { useWatch, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, useWatch } from 'react-hook-form'
 
 export interface FieldEffectOptions {
-  setValue: (props: {
-    item: Record<string, unknown>
-    values: Record<string, unknown>
-  }) => void
+  setValue: (
+    props: {
+      item: Record<string, unknown>
+      values: Record<string, unknown>
+    } & UseFormReturn
+  ) => void
   watch: any // UseWatchProps['name']
 }
 
@@ -33,9 +35,13 @@ const FieldEffectProvider = (props: FieldEffectProviderProps) => {
   const watchedObject = zipObject(watchKeys, watchedValues)
 
   useEffect(() => {
-    const nextValue = setFieldEffectValue({ values: watchedObject, item })
+    const nextValue = setFieldEffectValue({
+      values: watchedObject,
+      item,
+      ...formContext,
+    })
     setValue(name, nextValue)
-  }, [watchedObject])
+  }, [JSON.stringify(watchedObject)])
 
   return children
 }
