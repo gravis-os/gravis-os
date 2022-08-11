@@ -1,10 +1,20 @@
 import React from 'react'
 import { UserProvider as AuthUserProvider } from '@supabase/auth-helpers-react'
-import { Props as AuthUserProviderProps } from '@supabase/auth-helpers-react/components/UserProvider'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { User, SupabaseClient } from '@supabase/supabase-js'
 import DbUserProvider, {
   UserProviderProps as DbUserProviderProps,
 } from './UserProvider'
+
+export interface AuthUserProviderProps {
+  supabaseClient: SupabaseClient
+  callbackUrl?: string
+  profileUrl?: string
+  user?: User
+  fetcher?: any
+  autoRefreshToken?: boolean
+  [propName: string]: any
+}
 
 export interface AuthProviderProps extends DbUserProviderProps {
   children?: React.ReactNode

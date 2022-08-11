@@ -1,6 +1,3 @@
-// Authy stuff
-export { useUser as useAuthUser } from '@supabase/auth-helpers-react'
-
 export { withPageAuth } from '@supabase/auth-helpers-nextjs'
 
 export { default as AuthProvider } from './AuthProvider'
