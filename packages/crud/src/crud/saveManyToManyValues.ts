@@ -3,7 +3,7 @@ import { getRelationalObjectKey } from '@gravis-os/form'
 import pick from 'lodash/pick'
 
 const saveManyToManyValues = async (args) => {
-  const { item, values, client, module, fieldDefs } = args
+  const { data, item, values, client, module, fieldDefs } = args
 
   const getHelpers = ({ key, value }) => {
     const relationalObjectKey = getRelationalObjectKey(key)
@@ -20,7 +20,7 @@ const saveManyToManyValues = async (args) => {
       currentColumnName: `${module.table.name}_id`,
       opposingColumnName: `${relationalObjectKey}_id`,
       joinKey,
-      prevValueIds: item[joinKey]?.map((v) => v.id) || [],
+      prevValueIds: item?.[joinKey]?.map((v) => v.id) || [],
       currentValueIds: value.map((v) => v.id),
     }
 
@@ -72,7 +72,7 @@ const saveManyToManyValues = async (args) => {
           : null
 
         return {
-          [currentColumnName]: item.id,
+          [currentColumnName]: data.id,
           [opposingColumnName]: val.id,
           ...manyToManyExtraColumns,
         }

@@ -4,7 +4,7 @@ import partition from 'lodash/partition'
 import differenceBy from 'lodash/differenceBy'
 
 const saveOneToManyValues = async (props) => {
-  const { item, values: oneToManyPairs, client, module } = props
+  const { data, item, values: oneToManyPairs, client, module } = props
 
   // `product`
   const primaryTableName = module.table.name
@@ -16,12 +16,12 @@ const saveOneToManyValues = async (props) => {
       rows.map((row) => ({
         // Filter away relations data
         ...omitBy(row, (value) => typeof value === 'object' && value !== null),
-        [`${primaryTableName}_id`]: item.id, // product_id = 1
+        [`${primaryTableName}_id`]: data.id, // product_id = 1
       })),
       ({ id }) => !id || typeof id === 'string'
     )
     const insertRows = insertRowsWithIds.map((row) => omit(row, 'id'))
-    const deleteIds = differenceBy(item[key], rows, 'id').map(({ id }) => id)
+    const deleteIds = differenceBy(item?.[key], rows, 'id').map(({ id }) => id)
 
     if (!module.relations?.[key]?.table?.name) return null
     const foreignTableName = module.relations[key].table.name
