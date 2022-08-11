@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.27
+
+### Patch Changes
+
+- [#41](https://github.com/gravis-os/gravis-os/pull/41) [`cfe43a9`](https://github.com/gravis-os/gravis-os/commit/cfe43a9b93341e21f15a19ad26e5585567a56518) Thanks [@winter-steve](https://github.com/winter-steve)! - provide entire form context through field effect
+
 ## 0.0.26
 
 ### Patch Changes

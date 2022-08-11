@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.30
+
+### Patch Changes
+
+- [#40](https://github.com/gravis-os/gravis-os/pull/40) [`50653ab`](https://github.com/gravis-os/gravis-os/commit/50653abc95cefae9711bdd6e0bc9651421475574) Thanks [@winter-steve](https://github.com/winter-steve)! - Use correct primary table id when updating relations by selecting the updated item id and disable deletions of related entities when creating on submit
+
+* [`3b47687`](https://github.com/gravis-os/gravis-os/commit/3b47687680846519000486e8c847c4b58052a31e) Thanks [@winter-steve](https://github.com/winter-steve)! - Make module for data table optional
+
+* Updated dependencies [[`cfe43a9`](https://github.com/gravis-os/gravis-os/commit/cfe43a9b93341e21f15a19ad26e5585567a56518)]:
+  - @gravis-os/form@0.0.27
+
 ## 0.0.29
 
 ### Patch Changes
