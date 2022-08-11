@@ -10,7 +10,7 @@ import ManageColumnsMenuButton from './ManageColumnsMenuButton'
 export interface DataTableProps extends AgGridProps {
   sx?: SxProps
   actions?: React.ReactNode
-  module: CrudModule
+  module?: CrudModule
 }
 
 /**
@@ -60,7 +60,7 @@ const DataTable = React.forwardRef<
           {/* Left */}
           <Stack direction="row" spacing={1} alignItems="center">
             {TitleIcon && <TitleIcon sx={{ color: 'primary.main' }} />}
-            <Typography variant="h5">{module.name.plural}</Typography>
+            <Typography variant="h5">{module?.name?.plural}</Typography>
           </Stack>
 
           {/* Right */}
