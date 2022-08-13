@@ -1,13 +1,15 @@
 import { useContext } from 'react'
 import UserContext from './UserContext'
 
-export interface UseUserReturn {
-  user?: Record<string, unknown>
+export interface UseUserReturn<TUser> {
+  user?: TUser
   authUser?: Record<string, unknown>
-  logout?: () => Promise<void>
+  logout: () => Promise<void>
 }
 
-const useUser = (): UseUserReturn => {
+export type UseUser<TUser = any> = () => UseUserReturn<TUser>
+
+const useUser: UseUser = () => {
   const context = useContext(UserContext)
 
   if (typeof context === 'undefined') {
