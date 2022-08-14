@@ -9,9 +9,6 @@ export * from './SupabaseUIAuthForm'
 export { default as useUser } from './useUser'
 export * from './useUser'
 
-export { default as useAuth } from './useAuth'
-export * from './useAuth'
-
 export { default as withAuthProvider } from './withAuthProvider'
 export * from './withAuthProvider'
 

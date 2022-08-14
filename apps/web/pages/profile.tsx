@@ -18,7 +18,7 @@ import Copyright from '../src/Copyright'
 export const getServerSideProps = withPageAuth()
 
 const Profile: NextPage = () => {
-  const { logout } = useAuth()
+  const { logout } = useUser()
   const router = useRouter()
 
   const { user } = useUser()

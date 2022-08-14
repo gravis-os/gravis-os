@@ -71,7 +71,12 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
 
   // Auth Context methods
   const logout = async () => {
-    const onSignOut = await supabaseClient.auth.signOut()
+    /**
+     * Trigger supabase auth logout instead of js package logout to ensure that
+     * cookies are removed as well because the previous method: supabaseClient.auth.signOut()
+     * didn't seem to clear the cookies.
+     */
+    const onSignOut = await fetch('/api/auth/logout', { method: 'POST' })
     setDbUser(null)
     return onSignOut
   }
