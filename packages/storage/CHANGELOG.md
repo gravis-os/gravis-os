@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.11
+
+### Patch Changes
+
+- Update storage to upgrade to supabase/auth-helpers
+
 ## 0.0.10
 
 ### Patch Changes
