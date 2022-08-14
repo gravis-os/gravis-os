@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.20
+
+### Patch Changes
+
+- Update stripe to upgrade @supabase/supabase-auth-helpers
+
 ## 0.0.19
 
 ### Patch Changes
