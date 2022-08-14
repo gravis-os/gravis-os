@@ -1,8 +1,5 @@
 import { useForm } from 'react-hook-form'
-import {
-  supabaseClient,
-  SupabaseClient,
-} from '@supabase/supabase-auth-helpers/nextjs'
+import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { getSearchFormValues } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 

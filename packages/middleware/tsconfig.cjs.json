@@ -1,0 +1,10 @@
+{
+  "extends": "@gravis-os/tsconfig/tsconfig.cjs.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "outDir": "dist/cjs",
+    "declarationDir": "dist/types"
+  },
+  "include": ["./src/**/*", "typings.d.ts"],
+  "exclude": ["node_modules", "dist", "**/*.stories.tsx"]
+}

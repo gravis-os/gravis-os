@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { File } from './types'
 
 const fetchStorageUrls = async ({ srcs }: { srcs: string[] }) => {

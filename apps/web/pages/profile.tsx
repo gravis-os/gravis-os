@@ -5,12 +5,7 @@ import Container from '@mui/material/Container'
 import Typography from '@mui/material/Typography'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import {
-  useAuth,
-  withAuthProvider,
-  withPageAuth,
-  useUser,
-} from '@gravis-os/auth'
+import { withAuthProvider, withPageAuth, useUser } from '@gravis-os/auth'
 import { StorageAvatar } from '@gravis-os/storage'
 import ProTip from '../src/ProTip'
 import Copyright from '../src/Copyright'
@@ -18,7 +13,7 @@ import Copyright from '../src/Copyright'
 export const getServerSideProps = withPageAuth()
 
 const Profile: NextPage = () => {
-  const { logout } = useAuth()
+  const { logout } = useUser()
   const router = useRouter()
 
   const { user } = useUser()

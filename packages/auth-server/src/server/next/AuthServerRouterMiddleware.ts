@@ -1,6 +1,6 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
 import camelCase from 'lodash/camelCase'
-import { withApiAuth } from '@supabase/supabase-auth-helpers/nextjs'
+import { withApiAuth } from '@supabase/auth-helpers-nextjs'
 import config from '../../config/config'
 import { initSupabaseAdminClient } from '../index'
 

@@ -5,7 +5,7 @@ import React, {
   useMemo,
   forwardRef,
 } from 'react'
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import {
   PostgrestResponse,
   PostgrestFilterBuilder,

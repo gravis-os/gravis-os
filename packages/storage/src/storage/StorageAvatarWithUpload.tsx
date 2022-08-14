@@ -1,8 +1,5 @@
 import React, { useRef, useEffect, useState, InputHTMLAttributes } from 'react'
-import {
-  supabaseClient,
-  SupabaseClient,
-} from '@supabase/supabase-auth-helpers/nextjs'
+import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import { Avatar, AvatarProps, Button, IconButton, Stack } from '@gravis-os/ui'

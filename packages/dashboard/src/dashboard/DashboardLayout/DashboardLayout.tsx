@@ -113,7 +113,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           display: 'flex',
           flex: '1 1 auto',
           maxWidth: '100%',
-          marginTop: `${headerHeight + (disablePadding ? 24 : 0)}px`,
+          marginTop: `${
+            headerHeight + (disablePadding || disableGutters ? 0 : 24)
+          }px`,
 
           // Left aside
           ...(isLeftAsideOpen && { ml: { md: `${leftAsideWidth}px` } }),

@@ -1,13 +1,13 @@
 import React from 'react'
-import { UserProvider } from '@supabase/supabase-auth-helpers/react'
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { UserProvider } from '@supabase/auth-helpers-react'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { Box, BoxProps } from '@gravis-os/ui'
 
 export interface SupabaseUIAuthFormProps extends BoxProps {
   formProps?: Record<string, unknown>
 }
 
-const SupabaseUIAuthForm: React.FC<SupabaseUIAuthFormProps> = props => {
+const SupabaseUIAuthForm: React.FC<SupabaseUIAuthFormProps> = (props) => {
   const { formProps, sx, ...rest } = props
 
   return (

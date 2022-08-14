@@ -2,10 +2,11 @@ import React from 'react'
 import { Avatar, AvatarProps } from '@gravis-os/ui'
 import useGetStorageObject from './useGetStorageObject'
 
-interface StorageAvatarProps extends AvatarProps {
-  src?: string // defaultValue to render the image. Storage filepath where image is currently stored
+interface StorageAvatarProps extends Omit<AvatarProps, 'alt'> {
+  src?: string | null // defaultValue to render the image. Storage filepath where image is currently stored
   size?: number // Image size
   value?: string // Typically, the form value
+  alt?: string | null
 }
 
 /**

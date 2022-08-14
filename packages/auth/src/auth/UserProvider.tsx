@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
-import { useUser as useAuthUser } from '@supabase/supabase-auth-helpers/react'
-import { supabaseClient } from '@supabase/supabase-auth-helpers/nextjs'
+import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
 import UserContext from './UserContext'
@@ -71,7 +71,12 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
 
   // Auth Context methods
   const logout = async () => {
-    const onSignOut = await supabaseClient.auth.signOut()
+    /**
+     * Trigger supabase auth logout instead of js package logout to ensure that
+     * cookies are removed as well because the previous method: supabaseClient.auth.signOut()
+     * didn't seem to clear the cookies.
+     */
+    const onSignOut = await fetch('/api/auth/logout', { method: 'POST' })
     setDbUser(null)
     return onSignOut
   }
