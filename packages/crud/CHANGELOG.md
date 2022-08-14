@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.31
+
+### Patch Changes
+
+- [#42](https://github.com/gravis-os/gravis-os/pull/42) [`0ab3560`](https://github.com/gravis-os/gravis-os/commit/0ab3560ddf2250b5c1b74c34f14f433fa04b7bc4) Thanks [@clodal](https://github.com/clodal)! - Feature/upgrade supabase auth
+
+- Updated dependencies [[`0ab3560`](https://github.com/gravis-os/gravis-os/commit/0ab3560ddf2250b5c1b74c34f14f433fa04b7bc4)]:
+  - @gravis-os/auth@0.0.10
+  - @gravis-os/form@0.0.28
+
 ## 0.0.30
 
 ### Patch Changes

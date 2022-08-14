@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.2
+
+### Patch Changes
+
+- [#42](https://github.com/gravis-os/gravis-os/pull/42) [`0ab3560`](https://github.com/gravis-os/gravis-os/commit/0ab3560ddf2250b5c1b74c34f14f433fa04b7bc4) Thanks [@clodal](https://github.com/clodal)! - Feature/upgrade supabase auth
+
 ## 0.0.19
 
 ### Patch Changes
