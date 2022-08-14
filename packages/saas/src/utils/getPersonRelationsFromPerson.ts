@@ -1,62 +1,74 @@
-// TODO@Joel: Type this
-// import { Company, Permission, Tier, Feature } from '@prisma/client'
-// import { AppPerson, AppRole, AppWorkspace } from '../app/types'
-
-// export interface GetPersonRelationsFromPersonReturn {
-//   workspace?: AppWorkspace
-//   tier?: Tier
-//   company?: Company
-//   role?: AppRole
-//   permissions?: Permission[]
-//   features?: Feature[]
-//   featureTitles: string[]
-//   hasFeature: (featureTitle: string) => boolean
-// }
-
-export interface AppPerson {
-  company: any
-  role: any
-  workspace: any
-}
+import {
+  Person,
+  Role,
+  Workspace,
+  Company,
+  Permission,
+  Tier,
+  Feature,
+} from '../types'
+import getIsAdminRole from './getIsAdminRole'
+import getIsAdminWorkspace from './getIsAdminWorkspace'
 
 export interface GetPersonRelationsFromPersonReturn {
-  permissions: any
-  company: any
-  workspace: any
-  tier: any
-  role: any
-  features: any
-  featureTitles: string[]
+  workspace?: Workspace
+  company?: Company
+
+  // Role & Permissions
+  role?: Role
+  permissions?: Permission[]
+  permissionTitles?: string[]
+  hasPermission: (permissionTitle: string) => boolean
+
+  // Tier & Features
+  tier?: Tier
+  features?: Feature[]
+  featureTitles?: string[]
   hasFeature: (featureTitle: string) => boolean
+
+  // isAdmin
+  isAdminWorkspace: boolean
+  isAdminRole: boolean
 }
 
 /**
  * Flatten out the common relations for easy access
  */
 const getPersonRelationsFromPerson = (
-  person: AppPerson
+  person: Person
 ): GetPersonRelationsFromPersonReturn => {
-  const { workspace, role } = person
+  // Handle degenerate cases
+  if (!person) return
 
-  const featureTitles =
-    workspace?.tier?.feature?.map(({ title }) => title) || []
-  const roleTitle = role?.title
+  const { company, workspace, role } = person
 
-  // TODO@Joel: Abstract this
-  const isAdminRole = roleTitle === 'Super Admin' || roleTitle === 'Admin'
-  const isAdminWorkspace = workspace?.title === 'Admin'
+  const { tier } = workspace || {}
+  const features = tier?.feature
+  const featureTitles = features?.map(({ title }) => title)
+
+  const permissions = role?.permission
+  const permissionTitles = features?.map(({ title }) => title)
 
   return {
-    company: person.company,
+    company,
     workspace,
+
+    // Role & Permissions
     role,
-    permissions: person.role?.permission,
-    tier: person.workspace?.tier,
-    features: person.workspace?.tier?.feature,
+    permissions,
+    permissionTitles,
+    hasPermission: (permissionTitle: string) =>
+      permissionTitles.includes(permissionTitle),
+
+    // Tier & Features
+    tier,
+    features,
     featureTitles,
-    hasFeature: (featureTitle: string) => {
-      return featureTitles.includes(featureTitle)
-    },
+    hasFeature: (featureTitle: string) => featureTitles.includes(featureTitle),
+
+    // isAdmin
+    isAdminRole: getIsAdminRole(role),
+    isAdminWorkspace: getIsAdminWorkspace(workspace),
   }
 }
 

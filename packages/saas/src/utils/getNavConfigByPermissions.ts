@@ -1,31 +1,27 @@
+import { Permission, NavConfigItem } from '../types'
 import getIsValidPermissions from './getIsValidPermissions'
-
-// TODO@Joel: Type this
-type Permission = any
-export type NavMenuItem = any
 
 export interface GetNavConfigByPermissionsProps {
   permissions?: Permission[]
-  navConfig: NavMenuItem[]
+  navConfig: NavConfigItem[]
 }
 
 /**
  * getNavConfigByPermissions
- *
  * Hide the navItems based on the user authz
- * @param props
  */
 const getNavConfigByPermissions = (
   props: GetNavConfigByPermissionsProps
-): NavMenuItem[] => {
+): NavConfigItem[] => {
   const { navConfig, permissions } = props
 
   // Handle degenerate cases
-  if (!permissions || !navConfig) return []
+  if (!permissions?.length || !navConfig?.length) return []
 
   return navConfig
     ?.map((navConfigItem) => {
       const { key } = navConfigItem
+
       const isAuthorized = getIsValidPermissions({
         // permissions e.g. ['company.create', 'product.*']
         permissions: permissions?.map(({ title }) => title),

@@ -1,5 +1,4 @@
-// TODO@Joel: Type this
-export type AppTier = any
+import { Tier } from '../types'
 
 /**
  * For use in columnDefs to render the feature UI in the column
@@ -8,7 +7,7 @@ export type AppTier = any
 const getTierFeatureColumnDefByFeature = (featureTitle: string) => {
   return {
     field: featureTitle,
-    valueGetter: ({ data }: { data: AppTier }) => {
+    valueGetter: ({ data }: { data: Tier }) => {
       const targetFeature = featureTitle
       const { feature_ids } = data
       if (!feature_ids?.length) return '❌'

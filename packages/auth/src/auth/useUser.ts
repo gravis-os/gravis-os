@@ -1,7 +1,7 @@
 import { useContext } from 'react'
 import UserContext from './UserContext'
 
-export interface UseUserReturn<TUser> {
+export interface UseUserReturn<TUser = any> {
   user?: TUser
   authUser?: Record<string, unknown>
   logout: () => Promise<void>
