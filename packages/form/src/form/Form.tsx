@@ -61,6 +61,9 @@ const Form: React.FC<FormProps<any>> = (props) => {
   const renderChildren = (): React.ReactNode => {
     switch (true) {
       case isChildrenRenderProp:
+        const submitButtonChildrenJsx =
+          submitButtonProps?.children || submitButtonProps?.title
+
         const submitButtonJsx = (
           <Button
             variant="contained"
@@ -70,7 +73,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
             disabled={isSubmitting}
             {...submitButtonProps}
           >
-            {submitButtonProps?.children || 'Save'}
+            {submitButtonChildrenJsx || 'Save'}
           </Button>
         )
         const formControlJsx = isReadOnly ? (
@@ -81,7 +84,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
             fullWidth
             {...submitButtonProps}
           >
-            {submitButtonProps?.children || 'Edit'}
+            {submitButtonChildrenJsx || 'Edit'}
           </Button>
         ) : (
           <Stack spacing={1}>
@@ -97,7 +100,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
               fullWidth
               {...submitButtonProps}
             >
-              {submitButtonProps?.children || 'Cancel'}
+              {submitButtonChildrenJsx || 'Cancel'}
             </Button>
           </Stack>
         )

@@ -17,8 +17,6 @@ const fetchWithSupabaseFromMiddleware = async ({
   match?: Record<string, string>
   config?: Record<string, unknown> & { headers?: Record<string, unknown> }
 }) => {
-  // const axiosMiddlewareClient = getAxiosMiddlewareClient()
-
   const matchString =
     match &&
     Object.entries(match)

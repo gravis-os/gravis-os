@@ -22,6 +22,7 @@ export interface Tier {
 }
 export interface Workspace {
   title: string
+  slug: string
   tier: Tier
 }
 export interface Company {}

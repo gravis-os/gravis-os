@@ -6,10 +6,9 @@ import {
   ListItemTextProps as MuiListItemTextProps,
   ListItemAvatar as MuiListItemAvatar,
   ListItemAvatarProps as MuiListItemAvatarProps,
-  ListItemButton as MuiListItemButton,
-  ListItemButtonProps as MuiListItemButtonProps,
 } from '@mui/material'
 import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
+import ListItemButton, { ListItemButtonProps } from './ListItemButton'
 import { TooltipProps } from '../Tooltip'
 import withTooltip from '../withTooltip'
 
@@ -20,7 +19,7 @@ export interface ListItemProps
   subtitle?: MuiListItemTextProps['secondary']
   textProps?: MuiListItemTextProps
   avatarProps?: MuiListItemAvatarProps
-  buttonProps?: MuiListItemButtonProps
+  buttonProps?: ListItemButtonProps
 
   start?: React.ReactElement
   end?: React.ReactElement
@@ -31,7 +30,7 @@ export interface ListItemProps
   iconProps?: ListItemIconProps
 
   href?: string
-  onClick?: MuiListItemButtonProps['onClick']
+  onClick?: ListItemButtonProps['onClick']
 
   // NestedItems
   depth?: number
@@ -138,9 +137,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   const listItemJsx = (
     <MuiListItem {...listItemProps}>
       {hasButton ? (
-        <MuiListItemButton {...listItemButtonProps}>
-          {childrenJsx}
-        </MuiListItemButton>
+        <ListItemButton {...listItemButtonProps}>{childrenJsx}</ListItemButton>
       ) : (
         childrenJsx
       )}

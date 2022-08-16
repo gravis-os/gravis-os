@@ -10,7 +10,7 @@ export interface RegisterFormProps extends Partial<FormProps<any>> {
   boxProps?: AuthBoxProps
 }
 
-const RegisterForm: React.FC<RegisterFormProps> = props => {
+const RegisterForm: React.FC<RegisterFormProps> = (props) => {
   const { submitOptions, authOptions, boxProps, ...rest } = props
 
   return (
@@ -20,8 +20,8 @@ const RegisterForm: React.FC<RegisterFormProps> = props => {
       {...boxProps}
     >
       <AuthForm
-        onSubmit={values => handleSignUp(values, authOptions, submitOptions)}
-        submitButtonProps={{ children: 'Register' }}
+        onSubmit={(values) => handleSignUp(values, authOptions, submitOptions)}
+        submitButtonProps={{ title: 'Register' }}
         {...rest}
       />
     </AuthBox>
