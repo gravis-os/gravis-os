@@ -5,7 +5,7 @@ import { NextRequest } from 'next/server'
  *
  * Breakdown routes into usable parts for consumption within a NextJS Middleware
  */
-const getMiddlewareRouteBreakdown = (req: NextRequest) => {
+const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
   const url = req.nextUrl.clone()
   const { pathname } = url || {}
   const hostname = req.headers.get('host') || ''
@@ -29,10 +29,19 @@ const getMiddlewareRouteBreakdown = (req: NextRequest) => {
   const isApiRoute = pathname.startsWith('/api')
   const isAuthRoute = pathname.startsWith('/auth')
   const isLoginRoute = pathname === '/auth/login'
-  const isBaseRoute = currentHost === hostname // e.g. localhost:3000
+  const isBaseRoute = !subdomain && currentHost === hostname // e.g. localhost:3000
   const isSubdomain = Boolean(subdomain) // e.g. subdomain.localhost:3000
   const isSubdomainWithBaseRoute = isSubdomain && pathname === '/' // e.g. subdomain.localhost:3000/
-  const isLoggedIn = Boolean(req.cookies['sb-access-token'])
+  const sbAccessToken = req.cookies['sb-access-token']
+  const authUser = await (
+    await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
+      headers: {
+        Authorization: `Bearer ${sbAccessToken}`,
+        apiKey: `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+      },
+    })
+  ).json()
+  const isLoggedIn = Boolean(authUser?.id)
 
   const result = {
     url,
@@ -51,9 +60,10 @@ const getMiddlewareRouteBreakdown = (req: NextRequest) => {
     isSubdomain,
     isSubdomainWithBaseRoute,
     isLoggedIn,
-  }
 
-  if (process.env.DEBUG === 'true' && !isApiRoute) console.log('Routes', result)
+    // Auth
+    authUser,
+  }
 
   return result
 }

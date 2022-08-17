@@ -1,17 +1,18 @@
 import { NextRequest } from 'next/server'
-import {
-  fetchWithSupabaseFromMiddleware,
-  getMiddlewareRouteBreakdown,
-} from '@gravis-os/middleware'
 import { CrudModule } from '@gravis-os/types'
+import { fetchDbUserFromMiddleware } from '@gravis-os/middleware'
 import saasConfig from '../config/saasConfig'
 import getPersonRelationsFromPerson from '../utils/getPersonRelationsFromPerson'
 import getIsValidPermissions from '../utils/getIsValidPermissions'
 
 export interface GetIsPermittedInSaaSMiddlewareProps {
-  authUser: { sub: string }
+  authUser: { id?: string; sub: string }
   userModule: CrudModule // The app's userModule
   modulesConfig: CrudModule[] // List of the app's modules
+
+  // Get parts of the route needed to calculate the permissions
+  pathname?: string
+  subdomain?: string
 }
 
 /**
@@ -22,30 +23,19 @@ export interface GetIsPermittedInSaaSMiddlewareProps {
 const getIsPermittedInSaaSMiddleware = (
   props: GetIsPermittedInSaaSMiddlewareProps
 ) => {
-  const { authUser, userModule, modulesConfig } = props
+  const { authUser, userModule, modulesConfig, pathname, subdomain } = props
 
   return async (req: NextRequest): Promise<boolean> => {
     // Handle degenerate cases
     if (!authUser) return false
 
-    // Get parts of the route needed to calculate the permissions
-    const { pathname, subdomain } = getMiddlewareRouteBreakdown(req)
-
-    // 0. Fetch the dbUser based on authUser.sub
-    const { data } = await fetchWithSupabaseFromMiddleware({
-      from: userModule.table.name,
-      select: userModule.select.detail,
-      match: { id: authUser.sub },
-    })
-
     // 1. Check if the user is permitted to access the dashboard
-    const dbUser = data?.[0]
+    const dbUser = await fetchDbUserFromMiddleware({ userModule, authUser })
     if (!dbUser) throw new Error('No db user found!')
 
     // 2. Check if the user has the role to access the dashboard
     const person = dbUser.person?.[0] || {}
-    const { role } = person
-    const { permissions } = getPersonRelationsFromPerson(person)
+    const { permissions, role } = getPersonRelationsFromPerson(person)
     if (!role) throw new Error('No user role found!')
 
     // 3. Check if the role is a valid role by duck-typing the role title

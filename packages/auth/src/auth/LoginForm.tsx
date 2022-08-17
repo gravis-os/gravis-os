@@ -4,9 +4,10 @@ import { useRouter } from 'next/router'
 import AuthBox, { AuthBoxProps } from './AuthBox'
 import AuthForm from './AuthForm'
 import { handleSignIn } from './SupabaseAuth'
+import useUser from './useUser'
 
 export interface LoginFormProps extends Partial<FormProps<any>> {
-  redirectTo: string // Success redirect to
+  redirectTo?: string // Success redirect to
   authOptions?: Record<string, unknown>
   boxProps?: Partial<AuthBoxProps>
 }
@@ -15,6 +16,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
   const { authOptions, boxProps, redirectTo, ...rest } = props
 
   const router = useRouter()
+  const { fetchAndSetDbUserFromAuthUser } = useUser()
 
   return (
     <AuthBox
@@ -24,10 +26,13 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
     >
       <AuthForm
         onSubmit={async (values) => {
-          const user = await handleSignIn(values, authOptions)
-          if (user) router.push(redirectTo)
+          const authUser = await handleSignIn(values, authOptions)
+          const dbUser = await fetchAndSetDbUserFromAuthUser({
+            authUser,
+          } as any)
+          if (dbUser && redirectTo) return router.push(redirectTo)
         }}
-        submitButtonProps={{ children: 'Login' }}
+        submitButtonProps={{ title: 'Login' }}
         {...rest}
       />
     </AuthBox>

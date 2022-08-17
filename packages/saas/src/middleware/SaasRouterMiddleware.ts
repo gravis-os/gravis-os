@@ -1,9 +1,15 @@
 import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
 import { withMiddlewareAuth } from '@supabase/auth-helpers-nextjs/dist/middleware'
-import { getMiddlewareRouteBreakdown } from '@gravis-os/middleware'
+import {
+  fetchDbUserFromMiddleware,
+  getMiddlewareRouteBreakdown,
+} from '@gravis-os/middleware'
 import getIsPermittedInSaaSMiddleware, {
   GetIsPermittedInSaaSMiddlewareProps,
 } from './getIsPermittedInSaaSMiddleware'
+import getPersonRelationsFromPerson from '../utils/getPersonRelationsFromPerson'
+
+const isDebug = process.env.DEBUG === 'true'
 
 export interface SaasRouterMiddlewareProps {
   authenticationFailureRedirectTo: string
@@ -35,11 +41,15 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
   } = props
 
   return async (req: NextRequest, event: NextFetchEvent) => {
+    const middlewareRouteBreakdown = await getMiddlewareRouteBreakdown(req)
     const {
       url,
+      pathname,
       hostname,
       protocol,
       currentHost,
+      subdomain,
+      nakedDomain,
       // Checks
       isApiRoute,
       isAuthRoute,
@@ -48,23 +58,75 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       isSubdomain,
       isSubdomainWithBaseRoute,
       isLoggedIn,
-    } = getMiddlewareRouteBreakdown(req)
+      authUser,
+    } = middlewareRouteBreakdown
 
     // The sequence of these checks is important
     switch (true) {
       case isLoginRoute && isLoggedIn:
         // Redirect existing users to the dashboard if already logged in
         url.pathname = `/_workspaces/${currentHost}`
-        return NextResponse.redirect(`${protocol}://${hostname}`)
+
+        /**
+         * We need to get the dbUser here to correctly redirect
+         * users that are currently logged into the app but are not
+         * in the right workspace. Try logging in with Evfy but going to
+         * app workspace. You'll get stuck in a loop when you click return to home.
+         *
+         * Expected: onClick return to home, should redirect Evfy user to the
+         * evfy workspace.
+         *
+         * This case only happens when the user is logged in but gets redirected out.
+         */
+        const dbUser = await fetchDbUserFromMiddleware({ userModule, authUser })
+        const person = dbUser.person?.[0] || {}
+        const { workspace } = getPersonRelationsFromPerson(person)
+        const isLoggedInButIncorrectWorkspace =
+          isLoggedIn && workspace && workspace.slug !== subdomain
+
+        if (isDebug) {
+          console.log(
+            `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin Redirect`,
+            {
+              pathname,
+              isLoginRoute,
+              isLoggedIn,
+              loginRedirectUrl: url.pathname,
+              hostname,
+              authUser,
+              dbUser,
+            }
+          )
+        }
+
+        // Redirect user to the correct workspace
+        if (isLoggedInButIncorrectWorkspace) {
+          const loggedInButIncorrectWorkspaceUrl = `${protocol}://${workspace.slug}.${nakedDomain}`
+          return NextResponse.redirect(loggedInButIncorrectWorkspaceUrl)
+        }
+
+        return NextResponse.redirect(url)
 
       case isAuthRoute:
       case isApiRoute:
         // Allow auth routes and api routes to pass through
+        if (isDebug && !isApiRoute) {
+          console.log(`♻️ [DEBUG] Middleware isAuthRoute Passthrough`, {
+            isAuthRoute,
+          })
+        }
         return NextResponse.next()
 
       case isBaseRoute:
-        // Redirect to app.hostname to trigger isSubdomain folder pathing
-        return NextResponse.redirect(`${protocol}://app.${hostname}`)
+        // Redirect to app.hostname to preserve the nakedDomain for the landing page
+        const baseRouteRedirectUrl = `${protocol}://app.${hostname}`
+        if (isDebug) {
+          console.log(
+            `♻️ [DEBUG] Middleware isBaseRoute Redirect`,
+            baseRouteRedirectUrl
+          )
+        }
+        return NextResponse.redirect(baseRouteRedirectUrl)
 
       case isSubdomainWithBaseRoute && !isLoggedIn:
         url.pathname = '/' // Redirect to pages/index.tsx
@@ -86,6 +148,8 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
                 authUser,
                 modulesConfig,
                 userModule,
+                subdomain,
+                pathname,
               })(req)
 
               // Final: Only allow the user to pass through if all checks pass
@@ -97,17 +161,26 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
         // Block the user if they are not authorised to access this workspace
         if (middlewareAuth?.status === 307) {
-          const redirectUrl = req.nextUrl.clone()
-          redirectUrl.pathname = authorizationFailureRedirectTo
-          return NextResponse.redirect(redirectUrl)
+          const unauthorizedRedirectUrl = req.nextUrl.clone()
+          unauthorizedRedirectUrl.pathname = authorizationFailureRedirectTo
+          if (isDebug) {
+            console.log(`♻️ [DEBUG] Middleware isSubdomain Redirect`, {
+              unauthorizedRedirectUrl: unauthorizedRedirectUrl.pathname,
+            })
+          }
+          return NextResponse.redirect(unauthorizedRedirectUrl)
         }
 
         // Allow user to pass through
         // Go to pages/_workspaces/[workspace]/*
         url.pathname = `/_workspaces/${currentHost}${url.pathname}`
+        if (isDebug) {
+          console.log(`♻️ [DEBUG] Middleware isSubdomain Rewrite`, url.pathname)
+        }
         return NextResponse.rewrite(url)
 
       default:
+        if (isDebug) console.log(`♻️ [DEBUG] Middleware -> Default`)
         return NextResponse.next()
     }
   }

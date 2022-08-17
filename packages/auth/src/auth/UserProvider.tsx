@@ -33,24 +33,31 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   // State: dbUser
   const [dbUser, setDbUser] = useState(null)
 
+  const fetchAndSetDbUserFromAuthUser = async ({ authUser }) => {
+    const { data } = await supabaseClient
+      .from('user')
+      .select(select)
+      .eq('id', authUser.id)
+
+    if (!data) return
+
+    const dbUser = data[0]
+
+    // Set dbUser
+    setDbUser(data[0])
+
+    return dbUser
+  }
+
   // Fetch dbUser
   useEffect(() => {
-    async function fetchDbUser() {
-      const { data } = await supabaseClient
-        .from('user')
-        .select(select)
-        .eq('id', authUser.id)
-
-      // Set dbUser
-      if (data) setDbUser(data[0])
-    }
     // Only run query once user is logged in.
     if (
       authUser &&
       !loadingAuthUser &&
       (!dbUser || dbUser?.id !== authUser?.id)
     ) {
-      fetchDbUser()
+      fetchAndSetDbUserFromAuthUser({ authUser })
     }
   }, [authUser, dbUser, loadingAuthUser, select])
 
@@ -76,9 +83,17 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
      * cookies are removed as well because the previous method: supabaseClient.auth.signOut()
      * didn't seem to clear the cookies.
      */
-    const onSignOut = await fetch('/api/auth/logout', { method: 'POST' })
+    await fetch('/api/auth/logout', { method: 'POST' })
+    /**
+     * Need to fire the API signOut as well to get authUser from useAuthUser
+     * to reset properly, else it will still linger on and cause side-effects.
+     */
+    await supabaseClient.auth.signOut()
+
+    // Unset dbUser
     setDbUser(null)
-    return onSignOut
+
+    return true
   }
 
   return (
@@ -86,7 +101,12 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
       value={{
         ...useAuthUserRest,
         authUser,
-        user: dbUser,
+        user: {
+          ...dbUser,
+          authUser,
+        },
+        dbUser,
+        fetchAndSetDbUserFromAuthUser: fetchAndSetDbUserFromAuthUser as any,
         logout,
       }}
       {...rest}

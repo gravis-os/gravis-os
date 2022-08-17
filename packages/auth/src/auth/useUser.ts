@@ -1,13 +1,19 @@
 import { useContext } from 'react'
 import UserContext from './UserContext'
 
-export interface UseUserReturn<TUser = any> {
-  user?: TUser
+export interface UseUserReturn<DbUserType = any> {
+  user?: DbUserType
   authUser?: Record<string, unknown>
+  dbUser?: Record<string, unknown>
+  fetchAndSetDbUserFromAuthUser: ({
+    authUser,
+  }: {
+    authUser: Record<string, unknown>
+  }) => Promise<Record<string, unknown>>
   logout: () => Promise<void>
 }
 
-export type UseUser<TUser = any> = () => UseUserReturn<TUser>
+export type UseUser<DbUserType = any> = () => UseUserReturn<DbUserType>
 
 const useUser: UseUser = () => {
   const context = useContext(UserContext)
