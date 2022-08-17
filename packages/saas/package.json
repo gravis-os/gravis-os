@@ -51,8 +51,8 @@
     "react-query": ">=3.34.20"
   },
   "dependencies": {
-    "@gravis-os/middleware": "*",
-    "@gravis-os/types": "*"
+    "@gravis-os/middleware": "latest",
+    "@gravis-os/types": "latest"
   },
   "devDependencies": {
     "@supabase/auth-helpers-nextjs": "^0.2.5",
@@ -63,7 +63,7 @@
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",
     "eslint": "^8.15.0",
-    "@gravis-os/eslint-config": "*",
+    "@gravis-os/eslint-config": "latest",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "next": "^12.1.5",
@@ -73,7 +73,7 @@
     "react-query": "^3.34.20",
     "ts-loader": "^8.0.1",
     "tsc-watch": "^5.0.3",
-    "@gravis-os/tsconfig": "*",
+    "@gravis-os/tsconfig": "latest",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "^4.6.3",
     "webpack": "^5.68.0",

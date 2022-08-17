@@ -29,10 +29,10 @@
     "tslint": "tsc --noEmit --incremental"
   },
   "dependencies": {
-    "@gravis-os/crud": "*",
-    "@gravis-os/form": "*",
-    "@gravis-os/ui": "*",
-    "@gravis-os/types": "*",
+    "@gravis-os/crud": "latest",
+    "@gravis-os/form": "latest",
+    "@gravis-os/ui": "latest",
+    "@gravis-os/types": "latest",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3"
@@ -90,7 +90,7 @@
     "cross-env": "^7.0.3",
     "cssnano": "^4.1.10",
     "eslint": "^8.15.0",
-    "@gravis-os/eslint-config": "*",
+    "@gravis-os/eslint-config": "latest",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",
     "msw": "^0.39.2",
@@ -119,7 +119,7 @@
     "storybook-addon-next-router": "^3.1.1",
     "ts-loader": "^8.0.1",
     "tsc-watch": "^5.0.3",
-    "@gravis-os/tsconfig": "*",
+    "@gravis-os/tsconfig": "latest",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
     "typescript": "^4.6.3",
     "webpack": "^5.68.0",
