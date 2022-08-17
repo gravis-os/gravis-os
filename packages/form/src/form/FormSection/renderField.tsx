@@ -111,8 +111,11 @@ export interface RenderFieldProps {
  */
 const renderField = (props: RenderFieldProps) => {
   const { formContext, sectionProps, fieldProps } = props
-  const { control, setValue, formState } = formContext
+  const { control, setValue, formState, watch } = formContext
   const { errors } = formState
+
+  const watchedValues = watch()
+
   const {
     isNew,
     isPreview,
@@ -125,7 +128,7 @@ const renderField = (props: RenderFieldProps) => {
   } = sectionProps
   const { type, module, key, gridProps, fieldEffect, render, ...rest } =
     fieldProps
-  const { name, disabled, hidden, label: injectedLabel } = rest
+  const { name, disabled, hidden, label: injectedLabel, withCreate } = rest
 
   // Calculate if the field is in disabledFields, else fallback to check if the disabled prop is defined
   const isDisabled = Boolean(
@@ -308,7 +311,12 @@ const renderField = (props: RenderFieldProps) => {
   }
   const childrenJsx = getChildrenJsx()
 
-  return render ? render({ children: childrenJsx }) : childrenJsx
+  return render
+    ? render({
+        children: childrenJsx,
+        ...(withCreate && { defaultValues: watchedValues }),
+      })
+    : childrenJsx
 }
 
 export default renderField
