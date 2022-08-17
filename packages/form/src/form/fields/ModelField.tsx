@@ -363,26 +363,29 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         filterSelectedOptions
         onChange={(e, newValue: DataItem | DataItem[] | null) => {
           // Set UI field display value only
-          setDisplayValue(newValue)
+          const isCreateOption = getIsCreateOption({ option: newValue, pk })
 
-          // Expose value to outer form state
-          injectedOnChange(newValue)
+          const nextValue = isCreateOption
+            ? getCreateOption({ option: newValue, pk })
+            : newValue
 
-          if (
-            onCreateClick &&
-            withCreate &&
-            newValue &&
-            getIsCreateOption({ option: newValue, pk })
-          ) {
-            const createValue = getCreateOption({ option: newValue, pk })
-            onCreateClick(e, createValue)
+          setDisplayValue(nextValue)
+          injectedOnChange(nextValue)
+
+          if (onCreateClick && withCreate && newValue && isCreateOption) {
+            onCreateClick(e, nextValue)
             // TODO@Joel: Trigger setCreateValue here to trigger modal in useEffect. Reset `createValue` once we've created the item
           }
 
           // Set model value as object e.g. Item.product = { ... }
           if (name.endsWith('_id')) {
             const relationalObjectKey = getRelationalObjectKey(name)
-            setFormValue(relationalObjectKey, newValue)
+            const nextFormValue = isCreateOption
+              ? {
+                  [pk]: nextValue,
+                }
+              : newValue
+            setFormValue(relationalObjectKey, nextFormValue)
           }
         }}
         onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
