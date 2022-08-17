@@ -51,8 +51,8 @@
     "react-query": ">=3.34.20"
   },
   "devDependencies": {
-    "@gravis-os/eslint-config": "latest",
-    "@gravis-os/tsconfig": "latest",
+    "@gravis-os/eslint-config": "*",
+    "@gravis-os/tsconfig": "*",
     "@supabase/auth-helpers-nextjs": "^0.2.5",
     "@supabase/auth-helpers-react": "^0.2.3",
     "@supabase/supabase-js": "^1.35.6",
