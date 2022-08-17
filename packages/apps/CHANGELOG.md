@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.19
+
+### Patch Changes
+
+- [`c0b4fdb`](https://github.com/gravis-os/gravis-os/commit/c0b4fdb59864503b8bc05a42f851bd002c2e0398) Thanks [@clodal](https://github.com/clodal)! - Bump all packages to fix build error
+
+- Updated dependencies [[`c0b4fdb`](https://github.com/gravis-os/gravis-os/commit/c0b4fdb59864503b8bc05a42f851bd002c2e0398), [`097b96a`](https://github.com/gravis-os/gravis-os/commit/097b96aa1ed6e550d447b223bad33dc84f1c4209)]:
+  - @gravis-os/crud@0.0.32
+  - @gravis-os/form@0.0.30
+  - @gravis-os/types@0.0.5
+  - @gravis-os/ui@0.0.18
+
 ## 0.0.18
 
 ### Patch Changes

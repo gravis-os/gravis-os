@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.32
+
+### Patch Changes
+
+- [`c0b4fdb`](https://github.com/gravis-os/gravis-os/commit/c0b4fdb59864503b8bc05a42f851bd002c2e0398) Thanks [@clodal](https://github.com/clodal)! - Bump all packages to fix build error
+
+* [#44](https://github.com/gravis-os/gravis-os/pull/44) [`097b96a`](https://github.com/gravis-os/gravis-os/commit/097b96aa1ed6e550d447b223bad33dc84f1c4209) Thanks [@clodal](https://github.com/clodal)! - In Crud, add fallbackPlaceholder
+
+* Updated dependencies [[`c0b4fdb`](https://github.com/gravis-os/gravis-os/commit/c0b4fdb59864503b8bc05a42f851bd002c2e0398)]:
+  - @gravis-os/auth@0.0.12
+  - @gravis-os/form@0.0.30
+  - @gravis-os/storage@0.0.12
+  - @gravis-os/types@0.0.5
+  - @gravis-os/ui@0.0.18
+
 ## 0.0.31
 
 ### Patch Changes
