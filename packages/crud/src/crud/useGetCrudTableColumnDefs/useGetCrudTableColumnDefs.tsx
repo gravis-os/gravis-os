@@ -15,6 +15,7 @@ import {
   withPreview,
   withTimestampFormat,
   withTitle,
+  withFallbackPlaceholder,
 } from './hocs'
 import { UsePreviewDrawerReturn } from '../usePreviewDrawer'
 import { CrudTableColumnDef } from '../../types'
@@ -29,6 +30,8 @@ export interface UseGetCrudTableColumnDefsProps {
   disablePreview?: boolean
   disableTitle?: boolean
   disableActions?: boolean
+  disableFallbackPlaceholder?: boolean
+  fallbackPlaceholder?: React.ReactNode
   user?: Record<string, unknown> | any
   actionsCellRendererParams?: Omit<
     CrudTableActionsColumnCellRendererProps,
@@ -49,6 +52,8 @@ const useGetCrudTableColumnDefs = (
     disablePreview,
     disableTitle,
     disableActions,
+    disableFallbackPlaceholder,
+    fallbackPlaceholder = '-',
     user,
     actionsCellRendererParams,
   } = props
@@ -61,6 +66,10 @@ const useGetCrudTableColumnDefs = (
   const nextColumnDefs = React.useMemo(
     () =>
       flowRight([
+        withFallbackPlaceholder({
+          fallbackPlaceholder,
+          disableFallbackPlaceholder,
+        }),
         withTimestampFormat(),
         withPreview({
           setPreview,

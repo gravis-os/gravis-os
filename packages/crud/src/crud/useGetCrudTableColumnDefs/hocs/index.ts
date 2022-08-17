@@ -15,3 +15,6 @@ export * from './withTitle'
 
 export { default as withHide } from './withHide'
 export * from './withHide'
+
+export { default as withFallbackPlaceholder } from './withFallbackPlaceholder'
+export * from './withFallbackPlaceholder'
