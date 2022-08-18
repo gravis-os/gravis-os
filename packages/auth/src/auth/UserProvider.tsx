@@ -1,8 +1,10 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
+import { useQuery, useQueryClient } from 'react-query'
+import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
 
 export interface UserProviderProps {
@@ -28,42 +30,49 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     ...rest
   } = props
 
+  const queryClient = useQueryClient()
   const onUseAuthUser = useAuthUser()
   const { user: authUser, ...useAuthUserRest } = onUseAuthUser
-  const { isLoading: loadingAuthUser } = useAuthUserRest
+  const { isLoading: authUserLoading } = useAuthUserRest
 
-  // State: dbUser
-  const [dbUser, setDbUser] = useState(null)
-
+  // ==============================
   // Methods
-  // TODO@Joel: Migrate to react-query
-  const fetchAndSetDbUserFromAuthUser = async ({ authUser }) => {
+  // ==============================
+  const fetchDbUserFromAuthUser = async ({ authUser }) => {
+    if (!authUser) return
     const { data } = await supabaseClient
       .from('user')
       .select(select)
-      .eq('id', authUser.id)
-
+      .eq('id', authUser.id) // Feature: If isAdmin, expose switcheroo here
     if (!data) return
-
     const dbUser = data[0]
-
-    // Set dbUser
-    setDbUser(data[0])
-
     return dbUser
   }
-
-  // Fetch dbUser
+  const getDbUserFromAuthUserQueryKey = 'get-db-user-from-auth-user-query'
+  const dbUserQueryResult = useQuery<DbUser>(
+    getDbUserFromAuthUserQueryKey,
+    () => fetchDbUserFromAuthUser({ authUser }),
+    { enabled: Boolean(authUser) }
+  )
+  const {
+    data: dbUser,
+    refetch: refetchDbUserQuery,
+    isLoading: dbUserLoading,
+    isFetching: dbUserFetching,
+  } = dbUserQueryResult
+  /**
+   * Fetch dbUser when authUser is available.
+   * Only run query once user is logged in.
+   */
   useEffect(() => {
-    // Only run query once user is logged in.
     if (
       authUser &&
-      !loadingAuthUser &&
+      !authUserLoading &&
       (!dbUser || dbUser?.id !== authUser?.id)
     ) {
-      fetchAndSetDbUserFromAuthUser({ authUser })
+      refetchDbUserQuery()
     }
-  }, [authUser, dbUser, loadingAuthUser, select])
+  }, [authUser, dbUser, authUserLoading, select])
 
   // Guest auth paths
   const router = useRouter()
@@ -94,10 +103,9 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
        * didn't seem to clear the cookies.
        */
       fetch('/api/auth/logout'),
+      // Unset dbUser by refetching again but this time without the authUser
+      queryClient.invalidateQueries(getDbUserFromAuthUserQueryKey),
     ])
-
-    // Unset dbUser
-    setDbUser(null)
 
     return true
   }
@@ -108,11 +116,15 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
         ...onUseAuthUser,
         // Users
         authUser,
+        authUserLoading,
         user: { ...dbUser, authUser },
         dbUser,
+        dbUserLoading,
+        dbUserFetching,
+        dbUserQueryResult,
         // Methods
-        fetchAndSetDbUserFromAuthUser,
         logout,
+        // Routes
         authRoutes: {
           authenticationSuccessRedirect: '/admin',
           authenticationFailureRedirect: '/auth/login',

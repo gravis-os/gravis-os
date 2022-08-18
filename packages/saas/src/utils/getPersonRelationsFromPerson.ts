@@ -6,7 +6,7 @@ import {
   Permission,
   Tier,
   Feature,
-} from '../types'
+} from '@gravis-os/types'
 import getIsAdminRole from './getIsAdminRole'
 import getIsAdminWorkspace from './getIsAdminWorkspace'
 

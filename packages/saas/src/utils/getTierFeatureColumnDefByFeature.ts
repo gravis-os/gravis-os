@@ -1,4 +1,4 @@
-import { Tier } from '../types'
+import { Tier } from '@gravis-os/types'
 
 /**
  * For use in columnDefs to render the feature UI in the column

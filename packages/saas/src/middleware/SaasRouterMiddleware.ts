@@ -57,15 +57,31 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       isAuthRoute,
       isLoginRoute,
       isBaseRoute,
-      isSubdomain,
-      isSubdomainWithBaseRoute,
+      isWorkspace,
+      isWorkspaceBaseRoute,
       isLoggedIn,
       authUser,
     } = middlewareRouteBreakdown
 
+    const SCENARIOS = {
+      isLoggedInAndAtLoginPage: isLoggedIn && isLoginRoute,
+      isApiOrAuthRoute: isApiRoute || isAuthRoute,
+      isNakedDomainBaseRoute: isBaseRoute,
+      isGuestAtWorkspacePage: !isLoggedIn && isWorkspaceBaseRoute,
+      isWorkspaceRoute: isWorkspace,
+    }
+
+    if (!isApiRoute && isDebug) {
+      console.log(`🔥️ [DEBUG] MiddlewareRouteBreakdown`, {
+        middlewareRouteBreakdown,
+        props,
+        SCENARIOS,
+      })
+    }
+
     // The sequence of these checks is important
     switch (true) {
-      case isLoginRoute && isLoggedIn:
+      case SCENARIOS.isLoggedInAndAtLoginPage:
         /**
          * We need to get the dbUser here to correctly redirect
          * users that are currently logged into the app but are not
@@ -78,8 +94,10 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
          * This case only happens when the user is logged in but gets redirected out.
          */
         const dbUser = await fetchDbUserFromMiddleware({ userModule, authUser })
-        const { workspace } = getPersonRelationsFromDbUser(dbUser)
+        const { workspace, role, isAdminRole } =
+          getPersonRelationsFromDbUser(dbUser)
 
+        // Redirect user to the correct workspace
         const isLoggedInButIncorrectWorkspace =
           isLoggedIn && workspace && workspace.slug !== subdomain
         if (isDebug) {
@@ -93,21 +111,50 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
               hostname,
               authUser,
               dbUser,
+              workspace,
+              role,
             }
           )
         }
-        // Redirect user to the correct workspace
+
         if (isLoggedInButIncorrectWorkspace) {
           const loggedInButIncorrectWorkspaceUrl = `${protocol}://${workspace.slug}.${nakedDomain}`
-          return NextResponse.redirect(loggedInButIncorrectWorkspaceUrl)
+          if (isAdminRole) {
+            if (isDebug) {
+              console.log(
+                `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin > Wrong Workspace > isAdmin Redirect`,
+                {
+                  pathname,
+                  workspace,
+                  role,
+                  loggedInButIncorrectWorkspaceUrl,
+                }
+              )
+            }
+            return NextResponse.redirect(loggedInButIncorrectWorkspaceUrl)
+          }
+
+          const res = NextResponse.next()
+          res.clearCookie('sb-access-token')
+          res.clearCookie('sb-refresh-token')
+          if (isDebug) {
+            console.log(
+              `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin > Wrong Workspace Not Admin > Redirect`,
+              {
+                pathname,
+                workspace,
+                role,
+                loggedInButIncorrectWorkspaceUrl,
+              }
+            )
+          }
+          return res
         }
 
         // Redirect existing users to the dashboard if already logged in
         url.pathname = authenticationSuccessRedirectTo
         return NextResponse.redirect(url)
-
-      case isAuthRoute:
-      case isApiRoute:
+      case SCENARIOS.isApiOrAuthRoute:
         // Allow auth routes and api routes to pass through
         if (isDebug && !isApiRoute) {
           console.log(`♻️ [DEBUG] Middleware isAuthRoute Passthrough`, {
@@ -115,8 +162,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
           })
         }
         return NextResponse.next()
-
-      case isBaseRoute:
+      case SCENARIOS.isNakedDomainBaseRoute:
         // Redirect to app.hostname to preserve the nakedDomain for the landing page
         const baseRouteRedirectUrl = `${protocol}://app.${hostname}`
         if (isDebug) {
@@ -126,13 +172,10 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
           )
         }
         return NextResponse.redirect(baseRouteRedirectUrl)
-
-      // Workspace Homepage
-      case isSubdomainWithBaseRoute && !isLoggedIn:
+      case SCENARIOS.isGuestAtWorkspacePage:
         url.pathname = workspacesPathnamePrefix // Redirect to the workspace home
         return NextResponse.rewrite(url)
-
-      case isSubdomain:
+      case SCENARIOS.isWorkspaceRoute:
         // Check for authc and authz
         const middlewareAuth = await withMiddlewareAuth({
           redirectTo: authenticationFailureRedirectTo, // Invalid Authentication
@@ -166,7 +209,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
             ? authorizationFailureRedirectTo
             : authenticationFailureRedirectTo
           if (isDebug) {
-            console.log(`♻️ [DEBUG] Middleware isSubdomain Redirect`, {
+            console.log(`♻️ [DEBUG] Middleware isWorkspace Redirect`, {
               middlewareAuthErrorRedirectUrl:
                 middlewareAuthErrorRedirectUrl.pathname,
             })
@@ -178,7 +221,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         // Go to pages/_workspaces/[workspace]/*
         url.pathname = `${workspacesPathnamePrefix}${url.pathname}`
         if (isDebug) {
-          console.log(`♻️ [DEBUG] Middleware isSubdomain Rewrite`, url.pathname)
+          console.log(`♻️ [DEBUG] Middleware isWorkspace Rewrite`, url.pathname)
         }
         return NextResponse.rewrite(url)
 

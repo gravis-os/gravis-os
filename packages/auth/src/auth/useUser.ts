@@ -1,8 +1,8 @@
 import { useContext } from 'react'
-import UserContext from './UserContext'
+import UserContext, { UserContextInterface } from './UserContext'
 
-const useUser = () => {
-  const context = useContext(UserContext)
+function useUser<AppDbUser>() {
+  const context = useContext<UserContextInterface<AppDbUser>>(UserContext)
 
   if (typeof context === 'undefined') {
     throw new Error('useUser must be used within an AuthProvider')

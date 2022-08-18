@@ -31,8 +31,8 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
   const isAuthRoute = pathname.startsWith('/auth')
   const isLoginRoute = pathname === '/auth/login'
   const isBaseRoute = !subdomain && currentHost === hostname // e.g. localhost:3000
-  const isSubdomain = Boolean(subdomain) // e.g. subdomain.localhost:3000
-  const isSubdomainWithBaseRoute = isSubdomain && pathname === '/' // e.g. subdomain.localhost:3000/
+  const isWorkspace = Boolean(subdomain) // e.g. subdomain.localhost:3000
+  const isWorkspaceBaseRoute = isWorkspace && pathname === '/' // e.g. subdomain.localhost:3000/
   const sbAccessToken = req.cookies['sb-access-token']
   const authUser = await (
     await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
@@ -59,8 +59,8 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
     isAuthRoute,
     isLoginRoute,
     isBaseRoute,
-    isSubdomain,
-    isSubdomainWithBaseRoute,
+    isWorkspace,
+    isWorkspaceBaseRoute,
     isLoggedIn,
 
     // Auth

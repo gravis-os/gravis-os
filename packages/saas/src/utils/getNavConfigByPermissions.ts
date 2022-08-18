@@ -1,4 +1,4 @@
-import { Permission, NavConfigItem } from '../types'
+import { Permission, NavConfigItem } from '@gravis-os/types'
 import getIsValidPermissions from './getIsValidPermissions'
 
 export interface GetNavConfigByPermissionsProps {

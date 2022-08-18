@@ -28,7 +28,7 @@ export const handleSignUp: HandleSignUp = async (
       },
       authOptions
     )
-    const { error, user } = onSignUp
+    const { error, user: authUser } = onSignUp
 
     if (error) {
       toast.error('Something went wrong')
@@ -36,7 +36,8 @@ export const handleSignUp: HandleSignUp = async (
       return
     }
     toast.success(submitOptions.toastSuccessMessage || 'Successfully Signed Up')
-    return user
+
+    return authUser
   } catch (err) {
     console.error('Error caught:', err)
   }
@@ -67,7 +68,7 @@ export const handleSignIn: HandleSignIn = async (
     const { user: authUser, error } = onSignIn
 
     if (error) {
-      toast.error('Something went wrong')
+      toast.error('Authentication failed')
       console.error(error)
       return
     }

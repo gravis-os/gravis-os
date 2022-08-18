@@ -23,6 +23,8 @@ const Profile: NextPage = () => {
     router.push('/')
   }
 
+  if (!user) return <div>No user found</div>
+
   return (
     <Container maxWidth="lg">
       <Box

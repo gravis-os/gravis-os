@@ -1,16 +1,23 @@
 import { createContext } from 'react'
-import { AuthUser } from '@gravis-os/types'
+import { AuthUser, DbUser } from '@gravis-os/types'
 
-export interface UserContextInterface {
-  user?: any // DbUser + Authuser mix
+export interface DbUserWithAuthUser extends DbUser {
+  authUser: AuthUser
+}
+
+export interface UserContextInterface<AppDbUser = any> {
+  user?: DbUserWithAuthUser & AppDbUser // DbUser + Authuser mix
+
+  authUserLoading: boolean
   authUser?: AuthUser
-  dbUser?: Record<string, unknown>
-  fetchAndSetDbUserFromAuthUser: ({
-    authUser,
-  }: {
-    authUser: AuthUser
-  }) => Promise<Record<string, unknown>>
+
+  dbUser?: DbUser & AppDbUser
+  dbUserLoading: boolean
+  dbUserFetching: boolean
+  dbUserQueryResult: any
+
   logout: () => Promise<boolean>
+
   authRoutes?: {
     authenticationSuccessRedirect?: string
     authenticationFailureRedirect?: string

@@ -11,10 +11,12 @@
       "cache": false
     },
     "yalc:push": {
-      "dependsOn": ["build"]
+      "dependsOn": ["build"],
+      "cache": false
     },
     "watch": {
-      "dependsOn": ["yalc:push"]
+      "dependsOn": ["yalc:push"],
+      "cache": false
     },
     "tslint": {}
   }

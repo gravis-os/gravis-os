@@ -9,6 +9,9 @@ export * from './SupabaseUIAuthForm'
 export { default as useUser } from './useUser'
 export * from './useUser'
 
+export { default as useUserRedirectEffect } from './useUserRedirectEffect'
+export * from './useUserRedirectEffect'
+
 export { default as UserContext } from './UserContext'
 export * from './UserContext'
 
