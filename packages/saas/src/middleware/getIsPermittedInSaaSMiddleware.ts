@@ -4,6 +4,7 @@ import { fetchDbUserFromMiddleware } from '@gravis-os/middleware'
 import saasConfig from '../config/saasConfig'
 import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 import getIsValidPermissions from '../utils/getIsValidPermissions'
+import getIsAdminRole from '../utils/getIsAdminRole'
 
 export interface GetIsPermittedInSaaSMiddlewareProps {
   authUser: { id?: string; sub: string }
@@ -60,7 +61,7 @@ const getIsPermittedInSaaSMiddleware = (
 
     // 5. Check if the user has the permission to access this workspace
     const isValidWorkspace = workspace?.slug === subdomain
-    const isAdmin = roleTitle === 'Super Admin' || roleTitle === 'Admin'
+    const isAdmin = getIsAdminRole(role)
     if (!isAdmin && !isValidWorkspace) {
       throw new Error('Incorrect workspace!')
     }

@@ -3,6 +3,7 @@ import { FormProps } from '@gravis-os/form'
 import AuthBox, { AuthBoxProps } from './AuthBox'
 import AuthForm from './AuthForm'
 import { handleSignUp } from './SupabaseAuth'
+import useUserRedirectEffect from './useUserRedirectEffect'
 
 export interface RegisterFormProps extends Partial<FormProps<any>> {
   submitOptions?: Record<string, unknown>
@@ -12,6 +13,8 @@ export interface RegisterFormProps extends Partial<FormProps<any>> {
 
 const RegisterForm: React.FC<RegisterFormProps> = (props) => {
   const { submitOptions, authOptions, boxProps, ...rest } = props
+
+  useUserRedirectEffect()
 
   return (
     <AuthBox
