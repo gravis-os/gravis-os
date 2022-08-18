@@ -15,8 +15,14 @@ export * from './UserContext'
 export { default as withAuthProvider } from './withAuthProvider'
 export * from './withAuthProvider'
 
+// ==============================
+// UI
+// ==============================
 export { default as AuthLayout } from './AuthLayout'
 export * from './AuthLayout'
+
+export { default as UnauthorizedBox } from './UnauthorizedBox'
+export * from './UnauthorizedBox'
 
 // ==============================
 // Forms
