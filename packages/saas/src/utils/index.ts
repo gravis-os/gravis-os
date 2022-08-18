@@ -1,6 +1,9 @@
 export { default as getPersonRelationsFromPerson } from './getPersonRelationsFromPerson'
 export * from './getPersonRelationsFromPerson'
 
+export { default as getPersonRelationsFromDbUser } from './getPersonRelationsFromDbUser'
+export * from './getPersonRelationsFromDbUser'
+
 export { default as getIsValidPermissions } from './getIsValidPermissions'
 export * from './getIsValidPermissions'
 

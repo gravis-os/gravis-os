@@ -22,6 +22,7 @@ const Contact: NextPage = () => (
 
       <Form
         onSubmit={(values) => {
+          // eslint-disable-next-line no-alert
           window.alert(`${JSON.stringify(values, null, 2)}`)
         }}
         formJsx={

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.6
+
+### Patch Changes
+
+- Update SaasMiddlewareRouter to manage routes better
+
 ## 0.0.5
 
 ### Patch Changes

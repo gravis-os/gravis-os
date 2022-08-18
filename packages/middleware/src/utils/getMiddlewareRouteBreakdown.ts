@@ -25,6 +25,7 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
       : hostname.replace(`.localhost:3000`, '')
 
   const subdomain = currentHost !== hostname ? currentHost : '' // e.g. merrymaker
+  const workspacesPathnamePrefix = `/_workspaces/${currentHost}` // e.g. '/_workspaces/evfy'
 
   const isApiRoute = pathname.startsWith('/api')
   const isAuthRoute = pathname.startsWith('/auth')
@@ -51,6 +52,7 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
     currentHost,
     nakedDomain,
     subdomain,
+    workspacesPathnamePrefix,
 
     // Checks
     isApiRoute,

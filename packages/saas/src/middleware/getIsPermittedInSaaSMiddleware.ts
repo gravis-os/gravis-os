@@ -2,7 +2,7 @@ import { NextRequest } from 'next/server'
 import { CrudModule } from '@gravis-os/types'
 import { fetchDbUserFromMiddleware } from '@gravis-os/middleware'
 import saasConfig from '../config/saasConfig'
-import getPersonRelationsFromPerson from '../utils/getPersonRelationsFromPerson'
+import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 import getIsValidPermissions from '../utils/getIsValidPermissions'
 
 export interface GetIsPermittedInSaaSMiddlewareProps {
@@ -34,8 +34,8 @@ const getIsPermittedInSaaSMiddleware = (
     if (!dbUser) throw new Error('No db user found!')
 
     // 2. Check if the user has the role to access the dashboard
-    const person = dbUser.person?.[0] || {}
-    const { permissions, role } = getPersonRelationsFromPerson(person)
+    const { permissions, role, workspace } =
+      getPersonRelationsFromDbUser(dbUser)
     if (!role) throw new Error('No user role found!')
 
     // 3. Check if the role is a valid role by duck-typing the role title
@@ -59,7 +59,6 @@ const getIsPermittedInSaaSMiddleware = (
     }
 
     // 5. Check if the user has the permission to access this workspace
-    const { workspace } = person
     const isValidWorkspace = workspace?.slug === subdomain
     const isAdmin = roleTitle === 'Super Admin' || roleTitle === 'Admin'
     if (!isAdmin && !isValidWorkspace) {

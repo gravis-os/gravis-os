@@ -1,5 +1,14 @@
 # web
 
+## 0.0.4
+
+### Patch Changes
+
+- Update SaasMiddlewareRouter to manage routes better
+
+- Updated dependencies []:
+  - @gravis-os/auth@0.0.13
+
 ## 0.0.3
 
 ### Patch Changes
