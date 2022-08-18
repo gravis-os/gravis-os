@@ -36,7 +36,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
           if (!dbUser) return toast.error('Something went wrong')
 
           // If dbUser check if there is a workspace to redirectTo
-          const { workspace } = dbUser?.person?.[0]
+          const { workspace } = dbUser?.person?.[0] || {}
           if (workspace) {
             const isCorrectWorkspace =
               typeof window !== 'undefined' &&
