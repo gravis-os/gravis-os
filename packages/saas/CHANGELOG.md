@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.5
+
+### Patch Changes
+
+- [#46](https://github.com/gravis-os/gravis-os/pull/46) [`b2950b1`](https://github.com/gravis-os/gravis-os/commit/b2950b176c2f5cbec3eaa5fac8ed5d8aaf3e1e30) Thanks [@clodal](https://github.com/clodal)! - Update SaaS middleware to move dashboard routes into /admin path to keep other level 1 paths free
+
+- Updated dependencies [[`b2950b1`](https://github.com/gravis-os/gravis-os/commit/b2950b176c2f5cbec3eaa5fac8ed5d8aaf3e1e30)]:
+  - @gravis-os/middleware@0.0.4
+  - @gravis-os/types@0.0.7
+
 ## 0.0.4
 
 ### Patch Changes
