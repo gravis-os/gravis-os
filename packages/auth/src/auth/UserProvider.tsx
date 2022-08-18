@@ -3,13 +3,14 @@ import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
-import UserContext from './UserContext'
+import UserContext, { UserContextInterface } from './UserContext'
 
 export interface UserProviderProps {
   select?: string // supabaseClient query selector
   children?: React.ReactNode
   loader?: React.ReactElement
   guestPaths?: string[]
+  authRoutes?: UserContextInterface['authRoutes']
 }
 
 /**
@@ -23,6 +24,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     children,
     loader: injectedLoader,
     guestPaths: injectedGuestPaths = [],
+    authRoutes,
     ...rest
   } = props
 
@@ -33,6 +35,8 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   // State: dbUser
   const [dbUser, setDbUser] = useState(null)
 
+  // Methods
+  // TODO@Joel: Migrate to react-query
   const fetchAndSetDbUserFromAuthUser = async ({ authUser }) => {
     const { data } = await supabaseClient
       .from('user')
@@ -63,13 +67,13 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
 
   // Guest auth paths
   const router = useRouter()
-  const { pathname } = router
+  const { asPath } = router
   const guestPaths = ['/', '/auth/*', ...injectedGuestPaths]
   const isGuestPath = guestPaths.some((whitelistPath) => {
     const hasWildcard = whitelistPath.includes('*')
     return hasWildcard
-      ? pathname.startsWith(whitelistPath.split('/*')[0])
-      : whitelistPath === pathname
+      ? asPath.startsWith(whitelistPath.split('/*')[0])
+      : whitelistPath === asPath
   })
 
   // Loader
@@ -78,17 +82,19 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
 
   // Auth Context methods
   const logout = async () => {
-    /**
-     * Trigger supabase auth logout instead of js package logout to ensure that
-     * cookies are removed as well because the previous method: supabaseClient.auth.signOut()
-     * didn't seem to clear the cookies.
-     */
-    await fetch('/api/auth/logout', { method: 'POST' })
-    /**
-     * Need to fire the API signOut as well to get authUser from useAuthUser
-     * to reset properly, else it will still linger on and cause side-effects.
-     */
-    await supabaseClient.auth.signOut()
+    await Promise.all([
+      /**
+       * Need to fire the API signOut as well to get authUser from useAuthUser
+       * to reset properly, else it will still linger on and cause side-effects.
+       */
+      supabaseClient.auth.signOut(),
+      /**
+       * Trigger supabase auth logout instead of js package logout to ensure that
+       * cookies are removed as well because the previous method: supabaseClient.auth.signOut()
+       * didn't seem to clear the cookies.
+       */
+      fetch('/api/auth/logout'),
+    ])
 
     // Unset dbUser
     setDbUser(null)
@@ -99,15 +105,21 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   return (
     <UserContext.Provider
       value={{
-        ...useAuthUserRest,
+        ...onUseAuthUser,
+        // Users
         authUser,
-        user: {
-          ...dbUser,
-          authUser,
-        },
+        user: { ...dbUser, authUser },
         dbUser,
-        fetchAndSetDbUserFromAuthUser: fetchAndSetDbUserFromAuthUser as any,
+        // Methods
+        fetchAndSetDbUserFromAuthUser,
         logout,
+        authRoutes: {
+          authenticationSuccessRedirect: '/admin',
+          authenticationFailureRedirect: '/auth/login',
+          authorizationSuccessRedirect: '/admin',
+          authorizationFailureRedirect: '/auth/unauthorized',
+          ...authRoutes,
+        },
       }}
       {...rest}
     >

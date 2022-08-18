@@ -9,8 +9,14 @@ export * from './SupabaseUIAuthForm'
 export { default as useUser } from './useUser'
 export * from './useUser'
 
+export { default as UserContext } from './UserContext'
+export * from './UserContext'
+
 export { default as withAuthProvider } from './withAuthProvider'
 export * from './withAuthProvider'
+
+export { default as AuthLayout } from './AuthLayout'
+export * from './AuthLayout'
 
 // ==============================
 // Forms

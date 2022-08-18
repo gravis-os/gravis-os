@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.4
+
+### Patch Changes
+
+- Update SaasMiddlewareRouter to manage routes better
+
+- Updated dependencies []:
+  - @gravis-os/types@0.0.6
+
 ## 0.0.3
 
 ### Patch Changes

@@ -1,8 +1,8 @@
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
+import { AuthUser } from '@gravis-os/types'
 
 interface SupabaseAuthOptions {}
-interface SupabaseUser {}
 
 // ==============================
 // Handle Sign Up
@@ -11,7 +11,7 @@ export type HandleSignUp = (
   values: { email: string; password: string },
   authOptions?: SupabaseAuthOptions,
   submitOptions?: { toastSuccessMessage?: string }
-) => SupabaseUser
+) => AuthUser
 
 export const handleSignUp: HandleSignUp = async (
   values,
@@ -23,7 +23,7 @@ export const handleSignUp: HandleSignUp = async (
   try {
     const onSignUp = await supabaseClient.auth.signUp(
       {
-        email,
+        email: email?.toLowerCase(),
         password,
       },
       authOptions
@@ -48,7 +48,7 @@ export const handleSignUp: HandleSignUp = async (
 export type HandleSignIn = (
   values: { email: string; password: string },
   authOptions?: SupabaseAuthOptions
-) => SupabaseUser
+) => AuthUser
 
 export const handleSignIn: HandleSignIn = async (
   values,
@@ -59,7 +59,7 @@ export const handleSignIn: HandleSignIn = async (
   try {
     const onSignIn = await supabaseClient.auth.signIn(
       {
-        email,
+        email: email?.toLowerCase(),
         password,
       },
       authOptions
@@ -71,8 +71,6 @@ export const handleSignIn: HandleSignIn = async (
       console.error(error)
       return
     }
-
-    toast.success('Successfully signed in')
 
     return authUser
   } catch (err) {
@@ -86,7 +84,7 @@ export const handleSignIn: HandleSignIn = async (
 export type HandleResetPassword = (
   values: { email: string },
   authOptions?: SupabaseAuthOptions
-) => SupabaseUser
+) => AuthUser
 
 export const handleResetPassword: HandleResetPassword = async (
   values,
@@ -97,7 +95,10 @@ export const handleResetPassword: HandleResetPassword = async (
 
   try {
     const onResetPasswordForEmail =
-      await supabaseClient.auth.api.resetPasswordForEmail(email, authOptions)
+      await supabaseClient.auth.api.resetPasswordForEmail(
+        email?.toLowerCase(),
+        authOptions
+      )
     const { data: user, error } = onResetPasswordForEmail
 
     if (error) {
@@ -118,7 +119,7 @@ export const handleResetPassword: HandleResetPassword = async (
 export type HandleRecoverPassword = (values: {
   accessToken: string
   password: string
-}) => SupabaseUser
+}) => AuthUser
 
 export const handleRecoverPassword: HandleRecoverPassword = async (values) => {
   const { accessToken, password } = values

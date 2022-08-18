@@ -13,7 +13,9 @@
     "yalc:push": {
       "dependsOn": ["build"]
     },
-    "watch": {},
+    "watch": {
+      "dependsOn": ["yalc:push"]
+    },
     "tslint": {}
   }
 }

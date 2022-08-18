@@ -26,3 +26,5 @@ export type CrudItem =
     }
   | undefined
   | null
+
+export interface AuthUser {}

@@ -7,11 +7,12 @@ import {
 import getIsPermittedInSaaSMiddleware, {
   GetIsPermittedInSaaSMiddlewareProps,
 } from './getIsPermittedInSaaSMiddleware'
-import getPersonRelationsFromPerson from '../utils/getPersonRelationsFromPerson'
+import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 
 const isDebug = process.env.DEBUG === 'true'
 
 export interface SaasRouterMiddlewareProps {
+  authenticationSuccessRedirectTo: string
   authenticationFailureRedirectTo: string
   authorizationFailureRedirectTo: string
   modulesConfig: GetIsPermittedInSaaSMiddlewareProps['modulesConfig']
@@ -34,6 +35,7 @@ export interface SaasRouterMiddlewareProps {
  */
 const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
   const {
+    authenticationSuccessRedirectTo,
     authenticationFailureRedirectTo,
     authorizationFailureRedirectTo,
     modulesConfig,
@@ -47,9 +49,9 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       pathname,
       hostname,
       protocol,
-      currentHost,
       subdomain,
       nakedDomain,
+      workspacesPathnamePrefix,
       // Checks
       isApiRoute,
       isAuthRoute,
@@ -64,9 +66,6 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     // The sequence of these checks is important
     switch (true) {
       case isLoginRoute && isLoggedIn:
-        // Redirect existing users to the dashboard if already logged in
-        url.pathname = `/_workspaces/${currentHost}`
-
         /**
          * We need to get the dbUser here to correctly redirect
          * users that are currently logged into the app but are not
@@ -79,11 +78,10 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
          * This case only happens when the user is logged in but gets redirected out.
          */
         const dbUser = await fetchDbUserFromMiddleware({ userModule, authUser })
-        const person = dbUser.person?.[0] || {}
-        const { workspace } = getPersonRelationsFromPerson(person)
+        const { workspace } = getPersonRelationsFromDbUser(dbUser)
+
         const isLoggedInButIncorrectWorkspace =
           isLoggedIn && workspace && workspace.slug !== subdomain
-
         if (isDebug) {
           console.log(
             `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin Redirect`,
@@ -98,13 +96,14 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
             }
           )
         }
-
         // Redirect user to the correct workspace
         if (isLoggedInButIncorrectWorkspace) {
           const loggedInButIncorrectWorkspaceUrl = `${protocol}://${workspace.slug}.${nakedDomain}`
           return NextResponse.redirect(loggedInButIncorrectWorkspaceUrl)
         }
 
+        // Redirect existing users to the dashboard if already logged in
+        url.pathname = authenticationSuccessRedirectTo
         return NextResponse.redirect(url)
 
       case isAuthRoute:
@@ -128,8 +127,9 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         }
         return NextResponse.redirect(baseRouteRedirectUrl)
 
+      // Workspace Homepage
       case isSubdomainWithBaseRoute && !isLoggedIn:
-        url.pathname = '/' // Redirect to pages/index.tsx
+        url.pathname = workspacesPathnamePrefix // Redirect to the workspace home
         return NextResponse.rewrite(url)
 
       case isSubdomain:
@@ -161,19 +161,22 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
         // Block the user if they are not authorised to access this workspace
         if (middlewareAuth?.status === 307) {
-          const unauthorizedRedirectUrl = req.nextUrl.clone()
-          unauthorizedRedirectUrl.pathname = authorizationFailureRedirectTo
+          const middlewareAuthErrorRedirectUrl = req.nextUrl.clone()
+          middlewareAuthErrorRedirectUrl.pathname = isLoggedIn
+            ? authorizationFailureRedirectTo
+            : authenticationFailureRedirectTo
           if (isDebug) {
             console.log(`♻️ [DEBUG] Middleware isSubdomain Redirect`, {
-              unauthorizedRedirectUrl: unauthorizedRedirectUrl.pathname,
+              middlewareAuthErrorRedirectUrl:
+                middlewareAuthErrorRedirectUrl.pathname,
             })
           }
-          return NextResponse.redirect(unauthorizedRedirectUrl)
+          return NextResponse.redirect(middlewareAuthErrorRedirectUrl)
         }
 
         // Allow user to pass through
         // Go to pages/_workspaces/[workspace]/*
-        url.pathname = `/_workspaces/${currentHost}${url.pathname}`
+        url.pathname = `${workspacesPathnamePrefix}${url.pathname}`
         if (isDebug) {
           console.log(`♻️ [DEBUG] Middleware isSubdomain Rewrite`, url.pathname)
         }
