@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.6
+
+### Patch Changes
+
+- [#48](https://github.com/gravis-os/gravis-os/pull/48) [`3834a7a`](https://github.com/gravis-os/gravis-os/commit/3834a7adfaca871ba6ee27214b2ac1a28d327981) Thanks [@clodal](https://github.com/clodal)! - Update auth and saas to work with backward compat, build success, and e2e tests
+
+- Updated dependencies [[`3834a7a`](https://github.com/gravis-os/gravis-os/commit/3834a7adfaca871ba6ee27214b2ac1a28d327981)]:
+  - @gravis-os/middleware@0.0.5
+  - @gravis-os/types@0.0.8
+
 ## 0.0.5
 
 ### Patch Changes

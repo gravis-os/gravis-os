@@ -1,5 +1,16 @@
 # web
 
+## 0.0.6
+
+### Patch Changes
+
+- [#48](https://github.com/gravis-os/gravis-os/pull/48) [`d535ecd`](https://github.com/gravis-os/gravis-os/commit/d535ecd5f60974a066892864bc57a397de441c69) Thanks [@clodal](https://github.com/clodal)! - Check build and sanity test auth changes with downstream
+
+* [#48](https://github.com/gravis-os/gravis-os/pull/48) [`3834a7a`](https://github.com/gravis-os/gravis-os/commit/3834a7adfaca871ba6ee27214b2ac1a28d327981) Thanks [@clodal](https://github.com/clodal)! - Update auth and saas to work with backward compat, build success, and e2e tests
+
+* Updated dependencies [[`d535ecd`](https://github.com/gravis-os/gravis-os/commit/d535ecd5f60974a066892864bc57a397de441c69), [`3834a7a`](https://github.com/gravis-os/gravis-os/commit/3834a7adfaca871ba6ee27214b2ac1a28d327981), [`c77635d`](https://github.com/gravis-os/gravis-os/commit/c77635d91ebe213baae41fd043ec30c4221529b9)]:
+  - @gravis-os/auth@0.0.15
+
 ## 0.0.5
 
 ### Patch Changes
