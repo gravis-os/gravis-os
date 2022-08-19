@@ -18,3 +18,6 @@ export * from './withHide'
 
 export { default as withFallbackPlaceholder } from './withFallbackPlaceholder'
 export * from './withFallbackPlaceholder'
+
+export { default as withCheckboxSelection } from './withCheckboxSelection'
+export * from './withCheckboxSelection'
