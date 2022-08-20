@@ -1,25 +1,15 @@
-import React, { useState } from 'react'
-import {
-  DialogActions,
-  DialogTitle,
-  DialogContent,
-  DialogContentText,
-} from '@mui/material'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import React from 'react'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined'
-import { useQueryClient } from 'react-query'
 import {
-  Stack,
-  Dialog,
-  Button,
   IconButton,
   MoreIconButton,
   MoreIconButtonProps,
+  Stack,
 } from '@gravis-os/ui'
-import toast from 'react-hot-toast'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import getCrudItemHref from './getCrudItemHref'
+import useCrud from './useCrud'
 
 type RenderMoreItemsFunction<CrudItem> = ({
   data,
@@ -32,9 +22,9 @@ export interface CrudTableActionsColumnCellRendererProps {
   data: CrudItem
   disableManage?: boolean
   disableDelete?: boolean
-  afterDelete?: ({ data }: { data: CrudItem | any }) => Promise<void>
   renderMoreItems?: RenderMoreItemsFunction<CrudItem>
   children?: React.ReactNode
+  afterDelete?: ({ data }: { data: CrudItem | any }) => Promise<void>
 }
 
 const CrudTableActionsColumnCellRenderer: React.FC<
@@ -42,45 +32,29 @@ const CrudTableActionsColumnCellRenderer: React.FC<
 > = (props) => {
   const {
     module,
-    data,
+    data: item,
     disableDelete,
-    afterDelete,
     disableManage,
     renderMoreItems,
     children,
+    afterDelete,
   } = props
-  const { table } = module
-
-  // Query
-  const queryClient = useQueryClient()
 
   // Delete Dialog
-  const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
-  const handleDeleteDialogOpen = () => setDeleteDialogOpen(true)
-  const handleDeleteDialogClose = () => setDeleteDialogOpen(false)
-  const handleDeleteClick = () => handleDeleteDialogOpen()
-  const handleDeleteConfirmClick = async () => {
-    try {
-      await supabaseClient.from(table.name).delete().match({ id: data.id })
-      queryClient.invalidateQueries(table.name)
-      if (afterDelete) await afterDelete({ data })
-      handleDeleteDialogClose()
-      toast.success('Success')
-    } catch (err) {
-      toast.error('Error')
-      console.error('Error caught:', err)
-    }
-  }
+  const { handleDeleteDialogOpen, setSelectedItems } = useCrud()
 
   // MoreItems
   const moreItems = [
-    ...(renderMoreItems ? renderMoreItems({ data }) : []),
+    ...(renderMoreItems ? renderMoreItems({ data: item }) : []),
     !disableDelete && {
       key: 'delete',
       value: 'delete',
       label: 'Delete',
       icon: <DeleteOutlineOutlinedIcon fontSize="small" />,
-      onClick: handleDeleteClick,
+      onClick: () => {
+        setSelectedItems([item])
+        handleDeleteDialogOpen()
+      },
     },
   ].filter(Boolean)
 
@@ -96,33 +70,12 @@ const CrudTableActionsColumnCellRenderer: React.FC<
       {!disableManage && (
         <IconButton
           size="small"
-          href={getCrudItemHref({ module, item: data })}
+          href={getCrudItemHref({ module, item })}
           sx={{ '&:hover': { color: 'primary.main' } }}
           tooltip="Manage"
         >
           <ArrowCircleRightOutlinedIcon fontSize="small" />
         </IconButton>
-      )}
-
-      {/* Delete */}
-      {!disableDelete && (
-        <>
-          {/* Delete Dialog */}
-          <Dialog open={deleteDialogOpen} onClose={handleDeleteDialogClose}>
-            <DialogTitle>Delete Confirmation</DialogTitle>
-            <DialogContent>
-              <DialogContentText>
-                Are you sure you want to delete this item?
-              </DialogContentText>
-            </DialogContent>
-            <DialogActions>
-              <Button onClick={handleDeleteDialogClose}>Cancel</Button>
-              <Button onClick={handleDeleteConfirmClick} autoFocus>
-                Confirm
-              </Button>
-            </DialogActions>
-          </Dialog>
-        </>
       )}
 
       {children}

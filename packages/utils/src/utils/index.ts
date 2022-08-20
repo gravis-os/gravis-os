@@ -6,3 +6,6 @@ export * from './printPercentage'
 
 export { default as printAmount } from './printAmount'
 export * from './printAmount'
+
+export { default as printSingularOrPluralText } from './printSingularOrPluralText'
+export * from './printSingularOrPluralText'

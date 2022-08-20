@@ -16,6 +16,7 @@ import {
   withTimestampFormat,
   withTitle,
   withFallbackPlaceholder,
+  withCheckboxSelection,
 } from './hocs'
 import { UsePreviewDrawerReturn } from '../usePreviewDrawer'
 import { CrudTableColumnDef } from '../../types'
@@ -66,6 +67,7 @@ const useGetCrudTableColumnDefs = (
   const nextColumnDefs = React.useMemo(
     () =>
       flowRight([
+        withCheckboxSelection(),
         withFallbackPlaceholder({
           fallbackPlaceholder,
           disableFallbackPlaceholder,

@@ -15,6 +15,8 @@ import { CrudFormProps } from './CrudForm'
 import CrudPreviewDrawer from './CrudPreviewDrawer'
 import fetchCrudItems from './fetchCrudItems'
 import { CrudTableColumnDef } from '../types'
+import useCrud from './useCrud'
+import CrudDeleteDialog from './CrudDeleteDialog'
 
 export interface CrudTableProps {
   module: CrudModule
@@ -64,7 +66,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     previewFormProps,
     addFormProps,
-    dataTableProps,
+    dataTableProps: injectedDataTableProps,
     useGetCrudTableColumnDefsProps,
   } = props
   const { table } = module
@@ -92,8 +94,20 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   })
   const { setPreview, previewFormSections } = usePreviewDrawerProps
 
+  // CrudContext
+  const onUseCrud = useCrud()
+  const { setSelectedItems } = onUseCrud
+
   // AgGrid Ref
   const gridRef = useRef(null)
+  const dataTableProps = {
+    ...injectedDataTableProps,
+    onSelectionChanged: (event) => {
+      const selectedRows = event.api.getSelectedNodes()
+      const selectedRowData = selectedRows?.map(({ data }) => data)
+      setSelectedItems(selectedRowData)
+    },
+  }
 
   // ColumnDefs
   const columnDefs = useGetCrudTableColumnDefs({
@@ -114,7 +128,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
   return (
     <>
-      {/* Header */}
+      {/* Search + Add Row */}
       <CrudTableHeader
         module={module}
         disableAdd={disableAdd}
@@ -131,6 +145,15 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
         }}
       />
 
+      {/* DataTable + Toolbar Row */}
+      <DataTable
+        module={module}
+        ref={gridRef}
+        rowData={items}
+        columnDefs={columnDefs}
+        {...dataTableProps}
+      />
+
       {/* Preview Drawer */}
       <CrudPreviewDrawer
         isListPage={isListPage}
@@ -141,14 +164,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
         disablePreview={disablePreview}
       />
 
-      {/* DataTable */}
-      <DataTable
-        module={module}
-        ref={gridRef}
-        rowData={items}
-        columnDefs={columnDefs}
-        {...dataTableProps}
-      />
+      {/* Delete Dialog */}
+      <CrudDeleteDialog module={module} />
     </>
   )
 }

@@ -1,7 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { SxProps } from '@mui/material'
-import { Stack, Card, Typography } from '@gravis-os/ui'
+import { Stack, Card, Typography, Button } from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import { printSingularOrPluralText } from '@gravis-os/utils'
+import useCrud from './useCrud'
 import AgGrid, { AgGridProps } from './AgGrid'
 // Framework Components
 import AgGridModelFieldEditor from './AgGridModelFieldEditor'
@@ -39,12 +42,20 @@ const DataTable = React.forwardRef<
     setColumnDefs(injectedColumnDefs)
   }, [injectedColumnDefs])
 
+  // Selection
+  const {
+    hasSelectedItems,
+    selectedItems,
+    hasMultipleSelectedItems,
+    handleDeleteDialogOpen,
+  } = useCrud()
+
   // Title
   const TitleIcon = module?.Icon
 
   return (
     <>
-      {/* DataTableHeader */}
+      {/* Toolbar */}
       <Card
         square
         py={1}
@@ -58,14 +69,40 @@ const DataTable = React.forwardRef<
           spacing={1}
         >
           {/* Left */}
-          <Stack direction="row" spacing={1} alignItems="center">
+          <Stack direction="row" spacing={1} alignItems="center" width="100%">
+            {/* Title */}
             {TitleIcon && <TitleIcon sx={{ color: 'primary.main' }} />}
             <Typography variant="h5">{module?.name?.plural}</Typography>
+
+            {/* Selection Count */}
+            {hasSelectedItems && (
+              <Typography variant="body2" color="text.secondary">
+                {selectedItems.length}{' '}
+                {printSingularOrPluralText(selectedItems, 'item')} selected
+              </Typography>
+            )}
           </Stack>
 
           {/* Right */}
-          <Stack direction="row" justifyContent="flex-end">
+          <Stack
+            direction="row"
+            spacing={1}
+            alignItems="center"
+            justifyContent="flex-end"
+          >
             {actions}
+
+            {/* BulkDeleteButton */}
+            {hasMultipleSelectedItems && (
+              <Button
+                size="small"
+                color="error"
+                startIcon={<DeleteOutlineOutlinedIcon />}
+                onClick={handleDeleteDialogOpen}
+              >
+                Bulk Delete
+              </Button>
+            )}
 
             {/* ManageColumnsMenuButton */}
             <ManageColumnsMenuButton
