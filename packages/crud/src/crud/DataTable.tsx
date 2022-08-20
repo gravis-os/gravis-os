@@ -3,11 +3,12 @@ import { SxProps } from '@mui/material'
 import { Stack, Card, Typography, Button } from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import { printSingularOrPluralText } from '@gravis-os/utils'
+import useCrud from './useCrud'
 import AgGrid, { AgGridProps } from './AgGrid'
 // Framework Components
 import AgGridModelFieldEditor from './AgGridModelFieldEditor'
 import ManageColumnsMenuButton from './ManageColumnsMenuButton'
-import useCrud from './useCrud'
 
 export interface DataTableProps extends AgGridProps {
   sx?: SxProps
@@ -76,7 +77,8 @@ const DataTable = React.forwardRef<
             {/* Selection Count */}
             {hasSelectedItems && (
               <Typography variant="body2" color="text.secondary">
-                {selectedItems.length} items selected
+                {selectedItems.length}{' '}
+                {printSingularOrPluralText(selectedItems, 'item')} selected
               </Typography>
             )}
           </Stack>
