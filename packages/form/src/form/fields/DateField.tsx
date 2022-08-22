@@ -1,5 +1,5 @@
 import React from 'react'
-import { DatePicker, DatePickerProps } from '@mui/lab'
+import { DatePicker, DatePickerProps } from '@mui/x-date-pickers'
 import { TextField, TextFieldProps } from '@mui/material'
 
 interface DateFieldProps extends DatePickerProps<Date> {
