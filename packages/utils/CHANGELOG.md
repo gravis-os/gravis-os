@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.12
+
+### Patch Changes
+
+- [#49](https://github.com/gravis-os/gravis-os/pull/49) [`506a55a`](https://github.com/gravis-os/gravis-os/commit/506a55af4c35baba0b933e13af400a0d092a4b53) Thanks [@clodal](https://github.com/clodal)! - Add printSingularOrPluralText util
+
 ## 0.0.11
 
 ### Patch Changes
