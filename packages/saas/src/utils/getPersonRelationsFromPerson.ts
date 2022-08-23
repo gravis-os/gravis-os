@@ -44,10 +44,10 @@ const getPersonRelationsFromPerson = (
 
   const { tier } = workspace || {}
   const features = tier?.feature
-  const featureTitles = features?.map(({ title }) => title)
+  const featureTitles = features?.map(({ title }) => title) || []
 
   const permissions = role?.permission
-  const permissionTitles = features?.map(({ title }) => title)
+  const permissionTitles = features?.map(({ title }) => title) || []
 
   return {
     company,

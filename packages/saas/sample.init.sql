@@ -103,9 +103,6 @@ CREATE OR REPLACE FUNCTION public.bulk_authorize_tables(table_name_texts text[] 
 AS $function$
 DECLARE
     table_name_text text;
-    text_var1 text;
-    text_var2 text;
-    text_var3 text;
 BEGIN
     FOREACH table_name_text IN ARRAY table_name_texts LOOP
             BEGIN
@@ -124,7 +121,7 @@ $function$;
 
 DO $$
     BEGIN
-        PERFORM bulk_authorize_tables (ARRAY ['company', 'person']);
+        PERFORM bulk_authorize_tables (ARRAY ['company', 'person', 'workspace', 'role', 'role_permission', 'permission', 'tier', 'tier_feature', 'feature']);
         --  PERFORM drop_authorize_by_permission_policies_on_table_name('permission');
     END
 $$;
