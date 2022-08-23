@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.20
+
+### Patch Changes
+
+- [#51](https://github.com/gravis-os/gravis-os/pull/51) [`921d58d`](https://github.com/gravis-os/gravis-os/commit/921d58d2eaab68b31b05cf013e9047a57d271610) Thanks [@al1xt](https://github.com/al1xt)! - allow for injecting actionButtons in DocumentFormSections
+
+- Updated dependencies [[`506a55a`](https://github.com/gravis-os/gravis-os/commit/506a55af4c35baba0b933e13af400a0d092a4b53), [`51c95b9`](https://github.com/gravis-os/gravis-os/commit/51c95b9e5bd39be6b422de68658d8337e81b8c7f), [`b722571`](https://github.com/gravis-os/gravis-os/commit/b72257196a63d3b6dec79fdef70ca428893eb85e)]:
+  - @gravis-os/crud@0.0.34
+  - @gravis-os/form@0.0.32
+
 ## 0.0.19
 
 ### Patch Changes

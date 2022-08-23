@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/crud",
-  "version": "0.0.33",
+  "version": "0.0.34",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
@@ -41,7 +41,7 @@
     "@gravis-os/form": "*",
     "@gravis-os/storage": "*",
     "@gravis-os/auth": "*",
-    "@gravis-os/types ": "*",
+    "@gravis-os/types": "*",
     "@gravis-os/utils": "*"
   },
   "peerDependencies": {
