@@ -6,7 +6,6 @@ import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
 import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
-import ShowChartOutlinedIcon from '@mui/icons-material/ShowChartOutlined'
 import { CrudFormJsxProps } from '@gravis-os/crud'
 import {
   Button,
@@ -115,6 +114,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
     setIsReadOnly,
     sections,
     item,
+    actionButtons: injectedActionButtons = [],
     ...rest
   } = props
 
@@ -189,11 +189,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
       disableToastSuccess
       onConfirm={() => onDelete(item)}
     />,
-    {
-      key: 'margin',
-      children: 'Margin',
-      startIcon: <ShowChartOutlinedIcon />,
-    },
+    ...injectedActionButtons,
   ].map((item) => ({ ...item, color: 'inherit' as ButtonProps['color'] }))
 
   return (
