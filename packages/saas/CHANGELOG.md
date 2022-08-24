@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.7
+
+### Patch Changes
+
+- [`3004fce`](https://github.com/gravis-os/gravis-os/commit/3004fcee65d7f097f690997b6aab26fc6901eb92) Thanks [@clodal](https://github.com/clodal)! - Add SaaS rls scripts to init schema
+
 ## 0.0.6
 
 ### Patch Changes
