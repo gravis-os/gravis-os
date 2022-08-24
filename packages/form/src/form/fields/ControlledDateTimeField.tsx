@@ -2,13 +2,15 @@ import React from 'react'
 import { Controller, ControllerProps } from 'react-hook-form'
 import DateTimeField from './DateTimeField'
 
-export interface ControlledDateFieldProps
+export interface ControlledDateTimeFieldProps
   extends Omit<ControllerProps, 'render'> {
   label?: string
   dateTimePickerProps?: React.ComponentProps<typeof DateTimeField>
 }
 
-const ControlledDateTimeField: React.FC<ControlledDateFieldProps> = (props) => {
+const ControlledDateTimeField: React.FC<ControlledDateTimeFieldProps> = (
+  props
+) => {
   const { dateTimePickerProps, label, ...rest } = props
 
   return (
