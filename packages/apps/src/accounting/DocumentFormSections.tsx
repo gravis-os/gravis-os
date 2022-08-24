@@ -147,6 +147,8 @@ const DocumentFormSections: React.FC<any> = (props) => {
     'notes',
     'attachments',
     'pricing',
+    'driver',
+    'delivery_at',
   ]
   const sectionsPropsByKey: Record<string, FormSectionProps> =
     sectionKeys.reduce(
@@ -434,6 +436,24 @@ const DocumentFormSections: React.FC<any> = (props) => {
                             readOnlySx={{ textAlign: 'right' }}
                             {...formSectionProps}
                             {...sectionsPropsByKey.shipped_at}
+                          />
+                        )}
+                      </Grid>
+                      <Grid item xs={12} md={12}>
+                        {Boolean(sectionsPropsByKey.driver) && (
+                          <FormSection
+                            readOnlySx={{ textAlign: 'right' }}
+                            {...formSectionProps}
+                            {...sectionsPropsByKey.driver}
+                          />
+                        )}
+                      </Grid>
+                      <Grid item xs={12} md={12}>
+                        {Boolean(sectionsPropsByKey.delivery_at) && (
+                          <FormSection
+                            readOnlySx={{ textAlign: 'right' }}
+                            {...formSectionProps}
+                            {...sectionsPropsByKey.delivery_at}
                           />
                         )}
                       </Grid>
