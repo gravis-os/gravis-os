@@ -28,7 +28,8 @@ export interface GetPersonRelationsFromPersonReturn {
 
   // isAdmin
   isAdminWorkspace: boolean
-  isAdminRole: boolean
+  isAdmin: boolean
+  isNotAdmin: boolean
 }
 
 /**
@@ -49,6 +50,8 @@ const getPersonRelationsFromPerson = (
   const permissions = role?.permission
   const permissionTitles = features?.map(({ title }) => title) || []
 
+  const isAdminRole = getIsAdminRole(role)
+
   return {
     company,
     workspace,
@@ -67,7 +70,8 @@ const getPersonRelationsFromPerson = (
     hasFeature: (featureTitle: string) => featureTitles.includes(featureTitle),
 
     // isAdmin
-    isAdminRole: getIsAdminRole(role),
+    isAdmin: isAdminRole,
+    isNotAdmin: !isAdminRole,
     isAdminWorkspace: getIsAdminWorkspace(workspace),
   }
 }

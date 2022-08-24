@@ -94,7 +94,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
          * This case only happens when the user is logged in but gets redirected out.
          */
         const dbUser = await fetchDbUserFromMiddleware({ userModule, authUser })
-        const { workspace, role, isAdminRole } =
+        const { workspace, role, isAdmin } =
           getPersonRelationsFromDbUser(dbUser)
 
         // Redirect user to the correct workspace
@@ -119,7 +119,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
         if (isLoggedInButIncorrectWorkspace) {
           const loggedInButIncorrectWorkspaceUrl = `${protocol}://${workspace.slug}.${nakedDomain}`
-          if (isAdminRole) {
+          if (isAdmin) {
             if (isDebug) {
               console.log(
                 `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin > Wrong Workspace > isAdmin Redirect`,

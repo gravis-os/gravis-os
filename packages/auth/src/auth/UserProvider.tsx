@@ -13,6 +13,11 @@ export interface UserProviderProps {
   loader?: React.ReactElement
   guestPaths?: string[]
   authRoutes?: UserContextInterface['authRoutes']
+  setUser?: ({
+    user,
+  }: {
+    user?: UserContextInterface['user']
+  }) => UserContextInterface['user']
 }
 
 /**
@@ -27,6 +32,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     loader: injectedLoader,
     guestPaths: injectedGuestPaths = [],
     authRoutes,
+    setUser,
     ...rest
   } = props
 
@@ -110,6 +116,11 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     return true
   }
 
+  const nextUser =
+    typeof setUser === 'function'
+      ? setUser({ user: { ...dbUser, authUser } })
+      : { ...dbUser, authUser }
+
   return (
     <UserContext.Provider
       value={{
@@ -117,7 +128,9 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
         // Users
         authUser,
         authUserLoading,
-        user: { ...dbUser, authUser },
+
+        user: nextUser || {},
+
         dbUser,
         dbUserLoading,
         dbUserFetching,

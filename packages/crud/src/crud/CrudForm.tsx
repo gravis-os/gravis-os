@@ -8,10 +8,13 @@ import {
   FormSectionsProps,
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
+import { UserContextInterface, useUser } from '@gravis-os/auth'
 import useCrudForm, { UseCrudFormArgs, UseCrudFormReturn } from './useCrudForm'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import metaFormSection from './metaFormSection'
 import CrudFormProvider from '../providers/CrudFormProvider'
+import useCrud from './useCrud'
+import { CrudContextInterface } from './CrudContext'
 
 type HiddenFunction = ({
   isNew,
@@ -56,6 +59,8 @@ export interface CrudFormJsxProps extends FormSectionsProps {
   formContext: UseCrudFormReturn['formContext']
   onSubmit: UseCrudFormReturn['onSubmit']
   onDelete: UseCrudFormReturn['onDelete']
+  userContext: UserContextInterface
+  crudContext: CrudContextInterface
 }
 
 const CrudForm: React.FC<CrudFormProps> = (props) => {
@@ -101,11 +106,14 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
 
   // Form states
   const { isSubmitting, isDirty } = formContext.formState
-
   const [isReadOnly, setIsReadOnly] = useState(!isNew)
 
   // Duck type to test if form is loaded in preview drawer
   const isPreview = Boolean(headerProps)
+
+  // Other contexts
+  const onUseCrud = useCrud()
+  const onUseUser = useUser()
 
   // Form JSX Props
   const formJsxProps: CrudFormJsxProps = {
@@ -125,6 +133,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     onDelete,
     ...formSectionsProps,
     ...formJsxComponentProps,
+    userContext: onUseUser,
+    crudContext: onUseCrud,
   }
 
   // Loading state

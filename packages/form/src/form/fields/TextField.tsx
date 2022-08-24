@@ -30,6 +30,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
   const { name, value, onChange } = rest
 
   const textFieldProps = {
+    variant: 'outlined' as TextFieldProps['variant'],
     label: !disableLabel ? startCase(name) : null,
     fullWidth: true,
     InputLabelProps: {

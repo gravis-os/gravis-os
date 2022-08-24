@@ -10,6 +10,7 @@ import renderField, {
   FormSectionFieldProps,
   RenderFieldProps,
 } from './renderField'
+import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
 
 export interface FormSectionJsxFieldProps {
   formContext: UseFormReturn
@@ -32,7 +33,8 @@ export interface RenderFieldWithWrapperProps
     | React.ReactElement
 }
 const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
-  const { formContext, sectionProps, fieldProps } = props
+  const { userContext, crudContext, formContext, sectionProps, fieldProps } =
+    props
   const { isNew, isPreview, item, isReadOnly } = sectionProps
 
   /**
@@ -86,21 +88,11 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
 
   const { key, fieldEffect, hidden } = fieldProps
 
-  // Hide field
-  const shouldHide = Boolean(
-    hidden &&
-      (typeof hidden === 'function'
-        ? (hidden as FormSectionFieldBooleanFunction)({
-            isNew,
-            isPreview,
-            isDetail: !isNew && !isPreview,
-            formContext,
-          })
-        : hidden)
-  )
-  if (shouldHide) return null
+  // Calculate hidden field
+  const isHidden = getFormSectionFieldBooleanFunction(hidden, props)
+  if (isHidden) return null
 
-  // Define children
+  // Define children (default)
   const childrenJsx = (
     <Grid
       item

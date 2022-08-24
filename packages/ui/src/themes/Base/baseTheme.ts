@@ -20,6 +20,14 @@ const baseThemeConfig = {
     },
   },
   components: {
+    MuiInputLabel: {
+      styleOverrides: {
+        // Make required field asterix red
+        asterisk: {
+          color: muiDefaultTheme.palette.error.main,
+        },
+      },
+    },
     MuiLink: {
       defaultProps: {
         underline: 'hover',

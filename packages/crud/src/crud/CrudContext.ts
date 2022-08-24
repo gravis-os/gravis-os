@@ -1,15 +1,8 @@
 import { createContext } from 'react'
+import { CrudContextInterface as InjectedCrudContextInterface } from '@gravis-os/types'
 
-export interface CrudContextInterface<AppCrudModule = any, AppCrudItem = any> {
-  selectedItems: AppCrudItem[]
-  setSelectedItems: React.Dispatch<React.SetStateAction<AppCrudItem[]>>
-  hasSelectedItems: boolean
-  hasMultipleSelectedItems: boolean
-
-  deleteDialogOpen: boolean
-  handleDeleteDialogOpen: () => void
-  handleDeleteDialogClose: () => void
-}
+export interface CrudContextInterface<AppCrudModule = any, AppCrudItem = any>
+  extends InjectedCrudContextInterface<AppCrudModule, AppCrudItem> {}
 
 const CrudContext = createContext<CrudContextInterface | null>(null)
 
