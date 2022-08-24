@@ -46,6 +46,12 @@ export * from './fields/ModelField'
 export { default as DateField } from './fields/DateField'
 export * from './fields/DateField'
 
+export { default as ControlledDateTimeField } from './fields/ControlledDateTimeField'
+export * from './fields/ControlledDateTimeField'
+
+export { default as DateTimeField } from './fields/DateTimeField'
+export * from './fields/DateTimeField'
+
 // ==============================
 // Utils
 // ==============================
