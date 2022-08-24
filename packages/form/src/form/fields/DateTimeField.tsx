@@ -1,9 +1,10 @@
 import React from 'react'
 import { DateTimePicker, DatePickerProps } from '@mui/x-date-pickers'
-import { TextField, TextFieldProps } from '@mui/material'
+import { SxProps, TextField, TextFieldProps } from '@mui/material'
 
 interface DateTimeFieldProps extends DatePickerProps<Date> {
   textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
+  sx: SxProps
 }
 
 const DateTimeField: React.FC<DateTimeFieldProps> = (props) => {
@@ -11,7 +12,13 @@ const DateTimeField: React.FC<DateTimeFieldProps> = (props) => {
 
   return (
     <DateTimePicker
-      renderInput={(props) => <TextField {...props} {...textFieldProps} />}
+      renderInput={(props) => (
+        <TextField
+          sx={{ width: '100%', ...rest?.sx }}
+          {...props}
+          {...textFieldProps}
+        />
+      )}
       {...rest}
     />
   )
