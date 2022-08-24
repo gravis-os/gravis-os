@@ -12,7 +12,6 @@ const DateTimeField: React.FC<DateTimeFieldProps> = (props) => {
   return (
     <DateTimePicker
       renderInput={(props) => <TextField {...props} {...textFieldProps} />}
-      inputFormat="dd MMM yyyy"
       {...rest}
     />
   )
