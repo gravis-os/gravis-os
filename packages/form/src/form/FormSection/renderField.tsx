@@ -122,6 +122,12 @@ const renderField = (props: RenderFieldProps) => {
   const { control, setValue, formState, watch } = formContext
   const { errors } = formState
 
+  /**
+   * TODO@Steve: Remove this
+   * watch() is an expensive operation.
+   * It’ll mount observers on every field for every field change causing re-renders on every formState change (i.e. every keystroke)
+   * Recommend to pass down formContext, or use useWatch, or other means, etc.
+   */
   const watchedValues = watch()
 
   const {
