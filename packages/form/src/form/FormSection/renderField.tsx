@@ -194,6 +194,16 @@ const renderField = (props: RenderFieldProps) => {
             sx={readOnlySx}
           />
         )
+      case FormSectionFieldTypeEnum.FILES:
+        const files = item?.[name]
+        return (
+          <FormSectionReadOnlyStack
+            label={label}
+            sx={readOnlySx}
+            title={files}
+            isFiles
+          />
+        )
       default:
         const title = item?.[name]
 
