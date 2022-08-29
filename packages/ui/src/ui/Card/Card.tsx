@@ -1,9 +1,10 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import {
   Card as MuiCard,
   CardProps as MuiCardProps,
   CardActions,
   Typography,
+  CardActionsProps,
 } from '@mui/material'
 import CardHeader, {
   CardHeaderProps as BaseCardHeaderProps,
@@ -23,7 +24,7 @@ interface CardLinkInterface extends ButtonLinkProps {
 
 interface CardActionInterface {
   key: string
-  component: React.ReactNode
+  children: React.ReactNode
 }
 
 interface CardHeaderProps extends BaseCardHeaderProps {
@@ -49,6 +50,7 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   table?: CardTableProps
   links?: CardLinkInterface[]
   actions?: CardActionInterface[]
+  actionProps?: CardActionsProps
 
   // Padding
   py?: number
@@ -62,6 +64,7 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   disableBorderRadiusTop?: boolean
   disableBorderRadiusBottom?: boolean
   disablePadding?: boolean
+  disableHeader?: boolean
 
   // Collapse
   collapsible?: boolean
@@ -77,6 +80,7 @@ const Card: React.FC<CardProps> = (props) => {
     children,
     content = {},
     contentProps,
+    actionProps: injectedCardActionProps,
     title,
     subtitle,
     icon,
@@ -88,6 +92,7 @@ const Card: React.FC<CardProps> = (props) => {
     sx,
     py,
     stretch,
+    disableHeader,
     disableHeaderDivider,
     disableLastGutterBottom,
     disableBorderRadiusTop,
@@ -110,13 +115,15 @@ const Card: React.FC<CardProps> = (props) => {
     subtitle: headerSubtitle,
     action: headerAction,
   } = header || {}
+
   const cardHeaderProps = {
     avatar: icon || headerIcon,
     title: title || headerTitle,
     subheader: subtitle || headerSubtitle,
     action: headerAction,
   }
-  const hasHeader = Object.values(cardHeaderProps).some(Boolean)
+  const hasHeader =
+    !disableHeader && Object.values(cardHeaderProps).some(Boolean)
 
   // ==============================
   // Content
@@ -134,6 +141,11 @@ const Card: React.FC<CardProps> = (props) => {
     },
   }
 
+  // ==============================
+  // Actions
+  // ==============================
+  const cardActionProps = { ...injectedCardActionProps }
+
   const contentJsx = (
     <>
       {hasContent && (
@@ -150,7 +162,7 @@ const Card: React.FC<CardProps> = (props) => {
       {table && <CardTable {...table} />}
       {children && <CardContent {...cardContentProps}>{children}</CardContent>}
       {links && (
-        <CardActions>
+        <CardActions {...cardActionProps}>
           {links.map((link) => {
             const { title, ...rest } = link
 
@@ -163,68 +175,75 @@ const Card: React.FC<CardProps> = (props) => {
         </CardActions>
       )}
       {actions && (
-        <CardActions>
+        <CardActions {...cardActionProps}>
           {actions.map((action, i) => {
-            const { component } = action
-            return <div key={`action-${i}`}>{component}</div>
+            const { children } = action
+            return <div key={`action-${i}`}>{children}</div>
           })}
         </CardActions>
       )}
     </>
   )
 
-  return (
-    <MuiCard
-      sx={{
-        '& .MuiCardHeader-avatar': {
-          display: 'flex',
-          marginRight: 1,
+  const cardHeaderJsx = hasHeader && (
+    <CardHeader
+      collapsed={!collapsed}
+      collapsible={collapsible}
+      onCollapsedClick={toggleCollapsed}
+      divider={!disableHeaderDivider}
+      titleTypographyProps={{ variant: 'h4' }}
+      {...cardHeaderProps}
+    />
+  )
+
+  const cardBodyJsx = collapsible ? (
+    <Collapse in={!collapsed}>{contentJsx}</Collapse>
+  ) : (
+    contentJsx
+  )
+
+  const cardProps = {
+    sx: {
+      '& .MuiCardHeader-avatar': {
+        display: 'flex',
+        marginRight: 1,
+      },
+      '& .MuiCardActions-root': {
+        backgroundColor: 'grey.100',
+        '& .MuiButton-root': {
+          textTransform: 'none',
         },
-        '& .MuiCardActions-root': {
-          backgroundColor: 'grey.100',
-          '& .MuiButton-root': {
-            textTransform: 'none',
-          },
-        },
+      },
 
-        // Padding
-        ...(py && { '&& .MuiCardContent-root': { py } }),
+      // Padding
+      ...(py && { '&& .MuiCardContent-root': { py } }),
 
-        // Stretch
-        ...(stretch && { '&.MuiCard-root': { height: '100%' } }),
+      // Stretch
+      ...(stretch && { '&.MuiCard-root': { height: '100%' } }),
 
-        // Border Radius
-        ...(disableBorderRadiusTop && {
-          borderTopLeftRadius: 0,
-          borderTopRightRadius: 0,
-        }),
-        ...(disableBorderRadiusBottom && {
-          borderBottomLeftRadius: 0,
-          borderBottomRightRadius: 0,
-        }),
+      // Border Radius
+      ...(disableBorderRadiusTop && {
+        borderTopLeftRadius: 0,
+        borderTopRightRadius: 0,
+      }),
+      ...(disableBorderRadiusBottom && {
+        borderBottomLeftRadius: 0,
+        borderBottomRightRadius: 0,
+      }),
 
-        ...sx,
-      }}
-      {...rest}
-    >
-      {hasHeader && (
-        <CardHeader
-          collapsed={!collapsed}
-          collapsible={collapsible}
-          onCollapsedClick={toggleCollapsed}
-          divider={!disableHeaderDivider}
-          titleTypographyProps={{ variant: 'h4' }}
-          {...cardHeaderProps}
-        />
-      )}
+      ...sx,
+    },
+    ...rest,
+  }
 
-      {collapsible ? (
-        <Collapse in={!collapsed}>{contentJsx}</Collapse>
-      ) : (
-        contentJsx
-      )}
+  const cardChildrenJsx = (
+    <MuiCard {...cardProps}>
+      {cardHeaderJsx}
+      {cardBodyJsx}
     </MuiCard>
   )
+
+  return cardChildrenJsx
 }
 
 export default Card

@@ -37,6 +37,9 @@ export * from './CrudAddDialog'
 export { default as ModelFieldWithCrud } from './ModelFieldWithCrud'
 export * from './ModelFieldWithCrud'
 
+export { default as CrudFormGroup } from './CrudFormGroup'
+export * from './CrudFormGroup'
+
 // ==============================
 // Provider
 // ==============================

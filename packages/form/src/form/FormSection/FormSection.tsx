@@ -57,6 +57,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
   const {
     disabledFields,
     disableCard,
+
     item,
     isNew,
     isPreview,
@@ -99,9 +100,18 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     </Grid>
   )
 
+  const renderChildren = () => {
+    switch (true) {
+      case disableCard:
+        return childrenJsx
+      default:
+        return <Card {...rest}>{childrenJsx}</Card>
+    }
+  }
+
   return (
     <Grid item xs={12} {...gridProps}>
-      {disableCard ? childrenJsx : <Card {...rest}>{childrenJsx}</Card>}
+      {renderChildren()}
     </Grid>
   )
 }

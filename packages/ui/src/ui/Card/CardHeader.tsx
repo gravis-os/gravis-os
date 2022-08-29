@@ -13,6 +13,7 @@ export interface CardHeaderProps extends MuiCardHeaderProps {
   collapsed?: boolean
   collapsible?: boolean
   onCollapsedClick?: () => void
+  subtitle?: React.ReactNode
 }
 
 const CardHeader: React.FC<CardHeaderProps> = (props) => {
@@ -23,12 +24,15 @@ const CardHeader: React.FC<CardHeaderProps> = (props) => {
     onCollapsedClick,
     sx,
     divider,
+    subheader,
+    subtitle,
     ...rest
   } = props
 
   return (
     <>
       <MuiCardHeader
+        subheader={subheader || subtitle}
         sx={{
           p: 2,
           '& .MuiCardHeader-action': {

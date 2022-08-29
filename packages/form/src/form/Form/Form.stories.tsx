@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from '@gravis-os/ui'
 import FormComponent from './Form'
-import FormSections from './FormSection/FormSections'
+import FormSections from '../FormSection/FormSections'
 
 export default {
   component: FormComponent,

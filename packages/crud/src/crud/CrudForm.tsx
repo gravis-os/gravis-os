@@ -6,6 +6,7 @@ import {
   Form,
   FormProps,
   FormSectionsProps,
+  FormRenderPropsInterface,
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import { UserContextInterface, useUser } from '@gravis-os/auth'
@@ -28,7 +29,6 @@ export interface CrudFormProps {
   item?: CrudItem // Typically gets injected via DetailPage cloneElement
   setItem?: React.Dispatch<React.SetStateAction<CrudItem>> // Typically gets injected via DetailPage cloneElement
   disableHeader?: boolean
-  formSectionsProps?: Omit<FormSectionsProps, 'sections'>
   sections: FormSectionsProps['sections']
   module: CrudModule
   useCrudFormProps?: Partial<UseCrudFormArgs>
@@ -43,8 +43,8 @@ export interface CrudFormProps {
   defaultValues?: Record<string, unknown>
   disabledFields?: string[]
   formProps?: Partial<FormProps<any>>
-  formJsxComponent?: React.JSXElementConstructor<any>
-  formJsxComponentProps?: Record<string, unknown>
+  formTemplate?: React.JSXElementConstructor<any>
+  formTemplateProps?: Record<string, unknown>
 }
 
 export interface CrudFormJsxProps extends FormSectionsProps {
@@ -74,15 +74,16 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     disableHeader,
     useCrudFormProps,
     sections,
-    formSectionsProps,
     formProps,
     item,
     refetch,
     module,
     children,
     loading,
-    formJsxComponent: FormJsxComponent = FormSections,
-    formJsxComponentProps,
+
+    // Form Jsx is the template/ui/layout of the form
+    formTemplate: FormTemplate = FormSections,
+    formTemplateProps,
   } = props
   const { route } = module
 
@@ -105,7 +106,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   const { formContext, isNew, onSubmit, onDelete } = crudForm
 
   // Form states
-  const { isSubmitting, isDirty } = formContext.formState
+  const { reset, formState } = formContext
+  const { isSubmitting, isDirty } = formState
   const [isReadOnly, setIsReadOnly] = useState(!isNew)
 
   // Duck type to test if form is loaded in preview drawer
@@ -124,6 +126,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     setIsReadOnly,
     sections: [
       ...sections,
+      // Hide meta section on new forms
       !isNew && !disableMetaSection && metaFormSection,
     ].filter(Boolean) as FormSectionsProps['sections'],
     module,
@@ -131,11 +134,12 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     formContext,
     onSubmit, // For remote submits be sure to wrap in RHF.handleSubmit e.g. formContext.handleSubmit(onSubmit)()
     onDelete,
-    ...formSectionsProps,
-    ...formJsxComponentProps,
+    ...formTemplateProps,
     userContext: onUseUser,
     crudContext: onUseCrud,
   }
+
+  const formRenderProps = { sections }
 
   // Loading state
   if (loading) return <CircularProgress fullScreen />
@@ -143,14 +147,15 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   return (
     <CrudFormProvider {...crudForm}>
       <Form
-        form={formContext}
+        formContext={formContext}
         isReadOnly={isReadOnly}
         setIsReadOnly={setIsReadOnly}
         onSubmit={onSubmit}
-        formJsx={<FormJsxComponent {...formJsxProps} />}
+        formJsx={<FormTemplate {...formJsxProps} />}
+        formRenderProps={formRenderProps}
         {...formProps}
       >
-        {(renderProps) => (
+        {(renderProps: FormRenderPropsInterface) => (
           <>
             {!disableHeader && (
               <DetailPageHeader
@@ -168,8 +173,11 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
                         key: 'edit',
                         type: 'button' as ButtonProps['type'],
                         title: isReadOnly ? 'Edit' : 'Cancel',
-                        disabled: isSubmitting || (isDirty && !isReadOnly),
-                        onClick: () => setIsReadOnly(!isReadOnly),
+                        disabled: isSubmitting,
+                        onClick: () => {
+                          reset()
+                          setIsReadOnly(!isReadOnly)
+                        },
                       },
                     ]),
                 ]}

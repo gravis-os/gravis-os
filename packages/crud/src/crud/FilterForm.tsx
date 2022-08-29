@@ -40,7 +40,7 @@ const FilterForm: React.FC<FilterFormProps> = (props) => {
 
   return (
     <Form
-      form={form}
+      formContext={form}
       onSubmit={handleSubmit}
       formJsx={
         <FormSections disableCard sections={sections} {...formSectionsProps} />
