@@ -7,7 +7,11 @@ import {
   StorageGallery,
 } from '@gravis-os/storage'
 import { GridProps } from '@gravis-os/ui'
-import { CrudModule } from '@gravis-os/types'
+import {
+  CrudContextInterface,
+  CrudModule,
+  UserContextInterface,
+} from '@gravis-os/types'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import FormSectionReadOnlyStack from './FormSectionReadOnlyStack'
 import ControlledAmountField from '../fields/ControlledAmountField'
@@ -21,6 +25,7 @@ import ControlledTextField from '../fields/ControlledTextField'
 import { FormSectionProps } from './FormSection'
 import { FieldEffectOptions } from './FieldEffectProvider'
 import ControlledDateField from '../fields/ControlledDateField'
+import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
 import ControlledDateTimeField from '../fields/ControlledDateTimeField'
 
 export enum FormSectionFieldTypeEnum {
@@ -106,6 +111,9 @@ export interface RenderFieldProps {
   formContext: UseFormReturn
   sectionProps: FormSectionProps
   fieldProps: FormSectionFieldProps
+
+  crudContext?: CrudContextInterface // Available if Form is used in CrudForm
+  userContext?: UserContextInterface // Available if Form is used in CrudForm
 }
 
 /**
@@ -116,11 +124,16 @@ const renderField = (props: RenderFieldProps) => {
   const { control, setValue, formState, watch } = formContext
   const { errors } = formState
 
+  /**
+   * TODO@Steve: Remove this
+   * watch() is an expensive operation.
+   * It’ll mount observers on every field for every field change causing re-renders on every formState change (i.e. every keystroke)
+   * Recommend to pass down formContext, or use useWatch, or other means, etc.
+   */
   const watchedValues = watch()
 
   const {
     isNew,
-    isPreview,
     isReadOnly,
     item,
     disabledFields,
@@ -133,17 +146,9 @@ const renderField = (props: RenderFieldProps) => {
   const { name, disabled, hidden, label: injectedLabel, withCreate } = rest
 
   // Calculate if the field is in disabledFields, else fallback to check if the disabled prop is defined
-  const isDisabled = Boolean(
+  const isDisabled =
     disabledFields?.includes(name) ||
-      (typeof disabled === 'function'
-        ? (disabled as FormSectionFieldBooleanFunction)({
-            isNew,
-            isPreview,
-            isDetail: !isNew && !isPreview,
-            formContext,
-          })
-        : disabled)
-  )
+    getFormSectionFieldBooleanFunction(disabled, props)
 
   // Shared props by all fields
   const commonProps = {
@@ -151,7 +156,7 @@ const renderField = (props: RenderFieldProps) => {
     isNew,
     setValue,
     disabled: isDisabled,
-    hidden: hidden as boolean, // Cast as boolean. Typing purposes
+    hidden: getFormSectionFieldBooleanFunction(hidden, props),
     error: Boolean(errors[name]),
     helperText: errors[name]?.message,
   }

@@ -37,7 +37,7 @@ const Grid: React.FC<GridProps> = (props) => {
       spacing:
         typeof spacing === 'number' || typeof spacing === 'object'
           ? spacing
-          : 2,
+          : { xs: 0, md: 2 },
     }),
   }
 

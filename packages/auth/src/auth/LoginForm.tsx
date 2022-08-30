@@ -1,11 +1,8 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FormProps } from '@gravis-os/form'
-import { useRouter } from 'next/router'
-import toast from 'react-hot-toast'
 import AuthBox, { AuthBoxProps } from './AuthBox'
 import AuthForm from './AuthForm'
 import { handleSignIn } from './SupabaseAuth'
-import useUser from './useUser'
 import useUserRedirectEffect from './useUserRedirectEffect'
 
 export interface LoginFormProps extends Partial<FormProps<any>> {

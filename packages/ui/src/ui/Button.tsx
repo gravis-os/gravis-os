@@ -17,7 +17,7 @@ export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   fullWidthOnMobile?: boolean
   tooltip?: string
   loading?: boolean
-  variant?: 'contained' | 'outlined' | 'text' | 'paper'
+  variant?: 'contained' | 'outlined' | 'text' | 'paper' | 'muted'
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -34,7 +34,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   } = props
   const { color } = rest
 
-  const isCustomVariant = ['paper'].includes(variant)
+  const isCustomVariant = ['paper', 'muted'].includes(variant)
   const buttonProps = loading ? omit(rest, ['startIcon', 'endIcon']) : rest
   const childrenJsxContent = children || title
   const childrenJsx = (
@@ -51,6 +51,11 @@ const Button: React.FC<ButtonProps> = (props) => {
               alpha(theme.palette.background.paper, 0.8),
             color: `${color || 'primary'}.dark`,
           },
+        }),
+        ...(variant === 'muted' && {
+          backgroundColor: 'grey.300',
+          color: 'text.primary',
+          '&:hover': { backgroundColor: 'grey.400' },
         }),
         ...sx,
       }}

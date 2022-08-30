@@ -18,3 +18,9 @@ export * from './getIsAdminWorkspace'
 
 export { default as getIsAdminRole } from './getIsAdminRole'
 export * from './getIsAdminRole'
+
+export { default as getWorkspaceSlugInGetStaticProps } from './getWorkspaceSlugInGetStaticProps'
+export * from './getWorkspaceSlugInGetStaticProps'
+
+export { default as getWorkspaceStaticPathsByRoute } from './getWorkspaceStaticPathsByRoute'
+export * from './getWorkspaceStaticPathsByRoute'

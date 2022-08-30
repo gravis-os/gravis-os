@@ -52,7 +52,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
 
   return (
     <Form
-      form={form}
+      formContext={form}
       onSubmit={handleSubmit}
       formJsx={
         <FormSections

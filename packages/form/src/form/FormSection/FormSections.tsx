@@ -14,7 +14,7 @@ const FormSections: React.FC<FormSectionsProps> = (props) => {
   return (
     <Grid container spacing={2}>
       {sections.map((section) => (
-        <FormSection {...section} {...rest} />
+        <FormSection key={section.key} {...section} {...rest} />
       ))}
     </Grid>
   )

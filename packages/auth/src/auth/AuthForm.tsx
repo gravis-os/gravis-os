@@ -35,7 +35,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
 
   return (
     <Form
-      form={form}
+      formContext={form}
       formJsx={
         <FormSections
           disableCard

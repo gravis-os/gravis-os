@@ -3,17 +3,18 @@ import { Card, Layout, LayoutProps } from '@gravis-os/ui'
 
 export interface CrudFormLayoutProps extends LayoutProps {}
 
-const CrudFormLayout: React.FC<CrudFormLayoutProps> = props => {
+const CrudFormLayout: React.FC<CrudFormLayoutProps> = (props) => {
   const { children, rightAside } = props
 
-  const rightAsideJsx = (
-    <Card title="Actions" disableLastGutterBottom>
-      {rightAside}
-    </Card>
-  )
-
   return (
-    <Layout rightAside={rightAsideJsx} rightAsideSticky>
+    <Layout
+      rightAside={
+        <Card title="Actions" disableLastGutterBottom>
+          {rightAside}
+        </Card>
+      }
+      rightAsideSticky
+    >
       {children}
     </Layout>
   )

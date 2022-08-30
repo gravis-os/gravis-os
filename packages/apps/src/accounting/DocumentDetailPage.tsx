@@ -22,7 +22,7 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
       crudFormProps={{
         disableReadOnlyButton: true,
         disableRedirectOnSuccess: true,
-        formJsxComponent: DocumentFormSections,
+        formTemplate: DocumentFormSections,
         ...crudFormProps,
         useCrudFormProps: {
           afterDelete: () => router.push(module.route.plural),

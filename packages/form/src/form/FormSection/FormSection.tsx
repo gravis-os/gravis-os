@@ -29,6 +29,7 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   // Note that this only controls the section.gridProps. There is also a field.gridProps
   gridProps?: GridProps
 
+  module?: CrudModule
   item?: CrudItem
   isNew?: boolean
   isPreview?: boolean
@@ -45,14 +46,18 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
   actionButtons?: ButtonProps[]
 
   disableCard?: boolean
-  module?: CrudModule
   disabledFields?: string[]
+
+  // Contexts
+  crudContext?: RenderFieldWithWrapperProps['crudContext'] // If Form is used inside CrudForm
+  userContext?: RenderFieldWithWrapperProps['userContext'] // If Form is used inside AuthProvider
 }
 
 const FormSection: React.FC<FormSectionProps> = (props) => {
   const {
     disabledFields,
     disableCard,
+
     item,
     isNew,
     isPreview,
@@ -64,6 +69,10 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     readOnlySx,
     renderReadOnly,
     renderReadOnlySection,
+
+    // Contexts
+    crudContext,
+    userContext,
 
     ...rest
   } = props
@@ -84,14 +93,25 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
           formContext,
           sectionProps: props,
           fieldProps: field,
+          crudContext,
+          userContext,
         })
       )}
     </Grid>
   )
 
+  const renderChildren = () => {
+    switch (true) {
+      case disableCard:
+        return childrenJsx
+      default:
+        return <Card {...rest}>{childrenJsx}</Card>
+    }
+  }
+
   return (
     <Grid item xs={12} {...gridProps}>
-      {disableCard ? childrenJsx : <Card {...rest}>{childrenJsx}</Card>}
+      {renderChildren()}
     </Grid>
   )
 }

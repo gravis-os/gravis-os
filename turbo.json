@@ -11,13 +11,9 @@
       "cache": false
     },
     "yalc:push": {
-      "dependsOn": ["build"],
-      "cache": false
+      "dependsOn": ["build"]
     },
-    "watch": {
-      "dependsOn": ["yalc:push"],
-      "cache": false
-    },
+    "watch": {},
     "tslint": {}
   }
 }

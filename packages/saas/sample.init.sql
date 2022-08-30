@@ -198,25 +198,27 @@ BEGIN
      * For is_permitted_read_only_tables, ensure only read into the tenant's scope
      */
     EXECUTE FORMAT('SELECT
-        		($1 = ANY (SELECT DISTINCT
-        					person.user_id
-        				FROM
-        					public.role_permission
-        					INNER JOIN public.permission ON role_permission.permission_id = permission.id
-        					INNER JOIN public.person ON role_permission.role_id = person.role_id
-        					INNER JOIN public.role ON person.role_id = role.id
-        					INNER JOIN public.workspace ON person.workspace_id = workspace.id
-        					INNER JOIN public.tier ON workspace.tier_id = tier.id
-        					INNER JOIN public.company ON person.company_id = company.id
-        				WHERE
-        					person.user_id = $1
-        					AND (
-        					workspace.title = ''Admin''
-        					OR
-        					($2
-        					AND $3 = %I.id)
-        					)
-      					))', table_name_text)
+         		($1 = ANY (SELECT DISTINCT
+         					person.user_id
+         				FROM
+         					public.role_permission
+         					INNER JOIN public.permission ON role_permission.permission_id = permission.id
+         					INNER JOIN public.person ON role_permission.role_id = person.role_id
+         					INNER JOIN public.role ON person.role_id = role.id
+         					INNER JOIN public.workspace ON person.workspace_id = workspace.id
+         					INNER JOIN public.tier ON workspace.tier_id = tier.id
+         					LEFT JOIN public.tier_feature ON tier_feature.tier_id = tier.id
+         					LEFT JOIN public.feature ON feature.id = tier_feature.feature_id
+         					LEFT JOIN public.company ON person.company_id = company.id
+         				WHERE
+         					person.user_id = $1
+         					AND (
+         					workspace.title = ''Admin''
+         					OR
+         					($2
+         					AND $3 = %I.id)
+         					)
+       					))', table_name_text)
         USING auth_id,
             is_permitted_read_only_table,
             row_id INTO is_permitted_read_only_table_tenant_isolated;
