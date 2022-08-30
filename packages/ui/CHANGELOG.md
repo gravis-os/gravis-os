@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.19
+
+### Patch Changes
+
+- [#54](https://github.com/gravis-os/gravis-os/pull/54) [`1a3ba64`](https://github.com/gravis-os/gravis-os/commit/1a3ba64275fc0952ac747fa4cf63864bd55234cd) Thanks [@winter-steve](https://github.com/winter-steve)! - Provide clicked SplitButton option as parameter to onClick event handler
+
 ## 0.0.18
 
 ### Patch Changes

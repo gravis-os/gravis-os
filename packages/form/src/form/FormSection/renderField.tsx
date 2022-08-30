@@ -26,6 +26,7 @@ import { FormSectionProps } from './FormSection'
 import { FieldEffectOptions } from './FieldEffectProvider'
 import ControlledDateField from '../fields/ControlledDateField'
 import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
+import ControlledDateTimeField from '../fields/ControlledDateTimeField'
 
 export enum FormSectionFieldTypeEnum {
   // String
@@ -53,6 +54,7 @@ export enum FormSectionFieldTypeEnum {
 
   // Date
   DATE = 'date',
+  DATE_TIME = 'date_time',
 }
 
 export type FormSectionFieldBooleanFunction = ({
@@ -197,6 +199,16 @@ const renderField = (props: RenderFieldProps) => {
             sx={readOnlySx}
           />
         )
+      case FormSectionFieldTypeEnum.FILES:
+        const files = item?.[name]
+        return (
+          <FormSectionReadOnlyStack
+            label={label}
+            sx={readOnlySx}
+            title={files}
+            isFiles
+          />
+        )
       default:
         const title = item?.[name]
 
@@ -228,6 +240,8 @@ const renderField = (props: RenderFieldProps) => {
     switch (type) {
       case FormSectionFieldTypeEnum.DATE:
         return <ControlledDateField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.DATE_TIME:
+        return <ControlledDateTimeField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.AMOUNT:
         return <ControlledAmountField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.PERCENTAGE:

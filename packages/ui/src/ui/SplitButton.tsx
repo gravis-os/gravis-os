@@ -1,26 +1,37 @@
-import React, { useState, useRef } from 'react'
+import React, { SyntheticEvent, useRef, useState } from 'react'
 import {
   Button,
   ButtonGroup,
+  ButtonProps,
   ClickAwayListener,
   Grow,
-  Paper,
-  Popper,
   MenuItem,
   MenuList,
-  ButtonProps,
+  Paper,
+  Popper,
 } from '@mui/material'
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 
-interface SplitButtonProps extends ButtonProps {
-  options: { label: string; disabled?: boolean }[]
+export interface SplitButtonOption<T = string> {
+  label: string
+  disabled?: boolean
+  value?: T
+}
+
+interface SplitButtonProps extends Omit<ButtonProps, 'onClick'> {
+  options: SplitButtonOption[]
+  onClick: (option: SplitButtonOption, event: SyntheticEvent) => void
 }
 
 const SplitButton: React.FC<SplitButtonProps> = (props) => {
-  const { options, disabled, ...rest } = props
+  const { options, disabled, onClick, ...rest } = props
   const [open, setOpen] = useState(false)
   const anchorRef = useRef(null)
   const [selectedIndex, setSelectedIndex] = useState(0)
+
+  const handleButtonClick = (event: SyntheticEvent) => {
+    onClick(options[selectedIndex], event)
+  }
 
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index)
@@ -41,7 +52,7 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
   return (
     <>
       <ButtonGroup variant="contained" ref={anchorRef}>
-        <Button disabled={disabled} {...rest}>
+        <Button disabled={disabled} onClick={handleButtonClick} {...rest}>
           {options[selectedIndex].label}
         </Button>
         <Button size="small" disabled={disabled} onClick={handleToggle}>
