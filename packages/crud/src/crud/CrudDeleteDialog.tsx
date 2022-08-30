@@ -28,7 +28,6 @@ export interface CrudDeleteDialogProps
 
 const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
   const {
-    // TODO@Joel: How to tell if i'm doing a single or bulk delete via items?
     items: injectedItems,
     module,
     open: injectedOpen,
@@ -44,6 +43,7 @@ const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
     handleDeleteDialogClose,
     deleteDialogOpen,
   } = useCrud()
+
   const open = injectedOpen || deleteDialogOpen
   const onClose = injectedOnClose || handleDeleteDialogClose
   const onCancel = injectedOnCancel || handleDeleteDialogClose
