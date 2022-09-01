@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SxProps } from '@mui/material'
-import { Stack, Card, Typography, Button } from '@gravis-os/ui'
+import { Button, Card, Stack, Typography } from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import { printSingularOrPluralText } from '@gravis-os/utils'
@@ -127,7 +127,6 @@ const DataTable = React.forwardRef<
         animateRows
         disableResizeGrid
         enableCellChangeFlash
-        rowHeight={56}
         rowSelection="multiple"
         rowDragManaged
         rowDragMultiRow
