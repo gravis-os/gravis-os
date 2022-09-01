@@ -136,7 +136,7 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
         <AgGridReact
           {...rest}
           defaultColDef={{
-            autoHeight: false,
+            autoHeight: true,
             sortable: true,
             filter: true,
             resizable: true,
