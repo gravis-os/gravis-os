@@ -1,14 +1,14 @@
 import React, {
+  forwardRef,
   useCallback,
   useEffect,
-  useState,
   useMemo,
-  forwardRef,
+  useState,
 } from 'react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import {
-  PostgrestResponse,
   PostgrestFilterBuilder,
+  PostgrestResponse,
 } from '@supabase/postgrest-js'
 import {
   Autocomplete,
@@ -20,7 +20,7 @@ import debounce from 'lodash/debounce'
 import startCase from 'lodash/startCase'
 import partition from 'lodash/partition'
 import isEmpty from 'lodash/isEmpty'
-import { CircularProgress, Typography, Stack } from '@gravis-os/ui'
+import { CircularProgress, Stack, Typography } from '@gravis-os/ui'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import { CrudModule } from '@gravis-os/types'
 import TextField from './TextField'
@@ -396,6 +396,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         renderInput={(params) => (
           <TextField
             inputRef={ref}
+            multiline
             label={
               label === false
                 ? null
@@ -456,6 +457,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
               return <li {...props}>{primitiveOptionValue}</li>
           }
         }}
+        sx={{ width: 325 }}
         {...rest}
       />
     </>
