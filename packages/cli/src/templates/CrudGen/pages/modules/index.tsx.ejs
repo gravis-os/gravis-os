@@ -4,7 +4,7 @@ import Head from 'next/head'
 export { withPageAuth } from '@supabase/auth-helpers-nextjs'
 import { routes } from 'app/routes'
 import { ListPage } from '@gravis-os/crud'
-import { DashboardLayout } from '../../../src/components/dashboard/dashboard-layout'
+import DashboardLayout from '@dashboard/layouts/DashboardLayout'
 import {
   <%= props.module.name.camelCase %>ColumnDefs,
   <%= props.module.name.camelCase %>PreviewFormSections,
