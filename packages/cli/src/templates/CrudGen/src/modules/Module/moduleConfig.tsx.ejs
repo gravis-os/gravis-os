@@ -15,21 +15,6 @@ export const <%= props.module.name.camelCase %>FormSections = [
   },
 ]
 
-export const <%= props.module.name.camelCase %>Module = {
-  Icon: BallotOutlinedIcon,
-  sk: 'slug',
-  table: {
-    name: '<%= props.module.name.lowerSnakeCase %>',
-  },
-  name: {
-    singular: '<%= props.module.name.startCase %>',
-    plural: '<%= props.module.pluralName.startCase %>',
-  },
-  route: {
-    plural: routes.<%= props.module.name.upperSnakeCase %>S
-  },
-}
-
 export const <%= props.module.name.camelCase %>PreviewFormSections = <%= props.module.name.camelCase %>FormSections
 
 export const <%= props.module.name.camelCase %>ColumnDefs = [{ field: 'title' }, { field: 'subtitle' }]

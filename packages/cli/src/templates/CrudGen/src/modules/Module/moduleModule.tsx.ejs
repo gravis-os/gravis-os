@@ -1,0 +1,18 @@
+import React from 'react'
+import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined'
+import { routes } from 'app/routes'
+
+export const <%= props.module.name.camelCase %>Module = {
+  Icon: BallotOutlinedIcon,
+  sk: 'slug',
+  table: {
+    name: '<%= props.module.name.lowerSnakeCase %>',
+  },
+  name: {
+    singular: '<%= props.module.name.startCase %>',
+    plural: '<%= props.module.pluralName.startCase %>',
+  },
+  route: {
+    plural: routes.<%= props.module.name.upperSnakeCase %>S
+  },
+}

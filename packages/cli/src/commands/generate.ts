@@ -23,7 +23,7 @@ module.exports = {
         type: 'input',
         name: 'name',
         message:
-          'What is the singular name of the module? (in TitleCase with no spaces) e.g. ProjectGroup',
+          'What is the singular name of the module? (in TitleCase/PascalCase with no spaces) e.g. ProjectGroup',
       })
 
       // if they didn't provide one, we error out
@@ -90,6 +90,10 @@ module.exports = {
       {
         template: 'src/modules/Module/moduleConfig.tsx.ejs',
         target: `src/modules/${module.name.titleCase}/${module.name.camelCase}Config.tsx`,
+      },
+      {
+        template: 'src/modules/Module/moduleModule.tsx.ejs',
+        target: `src/modules/${module.name.titleCase}/${module.name.camelCase}Module.tsx`,
       },
     ]
 
