@@ -57,7 +57,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
   const renderChildren = (): React.ReactNode => {
     switch (true) {
       case isChildrenRenderProp:
-        const formRenderProps = getFormRenderProps(props)
+        const formRenderProps = getFormRenderProps({ ...props, formContext })
         return (children as RenderPropsFunction<FormRenderPropsInterface>)(
           formRenderProps
         )

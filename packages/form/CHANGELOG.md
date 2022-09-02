@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.36
+
+### Patch Changes
+
+- Fix issue with prerender error in getFormRenderProps
+
 ## 0.0.35
 
 ### Patch Changes
