@@ -15,7 +15,8 @@
     "commit": "git-cz",
     "yalc:push": "turbo run yalc:push",
     "watch": "turbo run watch",
-    "tslint": "turbo run tslint"
+    "tslint": "turbo run tslint",
+    "cs:publish": "changeset publish && git push --follow-tags"
   },
   "config": {
     "commitizen": {
