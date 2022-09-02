@@ -11,11 +11,12 @@
     "dev": "turbo run dev --parallel",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "changeset": "changeset",
     "commit": "git-cz",
     "yalc:push": "turbo run yalc:push",
     "watch": "turbo run watch",
     "tslint": "turbo run tslint",
+    "cs": "changeset",
+    "cs:version": "changeset version",
     "cs:publish": "changeset publish && git push --follow-tags"
   },
   "config": {

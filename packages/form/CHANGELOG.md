@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.37
+
+### Patch Changes
+
+- Update props in form renderProps
+
 ## 0.0.36
 
 ### Patch Changes

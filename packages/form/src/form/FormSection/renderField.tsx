@@ -134,6 +134,7 @@ const renderField = (props: RenderFieldProps) => {
 
   const {
     isNew,
+    isPreview,
     isReadOnly,
     item,
     disabledFields,
@@ -148,7 +149,12 @@ const renderField = (props: RenderFieldProps) => {
   // Calculate if the field is in disabledFields, else fallback to check if the disabled prop is defined
   const isDisabled =
     disabledFields?.includes(name) ||
-    getFormSectionFieldBooleanFunction(disabled, props)
+    getFormSectionFieldBooleanFunction(disabled, {
+      ...props,
+      isNew,
+      isReadOnly,
+      isPreview,
+    })
 
   // Shared props by all fields
   const commonProps = {
