@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.10
+
+### Patch Changes
+
+- Update saas bundle as build wasn't update earlier
+
 ## 0.0.9
 
 ### Patch Changes
