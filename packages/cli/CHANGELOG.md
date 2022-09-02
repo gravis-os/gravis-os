@@ -1,5 +1,11 @@
 # @gravis-os/cli
 
+## 0.0.6
+
+### Patch Changes
+
+- [#58](https://github.com/gravis-os/gravis-os/pull/58) [`30ed59c`](https://github.com/gravis-os/gravis-os/commit/30ed59c57e2faac11fbc1114f9b85cb521354528) Thanks [@clodal](https://github.com/clodal)! - Update cli to replace outdated package. Move module out of config
+
 ## 0.0.5
 
 ### Patch Changes
