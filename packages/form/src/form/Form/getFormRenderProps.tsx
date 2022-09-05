@@ -57,30 +57,30 @@ const getFormRenderProps = (props) => {
     />
   )
 
-  const editOrSubmitButtonJsx = (
+  const editOrCancelButtonJsx = (
     <Button
-      variant={isReadOnly ? 'muted' : 'contained'}
+      variant={isReadOnly ? 'contained' : 'muted'}
       color="primary"
       onClick={() => setIsReadOnly(!isReadOnly)}
       fullWidth
-      title={isReadOnly ? 'Edit' : 'Save'}
+      title={isReadOnly ? 'Edit' : 'Cancel'}
       {...(isReadOnly ? editButtonProps : submitButtonProps)}
     />
   )
 
   const formControlJsx = isReadOnly ? (
-    editOrSubmitButtonJsx
+    editOrCancelButtonJsx
   ) : (
     <Stack spacing={1}>
       {submitButtonJsx}
-      {editOrSubmitButtonJsx}
+      {editOrCancelButtonJsx}
     </Stack>
   )
 
   return {
     formJsx,
     formControlJsx,
-    editOrSubmitButtonJsx,
+    editOrCancelButtonJsx,
     submitButtonJsx,
     cancelButtonJsx,
     formContext,
