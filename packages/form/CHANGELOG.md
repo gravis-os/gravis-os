@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.39
+
+### Patch Changes
+
+- Change type check for form sections to enum
+  Fix edit button naming and styling bug
+
 ## 0.0.38
 
 ### Patch Changes
