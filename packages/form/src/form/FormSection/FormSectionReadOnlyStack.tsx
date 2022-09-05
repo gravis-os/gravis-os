@@ -5,13 +5,14 @@ import { File } from '@gravis-os/storage/src/storage/types'
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined'
 import download from 'downloadjs'
 import { useFiles } from '@gravis-os/storage'
+import { FormSectionFieldTypeEnum } from './renderField'
 
 export interface FormSectionReadOnlyStackProps
   extends Omit<StackProps, 'title'> {
   title?: React.ReactNode
   label: React.ReactNode
   disableTitle?: boolean
-  isFiles?: boolean
+  type?: FormSectionFieldTypeEnum
 }
 
 // TODO: export from storage package
@@ -24,8 +25,12 @@ const downloadFromBlobUrl = async (file: File) => {
 const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
   props
 ) => {
-  const { disableTitle, title, label, isFiles, children, ...rest } = props
-  const hasFiles = isFiles && Array.isArray(title) && title.length > 0
+  const { disableTitle, title, label, type, children, ...rest } = props
+  const hasFiles =
+    type !== undefined &&
+    type === FormSectionFieldTypeEnum.FILES &&
+    Array.isArray(title) &&
+    title.length > 0
   const { files } = useFiles({ items: hasFiles ? (title as File[]) : [] })
 
   return (
