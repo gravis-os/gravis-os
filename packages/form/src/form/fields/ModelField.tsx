@@ -457,7 +457,6 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
               return <li {...props}>{primitiveOptionValue}</li>
           }
         }}
-        sx={{ width: 325 }}
         {...rest}
       />
     </>
