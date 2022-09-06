@@ -1,5 +1,5 @@
 import React from 'react'
-import startCase from 'lodash/startCase'
+import { get, startCase } from 'lodash'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import {
   StorageAvatarWithUpload,
@@ -216,7 +216,7 @@ const renderField = (props: RenderFieldProps) => {
           />
         )
       default:
-        const title = item?.[name]
+        const title = get(item, name)
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
