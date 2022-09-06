@@ -92,7 +92,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   })
 
   // Loader
-  const shouldShowLoader = !isGuestPath && !dbUser
+  const shouldShowLoader = !isGuestPath && (authUserLoading || !dbUser)
   const loader = injectedLoader || <CircularProgress fullScreen />
 
   // Auth Context methods
