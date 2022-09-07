@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.38
+
+### Patch Changes
+
+- Enable ag grid table cells to automatically adjust height to fit content
+  Remove default row height in ag grid table
+  Enable model field component to display content in multiple lines
+
 ## 0.0.37
 
 ### Patch Changes
