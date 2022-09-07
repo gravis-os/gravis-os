@@ -27,7 +27,6 @@ const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
 ) => {
   const { disableTitle, title, label, type, children, ...rest } = props
   const hasFiles =
-    type !== undefined &&
     type === FormSectionFieldTypeEnum.FILES &&
     Array.isArray(title) &&
     title.length > 0
