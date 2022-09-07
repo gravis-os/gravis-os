@@ -10,7 +10,7 @@ const observeField = ({ source, target }) => {
 
       if (!isDirty || !nextTargetValue) return previousValues?.[target]
 
-      return { id: nextTargetValue }
+      return nextTargetValue
     },
   }
 }

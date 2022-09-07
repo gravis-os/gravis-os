@@ -169,18 +169,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   // ==============================
   // Update the display value when the formValue from upstream changes
   useEffect(() => {
-    const { id, ...rest } = formValue || {}
-
-    if (formValue?.id) {
-      const hasValues = Object.keys(rest).length
-      const nextValue = hasValues
-        ? getInitialValue(formValue)
-        : options.find((option) => option?.id === id)
-
-      setDisplayValue(nextValue)
-      setFormValue(name, nextValue)
-    }
-  }, [formValue?.id])
+    const defaultValue = getInitialValue(formValue)
+    setDisplayValue(defaultValue)
+  }, [formValue])
 
   // The data fetching function
   const fetchData = useCallback(
@@ -288,8 +279,17 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     return delayFunction(fetchData, 200)
   }, [])
 
-  // Fetch data on inputValue change
+  // Fetch data onChange as the user types
   useEffect(() => {
+    // Handle if blank
+    if (!multiple && inputValue === '') {
+      const singleOptions = displayValue ? [displayValue] : []
+      const multipleOptions = getInitialValue(displayValue)
+      return setOptions(multiple ? multipleOptions : singleOptions)
+    }
+    // Prevent issue with unnecessary fetch from onSelect
+    if (!open) return
+    // Fetch data
     fetchDataWithDelay({ inputValue })
   }, [inputValue])
 
