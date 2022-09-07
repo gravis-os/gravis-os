@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.17
+
+### Patch Changes
+
+- [#61](https://github.com/gravis-os/gravis-os/pull/61) [`7941ceb`](https://github.com/gravis-os/gravis-os/commit/7941cebc696a0922022fa39469c04c95fee16fd1) Thanks [@al1xt](https://github.com/al1xt)! - fix useUser returning null when auth is still loading by deferring its usage until after
+
+- Updated dependencies [[`1ef317c`](https://github.com/gravis-os/gravis-os/commit/1ef317c7a3390ee1bbe46ae3244e2f4dc9e1e744), [`4913f41`](https://github.com/gravis-os/gravis-os/commit/4913f41f3883703d4fa104d11685691dfcb7c1a5), [`58b6f9c`](https://github.com/gravis-os/gravis-os/commit/58b6f9c5de13e43c269a14ed1d1ae99cfa05d3fd)]:
+  - @gravis-os/form@0.0.39
+
 ## 0.0.16
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.40
+
+### Patch Changes
+
+- rebuild
+
+## 0.0.39
+
+### Patch Changes
+
+- [#62](https://github.com/gravis-os/gravis-os/pull/62) [`1ef317c`](https://github.com/gravis-os/gravis-os/commit/1ef317c7a3390ee1bbe46ae3244e2f4dc9e1e744) Thanks [@winter-steve](https://github.com/winter-steve)! - allow nested object properties as renderField title
+
+* [#63](https://github.com/gravis-os/gravis-os/pull/63) [`4913f41`](https://github.com/gravis-os/gravis-os/commit/4913f41f3883703d4fa104d11685691dfcb7c1a5) Thanks [@winter-steve](https://github.com/winter-steve)! - add observeField effect to allow reactive model fields value changes on form values changes
+
+- [#64](https://github.com/gravis-os/gravis-os/pull/64) [`58b6f9c`](https://github.com/gravis-os/gravis-os/commit/58b6f9c5de13e43c269a14ed1d1ae99cfa05d3fd) Thanks [@robyonextech](https://github.com/robyonextech)! - Add fallback label value for injected primary key in ModelField
+
 ## 0.0.38
 
 ### Patch Changes
