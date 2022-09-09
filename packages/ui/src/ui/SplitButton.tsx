@@ -19,13 +19,14 @@ export interface SplitButtonOption<T = string> {
   render?: () => React.ReactNode
 }
 
-interface SplitButtonProps extends Omit<ButtonProps, 'onClick'> {
+interface SplitButtonProps extends Omit<ButtonProps, 'onClick' | 'onChange'> {
   options: SplitButtonOption[]
   onClick: (option: SplitButtonOption, event: SyntheticEvent) => void
+  onChange?: (option: SplitButtonOption) => void
 }
 
 const SplitButton: React.FC<SplitButtonProps> = (props) => {
-  const { options, disabled, onClick, ...rest } = props
+  const { options, disabled, onClick, onChange, ...rest } = props
   const [open, setOpen] = useState(false)
   const anchorRef = useRef(null)
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -38,6 +39,7 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
   const handleMenuItemClick = (event, index) => {
     setSelectedIndex(index)
     setOpen(false)
+    onChange?.(options[index])
   }
 
   const handleToggle = () => {
