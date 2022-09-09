@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.22
+
+### Patch Changes
+
+- [#68](https://github.com/gravis-os/gravis-os/pull/68) [`a0589f4`](https://github.com/gravis-os/gravis-os/commit/a0589f49bc81bc94205c519fb2a96b29bbda6600) Thanks [@winter-steve](https://github.com/winter-steve)! - Add onChange event in SplitButton that emits the selected menu item option
+
+* [#67](https://github.com/gravis-os/gravis-os/pull/67) [`0888075`](https://github.com/gravis-os/gravis-os/commit/088807574129f0c0e471bdb002f692170d5b0ffe) Thanks [@al1xt](https://github.com/al1xt)! - update SplitButton to render custom jsx and allow toggling when disabled
+
 ## 0.0.21
 
 ### Patch Changes
