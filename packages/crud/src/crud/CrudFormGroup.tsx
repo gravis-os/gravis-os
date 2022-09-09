@@ -42,7 +42,9 @@ const CrudFormGroup: React.FC<CrudFormGroupProps> = (props) => {
                   { key: 'cancel', children: cancelButtonJsx },
                   { key: 'edit-or-submit', children: editOrSubmitButtonJsx },
                 ]}
-                actionProps={{ sx: { justifyContent: 'space-between' } }}
+                actionProps={{
+                  sx: { justifyContent: 'space-between', px: 2, pb: 2 },
+                }}
               >
                 {formJsx}
               </Card>

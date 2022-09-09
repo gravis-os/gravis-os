@@ -54,7 +54,7 @@ const error = {
   contrastText: neutral[900],
 }
 const text = {
-  primary: '#EDF2F7',
+  primary: '#edf2f7',
   secondary: '#A0AEC0',
   disabled: 'rgba(255, 255, 255, 0.48)',
 }
@@ -66,6 +66,15 @@ const deviasThemeDark: ThemeOptions = {
         root: {
           backgroundColor: neutral[500],
           color: '#FFFFFF',
+        },
+      },
+    },
+    MuiButton: {
+      styleOverrides: {
+        root: {
+          '&.MuiButton-text': {
+            color: neutral[800],
+          },
         },
       },
     },

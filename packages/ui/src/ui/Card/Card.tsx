@@ -144,7 +144,15 @@ const Card: React.FC<CardProps> = (props) => {
   // ==============================
   // Actions
   // ==============================
-  const cardActionProps = { ...injectedCardActionProps }
+  const cardActionProps = {
+    ...injectedCardActionProps,
+    sx: {
+      '&&': {
+        backgroundColor: 'background.paper',
+        ...injectedCardActionProps?.sx,
+      },
+    } as CardActionsProps['sx'],
+  }
 
   const contentJsx = (
     <>
