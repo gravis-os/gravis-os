@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.41
+
+### Patch Changes
+
+- [#66](https://github.com/gravis-os/gravis-os/pull/66) [`f79489b`](https://github.com/gravis-os/gravis-os/commit/f79489b7c47e4940fb1b06b6f2914d690474ee4c) Thanks [@winter-steve](https://github.com/winter-steve)! - Provide formContext in render method
+
+- Updated dependencies [[`a0589f4`](https://github.com/gravis-os/gravis-os/commit/a0589f49bc81bc94205c519fb2a96b29bbda6600), [`0888075`](https://github.com/gravis-os/gravis-os/commit/088807574129f0c0e471bdb002f692170d5b0ffe)]:
+  - @gravis-os/ui@0.0.22
+
 ## 0.0.40
 
 ### Patch Changes

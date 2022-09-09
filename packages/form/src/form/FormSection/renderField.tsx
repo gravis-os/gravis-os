@@ -98,7 +98,10 @@ export interface FormSectionFieldProps {
   filterKey?: string
 
   // Render - manage custom renders for installing hooks
-  render?: ({ children }: { children: React.ReactNode }) => any // Typings not working here should be React.ReactNode
+  render?: (props: {
+    children: React.ReactNode
+    formContext: UseFormReturn
+  }) => any // Typings not working here should be React.ReactNode
 
   // Declares the column names of non-foreign keys on the related many-to-many table for saving
   manyToManyExtraColumnKeys?: string[]
@@ -123,14 +126,6 @@ const renderField = (props: RenderFieldProps) => {
   const { formContext, sectionProps, fieldProps } = props
   const { control, setValue, formState, watch } = formContext
   const { errors } = formState
-
-  /**
-   * TODO@Steve: Remove this
-   * watch() is an expensive operation.
-   * It’ll mount observers on every field for every field change causing re-renders on every formState change (i.e. every keystroke)
-   * Recommend to pass down formContext, or use useWatch, or other means, etc.
-   */
-  const watchedValues = watch()
 
   const {
     isNew,
@@ -338,8 +333,8 @@ const renderField = (props: RenderFieldProps) => {
 
   return render
     ? render({
+        formContext,
         children: childrenJsx,
-        ...(withCreate && { defaultValues: watchedValues }),
       })
     : childrenJsx
 }
