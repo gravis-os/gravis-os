@@ -61,7 +61,7 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
             {label}
           </Button>
         )}
-        <Button size="small" disabled={disabled} onClick={handleToggle}>
+        <Button size="small" onClick={handleToggle}>
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>
