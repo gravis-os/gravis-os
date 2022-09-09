@@ -20,6 +20,7 @@ import {
 } from './hocs'
 import { UsePreviewDrawerReturn } from '../usePreviewDrawer'
 import { CrudTableColumnDef } from '../../types'
+import { useCrud } from '../index'
 
 export interface UseGetCrudTableColumnDefsProps {
   columnDefs?: CrudTableColumnDef[]
@@ -63,11 +64,12 @@ const useGetCrudTableColumnDefs = (
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
 
+  const crudContext = useCrud()
   // Column addons
   const nextColumnDefs = React.useMemo(
     () =>
       flowRight([
-        withCheckboxSelection(),
+        withCheckboxSelection({ crudContext }),
         withFallbackPlaceholder({
           fallbackPlaceholder,
           disableFallbackPlaceholder,
@@ -84,6 +86,7 @@ const useGetCrudTableColumnDefs = (
         withHide({ user }),
       ])(injectedColumnDefs).filter(({ field }) => field !== 'actions'),
     [
+      crudContext,
       disablePreview,
       disableTitle,
       injectedColumnDefs,
