@@ -14,6 +14,7 @@ const CrudProvider: React.FC<CrudProviderProps> = (props) => {
   const { children, ...rest } = props
 
   const [selectedItems, setSelectedItems] = useState([])
+  const [splitButtonOption, setSplitButtonOption] = useState<string>()
 
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false)
   const handleDeleteDialogOpen = () => setDeleteDialogOpen(true)
@@ -22,6 +23,9 @@ const CrudProvider: React.FC<CrudProviderProps> = (props) => {
   return (
     <CrudContext.Provider
       value={{
+        splitButtonOption,
+        setSplitButtonOption,
+
         // Selected Items
         selectedItems,
         setSelectedItems,

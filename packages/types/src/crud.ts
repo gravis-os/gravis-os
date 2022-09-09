@@ -25,6 +25,9 @@ export type CrudItem =
 // Context
 // ==============================
 export interface CrudContextInterface<AppCrudModule = any, AppCrudItem = any> {
+  splitButtonOption: string
+  setSplitButtonOption: React.Dispatch<React.SetStateAction<string>>
+
   selectedItems: AppCrudItem[]
   setSelectedItems: React.Dispatch<React.SetStateAction<AppCrudItem[]>>
   hasSelectedItems: boolean
