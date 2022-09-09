@@ -16,6 +16,7 @@ export interface SplitButtonOption<T = string> {
   label: string
   disabled?: boolean
   value?: T
+  render?: () => React.ReactNode
 }
 
 interface SplitButtonProps extends Omit<ButtonProps, 'onClick'> {
@@ -28,6 +29,7 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
   const [open, setOpen] = useState(false)
   const anchorRef = useRef(null)
   const [selectedIndex, setSelectedIndex] = useState(0)
+  const { label, render } = options[selectedIndex] || {}
 
   const handleButtonClick = (event: SyntheticEvent) => {
     onClick(options[selectedIndex], event)
@@ -52,9 +54,13 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
   return (
     <>
       <ButtonGroup variant="contained" ref={anchorRef}>
-        <Button disabled={disabled} onClick={handleButtonClick} {...rest}>
-          {options[selectedIndex].label}
-        </Button>
+        {typeof render === 'function' ? (
+          render()
+        ) : (
+          <Button disabled={disabled} onClick={handleButtonClick} {...rest}>
+            {label}
+          </Button>
+        )}
         <Button size="small" disabled={disabled} onClick={handleToggle}>
           <ArrowDropDownIcon />
         </Button>
