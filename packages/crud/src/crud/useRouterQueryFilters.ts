@@ -9,7 +9,7 @@ import { getRelationalObjectKey } from '@gravis-os/form'
  * so that we can enable filters via deep-links and have other components
  * control the filter state.
  */
-const useRouterQueryFilters = args => {
+const useRouterQueryFilters = (args) => {
   const { filterFields } = args
 
   // Router
@@ -17,7 +17,7 @@ const useRouterQueryFilters = args => {
   const { pathname, query: routerQuery } = router
 
   // Get query params to set into the router with the existing filters
-  const getRouterQueryFromFilters = filters =>
+  const getRouterQueryFromFilters = (filters) =>
     Object.entries(filters).reduce((acc, filter) => {
       const [key, value] = filter
 
@@ -37,7 +37,7 @@ const useRouterQueryFilters = args => {
 
         // Check if this field is a valid filter
         const filterField = filterFields.find(
-          filterField => filterField.key === key
+          (filterField) => filterField.key === key
         )
         if (!filterField) return defaultReturn
 
@@ -61,8 +61,8 @@ const useRouterQueryFilters = args => {
       return defaultReturn
     }, {})
 
-  const getValidFilters = filters => {
-    const filterFieldKeys = filterFields.map(field => field.key)
+  const getValidFilters = (filters) => {
+    const filterFieldKeys = filterFields.map((field) => field.key)
     return Object.entries(filters).reduce((acc, filter) => {
       const [key, value] = filter
       const isFilterKeyFoundInFilterFields = filterFieldKeys.includes(key)
@@ -71,9 +71,15 @@ const useRouterQueryFilters = args => {
     }, {})
   }
 
-  const setFilters = filters => {
+  const setFilters = (filters) => {
     const nextRouterQuery = getRouterQueryFromFilters(filters)
-    return router.push({ pathname, query: nextRouterQuery })
+
+    const isWorkspacePathname = pathname.startsWith('/_workspaces/[workspace]')
+    const [_, ...workspaceSubpath] =
+      isWorkspacePathname && pathname.split('/_workspaces/[workspace]')
+    const nextPathname = workspaceSubpath ? workspaceSubpath[0] : pathname
+
+    return router.push({ pathname: nextPathname, query: nextRouterQuery })
   }
 
   const filters = getValidFilters(routerQuery)

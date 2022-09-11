@@ -95,7 +95,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
 
   // If no value return null so the grid won't return an empty space
   const value = item?.[(fieldProps as FormSectionFieldProps).name]
-  if (isNil(value)) return null
+  if (item && isNil(value)) return null
 
   // Define children (default)
   const childrenJsx = (
