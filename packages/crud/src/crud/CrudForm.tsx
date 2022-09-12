@@ -35,7 +35,7 @@ export interface CrudFormProps {
   headerProps?: Partial<DetailPageHeaderProps>
   hidden?: boolean | HiddenFunction
   children?: FormProps<any>['children']
-  refetch?: () => Promise<CrudItem>
+  refetch?: UseCrudFormArgs['refetch']
   loading?: boolean
   disableReadOnlyButton?: boolean
   disableRedirectOnSuccess?: boolean

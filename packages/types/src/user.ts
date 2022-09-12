@@ -51,6 +51,7 @@ export interface UserContextInterface<AppDbUser = any> {
   dbUserLoading: boolean
   dbUserFetching: boolean
   dbUserQueryResult: any
+  refetchDbUserQuery: () => any
 
   logout: () => Promise<boolean>
 

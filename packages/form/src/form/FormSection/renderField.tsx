@@ -124,7 +124,7 @@ export interface RenderFieldProps {
  */
 const renderField = (props: RenderFieldProps) => {
   const { formContext, sectionProps, fieldProps } = props
-  const { control, setValue, formState, watch } = formContext
+  const { control, setValue, formState } = formContext
   const { errors } = formState
 
   const {
@@ -162,12 +162,16 @@ const renderField = (props: RenderFieldProps) => {
     helperText: errors[name]?.message,
   }
 
+  // ==============================
+  // Read Only Render
+  // ==============================
   if (isReadOnly) {
     const label = injectedLabel || startCase(name)
 
     // Handle custom render
     const hasRenderReadOnly = typeof renderReadOnly === 'function'
 
+    // Switch statements for managing readOnly mode for each field type
     switch (type) {
       case FormSectionFieldTypeEnum.MODEL:
         const modelName = getRelationalObjectKey(name)
@@ -178,9 +182,9 @@ const renderField = (props: RenderFieldProps) => {
         const modelValue = item[getRelationalObjectKey(name)]
 
         // Escape if no value found
-        if (!modelValue) return null
+        if (!isReadOnly && !modelValue) return null
 
-        const modelTitle = modelValue[module.pk || 'title']
+        const modelTitle = modelValue?.[module.pk || 'title']
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
@@ -200,6 +204,8 @@ const renderField = (props: RenderFieldProps) => {
             sx={readOnlySx}
           />
         )
+      case FormSectionFieldTypeEnum.IMAGE:
+      case FormSectionFieldTypeEnum.IMAGES:
       case FormSectionFieldTypeEnum.FILES:
         const files = item?.[name]
         return (
@@ -331,12 +337,7 @@ const renderField = (props: RenderFieldProps) => {
   }
   const childrenJsx = getChildrenJsx()
 
-  return render
-    ? render({
-        formContext,
-        children: childrenJsx,
-      })
-    : childrenJsx
+  return render ? render({ formContext, children: childrenJsx }) : childrenJsx
 }
 
 export default renderField

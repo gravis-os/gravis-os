@@ -1,5 +1,4 @@
 import React from 'react'
-import isNil from 'lodash/isNil'
 import { Grid } from '@gravis-os/ui'
 import { UseFormReturn } from 'react-hook-form'
 import FieldEffectProvider, {
@@ -7,7 +6,6 @@ import FieldEffectProvider, {
 } from './FieldEffectProvider'
 import { FormSectionProps } from './FormSection'
 import renderField, {
-  FormSectionFieldBooleanFunction,
   FormSectionFieldProps,
   RenderFieldProps,
 } from './renderField'
@@ -92,10 +90,6 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   // Calculate hidden field
   const isHidden = getFormSectionFieldBooleanFunction(hidden, props)
   if (isHidden) return null
-
-  // If no value return null so the grid won't return an empty space
-  const value = item?.[(fieldProps as FormSectionFieldProps).name]
-  if (item && isNil(value)) return null
 
   // Define children (default)
   const childrenJsx = (

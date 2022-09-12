@@ -13,10 +13,10 @@ export interface CrudModule {
 
 export type CrudItem =
   | {
-      id: number
+      id: number | string
       title: string
-      subtitle?: string
-      avatar_src?: string
+      subtitle?: string | null
+      avatar_src?: string | null
     }
   | undefined
   | null

@@ -129,12 +129,14 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
         authUser,
         authUserLoading,
 
-        user: nextUser || {},
+        user: nextUser,
 
         dbUser,
         dbUserLoading,
         dbUserFetching,
         dbUserQueryResult,
+        refetchDbUserQuery,
+
         // Methods
         logout,
         // Routes

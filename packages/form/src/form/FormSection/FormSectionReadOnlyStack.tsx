@@ -11,6 +11,7 @@ export interface FormSectionReadOnlyStackProps
   title?: React.ReactNode
   label: React.ReactNode
   disableTitle?: boolean
+  // TODO: Refactor isFiles variant out to another component
   isFiles?: boolean
 }
 
@@ -18,7 +19,18 @@ export interface FormSectionReadOnlyStackProps
 const downloadFromBlobUrl = async (file: File) => {
   const { url, name, type } = file
   const blob = await fetch(url).then((r) => r.blob())
-  download(blob, name, type)
+  return download(blob, name, type)
+}
+
+const getDisplayTitle = (title) => {
+  switch (true) {
+    case typeof title === 'boolean':
+      return title ? 'Yes' : 'No'
+    case typeof title === 'string' || React.isValidElement(title):
+      return title
+    default:
+      return '-'
+  }
 }
 
 const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
@@ -28,12 +40,17 @@ const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
   const hasFiles = isFiles && Array.isArray(title) && title.length > 0
   const { files } = useFiles({ items: hasFiles ? (title as File[]) : [] })
 
+  const displayTitle = getDisplayTitle(title)
+
   return (
     <Stack spacing={1}>
       <Stack spacing={0.5} {...rest}>
+        {/* Overline */}
         <Typography variant="overline" color="text.secondary">
           {label}
         </Typography>
+
+        {/* Title */}
         {!disableTitle &&
           // Handle when files are fed as the title
           (hasFiles ? (
@@ -73,7 +90,7 @@ const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
               })}
             </List>
           ) : (
-            <Typography variant="subtitle1">{title || '-'}</Typography>
+            <Typography variant="subtitle1">{displayTitle}</Typography>
           ))}
       </Stack>
 
