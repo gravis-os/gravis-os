@@ -382,7 +382,18 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             setFormValue(relationalObjectKey, nextFormValue)
           }
         }}
-        onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+        onInputChange={(event, newInputValue) => {
+          if (newInputValue === '') {
+            setDisplayValue(null)
+
+            if (name.endsWith('_id')) {
+              const relationalObjectKey = getRelationalObjectKey(name)
+              setFormValue(relationalObjectKey, null)
+            }
+          }
+
+          setInputValue(newInputValue)
+        }}
         getOptionLabel={(option) => {
           if (!option) return ''
           // Fallback primary key value if the injected primary key returns null or undefined
