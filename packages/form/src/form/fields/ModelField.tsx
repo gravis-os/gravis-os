@@ -281,12 +281,6 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
   // Fetch data onChange as the user types
   useEffect(() => {
-    // Handle if blank
-    if (!multiple && inputValue === '') {
-      const singleOptions = displayValue ? [displayValue] : []
-      const multipleOptions = getInitialValue(displayValue)
-      return setOptions(multiple ? multipleOptions : singleOptions)
-    }
     // Prevent issue with unnecessary fetch from onSelect
     if (!open) return
     // Fetch data
