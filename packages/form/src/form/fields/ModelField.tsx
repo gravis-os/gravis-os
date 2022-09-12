@@ -390,7 +390,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         }}
         onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
         getOptionLabel={(option) => {
-          if (!option) return
+          if (!option) return ''
           // Fallback primary key value if the injected primary key returns null or undefined
           return typeof option === 'string'
             ? option
