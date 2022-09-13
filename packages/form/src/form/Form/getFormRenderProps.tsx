@@ -6,7 +6,7 @@ import { FormSectionsProps } from '../FormSection/FormSections'
 
 export interface FormRenderPropsInterface {
   formJsx: React.ReactElement // The title and fields
-  formControlJsx: React.ReactElement // The submit and eidt buttons
+  formControlJsx: React.ReactElement // The submit and edit buttons
   editOrSubmitButtonJsx: React.ReactElement // The edit button only
   submitButtonJsx: React.ReactElement // The submit button only
   cancelButtonJsx: React.ReactElement // The cancel button only
@@ -64,7 +64,7 @@ const getFormRenderProps = (props) => {
       onClick={() => setIsReadOnly(!isReadOnly)}
       fullWidth
       title={isReadOnly ? 'Edit' : 'Save'}
-      type={isReadOnly ? 'submit' : 'button'}
+      type={isReadOnly ? 'button' : 'submit'}
       {...(isReadOnly ? editButtonProps : submitButtonProps)}
     />
   )
@@ -74,7 +74,7 @@ const getFormRenderProps = (props) => {
   ) : (
     <Stack spacing={1}>
       {submitButtonJsx}
-      {editOrSubmitButtonJsx}
+      {cancelButtonJsx}
     </Stack>
   )
 

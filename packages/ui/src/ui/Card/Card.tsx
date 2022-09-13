@@ -54,6 +54,7 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
 
   // Padding
   py?: number
+  padding?: number
 
   // Flex
   stretch?: boolean
@@ -91,6 +92,7 @@ const Card: React.FC<CardProps> = (props) => {
     actions,
     sx,
     py,
+    padding,
     stretch,
     disableHeader,
     disableHeaderDivider,
@@ -134,10 +136,14 @@ const Card: React.FC<CardProps> = (props) => {
     ...contentProps,
     sx: {
       ...contentProps?.sx,
-      ...(disableLastGutterBottom && {
-        '&&.MuiCardContent-root': { pb: 1 },
-      }),
       ...(disablePadding && { p: 0 }),
+      ...(padding && { p: padding }),
+      // Overwrite the padding bottom that MUI ships with by default
+      ...((disableLastGutterBottom || typeof padding === 'number') && {
+        '&&.MuiCardContent-root': {
+          pb: typeof padding === 'number' ? padding : 1,
+        },
+      }),
     },
   }
 

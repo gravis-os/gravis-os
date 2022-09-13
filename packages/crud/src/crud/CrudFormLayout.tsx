@@ -9,7 +9,7 @@ const CrudFormLayout: React.FC<CrudFormLayoutProps> = (props) => {
   return (
     <Layout
       rightAside={
-        <Card title="Actions" disableLastGutterBottom>
+        <Card title="Actions" padding={2}>
           {rightAside}
         </Card>
       }
