@@ -271,13 +271,14 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         if (nextValue) setDisplayValue(nextValue)
       }
     },
-    [table.name, pk]
+    [table.name, pk, isPrimitiveValue]
   )
 
   // Fetch function with delay via debounce/throttle. Memoized for better perf
-  const fetchDataWithDelay = useMemo(() => {
-    return delayFunction(fetchData, 200)
-  }, [])
+  const fetchDataWithDelay = useMemo(
+    () => delayFunction(fetchData, 200),
+    [fetchData]
+  )
 
   // Fetch data onChange as the user types
   useEffect(() => {
