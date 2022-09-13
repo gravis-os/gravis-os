@@ -173,6 +173,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
           setIsReadOnly(true)
         })()
       },
+      color: 'primary',
     },
     {
       key: 'print',
@@ -192,7 +193,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
       onConfirm={() => onDelete(item)}
     />,
     ...injectedActionButtons,
-  ].map((item) => ({ ...item, color: 'inherit' as ButtonProps['color'] }))
+  ].map((item) => ({ color: 'inherit' as ButtonProps['color'], ...item }))
 
   return (
     <Stack spacing={2}>
