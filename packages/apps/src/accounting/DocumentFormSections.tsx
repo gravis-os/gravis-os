@@ -86,7 +86,7 @@ const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
             <PhoneIphoneOutlinedIcon color="primary" fontSize="small" />
           }
         >
-          {value.mobile}
+          {value?.mobile}
         </Typography>
 
         <Typography
@@ -94,7 +94,7 @@ const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
           variant="body2"
           startIcon={<EmailOutlinedIcon color="primary" fontSize="small" />}
         >
-          {value.email}
+          {value?.email}
         </Typography>
       </Stack>
     </FormSectionReadOnlyStack>
