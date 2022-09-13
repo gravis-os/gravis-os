@@ -281,12 +281,6 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
   // Fetch data onChange as the user types
   useEffect(() => {
-    // Handle if blank
-    if (!multiple && inputValue === '') {
-      const singleOptions = displayValue ? [displayValue] : []
-      const multipleOptions = getInitialValue(displayValue)
-      return setOptions(multiple ? multipleOptions : singleOptions)
-    }
     // Prevent issue with unnecessary fetch from onSelect
     if (!open) return
     // Fetch data
@@ -388,9 +382,20 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             setFormValue(relationalObjectKey, nextFormValue)
           }
         }}
-        onInputChange={(event, newInputValue) => setInputValue(newInputValue)}
+        onInputChange={(event, newInputValue) => {
+          if (newInputValue === '') {
+            setDisplayValue(null)
+
+            if (name.endsWith('_id')) {
+              const relationalObjectKey = getRelationalObjectKey(name)
+              setFormValue(relationalObjectKey, null)
+            }
+          }
+
+          setInputValue(newInputValue)
+        }}
         getOptionLabel={(option) => {
-          if (!option) return
+          if (!option) return ''
           // Fallback primary key value if the injected primary key returns null or undefined
           return typeof option === 'string'
             ? option
