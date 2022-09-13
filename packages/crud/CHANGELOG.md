@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.0.36
+
+### Patch Changes
+
+- [`1a19199`](https://github.com/gravis-os/gravis-os/commit/1a19199613b5aced5206cd58bf440288dcb2be1d) Thanks [@clodal](https://github.com/clodal)! - Update getFormRenderProps to fix saving when using editOrSubmitButtonJsx
+
+* [#72](https://github.com/gravis-os/gravis-os/pull/72) [`dc6812a`](https://github.com/gravis-os/gravis-os/commit/dc6812a8214392f49dc9d485f14d859bfac789fd) Thanks [@clodal](https://github.com/clodal)! - Fix issue with search in ListPage
+
+- [`6f9d4f1`](https://github.com/gravis-os/gravis-os/commit/6f9d4f15c59bd1fe287075c13996fec2ac1a6c83) Thanks [@clodal](https://github.com/clodal)! - Fix editOrSubmitButtonJsx rendering 2 save buttons
+
+* [#72](https://github.com/gravis-os/gravis-os/pull/72) [`6d243bc`](https://github.com/gravis-os/gravis-os/commit/6d243bc9703e8b33d126ca240aae4ff55fb5f7b9) Thanks [@clodal](https://github.com/clodal)! - Style Card component
+
+- [#72](https://github.com/gravis-os/gravis-os/pull/72) [`c4a6d46`](https://github.com/gravis-os/gravis-os/commit/c4a6d46fe84010da689a29b5cdb8ba46d2dc8f75) Thanks [@clodal](https://github.com/clodal)! - Update form saving action in Form
+
+* [#72](https://github.com/gravis-os/gravis-os/pull/72) [`6cf49b3`](https://github.com/gravis-os/gravis-os/commit/6cf49b3e711ef9c4acf328cbfc5b3320e10331ab) Thanks [@clodal](https://github.com/clodal)! - Update styles in CrudFormGroup
+
+* Updated dependencies [[`1a19199`](https://github.com/gravis-os/gravis-os/commit/1a19199613b5aced5206cd58bf440288dcb2be1d), [`dc6812a`](https://github.com/gravis-os/gravis-os/commit/dc6812a8214392f49dc9d485f14d859bfac789fd), [`643a5f0`](https://github.com/gravis-os/gravis-os/commit/643a5f007fa1a3ae36401d42b383eb110ff35086), [`6f9d4f1`](https://github.com/gravis-os/gravis-os/commit/6f9d4f15c59bd1fe287075c13996fec2ac1a6c83), [`2a00ed3`](https://github.com/gravis-os/gravis-os/commit/2a00ed39ebac6087f5523c26c1d2d6751a1bb98b), [`9d44b57`](https://github.com/gravis-os/gravis-os/commit/9d44b5765604c77be68cef1e52fc3d1cfd82729a), [`6d243bc`](https://github.com/gravis-os/gravis-os/commit/6d243bc9703e8b33d126ca240aae4ff55fb5f7b9), [`c4a6d46`](https://github.com/gravis-os/gravis-os/commit/c4a6d46fe84010da689a29b5cdb8ba46d2dc8f75), [`6cf49b3`](https://github.com/gravis-os/gravis-os/commit/6cf49b3e711ef9c4acf328cbfc5b3320e10331ab)]:
+  - @gravis-os/form@0.0.42
+  - @gravis-os/ui@0.0.23
+  - @gravis-os/auth@0.0.18
+  - @gravis-os/storage@0.0.13
+  - @gravis-os/types@0.0.10
+
 ## 0.0.35
 
 ### Patch Changes

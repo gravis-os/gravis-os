@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.23
+
+### Patch Changes
+
+- [`6f9d4f1`](https://github.com/gravis-os/gravis-os/commit/6f9d4f15c59bd1fe287075c13996fec2ac1a6c83) Thanks [@clodal](https://github.com/clodal)! - Fix editOrSubmitButtonJsx rendering 2 save buttons
+
+* [`2a00ed3`](https://github.com/gravis-os/gravis-os/commit/2a00ed39ebac6087f5523c26c1d2d6751a1bb98b) Thanks [@clodal](https://github.com/clodal)! - Remove scrollbar from Drawer
+
+- [#72](https://github.com/gravis-os/gravis-os/pull/72) [`6d243bc`](https://github.com/gravis-os/gravis-os/commit/6d243bc9703e8b33d126ca240aae4ff55fb5f7b9) Thanks [@clodal](https://github.com/clodal)! - Style Card component
+
+* [#72](https://github.com/gravis-os/gravis-os/pull/72) [`6cf49b3`](https://github.com/gravis-os/gravis-os/commit/6cf49b3e711ef9c4acf328cbfc5b3320e10331ab) Thanks [@clodal](https://github.com/clodal)! - Update styles in CrudFormGroup
+
+* Updated dependencies [[`c4a6d46`](https://github.com/gravis-os/gravis-os/commit/c4a6d46fe84010da689a29b5cdb8ba46d2dc8f75)]:
+  - @gravis-os/types@0.0.10
+
 ## 0.0.22
 
 ### Patch Changes

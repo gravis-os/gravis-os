@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.10
+
+### Patch Changes
+
+- [#72](https://github.com/gravis-os/gravis-os/pull/72) [`c4a6d46`](https://github.com/gravis-os/gravis-os/commit/c4a6d46fe84010da689a29b5cdb8ba46d2dc8f75) Thanks [@clodal](https://github.com/clodal)! - Update form saving action in Form
+
 ## 0.0.9
 
 ### Patch Changes
