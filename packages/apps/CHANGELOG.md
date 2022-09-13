@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.24
+
+### Patch Changes
+
+- [#73](https://github.com/gravis-os/gravis-os/pull/73) [`48fb8a8`](https://github.com/gravis-os/gravis-os/commit/48fb8a864d13199683fb23d128aae8ad042c06b9) Thanks [@al1xt](https://github.com/al1xt)! - Fix type error in ContactReadOnlyFormSection
+
 ## 0.0.23
 
 ### Patch Changes
