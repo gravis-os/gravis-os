@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.43
+
+### Patch Changes
+
+- [#70](https://github.com/gravis-os/gravis-os/pull/70) [`d135321`](https://github.com/gravis-os/gravis-os/commit/d1353212f36e87e37b5bce11263f527c33aa269f) Thanks [@winter-steve](https://github.com/winter-steve)! - Show all model options and clear the autocomplete/form state when clearing the input field
+
 ## 0.0.42
 
 ### Patch Changes
