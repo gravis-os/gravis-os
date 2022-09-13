@@ -10,6 +10,9 @@ import withHref from './withHref'
 import withTooltip from './withTooltip'
 import CircularProgress from './CircularProgress'
 
+const BUTTON_VARIANT_PAPER = 'paper'
+const BUTTON_VARIANT_MUTED = 'muted'
+
 export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   title?: string
   href?: string
@@ -17,7 +20,12 @@ export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   fullWidthOnMobile?: boolean
   tooltip?: string
   loading?: boolean
-  variant?: 'contained' | 'outlined' | 'text' | 'paper' | 'muted'
+  variant?:
+    | 'contained'
+    | 'outlined'
+    | 'text'
+    | typeof BUTTON_VARIANT_PAPER
+    | typeof BUTTON_VARIANT_MUTED
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -34,7 +42,9 @@ const Button: React.FC<ButtonProps> = (props) => {
   } = props
   const { color } = rest
 
-  const isCustomVariant = ['paper', 'muted'].includes(variant)
+  const isCustomVariant = [BUTTON_VARIANT_PAPER, BUTTON_VARIANT_MUTED].includes(
+    variant
+  )
   const buttonProps = loading ? omit(rest, ['startIcon', 'endIcon']) : rest
   const childrenJsxContent = children || title
   const childrenJsx = (
@@ -44,7 +54,8 @@ const Button: React.FC<ButtonProps> = (props) => {
         ...(fullWidthOnMobile && {
           width: { xs: '100%', md: 'initial' },
         }),
-        ...(variant === 'paper' && {
+        // Paper variant
+        ...(variant === BUTTON_VARIANT_PAPER && {
           backgroundColor: 'background.paper',
           '&:hover': {
             backgroundColor: (theme) =>
@@ -52,10 +63,22 @@ const Button: React.FC<ButtonProps> = (props) => {
             color: `${color || 'primary'}.dark`,
           },
         }),
-        ...(variant === 'muted' && {
-          backgroundColor: 'grey.300',
-          color: 'text.primary',
-          '&:hover': { backgroundColor: 'grey.400' },
+        // Muted variant
+        ...(variant === BUTTON_VARIANT_MUTED && {
+          backgroundColor: ({ palette: { mode } }) => {
+            const isDarkMode = mode === 'dark'
+            return isDarkMode ? 'neutral.700' : 'grey.300'
+          },
+          color: ({ palette: { mode } }) => {
+            const isDarkMode = mode === 'dark'
+            return isDarkMode ? 'primary.main' : 'text.primary'
+          },
+          '&:hover': {
+            backgroundColor: ({ palette: { mode } }) => {
+              const isDarkMode = mode === 'dark'
+              return isDarkMode ? 'neutral.600' : 'grey.400'
+            },
+          },
         }),
         ...sx,
       }}

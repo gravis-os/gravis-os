@@ -6,6 +6,10 @@ interface Options {
 
 type Values = Record<string, unknown>
 
+/**
+ * Omit fields that have skipOnSubmit === true
+ * @param options
+ */
 const withSkipOnSubmit =
   (options: Options) =>
   (values: Values): Values => {

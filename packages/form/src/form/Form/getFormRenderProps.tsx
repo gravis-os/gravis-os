@@ -64,6 +64,7 @@ const getFormRenderProps = (props) => {
       onClick={() => setIsReadOnly(!isReadOnly)}
       fullWidth
       title={isReadOnly ? 'Edit' : 'Save'}
+      type={isReadOnly ? 'submit' : 'button'}
       {...(isReadOnly ? editButtonProps : submitButtonProps)}
     />
   )

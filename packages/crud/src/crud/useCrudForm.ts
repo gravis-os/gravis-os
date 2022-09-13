@@ -33,7 +33,7 @@ interface UseCrudFormValuesInterface {
 export interface UseCrudFormArgs extends UseFormProps {
   module: CrudModule
   item?: CrudItem
-  refetch?: () => Promise<CrudItem>
+  refetch?: () => Promise<unknown>
   client?: SupabaseClient
   createOnSubmit?: boolean // Always create onSubmit only. Never update.
   setFormValues?: ({
@@ -90,6 +90,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const { sk, table } = module
 
   const item = injectedItem || ({} as CrudItem)
+
   // User
   const { user } = useUser()
 
@@ -139,6 +140,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       withCreatedUpdatedBy(withValuesArgs),
       withoutId(withValuesArgs),
       withDbFormValues(withValuesArgs),
+      // Omit fields that have skipOnSubmit: true
       withSkipOnSubmit(withValuesArgs),
     ])(values)
 
@@ -192,7 +194,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       default:
         createOrUpdateMutation.mutate(nextValues, {
           onSuccess: async (result) => {
-            queryClient.invalidateQueries(table.name)
+            await queryClient.invalidateQueries(table.name)
 
             // Handle errors
             const { error, data } = result
@@ -223,14 +225,6 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
                 module,
                 fieldDefs,
               })
-
-              /**
-               * Refetch data to get the latest join info because we're comparing against prev value
-               * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
-               * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
-               * which causes unexpected saves.
-               */
-              if (refetch) refetch()
             }
 
             // Manage one to many values by creating records in join tables
@@ -245,15 +239,15 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
                 client,
                 module,
               })
-
-              /**
-               * Refetch data to get the latest join info because we're comparing against prev value
-               * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
-               * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
-               * which causes unexpected saves.
-               */
-              if (refetch) refetch()
             }
+
+            /**
+             * Refetch data to get the latest join info because we're comparing against prev value
+             * This is to resolve cases where the user make multiple saveManyToManyValues without refreshing
+             * the page/itemQuery, resulting in the comparator function within saveManyToManyValues to be outdated
+             * which causes unexpected saves.
+             */
+            if (refetch) refetch()
 
             return handleSuccess({ item: nextItem })
           },

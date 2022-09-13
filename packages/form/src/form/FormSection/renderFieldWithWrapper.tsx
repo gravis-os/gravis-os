@@ -6,7 +6,6 @@ import FieldEffectProvider, {
 } from './FieldEffectProvider'
 import { FormSectionProps } from './FormSection'
 import renderField, {
-  FormSectionFieldBooleanFunction,
   FormSectionFieldProps,
   RenderFieldProps,
 } from './renderField'

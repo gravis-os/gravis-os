@@ -160,6 +160,8 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
 
             '&:after': {
               content: '"Upload"',
+              fontSize: 'body2.fontSize',
+              fontWeight: 'bold',
               backgroundColor: 'rgba(0, 0, 0, 0.5)',
               color: 'common.white',
               position: 'absolute',

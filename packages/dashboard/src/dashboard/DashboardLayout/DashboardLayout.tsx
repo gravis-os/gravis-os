@@ -152,7 +152,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                   ? 0
                   : `${headerHeight}px`
                 : 0,
-              md: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
+              sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
             },
 
             ...(isMiniVariant && {
