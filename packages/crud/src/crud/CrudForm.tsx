@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { CircularProgress, ButtonProps } from '@gravis-os/ui'
 import {
@@ -109,6 +109,10 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   const { reset, formState } = formContext
   const { isSubmitting, isDirty } = formState
   const [isReadOnly, setIsReadOnly] = useState(!isNew)
+  // Update isNew state after data is loaded
+  useEffect(() => {
+    setIsReadOnly(!isNew)
+  }, [isNew])
 
   // Duck type to test if form is loaded in preview drawer
   const isPreview = Boolean(headerProps)

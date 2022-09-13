@@ -13,8 +13,9 @@ const neutral = {
   900: '#111827',
 }
 const background = {
-  default: '#F9FAFC',
+  default: '#F9FAFC', // Body background color
   paper: '#FFFFFF',
+  muted: neutral[100],
 }
 const divider = '#E6E8F0'
 const primary = {

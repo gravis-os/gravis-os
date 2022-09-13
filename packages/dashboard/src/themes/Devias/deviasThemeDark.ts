@@ -13,8 +13,9 @@ const neutral = {
   900: '#111827',
 }
 const background = {
-  default: '#0B0F19',
+  default: '#0B0F19', // Body background color
   paper: neutral[900],
+  muted: neutral[800],
 }
 const divider = '#2D3748'
 const primary = {
@@ -66,15 +67,6 @@ const deviasThemeDark: ThemeOptions = {
         root: {
           backgroundColor: neutral[500],
           color: '#FFFFFF',
-        },
-      },
-    },
-    MuiButton: {
-      styleOverrides: {
-        root: {
-          '&.MuiButton-text': {
-            color: neutral[800],
-          },
         },
       },
     },

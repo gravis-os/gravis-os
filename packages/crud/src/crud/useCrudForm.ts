@@ -90,6 +90,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const { sk, table } = module
 
   const item = injectedItem || ({} as CrudItem)
+
   // User
   const { user } = useUser()
 

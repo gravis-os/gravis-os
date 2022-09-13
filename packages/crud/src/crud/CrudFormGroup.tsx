@@ -23,9 +23,8 @@ const CrudFormGroup: React.FC<CrudFormGroupProps> = (props) => {
         const { cancelButtonJsx, editOrSubmitButtonJsx, formJsx, sections } =
           renderProps
 
-        // We will always only take the first section
+        // Take the first section as a fallback
         const firstSection = sections[0]
-
         const title = injectedTitle || firstSection.title
         const subtitle = injectedSubtitle || firstSection.subtitle
 
@@ -46,8 +45,9 @@ const CrudFormGroup: React.FC<CrudFormGroupProps> = (props) => {
                   { key: 'cancel', children: cancelButtonJsx },
                   { key: 'edit-or-submit', children: editOrSubmitButtonJsx },
                 ]}
+                sx={{ pt: 1 }}
                 actionProps={{
-                  sx: { justifyContent: 'flex-end', px: 2, pb: 2 },
+                  sx: { justifyContent: 'flex-end', px: 2, pb: 1 },
                 }}
               >
                 {formJsx}
