@@ -27,9 +27,27 @@ const getFormRenderProps = (props) => {
     formRenderProps,
   } = props
 
-  const submitButtonProps = { ...buttonProps, ...injectedSubmitButtonProps }
-  const cancelButtonProps = { ...buttonProps, ...injectedCancelButtonProps }
-  const editButtonProps = { ...buttonProps, ...injectedEditButtonProps }
+  const cancelButtonProps = {
+    ...buttonProps,
+    type: 'button',
+    ...injectedCancelButtonProps,
+  }
+  const editButtonProps = {
+    ...buttonProps,
+    type: 'button',
+    title: 'Edit',
+    onClick: (e) => {
+      e.preventDefault()
+      setIsReadOnly(!isReadOnly)
+    },
+    ...injectedEditButtonProps,
+  }
+  const submitButtonProps = {
+    ...buttonProps,
+    type: 'submit',
+    title: 'Save',
+    ...injectedSubmitButtonProps,
+  }
 
   const {
     formState: { isSubmitting },
@@ -40,9 +58,7 @@ const getFormRenderProps = (props) => {
       variant="contained"
       color="primary"
       fullWidth
-      type="submit"
       disabled={isSubmitting}
-      title="Save"
       {...submitButtonProps}
     />
   )
@@ -61,10 +77,7 @@ const getFormRenderProps = (props) => {
     <Button
       variant={isReadOnly ? 'muted' : 'contained'}
       color="primary"
-      onClick={() => setIsReadOnly(!isReadOnly)}
       fullWidth
-      title={isReadOnly ? 'Edit' : 'Save'}
-      type={isReadOnly ? 'button' : 'submit'}
       {...(isReadOnly ? editButtonProps : submitButtonProps)}
     />
   )

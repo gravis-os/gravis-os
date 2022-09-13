@@ -105,14 +105,22 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   })
   const { formContext, isNew, onSubmit, onDelete } = crudForm
 
-  // Form states
-  const { reset, formState } = formContext
-  const { isSubmitting, isDirty } = formState
+  // Read Only State
   const [isReadOnly, setIsReadOnly] = useState(!isNew)
+
   // Update isNew state after data is loaded
   useEffect(() => {
     setIsReadOnly(!isNew)
   }, [isNew])
+
+  // Form states
+  const { reset, formState } = formContext
+  const { isSubmitting, isDirty, isSubmitSuccessful } = formState
+
+  // Reset readOnly after every submission
+  useEffect(() => {
+    if (!isReadOnly) setIsReadOnly(true)
+  }, [isSubmitSuccessful])
 
   // Duck type to test if form is loaded in preview drawer
   const isPreview = Boolean(headerProps)
