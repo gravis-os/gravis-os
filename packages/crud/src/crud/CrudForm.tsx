@@ -119,7 +119,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
 
   // Reset readOnly after every submission
   useEffect(() => {
-    if (!isReadOnly) setIsReadOnly(true)
+    if (isSubmitSuccessful && !isReadOnly) setIsReadOnly(true)
   }, [isSubmitSuccessful])
 
   // Duck type to test if form is loaded in preview drawer
