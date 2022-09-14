@@ -113,7 +113,7 @@ const config = {
               },
               {
                 label: 'Feature Requests',
-                to: '/feature-requests',
+                to: '/docs/community/feature-requests',
               },
               {
                 label: 'Discord',
@@ -121,7 +121,7 @@ const config = {
               },
               {
                 label: 'Help',
-                to: '/community/support',
+                to: '/docs/community/support',
               },
             ],
           },
@@ -134,7 +134,7 @@ const config = {
               },
               {
                 label: 'Changelog',
-                to: '/changelog',
+                to: '/docs/changelog',
               },
               {
                 label: 'GitHub',
@@ -148,8 +148,6 @@ const config = {
           },
           {
             title: 'Legal',
-            // Please don't remove the privacy and terms, it's a legal
-            // requirement.
             items: [
               {
                 label: 'Privacy',

@@ -32,9 +32,9 @@ const Divider: React.FC<DividerProps> = (props) => {
 
 export default Divider
 ```
-2. Gravis has **two key types of exports**: [Core](/docs/core) and [Components](/docs/components). **Core** consists of the fundamental building blocks  that make up the library while **Components** include the composed structures derived from the former that work well in certain domains e.g. *PortfolioCard* or *AlertListCard*. Both types are exported from the same package via named imports.
+2. Gravis has several types of exports.
 
-3. Gravis is governed by a set of [design principles](/docs/theme) which is customizable via the [theme variables](https://mui.com/material-ui/customization/default-theme/) to provide a unified experience.
+3. Gravis is governed by a set of principles.
 
 ### Example 1: Extending layout
 
