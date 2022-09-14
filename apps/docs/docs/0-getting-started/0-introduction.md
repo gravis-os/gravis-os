@@ -1,3 +1,7 @@
+---
+sidebar_label: Introduction
+---
+
 # Introduction to Gravis
 _Develop fast, powerful web apps with Gravis-OS._
 
