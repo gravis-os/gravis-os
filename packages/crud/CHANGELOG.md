@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.37
+
+### Patch Changes
+
+- [#74](https://github.com/gravis-os/gravis-os/pull/74) [`2cae479`](https://github.com/gravis-os/gravis-os/commit/2cae4792d02cf85d95a2c6f10eb2953dd036b800) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Fix initial read-only state for create
+
 ## 0.0.36
 
 ### Patch Changes
