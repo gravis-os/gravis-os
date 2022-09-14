@@ -1,14 +1,15 @@
 # Usage
 
 ## Basic Usage
-All Gravis exports are available as **named imports** via the root package.
+All Gravis exports are available as **named imports** via the respective package.
 
-```jsx-no-render
-import { Button } from '@gravis-os'
+```tsx
+import { Button, Alert, Box } from '@gravis-os/ui'
+import { printNumber } from '@gravis-os/utils'
 ```
 
 :::tip
-Refer to the [Antd Design Docs](https://ant.design/docs/react/introduce) if you are unable to find a component that you're looking for.
+Refer to the [MUI Docs](https://mui.com/material-ui/getting-started/overview/) if you are unable to find a component that you're looking for.
 :::
 
 ## Key Concepts
@@ -16,7 +17,7 @@ Refer to the [Antd Design Docs](https://ant.design/docs/react/introduce) if you 
 1. Each component **extends off the API of its corresponding [Ant Design](https://ant.design/components/overview/) counterpart** and is **injected with [MUI's `sx` prop](https://mui.com/system/getting-started/the-sx-prop/)** which enables styling via emotion/jss and access to the [global theme object](https://mui.com/material-ui/customization/default-theme/). You may also find components **extended with custom props**.
 
 *Example of extending an Ant Design Divider component*:
-```jsx-no-render
+```tsx
 import React from 'react'
 import { Divider as AntdDivider, DividerProps as AntdDividerProps } from 'antd'
 import { withStyledTheme, ThemeInterface } from '../styles/withTheme'
@@ -37,7 +38,7 @@ export default Divider
 
 ### Example 1: Extending layout
 
-```jsx-no-render
+```tsx
 // DashboardLayout.tsx
 import { DashboardTemplate } from '@gravis-os'
 
@@ -52,7 +53,7 @@ const DashboardLayout = () => {
 
 ### Example 2: Extending core components
 
-```jsx-no-render
+```tsx
 // MyCard.tsx
 import { Card, Typography } from '@gravis-os'
 
@@ -65,7 +66,7 @@ const MyCard = (props) => (
 
 ### Example 3: Extending types
 
-```jsx-no-render
+```tsx
 import { Alert, AlertProps } from '@gravis-os'
 
 export interface MyAlertProps extends AlertProps {}

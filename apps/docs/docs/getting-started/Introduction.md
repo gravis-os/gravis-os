@@ -1,41 +1,44 @@
-# Introduction
-#### Gravis is a React UI library that provides websites with the components needed to get started with building a modern application.
+# Introduction to Gravis
+_Develop fast, powerful web apps with Gravis-OS._
 
-## Gravis UI Pack
+### Gravis is a React UI library that provides developers with the components needed to get started with building a modern application.
+Gravis-OS is an opinionated library built on top of React, Next, Supabase, and MUI. It is a zero-config library optimised for building modern web applications and dashboards at speed.
 
-Gravis is a **React UI library** consisting a series of components that aims to unify IIG’s internal products and applications. All Gravis components primarily extends and enhances the Ant Design system‘s components. With over 150+ newly enhanced components, Gravis equips developers and content producers alike with the ability to create beautiful, consistent, and interactive interfaces at scale.
+## Motivation
+We spend too much time recreating mundane and repetitive components e.g. LoginForms, DashboardLayouts, etc. when building new web applications. Existing javascript libraries such as Next, Material, Supabase, etc. are brilliant in their own ways, but each require extensive integration time when being put together in a new application.
 
-## Why?
-
-- ✅ Extends Ant Design with access to over **150+ enhanced components**.
-- ✅ **Consistent design language** across applications.
-- ✅ **JSS & Theming Support via MUI System**: No more fragmented CSS files and css classNames with JSS support by MUI System‘s Emotion styling engine. Singular JS-based styleConfig via a simple JS object enables easy theme customisation across the app.
-- ✅ **Composability at its core**: Use Gravis components as building blocks to easily construct advanced components. Written in ES6, Typescript, and declarative code styles in modern JavaScript, Gravis makes writing code easy and fun.
+Gravis-OS seeks to accelerate custom software development by integrating across a specific stack to deliver a higher abstraction framework for building applications at speed.
 
 ## Features
 
 - 🚓 **Typescript** Support
-- 🚀 Written in ≥ **ES6**
+- 🚀 Written in ≥ **ES6+**
 - 🌴 **Tree-shaking** Friendly
-- 📕 **Storybook** Examples
+- 📕 **Storybook**
 - ✨ **ESM & CJS** Exports
 - 🎨 **Theming**
 - 💈 **JSS** Support
 - 💁🏻‍️ **Prettier** & **ESLint**
+- ✅ Whitelabel Components (Gravis UI)
+- ✅ Isomorphic React
+- ✅ SSR support with Next.js
+- ✅ Zero-config, one-minute setup with a single CLI command
+- ✅ Open Source
+- ✅ Customizable
+- ✅ Self-hosted
 
 ## Pre-Requisites
 
-The following is a list of key dependencies used in this library:
+Gravis is an opinionated library built on specific open-source technologies. **Do not** use Gravis-OS for your app if you are not using the following:
 
-1. **React** = 17
-2. **Ant Design** ≥ 4
-3. **HighCharts** >= 9
+1. React ≥ 18
+2. MUI ≥ 5
+3. Supabase
+4. NextJS ≥ 12
 
-## Licence
-UNLICENSED
+## FAQs
+### What is Gravis not?
+Gravis is not what you’re looking for if you’re looking to build an eCommerce, blog or corporate website. There are many other tools that do these really well.
 
-## Acknowledgements
-
-**©️2022 Gravis**
-Powered by [**One X Tech**](https://www.onextech.com)
-
+## License
+MIT
