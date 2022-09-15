@@ -1,14 +1,13 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-import { routes } from 'app/routes'
 import { ListPage } from '@gravis-os/crud'
 import DashboardLayout from '@dashboard/layouts/DashboardLayout'
 import {
   <%= props.module.name.camelCase %>ColumnDefs,
   <%= props.module.name.camelCase %>PreviewFormSections,
-} from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>Config'
-import { <%= props.module.name.camelCase %>Module } from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>Module'
+  <%= props.module.name.camelCase %>Module,
+} from '../../../src/modules/<%= props.module.name.titleCase %>'
 
 const <%= props.module.name.titleCase %>ListPage: NextPage = () => {
   return (

@@ -1,10 +1,9 @@
 import React from 'react'
-import { routes } from 'app/routes'
 import Head from 'next/head'
 import { NextPage } from 'next'
 import { DetailPage } from '@gravis-os/crud'
 import DashboardLayout from '@dashboard/layouts/DashboardLayout'
-import { <%= props.module.name.camelCase %>FormSections, <%= props.module.name.camelCase %>Module } from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>Config'
+import { <%= props.module.name.camelCase %>FormSections, <%= props.module.name.camelCase %>Module } from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>'
 
 const <%= props.module.name.titleCase %>DetailPage: NextPage = () => {
   return (

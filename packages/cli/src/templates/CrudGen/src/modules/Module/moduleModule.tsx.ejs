@@ -1,6 +1,11 @@
 import React from 'react'
-import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined'
+import dynamic from 'next/dynamic'
 import { routes } from 'app/routes'
+
+const BallotOutlinedIcon = dynamic(
+    () => import('@mui/icons-material/BallotOutlined'),
+    { ssr: false }
+)
 
 export const <%= props.module.name.camelCase %>Module = {
   Icon: BallotOutlinedIcon,
@@ -13,6 +18,6 @@ export const <%= props.module.name.camelCase %>Module = {
     plural: '<%= props.module.pluralName.startCase %>',
   },
   route: {
-    plural: routes.<%= props.module.name.upperSnakeCase %>S
+    plural: routes.<%= props.module.name.upperSnakeCase %>S,
   },
 }
