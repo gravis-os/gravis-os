@@ -5,6 +5,7 @@ import {
   TextField as MuiTextField,
   StandardTextFieldProps as MuiTextFieldProps,
 } from '@mui/material'
+import type { UseFormReturn } from 'react-hook-form'
 
 interface OptionItem {
   key: string
@@ -16,6 +17,7 @@ export interface TextFieldProps extends MuiTextFieldProps {
   options?: string[] | OptionItem[]
   disableLabel?: boolean
   disableBorders?: boolean
+  setValue: UseFormReturn['setValue']
 }
 
 const TextField: React.FC<TextFieldProps> = (props) => {
@@ -27,7 +29,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     sx,
     ...rest
   } = props
-  const { name, value, onChange } = rest
+  const { name, value, setValue } = rest
 
   const textFieldProps = {
     variant: 'outlined' as TextFieldProps['variant'],
@@ -46,16 +48,20 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     ...rest,
   }
 
-  // For options only
+  // To set defaultValue of options in the formState on load
   useEffect(() => {
     if (!options) return
 
     // Set defaultValue of options
     const isObjectOption = typeof options[0] === 'object'
+
+    // Get the first value of the options to set as the defaultValue
     const defaultOption = isObjectOption
       ? (options[0] as OptionItem).value
       : options[0]
-    if (onChange) onChange(defaultOption)
+
+    // Set the formState upstream with the defaultOption
+    if (setValue) setValue(name, defaultOption)
   }, [options])
 
   if (options) {
