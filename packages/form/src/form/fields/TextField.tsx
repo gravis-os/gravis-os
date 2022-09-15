@@ -17,7 +17,7 @@ export interface TextFieldProps extends MuiTextFieldProps {
   options?: string[] | OptionItem[]
   disableLabel?: boolean
   disableBorders?: boolean
-  setValue: UseFormReturn['setValue']
+  setValue?: UseFormReturn['setValue']
 }
 
 const TextField: React.FC<TextFieldProps> = (props) => {
