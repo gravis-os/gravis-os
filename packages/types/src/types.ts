@@ -12,4 +12,5 @@ export type RenderPropsFunction<RenderProps> = (
 // ==============================
 export interface NavConfigItem {
   key: string
+  items?: NavConfigItem[]
 }

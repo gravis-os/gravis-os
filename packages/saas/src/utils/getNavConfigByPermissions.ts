@@ -18,20 +18,36 @@ const getNavConfigByPermissions = (
   // Handle degenerate cases
   if (!permissions?.length || !navConfig?.length) return []
 
-  return navConfig
-    ?.map((navConfigItem) => {
-      const { key } = navConfigItem
+  const mapPermittedNavItem = (navConfigItem) => {
+    const { key, items } = navConfigItem
 
-      const isAuthorized = getIsValidPermissions({
-        // permissions e.g. ['company.create', 'product.*']
-        permissions: permissions?.map(({ title }) => title),
-        // key is the tableName e.g. 'company'
-        moduleTableName: key,
-      })
+    const isNestedMenu = Boolean(items?.length)
+    switch (true) {
+      // isNestedMenu, recurse.
+      case isNestedMenu:
+        const permittedNestedNavItems = items.map(mapPermittedNavItem)
+        const hasAtLeastOneAuthorizedNestedNavItem =
+          permittedNestedNavItems.some(Boolean)
+        return (
+          hasAtLeastOneAuthorizedNestedNavItem && {
+            ...navConfigItem,
+            items: permittedNestedNavItems,
+          }
+        )
+      // Default Case
+      default:
+        const isAuthorized = getIsValidPermissions({
+          // permissions e.g. ['company.create', 'product.*']
+          permissions: permissions?.map(({ title }) => title),
+          // key is the tableName e.g. 'company'
+          moduleTableName: key,
+        })
 
-      return isAuthorized && navConfigItem
-    })
-    ?.filter(Boolean)
+        return isAuthorized && navConfigItem
+    }
+  }
+
+  return navConfig?.map(mapPermittedNavItem)?.filter(Boolean)
 }
 
 export default getNavConfigByPermissions
