@@ -1,7 +1,6 @@
 import React from 'react'
 import type { NextPage } from 'next'
 import Head from 'next/head'
-export { withPageAuth } from '@supabase/auth-helpers-nextjs'
 import { routes } from 'app/routes'
 import { ListPage } from '@gravis-os/crud'
 import DashboardLayout from '@dashboard/layouts/DashboardLayout'
@@ -10,8 +9,6 @@ import {
   <%= props.module.name.camelCase %>PreviewFormSections,
 } from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>Config'
 import { <%= props.module.name.camelCase %>Module } from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>Module'
-
-export const getServerSideProps = withPageAuth({ redirectTo: routes.AUTH_FAILURE_REDIRECT })
 
 const <%= props.module.name.titleCase %>ListPage: NextPage = () => {
   return (
