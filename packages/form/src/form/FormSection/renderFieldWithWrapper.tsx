@@ -86,10 +86,12 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   }
 
   const { key, fieldEffect, hidden } = fieldProps
+  const fieldJsx = renderField(props as RenderFieldProps)
 
-  // Calculate hidden field
+  // Calculate hidden field, still render the field for hidden prop to take effect and store the form value
   const isHidden = getFormSectionFieldBooleanFunction(hidden, props)
-  if (isHidden) return null
+  if (isReadOnly && isHidden) return null
+  if (isHidden) return fieldJsx
 
   // Define children (default)
   const childrenJsx = (
@@ -99,7 +101,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
       key={key}
       {...(fieldProps as FormSectionFieldProps).gridProps}
     >
-      {renderField(props as RenderFieldProps)}
+      {fieldJsx}
     </Grid>
   )
 
