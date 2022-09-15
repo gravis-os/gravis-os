@@ -17,6 +17,10 @@ export const <%= props.module.name.camelCase %>Module = {
     singular: '<%= props.module.name.startCase %>',
     plural: '<%= props.module.pluralName.startCase %>',
   },
+  select: {
+    list: '*',
+    detail: '*',
+  },
   route: {
     plural: routes.<%= props.module.name.upperSnakeCase %>S,
   },
