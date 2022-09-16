@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.11
+
+### Patch Changes
+
+- [`62369e9`](https://github.com/gravis-os/gravis-os/commit/62369e9f4fe7305145fc05307bcd8e9f416a89a1) Thanks [@clodal](https://github.com/clodal)! - Update getNavConfigByPermission to recurse to check nested navConfigItems"
+
+- Updated dependencies [[`62369e9`](https://github.com/gravis-os/gravis-os/commit/62369e9f4fe7305145fc05307bcd8e9f416a89a1)]:
+  - @gravis-os/types@0.0.11
+
 ## 0.0.10
 
 ### Patch Changes

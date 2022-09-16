@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.44
+
+### Patch Changes
+
+- [`07d5e8c`](https://github.com/gravis-os/gravis-os/commit/07d5e8ce9ff9cb09841a9dfdf28482b519170087) Thanks [@clodal](https://github.com/clodal)! - Update TextField typescript
+
+* [`45d3522`](https://github.com/gravis-os/gravis-os/commit/45d35223a0c2c8899c3b180a5b7afe136cbd9506) Thanks [@clodal](https://github.com/clodal)! - Fix bug with TextField options defaultValue not setting in formState
+
+- [`44537c4`](https://github.com/gravis-os/gravis-os/commit/44537c4bbcbb4e04e60c4a49ea3aa29359dd5856) Thanks [@clodal](https://github.com/clodal)! - Update hidden prop in renderFieldWithWrapper
+
+- Updated dependencies [[`62369e9`](https://github.com/gravis-os/gravis-os/commit/62369e9f4fe7305145fc05307bcd8e9f416a89a1)]:
+  - @gravis-os/types@0.0.11
+
 ## 0.0.43
 
 ### Patch Changes
