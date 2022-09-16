@@ -23,7 +23,7 @@ export const formSections = [
     name: 'workspace_id',
     type: 'model',
     module: workspaceModule,
-    require: true,
+    required: true,
     // Set defaultValue and hide this field based on user role.
 		hidden: ({ user }: UserContextInterface) => user?.isNotAdmin,
   },
