@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- [#75](https://github.com/gravis-os/gravis-os/pull/75) [`80670e2`](https://github.com/gravis-os/gravis-os/commit/80670e202223ad7161c9326a60377ca5ed316bff) Thanks [@al1xt](https://github.com/al1xt)! - Add type section to DocumentFormSections
+
+- Updated dependencies [[`8c9524a`](https://github.com/gravis-os/gravis-os/commit/8c9524afc801987024b38fb02260374c2292fa2e), [`4cea157`](https://github.com/gravis-os/gravis-os/commit/4cea157cda7be381fb159d662c269928f2400c92), [`63ed525`](https://github.com/gravis-os/gravis-os/commit/63ed525071a72c4caa239014fbf4fee29c386792)]:
+  - @gravis-os/form@0.0.45
+
 ## 0.0.24
 
 ### Patch Changes

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.45
+
+### Patch Changes
+
+- [#76](https://github.com/gravis-os/gravis-os/pull/76) [`8c9524a`](https://github.com/gravis-os/gravis-os/commit/8c9524afc801987024b38fb02260374c2292fa2e) Thanks [@al1xt](https://github.com/al1xt)! - Fix TextField setting wrong default value
+
+* [`4cea157`](https://github.com/gravis-os/gravis-os/commit/4cea157cda7be381fb159d662c269928f2400c92) Thanks [@clodal](https://github.com/clodal)! - Update form hidden prop. Update sql init script
+
+- [`63ed525`](https://github.com/gravis-os/gravis-os/commit/63ed525071a72c4caa239014fbf4fee29c386792) Thanks [@clodal](https://github.com/clodal)! - Add defaultValue func resolver to renderField props. Cleaned up types
+
 ## 0.0.44
 
 ### Patch Changes
