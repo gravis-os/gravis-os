@@ -63,7 +63,8 @@ const TextField: React.FC<TextFieldProps> = (props) => {
 
   // To set defaultValue of options in the formState on load
   useEffect(() => {
-    if (!options) return
+    const hasDefaultValue = Boolean(value)
+    if (!options || hasDefaultValue) return
 
     // Set defaultValue of options
     const isObjectOption = typeof options[0] === 'object'
