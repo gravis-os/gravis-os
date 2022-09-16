@@ -19,6 +19,9 @@ export * from './FormSection/renderField'
 export { default as renderFieldWithWrapper } from './FormSection/renderFieldWithWrapper'
 export * from './FormSection/renderFieldWithWrapper'
 
+export { default as getFormSectionFieldBooleanFunction } from './FormSection/getFormSectionFieldBooleanFunction'
+export * from './FormSection/getFormSectionFieldBooleanFunction'
+
 export { default as getFormSectionFieldRenderProps } from './FormSection/getFormSectionFieldRenderProps'
 export * from './FormSection/getFormSectionFieldRenderProps'
 

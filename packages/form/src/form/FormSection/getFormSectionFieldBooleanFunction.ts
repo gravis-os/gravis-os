@@ -1,16 +1,8 @@
-import { UseFormReturn } from 'react-hook-form'
 import { FormSectionFieldRenderProps } from './getFormSectionFieldRenderProps'
 
-export type FormSectionFieldBooleanFunction = ({
-  isNew,
-  isPreview,
-  isDetail,
-}: {
-  isNew: boolean
-  isPreview: boolean
-  isDetail: boolean
-  formContext: UseFormReturn
-}) => boolean
+export type FormSectionFieldBooleanFunction = (
+  renderProps: FormSectionFieldRenderProps
+) => boolean
 
 /**
  * Resolves a function to derive a boolean with blended use in formSection
