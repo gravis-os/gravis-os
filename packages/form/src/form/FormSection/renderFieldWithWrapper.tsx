@@ -10,6 +10,7 @@ import renderField, {
   RenderFieldProps,
 } from './renderField'
 import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
+import getFormSectionFieldRenderProps from './getFormSectionFieldRenderProps'
 
 export interface FormSectionJsxFieldProps {
   formContext: UseFormReturn
@@ -89,7 +90,9 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const fieldJsx = renderField(props as RenderFieldProps)
 
   // Calculate hidden field, still render the field for hidden prop to take effect and store the form value
-  const isHidden = getFormSectionFieldBooleanFunction(hidden, props)
+  // The set of props available to the end-user when defining a function in the fieldDef
+  const renderProps = getFormSectionFieldRenderProps(props as RenderFieldProps)
+  const isHidden = getFormSectionFieldBooleanFunction(hidden, renderProps)
   if (isReadOnly && isHidden) return null
   if (isHidden) return fieldJsx
 

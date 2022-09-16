@@ -25,8 +25,14 @@ import ControlledTextField from '../fields/ControlledTextField'
 import { FormSectionProps } from './FormSection'
 import { FieldEffectOptions } from './FieldEffectProvider'
 import ControlledDateField from '../fields/ControlledDateField'
-import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
+import getFormSectionFieldBooleanFunction, {
+  FormSectionFieldBooleanFunction,
+} from './getFormSectionFieldBooleanFunction'
 import ControlledDateTimeField from '../fields/ControlledDateTimeField'
+import getFormSectionFieldRenderProps from './getFormSectionFieldRenderProps'
+import getFormSectionFieldWithFunctionType, {
+  FormSectionFieldWithFunctionType,
+} from './getFormSectionFieldWithFunctionType'
 
 export enum FormSectionFieldTypeEnum {
   // String
@@ -57,17 +63,6 @@ export enum FormSectionFieldTypeEnum {
   DATE_TIME = 'date_time',
 }
 
-export type FormSectionFieldBooleanFunction = ({
-  isNew,
-  isPreview,
-  isDetail,
-}: {
-  isNew: boolean
-  isPreview: boolean
-  isDetail: boolean
-  formContext: UseFormReturn
-}) => boolean
-
 export interface FormSectionFieldProps {
   // Core
   key: string
@@ -86,8 +81,13 @@ export interface FormSectionFieldProps {
   hidden?: boolean | FormSectionFieldBooleanFunction
   disabled?: boolean | FormSectionFieldBooleanFunction
   required?: boolean
+  defaultValue?:
+    | string
+    | number
+    | readonly string[]
+    | FormSectionFieldWithFunctionType
 
-  // For setting valu
+  // For setting value
   fieldEffect?: FieldEffectOptions
 
   // withCreate function
@@ -114,7 +114,6 @@ export interface RenderFieldProps {
   formContext: UseFormReturn
   sectionProps: FormSectionProps
   fieldProps: FormSectionFieldProps
-
   crudContext?: CrudContextInterface // Available if Form is used in CrudForm
   userContext?: UserContextInterface // Available if Form is used in CrudForm
 }
@@ -139,27 +138,42 @@ const renderField = (props: RenderFieldProps) => {
   } = sectionProps
   const { type, module, key, gridProps, fieldEffect, render, ...rest } =
     fieldProps
-  const { name, disabled, hidden, label: injectedLabel, withCreate } = rest
+  const {
+    name,
+    disabled,
+    hidden,
+    defaultValue,
+    label: injectedLabel,
+    withCreate,
+  } = rest
+
+  // ==============================
+  // Resolve Props
+  // ==============================
+  // The set of props available to the end-user when defining a function in the fieldDef
+  const renderProps = getFormSectionFieldRenderProps(props)
 
   // Calculate if the field is in disabledFields, else fallback to check if the disabled prop is defined
   const isDisabled =
     disabledFields?.includes(name) ||
-    getFormSectionFieldBooleanFunction(disabled, {
-      ...props,
-      isNew,
-      isReadOnly,
-      isPreview,
-    })
+    getFormSectionFieldBooleanFunction(disabled, renderProps)
+  const isHidden = getFormSectionFieldBooleanFunction(hidden, renderProps)
+  const nextDefaultValue = getFormSectionFieldWithFunctionType(
+    defaultValue,
+    renderProps
+  )
 
   // Shared props by all fields
   const commonProps = {
     ...rest,
     isNew,
     setValue,
-    disabled: isDisabled,
-    hidden: getFormSectionFieldBooleanFunction(hidden, props),
     error: Boolean(errors[name]),
     helperText: errors[name]?.message,
+    // Resolved values
+    disabled: isDisabled,
+    hidden: isHidden,
+    defaultValue: nextDefaultValue,
   }
 
   // ==============================

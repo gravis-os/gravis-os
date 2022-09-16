@@ -24,7 +24,6 @@ export interface FormProps<TFormValues>
   useFormProps?: UseFormProps<any>
   children?: React.ReactNode | RenderPropsFunction<FormRenderPropsInterface>
 
-  // Form buttons TODO@Joel: Wrap this somewhere -> perhaps formRenderProps
   formRenderProps?: any
   isReadOnly?: boolean
   setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>

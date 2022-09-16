@@ -1,33 +1,32 @@
-import { FormSectionFieldBooleanFunction } from './renderField'
+import { UseFormReturn } from 'react-hook-form'
+import { FormSectionFieldRenderProps } from './getFormSectionFieldRenderProps'
+
+export type FormSectionFieldBooleanFunction = ({
+  isNew,
+  isPreview,
+  isDetail,
+}: {
+  isNew: boolean
+  isPreview: boolean
+  isDetail: boolean
+  formContext: UseFormReturn
+}) => boolean
 
 /**
  * Resolves a function to derive a boolean with blended use in formSection
  * Typically used to calculate a field's properties e.g. disabled, hidden, etc.
  * @param booleanOrFunctionProp
- * @param props
+ * @param renderProps
  */
 const getFormSectionFieldBooleanFunction = (
   booleanOrFunctionProp: boolean | FormSectionFieldBooleanFunction,
-  props
+  renderProps: FormSectionFieldRenderProps
 ): boolean => {
-  const { isNew, isPreview, formContext, crudContext, userContext } = props
-
-  // Standard props for all boolean functions
-  const formSectionFieldBooleanFunctionProps = {
-    isNew,
-    isPreview,
-    isDetail: !isNew && !isPreview,
-    formContext,
-    crudContext,
-    userContext,
-    user: userContext?.user,
-  }
-
   return Boolean(
     booleanOrFunctionProp &&
       (typeof booleanOrFunctionProp === 'function'
         ? (booleanOrFunctionProp as FormSectionFieldBooleanFunction)(
-            formSectionFieldBooleanFunctionProps
+            renderProps
           )
         : booleanOrFunctionProp)
   )
