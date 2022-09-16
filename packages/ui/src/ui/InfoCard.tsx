@@ -40,7 +40,7 @@ const InfoCard: React.FC<InfoCardProps> = (props): React.ReactElement => {
       ) : (
         <Chip
           color="primary"
-          sx={{ borderRadius: 2, backgroundColor: 'primary.dark' }}
+          sx={{ borderRadius: 1, backgroundColor: 'primary.dark' }}
           label={chip}
         />
       )}
