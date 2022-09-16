@@ -88,6 +88,10 @@ module.exports = {
         target: `src/modules/${module.name.titleCase}/__tests__/${module.name.camelCase}.test.jsx`,
       },
       {
+        template: 'src/modules/Module/index.ts.ejs',
+        target: `src/modules/${module.name.titleCase}/index.ts`,
+      },
+      {
         template: 'src/modules/Module/moduleConfig.tsx.ejs',
         target: `src/modules/${module.name.titleCase}/${module.name.camelCase}Config.tsx`,
       },

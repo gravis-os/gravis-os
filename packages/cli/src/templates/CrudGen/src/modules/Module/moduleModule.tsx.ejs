@@ -3,8 +3,8 @@ import dynamic from 'next/dynamic'
 import { routes } from 'app/routes'
 
 const BallotOutlinedIcon = dynamic(
-    () => import('@mui/icons-material/BallotOutlined'),
-    { ssr: false }
+  () => import('@mui/icons-material/BallotOutlined'),
+  { ssr: false }
 )
 
 export const <%= props.module.name.camelCase %>Module = {
