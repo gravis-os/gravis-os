@@ -1,3 +1,72 @@
+-- Set up realtime CREATE SCHEMA IF NOT EXISTS realtime;
+
+-- Supabase super admin
+ALTER USER supabase_admin WITH superuser createdb createrole replication bypassrls;
+
+-- Extension namespacing
+CREATE SCHEMA IF NOT EXISTS extensions;
+
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp" WITH SCHEMA extensions;
+
+CREATE EXTENSION IF NOT EXISTS pgcrypto WITH SCHEMA extensions;
+
+CREATE EXTENSION IF NOT EXISTS pgjwt WITH SCHEMA extensions;
+
+GRANT anon TO authenticator;
+
+GRANT authenticated TO authenticator;
+
+GRANT service_role TO authenticator;
+
+GRANT supabase_admin TO authenticator;
+
+GRANT usage ON SCHEMA public TO postgres, anon, authenticated, service_role;
+
+ALTER DEFAULT privileges IN SCHEMA public GRANT ALL ON tables TO postgres, anon, authenticated, service_role;
+
+ALTER DEFAULT privileges IN SCHEMA public GRANT ALL ON functions TO postgres, anon, authenticated, service_role;
+
+ALTER DEFAULT privileges IN SCHEMA public GRANT ALL ON sequences TO postgres, anon, authenticated, service_role;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO anon;
+
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO anon;
+
+ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON TABLES TO postgres, anon, authenticated, service_role;
+
+-- Allow Extensions to be used in the API
+GRANT usage ON SCHEMA extensions TO postgres, anon, authenticated, service_role;
+
+-- Set up namespacing
+ALTER USER supabase_admin SET search_path TO public, extensions;
+
+-- don't include the "auth" schema
+-- These are required so that the users receive grants whenever "supabase_admin" creates tables/function
+
+ALTER DEFAULT privileges FOR USER supabase_admin IN SCHEMA public GRANT ALL ON sequences TO postgres, anon, authenticated, service_role;
+
+ALTER DEFAULT privileges FOR USER supabase_admin IN SCHEMA public GRANT ALL ON tables TO postgres, anon, authenticated, service_role;
+
+ALTER DEFAULT privileges FOR USER supabase_admin IN SCHEMA public GRANT ALL ON functions TO postgres, anon, authenticated, service_role;
+
+-- Set short statement/query timeouts for API roles
+ALTER ROLE anon SET statement_timeout = '3s';
+
+ALTER ROLE authenticated SET statement_timeout = '8s';
+
+GRANT EXECUTE ON FUNCTION "auth"."uid" ()
+    TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION "auth"."role" ()
+    TO PUBLIC;
+
+GRANT EXECUTE ON FUNCTION "auth"."email" ()
+    TO PUBLIC;
+
+GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO postgres, anon, authenticated, service_role;
+
+GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO postgres, anon, authenticated, service_role;
+
 CREATE OR REPLACE FUNCTION public.is_admin(auth_id uuid)
     RETURNS boolean
     LANGUAGE plpgsql
@@ -243,7 +312,7 @@ BEGIN
                 WHEN sqlstate '42704' THEN
                     EXECUTE add_authorize_by_permission_policies_on_table_name (table_name_text);
                 WHEN OTHERS THEN
-                    raise notice 'Exception Caught at Others! %', SQL;
+                    raise notice 'Exception Caught at Others! %', SQLERRM;
             END;
         END LOOP;
 END
@@ -292,7 +361,18 @@ $function$;
 
 DO $$
     BEGIN
-        PERFORM bulk_authorize_tables (ARRAY ['workspace', 'role', 'role_permission', 'permission', 'tier', 'tier_feature', 'feature', 'person', 'company']);
+        PERFORM bulk_authorize_tables (ARRAY ['enquiry', 'workspace', 'role', 'role_permission', 'permission', 'tier', 'tier_feature', 'feature', 'person', 'company']);
 	    PERFORM add_authorize_to_user_table();
     END
 $$;
+
+-- 1. Allow public access to any files in the "public" bucket
+CREATE POLICY "Anyone can read any image"
+    ON storage.objects FOR SELECT
+    USING ( bucket_id = 'public' );
+
+-- 2. Allow insert access to the "public" bucket
+CREATE POLICY "User can insert any image"
+    ON storage.objects FOR INSERT
+    WITH CHECK ( bucket_id = 'public' AND auth.role() = 'authenticated' );
+

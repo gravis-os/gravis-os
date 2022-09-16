@@ -27,13 +27,15 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     options,
     InputLabelProps,
     sx,
+    hidden,
+    inputProps,
     ...rest
   } = props
   const { name, value, setValue } = rest
 
   const textFieldProps = {
     variant: 'outlined' as TextFieldProps['variant'],
-    label: !disableLabel ? startCase(name) : null,
+    label: hidden || disableLabel ? null : startCase(name),
     fullWidth: true,
     InputLabelProps: {
       ...InputLabelProps,
@@ -44,7 +46,18 @@ const TextField: React.FC<TextFieldProps> = (props) => {
       ...(disableBorders && {
         '& .MuiOutlinedInput-notchedOutline': { border: 0 },
       }),
+      ...(hidden && {
+        '& fieldset': {
+          visibility: 'hidden',
+        },
+      }),
     },
+    /// Hidden
+    inputProps: {
+      ...(hidden && { type: 'hidden' }),
+      ...inputProps,
+    },
+    hiddenLabel: hidden,
     ...rest,
   }
 
