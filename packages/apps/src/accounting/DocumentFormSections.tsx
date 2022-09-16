@@ -129,6 +129,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
     'salesperson',
     'status',
     'title',
+    'type',
     'published_at',
     'project',
     'company',
@@ -271,12 +272,20 @@ const DocumentFormSections: React.FC<any> = (props) => {
                   {...sectionsPropsByKey.title}
                 />
               )}
-              {Boolean(sectionsPropsByKey.published_at) && (
-                <FormSection
-                  {...formSectionProps}
-                  {...sectionsPropsByKey.published_at}
-                />
-              )}
+              <Stack direction="row" spacing={6} sx={{ width: 'fit-content' }}>
+                {Boolean(sectionsPropsByKey.type) && (
+                  <FormSection
+                    {...formSectionProps}
+                    {...sectionsPropsByKey.type}
+                  />
+                )}
+                {Boolean(sectionsPropsByKey.published_at) && (
+                  <FormSection
+                    {...formSectionProps}
+                    {...sectionsPropsByKey.published_at}
+                  />
+                )}
+              </Stack>
             </Stack>
 
             <Divider sx={{ '&&': { mt: 0 } }} />
