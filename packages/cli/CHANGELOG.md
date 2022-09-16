@@ -1,5 +1,11 @@
 # @gravis-os/cli
 
+## 0.0.9
+
+### Patch Changes
+
+- [`8acb1ed`](https://github.com/gravis-os/gravis-os/commit/8acb1edc85a4821bfdc61f1e5452aba29693b3c7) Thanks [@clodal](https://github.com/clodal)! - Update cli to include index file"
+
 ## 0.0.8
 
 ### Patch Changes
