@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.12
+
+### Patch Changes
+
+- [`4cea157`](https://github.com/gravis-os/gravis-os/commit/4cea157cda7be381fb159d662c269928f2400c92) Thanks [@clodal](https://github.com/clodal)! - Update form hidden prop. Update sql init script
+
 ## 0.0.11
 
 ### Patch Changes
