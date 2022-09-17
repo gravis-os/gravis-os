@@ -11,7 +11,6 @@
 1. Clone down the repo from Github/Bitbucket `git clone <PROJECT_URL>`
 2. Run `yarn install` at the **project root** (not inside the individual package).
 
-
 ### 1. Clone the git repo
 
 `git clone ...`
