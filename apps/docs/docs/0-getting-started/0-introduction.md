@@ -39,6 +39,8 @@ Gravis is an opinionated library built on specific open-source technologies. **D
 2. MUI ≥ 5
 3. Supabase
 4. NextJS ≥ 12
+5. RHF ≥ 7
+6. Prisma
 
 ## FAQs
 ### What is Gravis not?

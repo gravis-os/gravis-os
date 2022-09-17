@@ -8,7 +8,6 @@ import { Toaster } from 'react-hot-toast'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import theme from '../src/theme'
 import createEmotionCache from '../src/createEmotionCache'
-
 import 'quill/dist/quill.snow.css'
 
 // Client-side cache, shared for the whole session of the user in the browser.

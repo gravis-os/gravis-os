@@ -1,7 +1,7 @@
 import React from 'react'
 import { UserProvider as AuthUserProvider } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { User, SupabaseClient } from '@supabase/supabase-js'
+import type { User, SupabaseClient } from '@supabase/supabase-js'
 import DbUserProvider, {
   UserProviderProps as DbUserProviderProps,
 } from './UserProvider'
