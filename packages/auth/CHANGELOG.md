@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.19
+
+### Patch Changes
+
+- [`8e38806`](https://github.com/gravis-os/gravis-os/commit/8e3880669d427bb110b23519a8eb8b65899858e4) Thanks [@clodal](https://github.com/clodal)! - Minor update type
+
 ## 0.0.18
 
 ### Patch Changes
