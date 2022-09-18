@@ -45,6 +45,8 @@ const config = {
     ],
   ],
 
+  themes: ['docusaurus-theme-search-typesense'],
+
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
     ({
@@ -174,6 +176,28 @@ const config = {
       prism: {
         theme: lightCodeTheme,
         darkTheme: darkCodeTheme,
+      },
+      typesense: {
+        // Replace with your own doc site's name. Should match the collection name in the scraper settings.
+        typesenseCollectionName: 'gravis-os-docs',
+
+        typesenseServerConfig: {
+          nodes: [
+            {
+              host: 'aq6tyj41xiruvsbcp-1.a1.typesense.net',
+              port: 443,
+              protocol: 'https',
+            },
+          ],
+          // Typesense Search Only API Key
+          apiKey: 'C11hHjpASTsyrgC8WV5fxb1qy2WkRAN4',
+        },
+
+        // Optional: Typesense search parameters: https://typesense.org/docs/0.21.0/api/search.md#search-parameters
+        typesenseSearchParameters: {},
+
+        // Optional
+        contextualSearch: true,
       },
     }),
 }
