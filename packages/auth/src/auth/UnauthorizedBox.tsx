@@ -12,7 +12,7 @@ const UnauthorizedBox: React.FC<UnauthorizedBoxProps> = (props) => {
       <Typography variant="h3">Unauthorized</Typography>
 
       <Button href={authRoutes.authenticationFailureRedirect}>
-        Back to Login!!!
+        Back to Login
       </Button>
     </Box>
   )
