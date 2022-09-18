@@ -11,4 +11,4 @@ export default {
   },
 }
 
-export const CrudTable = args => <CrudTableComponent {...args} />
+export const CrudTable = (args) => <CrudTableComponent {...args} />
