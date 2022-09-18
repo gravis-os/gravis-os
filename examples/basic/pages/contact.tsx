@@ -5,7 +5,7 @@ import { Form, FormSections } from '@gravis-os/form'
 import ProTip from '../src/ProTip'
 import Copyright from '../src/Copyright'
 
-const Person: NextPage = () => (
+const Contact: NextPage = () => (
   <Container maxWidth="lg">
     <Box
       sx={{
@@ -17,11 +17,12 @@ const Person: NextPage = () => (
       }}
     >
       <Typography variant="h4" gutterBottom>
-        Person
+        Contact
       </Typography>
 
       <Form
         onSubmit={(values) => {
+          // eslint-disable-next-line no-alert
           window.alert(`${JSON.stringify(values, null, 2)}`)
         }}
         formJsx={
@@ -56,4 +57,4 @@ const Person: NextPage = () => (
   </Container>
 )
 
-export default Person
+export default Contact

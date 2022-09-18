@@ -13,14 +13,17 @@ import Copyright from '../src/Copyright'
 export const getServerSideProps = withPageAuth()
 
 const Profile: NextPage = () => {
+  const { logout } = useUser()
   const router = useRouter()
 
-  const { user, logout } = useUser()
+  const { user } = useUser()
 
   const handleLogoutClick = async () => {
     await logout()
-    window.location.reload()
+    router.push('/')
   }
+
+  if (!user) return <div>No user found</div>
 
   return (
     <Container maxWidth="lg">

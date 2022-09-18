@@ -1,0 +1,15 @@
+{
+  "extends": "@gravis-os/tsconfig/nextjs.json",
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "exclude": ["node_modules"],
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@gravis-os/auth": ["../../packages/auth/src/*"],
+      "@gravis-os/form": ["../../packages/form/src/*"],
+      "@gravis-os/storage": ["../../packages/storage/src/*"],
+      "@gravis-os/ui": ["../../packages/ui/src/*"],
+      "@gravis-os/utils": ["../../packages/utils/src/*"],
+    }
+  }
+}

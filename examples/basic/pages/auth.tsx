@@ -43,5 +43,5 @@ const Auth: NextPage = () => {
 }
 
 export default withAuthProvider({
-  guestPaths: ['/', '/about', '/person', '/auth/*'],
+  guestPaths: ['/', '/about', '/contact', '/auth/*'],
 })(Auth)

@@ -1,68 +1,86 @@
 import type { NextPage } from 'next'
 import { NextSeo } from 'next-seo'
 import * as React from 'react'
-import Container from '@mui/material/Container'
-import Button from '@mui/material/Button'
-import { Alert, Box, Stack, Typography } from '@gravis-os/ui'
-import { printNumber } from '@gravis-os/utils'
-import ProTip from '../src/ProTip'
-import Copyright from '../src/Copyright'
+import { ButtonProps, StackProps } from '@gravis-os/ui'
+import LandingLayout from '@web/layouts/LandingLayout'
+import { BlockItemTypeEnum, BlocksProps } from '@gravis-os/web'
+
+const blocksProps = {
+  items: [
+    {
+      key: 'hero',
+      maxWidth: 'md' as const,
+      center: true,
+      sx: { backgroundColor: 'background.paper' },
+      items: [
+        {
+          type: BlockItemTypeEnum.OVERLINE,
+          title: 'Gravis - operating system for modern enterprises',
+          titleProps: { color: 'text.primary' },
+        },
+        {
+          type: BlockItemTypeEnum.H1,
+          title: `Gravis OS`,
+          titleProps: { gutterBottom: true },
+        },
+        {
+          type: BlockItemTypeEnum.SUBTITLE1,
+          title:
+            'Power next-generation business operations with all the modules you need in one place.',
+          titleProps: {
+            color: 'text.secondary',
+            maxWidth: '60%',
+          },
+        },
+        {
+          type: BlockItemTypeEnum.STACK,
+          sx: { mt: 3 },
+          stackProps: {
+            center: true,
+            direction: 'row' as StackProps['direction'],
+            reverseDirectionOnMobile: true,
+          },
+          stackItems: [
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.BUTTON,
+                  title: 'Request Support',
+                  titleProps: {
+                    variant: 'outlined',
+                    size: 'large',
+                    fullWidthOnMobile: true,
+                  } as ButtonProps,
+                },
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.BUTTON,
+                  title: 'Get Started',
+                  titleProps: {
+                    variant: 'contained',
+                    size: 'large',
+                    fullWidthOnMobile: true,
+                  } as ButtonProps,
+                },
+              ],
+            },
+          ],
+        },
+      ],
+    },
+  ],
+} as BlocksProps
 
 const Home: NextPage = () => (
-  <>
+  <LandingLayout blocksProps={blocksProps}>
     <NextSeo
       title="Simple Home Example"
       description="A short description goes here."
     />
-
-    <Container maxWidth="sm">
-      <Box sx={{ my: 4 }}>
-        <Typography variant="h4" gutterBottom>
-          MUI v5 + Next.js with TypeScript example 1
-        </Typography>
-
-        <Stack spacing={1}>
-          <Button href="/about" color="primary">
-            About page
-          </Button>
-
-          <Button href="/posts" color="primary">
-            Posts page
-          </Button>
-
-          <Button href="/contact" color="primary">
-            Contact page
-          </Button>
-
-          <Button href="/profile" color="primary">
-            Profile page
-          </Button>
-
-          <Button href="/auth" color="primary">
-            Auth page
-          </Button>
-        </Stack>
-
-        <ProTip />
-        <Copyright />
-      </Box>
-
-      <Alert severity="info" sx={{ py: 3 }}>
-        Hello World
-      </Alert>
-
-      <Box
-        sx={{
-          py: 3,
-          backgroundColor: 'primary.main',
-          color: 'primary.contrastText',
-        }}
-        center
-      >
-        Hello World {printNumber(1000000, { type: 'amount', dp: 2 })}
-      </Box>
-    </Container>
-  </>
+  </LandingLayout>
 )
 
 export default Home

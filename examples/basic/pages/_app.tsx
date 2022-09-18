@@ -6,8 +6,9 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import { Toaster } from 'react-hot-toast'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
+import theme from '../src/theme'
 import createEmotionCache from '../src/createEmotionCache'
-import getWebTheme from '../src/theme/webTheme'
+import 'quill/dist/quill.snow.css'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()
@@ -32,7 +33,7 @@ export default function MyApp(props: MyAppProps) {
             />
           </Head>
 
-          <ThemeProvider theme={getWebTheme('light')}>
+          <ThemeProvider theme={theme}>
             <CssBaseline />
             <Component {...pageProps} />
             <Toaster position="top-right" reverseOrder={false} />
