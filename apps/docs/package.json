@@ -11,7 +11,8 @@
     "clear": "docusaurus clear",
     "serve": "docusaurus serve",
     "write-translations": "docusaurus write-translations",
-    "write-heading-ids": "docusaurus write-heading-ids"
+    "write-heading-ids": "docusaurus write-heading-ids",
+    "typesense:index": "docker run -it --add-host=host.docker.internal:host-gateway --env-file=.env -e \"CONFIG=$(cat docsearch.config.json | jq -r tostring)\" typesense/docsearch-scraper"
   },
   "dependencies": {
     "@docusaurus/core": "^2.1.0",
