@@ -7705,6 +7705,13 @@ axios@^0.25.0:
   dependencies:
     follow-redirects "^1.14.7"
 
+axios@^0.26.0:
+  version "0.26.1"
+  resolved "https://registry.yarnpkg.com/axios/-/axios-0.26.1.tgz#1ede41c51fcf51bbbd6fd43669caaa4f0495aaa9"
+  integrity sha512-fPwcX4EvnSHuInCMItEhAGnaSEXRBjtzh9fOtsE6E1G6p7vl7edEeZe11QHf18+6+9gR5PbKV/sGKNaD8YaMeA==
+  dependencies:
+    follow-redirects "^1.14.8"
+
 axios@^0.27.2:
   version "0.27.2"
   resolved "https://registry.yarnpkg.com/axios/-/axios-0.27.2.tgz#207658cc8621606e586c85db4b41a750e756d972"
@@ -10738,6 +10745,26 @@ doctrine@^3.0.0:
   dependencies:
     esutils "^2.0.2"
 
+docusaurus-theme-search-typesense@^0.7.0-0:
+  version "0.7.0-0"
+  resolved "https://registry.yarnpkg.com/docusaurus-theme-search-typesense/-/docusaurus-theme-search-typesense-0.7.0-0.tgz#b419f933124f9c1474c84a3032f86befed45f1a2"
+  integrity sha512-Zw0EbMMXStRqUGyd8pFL4V/al8eIrcRRv/Oae7UwrcC+7bjBFzclslwttU8PIHVf7Hqxi7Z8vGCKwMhUyhRLVg==
+  dependencies:
+    "@docusaurus/logger" "2.1.0"
+    "@docusaurus/plugin-content-docs" "2.1.0"
+    "@docusaurus/theme-translations" "2.1.0"
+    "@docusaurus/utils" "2.1.0"
+    "@docusaurus/utils-validation" "2.1.0"
+    algoliasearch-helper "^3.10.0"
+    clsx "^1.2.1"
+    eta "^1.12.3"
+    fs-extra "^10.1.0"
+    lodash "^4.17.21"
+    tslib "^2.4.0"
+    typesense-docsearch-react "^0.2.3"
+    typesense-instantsearch-adapter "^2.4.2-1"
+    utility-types "^3.10.0"
+
 dom-converter@^0.2.0:
   version "0.2.0"
   resolved "https://registry.yarnpkg.com/dom-converter/-/dom-converter-0.2.0.tgz#6721a9daee2e293682955b6afe416771627bb768"
@@ -12183,6 +12210,11 @@ follow-redirects@^1.14.0:
   version "1.15.1"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.1.tgz#0ca6a452306c9b276e4d3127483e29575e207ad5"
   integrity sha512-yLAMQs+k0b2m7cVxpS1VKJVvoz7SS9Td1zss3XRwXj+ZDH00RJgnuLx7E44wx02kQLrdM3aOOy+FpzS7+8OizA==
+
+follow-redirects@^1.14.8:
+  version "1.15.2"
+  resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.15.2.tgz#b460864144ba63f2681096f274c4e57026da2c13"
+  integrity sha512-VQLG33o04KaQ8uYi2tVNbdrWp1QWxNNea+nmIB4EVM28v0hmP17z7aG1+wAkNzVq4KeXTq3221ye5qTJP91JwA==
 
 for-in@^1.0.2:
   version "1.0.2"
@@ -15169,6 +15201,11 @@ log-update@^4.0.0:
     cli-cursor "^3.1.0"
     slice-ansi "^4.0.0"
     wrap-ansi "^6.2.0"
+
+loglevel@^1.8.0:
+  version "1.8.0"
+  resolved "https://registry.yarnpkg.com/loglevel/-/loglevel-1.8.0.tgz#e7ec73a57e1e7b419cb6c6ac06bf050b67356114"
+  integrity sha512-G6A/nJLRgWOuuwdNuA6koovfEV1YpqqAG4pRUlFaz3jj2QNZ8M4vBqnVA+HBTmU/AMNUtlOsMmSpF6NyOjztbA==
 
 longest@^2.0.1:
   version "2.0.1"
@@ -18434,13 +18471,13 @@ react-docgen@^5.0.0:
     node-dir "^0.1.10"
     strip-indent "^3.0.0"
 
-react-dom@18.1.0, react-dom@^18.0.0, react-dom@^18.1.0:
-  version "18.1.0"
-  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.1.0.tgz#7f6dd84b706408adde05e1df575b3a024d7e8a2f"
-  integrity sha512-fU1Txz7Budmvamp7bshe4Zi32d0ll7ect+ccxNu9FlObT605GOEB8BfO4tmRJ39R5Zj831VCpvQ05QPBW5yb+w==
+react-dom@18.2.0, react-dom@^18.2.0:
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/react-dom/-/react-dom-18.2.0.tgz#22aaf38708db2674ed9ada224ca4aa708d821e3d"
+  integrity sha512-6IMTriUmvsjHUjNtEDudZfuDQUoWXVxKHhlEGSk81n4YFS+r/Kl99wXiwlVXtPBtJenozv2P+hxDsw9eA7Xo6g==
   dependencies:
     loose-envify "^1.1.0"
-    scheduler "^0.22.0"
+    scheduler "^0.23.0"
 
 react-draggable@^4.4.3:
   version "4.4.5"
@@ -18709,10 +18746,10 @@ react-transition-group@^4.4.2:
     loose-envify "^1.4.0"
     prop-types "^15.6.2"
 
-react@18.1.0, react@^18.0.0, react@^18.1.0:
-  version "18.1.0"
-  resolved "https://registry.yarnpkg.com/react/-/react-18.1.0.tgz#6f8620382decb17fdc5cc223a115e2adbf104890"
-  integrity sha512-4oL8ivCz5ZEPyclFQXaNksK3adutVS8l2xzZU0cqEFrE9Sb7fC0EFK5uEk74wIreL1DERyjvsU915j1pcT2uEQ==
+react@18.2.0, react@^18.2.0:
+  version "18.2.0"
+  resolved "https://registry.yarnpkg.com/react/-/react-18.2.0.tgz#555bd98592883255fa00de14f1151a917b5d77d5"
+  integrity sha512-/3IjMdb2L9QbBdWiW5e3P2/npwMBaU9mHCSCUzNln0ZCYbcfTsGbTJrU/kGemdH2IWmB2ioZ+zkxtmq6g09fGQ==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -19447,10 +19484,10 @@ saxes@^5.0.1:
   dependencies:
     xmlchars "^2.2.0"
 
-scheduler@^0.22.0:
-  version "0.22.0"
-  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.22.0.tgz#83a5d63594edf074add9a7198b1bae76c3db01b8"
-  integrity sha512-6QAm1BgQI88NPYymgGQLCZgvep4FyePDWFpXVK+zNSUgHwlqpJy8VEh8Et0KxTACS4VWwMousBElAZOH9nkkoQ==
+scheduler@^0.23.0:
+  version "0.23.0"
+  resolved "https://registry.yarnpkg.com/scheduler/-/scheduler-0.23.0.tgz#ba8041afc3d30eb206a487b6b384002e4e61fdfe"
+  integrity sha512-CtuThmgHNg7zIZWAXi3AsyIzA3n4xx7aNyjwC2VJldO2LMVDhFK+63xGqq6CsJH4rTAt6/M+N4GhZiDYPx9eUw==
   dependencies:
     loose-envify "^1.1.0"
 
@@ -21245,6 +21282,37 @@ typescript@^4.6.3, typescript@^4.6.4:
   version "4.6.4"
   resolved "https://registry.yarnpkg.com/typescript/-/typescript-4.6.4.tgz#caa78bbc3a59e6a5c510d35703f6a09877ce45e9"
   integrity sha512-9ia/jWHIEbo49HfjrLGfKbZSuWo9iTMwXO+Ca3pRsSpbsMbc7/IU8NKdCZVRRBafVPGnoJeFL76ZOAA84I9fEg==
+
+typesense-docsearch-css@^0.3.0:
+  version "0.3.0"
+  resolved "https://registry.yarnpkg.com/typesense-docsearch-css/-/typesense-docsearch-css-0.3.0.tgz#3b96be6336da4ae1d42ccdb96543072c97c419bf"
+  integrity sha512-+/t9Jz5dwH52Xpk9ikpJaQZs+McX/a4aY+8Iw+IiD9yu9+JJddEA5RYjBgkcQ140gUtp9L213z/V0g2bC3B/hw==
+
+typesense-docsearch-react@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/typesense-docsearch-react/-/typesense-docsearch-react-0.2.3.tgz#a6d76ba59d214f687be6906f856d2507a5961b75"
+  integrity sha512-2eODhYFk3KLhwEF+shzcTsiB0zU8GefPFZGzNlGdwdUJiUxjh8SgS7VtylXGdKQZxh33wbWN4wr94CG2WxcIIw==
+  dependencies:
+    "@algolia/autocomplete-core" "1.7.1"
+    "@algolia/autocomplete-preset-algolia" "1.7.1"
+    typesense "^1.4.0-3"
+    typesense-docsearch-css "^0.3.0"
+    typesense-instantsearch-adapter "^2.4.2-1"
+
+typesense-instantsearch-adapter@^2.4.2-1:
+  version "2.4.2-1"
+  resolved "https://registry.yarnpkg.com/typesense-instantsearch-adapter/-/typesense-instantsearch-adapter-2.4.2-1.tgz#922aa2c84fbe027a15bb357db9378687c04ca855"
+  integrity sha512-reo1riIstYeHmg0g4amaZNY2wcBPORDIuanMsbIca3G6kMUxr1KyG+4pv8/qt4b+o/cp6AX72aoV6zbcdrhpYg==
+  dependencies:
+    typesense "^1.4.0-1"
+
+typesense@^1.4.0-1, typesense@^1.4.0-3:
+  version "1.4.0"
+  resolved "https://registry.yarnpkg.com/typesense/-/typesense-1.4.0.tgz#30fabfee5b70839ecdfb2810658b635db75707f4"
+  integrity sha512-+Y6WYNB3+z5bR1/F5AfHQyqdeKGOZW0k2l0HSFgCFl+3wo6oY42lAhJG2JZk6k8ux3j4866IyruKsCG5NtlHMQ==
+  dependencies:
+    axios "^0.26.0"
+    loglevel "^1.8.0"
 
 ua-parser-js@^0.7.30:
   version "0.7.31"
