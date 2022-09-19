@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.38
+
+### Patch Changes
+
+- [`e2ca8fc`](https://github.com/gravis-os/gravis-os/commit/e2ca8fcd251bd54ca4b7d547d1ded93667171f6b) Thanks [@clodal](https://github.com/clodal)! - Upgrade React from 18.1 to 18.2
+
+* [#77](https://github.com/gravis-os/gravis-os/pull/77) [`90cf028`](https://github.com/gravis-os/gravis-os/commit/90cf028c5656ff002a4af45f88f9df2f21912a1d) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add fallback value in setFilters
+
+* Updated dependencies [[`e2ca8fc`](https://github.com/gravis-os/gravis-os/commit/e2ca8fcd251bd54ca4b7d547d1ded93667171f6b), [`1c0e511`](https://github.com/gravis-os/gravis-os/commit/1c0e5118dc309520880d99276e73fed4de7dc159)]:
+  - @gravis-os/auth@0.0.20
+  - @gravis-os/form@0.0.47
+  - @gravis-os/storage@0.0.14
+  - @gravis-os/types@0.0.12
+  - @gravis-os/ui@0.0.24
+  - @gravis-os/utils@0.0.13
+
 ## 0.0.37
 
 ### Patch Changes

@@ -1,4 +1,4 @@
-# @gravis-os/query
+# @gravis-os/storybook
 
 ## 0.0.2
 
@@ -8,9 +8,4 @@
 
 - Updated dependencies [[`e2ca8fc`](https://github.com/gravis-os/gravis-os/commit/e2ca8fcd251bd54ca4b7d547d1ded93667171f6b)]:
   - @gravis-os/types@0.0.12
-
-## 0.0.1
-
-### Patch Changes
-
-- Published @gravis-os/query
+  - @gravis-os/ui@0.0.24
