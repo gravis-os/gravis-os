@@ -1,6 +1,6 @@
 import React from 'react'
 import Image from 'next/image'
-import { Link } from '@gravis-os/ui'
+import { Link, useSettings } from '@gravis-os/ui'
 
 const logoJsx = (
   <Link href="/" sx={{ display: 'flex' }}>
@@ -26,6 +26,17 @@ const landingLayoutProps = {
           linkProps: { target: '_blank' },
         },
         { key: 'features', title: 'Features', href: '/features' },
+      ],
+      right: [
+        {
+          key: 'dark-mode',
+          title: 'Dark Mode',
+          showOnMobileBar: true,
+          render: () => {
+            const { toggleDarkModeIconButtonJsx } = useSettings()
+            return toggleDarkModeIconButtonJsx
+          },
+        },
       ],
     },
   },

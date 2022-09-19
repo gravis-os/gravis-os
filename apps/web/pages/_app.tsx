@@ -6,6 +6,7 @@ import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
 import { Toaster } from 'react-hot-toast'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
+import { SettingsProvider, SettingsConsumer } from '@gravis-os/ui'
 import createEmotionCache from '../src/createEmotionCache'
 import getWebTheme from '../src/theme/webTheme'
 
@@ -32,11 +33,17 @@ export default function MyApp(props: MyAppProps) {
             />
           </Head>
 
-          <ThemeProvider theme={getWebTheme('light')}>
-            <CssBaseline />
-            <Component {...pageProps} />
-            <Toaster position="top-right" reverseOrder={false} />
-          </ThemeProvider>
+          <SettingsProvider>
+            <SettingsConsumer>
+              {({ settings }) => (
+                <ThemeProvider theme={getWebTheme(settings.theme)}>
+                  <CssBaseline />
+                  <Component {...pageProps} />
+                  <Toaster position="top-right" reverseOrder={false} />
+                </ThemeProvider>
+              )}
+            </SettingsConsumer>
+          </SettingsProvider>
         </CacheProvider>
       </Hydrate>
     </QueryClientProvider>

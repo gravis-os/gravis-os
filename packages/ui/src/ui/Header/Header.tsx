@@ -60,6 +60,12 @@ export interface HeaderProps extends AppBarProps {
   disableScrollTrigger?: boolean
 }
 
+/**
+ * This component is loaded with many features.
+ * It should be outside of the ui package.
+ * @param props
+ * @constructor
+ */
 const Header: React.FC<HeaderProps> = (props) => {
   const {
     containerProps,

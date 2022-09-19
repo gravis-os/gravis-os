@@ -1,4 +1,7 @@
 import React, { createContext, useEffect, useState } from 'react'
+import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
+import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import IconButton from './IconButton'
 
 export interface Settings {
   direction?: 'ltr' | 'rtl'
@@ -10,6 +13,8 @@ export interface SettingsContextValue {
   settings: Settings
   saveSettings: (update: Settings) => void
   isDarkMode: boolean
+  handleToggleThemeMode: () => void
+  toggleDarkModeIconButtonJsx: React.ReactElement
 }
 
 export interface SettingsProviderProps {
@@ -57,6 +62,8 @@ export const SettingsContext = createContext<SettingsContextValue>({
   settings: initialSettings,
   saveSettings: () => null,
   isDarkMode: false,
+  handleToggleThemeMode: () => null,
+  toggleDarkModeIconButtonJsx: null,
 })
 
 export const SettingsConsumer = SettingsContext.Consumer
@@ -98,12 +105,28 @@ const SettingsProvider: React.FC<SettingsProviderProps> = (props) => {
     storeSettings(updatedSettings)
   }
 
+  const isDarkMode = settings.theme === 'dark'
+
+  const handleToggleThemeMode = () => {
+    return saveSettings({
+      ...settings,
+      theme: isDarkMode ? 'light' : 'dark',
+    })
+  }
+  const toggleDarkModeIconButtonJsx = (
+    <IconButton onClick={handleToggleThemeMode} color="inherit">
+      {isDarkMode ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
+    </IconButton>
+  )
+
   return (
     <SettingsContext.Provider
       value={{
         settings,
         saveSettings,
-        isDarkMode: settings.theme === 'dark',
+        isDarkMode,
+        handleToggleThemeMode,
+        toggleDarkModeIconButtonJsx,
       }}
     >
       {children}
