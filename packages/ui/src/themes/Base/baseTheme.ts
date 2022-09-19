@@ -1,6 +1,31 @@
 import merge from 'lodash/merge'
 import { createTheme } from '@mui/material'
 
+// ====================================
+// Custom Variants
+// ====================================
+// Reference: https://mui.com/material-ui/customization/typography/#adding-amp-disabling-variants
+declare module '@mui/material/styles' {
+  interface ButtonVariants {
+    paper: React.CSSProperties
+    muted: React.CSSProperties
+  }
+
+  // allow configuration using `createTheme`
+  interface ButtonVariantsOptions {
+    paper?: React.CSSProperties
+    muted?: React.CSSProperties
+  }
+}
+
+// Update the Button's variant prop options
+declare module '@mui/material/Button' {
+  interface ButtonPropsVariantOverrides {
+    paper: true
+    muted: true
+  }
+}
+
 const muiLightTheme = createTheme()
 const muiDarkTheme = createTheme({ palette: { mode: 'dark' } })
 
