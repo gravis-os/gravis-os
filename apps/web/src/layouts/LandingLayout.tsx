@@ -6,65 +6,21 @@ import {
   LandingLayout as GvsLandingLayout,
   LandingLayoutProps as GvsLandingLayoutProps,
 } from '@gravis-os/web'
-
-const logoJsx = <div>Logo</div>
-
-const landingLayoutProps = {
-  headerProps: {
-    navItems: {
-      left: [
-        {
-          key: 'logo',
-          title: 'Logo',
-          children: logoJsx,
-          onClick: () => window.alert('You clicked on Foo'),
-          sx: { mr: 1 },
-          showOnMobileBar: true,
-        },
-        {
-          key: 'foo',
-          title: 'Foo',
-          onClick: () => window.alert('You clicked on Foo'),
-        },
-        { key: 'pricing', title: 'Pricing', href: '/pricing' },
-      ],
-    },
-  },
-  footerProps: {
-    logo: logoJsx,
-    companyName: 'Acme Inc.',
-    navItems: [
-      {
-        title: 'What We Do',
-        items: [
-          { title: 'Product Design', href: '#' },
-          { title: 'Pricing', href: '#' },
-        ],
-      },
-      {
-        title: 'Learn more',
-        items: [
-          { title: 'Work', href: '#' },
-          { title: 'About', href: '#' },
-        ],
-      },
-      {
-        title: 'Support',
-        items: [{ title: 'Person', href: '#' }],
-      },
-    ],
-  },
-}
+import { NextSeo } from 'next-seo'
+import type { NextSeoProps } from 'next-seo'
+import layoutConfig from '../app/layoutConfig'
 
 export interface LandingLayoutProps extends GvsLandingLayoutProps {
-  blocksProps?: BlocksProps
+  blocks?: BlocksProps['items']
+  seo?: NextSeoProps
 }
 
 const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
-  const { blocksProps, children, ...rest } = props
+  const { seo, blocks, children, ...rest } = props
   return (
-    <GvsLandingLayout {...merge({}, landingLayoutProps, rest)}>
-      {blocksProps && <Blocks {...blocksProps} />}
+    <GvsLandingLayout {...merge({}, layoutConfig, rest)}>
+      {seo && <NextSeo {...seo} />}
+      {blocks && <Blocks items={blocks} />}
       {children}
     </GvsLandingLayout>
   )

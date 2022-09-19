@@ -62,7 +62,7 @@ export const MOCK_BLOCK_ITEM_TYPES = {
   IMAGE: {
     type: BlockItemTypeEnum.IMAGE,
     title: 'https://via.placeholder.com/300x200',
-    titleProps: { alt: 'MOCK_IMAGE' },
+    titleProps: { alt: 'MOCK_IMAGE', width: 300, height: 200 },
   },
   OVERLINE: { type: BlockItemTypeEnum.OVERLINE, title: 'What we do' },
   H1: {
