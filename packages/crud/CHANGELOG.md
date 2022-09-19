@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.39
+
+### Patch Changes
+
+- [#79](https://github.com/gravis-os/gravis-os/pull/79) [`afa12e4`](https://github.com/gravis-os/gravis-os/commit/afa12e49fd7f3ced74700126e4c0646e8e7889c9) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Fix typescript error
+
 ## 0.0.38
 
 ### Patch Changes
