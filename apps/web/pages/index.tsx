@@ -3,7 +3,7 @@ import type { NextPage } from 'next'
 import LandingLayout from '@web/layouts/LandingLayout'
 import homeBlocks from '../src/app/homeBlocks'
 
-const Home: NextPage = (props) => (
+const Home: NextPage = () => (
   <LandingLayout
     blocks={homeBlocks}
     seo={{
