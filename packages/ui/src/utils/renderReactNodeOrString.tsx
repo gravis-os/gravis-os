@@ -3,7 +3,7 @@ import { Typography, TypographyProps } from '..'
 
 const renderReactNodeOrString = (
   node: ReactNode,
-  typographyProps: TypographyProps
+  typographyProps?: TypographyProps
 ) => {
   return isValidElement(node) ? (
     node
