@@ -75,8 +75,9 @@ const useRouterQueryFilters = (args) => {
     const nextRouterQuery = getRouterQueryFromFilters(filters)
 
     const isWorkspacePathname = pathname.startsWith('/_workspaces/[workspace]')
-    const [_, ...workspaceSubpath] =
-      isWorkspacePathname && pathname.split('/_workspaces/[workspace]')
+    const [_, ...workspaceSubpath] = isWorkspacePathname
+      ? pathname.split('/_workspaces/[workspace]')
+      : []
     const nextPathname = workspaceSubpath ? workspaceSubpath[0] : pathname
 
     return router.push({ pathname: nextPathname, query: nextRouterQuery })
