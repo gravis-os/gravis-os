@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- [#78](https://github.com/gravis-os/gravis-os/pull/78) [`014db58`](https://github.com/gravis-os/gravis-os/commit/014db58921a2ca2675cd84b9ea663e243f15364d) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Fixed typescript error for the custom Button variants
+
+## 0.0.24
+
+### Patch Changes
+
+- [`e2ca8fc`](https://github.com/gravis-os/gravis-os/commit/e2ca8fcd251bd54ca4b7d547d1ded93667171f6b) Thanks [@clodal](https://github.com/clodal)! - Upgrade React from 18.1 to 18.2
+
+- Updated dependencies [[`e2ca8fc`](https://github.com/gravis-os/gravis-os/commit/e2ca8fcd251bd54ca4b7d547d1ded93667171f6b)]:
+  - @gravis-os/types@0.0.12
+  - @gravis-os/utils@0.0.13
+
 ## 0.0.23
 
 ### Patch Changes

@@ -3579,24 +3579,6 @@
   resolved "https://registry.yarnpkg.com/@gar/promisify/-/promisify-1.1.3.tgz#555193ab2e3bb3b6adc3d551c9c030d9e860daf6"
   integrity sha512-k2Ty1JcVojjJFwrg/ThKi2ujJ7XNLYaFGNB/bWT9wGR+oSMJHMa5w+CUq6p/pVrKeNNgA7pCqEcjSnHVoqJQFw==
 
-"@gravis-os/eslint-config@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@gravis-os/eslint-config/-/eslint-config-0.0.2.tgz#feba9b7e5e8fb6f16f1027b903862389706d1648"
-  integrity sha512-boUJDsJ205+XRd3mBpMBVQzDmAmMd7CQmLy4rrQbKT2qEJt4ncGiUtJr7bB/59V7MgdxprUz3XePwGHQszJoDA==
-  dependencies:
-    "@typescript-eslint/eslint-plugin" "^5.23.0"
-    "@typescript-eslint/parser" "^5.23.0"
-    eslint "^8.15.0"
-    eslint-config-airbnb "^18.2.0"
-    eslint-config-next "^12.0.8"
-    eslint-config-prettier "^8.3.0"
-    eslint-import-resolver-typescript "^2.2.0"
-    eslint-plugin-import "^2.22.0"
-    eslint-plugin-jsx-a11y "^6.3.1"
-    eslint-plugin-prettier "^3.1.4"
-    eslint-plugin-react "7.28.0"
-    eslint-plugin-react-hooks "^4.0.8"
-
 "@hapi/hoek@^9.0.0":
   version "9.3.0"
   resolved "https://registry.yarnpkg.com/@hapi/hoek/-/hoek-9.3.0.tgz#8368869dcb735be2e7f5cb7647de78e167a251fb"

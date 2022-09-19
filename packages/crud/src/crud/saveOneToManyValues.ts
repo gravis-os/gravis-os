@@ -21,7 +21,9 @@ const saveOneToManyValues = async (props) => {
       ({ id }) => !id || typeof id === 'string'
     )
     const insertRows = insertRowsWithIds.map((row) => omit(row, 'id'))
-    const deleteIds = differenceBy(item?.[key], rows, 'id').map(({ id }) => id)
+    const deleteIds = differenceBy(item?.[key], rows, 'id').map(
+      ({ id }: any) => id
+    )
 
     if (!module.relations?.[key]?.table?.name) return null
     const foreignTableName = module.relations[key].table.name

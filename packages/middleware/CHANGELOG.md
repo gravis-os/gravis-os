@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.6
+
+### Patch Changes
+
+- [`e2ca8fc`](https://github.com/gravis-os/gravis-os/commit/e2ca8fcd251bd54ca4b7d547d1ded93667171f6b) Thanks [@clodal](https://github.com/clodal)! - Upgrade React from 18.1 to 18.2
+
+* [`1c0e511`](https://github.com/gravis-os/gravis-os/commit/1c0e5118dc309520880d99276e73fed4de7dc159) Thanks [@clodal](https://github.com/clodal)! - Republish auth, middleware, saas to fix issue with unauthorization at login"
+
 ## 0.0.5
 
 ### Patch Changes

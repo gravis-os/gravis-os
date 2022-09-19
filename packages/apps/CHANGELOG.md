@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.26
+
+### Patch Changes
+
+- [`e2ca8fc`](https://github.com/gravis-os/gravis-os/commit/e2ca8fcd251bd54ca4b7d547d1ded93667171f6b) Thanks [@clodal](https://github.com/clodal)! - Upgrade React from 18.1 to 18.2
+
+- Updated dependencies [[`e2ca8fc`](https://github.com/gravis-os/gravis-os/commit/e2ca8fcd251bd54ca4b7d547d1ded93667171f6b), [`90cf028`](https://github.com/gravis-os/gravis-os/commit/90cf028c5656ff002a4af45f88f9df2f21912a1d)]:
+  - @gravis-os/crud@0.0.38
+  - @gravis-os/form@0.0.47
+  - @gravis-os/types@0.0.12
+  - @gravis-os/ui@0.0.24
+
 ## 0.0.25
 
 ### Patch Changes
