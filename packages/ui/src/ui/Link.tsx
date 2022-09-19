@@ -7,18 +7,30 @@ export interface LinkProps extends MuiLinkProps {
   pointer?: boolean
   rightCaret?: boolean
   displayBlock?: boolean
+  fadeOnHover?: boolean
 }
 
 const Link: React.FC<LinkProps> = (props) => {
-  const { displayBlock, rightCaret, href, children, pointer, sx, ...rest } =
-    props
+  const {
+    fadeOnHover,
+    displayBlock,
+    rightCaret,
+    href,
+    children,
+    pointer,
+    sx,
+    ...rest
+  } = props
 
   const childrenJsx = (
     <MuiLink
       sx={{
         ...(pointer && { cursor: 'pointer' }),
         ...(displayBlock && { display: 'block' }),
-        '&:hover': { color: rest.color || 'primary.main' },
+        '&:hover': {
+          color: rest.color || 'primary.main',
+          ...(fadeOnHover && { opacity: 0.8 }),
+        },
         ...sx,
       }}
       {...rest}

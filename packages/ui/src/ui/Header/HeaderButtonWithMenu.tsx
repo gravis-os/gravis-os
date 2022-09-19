@@ -21,7 +21,7 @@ import {
   bindTrigger,
   usePopupState,
 } from 'material-ui-popup-state/hooks'
-import Link from '../Link'
+import Link, { LinkProps } from '../Link'
 
 export type NavItemClickFunction = (e: React.MouseEvent, item: any) => void
 
@@ -41,6 +41,7 @@ export interface HeaderButtonWithMenuProps {
   isOpenOnHover?: boolean
   fullWidth?: boolean
   buttonProps?: ButtonProps
+  linkProps?: LinkProps
   disableBackdrop?: boolean
 }
 
@@ -54,6 +55,7 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
     fullWidth,
     isOpenOnHover,
     buttonProps,
+    linkProps,
   } = props
 
   // Refs
@@ -117,7 +119,7 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
               if (injectedOnClick) return navItemJsx
 
               return (
-                <Link href={item.href} key={key}>
+                <Link href={item.href} key={key} {...linkProps}>
                   {navItemJsx}
                 </Link>
               )

@@ -23,6 +23,7 @@ import HeaderButtonWithMenu, {
 } from './HeaderButtonWithMenu'
 import Container, { ContainerProps } from '../Container'
 import HideOnScroll from './HideOnScroll'
+import Link from '../Link'
 
 export interface HeaderNavItem
   extends Omit<HeaderButtonWithMenuProps, 'title'> {
@@ -108,7 +109,8 @@ const Header: React.FC<HeaderProps> = (props) => {
       return null
 
     return navItems.map((navItem: HeaderNavItem) => {
-      const { key, children, showOnMobileBar, preset, render, sx } = navItem
+      const { linkProps, key, children, showOnMobileBar, preset, render, sx } =
+        navItem
 
       // Get classes
       const navItemWrapperProps = {
@@ -180,9 +182,15 @@ const Header: React.FC<HeaderProps> = (props) => {
 
             if (navItem.href) {
               return (
-                <RouterLink href={navItem.href} passHref>
+                <Link
+                  href={navItem.href}
+                  color="inherit"
+                  underline="none"
+                  fadeOnHover
+                  {...linkProps}
+                >
                   {navItemButtonJsx}
-                </RouterLink>
+                </Link>
               )
             }
 
