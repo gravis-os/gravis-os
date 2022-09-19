@@ -9,6 +9,7 @@ import {
 import { NextSeo } from 'next-seo'
 import type { NextSeoProps } from 'next-seo'
 import layoutConfig from '../app/layoutConfig'
+import appConfig from '../app/appConfig'
 
 export interface LandingLayoutProps extends GvsLandingLayoutProps {
   blocks?: BlocksProps['items']
@@ -19,7 +20,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
   const { seo, blocks, children, ...rest } = props
   return (
     <GvsLandingLayout {...merge({}, layoutConfig, rest)}>
-      {seo && <NextSeo {...seo} />}
+      {seo && <NextSeo titleTemplate={`%s | ${appConfig.title}`} {...seo} />}
       {blocks && <Blocks items={blocks} />}
       {children}
     </GvsLandingLayout>
