@@ -1,5 +1,12 @@
 # web
 
+## 0.0.3
+
+### Patch Changes
+
+- Updated dependencies [[`014db58`](https://github.com/gravis-os/gravis-os/commit/014db58921a2ca2675cd84b9ea663e243f15364d)]:
+  - @gravis-os/ui@0.0.25
+
 ## 0.0.2
 
 ### Patch Changes

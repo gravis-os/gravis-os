@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- [#78](https://github.com/gravis-os/gravis-os/pull/78) [`014db58`](https://github.com/gravis-os/gravis-os/commit/014db58921a2ca2675cd84b9ea663e243f15364d) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Fixed typescript error for the custom Button variants
+
 ## 0.0.24
 
 ### Patch Changes
