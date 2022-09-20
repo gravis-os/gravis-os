@@ -20,6 +20,7 @@ import debounce from 'lodash/debounce'
 import startCase from 'lodash/startCase'
 import partition from 'lodash/partition'
 import isEmpty from 'lodash/isEmpty'
+import has from 'lodash/has'
 import { CircularProgress, Stack, Typography } from '@gravis-os/ui'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import { CrudModule } from '@gravis-os/types'
@@ -82,6 +83,7 @@ export interface ModelFieldProps {
   filters?: Array<{
     pk: string
     op?: string // FilterOperator
+    value?: string | number
     foreignTable?: string // foreignTableName
   }>
   /**
@@ -175,8 +177,18 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
   // The data fetching function
   const fetchData = useCallback(
-    async (args: { inputValue?: string } = {}) => {
-      const { inputValue } = args
+    async (
+      args: {
+        inputValue?: string
+        filters?: Array<{
+          pk: string
+          op?: string // FilterOperator
+          value?: string | number
+          foreignTable?: string // foreignTableName
+        }>
+      } = {}
+    ) => {
+      const { inputValue, filters } = args
 
       // Handle degenerate case
       const isValidInputValue = typeof inputValue === 'string'
@@ -206,13 +218,16 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           'foreignTable'
         )
 
+        // Add any server-side filters using custom value instead of the inputValue, e.g. company_id = 28
+        const [primaryTableFiltersWithValue, primaryTableFiltersWithoutValue] =
+          partition(primaryTableFilters, (filter) => has(filter, 'value'))
+
         // Add any additional server-side filters in the or query
-        const injectedPrimaryOrFiltersArray = primaryTableFilters.map(
-          (filter) => {
+        const injectedPrimaryOrFiltersArray =
+          primaryTableFiltersWithoutValue.map((filter) => {
             const { pk, op = 'ilike' } = filter
             return `${pk}.${op}.${fuzzyInputValue}`
-          }
-        )
+          })
 
         // Append the additional filters
         const primaryOrFilterArray = [
@@ -236,6 +251,26 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
              * @link https://supabase.com/docs/reference/javascript/or#use-or-on-foreign-tables
              */
             query = query.or(`${pk}.${op}.${fuzzyInputValue}`, { foreignTable })
+          })
+        }
+
+        /**
+         * Set .or() filters for custom-value filter
+         * Note that this will be treated as a AND filter when used
+         * with the primaryTableOrFilter because the query will be
+         * executed as (1) .orP() && (2) .or()
+         */
+        if (primaryTableFiltersWithValue) {
+          primaryTableFiltersWithValue.forEach((filter) => {
+            const { pk, op = 'ilike', value } = filter
+
+            if (value) {
+              /**
+               * Set QueryFilterBuilder imperatively
+               * @example .or('name.ilike.London,name.eq.Paris')
+               */
+              query = query.or(`${pk}.${op}.${value}`)
+            }
           })
         }
 
@@ -285,7 +320,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     // Prevent issue with unnecessary fetch from onSelect
     if (!open) return
     // Fetch data
-    fetchDataWithDelay({ inputValue })
+    fetchDataWithDelay({ inputValue, filters })
   }, [inputValue])
 
   // Fetch data onOpen so that some options will be populated
@@ -293,12 +328,19 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     if (!loading) return
     // onOpen, fetch all data for client-side filter
     // whereby client-side filtering: e.g. `fetch-all + instant-filter`
-    fetchDataWithDelay({ inputValue })
+    fetchDataWithDelay({ inputValue, filters })
   }, [loading])
+
+  // Fetch data when filters change
+  useEffect(() => {
+    if (!filters) return
+    fetchDataWithDelay({ inputValue, filters })
+  }, [filters])
 
   // Fetch data when there is a value to populate options. Reverse look-up object from id
   useEffect(() => {
-    if (displayValue && isPrimitiveValue) fetchDataWithDelay({ inputValue })
+    if (displayValue && isPrimitiveValue)
+      fetchDataWithDelay({ inputValue, filters })
   }, [])
 
   // ==============================
