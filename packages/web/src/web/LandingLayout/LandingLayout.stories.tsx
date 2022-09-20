@@ -19,7 +19,7 @@ import {
   publicoLandingTheme,
   vercelLandingTheme,
 } from '../../themes'
-import { BlockItemTypeEnum } from '../Block/BlockItem'
+import { BlockItemTypeEnum } from '../Block'
 import PublicoHeadlineLight from '../../../public/fonts/Publico/PublicoHeadline-Light-Web.woff2'
 import PublicoTextSemibold from '../../../public/fonts/Publico/PublicoText-Semibold-Web.woff2'
 import PublicoTextRoman from '../../../public/fonts/Publico/PublicoText-Roman-Web.woff2'

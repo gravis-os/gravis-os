@@ -1,7 +1,7 @@
 import React from 'react'
 import Block from './Block'
 import { MOCK_BLOCK, MOCK_BLOCK_ITEM_TYPES } from '../../mocks'
-import { BlockItemTypeEnum } from './BlockItem'
+import { BlockItemTypeEnum } from './constants'
 import MOCK_RAINBOW_GRADIENT_1_IMAGE from '../../../public/images/mock_rainbow_gradient_1.jpg'
 import MOCK_DARK_BLUE_GRADIENT_1_IMAGE from '../../../public/images/mock_dark_blue_gradient_1.jpg'
 
@@ -26,6 +26,34 @@ const Template = (args) => <Block {...args} />
 
 export const Basic = Template.bind({})
 Basic.args = {}
+
+export const Shorthands = Template.bind({})
+Shorthands.args = {
+  items: [
+    {
+      type: BlockItemTypeEnum.H4,
+      title: 'This is the extended version (no shorthand)',
+    },
+    {
+      subtitle1: {
+        title: 'Subtitle1',
+        color: 'success.main',
+        mt: 3,
+      },
+      subtitle2: {
+        title: 'Subtitle 2 demonstrated with stacking within the same object',
+      },
+    },
+    { body1: 'Body1 in string syntax' },
+    {
+      body1: {
+        title: 'Body1 second para',
+        color: 'error.main',
+        mt: 3,
+      },
+    },
+  ],
+}
 
 export const Center = Template.bind({})
 Center.args = { center: true, maxWidth: 'sm' }

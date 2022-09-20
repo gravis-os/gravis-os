@@ -2,17 +2,19 @@ import React from 'react'
 import { Theme } from '@mui/material'
 import { ThemeProvider } from '@mui/material/styles'
 import {
-  ContainerProps,
   Box,
   BoxProps,
+  ContainerProps,
   Image,
   ImageProps,
   Stack,
   StackProps,
 } from '@gravis-os/ui'
+import flowRight from 'lodash/flowRight'
 import BlockItem, { BlockItemProps } from './BlockItem'
 import landingTheme from '../../themes/Landing/landingTheme'
 import getBlockPadding, { BlockPadding } from './getBlockPadding'
+import withBlockItemShorthand from './withBlockItemShorthand'
 
 export interface BlockProps
   extends Omit<BoxProps, 'maxWidth' | 'pt' | 'pb' | 'py'> {
@@ -54,7 +56,7 @@ const Block: React.FC<BlockProps> = (props) => {
     pt,
     pb,
     py,
-    items,
+    items: injectedItems,
     sx,
     maxWidth,
     containerProps,
@@ -65,6 +67,8 @@ const Block: React.FC<BlockProps> = (props) => {
   } = props
 
   const hasBackgroundImage = Boolean(backgroundImageProps)
+
+  const items = flowRight([withBlockItemShorthand()])(injectedItems)
 
   const childrenJsx = (
     // Section layer
