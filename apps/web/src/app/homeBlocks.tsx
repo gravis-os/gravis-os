@@ -12,12 +12,18 @@ const homeBlocks = [
       {
         type: BlockItemTypeEnum.OVERLINE,
         title: 'Gravis - operating system for modern enterprises',
-        titleProps: { color: 'text.primary' },
+        titleProps: { color: 'text.secondary' },
       },
       {
         type: BlockItemTypeEnum.H1,
-        title: `Gravis OS`,
-        titleProps: { gutterBottom: true },
+        title: `Build. Develop. Ship`,
+        titleProps: {
+          gutterBottom: true,
+          gradient: {
+            to: 'success.light',
+            from: 'info.light',
+          },
+        },
       },
       {
         type: BlockItemTypeEnum.SUBTITLE1,
