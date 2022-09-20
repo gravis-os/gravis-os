@@ -20,6 +20,7 @@ import {
   Divider,
   DividerProps,
 } from '@gravis-os/ui'
+import merge from 'lodash/merge'
 
 export enum BlockItemTypeEnum {
   // Default Typography
@@ -132,7 +133,7 @@ const renderBlockItem = (props) => {
     case BlockItemTypeEnum.IMAGE:
       return (
         <Box {...boxProps}>
-          <Image src={title} layout="responsive" {...titleProps} />
+          <Image src={title} {...titleProps} />
         </Box>
       )
     case BlockItemTypeEnum.H1:
@@ -187,6 +188,7 @@ const renderGrid = (props) => {
     gridProps,
     maxWidth,
     containerProps,
+    titleProps, // Common title props
   } = props
   return (
     <Box sx={sx}>
@@ -233,7 +235,12 @@ const renderGrid = (props) => {
             return (
               <Grid {...gridItemProps}>
                 <Box {...boxProps}>
-                  {items.map((item) => renderBlockItem(item))}
+                  {items.map((item) =>
+                    renderBlockItem({
+                      ...item,
+                      titleProps: merge({}, titleProps, item?.titleProps),
+                    })
+                  )}
                 </Box>
               </Grid>
             )
@@ -256,12 +263,14 @@ const renderStack = (props) => {
     // Container
     maxWidth,
     containerProps,
+
+    titleProps,
   } = props
 
   return (
     <Box sx={sx}>
       <Container maxWidth={maxWidth} {...containerProps}>
-        <Stack spacing={1} {...stackProps}>
+        <Stack spacing={1} direction="row" {...stackProps}>
           {stackItems.map((stackItem, i) => {
             const { items, ...rest } = stackItem
 
@@ -292,7 +301,12 @@ const renderStack = (props) => {
 
             return (
               <Box key={`stack-item-${i}`} {...stackItemProps}>
-                {items.map((item) => renderBlockItem(item))}
+                {items.map((item) =>
+                  renderBlockItem({
+                    ...item,
+                    titleProps: merge({}, titleProps, item?.titleProps),
+                  })
+                )}
               </Box>
             )
           })}

@@ -1,13 +1,18 @@
 import { BlockItemTypeEnum, BlocksProps } from '@gravis-os/web'
 import { ButtonProps } from '@gravis-os/ui'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import auth0_svg from '../../public/endorsements/auth0.svg'
+import tripadvisor_svg from '../../public/endorsements/tripadvisor-horizontal.svg'
+import washingtonpost_svg from '../../public/endorsements/washingtonpost.svg'
+import uber_svg from '../../public/endorsements/uber.svg'
+import meta_svg from '../../public/endorsements/meta.svg'
+import hashicorp_svg from '../../public/endorsements/hashicorp.svg'
 
 const homeBlocks = [
   {
     key: 'hero',
     maxWidth: 'md' as const,
     center: true,
-    sx: { backgroundColor: 'background.paper' },
     items: [
       {
         type: BlockItemTypeEnum.OVERLINE,
@@ -74,9 +79,174 @@ const homeBlocks = [
     ],
   },
   {
-    key: 'brands',
+    key: 'endorsements-grid',
     center: true,
-    sx: { backgroundColor: 'background.paper' },
+    py: 4,
+    items: [
+      {
+        type: BlockItemTypeEnum.OVERLINE,
+        title: 'Trusted by the best frontend teams',
+        titleProps: { color: 'text.primary' },
+      },
+      {
+        type: BlockItemTypeEnum.GRID,
+        sx: { mt: { xs: 2, md: 4 } },
+        gridProps: { spacing: { xs: 5 } },
+        boxProps: {
+          display: 'flex',
+          alignItems: 'center',
+        },
+        titleProps: {
+          sx: {
+            display: 'inline-flex',
+            verticalAlign: 'middle',
+            maxHeight: 30,
+            userSelect: 'none',
+            pointerEvents: 'none',
+            outline: 'none',
+            cursor: 'default',
+          },
+        },
+        gridItems: [
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: auth0_svg,
+              },
+            ],
+          },
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: tripadvisor_svg,
+              },
+            ],
+          },
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: washingtonpost_svg,
+              },
+            ],
+          },
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: uber_svg,
+                titleProps: {
+                  sx: {
+                    maxHeight: 20,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: meta_svg,
+                titleProps: {
+                  sx: {
+                    maxHeight: 20,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: hashicorp_svg,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: 'endorsements-stack',
+    center: true,
+    maxWidth: 'md' as const,
+    py: 4,
+    items: [
+      {
+        type: BlockItemTypeEnum.OVERLINE,
+        title: 'Trusted by the best frontend teams',
+        titleProps: { color: 'text.primary' },
+      },
+      {
+        type: BlockItemTypeEnum.STACK,
+        sx: { mt: { xs: 2, md: 4 } },
+        stackProps: {
+          width: '100%',
+          justifyContent: 'space-evenly',
+        },
+        stackItemProps: {
+          fullWidthOnMobile: false,
+        },
+        titleProps: {
+          sx: {
+            display: 'inline-flex',
+            verticalAlign: 'middle',
+            maxHeight: 30,
+            userSelect: 'none',
+            pointerEvents: 'none',
+            outline: 'none',
+            cursor: 'default',
+          },
+        },
+        stackItems: [
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: auth0_svg,
+              },
+            ],
+          },
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: tripadvisor_svg,
+              },
+            ],
+          },
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: uber_svg,
+                titleProps: {
+                  sx: {
+                    maxHeight: 25,
+                  },
+                },
+              },
+            ],
+          },
+          {
+            items: [
+              {
+                type: BlockItemTypeEnum.IMAGE,
+                title: hashicorp_svg,
+              },
+            ],
+          },
+        ],
+      },
+    ],
+  },
+  {
+    key: 'features',
+    center: true,
     items: [
       {
         type: BlockItemTypeEnum.OVERLINE,
@@ -84,65 +254,141 @@ const homeBlocks = [
         titleProps: { color: 'text.primary' },
       },
       {
+        // TODO@Joel: Make this shorthand method work.
+        overline: {
+          title: 'Amazing features',
+          color: 'text.primary',
+        },
+        title: 'Features you will love',
+      },
+      {
         type: BlockItemTypeEnum.GRID,
         sx: { mt: { xs: 5, md: 10 } },
         gridProps: { spacing: { xs: 5 } },
         gridItems: [
           {
+            md: 3,
             sx: { textAlign: { xs: 'center' } },
             items: [
               {
                 type: BlockItemTypeEnum.ICON,
                 title: AddCircleOutlineOutlinedIcon,
-                titleProps: { sx: { fontSize: 'h2.fontSize' } },
+                titleProps: { sx: { fontSize: 'h4.fontSize' } },
               },
               {
-                type: BlockItemTypeEnum.H5,
+                type: BlockItemTypeEnum.H6,
                 title: 'Application Development',
                 titleProps: { gutterBottom: true },
               },
             ],
           },
           {
+            md: 3,
             sx: { textAlign: { xs: 'center' } },
             items: [
               {
                 type: BlockItemTypeEnum.ICON,
                 title: AddCircleOutlineOutlinedIcon,
-                titleProps: { sx: { fontSize: 'h2.fontSize' } },
+                titleProps: { sx: { fontSize: 'h4.fontSize' } },
               },
               {
-                type: BlockItemTypeEnum.H5,
+                type: BlockItemTypeEnum.H6,
                 title: 'Application Development',
                 titleProps: { gutterBottom: true },
               },
             ],
           },
           {
+            md: 3,
             sx: { textAlign: { xs: 'center' } },
             items: [
               {
                 type: BlockItemTypeEnum.ICON,
                 title: AddCircleOutlineOutlinedIcon,
-                titleProps: { sx: { fontSize: 'h2.fontSize' } },
+                titleProps: { sx: { fontSize: 'h4.fontSize' } },
               },
               {
-                type: BlockItemTypeEnum.H5,
+                type: BlockItemTypeEnum.H6,
                 title: 'Application Development',
                 titleProps: { gutterBottom: true },
               },
             ],
           },
           {
+            md: 3,
             sx: { textAlign: { xs: 'center' } },
             items: [
               {
                 type: BlockItemTypeEnum.ICON,
                 title: AddCircleOutlineOutlinedIcon,
-                titleProps: { sx: { fontSize: 'h2.fontSize' } },
+                titleProps: { sx: { fontSize: 'h4.fontSize' } },
               },
               {
-                type: BlockItemTypeEnum.H5,
+                type: BlockItemTypeEnum.H6,
+                title: 'Application Development',
+                titleProps: { gutterBottom: true },
+              },
+            ],
+          },
+          {
+            md: 3,
+            sx: { textAlign: { xs: 'center' } },
+            items: [
+              {
+                type: BlockItemTypeEnum.ICON,
+                title: AddCircleOutlineOutlinedIcon,
+                titleProps: { sx: { fontSize: 'h4.fontSize' } },
+              },
+              {
+                type: BlockItemTypeEnum.H6,
+                title: 'Application Development',
+                titleProps: { gutterBottom: true },
+              },
+            ],
+          },
+          {
+            md: 3,
+            sx: { textAlign: { xs: 'center' } },
+            items: [
+              {
+                type: BlockItemTypeEnum.ICON,
+                title: AddCircleOutlineOutlinedIcon,
+                titleProps: { sx: { fontSize: 'h4.fontSize' } },
+              },
+              {
+                type: BlockItemTypeEnum.H6,
+                title: 'Application Development',
+                titleProps: { gutterBottom: true },
+              },
+            ],
+          },
+          {
+            md: 3,
+            sx: { textAlign: { xs: 'center' } },
+            items: [
+              {
+                type: BlockItemTypeEnum.ICON,
+                title: AddCircleOutlineOutlinedIcon,
+                titleProps: { sx: { fontSize: 'h4.fontSize' } },
+              },
+              {
+                type: BlockItemTypeEnum.H6,
+                title: 'Application Development',
+                titleProps: { gutterBottom: true },
+              },
+            ],
+          },
+          {
+            md: 3,
+            sx: { textAlign: { xs: 'center' } },
+            items: [
+              {
+                type: BlockItemTypeEnum.ICON,
+                title: AddCircleOutlineOutlinedIcon,
+                titleProps: { sx: { fontSize: 'h4.fontSize' } },
+              },
+              {
+                type: BlockItemTypeEnum.H6,
                 title: 'Application Development',
                 titleProps: { gutterBottom: true },
               },
@@ -154,24 +400,23 @@ const homeBlocks = [
   },
   {
     key: 'benefits',
-    sx: { backgroundColor: 'background.paper' },
     spacing: { xs: 5, md: 20 },
     items: [
       {
         type: BlockItemTypeEnum.GRID,
-        gridProps: { alignItems: 'center' },
+        gridProps: { alignItems: 'center', spacing: { xs: 3, md: 6 } },
         gridItems: [
           {
             md: 5,
             items: [
               {
                 type: BlockItemTypeEnum.IMAGE,
-                title: 'https://source.unsplash.com/random/300x200',
+                title: 'https://source.unsplash.com/random/600x400',
                 titleProps: {
                   alt: 'MOCK_IMAGE',
-                  width: 300,
-                  height: 200,
-                  disableOptimzation: true,
+                  width: 600,
+                  height: 400,
+                  layout: 'responsive',
                 },
               },
             ],
@@ -227,7 +472,6 @@ const homeBlocks = [
                   alt: 'MOCK_IMAGE',
                   width: 300,
                   height: 200,
-                  disableOptimzation: true,
                 },
               },
             ],
@@ -248,7 +492,6 @@ const homeBlocks = [
                   alt: 'MOCK_IMAGE',
                   width: 300,
                   height: 200,
-                  disableOptimzation: true,
                 },
               },
             ],
@@ -277,7 +520,6 @@ const homeBlocks = [
     key: 'callout',
     maxWidth: 'md' as const,
     center: true,
-    sx: { backgroundColor: 'background.paper' },
     items: [
       {
         type: BlockItemTypeEnum.OVERLINE,
