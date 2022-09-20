@@ -158,7 +158,6 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const [inputValue, setInputValue] = useState('')
   const [options, setOptions] = useState<DataItem[]>([])
   const [open, setOpen] = useState(false)
-  const [isFetching, setIsFetching] = useState(false)
 
   // ==============================
   // Variables
@@ -190,7 +189,6 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
       } = {}
     ) => {
       const { inputValue, filters } = args
-      setIsFetching(true)
 
       // Handle degenerate case
       const isValidInputValue = typeof inputValue === 'string'
@@ -215,23 +213,21 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         // By default, set server-side filter with the pk e.g. 'title.ilike.helloworld'
         const defaultPrimaryOrFilterArray = [`${pk}.ilike.${fuzzyInputValue}`]
 
-        const [foreignTableFilters, noForeignTableFilters] = partition(
+        const [foreignTableFilters, primaryTableFilters] = partition(
           filters,
           'foreignTable'
         )
 
-        const [customValueFilters, primaryTableFilters] = partition(
-          noForeignTableFilters,
-          (filter) => has(filter, 'value')
-        )
+        // Add any server-side filters using custom value instead of the inputValue, e.g. company_id = 28
+        const [primaryTableFiltersWithValue, primaryTableFiltersWithoutValue] =
+          partition(primaryTableFilters, (filter) => has(filter, 'value'))
 
         // Add any additional server-side filters in the or query
-        const injectedPrimaryOrFiltersArray = primaryTableFilters.map(
-          (filter) => {
+        const injectedPrimaryOrFiltersArray =
+          primaryTableFiltersWithoutValue.map((filter) => {
             const { pk, op = 'ilike' } = filter
             return `${pk}.${op}.${fuzzyInputValue}`
-          }
-        )
+          })
 
         // Append the additional filters
         const primaryOrFilterArray = [
@@ -258,17 +254,22 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           })
         }
 
-        if (customValueFilters) {
-          customValueFilters.forEach((filter) => {
-            const { pk, op = 'ilike', value } = filter
+        /**
+         * Set .or() filters for custom-value filter
+         * Note that this will be treated as a AND filter when used
+         * with the primaryTableOrFilter because the query will be
+         * executed as (1) .orP() && (2) .or()
+         */
+        if (primaryTableFiltersWithValue) {
+          primaryTableFiltersWithValue.forEach((filter) => {
+            const { pk, op = 'ilike', value: filterValues } = filter
 
-            if (value) {
+            if (filterValues) {
               /**
-               * Set QueryFilterBuilder on the foreignTable imperatively
-               * @example .or('name.ilike.London,name.eq.Paris', { foreignTable:'cities' })
-               * @link https://supabase.com/docs/reference/javascript/or#use-or-on-foreign-tables
+               * Set QueryFilterBuilder imperatively
+               * @example .or('name.ilike.London,name.eq.Paris')
                */
-              query = query.or(`${pk}.${op}.${value}`)
+              query = query.or(`${pk}.${op}.${filterValues}`)
             }
           })
         }
@@ -304,7 +305,6 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
         if (nextValue) setDisplayValue(nextValue)
       }
-      setIsFetching(false)
     },
     [table.name, pk, isPrimitiveValue]
   )
@@ -333,7 +333,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
   // Fetch data when filters change
   useEffect(() => {
-    if (!filters || isFetching) return
+    if (!filters) return
     fetchDataWithDelay({ inputValue, filters })
   }, [filters])
 
@@ -461,7 +461,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
               ...params.InputProps,
               endAdornment: (
                 <>
-                  {loading || isFetching ? (
+                  {loading ? (
                     <CircularProgress color="inherit" size={20} />
                   ) : null}
                   {params.InputProps.endAdornment}
