@@ -262,14 +262,14 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
          */
         if (primaryTableFiltersWithValue) {
           primaryTableFiltersWithValue.forEach((filter) => {
-            const { pk, op = 'ilike', value: filterValues } = filter
+            const { pk, op = 'ilike', value } = filter
 
-            if (filterValues) {
+            if (value) {
               /**
                * Set QueryFilterBuilder imperatively
                * @example .or('name.ilike.London,name.eq.Paris')
                */
-              query = query.or(`${pk}.${op}.${filterValues}`)
+              query = query.or(`${pk}.${op}.${value}`)
             }
           })
         }
