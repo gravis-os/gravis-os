@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.40
+
+### Patch Changes
+
+- [#80](https://github.com/gravis-os/gravis-os/pull/80) [`470d024`](https://github.com/gravis-os/gravis-os/commit/470d0244906af1bd20440cead77d30f1b0edde20) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Allow custom filter values for ModelField
+
+- Updated dependencies [[`e3136fb`](https://github.com/gravis-os/gravis-os/commit/e3136fb31d0bf169b907edb7037fe18df2234d32), [`470d024`](https://github.com/gravis-os/gravis-os/commit/470d0244906af1bd20440cead77d30f1b0edde20)]:
+  - @gravis-os/form@0.0.48
+
 ## 0.0.39
 
 ### Patch Changes
