@@ -37,8 +37,10 @@ Shorthands.args = {
     {
       subtitle1: {
         title: 'Subtitle1',
-        color: 'success.main',
-        mt: 3,
+        titleProps: {
+          color: 'success.main',
+          mt: 3,
+        },
       },
       subtitle2: {
         title: 'Subtitle 2 demonstrated with stacking within the same object',
@@ -48,8 +50,10 @@ Shorthands.args = {
     {
       body1: {
         title: 'Body1 second para',
-        color: 'error.main',
-        mt: 3,
+        titleProps: {
+          color: 'error.main',
+          mt: 3,
+        },
       },
     },
   ],

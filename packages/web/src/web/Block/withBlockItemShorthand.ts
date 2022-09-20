@@ -14,7 +14,7 @@ const withBlockItemShorthand = () => (items: BlockItemProps[]) => {
     const { type } = item
     const isShorthand = !type
 
-    if (!isShorthand) return acc
+    if (!isShorthand) return acc.concat(item)
 
     // Shorthand
     return [
@@ -31,8 +31,7 @@ const withBlockItemShorthand = () => (items: BlockItemProps[]) => {
         }
 
         // @example - items: [{ body1: { title: 'Body1 in object syntax', mt: 2 } }],
-        const { title, ...rest }: BlockItemProps = value
-        return [...itemAcc, { type, title, titleProps: rest }]
+        return [...itemAcc, { type, ...(value as BlockItemProps) }]
       }, []),
     ]
   }, [])
