@@ -4,4 +4,4 @@
 "@gravis-os/ui": patch
 ---
 
-Add jest + rtl passing tests to UI based on Button.test.js
+Add jest + rtl passing tests to UI based on Button.test.jsx

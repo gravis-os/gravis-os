@@ -1,8 +1,5 @@
-// these imports are something you'd normally configure Jest to import for you
-// automatically. Learn more in the setup docs: https://testing-library.com/docs/react-testing-library/setup#cleanup
-import '@testing-library/jest-dom'
-import * as React from 'react'
-import { render, screen } from '@testing-library/react'
+import React from 'react'
+import { render, screen } from '../../test-utils'
 import Button from './Button'
 
 test('Button renders its children content on the screen via the children prop', () => {
