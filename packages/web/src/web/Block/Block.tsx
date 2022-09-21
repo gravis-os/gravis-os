@@ -70,11 +70,6 @@ const Block: React.FC<BlockProps> = (props) => {
 
   const items = flowRight([withBlockItemShorthand()])(injectedItems)
 
-  console.log('jjj: Block', {
-    injectedItems,
-    items,
-  })
-
   const childrenJsx = (
     // Section layer
     <Box
