@@ -11,7 +11,7 @@ import Stack, { StackProps } from './Stack'
  * @member Current
  * @member Completed
  */
-export enum ProgressBarItemStatus {
+export enum IconProgressBarItemStatus {
   Current,
   Completed,
   Default,
@@ -31,7 +31,7 @@ export interface IconProgressBarItemProps {
   /** The label displayed underneath the icon */
   title?: ReactNode
   /** Used to indicate the status of the progress bar item which affects styling */
-  status?: ProgressBarItemStatus
+  status?: IconProgressBarItemStatus
 }
 
 /**
@@ -52,9 +52,9 @@ const IconProgressBarItem = (iconProgressBarItem: IconProgressBarItemProps) => {
    */
   const colorSelector = (): string => {
     switch (status) {
-      case ProgressBarItemStatus.Current:
+      case IconProgressBarItemStatus.Current:
         return 'primary.main'
-      case ProgressBarItemStatus.Completed:
+      case IconProgressBarItemStatus.Completed:
         return 'success.light'
       default:
         return 'text.secondary'
@@ -66,7 +66,7 @@ const IconProgressBarItem = (iconProgressBarItem: IconProgressBarItemProps) => {
    */
   const backgroundColorSelector = (): string => {
     switch (status) {
-      case ProgressBarItemStatus.Completed:
+      case IconProgressBarItemStatus.Completed:
         return 'success.light'
       default:
         return 'transparent'
@@ -83,7 +83,7 @@ const IconProgressBarItem = (iconProgressBarItem: IconProgressBarItemProps) => {
           border: 1,
         }}
       >
-        {status === ProgressBarItemStatus.Completed ? (
+        {status === IconProgressBarItemStatus.Completed ? (
           <CheckOutlined sx={{ color: 'success.contrastText' }} />
         ) : (
           icon
@@ -105,11 +105,11 @@ const IconProgressBar: React.FC<IconProgressBarProps> = (
    * Function used to return the correct bar color based on status
    * @returns The appropriate bar color based on current status of the icon progress item
    */
-  const barColorSelector = (status: ProgressBarItemStatus): string => {
+  const barColorSelector = (status: IconProgressBarItemStatus): string => {
     switch (status) {
-      case ProgressBarItemStatus.Current:
+      case IconProgressBarItemStatus.Current:
         return 'primary.main'
-      case ProgressBarItemStatus.Completed:
+      case IconProgressBarItemStatus.Completed:
         return 'success.light'
       default:
         return 'text.disabled'
