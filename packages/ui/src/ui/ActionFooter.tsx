@@ -2,7 +2,10 @@ import React, { ReactNode } from 'react'
 import Box, { BoxProps } from './Box'
 
 /**
- * Represents the action footer component
+ * Represents the action footer component.
+ *
+ * @extends BoxProps
+ * @prop {ReactNode[]} actions
  */
 export interface ActionFooterProps extends BoxProps {
   /** List of ReactNodes to be rendered */
