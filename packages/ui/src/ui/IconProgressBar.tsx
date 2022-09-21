@@ -6,23 +6,32 @@ import Box from './Box'
 import Stack, { StackProps } from './Stack'
 
 /**
+ * Used to indicate the current status of the progress bar item.
+ *
+ * @member Current
+ * @member Completed
+ */
+export enum ProgressBarItemStatus {
+  Current,
+  Completed,
+  Default,
+}
+
+/**
  * Represents an Icon with Typography components and a horizontal line to the right of said components.
  * Boolean properties used to indicate the status of the progress bar.
  *
  * @prop {ReactNode} icon
  * @prop {ReactNode} title?
- * @prop {boolean} isCompleted?
- * @prop {boolean} isCurrent?
+ * @prop {boolean} status?
  */
 export interface IconProgressBarItemProps {
   /** The icon component to represent the progress bar item */
   icon: ReactNode
   /** The label displayed underneath the icon */
   title?: ReactNode
-  /** If set to true, will set the icon to a checkbox, and changes the color of both icon and title to success green */
-  isCompleted?: boolean
-  /** If set to true, will change the color to primary color */
-  isCurrent?: boolean
+  /** Used to indicate the status of the progress bar item which affects styling */
+  status?: ProgressBarItemStatus
 }
 
 /**
@@ -36,27 +45,53 @@ export interface IconProgressBarProps extends StackProps {
 }
 
 const IconProgressBarItem = (iconProgressBarItem: IconProgressBarItemProps) => {
-  const {
-    icon,
-    title,
-    isCompleted = false,
-    isCurrent = false,
-  } = iconProgressBarItem
+  const { icon, title, status } = iconProgressBarItem
+  /**
+   * Function used to return the correct color based on status
+   * @returns The appropriate color based on current status of the icon progress item
+   */
+  const colorSelector = (): string => {
+    switch (status) {
+      case ProgressBarItemStatus.Current:
+        return 'primary.main'
+      case ProgressBarItemStatus.Completed:
+        return 'success.light'
+      default:
+        return 'text.secondary'
+    }
+  }
+  /**
+   * Function used to return the correct background color based on status
+   * @returns The appropriate background color based on current status of the icon progress item
+   */
+  const backgroundColorSelector = (): string => {
+    switch (status) {
+      case ProgressBarItemStatus.Completed:
+        return 'success.light'
+      default:
+        return 'transparent'
+    }
+  }
+
   return (
     <Stack spacing={1} alignItems="center" sx={{ width: 'fit-content' }}>
       <Avatar
         sx={{
-          backgroundColor: 'transparent',
-          color: isCurrent ? 'primary.main' : 'text.secondary',
-          borderColor: isCurrent ? 'primary.main' : 'text.secondary',
+          backgroundColor: backgroundColorSelector(),
+          color: colorSelector(),
+          borderColor: colorSelector(),
           border: 1,
         }}
       >
-        {isCompleted ? <CheckOutlined /> : icon}
+        {status === ProgressBarItemStatus.Completed ? (
+          <CheckOutlined sx={{ color: 'success.contrastText' }} />
+        ) : (
+          icon
+        )}
       </Avatar>
       {renderReactNodeOrString(title, {
         variant: 'overline',
-        color: isCurrent ? 'primary' : 'text.secondary',
+        color: colorSelector(),
       })}
     </Stack>
   )
@@ -66,6 +101,20 @@ const IconProgressBar: React.FC<IconProgressBarProps> = (
   props
 ): React.ReactElement => {
   const { items, ...rest } = props
+  /**
+   * Function used to return the correct bar color based on status
+   * @returns The appropriate bar color based on current status of the icon progress item
+   */
+  const barColorSelector = (status: ProgressBarItemStatus): string => {
+    switch (status) {
+      case ProgressBarItemStatus.Current:
+        return 'primary.main'
+      case ProgressBarItemStatus.Completed:
+        return 'success.light'
+      default:
+        return 'text.disabled'
+    }
+  }
   return (
     <Stack
       direction="row"
@@ -77,7 +126,7 @@ const IconProgressBar: React.FC<IconProgressBarProps> = (
         const iconProgressBarItemProps = {
           ...item,
         }
-        const { isCurrent } = item
+        const { status } = item
         return (
           <>
             {/* Progress Item */}
@@ -89,7 +138,7 @@ const IconProgressBar: React.FC<IconProgressBarProps> = (
                 width="100%"
                 sx={{
                   // Set color to primary if it is the current step
-                  backgroundColor: isCurrent ? 'primary.main' : 'text.disabled',
+                  backgroundColor: barColorSelector(status),
                   // Margin -3 to move the line up to the icons instead of in between the icon and text
                   mt: -3,
                   mx: 3,
