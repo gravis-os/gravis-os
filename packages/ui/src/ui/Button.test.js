@@ -2,21 +2,21 @@
 // automatically. Learn more in the setup docs: https://testing-library.com/docs/react-testing-library/setup#cleanup
 import '@testing-library/jest-dom'
 import * as React from 'react'
-import { render, fireEvent, screen } from '@testing-library/react'
+import { render, screen } from '@testing-library/react'
 import Button from './Button'
 
-test('shows the children when the checkbox is checked', () => {
+test('Button renders its children content on the screen via the children prop', () => {
   const testMessage = 'Test Message'
   render(<Button>{testMessage}</Button>)
 
-  // query* functions will return the element or null if it cannot be found
-  // get* functions will return the element or throw an error if it cannot be found
-  expect(screen.queryByText(testMessage)).toBeNull()
-
-  // the queries can accept a regex to make your selectors more resilient to content tweaks and changes.
-  fireEvent.click(screen.getByLabelText(/show/i))
-
   // .toBeInTheDocument() is an assertion that comes from jest-dom
   // otherwise you could use .toBeDefined()
+  expect(screen.getByText(testMessage)).toBeInTheDocument()
+})
+
+test('Button renders its children content on the screen via the title prop', () => {
+  const testMessage = 'Test Message'
+  render(<Button title={testMessage} />)
+
   expect(screen.getByText(testMessage)).toBeInTheDocument()
 })

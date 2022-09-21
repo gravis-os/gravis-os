@@ -23,7 +23,14 @@ module.exports = {
     'plugin:@typescript-eslint/recommended',
     'prettier',
   ],
-  plugins: ['react', 'import', 'prettier', '@typescript-eslint'],
+  plugins: [
+    'react',
+    'import',
+    'prettier',
+    '@typescript-eslint',
+    'jest',
+    'testing-library',
+  ],
   rules: {
     // Javascript
     'arrow-body-style': 0,
