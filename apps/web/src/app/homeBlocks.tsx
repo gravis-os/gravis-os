@@ -15,66 +15,70 @@ const homeBlocks = [
     center: true,
     items: [
       {
-        type: BlockItemTypeEnum.OVERLINE,
-        title: 'Gravis - operating system for modern enterprises',
-        titleProps: { color: 'text.secondary' },
+        overline: {
+          title: 'Gravis - operating system for modern enterprises',
+          titleProps: { color: 'text.secondary' },
+        },
       },
       {
-        type: BlockItemTypeEnum.H1,
-        title: `Build. Develop. Ship`,
-        titleProps: {
-          gutterBottom: true,
-          gradient: {
-            to: 'success.light',
-            from: 'info.light',
+        h1: {
+          title: `Build. Develop. Ship`,
+          titleProps: {
+            gutterBottom: true,
+            gradient: {
+              to: 'success.light',
+              from: 'info.light',
+            },
           },
         },
       },
       {
-        type: BlockItemTypeEnum.SUBTITLE1,
-        title:
-          'Power next-generation business operations with all the modules you need in one place.',
-        titleProps: {
-          color: 'text.secondary',
-          maxWidth: '60%',
+        subtitle1: {
+          title:
+            'Power next-generation business operations with all the modules you need in one place.',
+          titleProps: {
+            color: 'text.secondary',
+            maxWidth: '60%',
+          },
         },
       },
       {
-        type: BlockItemTypeEnum.STACK,
-        sx: { mt: 3 },
-        stackProps: {
-          center: true,
-          direction: 'row',
-          reverseDirectionOnMobile: true,
-        },
-        stackItems: [
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.BUTTON,
-                title: 'Request Support',
-                titleProps: {
-                  variant: 'outlined',
-                  size: 'large',
-                  fullWidthOnMobile: true,
+        stack: {
+          sx: { mt: 3 },
+          stackProps: {
+            center: true,
+            direction: 'row',
+            reverseDirectionOnMobile: true,
+          },
+          stackItems: [
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.BUTTON,
+                  title: 'Request Support',
+                  titleProps: {
+                    variant: 'outlined',
+                    size: 'large',
+                    fullWidthOnMobile: true,
+                  },
                 },
-              },
-            ],
-          },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.BUTTON,
-                title: 'Get Started',
-                titleProps: {
-                  variant: 'contained',
-                  size: 'large',
-                  fullWidthOnMobile: true,
-                } as ButtonProps,
-              },
-            ],
-          },
-        ],
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.BUTTON,
+                  title: 'Get Started',
+                  titleProps: {
+                    variant: 'contained',
+                    size: 'large',
+                    fullWidthOnMobile: true,
+                  } as ButtonProps,
+                },
+              ],
+            },
+          ],
+        },
       },
     ],
   },
@@ -84,89 +88,92 @@ const homeBlocks = [
     py: 4,
     items: [
       {
-        type: BlockItemTypeEnum.OVERLINE,
-        title: 'Trusted by the best frontend teams',
-        titleProps: { color: 'text.primary' },
+        overline: {
+          title: 'Trusted by the best frontend teams',
+          titleProps: { color: 'text.primary' },
+        },
       },
       {
-        type: BlockItemTypeEnum.GRID,
-        sx: { mt: { xs: 2, md: 4 } },
-        gridProps: { spacing: { xs: 5 } },
-        boxProps: {
-          display: 'flex',
-          alignItems: 'center',
-        },
-        titleProps: {
-          sx: {
-            display: 'inline-flex',
-            verticalAlign: 'middle',
-            maxHeight: 30,
-            userSelect: 'none',
-            pointerEvents: 'none',
-            outline: 'none',
-            cursor: 'default',
+        grid: {
+          sx: { mt: { xs: 2, md: 4 } },
+          gridProps: { spacing: { xs: 5 } },
+          boxProps: {
+            display: 'flex',
+            alignItems: 'center',
           },
-        },
-        gridItems: [
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: auth0_svg,
-              },
-            ],
+          titleProps: {
+            sx: {
+              display: 'inline-flex',
+              verticalAlign: 'middle',
+              maxHeight: 30,
+              userSelect: 'none',
+              pointerEvents: 'none',
+              outline: 'none',
+              cursor: 'default',
+            },
           },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: tripadvisor_svg,
-              },
-            ],
-          },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: washingtonpost_svg,
-              },
-            ],
-          },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: uber_svg,
-                titleProps: {
-                  sx: {
-                    maxHeight: 20,
+          gridItems: [
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.IMAGE,
+                  title: auth0_svg,
+                  boxProps: {},
+                },
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.IMAGE,
+                  title: tripadvisor_svg,
+                },
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.IMAGE,
+                  title: washingtonpost_svg,
+                },
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.IMAGE,
+                  title: uber_svg,
+                  titleProps: {
+                    sx: {
+                      maxHeight: 20,
+                    },
                   },
                 },
-              },
-            ],
-          },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: meta_svg,
-                titleProps: {
-                  sx: {
-                    maxHeight: 20,
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.IMAGE,
+                  title: meta_svg,
+                  titleProps: {
+                    sx: {
+                      maxHeight: 20,
+                    },
                   },
                 },
-              },
-            ],
-          },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: hashicorp_svg,
-              },
-            ],
-          },
-        ],
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.IMAGE,
+                  title: hashicorp_svg,
+                },
+              ],
+            },
+          ],
+        },
       },
     ],
   },
@@ -177,70 +184,75 @@ const homeBlocks = [
     py: 4,
     items: [
       {
-        type: BlockItemTypeEnum.OVERLINE,
-        title: 'Trusted by the best frontend teams',
-        titleProps: { color: 'text.primary' },
+        overline: {
+          title: 'Trusted by the best frontend teams',
+          titleProps: { color: 'text.primary' },
+        },
       },
       {
-        type: BlockItemTypeEnum.STACK,
-        sx: { mt: { xs: 2, md: 4 } },
-        stackProps: {
-          width: '100%',
-          justifyContent: 'space-evenly',
-        },
-        stackItemProps: {
-          fullWidthOnMobile: false,
-        },
-        titleProps: {
-          sx: {
-            display: 'inline-flex',
-            verticalAlign: 'middle',
-            maxHeight: 30,
-            userSelect: 'none',
-            pointerEvents: 'none',
-            outline: 'none',
-            cursor: 'default',
+        stack: {
+          sx: { mt: { xs: 2, md: 4 } },
+          stackProps: {
+            width: '100%',
+            justifyContent: 'space-evenly',
           },
-        },
-        stackItems: [
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: auth0_svg,
-              },
-            ],
+          stackItemProps: {
+            fullWidthOnMobile: false,
           },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: tripadvisor_svg,
-              },
-            ],
+          titleProps: {
+            sx: {
+              display: 'inline-flex',
+              verticalAlign: 'middle',
+              maxHeight: 30,
+              userSelect: 'none',
+              pointerEvents: 'none',
+              outline: 'none',
+              cursor: 'default',
+            },
           },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: uber_svg,
-                titleProps: {
-                  sx: {
-                    maxHeight: 25,
+          stackItems: [
+            {
+              items: [
+                {
+                  image: {
+                    title: auth0_svg,
                   },
                 },
-              },
-            ],
-          },
-          {
-            items: [
-              {
-                type: BlockItemTypeEnum.IMAGE,
-                title: hashicorp_svg,
-              },
-            ],
-          },
-        ],
+              ],
+            },
+            {
+              items: [
+                {
+                  image: {
+                    title: tripadvisor_svg,
+                  },
+                },
+              ],
+            },
+            {
+              items: [
+                {
+                  image: {
+                    title: uber_svg,
+                    titleProps: {
+                      sx: {
+                        maxHeight: 25,
+                      },
+                    },
+                  },
+                },
+              ],
+            },
+            {
+              items: [
+                {
+                  type: BlockItemTypeEnum.IMAGE,
+                  title: hashicorp_svg,
+                },
+              ],
+            },
+          ],
+        },
       },
     ],
   },
@@ -249,17 +261,10 @@ const homeBlocks = [
     center: true,
     items: [
       {
-        type: BlockItemTypeEnum.OVERLINE,
-        title: 'Gravis - operating system for modern enterprises',
-        titleProps: { color: 'text.primary' },
-      },
-      {
-        // TODO@Joel: Make this shorthand method work.
         overline: {
-          title: 'Amazing features',
-          color: 'text.primary',
+          title: 'Gravis - operating system for modern enterprises',
+          titleProps: { color: 'text.primary' },
         },
-        title: 'Features you will love',
       },
       {
         type: BlockItemTypeEnum.GRID,
@@ -522,22 +527,25 @@ const homeBlocks = [
     center: true,
     items: [
       {
-        type: BlockItemTypeEnum.OVERLINE,
-        title: 'Gravis - operating system for modern enterprises',
-        titleProps: { color: 'text.primary' },
+        overline: {
+          title: 'Gravis - operating system for modern enterprises',
+          titleProps: { color: 'text.primary' },
+        },
       },
       {
-        type: BlockItemTypeEnum.H2,
-        title: `Start your dashboard in seconds`,
-        titleProps: { gutterBottom: true },
+        h2: {
+          title: `Start your dashboard in seconds`,
+          titleProps: { gutterBottom: true },
+        },
       },
       {
-        type: BlockItemTypeEnum.SUBTITLE1,
-        title:
-          'Power next-generation business operations with all the modules you need in one place.',
-        titleProps: {
-          color: 'text.secondary',
-          maxWidth: '60%',
+        subtitle1: {
+          title:
+            'Power next-generation business operations with all the modules you need in one place.',
+          titleProps: {
+            color: 'text.secondary',
+            maxWidth: '60%',
+          },
         },
       },
       {
@@ -552,12 +560,13 @@ const homeBlocks = [
           {
             items: [
               {
-                type: BlockItemTypeEnum.BUTTON,
-                title: 'Request Support',
-                titleProps: {
-                  variant: 'outlined',
-                  size: 'large',
-                  fullWidthOnMobile: true,
+                button: {
+                  title: 'Request Support',
+                  titleProps: {
+                    variant: 'outlined',
+                    size: 'large',
+                    fullWidthOnMobile: true,
+                  },
                 },
               },
             ],
@@ -565,13 +574,14 @@ const homeBlocks = [
           {
             items: [
               {
-                type: BlockItemTypeEnum.BUTTON,
-                title: 'Get Started',
-                titleProps: {
-                  variant: 'contained',
-                  size: 'large',
-                  fullWidthOnMobile: true,
-                } as ButtonProps,
+                button: {
+                  title: 'Get Started',
+                  titleProps: {
+                    variant: 'contained',
+                    size: 'large',
+                    fullWidthOnMobile: true,
+                  } as ButtonProps,
+                },
               },
             ],
           },
@@ -579,6 +589,6 @@ const homeBlocks = [
       },
     ],
   },
-] as BlocksProps['items']
+] as unknown as BlocksProps['items']
 
 export default homeBlocks

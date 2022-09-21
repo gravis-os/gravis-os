@@ -139,6 +139,8 @@ const renderBlockItem = (props) => {
           <Image
             src={title}
             layout="responsive"
+            width={300}
+            height={200}
             {...titleProps}
             sx={{ mt: 5, ...titleProps?.sx }}
           />

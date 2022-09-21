@@ -135,7 +135,11 @@ export const MOCK_CARD_ITEMS = [
           },
           {
             type: BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE,
-            title: 'https://via.placeholder.com/300x200',
+            title: 'https://via.placeholder.com/300x150',
+            titleProps: {
+              width: 300,
+              height: 150,
+            },
           },
         ],
       },
