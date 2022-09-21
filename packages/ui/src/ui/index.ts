@@ -1,3 +1,6 @@
+export { default as ActionFooter } from './ActionFooter'
+export * from './ActionFooter'
+
 export { default as Alert } from './Alert'
 export * from './Alert'
 
@@ -64,6 +67,9 @@ export * from './Header'
 export { default as IconButton } from './IconButton'
 export * from './IconButton'
 
+export { default as IconProgressBar } from './IconProgressBar'
+export * from './IconProgressBar'
+
 export { default as Image } from './Image'
 export * from './Image'
 
@@ -93,6 +99,9 @@ export * from './NavAccordion'
 
 export { default as Paper } from './Paper'
 export * from './Paper'
+
+export { default as QuantityCard } from './QuantityCard'
+export * from './QuantityCard'
 
 export { default as Reveal } from './Reveal'
 export * from './Reveal'
