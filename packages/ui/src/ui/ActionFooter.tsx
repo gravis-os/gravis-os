@@ -12,6 +12,9 @@ export interface ActionFooterProps extends BoxProps {
   actions: ReactNode[]
 }
 
+/**
+ * Padding and height exported for other components to use to pad content above the sticky footer
+ */
 export const ACTION_FOOTER_HEIGHT = 65
 export const ACTION_FOOTER_PADDING = '65px'
 

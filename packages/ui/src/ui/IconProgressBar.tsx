@@ -9,7 +9,7 @@ import Stack, { StackProps } from './Stack'
  * Represents an Icon with Typography components and a horizontal line to the right of said components.
  * Boolean properties used to indicate the status of the progress bar.
  *
- * @prop {ReactNode} Icon
+ * @prop {ReactNode} icon
  * @prop {ReactNode} title?
  * @prop {boolean} isCompleted?
  * @prop {boolean} isCurrent?
