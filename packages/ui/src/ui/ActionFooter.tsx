@@ -28,7 +28,6 @@ const ActionFooter: React.FC<ActionFooterProps> = (
         alignItems: 'center',
         bottom: 0,
         p: 2,
-        mt: 2,
         display: 'flex',
         backgroundColor: 'white',
         boxShadow: 3,
