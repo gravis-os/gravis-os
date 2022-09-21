@@ -12,8 +12,12 @@ export interface ActionFooterProps extends BoxProps {
   actions: ReactNode[]
 }
 
+export const ACTION_FOOTER_HEIGHT = 65
+export const ACTION_FOOTER_PADDING = '65px'
+
 /**
- * Renders a Box component located at the bottom of the page containing structured actions spread evenly.
+ * Renders a sticky Box component located at the bottom of the page containing structured actions spread evenly.
+ * The component is rendered with a fixed height to enable padding of other components above it.
  * @param props List of actions
  * @returns ReactElement to be rendered
  */
@@ -28,6 +32,9 @@ const ActionFooter: React.FC<ActionFooterProps> = (
         alignItems: 'center',
         bottom: 0,
         p: 2,
+        position: 'fixed',
+        width: '100vw',
+        height: ACTION_FOOTER_HEIGHT,
         display: 'flex',
         backgroundColor: 'white',
         boxShadow: 3,
