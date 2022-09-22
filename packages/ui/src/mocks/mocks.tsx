@@ -1,10 +1,10 @@
-import React from 'react'
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
-import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
-import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
-import { Badge, Box, Button, IconButton, Stack, Typography } from '../ui'
+import NotificationsNoneIcon from '@mui/icons-material/NotificationsNone'
+import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
+import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
+import React from 'react'
+import { Badge, Box, Button, IconButton, Stack, Typography } from '../core'
 
 export const MOCK_LIST_ITEMS = [
   {

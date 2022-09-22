@@ -1,9 +1,9 @@
 import { CheckOutlined } from '@mui/icons-material'
 import React, { ReactNode } from 'react'
+import Avatar from '../core/Avatar'
+import Box from '../core/Box'
+import Stack, { StackProps } from '../core/Stack'
 import { renderReactNodeOrString } from '../utils'
-import Avatar from './Avatar'
-import Box from './Box'
-import Stack, { StackProps } from './Stack'
 
 /**
  * Used to indicate the current status of the progress bar item.

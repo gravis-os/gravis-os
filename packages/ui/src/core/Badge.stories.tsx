@@ -12,12 +12,12 @@ export default {
   },
 }
 
-const Template = args => <Badge {...args} />
+const Template = (args) => <Badge {...args} />
 
 export const Contained = Template.bind({})
 Contained.args = { variant: 'contained' }
 
-export const ContainedAllColors = args => (
+export const ContainedAllColors = (args) => (
   <Stack direction="row" alignItems="center" spacing={1}>
     <Badge {...args} />
     <Badge color="primary" {...args} />

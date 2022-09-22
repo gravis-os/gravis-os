@@ -7,20 +7,39 @@ import {
   ListProps,
 } from '@mui/material'
 import React, { ReactNode } from 'react'
-import Card, { CardProps } from './Card'
-import IconButton from './IconButton'
-import Typography from './Typography'
-import withHref from './withHref'
+import Card, { CardProps } from '../core/Card'
+import IconButton from '../core/IconButton'
+import Typography from '../core/Typography'
+import withHref from '../core/withHref'
 
+/**
+ * Property of the each individual List item in the ListCard component.
+ *
+ * @prop {string} key
+ * @prop {string} title
+ * @prop {ReactNode} icon?
+ * @prop {boolean} disableArrow?
+ * @prop {() => void} onClick?
+ * @prop {string} href?
+ */
 export interface ListCardItemProps {
   key: string
   title: string
   icon?: ReactNode
+  /** Removes the forward arrow if set to true */
   disableArrow?: boolean
   onClick?: () => void
+  /** Directs to the url given if clicked */
   href?: string
 }
 
+/**
+ * Property of the ListCard component.
+ *
+ * @extends CardProps
+ * @prop {ListProps} listProps?
+ * @prop {ListCardItemProps[]} items
+ */
 export interface ListCardProps extends CardProps {
   listProps?: ListProps
   items: ListCardItemProps[]

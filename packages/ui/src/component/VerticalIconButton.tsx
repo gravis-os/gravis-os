@@ -1,9 +1,9 @@
 import { SvgIconProps } from '@mui/material'
 import React, { isValidElement, ReactNode } from 'react'
-import Box, { BoxProps } from './Box'
-import Button, { ButtonProps } from './Button'
-import Stack from './Stack'
-import Typography, { TypographyProps } from './Typography'
+import Box, { BoxProps } from '../core/Box'
+import Button, { ButtonProps } from '../core/Button'
+import Stack from '../core/Stack'
+import Typography, { TypographyProps } from '../core/Typography'
 
 export interface VerticalIconButtonProps {
   title: string

@@ -1,10 +1,10 @@
 import React, { isValidElement, ReactNode } from 'react'
+import Card, { CardProps } from '../core/Card'
+import Chip from '../core/Chip'
+import Stack from '../core/Stack'
+import Typography, { TypographyProps } from '../core/Typography'
+import withHref from '../core/withHref'
 import { renderReactNodeOrString } from '../utils'
-import Card, { CardProps } from './Card'
-import Chip from './Chip'
-import Stack from './Stack'
-import Typography, { TypographyProps } from './Typography'
-import withHref from './withHref'
 
 /**
  * Property of the structured InfoCard content section.

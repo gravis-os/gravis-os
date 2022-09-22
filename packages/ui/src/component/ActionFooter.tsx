@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import Box, { BoxProps } from './Box'
+import Box, { BoxProps } from '../core/Box'
 
 /**
  * Represents the action footer component.

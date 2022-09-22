@@ -1,14 +1,11 @@
-export { default as ActionFooter } from './ActionFooter'
-export * from './ActionFooter'
+export { default as ActionFooter } from '../component/ActionFooter'
+export * from '../component/ActionFooter'
 
 export { default as Alert } from './Alert'
 export * from './Alert'
 
 export { default as Avatar } from './Avatar'
 export * from './Avatar'
-
-export { default as BackButton } from './BackButton'
-export * from './BackButton'
 
 export { default as Box } from './Box'
 export * from './Box'
@@ -33,9 +30,6 @@ export * from './Container'
 
 export { default as Card } from './Card/Card'
 export * from './Card'
-
-export { default as CardIconButtonRow } from './CardIconButtonRow'
-export * from './CardIconButtonRow'
 
 export { default as CheckboxGroup } from './CheckboxGroup'
 export * from './CheckboxGroup'
@@ -67,14 +61,8 @@ export * from './Header'
 export { default as IconButton } from './IconButton'
 export * from './IconButton'
 
-export { default as IconProgressBar } from './IconProgressBar'
-export * from './IconProgressBar'
-
 export { default as Image } from './Image'
 export * from './Image'
-
-export { default as InfoCard } from './InfoCard'
-export * from './InfoCard'
 
 export { default as Link } from './Link'
 export * from './Link'
@@ -84,9 +72,6 @@ export * from './Layout'
 
 export { default as List } from './List'
 export * from './List'
-
-export { default as ListCard } from './ListCard'
-export * from './ListCard'
 
 export { default as MenuButton } from './MenuButton'
 export * from './MenuButton'
@@ -99,9 +84,6 @@ export * from './NavAccordion'
 
 export { default as Paper } from './Paper'
 export * from './Paper'
-
-export { default as QuantityCard } from './QuantityCard'
-export * from './QuantityCard'
 
 export { default as Reveal } from './Reveal'
 export * from './Reveal'
@@ -132,6 +114,3 @@ export * from './Tooltip'
 
 export { default as Typography } from './Typography'
 export * from './Typography'
-
-export { default as VerticalIconButton } from './VerticalIconButton'
-export * from './VerticalIconButton'
