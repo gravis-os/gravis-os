@@ -40,7 +40,7 @@ const ActionFooter: React.FC<ActionFooterProps> = (
         height: ACTION_FOOTER_HEIGHT,
         display: 'flex',
         backgroundColor: 'white',
-        boxShadow: 3,
+        boxShadow: '1px 5px 8px #121828',
       }}
       {...rest}
     >
