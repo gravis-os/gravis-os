@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "private": true,
   "scripts": {
     "dev": "open http://localhost:3000 && next dev",
@@ -16,7 +16,7 @@
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
     "@gravis-os/auth": "^0.0.20",
-    "@gravis-os/form": "^0.0.52",
+    "@gravis-os/form": "^0.0.53",
     "@gravis-os/storage": "^0.0.14",
     "@gravis-os/ui": "^0.0.27",
     "@gravis-os/utils": "^0.0.13",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@gravis-os/eslint-config": "^0.0.5",
-    "@gravis-os/tsconfig": "^0.0.3",
+    "@gravis-os/tsconfig": "^0.0.4",
     "@next/bundle-analyzer": "^12.1.5",
     "@svgr/webpack": "^6.3.1",
     "@types/lodash": "^4.14.185",

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.53
+
+### Patch Changes
+
+- [`a9b4f8b`](https://github.com/gravis-os/gravis-os/commit/a9b4f8b07dad99d671fb54d697aaa5fedcbe099a) Thanks [@clodal](https://github.com/clodal)! - Update nextjs tsconfig to fix build errors on Vercell
+
 ## 0.0.52
 
 ### Patch Changes
