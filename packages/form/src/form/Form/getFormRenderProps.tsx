@@ -1,8 +1,20 @@
-import { Button } from '@gravis-os/ui'
-import { Stack } from '@mui/material'
 import React from 'react'
+import { Button, ButtonProps } from '@gravis-os/ui'
+import { Stack } from '@mui/material'
 import { UseFormReturn } from 'react-hook-form'
 import { FormSectionsProps } from '../FormSection/FormSections'
+
+export interface GetFormRenderPropsInput {
+  formContext: UseFormReturn<any>
+  formJsx: React.ReactElement
+  buttonProps?: ButtonProps
+  submitButtonProps?: ButtonProps
+  cancelButtonProps?: ButtonProps
+  editButtonProps?: ButtonProps
+  isReadOnly?: boolean
+  setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>
+  formRenderProps?: any
+}
 
 export interface FormRenderPropsInterface {
   formJsx: React.ReactElement // The title and fields
@@ -14,7 +26,9 @@ export interface FormRenderPropsInterface {
   sections: FormSectionsProps['sections']
 }
 
-const getFormRenderProps = (props) => {
+const getFormRenderProps = (
+  props: GetFormRenderPropsInput
+): FormRenderPropsInterface => {
   const {
     formContext,
     formJsx,
@@ -31,7 +45,7 @@ const getFormRenderProps = (props) => {
     ...buttonProps,
     type: 'button',
     ...injectedCancelButtonProps,
-  }
+  } as ButtonProps
   const editButtonProps = {
     ...buttonProps,
     type: 'button',
@@ -41,13 +55,13 @@ const getFormRenderProps = (props) => {
       setIsReadOnly(!isReadOnly)
     },
     ...injectedEditButtonProps,
-  }
+  } as ButtonProps
   const submitButtonProps = {
     ...buttonProps,
     type: 'submit',
     title: 'Save',
     ...injectedSubmitButtonProps,
-  }
+  } as ButtonProps
 
   const {
     formState: { isSubmitting },
