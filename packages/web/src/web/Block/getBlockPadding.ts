@@ -17,7 +17,7 @@ const getBlockPadding = ({ pt, pb, py }) => {
   if (py === 0) return { py }
 
   // Handle injected py immediately
-  if (typeof py === 'number') return { py }
+  if (typeof py === 'number' || typeof py === 'object') return { py }
 
   const defaultPadding = { xs: 5, md: 15 }
   const defaultPy = { py: defaultPadding }

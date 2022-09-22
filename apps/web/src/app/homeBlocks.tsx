@@ -13,10 +13,11 @@ const homeBlocks = [
     key: 'hero',
     maxWidth: 'md' as const,
     center: true,
+    py: { xs: 10, md: 20 },
     items: [
       {
         overline: {
-          title: 'Gravis - operating system for modern enterprises',
+          title: 'Gravis OS - operating system for modern enterprises',
           titleProps: { color: 'text.secondary' },
         },
       },
@@ -74,101 +75,6 @@ const homeBlocks = [
                     size: 'large',
                     fullWidthOnMobile: true,
                   } as ButtonProps,
-                },
-              ],
-            },
-          ],
-        },
-      },
-    ],
-  },
-  {
-    key: 'endorsements-grid',
-    center: true,
-    py: 4,
-    items: [
-      {
-        overline: {
-          title: 'Trusted by the best frontend teams',
-          titleProps: { color: 'text.primary' },
-        },
-      },
-      {
-        grid: {
-          sx: { mt: { xs: 2, md: 4 } },
-          gridProps: { spacing: { xs: 5 } },
-          boxProps: {
-            display: 'flex',
-            alignItems: 'center',
-          },
-          titleProps: {
-            sx: {
-              display: 'inline-flex',
-              verticalAlign: 'middle',
-              maxHeight: 30,
-              userSelect: 'none',
-              pointerEvents: 'none',
-              outline: 'none',
-              cursor: 'default',
-            },
-          },
-          gridItems: [
-            {
-              items: [
-                {
-                  type: BlockItemTypeEnum.IMAGE,
-                  title: auth0_svg,
-                  boxProps: {},
-                },
-              ],
-            },
-            {
-              items: [
-                {
-                  type: BlockItemTypeEnum.IMAGE,
-                  title: tripadvisor_svg,
-                },
-              ],
-            },
-            {
-              items: [
-                {
-                  type: BlockItemTypeEnum.IMAGE,
-                  title: washingtonpost_svg,
-                },
-              ],
-            },
-            {
-              items: [
-                {
-                  type: BlockItemTypeEnum.IMAGE,
-                  title: uber_svg,
-                  titleProps: {
-                    sx: {
-                      maxHeight: 20,
-                    },
-                  },
-                },
-              ],
-            },
-            {
-              items: [
-                {
-                  type: BlockItemTypeEnum.IMAGE,
-                  title: meta_svg,
-                  titleProps: {
-                    sx: {
-                      maxHeight: 20,
-                    },
-                  },
-                },
-              ],
-            },
-            {
-              items: [
-                {
-                  type: BlockItemTypeEnum.IMAGE,
-                  title: hashicorp_svg,
                 },
               ],
             },

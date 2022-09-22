@@ -1,5 +1,15 @@
 # web
 
+## 0.0.7
+
+### Patch Changes
+
+- Update Block padding config
+
+- Updated dependencies [[`cfc0c4f`](https://github.com/gravis-os/gravis-os/commit/cfc0c4f161a985e015cc17d6e8f08d8d440a4185)]:
+  - @gravis-os/web@0.0.13
+  - @gravis-os/form@0.0.50
+
 ## 0.0.6
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.50
+
+### Patch Changes
+
+- [`cfc0c4f`](https://github.com/gravis-os/gravis-os/commit/cfc0c4f161a985e015cc17d6e8f08d8d440a4185) Thanks [@clodal](https://github.com/clodal)! - Fix build error in form
+
 ## 0.0.49
 
 ### Patch Changes
