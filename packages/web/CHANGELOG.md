@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.14
+
+### Patch Changes
+
+- [`cad87f1`](https://github.com/gravis-os/gravis-os/commit/cad87f1add9c118193ac6adf4dcfe75cadca3260) Thanks [@clodal](https://github.com/clodal)! - Update web landing page
+
+- Updated dependencies [[`cad87f1`](https://github.com/gravis-os/gravis-os/commit/cad87f1add9c118193ac6adf4dcfe75cadca3260)]:
+  - @gravis-os/ui@0.0.27
+
 ## 0.0.13
 
 ### Patch Changes
