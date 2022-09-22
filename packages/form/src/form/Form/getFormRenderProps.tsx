@@ -52,7 +52,7 @@ const getFormRenderProps = (
     title: 'Edit',
     onClick: (e) => {
       e.preventDefault()
-      setIsReadOnly(!isReadOnly)
+      if (setIsReadOnly) setIsReadOnly(!isReadOnly)
     },
     ...injectedEditButtonProps,
   } as ButtonProps
@@ -80,7 +80,7 @@ const getFormRenderProps = (
   const cancelButtonJsx = !isReadOnly && (
     <Button
       variant="muted"
-      onClick={() => setIsReadOnly(true)}
+      onClick={() => setIsReadOnly?.(true)}
       fullWidth
       title="Cancel"
       {...cancelButtonProps}
