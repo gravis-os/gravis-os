@@ -1,5 +1,12 @@
 # web
 
+## 0.0.9
+
+### Patch Changes
+
+- Updated dependencies [[`bbfabaf`](https://github.com/gravis-os/gravis-os/commit/bbfabaf5d155b4c1fc29c2b2d0d0103c735703e2)]:
+  - @gravis-os/form@0.0.52
+
 ## 0.0.8
 
 ### Patch Changes
