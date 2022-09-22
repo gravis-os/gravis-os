@@ -1,12 +1,6 @@
 import { TextField } from '@mui/material'
-import React, {
-  ChangeEvent,
-  Dispatch,
-  ReactNode,
-  SetStateAction,
-  useEffect,
-  useState,
-} from 'react'
+import { isString } from 'lodash'
+import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react'
 import { getStorageImageUrl, renderReactNodeOrString } from '../utils'
 import Card, { CardProps } from './Card'
 import Grid from './Grid'
@@ -15,8 +9,8 @@ import Stack from './Stack'
 
 export interface QuantityCardProps extends CardProps {
   title: ReactNode
-  quantity: number
-  setQuantity?: Dispatch<SetStateAction<number>>
+  quantity: string
+  setQuantity?: (string) => void
   subtitle?: ReactNode
   description?: ReactNode
   imageSrc?: string
@@ -34,9 +28,9 @@ const QuantityCard: React.FC<QuantityCardProps> = (
     imageSrc,
     ...rest
   } = props
-  const [quantity, setQuantity] = useState<number>(injectedQuantity ?? 0)
+  const [quantity, setQuantity] = useState<string>(injectedQuantity ?? '0')
   const handleQuantityOnChange = (e: ChangeEvent) => {
-    const { value } = e.target as HTMLFormElement
+    const { value } = e.target as HTMLInputElement
     return injectedSetQuantity ? injectedSetQuantity(value) : setQuantity(value)
   }
 
@@ -79,7 +73,7 @@ const QuantityCard: React.FC<QuantityCardProps> = (
             type="number"
             value={
               // Only use injectedQuantity if injectedSetQuantity is provided too to prevent input not changing
-              injectedQuantity && injectedSetQuantity
+              isString(injectedQuantity) && injectedSetQuantity
                 ? injectedQuantity
                 : quantity
             }
