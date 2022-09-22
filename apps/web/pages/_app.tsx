@@ -7,8 +7,8 @@ import { CacheProvider, EmotionCache } from '@emotion/react'
 import { Toaster } from 'react-hot-toast'
 import { Hydrate, QueryClient, QueryClientProvider } from 'react-query'
 import { SettingsProvider, SettingsConsumer } from '@gravis-os/ui'
+import getWebTheme from '@web/app/getWebTheme'
 import createEmotionCache from '../src/createEmotionCache'
-import getWebTheme from '../src/theme/webTheme'
 
 // Client-side cache, shared for the whole session of the user in the browser.
 const clientSideEmotionCache = createEmotionCache()

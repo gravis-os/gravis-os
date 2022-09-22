@@ -12,3 +12,6 @@ export * from './gravisLandingTheme'
 
 export { default as vercelLandingTheme } from './vercelLandingTheme'
 export * from './vercelLandingTheme'
+
+export { default as gravisOsLandingTheme } from './gravisOsLandingTheme'
+export * from './gravisOsLandingTheme'

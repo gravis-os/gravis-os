@@ -54,6 +54,14 @@ const Button: React.FC<ButtonProps> = (props) => {
         ...(fullWidthOnMobile && {
           width: { xs: '100%', md: 'initial' },
         }),
+        // Outlined variant
+        ...(variant === 'outlined' && {
+          color: `${color || 'primary'}.main`,
+          borderColor: `${color || 'primary'}.main`,
+          '&:hover': {
+            borderColor: `${color || 'primary'}.dark`,
+          },
+        }),
         // Paper variant
         ...(variant === BUTTON_VARIANT_PAPER && {
           backgroundColor: 'background.paper',

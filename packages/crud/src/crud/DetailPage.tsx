@@ -11,7 +11,7 @@ import {
 } from '@gravis-os/ui'
 import { ContainerProps } from '@mui/material'
 import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
-import { omit } from 'lodash'
+import omit from 'lodash/omit'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
 import getIsNew from './getIsNew'

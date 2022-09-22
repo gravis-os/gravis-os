@@ -1,5 +1,6 @@
 import React from 'react'
-import { get, startCase } from 'lodash'
+import get from 'lodash/get'
+import startCase from 'lodash/startCase'
 import { Controller, UseFormReturn } from 'react-hook-form'
 import {
   StorageAvatarWithUpload,

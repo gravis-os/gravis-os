@@ -1,9 +1,9 @@
 import { createTheme } from '@mui/material/styles'
-import { landingTheme } from '@gravis-os/web'
+import { gravisOsLandingTheme } from '@gravis-os/web'
 import themeConfig from './themeConfig'
 
 const getWebTheme = (mode: 'light' | 'dark') => {
-  return createTheme(landingTheme[mode], themeConfig)
+  return createTheme(gravisOsLandingTheme[mode], themeConfig)
 }
 
 export default getWebTheme
