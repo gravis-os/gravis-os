@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "private": true,
   "scripts": {
     "dev": "open http://localhost:3000 && next dev",
@@ -18,9 +18,9 @@
     "@gravis-os/auth": "^0.0.20",
     "@gravis-os/form": "^0.0.48",
     "@gravis-os/storage": "^0.0.14",
-    "@gravis-os/ui": "^0.0.25",
+    "@gravis-os/ui": "^0.0.26",
     "@gravis-os/utils": "^0.0.13",
-    "@gravis-os/web": "^0.0.11",
+    "@gravis-os/web": "^0.0.12",
     "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.78",
     "@mui/material": "^5.6.2",
@@ -38,7 +38,7 @@
     "react-query": "^3.39.0"
   },
   "devDependencies": {
-    "@gravis-os/eslint-config": "^0.0.4",
+    "@gravis-os/eslint-config": "^0.0.5",
     "@gravis-os/tsconfig": "^0.0.2",
     "@next/bundle-analyzer": "^12.1.5",
     "@types/lodash": "^4.14.185",

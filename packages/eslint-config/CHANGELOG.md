@@ -1,5 +1,15 @@
 # @gravis-os/eslint-config
 
+## 0.0.5
+
+### Patch Changes
+
+- [#82](https://github.com/gravis-os/gravis-os/pull/82) [`feb25a5`](https://github.com/gravis-os/gravis-os/commit/feb25a5bc5c9292f32657e3bbaf2d860d37b0c48) Thanks [@clodal](https://github.com/clodal)! - Add RTL to ui package
+
+* [#82](https://github.com/gravis-os/gravis-os/pull/82) [`c956526`](https://github.com/gravis-os/gravis-os/commit/c9565260b8b10ef1834613bd045c89b90a482a32) Thanks [@clodal](https://github.com/clodal)! - Add @gravis-os/rtl for hosting react testing library files"
+
+- [#82](https://github.com/gravis-os/gravis-os/pull/82) [`d5f769b`](https://github.com/gravis-os/gravis-os/commit/d5f769be4fd88388f730a1fe50ac5927d32a61fc) Thanks [@clodal](https://github.com/clodal)! - Add jest + rtl passing tests to UI based on Button.test.jsx
+
 ## 0.0.4
 
 ### Patch Changes
