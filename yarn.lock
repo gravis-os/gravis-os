@@ -6497,6 +6497,11 @@
   resolved "https://registry.yarnpkg.com/@types/cookie/-/cookie-0.4.1.tgz#bfd02c1f2224567676c1545199f87c3a861d878d"
   integrity sha512-XW/Aa8APYr6jSVVA1y/DEIZX0/GMKLEVekNG727R8cs56ahETkRAy/3DR7+fJyh7oUgGwNQaRfXCun0+KbWY7Q==
 
+"@types/downloadjs@^1.4.3":
+  version "1.4.3"
+  resolved "https://registry.yarnpkg.com/@types/downloadjs/-/downloadjs-1.4.3.tgz#01c0414a9756afa2bd438b1e2ec6c50de7df316d"
+  integrity sha512-MjJepFle/tLtT2/jmDNth6ZnwWzEhm40L+olE5HKR70ISUCfgT55eqreeHldAzFLY2HDUGsn8zgyto8KygN0CA==
+
 "@types/eslint-scope@^3.7.3":
   version "3.7.3"
   resolved "https://registry.yarnpkg.com/@types/eslint-scope/-/eslint-scope-3.7.3.tgz#125b88504b61e3c8bc6f870882003253005c3224"
