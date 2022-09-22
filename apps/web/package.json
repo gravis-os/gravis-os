@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "scripts": {
     "dev": "open http://localhost:3000 && next dev",
@@ -16,7 +16,7 @@
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
     "@gravis-os/auth": "^0.0.20",
-    "@gravis-os/form": "^0.0.48",
+    "@gravis-os/form": "^0.0.49",
     "@gravis-os/storage": "^0.0.14",
     "@gravis-os/ui": "^0.0.26",
     "@gravis-os/utils": "^0.0.13",

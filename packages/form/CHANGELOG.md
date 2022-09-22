@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.49
+
+### Patch Changes
+
+- [`84290d9`](https://github.com/gravis-os/gravis-os/commit/84290d99d1cdf998292b6e6525abc14f693a350b) Thanks [@clodal](https://github.com/clodal)! - Update form typing to fix build error
+
 ## 0.0.48
 
 ### Patch Changes
