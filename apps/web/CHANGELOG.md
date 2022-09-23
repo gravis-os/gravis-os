@@ -1,5 +1,16 @@
 # web
 
+## 0.0.11
+
+### Patch Changes
+
+- [`d518d51`](https://github.com/gravis-os/gravis-os/commit/d518d51cfa05e35d0c6d83a6bb39f76955e77611) Thanks [@clodal](https://github.com/clodal)! - Fix deployment issue with apps/web
+
+- Updated dependencies [[`d518d51`](https://github.com/gravis-os/gravis-os/commit/d518d51cfa05e35d0c6d83a6bb39f76955e77611)]:
+  - @gravis-os/form@0.0.55
+  - @gravis-os/ui@0.0.28
+  - @gravis-os/web@0.0.15
+
 ## 0.0.10
 
 ### Patch Changes
