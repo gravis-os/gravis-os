@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.31
+
+### Patch Changes
+
+- Rebuild ui to fix missing imports
+
 ## 0.0.30
 
 ### Patch Changes
