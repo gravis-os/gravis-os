@@ -1,3 +1,4 @@
+import { Error } from '@mui/icons-material'
 import { TextField } from '@mui/material'
 import { isString } from 'lodash'
 import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react'
@@ -7,13 +8,30 @@ import Image from '../core/Image'
 import Stack from '../core/Stack'
 import { getStorageImageUrl, renderReactNodeOrString } from '../utils'
 
+/**
+ * Property of the QuantityCard component.
+ *
+ * @prop {ReactNode} title
+ * @prop {string} quantity
+ * @prop {(value: string) => void} setQuantity?
+ * @prop {ReactNode} subtitle?
+ * @prop {ReactNode} description?
+ * @prop {string} imageSrc?
+ * @prop {boolean} hasError?
+ */
 export interface QuantityCardProps extends CardProps {
   title: ReactNode
   quantity: string
-  setQuantity?: (string) => void
+  /** Function which modifies the value of quantity */
+  setQuantity?: (value: string) => void
+  /** Text displayed before the title */
   subtitle?: ReactNode
+  /** Caption text displayed below the subtitle */
   description?: ReactNode
+  /** URL of the image displayed on the left side of the component */
   imageSrc?: string
+  /** Displays an error icon next to the quantity value if set to true */
+  hasError?: boolean
 }
 
 const QuantityCard: React.FC<QuantityCardProps> = (
@@ -26,16 +44,21 @@ const QuantityCard: React.FC<QuantityCardProps> = (
     subtitle,
     description,
     imageSrc,
+    hasError,
     ...rest
   } = props
+
   const [quantity, setQuantity] = useState<string>(injectedQuantity ?? '0')
+
   const handleQuantityOnChange = (e: ChangeEvent) => {
     const { value } = e.target as HTMLInputElement
+    // Set error to false if changed
     return injectedSetQuantity ? injectedSetQuantity(value) : setQuantity(value)
   }
 
   // Get image URL
   const [imageUrl, setImageUrl] = useState<string | undefined>(undefined)
+
   useEffect(() => {
     const getImage = async () => {
       const fetchedImageUrl = await getStorageImageUrl(imageSrc)
@@ -43,6 +66,7 @@ const QuantityCard: React.FC<QuantityCardProps> = (
     }
     getImage()
   }, [imageSrc])
+
   return (
     // Override default padding
     <Card disablePadding padding={1.5} {...rest}>
@@ -78,7 +102,10 @@ const QuantityCard: React.FC<QuantityCardProps> = (
                 : quantity
             }
             onChange={handleQuantityOnChange}
-            inputProps={{ sx: { textAlign: 'center' }, inputMode: 'numeric' }}
+            InputProps={{
+              inputProps: { sx: { textAlign: 'center' }, inputMode: 'numeric' },
+              ...(hasError && { endAdornment: <Error color="error" /> }),
+            }}
           />
         </Grid>
       </Grid>
