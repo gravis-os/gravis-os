@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.5
+
+### Patch Changes
+
+- [`9e27e13`](https://github.com/gravis-os/gravis-os/commit/9e27e13a55cdf606da8d370b2d7759db1ecf354d) Thanks [@clodal](https://github.com/clodal)! - Update next from 12.1 to 12.3. Upgrade @supabase auth"
+
 ## 0.0.4
 
 ### Patch Changes

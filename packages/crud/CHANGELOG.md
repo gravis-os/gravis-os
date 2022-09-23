@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.42
+
+### Patch Changes
+
+- [`9e27e13`](https://github.com/gravis-os/gravis-os/commit/9e27e13a55cdf606da8d370b2d7759db1ecf354d) Thanks [@clodal](https://github.com/clodal)! - Update next from 12.1 to 12.3. Upgrade @supabase auth"
+
+- Updated dependencies [[`9e27e13`](https://github.com/gravis-os/gravis-os/commit/9e27e13a55cdf606da8d370b2d7759db1ecf354d)]:
+  - @gravis-os/auth@0.0.21
+  - @gravis-os/form@0.0.56
+  - @gravis-os/storage@0.0.15
+  - @gravis-os/types@0.0.13
+  - @gravis-os/ui@0.0.30
+  - @gravis-os/utils@0.0.14
+
 ## 0.0.41
 
 ### Patch Changes
