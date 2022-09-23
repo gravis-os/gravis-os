@@ -1,4 +1,5 @@
 import React, { createContext, useEffect, useState } from 'react'
+import useMediaQuery from '@mui/material/useMediaQuery'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
 import IconButton from './IconButton'
@@ -34,16 +35,14 @@ const restoreSettings = (): Settings | null => {
     const storedData: string | null =
       globalThis.localStorage.getItem('settings')
 
-    if (storedData) {
-      settings = JSON.parse(storedData)
-    } else {
-      settings = {
-        direction: 'ltr',
-        responsiveFontSizes: true,
-        theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-          ? 'dark'
-          : 'light',
-      }
+    settings = {
+      direction: 'ltr',
+      responsiveFontSizes: true,
+      ...JSON.parse(storedData),
+      // Allow to overriding of the theme with the system preference
+      theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+        ? 'dark'
+        : 'light',
     }
   } catch (err) {
     console.error(err)
@@ -92,13 +91,16 @@ const SettingsProvider: React.FC<SettingsProviderProps> = (props) => {
   const { children } = props
   const [settings, setSettings] = useState<Settings>(initialSettings)
 
+  // @link: https://mui.com/material-ui/customization/dark-mode/#system-preference
+  const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
+
   useEffect(() => {
     const restoredSettings = restoreSettings()
 
     if (restoredSettings) {
       setSettings(restoredSettings)
     }
-  }, [])
+  }, [prefersDarkMode])
 
   const saveSettings = (updatedSettings: Settings): void => {
     setSettings(updatedSettings)

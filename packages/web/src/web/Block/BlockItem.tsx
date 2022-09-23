@@ -21,6 +21,7 @@ import {
   DividerProps,
 } from '@gravis-os/ui'
 import merge from 'lodash/merge'
+import isEmpty from 'lodash/isEmpty'
 import { BlockItemTypeEnum } from './constants'
 
 export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
@@ -106,6 +107,15 @@ const renderBlockItem = (props) => {
           <Image src={title} {...titleProps} />
         </Box>
       )
+    case BlockItemTypeEnum.SVG:
+      const InlineSvgComponent = title
+      return (
+        <Box {...boxProps}>
+          <Box {...titleProps}>
+            <InlineSvgComponent />
+          </Box>
+        </Box>
+      )
     case BlockItemTypeEnum.H1:
     case BlockItemTypeEnum.H2:
     case BlockItemTypeEnum.H3:
@@ -136,14 +146,16 @@ const renderBlockItem = (props) => {
             ...boxProps?.sx,
           }}
         >
-          <Image
-            src={title}
-            layout="responsive"
-            width={300}
-            height={200}
-            {...titleProps}
-            sx={{ mt: 5, ...titleProps?.sx }}
-          />
+          {!isEmpty(title) && (
+            <Image
+              src={title}
+              layout="responsive"
+              width={300}
+              height={200}
+              {...titleProps}
+              sx={{ mt: 5, ...titleProps?.sx }}
+            />
+          )}
         </Box>
       )
     default:

@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.4",
+  "version": "0.0.11",
   "private": true,
   "scripts": {
     "dev": "open http://localhost:3000 && next dev",
@@ -15,12 +15,12 @@
     "@emotion/react": "^11.9.0",
     "@emotion/server": "^11.4.0",
     "@emotion/styled": "^11.8.1",
-    "@gravis-os/auth": "^0.0.20",
-    "@gravis-os/form": "^0.0.48",
-    "@gravis-os/storage": "^0.0.14",
-    "@gravis-os/ui": "^0.0.25",
-    "@gravis-os/utils": "^0.0.13",
-    "@gravis-os/web": "^0.0.11",
+    "@gravis-os/auth": "*",
+    "@gravis-os/form": "*",
+    "@gravis-os/storage": "*",
+    "@gravis-os/ui": "*",
+    "@gravis-os/utils": "*",
+    "@gravis-os/web": "*",
     "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.78",
     "@mui/material": "^5.6.2",
@@ -38,14 +38,14 @@
     "react-query": "^3.39.0"
   },
   "devDependencies": {
-    "@gravis-os/eslint-config": "^0.0.4",
-    "@gravis-os/tsconfig": "^0.0.2",
+    "@gravis-os/eslint-config": "^0.0.5",
+    "@gravis-os/tsconfig": "^0.0.5",
     "@next/bundle-analyzer": "^12.1.5",
+    "@svgr/webpack": "^6.3.1",
     "@types/lodash": "^4.14.185",
     "@types/node": "^17.0.12",
     "@types/react": "18.0.1",
     "@types/react-dom": "^18.0.0",
-    "next-transpile-modules": "9.0.0",
     "typescript": "^4.6.3"
   },
   "husky": {

@@ -13,7 +13,7 @@ const Blocks: React.FC<BlocksProps> = (props) => {
   return (
     <>
       {items.map((item, i) => {
-        return <Block key={`block-${i}`} {...item} />
+        return <Block id={item.key} {...item} />
       })}
     </>
   )

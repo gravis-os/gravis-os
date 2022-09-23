@@ -90,13 +90,14 @@ const baseTheme = {
     palette: {
       background: {
         default: '#fafafa',
+        paper: '#fff',
       },
     },
   }),
   dark: merge({}, muiDarkTheme, baseThemeConfig, {
     palette: {
       background: {
-        default: '#000',
+        default: '#111',
         paper: '#1d1d1f',
       },
     },

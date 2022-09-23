@@ -47,10 +47,13 @@ export interface BlockProps
   pt?: BlockPadding
   pb?: BlockPadding
   py?: BlockPadding
+
+  id: string
 }
 
 const Block: React.FC<BlockProps> = (props) => {
   const {
+    id,
     spacing,
     stackProps,
     pt,
@@ -70,14 +73,10 @@ const Block: React.FC<BlockProps> = (props) => {
 
   const items = flowRight([withBlockItemShorthand()])(injectedItems)
 
-  console.log('jjj: Block', {
-    injectedItems,
-    items,
-  })
-
   const childrenJsx = (
     // Section layer
     <Box
+      id={id}
       sx={{
         ...getBlockPadding({ pt, pb, py }),
         ...(hasBackgroundImage

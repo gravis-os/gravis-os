@@ -1,5 +1,53 @@
 # Changelog
 
+## 0.0.55
+
+### Patch Changes
+
+- [`d518d51`](https://github.com/gravis-os/gravis-os/commit/d518d51cfa05e35d0c6d83a6bb39f76955e77611) Thanks [@clodal](https://github.com/clodal)! - Fix deployment issue with apps/web
+
+- Updated dependencies [[`d518d51`](https://github.com/gravis-os/gravis-os/commit/d518d51cfa05e35d0c6d83a6bb39f76955e77611)]:
+  - @gravis-os/ui@0.0.28
+
+## 0.0.54
+
+### Patch Changes
+
+- [`6c0d753`](https://github.com/gravis-os/gravis-os/commit/6c0d75395e7d62966fba1f6a95c36c7ed707feba) Thanks [@clodal](https://github.com/clodal)! - Fix build error in web app
+
+## 0.0.53
+
+### Patch Changes
+
+- [`a9b4f8b`](https://github.com/gravis-os/gravis-os/commit/a9b4f8b07dad99d671fb54d697aaa5fedcbe099a) Thanks [@clodal](https://github.com/clodal)! - Update nextjs tsconfig to fix build errors on Vercell
+
+## 0.0.52
+
+### Patch Changes
+
+- [`bbfabaf`](https://github.com/gravis-os/gravis-os/commit/bbfabaf5d155b4c1fc29c2b2d0d0103c735703e2) Thanks [@clodal](https://github.com/clodal)! - Update tsconfig to disable implicit any for nextjs build to pass
+
+## 0.0.51
+
+### Patch Changes
+
+- [`cad87f1`](https://github.com/gravis-os/gravis-os/commit/cad87f1add9c118193ac6adf4dcfe75cadca3260) Thanks [@clodal](https://github.com/clodal)! - Update web landing page
+
+- Updated dependencies [[`cad87f1`](https://github.com/gravis-os/gravis-os/commit/cad87f1add9c118193ac6adf4dcfe75cadca3260)]:
+  - @gravis-os/ui@0.0.27
+
+## 0.0.50
+
+### Patch Changes
+
+- [`cfc0c4f`](https://github.com/gravis-os/gravis-os/commit/cfc0c4f161a985e015cc17d6e8f08d8d440a4185) Thanks [@clodal](https://github.com/clodal)! - Fix build error in form
+
+## 0.0.49
+
+### Patch Changes
+
+- [`84290d9`](https://github.com/gravis-os/gravis-os/commit/84290d99d1cdf998292b6e6525abc14f693a350b) Thanks [@clodal](https://github.com/clodal)! - Update form typing to fix build error
+
 ## 0.0.48
 
 ### Patch Changes

@@ -2,7 +2,7 @@ import React from 'react'
 import { DateTimePicker, DatePickerProps } from '@mui/x-date-pickers'
 import { SxProps, TextField, TextFieldProps } from '@mui/material'
 
-interface DateTimeFieldProps extends DatePickerProps<Date> {
+interface DateTimeFieldProps extends DatePickerProps<Date, any> {
   textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
   sx: SxProps
 }

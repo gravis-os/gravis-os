@@ -36,7 +36,7 @@ const Person: NextPage = () => (
                     type: 'input',
                     required: true,
                   },
-                  { key: 'content', name: 'content', type: 'html' },
+                  { key: 'content', name: 'content', type: 'textarea' },
                   { key: 'isActive', name: 'isActive', type: 'switch' },
                 ],
               },

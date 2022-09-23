@@ -1,5 +1,6 @@
 import { BlockItemTypeEnum } from './constants'
 import { BlockItemProps } from './BlockItem'
+import { BlockProps } from './Block'
 
 export interface BlockItemShortHandProps {
   [key: string]:
@@ -47,14 +48,18 @@ const withBlockItemShorthand = () => (items: BlockItemProps[]) => {
               const nextRecursiveItems = recursiveItems.map((recursiveItem) => {
                 return {
                   ...recursiveItem,
-                  items: getBlockItemsWithoutShorthand(recursiveItem.items),
+                  items: getBlockItemsWithoutShorthand(
+                    (recursiveItem as BlockProps).items
+                  ),
                 }
               })
 
+              // Define the type of recursiveItem for overriding via object spread
+              const recursiveItemsKey = `${type}Items`
+
               return [
                 ...itemAcc,
-                // TODO@Joel: Check if it is grid or stack
-                { type, ...value, stackItems: nextRecursiveItems },
+                { type, ...value, [recursiveItemsKey]: nextRecursiveItems },
               ]
             }
 

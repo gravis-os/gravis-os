@@ -18,6 +18,7 @@ export interface FormSectionReadOnlyStackProps
 // TODO: export from storage package
 const downloadFromBlobUrl = async (file: File) => {
   const { url, name, type } = file
+  // @ts-ignore
   const blob = await fetch(url).then((r) => r.blob())
   return download(blob, name, type)
 }

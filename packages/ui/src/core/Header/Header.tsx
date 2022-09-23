@@ -13,7 +13,6 @@ import {
   Toolbar,
   ToolbarProps,
 } from '@mui/material'
-import RouterLink from 'next/link'
 import { SxProps } from '@mui/system'
 import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
 import NavAccordion from '../NavAccordion'
@@ -54,6 +53,7 @@ export interface HeaderProps extends AppBarProps {
   }
   transparent?: boolean
   disableBoxShadow?: boolean
+  disableBorderBottom?: boolean
   renderProps?: any
   darkText?: boolean
   center?: boolean
@@ -72,6 +72,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     center,
     darkText,
     disableBoxShadow,
+    disableBorderBottom,
     disableScrollTrigger,
     navItems,
     renderProps,
@@ -283,6 +284,12 @@ const Header: React.FC<HeaderProps> = (props) => {
         boxShadow: disableBoxShadow
           ? 'none'
           : '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
+
+        // BorderBottom
+        ...(!disableBorderBottom && {
+          borderBottom: '1px solid',
+          borderBottomColor: 'divider',
+        }),
 
         // Transparent
         ...(transparent && !darkText && { color: 'white' }),

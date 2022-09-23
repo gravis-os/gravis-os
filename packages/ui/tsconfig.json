@@ -6,7 +6,8 @@
     "baseUrl": ".",
     "paths": {
       "@gravis-os/utils": ["../../packages/utils/src/*"],
-      "@gravis-os/types": ["../../packages/types/src/*"]
+      "@gravis-os/types": ["../../packages/types/src/*"],
+      "@gravis-os/rtl": ["../../packages/rtl/src/*"]
     }
   }
 }

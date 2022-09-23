@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.0.28
+
+### Patch Changes
+
+- [`d518d51`](https://github.com/gravis-os/gravis-os/commit/d518d51cfa05e35d0c6d83a6bb39f76955e77611) Thanks [@clodal](https://github.com/clodal)! - Fix deployment issue with apps/web
+
+## 0.0.27
+
+### Patch Changes
+
+- [`cad87f1`](https://github.com/gravis-os/gravis-os/commit/cad87f1add9c118193ac6adf4dcfe75cadca3260) Thanks [@clodal](https://github.com/clodal)! - Update web landing page
+
+## 0.0.26
+
+### Patch Changes
+
+- [`411605d`](https://github.com/gravis-os/gravis-os/commit/411605da5889c6d66936ae27d73a1d647c53b5b7) Thanks [@clodal](https://github.com/clodal)! - Add toggleDarkModeIconButtonJsx to SettingsProvider
+
+* [#82](https://github.com/gravis-os/gravis-os/pull/82) [`feb25a5`](https://github.com/gravis-os/gravis-os/commit/feb25a5bc5c9292f32657e3bbaf2d860d37b0c48) Thanks [@clodal](https://github.com/clodal)! - Add RTL to ui package
+
+- [#82](https://github.com/gravis-os/gravis-os/pull/82) [`c956526`](https://github.com/gravis-os/gravis-os/commit/c9565260b8b10ef1834613bd045c89b90a482a32) Thanks [@clodal](https://github.com/clodal)! - Add @gravis-os/rtl for hosting react testing library files"
+
+* [`073a373`](https://github.com/gravis-os/gravis-os/commit/073a373a84e5c92acc6d8b511c883775910a44a3) Thanks [@clodal](https://github.com/clodal)! - Add Typography.gradient"
+
+- [#82](https://github.com/gravis-os/gravis-os/pull/82) [`d5f769b`](https://github.com/gravis-os/gravis-os/commit/d5f769be4fd88388f730a1fe50ac5927d32a61fc) Thanks [@clodal](https://github.com/clodal)! - Add jest + rtl passing tests to UI based on Button.test.jsx
+
+* [`cbe728e`](https://github.com/gravis-os/gravis-os/commit/cbe728e2daa70af1c2fb1406cc1691d302518110) Thanks [@clodal](https://github.com/clodal)! - Update Header component to open link in new tab
+
+* Updated dependencies [[`c956526`](https://github.com/gravis-os/gravis-os/commit/c9565260b8b10ef1834613bd045c89b90a482a32)]:
+  - @gravis-os/rtl@0.0.1
+
 ## 0.0.25
 
 ### Patch Changes
