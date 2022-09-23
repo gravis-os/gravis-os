@@ -33,15 +33,17 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
   const isBaseRoute = !subdomain && currentHost === hostname // e.g. localhost:3000
   const isWorkspace = Boolean(subdomain) // e.g. subdomain.localhost:3000
   const isWorkspaceBaseRoute = isWorkspace && pathname === '/' // e.g. subdomain.localhost:3000/
-  const sbAccessToken = req.cookies['sb-access-token']
-  const authUser = await (
-    await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
-      headers: {
-        Authorization: `Bearer ${sbAccessToken}`,
-        apiKey: `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
-      },
-    })
-  ).json()
+  const sbAccessToken = req.cookies.getWithOptions('sb-access-token')?.value
+  const authUser =
+    sbAccessToken &&
+    (await (
+      await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
+        headers: {
+          Authorization: `Bearer ${sbAccessToken}`,
+          apiKey: `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+        },
+      })
+    ).json())
   const isLoggedIn = Boolean(authUser?.id)
 
   const result = {

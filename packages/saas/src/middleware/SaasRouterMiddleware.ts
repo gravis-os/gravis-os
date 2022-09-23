@@ -116,7 +116,6 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
             }
           )
         }
-
         if (isLoggedInButIncorrectWorkspace) {
           const loggedInButIncorrectWorkspaceUrl = `${protocol}://${workspace.slug}.${nakedDomain}`
           if (isAdmin) {
@@ -135,8 +134,8 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
           }
 
           const res = NextResponse.next()
-          res.clearCookie('sb-access-token')
-          res.clearCookie('sb-refresh-token')
+          res.cookies.delete('sb-access-token')
+          res.cookies.delete('sb-refresh-token')
           if (isDebug) {
             console.log(
               `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin > Wrong Workspace Not Admin > Redirect`,
@@ -203,13 +202,14 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         })(req, event)
 
         // Block the user if they are not authorised to access this workspace
+        // @ts-ignore
         if (middlewareAuth?.status === 307) {
           const middlewareAuthErrorRedirectUrl = req.nextUrl.clone()
           middlewareAuthErrorRedirectUrl.pathname = isLoggedIn
             ? authorizationFailureRedirectTo
             : authenticationFailureRedirectTo
           if (isDebug) {
-            console.log(`♻️ [DEBUG] Middleware isWorkspace Redirect`, {
+            console.log(`♻️ [DEBUG] Middleware isWorkspace 307 Redirect`, {
               middlewareAuthErrorRedirectUrl:
                 middlewareAuthErrorRedirectUrl.pathname,
             })
