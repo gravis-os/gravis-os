@@ -6,14 +6,14 @@ export interface ChipStackProps extends StackProps {
   items?: ChipProps[]
 }
 
-const ChipStack: React.FC<ChipStackProps> = props => {
+const ChipStack: React.FC<ChipStackProps> = (props) => {
   const { items, ...rest } = props
 
   if (!items?.length) return null
 
   return (
     <Stack direction="row" alignItems="center" spacing={1} {...rest}>
-      {items.map(item => (
+      {items.map((item) => (
         <Chip key={item.key} {...item} />
       ))}
     </Stack>

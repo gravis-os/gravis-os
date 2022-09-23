@@ -10,7 +10,7 @@ export interface CircularProgressProps extends MuiCircularProgressProps {
   fullScreen?: boolean
 }
 
-const CircularProgress: React.FC<CircularProgressProps> = props => {
+const CircularProgress: React.FC<CircularProgressProps> = (props) => {
   const { fullScreen, ...rest } = props
   const childrenJsx = <MuiCircularProgress {...rest} />
   return fullScreen ? (

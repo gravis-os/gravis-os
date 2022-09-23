@@ -38,7 +38,7 @@ export interface CardTableProps extends CardTableStyleProps {
   CardHeaderProps?: CardHeaderProps
 }
 
-const CardTable: React.FC<CardTableProps> = props => {
+const CardTable: React.FC<CardTableProps> = (props) => {
   const {
     data,
     rows,
@@ -52,7 +52,7 @@ const CardTable: React.FC<CardTableProps> = props => {
   return (
     <Table {...rest}>
       <TableBody>
-        {rows.map(row => {
+        {rows.map((row) => {
           const key = typeof row === 'object' ? row.key : row
           const label =
             typeof row === 'object'

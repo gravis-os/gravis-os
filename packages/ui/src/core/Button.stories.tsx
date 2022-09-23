@@ -8,7 +8,7 @@ export default {
   args: { children: 'Label' },
 }
 
-const Template = args => <Button {...args} />
+const Template = (args) => <Button {...args} />
 
 export const Basic = Template.bind({})
 Basic.args = {}
@@ -16,7 +16,7 @@ Basic.args = {}
 export const Contained = Template.bind({})
 Contained.args = { variant: 'contained' }
 
-export const ContainedAllColors = args => (
+export const ContainedAllColors = (args) => (
   <Stack direction="row" alignItems="center" spacing={1}>
     <Button {...args} />
     <Button color="primary" {...args} />
@@ -32,7 +32,7 @@ ContainedAllColors.args = { ...Contained.args }
 export const Outlined = Template.bind({})
 Outlined.args = { variant: 'outlined' }
 
-export const OutlinedAllColors = args => (
+export const OutlinedAllColors = (args) => (
   <Stack direction="row" alignItems="center" spacing={1}>
     <Button {...args} />
     <Button color="primary" {...args} />

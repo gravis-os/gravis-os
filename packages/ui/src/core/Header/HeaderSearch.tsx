@@ -33,11 +33,14 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
 
           // Border
           borderRadius: (theme) => ({ xs: 0, md: theme.shape.borderRadius }),
-          border: (theme) => `1px solid ${alpha(theme.palette.grey['400'], 0.2)}`,
+          border: (theme) =>
+            `1px solid ${alpha(theme.palette.grey['400'], 0.2)}`,
 
           // Color
           backgroundColor: (theme) => alpha(theme.palette.grey['400'], 0.15),
-          '&:hover': { backgroundColor: (theme) => alpha(theme.palette.grey['400'], 0.25) },
+          '&:hover': {
+            backgroundColor: (theme) => alpha(theme.palette.grey['400'], 0.25),
+          },
           color: 'inherit',
 
           // Spacing

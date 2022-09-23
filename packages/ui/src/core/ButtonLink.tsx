@@ -10,7 +10,7 @@ export interface ButtonLinkProps extends ButtonProps {
   showLinkIcon?: boolean
 }
 
-const ButtonLink: React.FC<ButtonLinkProps> = props => {
+const ButtonLink: React.FC<ButtonLinkProps> = (props) => {
   const { href, children, openInNewTab, showLinkIcon, ...rest } = props
 
   const EndIcon = showLinkIcon ? LaunchOutlinedIcon : ArrowForwardIcon
@@ -23,7 +23,7 @@ const ButtonLink: React.FC<ButtonLinkProps> = props => {
   if (openInNewTab) {
     return (
       <Button
-        component={componentProps => (
+        component={(componentProps) => (
           <Link
             {...componentProps}
             href={href}
