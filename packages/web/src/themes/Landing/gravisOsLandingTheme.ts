@@ -11,7 +11,7 @@ const gravisLandingOsThemeConfig = {
   typography: {
     h1: {
       fontFamily: headerFontFamily,
-      fontSize: '3rem',
+      fontSize: '4rem',
       [baseTheme.light.breakpoints.up('sm')]: { fontSize: '4.25rem' },
       [baseTheme.light.breakpoints.up('md')]: { fontSize: '5.5rem' },
       [baseTheme.light.breakpoints.up('lg')]: { fontSize: '6rem' },
@@ -24,11 +24,19 @@ const gravisLandingOsThemeConfig = {
       fontFamily: headerFontFamily,
       lineHeight: 1.15555556,
       letterSpacing: '-0.025em',
-      [baseTheme.light.breakpoints.up('lg')]: {
-        fontSize: baseTheme.light.typography.pxToRem(48),
-      },
+      fontSize: '3rem',
+      [baseTheme.light.breakpoints.up('sm')]: { fontSize: '3.5rem' },
+      [baseTheme.light.breakpoints.up('md')]: { fontSize: '3.75rem' },
+      [baseTheme.light.breakpoints.up('lg')]: { fontSize: '4rem' },
     },
-    h3: { fontFamily: headerFontFamily, fontWeight: 600 },
+    h3: {
+      fontFamily: headerFontFamily,
+      fontSize: '2rem',
+      [baseTheme.light.breakpoints.up('sm')]: { fontSize: '2.25rem' },
+      [baseTheme.light.breakpoints.up('md')]: { fontSize: '2.5rem' },
+      [baseTheme.light.breakpoints.up('lg')]: { fontSize: '2.75rem' },
+      fontWeight: 600,
+    },
     h4: { fontFamily: headerFontFamily },
     h5: { fontFamily: subtitleFontFamily },
     subtitle2: {

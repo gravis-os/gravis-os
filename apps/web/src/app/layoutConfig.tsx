@@ -30,7 +30,6 @@ const logoSvg = (
 )
 
 const landingLayoutProps = {
-  backgroundColor: 'background.paper',
   headerProps: {
     color: 'transparent',
     disableBoxShadow: true,

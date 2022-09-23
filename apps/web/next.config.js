@@ -4,7 +4,16 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 
 const shouldAnalyzeBundle = process.env.ANALYZE === 'true'
 
-const nextConfig = {
+const withTM = require('next-transpile-modules')([
+  '@gravis-os/ui',
+  '@gravis-os/web',
+  '@gravis-os/form',
+  '@gravis-os/auth',
+  '@gravis-os/storage',
+  '@gravis-os/utils',
+])
+
+const nextConfig = withTM({
   reactStrictMode: true,
   images: {
     domains: ['via.placeholder.com', 'source.unsplash.com'],
@@ -17,7 +26,7 @@ const nextConfig = {
 
     return config
   },
-}
+})
 
 module.exports = shouldAnalyzeBundle
   ? withBundleAnalyzer(nextConfig)
