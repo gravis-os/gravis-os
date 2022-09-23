@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
 import { Stack, Typography, Link, useSettings } from '@gravis-os/ui'
+import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
 import EmblemSvg from '../../public/emblem.svg'
 
 const logoJsx = (
@@ -49,6 +50,11 @@ const landingLayoutProps = {
           title: 'Docs',
           href: 'https://docs.gravis-os.com',
           linkProps: { target: '_blank' },
+          // TODO@Joel: Abstract this to linkProps by detecting the target blank
+          buttonProps: {
+            endIcon: <LaunchOutlinedIcon />,
+            size: 'small',
+          },
         },
         {
           key: 'dark-mode',
