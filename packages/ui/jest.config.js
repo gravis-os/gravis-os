@@ -1,8 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const config = require('@gravis-os/rtl/jest.config')
+
 module.exports = {
-  preset: 'ts-jest',
-  testEnvironment: 'jsdom',
-  transform: {
-    '^.+\\.(ts|tsx)?$': 'ts-jest',
-    '^.+\\.(js|jsx)$': 'babel-jest',
-  },
+  ...config,
 }
