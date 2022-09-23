@@ -1,6 +1,3 @@
-export { default as ActionFooter } from '../component/ActionFooter'
-export * from '../component/ActionFooter'
-
 export { default as Alert } from './Alert'
 export * from './Alert'
 
