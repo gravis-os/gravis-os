@@ -1,4 +1,4 @@
-import { Error } from '@mui/icons-material'
+import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined'
 import { TextField } from '@mui/material'
 import { isString } from 'lodash'
 import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react'
@@ -104,7 +104,9 @@ const QuantityCard: React.FC<QuantityCardProps> = (
             onChange={handleQuantityOnChange}
             InputProps={{
               inputProps: { sx: { textAlign: 'center' }, inputMode: 'numeric' },
-              ...(hasError && { endAdornment: <Error color="error" /> }),
+              ...(hasError && {
+                endAdornment: <ErrorOutlinedIcon color="error" />,
+              }),
             }}
           />
         </Grid>
