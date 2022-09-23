@@ -1,5 +1,11 @@
 # @gravis-os/tsconfig
 
+## 0.0.5
+
+### Patch Changes
+
+- [`6c0d753`](https://github.com/gravis-os/gravis-os/commit/6c0d75395e7d62966fba1f6a95c36c7ed707feba) Thanks [@clodal](https://github.com/clodal)! - Fix build error in web app
+
 ## 0.0.4
 
 ### Patch Changes
