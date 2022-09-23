@@ -12,7 +12,8 @@
     "incremental": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "preserve"
+    "jsx": "preserve",
+    "module": "esnext"
   },
   "include": ["src", "next-env.d.ts"],
   "exclude": ["node_modules"]
