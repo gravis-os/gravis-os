@@ -6,7 +6,7 @@ export interface BreadcrumbsProps {
   items?: Array<{ key: string; title: string; href: string }>
 }
 
-const Breadcrumbs: React.FC<BreadcrumbsProps> = props => {
+const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   const { items = [] } = props
 
   const nextItems = [{ key: 'home', title: 'Home', href: '/' }, ...items]

@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.0.29
+
+### Patch Changes
+
+- [#81](https://github.com/gravis-os/gravis-os/pull/81) [`1a535b0`](https://github.com/gravis-os/gravis-os/commit/1a535b0b7a6fc0a78d02762d035e01ce52445d55) Thanks [@robyonextech](https://github.com/robyonextech)! - - Add BackButton UI component
+  - Add CardIconButtonRow component
+  - Add InfoCard component
+  - Add ListCard component
+  - Add VerticalIconButton component
+  - Add IconProgressBar component
+  - Add ActionFooter component
+  - Add QuantityCard component
+  - Add utility functions to fetch blob URL from image URL
+  - Add utility function to automatically render react or string when ReactNode is given
+
+* [#83](https://github.com/gravis-os/gravis-os/pull/83) [`337db36`](https://github.com/gravis-os/gravis-os/commit/337db36867628f993f7b71e35247277e8910188e) Thanks [@robyonextech](https://github.com/robyonextech)! - Add error indicator for QuantityCard
+
+- [`3d244fa`](https://github.com/gravis-os/gravis-os/commit/3d244fa474eb100652610ce696a96079b1de3468) Thanks [@clodal](https://github.com/clodal)! - Update SettingsProvider to listen to system pref theme
+
 ## 0.0.28
 
 ### Patch Changes

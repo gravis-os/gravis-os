@@ -6,7 +6,7 @@ import {
 
 export interface TooltipProps extends MuiTooltipProps {}
 
-const Tooltip: React.FC<TooltipProps> = props => {
+const Tooltip: React.FC<TooltipProps> = (props) => {
   return <MuiTooltip {...props} />
 }
 

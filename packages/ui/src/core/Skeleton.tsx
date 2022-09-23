@@ -6,7 +6,7 @@ import {
 
 export interface SkeletonProps extends MuiSkeletonProps {}
 
-const Skeleton: React.FC<SkeletonProps> = props => {
+const Skeleton: React.FC<SkeletonProps> = (props) => {
   return <MuiSkeleton {...props} />
 }
 

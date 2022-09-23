@@ -6,7 +6,7 @@ import {
 
 export interface SwitchProps extends MuiSwitchProps {}
 
-const Switch: React.FC<SwitchProps> = props => {
+const Switch: React.FC<SwitchProps> = (props) => {
   return <MuiSwitch {...props} />
 }
 
