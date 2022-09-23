@@ -25,6 +25,7 @@
     "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npx yalc push\"",
     "reset": "rm -rf dist && rm -rf node_modules && npx yalc remove --all",
     "yalc:push": "yalc push",
+    "test": "jest",
     "lint": "lint-staged && next lint --quiet --fix",
     "tslint": "tsc --noEmit --incremental"
   },
