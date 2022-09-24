@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "private": true,
   "scripts": {
     "dev": "open http://localhost:3000 && next dev",
@@ -38,7 +38,7 @@
     "react-query": "^3.39.0"
   },
   "devDependencies": {
-    "@gravis-os/eslint-config": "^0.0.5",
+    "@gravis-os/eslint-config": "^0.0.6",
     "@gravis-os/tsconfig": "^0.0.5",
     "@next/bundle-analyzer": "^12.1.5",
     "@svgr/webpack": "^6.3.1",

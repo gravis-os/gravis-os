@@ -1,5 +1,15 @@
 # web
 
+## 0.0.13
+
+### Patch Changes
+
+- [`ddc6282`](https://github.com/gravis-os/gravis-os/commit/ddc6282214f25299526d01beb1cf3049b174d0eb) Thanks [@clodal](https://github.com/clodal)! - Clean up appbar styles"
+
+- Updated dependencies [[`ddc6282`](https://github.com/gravis-os/gravis-os/commit/ddc6282214f25299526d01beb1cf3049b174d0eb), [`389af8b`](https://github.com/gravis-os/gravis-os/commit/389af8b3fe086131b059a55dba976ad8c2fa4e94)]:
+  - @gravis-os/ui@0.0.33
+  - @gravis-os/web@0.0.17
+
 ## 0.0.12
 
 ### Patch Changes

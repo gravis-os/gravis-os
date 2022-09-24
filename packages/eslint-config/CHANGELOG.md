@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.0.6
+
+### Patch Changes
+
+- [`389af8b`](https://github.com/gravis-os/gravis-os/commit/389af8b3fe086131b059a55dba976ad8c2fa4e94) Thanks [@clodal](https://github.com/clodal)! - Enhanced Header and fixed eslint config"
+
 ## 0.0.5
 
 ### Patch Changes
