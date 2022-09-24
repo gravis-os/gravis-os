@@ -19,7 +19,7 @@
     "cs:version": "changeset version",
     "cs:publish": "changeset publish && git push --follow-tags",
     "cs:vp": "npm run cs:version && npm run cs:publish && git add . && git commit -m \"build: published changeset\" && git push",
-    "test": "jest --config packages/ui/jest.config.js"
+    "test": "turbo run test"
   },
   "config": {
     "commitizen": {
