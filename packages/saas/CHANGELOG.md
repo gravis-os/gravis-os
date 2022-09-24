@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.16
+
+### Patch Changes
+
+- [`7326332`](https://github.com/gravis-os/gravis-os/commit/73263326f3b688a3535dc7f087c66721ff5b3cac) Thanks [@clodal](https://github.com/clodal)! - Fix issue with login redirect on custom domains with www"
+
 ## 0.0.15
 
 ### Patch Changes
