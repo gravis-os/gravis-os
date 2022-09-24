@@ -1,8 +1,8 @@
+const ADMIN_WORKSPACE_TITLE = 'Admin' // Reserved name for the admin panel workspace
 const ADMIN_ROLES = ['Super Admin', 'Admin']
-const ADMIN_WORKSPACE_TITLE = 'Admin'
 const WORKSPACE_ROLES = [
   'Workspace Owner',
-  'Workspace Admin',
+  'Workspace Manager',
   'Workspace Employee',
 ]
 

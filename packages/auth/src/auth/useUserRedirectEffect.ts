@@ -27,12 +27,14 @@ const useUserRedirectEffect = () => {
     // If dbUser check if there is a workspace to redirectTo
     const { workspace, role } = dbUser?.person?.[0] || {}
     if (workspace) {
+      const nakedHostname = window.location.hostname.replace('www.', '')
       const isCorrectWorkspace =
         typeof window !== 'undefined' &&
-        workspace.slug === window.location.hostname.split('.')[0]
+        workspace.slug === nakedHostname.split('.')[0]
 
       // Outcome: Invalid workspace
       const roleTitle = role?.title
+      // TODO: Move these to constants
       const isAdmin = roleTitle === 'Super Admin' || roleTitle === 'Admin'
       if (!isCorrectWorkspace && !isAdmin) {
         return toast.error('Invalid Workspace')
