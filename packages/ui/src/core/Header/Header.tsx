@@ -1,9 +1,8 @@
 import React from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
+import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
 import {
-  AppBar,
-  AppBarProps,
   Box,
   Button,
   ButtonProps,
@@ -23,6 +22,7 @@ import HeaderButtonWithMenu, {
 import Container, { ContainerProps } from '../Container'
 import HideOnScroll from './HideOnScroll'
 import Link from '../Link'
+import AppBar, { AppBarProps } from '../AppBar'
 
 export interface HeaderNavItem
   extends Omit<HeaderButtonWithMenuProps, 'title'> {
@@ -51,11 +51,7 @@ export interface HeaderProps extends AppBarProps {
     center?: HeaderNavItem[]
     right?: HeaderNavItem[]
   }
-  transparent?: boolean
-  disableBoxShadow?: boolean
-  disableBorderBottom?: boolean
   renderProps?: any
-  darkText?: boolean
   center?: boolean
   disableScrollTrigger?: boolean
 }
@@ -70,14 +66,10 @@ const Header: React.FC<HeaderProps> = (props) => {
   const {
     containerProps,
     center,
-    darkText,
-    disableBoxShadow,
-    disableBorderBottom,
     disableScrollTrigger,
     navItems,
     renderProps,
     toolbarProps,
-    transparent,
     ...rest
   } = props
 
@@ -132,7 +124,7 @@ const Header: React.FC<HeaderProps> = (props) => {
 
       switch (true) {
         // Render with renderProps to access state
-        case Boolean(render):
+        case typeof render === 'function':
           return (
             <Box component="div" alignItems="center" {...navItemWrapperProps}>
               {render({ ...renderProps, navItem })}
@@ -156,10 +148,15 @@ const Header: React.FC<HeaderProps> = (props) => {
         default:
           const renderHeaderNavItemButton = (navItem: HeaderNavItem) => {
             const { buttonProps, onClick: injectedOnClick, ...rest } = navItem
-            const { items, renderItems } = rest
+            const { items, renderItems, href, linkProps } = rest
 
             // Render nested menu if hasItems
             const hasNestedMenu = items?.length > 0 || Boolean(renderItems)
+
+            const isExternalLink =
+              href?.includes('https://') || href?.includes('http://')
+            const isOpenInNewTab = linkProps?.target === '_blank'
+            const shouldShowNewTabIcon = isExternalLink && isOpenInNewTab
 
             // Calculate button props
             const nextButtonProps: ButtonProps = {
@@ -172,6 +169,10 @@ const Header: React.FC<HeaderProps> = (props) => {
               },
               ...(injectedOnClick && {
                 onClick: (e) => injectedOnClick(e, navItem),
+              }),
+              ...(shouldShowNewTabIcon && {
+                endIcon: <LaunchOutlinedIcon />,
+                size: 'small',
               }),
             }
 
@@ -267,36 +268,7 @@ const Header: React.FC<HeaderProps> = (props) => {
 
   // ChildrenJsx
   const childrenJsx = (
-    <AppBar
-      position={transparent ? 'absolute' : 'sticky'}
-      {...(transparent && { color: 'transparent' })}
-      {...rest}
-      sx={{
-        zIndex: (theme) => theme.zIndex.appBar + 1,
-        width: '100%',
-
-        // Scroll
-        overflowX: 'scroll',
-        overflowY: 'hidden',
-        '&::-webkit-scrollbar': { display: 'none' },
-
-        // Box Shadow
-        boxShadow: disableBoxShadow
-          ? 'none'
-          : '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
-
-        // BorderBottom
-        ...(!disableBorderBottom && {
-          borderBottom: '1px solid',
-          borderBottomColor: 'divider',
-        }),
-
-        // Transparent
-        ...(transparent && !darkText && { color: 'white' }),
-
-        ...rest?.sx,
-      }}
-    >
+    <AppBar {...rest}>
       <Container {...containerProps}>
         <Toolbar
           disableGutters

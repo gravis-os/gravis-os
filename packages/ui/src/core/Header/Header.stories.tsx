@@ -31,7 +31,7 @@ const defaultButtonProps = {
 export const Basic = (props) => <Header {...props} />
 
 export const Transparent = (props) => <Header {...props} />
-Transparent.args = { transparent: true, darkText: true }
+Transparent.args = { transparent: true, dark: true }
 
 export const TransparentOnBackground = (props) => (
   <>

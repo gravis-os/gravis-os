@@ -1,6 +1,9 @@
 export { default as Alert } from './Alert'
 export * from './Alert'
 
+export { default as AppBar } from './AppBar'
+export * from './AppBar'
+
 export { default as Avatar } from './Avatar'
 export * from './Avatar'
 
@@ -61,14 +64,17 @@ export * from './IconButton'
 export { default as Image } from './Image'
 export * from './Image'
 
-export { default as Link } from './Link'
-export * from './Link'
-
 export { default as Layout } from './Layout'
 export * from './Layout'
 
+export { default as Link } from './Link'
+export * from './Link'
+
 export { default as List } from './List'
 export * from './List'
+
+export { default as Logo } from './Logo'
+export * from './Logo'
 
 export { default as MenuButton } from './MenuButton'
 export * from './MenuButton'

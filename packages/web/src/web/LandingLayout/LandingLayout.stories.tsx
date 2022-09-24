@@ -71,7 +71,7 @@ GravisTheme.args = {
   headerProps: {
     ...MOCK_HEADER_PROPS,
     transparent: true,
-    darkText: true,
+    dark: true,
   },
   blocks: [
     {
