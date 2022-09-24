@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.34
+
+### Patch Changes
+
+- [`36a8567`](https://github.com/gravis-os/gravis-os/commit/36a85675630803ec4e255831b9603fd3ecaf5e1f) Thanks [@clodal](https://github.com/clodal)! - Minor update Logo typing"
+
 ## 0.0.33
 
 ### Patch Changes
