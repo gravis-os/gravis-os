@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server'
+import fetchWorkspaceByCustomDomainFromMiddleware from '../supabase/fetchWorkspaceByCustomDomainFromMiddleware'
 
 /**
  * getMiddlewareRouteBreakdown
@@ -13,18 +14,35 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
   const nakedDomain =
     process.env.NEXT_PUBLIC_APP_ABSOLUTE_URL?.split('://')?.reverse()?.[0]
 
+  const isProduction = process.env.NODE_ENV === 'production'
+  const isVercel = process.env.VERCEL === '1'
+  const isVercelProduction = isProduction && isVercel
+
+  // ==============================
+  // Custom Domain
+  // ==============================
+  // This is a custom domain e.g. www.evfy.com if hostname does not contain 'marketbolt.io'
+  const isCustomDomain = !hostname.includes(nakedDomain)
+  // Ensure to strip out the www.evfy.com
+  const nakedCustomDomain = isCustomDomain && hostname.replace('www.', '')
+  // If this is a custom domain, then retrieve the workspace for it by querying the database.
+  const customDomainWorkspace =
+    await fetchWorkspaceByCustomDomainFromMiddleware({
+      customDomain: nakedCustomDomain,
+    })
+
   /**
    * You have to replace ".vercel.pub" with your own domain if you deploy this example under your domain.
    * You can also use wildcard subdomains on .vercel.app links that are associated with your Vercel team slug
    * in this case, our team slug is "platformize", thus *.platformize.vercel.app works. Do note that you'll
    * still need to add "*.platformize.vercel.app" as a wildcard domain on your Vercel dashboard.
    */
-  const currentHost =
-    process.env.NODE_ENV === 'production' && process.env.VERCEL === '1'
-      ? hostname.replace(`.${nakedDomain}`, '')
-      : hostname.replace(`.localhost:3000`, '')
+  const currentHost = isVercelProduction
+    ? customDomainWorkspace?.slug || hostname.replace(`.${nakedDomain}`, '')
+    : hostname.replace(`.localhost:3000`, '')
 
-  const subdomain = currentHost !== hostname ? currentHost : '' // e.g. merrymaker
+  const subdomain =
+    customDomainWorkspace?.slug || currentHost !== hostname ? currentHost : '' // e.g. merrymaker
   const workspacesPathnamePrefix = `/_workspaces/${currentHost}` // e.g. '/_workspaces/evfy'
 
   const isApiRoute = pathname.startsWith('/api')
@@ -67,6 +85,11 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
 
     // Auth
     authUser,
+
+    // Custom Domain
+    isCustomDomain,
+    nakedCustomDomain,
+    customDomainWorkspace,
   }
 
   return result

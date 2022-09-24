@@ -23,10 +23,6 @@ export interface SaasRouterMiddlewareProps {
  * Middleware to detect workspace slug adapted from Vercel Platforms boilerplate
  * @link https://github.com/vercel/platforms/blob/main/middleware.ts
  *
- * TODO: Refactor _middleware to ./middleware.tsx when upgrading to Next@12.2
- * We are currently limited to Next@12.2 because @supabase/auth-helpers-nextjs@0.2.5
- * only supports up to Next 12.1.
- *
  * @note The Edge Runtime, which is used by Next.js Middleware, does not support Node.js native APIs.
  * Middlewares run in the Vercel Edge Runtime which does not support
  * Node.js modules. Only browser-side libraries are supported in this file.
@@ -60,6 +56,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       isWorkspace,
       isWorkspaceBaseRoute,
       isLoggedIn,
+      isCustomDomain,
       authUser,
     } = middlewareRouteBreakdown
 
@@ -69,6 +66,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       isNakedDomainBaseRoute: isBaseRoute,
       isGuestAtWorkspacePage: !isLoggedIn && isWorkspaceBaseRoute,
       isWorkspaceRoute: isWorkspace,
+      isCustomDomain,
     }
 
     if (!isApiRoute && isDebug) {
