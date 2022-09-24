@@ -147,7 +147,12 @@ const Header: React.FC<HeaderProps> = (props) => {
         // Render children
         default:
           const renderHeaderNavItemButton = (navItem: HeaderNavItem) => {
-            const { buttonProps, onClick: injectedOnClick, ...rest } = navItem
+            const {
+              disableNewTabIcon,
+              buttonProps,
+              onClick: injectedOnClick,
+              ...rest
+            } = navItem
             const { items, renderItems, href, linkProps } = rest
 
             // Render nested menu if hasItems
@@ -156,7 +161,8 @@ const Header: React.FC<HeaderProps> = (props) => {
             const isExternalLink =
               href?.includes('https://') || href?.includes('http://')
             const isOpenInNewTab = linkProps?.target === '_blank'
-            const shouldShowNewTabIcon = isExternalLink && isOpenInNewTab
+            const shouldShowNewTabIcon =
+              !disableNewTabIcon && isExternalLink && isOpenInNewTab
 
             // Calculate button props
             const nextButtonProps: ButtonProps = {
@@ -171,8 +177,11 @@ const Header: React.FC<HeaderProps> = (props) => {
                 onClick: (e) => injectedOnClick(e, navItem),
               }),
               ...(shouldShowNewTabIcon && {
-                endIcon: <LaunchOutlinedIcon />,
-                size: 'small',
+                endIcon: (
+                  <LaunchOutlinedIcon
+                    sx={{ '&&': { fontSize: 16, ml: -0.5 } }}
+                  />
+                ),
               }),
             }
 

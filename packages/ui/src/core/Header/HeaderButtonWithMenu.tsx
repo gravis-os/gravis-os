@@ -40,6 +40,7 @@ export interface HeaderButtonWithMenuProps {
 
   isOpenOnHover?: boolean
   fullWidth?: boolean
+  disableNewTabIcon?: boolean
   buttonProps?: ButtonProps
   linkProps?: LinkProps
   disableBackdrop?: boolean

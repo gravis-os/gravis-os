@@ -26,7 +26,7 @@ const AppBar = React.forwardRef<any, React.PropsWithChildren<AppBarProps>>(
     return (
       <MuiAppbar
         ref={ref}
-        position={transparent ? 'absolute' : 'sticky'}
+        position="sticky"
         {...((transparent || translucent) && { color: 'transparent' })}
         {...rest}
         sx={{
@@ -49,17 +49,18 @@ const AppBar = React.forwardRef<any, React.PropsWithChildren<AppBarProps>>(
             borderBottomColor: 'divider',
           }),
 
-          // Transparent
-          ...(transparent && !dark && { color: 'white' }),
-
           // Translucent
           ...(translucent && {
             backdropFilter: 'saturate(180%) blur(5px)',
             backfaceVisibility: 'hidden',
             perspective: '1000',
             transform: 'translateZ(0)',
-            backgroundColor: ({ palette }) =>
-              palette.mode === 'dark' ? 'rgba(0,0,0,.5)' : 'hsla(0,0%,100%,.8)',
+            ...(!transparent && {
+              backgroundColor: ({ palette }) =>
+                palette.mode === 'dark'
+                  ? 'rgba(0,0,0,.5)'
+                  : 'hsla(0,0%,100%,.8)',
+            }),
           }),
 
           ...sx,
