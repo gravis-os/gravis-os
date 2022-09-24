@@ -5,7 +5,7 @@ import Link, { LinkProps } from './Link'
 
 export interface LogoProps extends LinkProps {
   title?: string
-  emblem: React.ReactNode
+  emblem?: React.ReactNode
   wordmark?: React.ReactNode
   titleProps?: TypographyProps
   spacing?: StackProps['spacing']
