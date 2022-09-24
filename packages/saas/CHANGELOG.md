@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.15
+
+### Patch Changes
+
+- [`b619b88`](https://github.com/gravis-os/gravis-os/commit/b619b88f3fe3c7b2a9b2cc4a506e901479d67d43) Thanks [@clodal](https://github.com/clodal)! - Update SaaS & Middleware to include custom domain"
+
+- Updated dependencies [[`b619b88`](https://github.com/gravis-os/gravis-os/commit/b619b88f3fe3c7b2a9b2cc4a506e901479d67d43), [`9f74ff1`](https://github.com/gravis-os/gravis-os/commit/9f74ff17c8d6949327c36cbb095b18ee70939069)]:
+  - @gravis-os/middleware@0.0.8
+
 ## 0.0.14
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.6
+
+### Patch Changes
+
+- [#84](https://github.com/gravis-os/gravis-os/pull/84) [`9f74ff1`](https://github.com/gravis-os/gravis-os/commit/9f74ff17c8d6949327c36cbb095b18ee70939069) Thanks [@winter-steve](https://github.com/winter-steve)! - Add testing setup to packages.
+  Provide required polyfills and mock env variables.
+  Fix ES modules imports.
+
 ## 0.0.5
 
 ### Patch Changes
