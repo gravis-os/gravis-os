@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.44
+
+### Patch Changes
+
+- [`6a84756`](https://github.com/gravis-os/gravis-os/commit/6a84756527800f2fc1229fb196294fca091a6ba3) Thanks [@clodal](https://github.com/clodal)! - Update react-query from v3 to v4. Upgrade SaaSRouterMiddleware
+
+- Updated dependencies [[`6a84756`](https://github.com/gravis-os/gravis-os/commit/6a84756527800f2fc1229fb196294fca091a6ba3)]:
+  - @gravis-os/auth@0.0.24
+  - @gravis-os/form@0.0.59
+  - @gravis-os/storage@0.0.17
+  - @gravis-os/types@0.0.14
+  - @gravis-os/ui@0.0.35
+  - @gravis-os/utils@0.0.16
+
 ## 0.0.43
 
 ### Patch Changes
