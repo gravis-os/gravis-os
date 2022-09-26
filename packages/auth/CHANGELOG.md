@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.26
+
+### Patch Changes
+
+- [`543e707`](https://github.com/gravis-os/gravis-os/commit/543e70728222cacf06d5ec08a42c1a719b2151e6) Thanks [@clodal](https://github.com/clodal)! - Attempting fix for no query client as recommended by https://github.com/TanStack/query/issues/3595
+
 ## 0.0.25
 
 ### Patch Changes
