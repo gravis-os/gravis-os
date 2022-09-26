@@ -3,7 +3,7 @@ import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
-import { defaultContext, useQuery, useQueryClient } from '@tanstack/react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
 
@@ -36,7 +36,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     ...rest
   } = props
 
-  const queryClient = useQueryClient({ context: defaultContext })
+  const queryClient = useQueryClient()
   const onUseAuthUser = useAuthUser()
   const { user: authUser, ...useAuthUserRest } = onUseAuthUser
   const { isLoading: authUserLoading } = useAuthUserRest
