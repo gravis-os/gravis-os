@@ -52,7 +52,7 @@
     "next": ">=12.1.5",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
-    "react-query": ">=3.34.20"
+    "@tanstack/react-query": ">=4.6.0"
   },
   "devDependencies": {
     "@gravis-os/eslint-config": "*",
@@ -71,7 +71,7 @@
     "prettier": "^2.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "react-query": "^3.34.20",
+    "@tanstack/react-query": "^4.6.0",
     "ts-loader": "^8.0.1",
     "tsc-watch": "^5.0.3",
     "tsconfig-paths-webpack-plugin": "^3.5.2",

@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useQuery, UseQueryResult } from 'react-query'
+import { useQuery, UseQueryResult } from '@tanstack/react-query'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import { useUser } from '@gravis-os/auth'
 
@@ -50,19 +50,24 @@ const useGetItem = (props: UseGetItemArgs): UseGetItemResult => {
   // to prevent filtering and have separate queries
   const isDetailPage = Boolean(!injectedSlug)
   const queryKey = isDetailPage
-    ? [table.name, slug]
-    : [table.name, routerSlug, slug]
+    ? [table.name, 'detail', { slug }]
+    : [table.name, 'detail', { routerSlug, slug }]
 
   // Fetch
   const onUseQuery = useQuery(queryKey, () => getItem({ slug }), {
     enabled: Boolean(user && slug),
   })
-  const { data: item, isLoading: loading, isError: error } = onUseQuery
+  const {
+    data: item,
+    isLoading: loading,
+    isFetching: fetching,
+    isError: error,
+  } = onUseQuery
 
   return {
     ...onUseQuery,
     item,
-    loading,
+    loading: fetching, // @see: https://tanstack.com/query/v4/docs/guides/migrating-to-react-query-4#the-idle-state-has-been-removed
     error,
   }
 }

@@ -9,7 +9,7 @@ import { Button, Dialog, DialogProps } from '@gravis-os/ui'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import { useQueryClient } from 'react-query'
+import { useQueryClient } from '@tanstack/react-query'
 import useCrud from './useCrud'
 
 export interface CrudDeleteDialogProps
@@ -66,7 +66,7 @@ const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
           )
         : defaultQuery.match({ [sk]: item[sk] }))
 
-      queryClient.invalidateQueries(table.name)
+      queryClient.invalidateQueries([table.name])
       if (afterDelete) await afterDelete({ item })
       onCancel(e)
       toast.success('Success')

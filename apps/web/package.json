@@ -35,7 +35,7 @@
     "react-hook-form": "^7.30.0",
     "react-hot-toast": "^2.2.0",
     "react-number-format": "^4.9.3",
-    "react-query": "^3.39.0"
+    "@tanstack/react-query": "^4.6.0"
   },
   "devDependencies": {
     "@gravis-os/eslint-config": "^0.0.6",

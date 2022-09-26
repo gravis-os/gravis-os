@@ -1,5 +1,5 @@
 import axios from 'axios'
-import { useMutation } from 'react-query'
+import { useMutation } from '@tanstack/react-query'
 import { StripePrice } from '../types'
 import stripeConfig from '../config/stripeConfig'
 

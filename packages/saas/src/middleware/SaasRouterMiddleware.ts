@@ -17,6 +17,7 @@ export interface SaasRouterMiddlewareProps {
   authorizationFailureRedirectTo: string
   modulesConfig: GetIsPermittedInSaaSMiddlewareProps['modulesConfig']
   userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
+  guestPaths?: string[]
 }
 
 /**
@@ -36,6 +37,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     authorizationFailureRedirectTo,
     modulesConfig,
     userModule,
+    guestPaths = [],
   } = props
 
   return async (req: NextRequest, event: NextFetchEvent) => {
@@ -173,7 +175,24 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         url.pathname = workspacesPathnamePrefix // Redirect to the workspace home
         return NextResponse.rewrite(url)
       case SCENARIOS.isWorkspaceRoute:
-        // Check for authc and authz
+        /**
+         * Allow visitors to pass through guestPaths in a workspace
+         * e.g. ['/about] in workspaces e.g. evfy.marketbolt.io/about
+         */
+        const isGuestPath = guestPaths.includes(pathname)
+        if (isGuestPath) {
+          // Go to pages/_workspaces/[workspace]/*
+          url.pathname = `${workspacesPathnamePrefix}${url.pathname}`
+          if (isDebug) {
+            console.log(
+              `♻️ [DEBUG] Middleware isWorkspace Rewrite for Guest Paths`,
+              url.pathname
+            )
+          }
+          return NextResponse.rewrite(url)
+        }
+
+        // Check for authc and authz if this is not a guest path
         const middlewareAuth = await withMiddlewareAuth({
           redirectTo: authenticationFailureRedirectTo, // Invalid Authentication
           authGuard: {

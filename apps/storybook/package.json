@@ -24,7 +24,6 @@
     "build:cjs": "tsc -p tsconfig.cjs.json",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook",
-    "watch": "tsc-watch -p tsconfig.esm.json --onSuccess \"npm run yalc:push\"",
     "reset": "rm -rf dist && rm -rf node_modules && npx yalc remove --all",
     "yalc:push": "yalc push",
     "lint": "lint-staged && next lint --quiet --fix",
@@ -56,7 +55,7 @@
     "react-hook-form": ">=7.30.0",
     "react-hot-toast": ">=2.2.0",
     "react-number-format": ">=4.9.3",
-    "react-query": ">=3.34.20",
+    "@tanstack/react-query": ">=4.6.0",
     "react-quilljs": ">=1.2.17"
   },
   "devDependencies": {
@@ -113,7 +112,7 @@
     "react-hook-form": "^7.30.0",
     "react-hot-toast": "^2.2.0",
     "react-number-format": "^4.9.3",
-    "react-query": "^3.34.20",
+    "@tanstack/react-query": "^4.6.0",
     "react-quilljs": "^1.2.17",
     "rollup": "^2.70.2",
     "rollup-plugin-analyzer": "^3.3.0",

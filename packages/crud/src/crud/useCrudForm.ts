@@ -3,7 +3,7 @@ import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form'
 import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useUser } from '@gravis-os/auth'
 import flowRight from 'lodash/flowRight'
-import { useMutation, useQueryClient } from 'react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import {
   withDbFormValues,
   getDefaultValues,
@@ -194,7 +194,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       default:
         createOrUpdateMutation.mutate(nextValues, {
           onSuccess: async (result) => {
-            await queryClient.invalidateQueries(table.name)
+            await queryClient.invalidateQueries([table.name])
 
             // Handle errors
             const { error, data } = result
@@ -263,7 +263,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     // Delete
     deleteMutation.mutate(values, {
       onSuccess: async (result) => {
-        queryClient.invalidateQueries(table.name)
+        queryClient.invalidateQueries([table.name])
 
         // Handle errors
         const { error, data } = result

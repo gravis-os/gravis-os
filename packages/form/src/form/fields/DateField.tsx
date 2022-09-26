@@ -2,8 +2,10 @@ import React from 'react'
 import { DatePicker, DatePickerProps } from '@mui/x-date-pickers'
 import { TextField, TextFieldProps } from '@mui/material'
 
-interface DateFieldProps extends DatePickerProps<Date, any> {
+interface DateFieldProps
+  extends Omit<DatePickerProps<Date, any>, 'renderInput'> {
   textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
+  renderInput?: DatePickerProps<Date, any>['renderInput']
 }
 
 const DateField: React.FC<DateFieldProps> = (props) => {

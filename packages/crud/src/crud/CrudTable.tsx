@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useUser } from '@gravis-os/auth'
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import DataTable, { DataTableProps } from './DataTable'
@@ -81,7 +81,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
   // List items Fetch items with ReactQuery's composite key using filters as a dep
   const { data: items, refetch } = useQuery(
-    [table.name, filters],
+    [table.name, 'list', filters],
     () => fetchCrudItems({ filters, module, setQuery, filterFields }),
     // Only allow authenticated users to fetch CRUD items due to RLS
     { enabled: Boolean(user) }

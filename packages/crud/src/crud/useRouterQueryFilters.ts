@@ -63,12 +63,14 @@ const useRouterQueryFilters = (args) => {
 
   const getValidFilters = (filters) => {
     const filterFieldKeys = filterFields.map((field) => field.key)
-    return Object.entries(filters).reduce((acc, filter) => {
-      const [key, value] = filter
-      const isFilterKeyFoundInFilterFields = filterFieldKeys.includes(key)
-      if (!isFilterKeyFoundInFilterFields) return acc
-      return { ...acc, [key]: value }
-    }, {})
+    return (
+      Object.entries(filters).reduce((acc, filter) => {
+        const [key, value] = filter
+        const isFilterKeyFoundInFilterFields = filterFieldKeys.includes(key)
+        if (!isFilterKeyFoundInFilterFields) return acc
+        return { ...acc, [key]: value }
+      }, {}) || {}
+    )
   }
 
   const setFilters = (filters) => {

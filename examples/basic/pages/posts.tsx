@@ -2,7 +2,7 @@ import * as React from 'react'
 import type { NextPage } from 'next'
 import axios from 'axios'
 import { Box, Button, Container, Typography } from '@gravis-os/ui'
-import { dehydrate, QueryClient, useQuery } from 'react-query'
+import { dehydrate, QueryClient, useQuery } from '@tanstack/react-query'
 import ProTip from '../src/ProTip'
 import Copyright from '../src/Copyright'
 

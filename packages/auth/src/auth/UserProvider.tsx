@@ -3,7 +3,7 @@ import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient } from '@tanstack/react-query'
 import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
 
@@ -54,7 +54,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     const dbUser = data[0]
     return dbUser
   }
-  const getDbUserFromAuthUserQueryKey = 'get-db-user-from-auth-user-query'
+  const getDbUserFromAuthUserQueryKey = ['get-db-user-from-auth-user-query']
   const dbUserQueryResult = useQuery<DbUser>(
     getDbUserFromAuthUserQueryKey,
     () => fetchDbUserFromAuthUser({ authUser }),
@@ -82,13 +82,36 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
 
   // Guest auth paths
   const router = useRouter()
-  const { asPath } = router
+  const { pathname: injectedPathname, query } = router
+
+  /**
+   * Manage SaaS routes where rewrites are used
+   * This is to prevent hydration mismatch issues on SSR
+   * when using in SaaS appp with rewrites to correctly
+   * detect the guest paths.
+   */
+  const isSaaSRoute = injectedPathname.includes('/_workspaces')
+
+  // Strip out /_workspaces/[workspace] prefix to accurately get the pathname
+  const getSaaSRoutePathname = ({ pathname: injectedPathname, query }) => {
+    const pathname = injectedPathname
+      .replace('/_workspaces/[workspace]', '')
+      .replace(`/_workspaces/${query.workspace}`, '')
+
+    // Fallback to '/' if we're on the workspaces' home route
+    return pathname || '/'
+  }
+  const pathname = isSaaSRoute
+    ? getSaaSRoutePathname({ pathname: injectedPathname, query })
+    : injectedPathname
+
   const guestPaths = ['/', '/auth/*', ...injectedGuestPaths]
   const isGuestPath = guestPaths.some((whitelistPath) => {
+    // Allow the use of `*` as a wildcard in defining guest paths.
     const hasWildcard = whitelistPath.includes('*')
-    return hasWildcard
-      ? asPath.startsWith(whitelistPath.split('/*')[0])
-      : whitelistPath === asPath
+    if (hasWildcard) return pathname.startsWith(whitelistPath.split('/*')[0])
+
+    return whitelistPath === pathname
   })
 
   // Loader
