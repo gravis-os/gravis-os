@@ -118,6 +118,19 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   const shouldShowLoader = !isGuestPath && (authUserLoading || !dbUser)
   const loader = injectedLoader || <CircularProgress fullScreen />
 
+  if (process.env.DEBUG === 'true') {
+    console.log(`👤 [DEBUG] UserProvider`, {
+      shouldShowLoader,
+      isGuestPath,
+      authUserLoading,
+      dbUser,
+      pathname,
+      injectedPathname,
+      router,
+      props,
+    })
+  }
+
   // Auth Context methods
   const logout = async () => {
     await Promise.all([

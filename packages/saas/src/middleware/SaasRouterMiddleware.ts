@@ -11,6 +11,8 @@ import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 
 const isDebug = process.env.DEBUG === 'true'
 
+const PUBLIC_FILE = /\.(.*)$/
+
 export interface SaasRouterMiddlewareProps {
   authenticationSuccessRedirectTo: string
   authenticationFailureRedirectTo: string
@@ -41,6 +43,21 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
   } = props
 
   return async (req: NextRequest, event: NextFetchEvent) => {
+    /**
+     * Bounce/filter out certain routes from this middleware
+     * This is a replacement for the config.matcher in middleware.ts downstream
+     * Ignore specific routes bounce out these paths
+     * @see https://nextjs.org/docs/advanced-features/i18n-routing#prefixing-the-default-locale
+     */
+    if (
+      req.nextUrl.pathname.startsWith('/_next') ||
+      req.nextUrl.pathname.startsWith('/fonts') ||
+      req.nextUrl.pathname.startsWith('/api') ||
+      PUBLIC_FILE.test(req.nextUrl.pathname)
+    ) {
+      return
+    }
+
     const middlewareRouteBreakdown = await getMiddlewareRouteBreakdown(req)
     const {
       url,
@@ -50,6 +67,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       subdomain,
       nakedDomain,
       workspacesPathnamePrefix,
+      locale,
       // Checks
       isApiRoute,
       isAuthRoute,

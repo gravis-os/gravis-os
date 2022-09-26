@@ -8,7 +8,8 @@ import fetchWorkspaceByCustomDomainFromMiddleware from '../supabase/fetchWorkspa
  */
 const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
   const url = req.nextUrl.clone()
-  const { pathname } = url || {}
+  const { pathname, locale } = url || {}
+
   const hostname = req.headers.get('host') || ''
   const protocol = req.headers.get('x-forwarded-proto') || 'http'
   const nakedDomain =
@@ -90,6 +91,9 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
     isCustomDomain,
     nakedCustomDomain,
     customDomainWorkspace,
+
+    // Locale
+    locale,
   }
 
   return result
