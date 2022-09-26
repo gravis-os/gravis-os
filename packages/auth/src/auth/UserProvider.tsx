@@ -3,7 +3,7 @@ import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
-import { useQuery } from 'react-query'
+import { useQuery, useQueryClient } from 'react-query'
 import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
 
@@ -36,6 +36,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     ...rest
   } = props
 
+  const queryClient = useQueryClient()
   const onUseAuthUser = useAuthUser()
   const { user: authUser, ...useAuthUserRest } = onUseAuthUser
   const { isLoading: authUserLoading } = useAuthUserRest
@@ -117,17 +118,6 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   const shouldShowLoader = !isGuestPath && (authUserLoading || !dbUser)
   const loader = injectedLoader || <CircularProgress fullScreen />
 
-  console.log('jjj: UserProvider.shouldShowLoader', {
-    shouldShowLoader,
-    router,
-    pathname,
-    injectedPathname,
-    isSaaSRoute,
-    authUserLoading,
-    dbUser,
-    isGuestPath,
-  })
-
   // Auth Context methods
   const logout = async () => {
     await Promise.all([
@@ -142,6 +132,8 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
        * didn't seem to clear the cookies.
        */
       fetch('/api/auth/logout'),
+      // Unset dbUser by refetching again but this time without the authUser
+      queryClient.invalidateQueries(getDbUserFromAuthUserQueryKey),
     ])
 
     return true
