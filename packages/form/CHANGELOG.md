@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.58
+
+### Patch Changes
+
+- [#89](https://github.com/gravis-os/gravis-os/pull/89) [`7033d88`](https://github.com/gravis-os/gravis-os/commit/7033d886d04cb5a6d77b9dc7d671b79d1c1deec9) Thanks [@al1xt](https://github.com/al1xt)! - Fix DateFieldProps interface
+
 ## 0.0.57
 
 ### Patch Changes
