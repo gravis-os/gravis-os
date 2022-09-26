@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- [`c3fa95a`](https://github.com/gravis-os/gravis-os/commit/c3fa95a6767efb538a19c6d12c0aa84232deb797) Thanks [@clodal](https://github.com/clodal)! - Rebuild auth pkg to attempt to fix issue with Error: No QueryClient set, use QueryClientProvider to set one
+
 ## 0.0.24
 
 ### Patch Changes
