@@ -11,7 +11,7 @@ import {
   QueryClient,
   QueryClientProvider,
   DehydratedState,
-} from '@tanstack/react-query'
+} from 'react-query'
 import { SettingsProvider, SettingsConsumer } from '@gravis-os/ui'
 import getWebTheme from '@web/app/getWebTheme'
 import createEmotionCache from '../src/createEmotionCache'

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- Downgrade back to react query v3 from v4 due to no QueryClient issue"
+
 ## 0.0.24
 
 ### Patch Changes

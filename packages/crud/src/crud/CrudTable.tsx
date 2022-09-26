@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useUser } from '@gravis-os/auth'
-import { useQuery } from '@tanstack/react-query'
+import { useQuery } from 'react-query'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import DataTable, { DataTableProps } from './DataTable'

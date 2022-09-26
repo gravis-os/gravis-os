@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useQuery, UseQueryResult } from '@tanstack/react-query'
+import { useQuery, UseQueryResult } from 'react-query'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import { useUser } from '@gravis-os/auth'
 

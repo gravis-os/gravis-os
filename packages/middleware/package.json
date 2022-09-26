@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/middleware",
-  "version": "0.0.9",
+  "version": "0.0.10",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
@@ -48,7 +48,7 @@
     "next": ">=12.1.5",
     "react": ">=18.0.0",
     "react-dom": ">=18.0.0",
-    "@tanstack/react-query": ">=4.6.0"
+    "react-query": ">=3.39.2"
   },
   "devDependencies": {
     "@gravis-os/eslint-config": "*",
@@ -67,7 +67,7 @@
     "prettier": "^2.0.5",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "@tanstack/react-query": "^4.6.0",
+    "react-query": "^3.39.2",
     "ts-loader": "^8.0.1",
     "tsc-watch": "^5.0.3",
     "tsconfig-paths-webpack-plugin": "^3.5.2",

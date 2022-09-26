@@ -11,7 +11,7 @@ import {
   QueryClient,
   QueryClientProvider,
   DehydratedState,
-} from '@tanstack/react-query'
+} from 'react-query'
 import theme from '../src/theme'
 import createEmotionCache from '../src/createEmotionCache'
 import 'quill/dist/quill.snow.css'

@@ -3,7 +3,7 @@ import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form'
 import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useUser } from '@gravis-os/auth'
 import flowRight from 'lodash/flowRight'
-import { useMutation, useQueryClient } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from 'react-query'
 import {
   withDbFormValues,
   getDefaultValues,

@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.18
+
+### Patch Changes
+
+- Downgrade back to react query v3 from v4 due to no QueryClient issue"
+
+- Updated dependencies []:
+  - @gravis-os/middleware@0.0.10
+  - @gravis-os/types@0.0.15
+
 ## 0.0.17
 
 ### Patch Changes

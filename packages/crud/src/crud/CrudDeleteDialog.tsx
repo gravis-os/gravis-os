@@ -9,7 +9,7 @@ import { Button, Dialog, DialogProps } from '@gravis-os/ui'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import { useQueryClient } from '@tanstack/react-query'
+import { useQueryClient } from 'react-query'
 import useCrud from './useCrud'
 
 export interface CrudDeleteDialogProps

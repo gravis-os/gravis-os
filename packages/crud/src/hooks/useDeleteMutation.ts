@@ -5,7 +5,7 @@ import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
-} from '@tanstack/react-query'
+} from 'react-query'
 import { CrudModule } from '@gravis-os/types'
 
 export interface UseDeleteActionArg<TData, TError, TVariables, TContext> {
