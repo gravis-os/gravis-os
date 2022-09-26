@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.30
+
+### Patch Changes
+
+- [`67ea08a`](https://github.com/gravis-os/gravis-os/commit/67ea08a3fc240dfbe176d90e2fdec72f062a1b49) Thanks [@clodal](https://github.com/clodal)! - Restore previously removed code in UserProvider to clear react query cache on logout
+
 ## 0.0.29
 
 ### Patch Changes
