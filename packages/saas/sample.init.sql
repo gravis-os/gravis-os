@@ -318,6 +318,27 @@ BEGIN
 END
 $function$;
 
+CREATE OR REPLACE FUNCTION public.bulk_public_read_tables(table_name_texts text[])
+    RETURNS void
+    LANGUAGE plpgsql
+    SECURITY DEFINER
+AS $function$
+DECLARE
+    table_name_text text;
+BEGIN
+    FOREACH table_name_text IN ARRAY table_name_texts LOOP
+            BEGIN
+                EXECUTE FORMAT('
+              	CREATE POLICY "Allow READ on %1$s table for all users" ON public.%1$s FOR SELECT USING (true);
+              ', table_name_text);
+            EXCEPTION
+                WHEN OTHERS THEN
+                    raise notice 'Exception Caught at Others! %', SQL;
+            END;
+        END LOOP;
+END
+$function$;
+
 CREATE OR REPLACE FUNCTION public.drop_authorize_by_permission_policies_on_table_name(table_name_text text)
     RETURNS void
     LANGUAGE plpgsql
@@ -376,3 +397,10 @@ CREATE POLICY "User can insert any image"
     ON storage.objects FOR INSERT
     WITH CHECK ( bucket_id = 'public' AND auth.role() = 'authenticated' );
 
+-- Enable public read access to domain-specific tables
+DO $$
+    BEGIN
+        PERFORM
+            bulk_public_read_tables (ARRAY ['workspace', 'blog', 'blog_category', 'post']);
+    END
+$$;

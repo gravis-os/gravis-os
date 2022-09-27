@@ -9,3 +9,6 @@ export * from './printAmount'
 
 export { default as printSingularOrPluralText } from './printSingularOrPluralText'
 export * from './printSingularOrPluralText'
+
+export { default as printHtml } from './printHtml'
+export * from './printHtml'

@@ -58,6 +58,9 @@ export * from './Grid'
 export { default as Header } from './Header'
 export * from './Header'
 
+export { default as Html } from './Html'
+export * from './Html'
+
 export { default as IconButton } from './IconButton'
 export * from './IconButton'
 

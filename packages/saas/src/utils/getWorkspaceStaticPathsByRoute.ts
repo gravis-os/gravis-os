@@ -6,11 +6,15 @@ const getWorkspaceStaticPathsByRoute = async ({
   route,
   workspaceModule,
   locales,
+  params: injectedParams,
+  fallback = false, // By default generate all paths, else 404.
 }: {
   supabaseAdmin: SupabaseClient
   route: string
   workspaceModule: CrudModule
   locales?: string[]
+  params?: Record<string, string>
+  fallback?: boolean
 }) => {
   const workspaceModuleSk = workspaceModule.sk
 
@@ -23,7 +27,10 @@ const getWorkspaceStaticPathsByRoute = async ({
       ? workspaces
           ?.map((workspace) =>
             locales.map((locale) => ({
-              params: { workspace: `${workspace[workspaceModuleSk]}` },
+              params: {
+                workspace: `${workspace[workspaceModuleSk]}`,
+                ...injectedParams,
+              },
               locale,
             }))
           )
@@ -31,7 +38,7 @@ const getWorkspaceStaticPathsByRoute = async ({
       : workspaces?.map(
           (workspace) => `/_workspaces/${workspace[workspaceModuleSk]}${route}`
         ),
-    fallback: false,
+    fallback,
   }
 }
 

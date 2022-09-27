@@ -4,6 +4,7 @@ import {
   fetchDbUserFromMiddleware,
   getMiddlewareRouteBreakdown,
 } from '@gravis-os/middleware'
+import { isPathMatch } from '@gravis-os/utils'
 import getIsPermittedInSaaSMiddleware, {
   GetIsPermittedInSaaSMiddlewareProps,
 } from './getIsPermittedInSaaSMiddleware'
@@ -195,9 +196,9 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       case SCENARIOS.isWorkspaceRoute:
         /**
          * Allow visitors to pass through guestPaths in a workspace
-         * e.g. ['/about] in workspaces e.g. evfy.marketbolt.io/about
+         * e.g. ['/about*] in workspaces e.g. evfy.marketbolt.io/about
          */
-        const isGuestPath = guestPaths.includes(pathname)
+        const isGuestPath = isPathMatch(pathname, guestPaths)
         if (isGuestPath) {
           // Go to pages/_workspaces/[workspace]/*
           url.pathname = `${workspacesPathnamePrefix}${url.pathname}`

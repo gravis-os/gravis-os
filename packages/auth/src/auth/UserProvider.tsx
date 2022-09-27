@@ -3,6 +3,7 @@ import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
+import { isPathMatch } from '@gravis-os/utils'
 import { useQuery, useQueryClient } from 'react-query'
 import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
@@ -106,13 +107,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     : injectedPathname
 
   const guestPaths = ['/', '/auth/*', ...injectedGuestPaths]
-  const isGuestPath = guestPaths.some((whitelistPath) => {
-    // Allow the use of `*` as a wildcard in defining guest paths.
-    const hasWildcard = whitelistPath.includes('*')
-    if (hasWildcard) return pathname.startsWith(whitelistPath.split('/*')[0])
-
-    return whitelistPath === pathname
-  })
+  const isGuestPath = isPathMatch(pathname, guestPaths)
 
   // Loader
   const shouldShowLoader = !isGuestPath && (authUserLoading || !dbUser)

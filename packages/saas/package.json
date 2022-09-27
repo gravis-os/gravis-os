@@ -52,7 +52,8 @@
   },
   "dependencies": {
     "@gravis-os/middleware": "*",
-    "@gravis-os/types": "*"
+    "@gravis-os/types": "*",
+    "@gravis-os/utils": "*"
   },
   "devDependencies": {
     "@gravis-os/eslint-config": "*",

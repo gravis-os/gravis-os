@@ -1,1 +1,2 @@
-export * from './utils'
+export * from './printers'
+export * from './paths'

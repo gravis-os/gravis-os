@@ -3,7 +3,7 @@ const withTM = require('next-transpile-modules')([
   '@gravis-os/form',
   '@gravis-os/storage',
   '@gravis-os/ui',
-  '@gravis-os/utils',
+  '@gravis-os/printers',
 ])
 
 const withBundleAnalyzer = require('@next/bundle-analyzer')({
