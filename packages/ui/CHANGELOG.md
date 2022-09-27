@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.38
+
+### Patch Changes
+
+- [`a4999a6`](https://github.com/gravis-os/gravis-os/commit/a4999a6eafae9e36c6f35347b44eb100babd8a1f) Thanks [@clodal](https://github.com/clodal)! - Upgrade isGuestPath matcher with isPathMatch utils. Add Html component
+
+- Updated dependencies [[`a4999a6`](https://github.com/gravis-os/gravis-os/commit/a4999a6eafae9e36c6f35347b44eb100babd8a1f)]:
+  - @gravis-os/utils@0.0.18
+
 ## 0.0.37
 
 ### Patch Changes
