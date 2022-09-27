@@ -1,22 +1,23 @@
 import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useQuery, UseQueryResult } from 'react-query'
+import { QueryOptions, useQuery, UseQueryResult } from 'react-query'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import { useUser } from '@gravis-os/auth'
 
-export interface UseGetItemArgs {
+export interface UseGetItemProps {
   module: CrudModule
   slug?: string | null
+  options?: QueryOptions
 }
 
 export interface UseGetItemResult extends Omit<UseQueryResult, 'error'> {
-  item: CrudItem
+  item: any
   loading: boolean
   error: unknown
 }
 
-const useGetItem = (props: UseGetItemArgs): UseGetItemResult => {
-  const { module, slug: injectedSlug } = props
+const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
+  const { module, slug: injectedSlug, options: queryOptions } = props
   const { table, select } = module
 
   // User
@@ -56,13 +57,9 @@ const useGetItem = (props: UseGetItemArgs): UseGetItemResult => {
   // Fetch
   const onUseQuery = useQuery(queryKey, () => getItem({ slug }), {
     enabled: Boolean(user && slug),
+    ...queryOptions,
   })
-  const {
-    data: item,
-    isLoading: loading,
-    isFetching: fetching,
-    isError: error,
-  } = onUseQuery
+  const { data: item, isFetching: fetching, isError: error } = onUseQuery
 
   return {
     ...onUseQuery,

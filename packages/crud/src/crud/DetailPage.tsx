@@ -15,7 +15,7 @@ import omit from 'lodash/omit'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
 import getIsNew from './getIsNew'
-import useGetItem from './useGetItem'
+import useGetItem, { UseGetItemProps } from './useGetItem'
 import CrudForm, { CrudFormProps } from './CrudForm'
 
 interface DetailPageRenderProps {
@@ -31,6 +31,7 @@ export interface DetailPageProps {
   formSections?: CrudFormProps['sections']
   crudFormProps?: Partial<CrudFormProps>
   containerProps?: ContainerProps
+  useGetItemProps?: UseGetItemProps
 
   // Tabs
   tabs?: TabsProps['items']
@@ -47,6 +48,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
     bannerProps,
     headerProps,
     containerProps,
+    useGetItemProps,
     // Tabs
     tabs: injectedTabs,
     tabsProps,
@@ -54,7 +56,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   } = props
 
   // Get Item
-  const onUseGetItem = useGetItem({ module })
+  const onUseGetItem = useGetItem({ module, ...useGetItemProps })
   const { item, loading } = onUseGetItem
 
   // renderProps for injection later
@@ -86,7 +88,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   const { hasTabs, currentTab, items: tabs } = onUseTabs
 
   // Manage loading
-  if (loading) return <CircularProgress fullScreen />
+  if (!hasTabs && loading) return <CircularProgress fullScreen />
 
   return (
     <Container {...containerProps}>
