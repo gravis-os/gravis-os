@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.21
+
+### Patch Changes
+
+- [`ff71604`](https://github.com/gravis-os/gravis-os/commit/ff716040dbcf1a38f3e46a6f8acc95304197231a) Thanks [@clodal](https://github.com/clodal)! - Fix infinite loop in DetailPage with tabs
+
 ## 0.0.20
 
 ### Patch Changes
