@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.31
+
+### Patch Changes
+
+- [`e78bd8f`](https://github.com/gravis-os/gravis-os/commit/e78bd8fb545e45f4f4ee1d363117beb37f1673ca) Thanks [@clodal](https://github.com/clodal)! - Add locale
+
+- Updated dependencies [[`e78bd8f`](https://github.com/gravis-os/gravis-os/commit/e78bd8fb545e45f4f4ee1d363117beb37f1673ca)]:
+  - @gravis-os/ui@0.0.37
+
 ## 0.0.30
 
 ### Patch Changes
