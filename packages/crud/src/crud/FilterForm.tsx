@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack, Box, Divider, Typography } from '@gravis-os/ui'
+import { Box, Divider, Stack, Typography } from '@gravis-os/ui'
 import {
   Form,
   FormProps,

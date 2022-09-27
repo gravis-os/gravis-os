@@ -11,15 +11,13 @@ export interface CrudModule {
   Icon?: React.ElementType
 }
 
-export type CrudItem =
-  | {
-      id: number | string
-      title: string
-      subtitle?: string | null
-      avatar_src?: string | null
-    }
-  | undefined
-  | null
+export interface CrudItem {
+  id: number | string
+  title: string
+  slug?: string
+  subtitle?: string | null
+  avatar_src?: string | null
+}
 
 // ==============================
 // Context

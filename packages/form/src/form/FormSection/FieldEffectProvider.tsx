@@ -1,11 +1,12 @@
 import React, { useEffect } from 'react'
 import zipObject from 'lodash/zipObject'
 import { UseFormReturn, useWatch } from 'react-hook-form'
+import { CrudItem } from '@gravis-os/types'
 
 export interface FieldEffectOptions {
   setValue: (
     props: {
-      item: Record<string, unknown>
+      item: CrudItem
       values: Record<string, unknown>
     } & UseFormReturn
   ) => void
@@ -17,7 +18,7 @@ export interface FieldEffectProviderProps {
   fieldEffect: FieldEffectOptions
   formContext: UseFormReturn
   children: React.ReactElement
-  item: Record<string, unknown>
+  item: CrudItem
 }
 
 /**

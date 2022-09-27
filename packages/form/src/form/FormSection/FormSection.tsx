@@ -14,7 +14,7 @@ import renderFieldWithWrapper, {
 } from './renderFieldWithWrapper'
 
 export interface FormSectionRenderReadOnlyProps {
-  item?: Record<string, unknown>
+  item?: CrudItem
   name: string
   module: CrudModule
   label: string

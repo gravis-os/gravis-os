@@ -2,12 +2,13 @@ import { useEffect } from 'react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
 import { DropzoneOptions, DropzoneState, useDropzone } from 'react-dropzone'
+import { CrudItem } from '@gravis-os/types'
 import getFileMetaFromFile from './getFileMetaFromFile'
 import useFiles from './useFiles'
 import { File } from './types'
 
 export interface UseMultiStorageDropzoneProps {
-  item?: Record<string, any> // The primary module instance (e.g. Product) instance, possibly undefined for a new product
+  item?: CrudItem // The primary module instance (e.g. Product) instance, possibly undefined for a new product
   module: { table: { name } } // Product module
   storageModule: { table: { name } } // ProductImage module
   setFormValue: (value: any) => void

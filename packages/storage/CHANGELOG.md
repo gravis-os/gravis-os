@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.19
+
+### Patch Changes
+
+- Update CrudItem typing
+
+- Updated dependencies []:
+  - @gravis-os/types@0.0.16
+
 ## 0.0.18
 
 ### Patch Changes
