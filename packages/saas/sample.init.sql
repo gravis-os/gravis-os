@@ -333,7 +333,7 @@ BEGIN
               ', table_name_text);
             EXCEPTION
                 WHEN OTHERS THEN
-                    raise notice 'Exception Caught at Others! %', SQL;
+                    raise notice 'Exception Caught at Others! %', SQLERRM;
             END;
         END LOOP;
 END
@@ -401,6 +401,21 @@ CREATE POLICY "User can insert any image"
 DO $$
     BEGIN
         PERFORM
-            bulk_public_read_tables (ARRAY ['workspace', 'blog', 'blog_category', 'post']);
+            bulk_public_read_tables (ARRAY [
+                'workspace',
+                'blog',
+                'blog_category',
+                'post',
+                'directory',
+                'directory_category',
+                'listing',
+                'blog',
+                'blog_category',
+                'post',
+                'forum',
+                'forum_category',
+                'thread',
+                'thread_comment'
+            ]);
     END
 $$;
