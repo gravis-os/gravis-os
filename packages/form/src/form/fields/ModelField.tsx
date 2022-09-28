@@ -1,3 +1,22 @@
+import { CrudModule } from '@gravis-os/types'
+import { CircularProgress, Stack, Typography } from '@gravis-os/ui'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import {
+  Autocomplete,
+  AutocompleteProps,
+  createFilterOptions,
+  TextFieldProps,
+} from '@mui/material'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import {
+  PostgrestFilterBuilder,
+  PostgrestResponse,
+} from '@supabase/postgrest-js'
+import debounce from 'lodash/debounce'
+import has from 'lodash/has'
+import isEmpty from 'lodash/isEmpty'
+import partition from 'lodash/partition'
+import startCase from 'lodash/startCase'
 import React, {
   forwardRef,
   useCallback,
@@ -5,27 +24,8 @@ import React, {
   useMemo,
   useState,
 } from 'react'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import {
-  PostgrestFilterBuilder,
-  PostgrestResponse,
-} from '@supabase/postgrest-js'
-import {
-  Autocomplete,
-  AutocompleteProps,
-  createFilterOptions,
-  TextFieldProps,
-} from '@mui/material'
-import debounce from 'lodash/debounce'
-import startCase from 'lodash/startCase'
-import partition from 'lodash/partition'
-import isEmpty from 'lodash/isEmpty'
-import has from 'lodash/has'
-import { CircularProgress, Stack, Typography } from '@gravis-os/ui'
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-import { CrudModule } from '@gravis-os/types'
-import TextField from './TextField'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
+import TextField from './TextField'
 
 type DataItem = Record<string, unknown> & { id?: string | number }
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
@@ -109,6 +109,12 @@ export interface ModelFieldProps {
     option: DataItem
     pk: string
   }) => React.ReactNode
+
+  /**
+   * Option label key which will be used to render the tag component when an option is selected.
+   * If not provided, the main primary key will be used.
+   */
+  optionLabelKey?: string
 }
 
 const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
@@ -141,6 +147,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     // Error
     error,
     helperText,
+
+    // Tags
+    optionLabelKey,
 
     ...rest
   } = props
@@ -442,7 +451,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           // Fallback primary key value if the injected primary key returns null or undefined
           return typeof option === 'string'
             ? option
-            : option[pk] ?? option['title' as string]
+            : option[optionLabelKey] ?? option['title' as string]
         }}
         renderInput={(params) => (
           <TextField

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.62
+
+### Patch Changes
+
+- [#90](https://github.com/gravis-os/gravis-os/pull/90) [`84ffe08`](https://github.com/gravis-os/gravis-os/commit/84ffe0824ec680c53959c91187e0870460b8243c) Thanks [@robyonextech](https://github.com/robyonextech)! - Add optionLabelKey prop in ModelField to render selected value
+
 ## 0.0.61
 
 ### Patch Changes
