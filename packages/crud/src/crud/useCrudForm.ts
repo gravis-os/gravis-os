@@ -21,6 +21,7 @@ import saveManyToManyValues from './saveManyToManyValues'
 import saveOneToManyValues from './saveOneToManyValues'
 import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
+import getDefaultValuesFromFields from './getDefaultValuesFromFields'
 
 type UseCrudFormValues = Record<string, any>
 
@@ -94,6 +95,10 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   // User
   const { user } = useUser()
 
+  // Fields
+  const fieldDefs = sections && getFieldDefsFromSections(sections)
+  const fieldDefaultValues = getDefaultValuesFromFields(fieldDefs)
+
   // ==============================
   // Form
   // ==============================
@@ -103,8 +108,11 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
   // Default Values
   const defaultValues = isNew
-    ? injectedDefaultValues
-    : getDefaultValues({ isNew, item: { ...injectedDefaultValues, ...item } })
+    ? { ...fieldDefaultValues, ...injectedDefaultValues }
+    : getDefaultValues({
+        isNew,
+        item: { ...fieldDefaultValues, ...injectedDefaultValues, ...item },
+      })
 
   // Form
   const form = useForm({ defaultValues, ...rest })
@@ -131,8 +139,6 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
   // onSubmit will manage create and update function
   const onSubmit = async (values) => {
-    const fieldDefs = sections && getFieldDefsFromSections(sections)
-
     // Cleaning function for dbFormValues
     const fields = getFieldsFromFormSections(sections)
     const withValuesArgs = { isNew, user, fields }
