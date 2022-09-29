@@ -329,7 +329,7 @@ BEGIN
     FOREACH table_name_text IN ARRAY table_name_texts LOOP
             BEGIN
                 EXECUTE FORMAT('
-              	CREATE POLICY "Allow READ on %1$s table to anon users" ON public.%1$s AS PERMISSIVE FOR SELECT TO anon USING (true);
+              	CREATE POLICY "Allow READ on %1$s table to anon users" ON public.%1$s AS PERMISSIVE FOR SELECT TO anon USING (is_active = true);
               ', table_name_text);
             EXCEPTION
                 WHEN OTHERS THEN
