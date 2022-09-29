@@ -4,7 +4,9 @@ import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
 import { Avatar, AvatarProps, Button, IconButton, Stack } from '@gravis-os/ui'
 import download from 'downloadjs'
+import startCase from 'lodash/startCase'
 import getFileMetaFromFile from './getFileMetaFromFile'
+import FieldLabel from './FieldLabel'
 
 export interface StorageAvatarWithUploadProps extends AvatarProps {
   module?: any
@@ -19,6 +21,8 @@ export interface StorageAvatarWithUploadProps extends AvatarProps {
   editable?: boolean // Whether the image has upload capabilities
   alt?: string
   inputProps?: InputHTMLAttributes<HTMLInputElement>
+  label?: string
+  disableLabel?: boolean
 }
 
 const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
@@ -38,6 +42,8 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     editable,
     alt,
     sx,
+    label: injectedLabel,
+    disableLabel,
     ...rest
   } = props
   const { src } = props
@@ -134,8 +140,15 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     )
   }
 
+  const label = injectedLabel || startCase(name)
+  // Disable label for `avatar_src` keys by default
+  const hasLabel = !disableLabel && label !== 'Avatar' && label !== 'Avatar Src'
+
   return (
     <div>
+      {/* Label */}
+      {hasLabel && <FieldLabel>{label}</FieldLabel>}
+
       <Avatar
         src={avatarUrl}
         alt={alt || (avatarUrl ? 'Avatar' : 'No image')}
