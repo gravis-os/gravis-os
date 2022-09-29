@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.33
+
+### Patch Changes
+
+- [`175914a`](https://github.com/gravis-os/gravis-os/commit/175914a0e4159d8aec77b4d54baf5c16f8616e78) Thanks [@clodal](https://github.com/clodal)! - Move constants to constants file
+
+- Updated dependencies [[`00402aa`](https://github.com/gravis-os/gravis-os/commit/00402aa4453ac17ee89d4d6b3298629d6e74c820), [`112bcb5`](https://github.com/gravis-os/gravis-os/commit/112bcb5781e2e937634be18284cfff5d1aa72cb2), [`af58f93`](https://github.com/gravis-os/gravis-os/commit/af58f93bd6b9cf2a7df2ec96e8e8106aacf371b1), [`9278ed7`](https://github.com/gravis-os/gravis-os/commit/9278ed729005d226d6cd879f10dc88f0799cc06f), [`39ed102`](https://github.com/gravis-os/gravis-os/commit/39ed102c81ac1c1ec0f021641c91357aa4a5e96b)]:
+  - @gravis-os/form@0.0.63
+  - @gravis-os/ui@0.0.39
+  - @gravis-os/types@0.0.17
+
 ## 0.0.32
 
 ### Patch Changes

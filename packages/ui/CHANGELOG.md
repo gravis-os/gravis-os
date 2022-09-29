@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.39
+
+### Patch Changes
+
+- [`af58f93`](https://github.com/gravis-os/gravis-os/commit/af58f93bd6b9cf2a7df2ec96e8e8106aacf371b1) Thanks [@clodal](https://github.com/clodal)! - Update nav hover style
+
+* [`9278ed7`](https://github.com/gravis-os/gravis-os/commit/9278ed729005d226d6cd879f10dc88f0799cc06f) Thanks [@clodal](https://github.com/clodal)! - Fix AccordionSummary console error
+
+* Updated dependencies [[`39ed102`](https://github.com/gravis-os/gravis-os/commit/39ed102c81ac1c1ec0f021641c91357aa4a5e96b)]:
+  - @gravis-os/types@0.0.17
+
 ## 0.0.38
 
 ### Patch Changes

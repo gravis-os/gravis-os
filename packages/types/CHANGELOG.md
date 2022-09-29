@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.17
+
+### Patch Changes
+
+- [`39ed102`](https://github.com/gravis-os/gravis-os/commit/39ed102c81ac1c1ec0f021641c91357aa4a5e96b) Thanks [@clodal](https://github.com/clodal)! - Update crud and form to extend types
+
 ## 0.0.16
 
 ### Patch Changes
