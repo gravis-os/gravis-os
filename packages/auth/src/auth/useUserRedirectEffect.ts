@@ -2,6 +2,7 @@ import { useRouter } from 'next/router'
 import toast from 'react-hot-toast'
 import { useEffect } from 'react'
 import useUser from './useUser'
+import { ROLE_ADMIN, ROLE_SUPER_ADMIN } from '../constants'
 
 /**
  * Redirects the user to the success path after retrieving the authUser
@@ -34,8 +35,7 @@ const useUserRedirectEffect = () => {
 
       // Outcome: Invalid workspace
       const roleTitle = role?.title
-      // TODO: Move these to constants
-      const isAdmin = roleTitle === 'Super Admin' || roleTitle === 'Admin'
+      const isAdmin = roleTitle === ROLE_SUPER_ADMIN || roleTitle === ROLE_ADMIN
       if (!isCorrectWorkspace && !isAdmin) {
         return toast.error('Invalid Workspace')
       }
