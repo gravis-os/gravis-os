@@ -23,6 +23,7 @@ export enum BlockItemTypeEnum {
 
   // Custom
   IMAGE = 'image',
+  AVATAR = 'avatar',
   SVG = 'svg',
   ICON = 'icon',
   BUTTON = 'button',
