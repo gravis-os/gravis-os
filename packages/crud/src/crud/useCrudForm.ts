@@ -149,7 +149,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       ? setFormValues({ item, isNew, values: dbFormValues })
       : dbFormValues
 
-    // Split join (many to many) values
+    // Split join (one to many / many to many) values
     const [nonManyToManyValues, manyToManyValues] =
       partitionManyToManyValues(exposedValues)
     const [nonOneToManyValues, oneToManyValues] =

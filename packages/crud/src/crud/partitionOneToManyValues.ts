@@ -9,11 +9,17 @@ const partitionOneToManyValues = (values) => {
       )
       const isArrayValue = Array.isArray(value)
       const isUndefinedValue = typeof value === 'undefined'
-      const isRelationKey = isValidKeyName && (isArrayValue || isUndefinedValue)
-      const nonJoinValues = !isRelationKey
+
+      // All array values are treated as one-to-many-relations and will be partitioned out.
+      const isOneToManyKey =
+        isArrayValue || (isValidKeyName && isUndefinedValue)
+
+      const nonJoinValues = !isOneToManyKey
         ? { ...acc[0], [key]: value }
         : acc[0]
-      const joinValues = isRelationKey ? { ...acc[1], [key]: value } : acc[1]
+
+      const joinValues = isOneToManyKey ? { ...acc[1], [key]: value } : acc[1]
+
       return [nonJoinValues, joinValues]
     },
     [{}, {}]
