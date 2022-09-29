@@ -9,6 +9,8 @@ export interface CrudModule {
   table: { name: string }
   select?: { detail?: string; list?: string }
   Icon?: React.ElementType
+  // For modules with `exclusive_locales` and `blocked_locales` columns
+  hasLocales?: boolean
 }
 
 export interface CrudItem {

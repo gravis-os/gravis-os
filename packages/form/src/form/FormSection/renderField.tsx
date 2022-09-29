@@ -64,6 +64,7 @@ export enum FormSectionFieldTypeEnum {
   DATE_TIME = 'date_time',
 }
 
+// Also known as the fieldDefinition/fieldDef
 export interface FormSectionFieldProps {
   // Core
   key: string
@@ -85,6 +86,7 @@ export interface FormSectionFieldProps {
   defaultValue?:
     | string
     | number
+    | boolean
     | readonly string[]
     | FormSectionFieldWithFunctionType
 

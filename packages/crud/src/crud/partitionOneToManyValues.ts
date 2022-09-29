@@ -1,4 +1,7 @@
-import { ONE_TO_MANY_KEY_SUFFIXES } from '../constants'
+import {
+  ONE_TO_MANY_KEY_SUFFIXES,
+  ARRAY_COLUMN_KEY_SUFFIXES,
+} from '../constants'
 
 // Find 12m relations as they need to be managed separately later
 const partitionOneToManyValues = (values) => {
@@ -10,9 +13,14 @@ const partitionOneToManyValues = (values) => {
       const isArrayValue = Array.isArray(value)
       const isUndefinedValue = typeof value === 'undefined'
 
-      // All array values are treated as one-to-many-relations and will be partitioned out.
+      // Exclude certain array columns from being treated as 1:m.
+      // This is to allow for array columns to be used as normal columns.
+      const isArrayColumn = ARRAY_COLUMN_KEY_SUFFIXES.some((char) =>
+        key.endsWith(char)
+      )
+
       const isOneToManyKey =
-        isArrayValue || (isValidKeyName && isUndefinedValue)
+        !isArrayColumn && (isArrayValue || (isValidKeyName && isUndefinedValue))
 
       const nonJoinValues = !isOneToManyKey
         ? { ...acc[0], [key]: value }

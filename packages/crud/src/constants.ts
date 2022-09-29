@@ -5,3 +5,5 @@ export const ONE_TO_MANY_KEY_SUFFIXES = [
   '_files',
   'lines',
 ]
+
+export const ARRAY_COLUMN_KEY_SUFFIXES = ['_locales']
