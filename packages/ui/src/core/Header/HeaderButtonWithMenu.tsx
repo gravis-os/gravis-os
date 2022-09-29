@@ -120,7 +120,12 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
               if (injectedOnClick) return navItemJsx
 
               return (
-                <Link href={item.href} key={key} {...linkProps}>
+                <Link
+                  href={item.href}
+                  key={key}
+                  underline="none"
+                  {...linkProps}
+                >
                   {navItemJsx}
                 </Link>
               )
