@@ -145,7 +145,7 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
             },
           }),
         }}
-        onClick={shouldAllowOnClick && onClick}
+        {...(shouldAllowOnClick && { onClick })}
       >
         {children || renderAccordionSummaryContent()}
       </AccordionSummary>
