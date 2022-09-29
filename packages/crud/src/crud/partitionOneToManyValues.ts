@@ -1,7 +1,5 @@
-import {
-  ONE_TO_MANY_KEY_SUFFIXES,
-  ARRAY_COLUMN_KEY_SUFFIXES,
-} from '../constants'
+import { ARRAY_COLUMN_KEY_SUFFIXES } from '@gravis-os/form'
+import { ONE_TO_MANY_KEY_SUFFIXES } from '../constants'
 
 // Find 12m relations as they need to be managed separately later
 const partitionOneToManyValues = (values) => {

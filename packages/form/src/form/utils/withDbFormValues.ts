@@ -1,5 +1,6 @@
 import kebabCase from 'lodash/kebabCase'
 import omit from 'lodash/omit'
+import { ARRAY_COLUMN_KEY_SUFFIXES } from '../../constants'
 import getRelationalObjectKey from './getRelationalObjectKey'
 
 // A recursive function to get the `id` value of relation objects e.g. product_id = 1
@@ -8,22 +9,29 @@ const getIdValuesWithRelationalKeysFromRelationalObjects = (values) => {
     if (key.endsWith('_id') && value) {
       return { ...acc, [key]: (value as { id: number }).id || value }
     }
-    if (Array.isArray(value)) {
+
+    const isArrayColumn = ARRAY_COLUMN_KEY_SUFFIXES.some((char) =>
+      key.endsWith(char)
+    )
+    if (Array.isArray(value) && !isArrayColumn) {
       return {
         ...acc,
         [key]: value.map(getIdValuesWithRelationalKeysFromRelationalObjects),
       }
     }
+
     if (
       typeof value === 'object' &&
       value !== null &&
-      !(value instanceof Date)
+      !(value instanceof Date) &&
+      !isArrayColumn
     ) {
       return {
         ...acc,
         [key]: getIdValuesWithRelationalKeysFromRelationalObjects(value),
       }
     }
+
     return { ...acc, [key]: value }
   }, {})
 }
