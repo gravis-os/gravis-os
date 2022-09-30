@@ -1,4 +1,5 @@
 import React from 'react'
+import Svg from 'react-inlinesvg'
 import Stack, { StackProps } from './Stack'
 import Typography, { TypographyProps } from './Typography'
 import Link, { LinkProps } from './Link'
@@ -13,6 +14,7 @@ export interface LogoProps extends LinkProps {
   height?: number | string
   sx?: LinkProps['sx']
   svgSx?: LinkProps['sx']
+  svgSrc?: string
 }
 
 const Logo: React.FC<LogoProps> = (props) => {
@@ -21,11 +23,12 @@ const Logo: React.FC<LogoProps> = (props) => {
     emblem,
     title,
     spacing = 1.5,
-    width = 36,
-    height,
+    width = '100%',
+    height = 20,
     titleProps,
     sx,
     svgSx,
+    svgSrc,
     ...rest
   } = props
 
@@ -39,7 +42,7 @@ const Logo: React.FC<LogoProps> = (props) => {
           display: 'flex',
           '& svg': {
             width,
-            height: 'inherit',
+            height,
             fill: ({ palette }) => palette.text.primary,
             ...svgSx,
           },
@@ -50,6 +53,7 @@ const Logo: React.FC<LogoProps> = (props) => {
     >
       <Stack direction="row" alignItems="center" spacing={spacing}>
         {emblem}
+        {svgSrc && <Svg src={svgSrc} />}
         {wordmark}
         {title && (
           <Typography
