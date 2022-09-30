@@ -401,6 +401,25 @@ CREATE POLICY "User can insert any image"
 DO $$
     BEGIN
         PERFORM
+            bulk_authorize_tables (ARRAY [
+                'workspace',
+                'blog',
+                'blog_category',
+                'post',
+                'directory',
+                'directory_category',
+                'listing',
+                'blog',
+                'blog_category',
+                'post',
+                'menu',
+                'menu_item',
+                'page',
+                'forum',
+                'forum_category',
+                'thread',
+                'thread_comment'
+            ]);
             bulk_public_read_tables (ARRAY [
                 'workspace',
                 'blog',
@@ -412,8 +431,8 @@ DO $$
                 'blog',
                 'blog_category',
                 'post',
-                'site',
-                'site_nav_item',
+                'menu',
+                'menu_item',
                 'page',
                 'forum',
                 'forum_category',
