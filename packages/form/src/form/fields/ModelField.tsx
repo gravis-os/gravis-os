@@ -25,6 +25,7 @@ import React, {
   useState,
 } from 'react'
 import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import TextField from './TextField'
 
@@ -312,7 +313,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
       const nextOptions = (
         dbItems ? [...newOptions, ...dbItems] : newOptions
-      ).filter((nextOption) => nextOption !== null && nextOption !== undefined)
+      ).filter((nextOption) => !isNil(nextOption))
 
       // Set options
       setOptions(nextOptions)
