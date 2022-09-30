@@ -418,7 +418,8 @@ DO $$
                 'forum',
                 'forum_category',
                 'thread',
-                'thread_comment'
+                'thread_comment',
+                'announcement'
             ]);
             bulk_public_read_tables (ARRAY [
                 'workspace',
@@ -437,7 +438,8 @@ DO $$
                 'forum',
                 'forum_category',
                 'thread',
-                'thread_comment'
+                'thread_comment',
+                'announcement'
             ]);
     END
 $$;
