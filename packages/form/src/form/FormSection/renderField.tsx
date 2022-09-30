@@ -34,6 +34,7 @@ import getFormSectionFieldRenderProps from './getFormSectionFieldRenderProps'
 import getFormSectionFieldWithFunctionType, {
   FormSectionFieldWithFunctionType,
 } from './getFormSectionFieldWithFunctionType'
+import ControlledChipField from '../fields/ControlledChipField'
 
 export enum FormSectionFieldTypeEnum {
   // String
@@ -58,6 +59,7 @@ export enum FormSectionFieldTypeEnum {
 
   // Objects/Arrays
   MODEL = 'model',
+  CHIP = 'chip',
 
   // Date
   DATE = 'date',
@@ -233,6 +235,27 @@ const renderField = (props: RenderFieldProps) => {
             isFiles
           />
         )
+      case FormSectionFieldTypeEnum.CHIP:
+        const joinedTitle = get(item, name)?.join(', ')
+
+        if (hasRenderReadOnly) {
+          return renderReadOnly({
+            item,
+            name,
+            module,
+            label,
+            value: joinedTitle,
+            title: joinedTitle,
+          })
+        }
+
+        return (
+          <FormSectionReadOnlyStack
+            label={label}
+            title={joinedTitle}
+            sx={readOnlySx}
+          />
+        )
       default:
         const title = get(item, name)
 
@@ -333,6 +356,8 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
+      case FormSectionFieldTypeEnum.CHIP:
+        return <ControlledChipField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.PASSWORD:
         return <ControlledPasswordField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.HTML:
