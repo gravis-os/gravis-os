@@ -45,6 +45,9 @@ export interface ListItemProps
   tooltip?: TooltipProps['title']
   hasTooltip?: boolean
   tooltipProps?: TooltipProps
+
+  // Selected state
+  selected?: boolean
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
@@ -75,12 +78,16 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     tooltip,
     tooltipProps,
 
+    // Selected
+    selected,
+
     ...rest
   } = props
 
   const listItemButtonProps = {
     onClick,
     href,
+    selected,
     ...injectedListItemButtonProps,
   }
   const hasButton = Boolean(onClick || listItemButtonProps)

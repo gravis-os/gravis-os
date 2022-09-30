@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { useMediaQuery, useTheme } from '@mui/material'
 import { Box, HeaderProps, List, ListItemProps } from '@gravis-os/ui'
+import { useRouter } from 'next/router'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer from './ResponsiveDrawer'
 import DashboardLayoutHeader from './DashboardLayoutHeader'
+import getListItemsWithActiveStateFromRouter from './getListItemsWithActiveStateFromRouter'
 
 const { miniVariantWidth, headerHeight } = dashboardLayoutConfig
 
@@ -47,7 +49,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
     rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
     isMiniVariant,
-    leftAsideListItems,
+    leftAsideListItems: injectedLeftAsideListItems,
     rightAsideListItems,
     disableClipUnderAppBar,
     darkLeftAside,
@@ -58,6 +60,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   // States
   const [leftAsideOpen, setLeftAsideOpen] = useState(defaultLeftAsideOpen)
   const [rightAsideOpen, setRightAsideOpen] = useState(defaultRightAsideOpen)
+
+  // Router
+  const router = useRouter()
+  const leftAsideListItems = getListItemsWithActiveStateFromRouter(
+    injectedLeftAsideListItems,
+    router
+  )
 
   // Effects
   // Collapse asides below desktop breakpoint

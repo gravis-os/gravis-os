@@ -6,6 +6,7 @@ import ListItemWithCollapse, {
   ListItemWithCollapseProps,
 } from './ListItemWithCollapse'
 import Divider from '../Divider'
+import Badge from '../Badge'
 
 export interface ListProps extends MuiListProps {
   items: ListItemProps[]
@@ -22,19 +23,49 @@ const List: React.FC<ListProps> = (props) => {
     <MuiList disablePadding {...rest}>
       {items.map((item, i) => {
         const key = item.key || `list-item-${i}`
-        const listItemProps = merge({ dense }, injectedListItemProps, item)
+
+        // Nested List
+        const isNestedMenu = Boolean(item.items)
 
         // Divider
         const isDivider = Boolean(item.divider)
-        if (isDivider) return <Divider />
 
-        // Nested List
-        const hasNestedItems = Boolean(item.items)
-        if (hasNestedItems) {
-          return <ListItemWithCollapse key={key} depth={1} {...listItemProps} />
+        // Highest item will not have any depth key
+        const isHighestParent = typeof item.depth === 'undefined'
+
+        // Show badge dot on the highest parent that is currently slected
+        const shouldShowIndicator =
+          isHighestParent && (isNestedMenu ? item.open : item.selected)
+
+        // Merge props
+        const listItemProps = merge({ dense }, injectedListItemProps, item, {
+          startIcon: shouldShowIndicator ? (
+            <Badge
+              color="secondary"
+              variant="dot"
+              anchorOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+            >
+              {item.startIcon}
+            </Badge>
+          ) : (
+            item.startIcon
+          ),
+        })
+
+        // Render
+        switch (true) {
+          case isDivider:
+            return <Divider />
+          case isNestedMenu:
+            return (
+              <ListItemWithCollapse key={key} depth={1} {...listItemProps} />
+            )
+          default:
+            return <ListItem key={key} {...listItemProps} />
         }
-
-        return <ListItem key={key} {...listItemProps} />
       })}
     </MuiList>
   )
