@@ -50,7 +50,7 @@ const usePreviewDrawer = (
 
   // Preview item
   const onUseGetItem = useGetItem({ module: previewModule, slug: previewSlug })
-  const { item: previewItem, loading: previewLoading } = onUseGetItem
+  const { item: previewItem, isLoading: previewLoading } = onUseGetItem
 
   return {
     previewSlug,

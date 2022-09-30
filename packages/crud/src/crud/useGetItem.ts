@@ -1,7 +1,7 @@
 import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { QueryOptions, useQuery, UseQueryResult } from 'react-query'
-import { CrudItem, CrudModule } from '@gravis-os/types'
+import { CrudModule } from '@gravis-os/types'
 import { useUser } from '@gravis-os/auth'
 
 export interface UseGetItemProps {
@@ -38,13 +38,13 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
       .from(table.name)
       .select(select?.detail || '*')
       .match({ [module.sk]: slug })
-      .limit(1)
+      .single()
 
     const { data, error } = onItemQuery
 
     if (error) throw new Error(error.message)
 
-    return data?.[0]
+    return data
   }
 
   // Differentiate queryKey between single query and nested query with array length
@@ -59,12 +59,12 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
     enabled: Boolean(user && slug),
     ...queryOptions,
   })
-  const { data: item, isFetching: fetching, isError: error } = onUseQuery
+  const { data: item, isLoading: loading, isError: error } = onUseQuery
 
   return {
     ...onUseQuery,
     item,
-    loading: fetching, // @see: https://tanstack.com/query/v4/docs/guides/migrating-to-react-query-4#the-idle-state-has-been-removed
+    loading,
     error,
   }
 }

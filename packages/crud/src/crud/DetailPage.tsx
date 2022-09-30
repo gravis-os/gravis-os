@@ -57,7 +57,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
 
   // Get Item
   const onUseGetItem = useGetItem({ module, ...useGetItemProps })
-  const { item, loading } = onUseGetItem
+  const { item, isLoading } = onUseGetItem
 
   // renderProps for injection later
   const renderProps = { module, ...omit(onUseGetItem, 'refetch') }
@@ -88,7 +88,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   const { hasTabs, currentTab, items: tabs } = onUseTabs
 
   // Manage loading
-  if (!hasTabs && loading) return <CircularProgress fullScreen />
+  if (!hasTabs && isLoading) return <CircularProgress fullScreen />
 
   return (
     <Container {...containerProps}>
