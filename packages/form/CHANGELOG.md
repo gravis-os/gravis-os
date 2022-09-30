@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.65
+
+### Patch Changes
+
+- Republish @gravis-os/form to npm
+
 ## 0.0.64
 
 ### Patch Changes

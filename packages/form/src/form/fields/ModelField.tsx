@@ -29,6 +29,8 @@ import isNil from 'lodash/isNil'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import TextField from './TextField'
 
+// Commented to republish the package to npm
+
 type DataItem = Record<string, unknown> & { id?: string | number }
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
