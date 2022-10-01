@@ -153,7 +153,7 @@ DECLARE
     -- This would be 'read' after splitting tail-end of 'workspace.read'
     operation_text text := SPLIT_PART(requested_permission_title, '.', 2);
     -- A list of approved read-only tables required for user checks to function
-    permitted_read_only_tables text [] := ARRAY ['workspace', 'role', 'role_permission', 'permission', 'tier', 'tier_feature', 'feature'];
+    permitted_read_only_tables text [] := ARRAY ['workspace', 'role', 'role_permission', 'permission', 'tier', 'tier_feature', 'feature', 'person'];
     -- Allow read if this is a infrastructural table needed for the app to function.
     -- Don't need check permissions if this is a permitted action and table
     /*
@@ -165,30 +165,57 @@ DECLARE
         AND table_name_text = ANY (permitted_read_only_tables));
 BEGIN
     /*
-     * Authorization Layer 1: Permissions
+     * [Scenario 1]: Action is Read, on permitted system tables. User has no permissions.
+     * ------------------------------------------------------------------------------------
+     * For is_permitted_read_only_tables, ensure only read into the tenant's scope
      */
-    SELECT
-        count(*)
-    FROM
-        public.role_permission AS rp
-            INNER JOIN public.permission AS perm ON rp.permission_id = perm.id
-            INNER JOIN public.person AS person ON rp.role_id = person.role_id
-            INNER JOIN public.workspace AS ws ON person.workspace_id = ws.id
-    WHERE
-      --  1. is authenticated user
-            person.user_id = auth_id
-      --  2. has permission
-      AND(perm.title = requested_permission_title
-        OR perm.title = '*'
-        OR is_permitted_read_only_table)
-      --  3. belongs to correct workspace
-      AND(row_workspace_id IS NULL
-        OR row_workspace_id = ws.id
-        OR ws.title = 'Admin') INTO bind_permissions;
-
     IF is_permitted_read_only_table THEN
         RETURN authorize_by_workspace(requested_permission_title, auth_id, row_id, row_workspace_id);
+        /*
+         * [Default Scenario]: Check Permissions table
+         * -----------------------------------------------------------------------------------
+         */
     ELSE
+        SELECT
+            count(*)
+        FROM
+            public.role_permission AS rp
+                INNER JOIN public.permission AS perm ON rp.permission_id = perm.id
+                INNER JOIN public.person AS person ON rp.role_id = person.role_id
+                INNER JOIN public.workspace AS ws ON person.workspace_id = ws.id
+        WHERE
+          --  [Filter 1]. filter by authenticated user
+                person.user_id = auth_id
+          --  [Filter 2]. filter by permission: allow show rows that have this filter
+          AND(
+            -- current user's permissions === requested permission
+                    perm.title = requested_permission_title
+                -- is admin
+                OR perm.title = '*'
+                -- allow user to update their own workspace if given workspace:self.*, but not read other workspaces.
+                OR (
+                        CASE
+                            WHEN (
+                                        table_name_text = 'workspace'
+                                    AND SPLIT_PART(REPLACE(perm.title, 'self:', ''), '.', 1) = 'workspace'
+                                )
+                                -- User workspace_id = Current workspace.id. This limits the scope to the user's workspace only.
+                                THEN ws.id = row_id
+                            ELSE false
+                            END
+                        )
+            )
+          --  [Filter 3]. filter by workspace: allow show rows that have this filter
+          AND(
+            -- the item has no notion of a workspace
+                row_workspace_id IS NULL
+                -- is the correct workspace
+                OR row_workspace_id = ws.id
+                -- is admin
+                OR ws.title = 'Admin'
+            )
+        INTO bind_permissions;
+
         RETURN bind_permissions > 0;
     END IF;
 END;
@@ -249,7 +276,7 @@ DECLARE
     -- This would be 'read' after splitting tail-end of 'workspace.read'
     operation_text text := SPLIT_PART(requested_permission_title, '.', 2);
     -- A list of approved read-only tables required for user checks to function
-    permitted_read_only_tables text [] := ARRAY ['workspace', 'role', 'role_permission', 'permission', 'tier', 'tier_feature', 'feature'];
+    permitted_read_only_tables text [] := ARRAY ['workspace', 'role', 'role_permission', 'permission', 'tier', 'tier_feature', 'feature', 'person'];
     -- Allow read if this is a infrastructural table needed for the app to function.
     -- Don't need check permissions if this is a permitted action and table
     /*
@@ -262,10 +289,6 @@ DECLARE
     -- Ensure that permitted read only tables are tenant isolated
     is_permitted_read_only_table_tenant_isolated boolean;
 BEGIN
-    /*
-     * Authorization Layer 2: Read-Only Scope by Workspace for Permitted Read Only Tables
-     * For is_permitted_read_only_tables, ensure only read into the tenant's scope
-     */
     EXECUTE FORMAT('SELECT
          		($1 = ANY (SELECT DISTINCT
          					person.user_id
@@ -290,7 +313,8 @@ BEGIN
        					))', table_name_text)
         USING auth_id,
             is_permitted_read_only_table,
-            row_id INTO is_permitted_read_only_table_tenant_isolated;
+            row_id
+        INTO is_permitted_read_only_table_tenant_isolated;
     RETURN is_permitted_read_only_table_tenant_isolated;
 END;
 $function$;
