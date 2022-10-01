@@ -24,8 +24,12 @@ import React, {
   useMemo,
   useState,
 } from 'react'
+import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import TextField from './TextField'
+
+// Commented to republish the package to npm
 
 type DataItem = Record<string, unknown> & { id?: string | number }
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
@@ -129,7 +133,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
     // Extensions
     multiple,
-    filters,
+    filters: injectedFilters,
 
     // withCreate
     withCreate,
@@ -167,6 +171,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const [inputValue, setInputValue] = useState('')
   const [options, setOptions] = useState<DataItem[]>([])
   const [open, setOpen] = useState(false)
+  const [filters, setFilters] = useState(null)
 
   // ==============================
   // Variables
@@ -184,11 +189,21 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     setDisplayValue(defaultValue)
   }, [formValue])
 
+  const handleResetField = () => {
+    if (name.endsWith('_id')) {
+      const relationalObjectKey = getRelationalObjectKey(name)
+      setFormValue(relationalObjectKey, null)
+    }
+    setInputValue('')
+    injectedOnChange(null)
+  }
+
   // The data fetching function
   const fetchData = useCallback(
     async (
       args: {
         inputValue?: string
+        formValue?: any
         filters?: Array<{
           pk: string
           op?: string // FilterOperator
@@ -197,7 +212,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         }>
       } = {}
     ) => {
-      const { inputValue, filters } = args
+      const { inputValue, filters, formValue } = args
 
       // Handle degenerate case
       const isValidInputValue = typeof inputValue === 'string'
@@ -298,7 +313,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
       const newOptions =
         typeof displayValue === 'object' ? [displayValue as DataItem] : []
 
-      const nextOptions = dbItems ? [...newOptions, ...dbItems] : newOptions
+      const nextOptions = (
+        dbItems ? [...newOptions, ...dbItems] : newOptions
+      ).filter((nextOption) => !isNil(nextOption))
 
       // Set options
       setOptions(nextOptions)
@@ -313,6 +330,15 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         )
 
         if (nextValue) setDisplayValue(nextValue)
+      }
+
+      // Reset the field if the current value doesn't exist in the new options
+      if (!multiple && !isPrimitiveValue && nextOptions?.length && formValue) {
+        const nextValue = dbItems.find(
+          (item) => String(item?.id) === String(formValue.id)
+        )
+
+        if (!nextValue) handleResetField()
       }
     },
     [table.name, pk, isPrimitiveValue]
@@ -342,9 +368,12 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
   // Fetch data when filters change
   useEffect(() => {
-    if (!filters) return
-    fetchDataWithDelay({ inputValue, filters })
-  }, [filters])
+    if (isEqual(filters, injectedFilters)) return
+    setFilters(injectedFilters)
+    // inputValue has to be empty, else the [pk] filter will cause the query to returns no result
+    // Hence, won't reset the field
+    fetchDataWithDelay({ inputValue: '', filters: injectedFilters, formValue })
+  }, [injectedFilters])
 
   // Fetch data when there is a value to populate options. Reverse look-up object from id
   useEffect(() => {
@@ -374,6 +403,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         open={open}
         options={options}
         value={displayValue}
+        inputValue={inputValue}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
         autoComplete

@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.65
+
+### Patch Changes
+
+- Republish @gravis-os/form to npm
+
+## 0.0.64
+
+### Patch Changes
+
+- [#91](https://github.com/gravis-os/gravis-os/pull/91) [`14154e3`](https://github.com/gravis-os/gravis-os/commit/14154e3808eda6dfaee754430132e43c71377bd6) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Refactor ModelField
+
+* [#91](https://github.com/gravis-os/gravis-os/pull/91) [`3218113`](https://github.com/gravis-os/gravis-os/commit/32181134a6a81273f3ab2937f48673f23707b16e) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Reset ModelField when options change if necessary
+
 ## 0.0.63
 
 ### Patch Changes
