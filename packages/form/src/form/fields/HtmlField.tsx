@@ -14,10 +14,12 @@ export interface HtmlFieldProps {
   placeholder?: string
   children?: React.ReactNode
   onChange?: (value) => void
+  value: any
 }
 
 const HtmlField: React.FC<HtmlFieldProps> = (props) => {
   const { children, name, label, placeholder, onChange, ...rest } = props
+  const { value } = rest
 
   const { quill: quillRef, quillRef: quillEditorRef } = useQuill({
     placeholder: placeholder || label || startCase(name),
@@ -25,6 +27,10 @@ const HtmlField: React.FC<HtmlFieldProps> = (props) => {
 
   React.useEffect(() => {
     if (quillRef) {
+      // Load with initialValue
+      quillRef.clipboard.dangerouslyPasteHTML(value)
+
+      // Set value onChange
       quillRef.on('text-change', (delta, oldDelta, source) => {
         const value = quillRef.root.innerHTML
         onChange(value)

@@ -11,6 +11,9 @@ const Html: React.FC<HtmlProps> = (props) => {
 
   return (
     <Box
+      sx={{
+        '& p': { mt: 0, mb: 0 },
+      }}
       dangerouslySetInnerHTML={{
         __html: printHtml(html),
       }}
