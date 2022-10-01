@@ -10,6 +10,9 @@ export * from './StorageFiles'
 export { default as StorageGallery } from './StorageGallery'
 export * from './StorageGallery'
 
+export { default as StorageImage } from './StorageImage'
+export * from './StorageImage'
+
 // ==============================
 // Hooks
 // ==============================

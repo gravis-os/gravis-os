@@ -5,24 +5,22 @@ import Box, { BoxProps } from './Box'
 export interface ImageProps extends NextImageProps {
   disablePointerEvents?: boolean
   sx?: BoxProps['sx']
-  imageSx?: BoxProps['sx']
 }
 
 /**
  * @example https://image-component.nextjs.gallery/
  */
 const Image: React.FC<ImageProps> = (props) => {
-  const { sx, imageSx, disablePointerEvents, ...rest } = props
+  const { sx, disablePointerEvents, ...rest } = props
 
   const boxProps = {
     sx: {
       ...(disablePointerEvents && {
         '> span': { pointerEvents: 'none' },
       }),
-      ...(imageSx && {
-        '& img': imageSx,
+      ...(sx && {
+        '& img': sx,
       }),
-      ...sx,
     } as BoxProps['sx'],
   }
 
