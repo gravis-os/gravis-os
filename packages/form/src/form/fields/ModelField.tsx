@@ -1,3 +1,10 @@
+import React, {
+  forwardRef,
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react'
 import { CrudModule } from '@gravis-os/types'
 import { CircularProgress, Stack, Typography } from '@gravis-os/ui'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
@@ -17,17 +24,11 @@ import has from 'lodash/has'
 import isEmpty from 'lodash/isEmpty'
 import partition from 'lodash/partition'
 import startCase from 'lodash/startCase'
-import React, {
-  forwardRef,
-  useCallback,
-  useEffect,
-  useMemo,
-  useState,
-} from 'react'
+import uniqBy from 'lodash/uniqBy'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
-import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import TextField from './TextField'
+import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 
 // Commented to republish the package to npm
 
@@ -434,9 +435,17 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             }
           }
 
-          return clientSideFilteredOptions
+          // filterSelectedOptions: Remove selected options from the options list
+          const nextClientSideFilteredOptions = uniqBy(
+            clientSideFilteredOptions,
+            pk
+          ).filter((option) => {
+            const nextFormValue = multiple ? formValue : [formValue]
+            return !nextFormValue?.some((value) => value?.[pk] === option?.[pk])
+          })
+
+          return nextClientSideFilteredOptions
         }}
-        filterSelectedOptions
         onChange={(e, newValue: DataItem | DataItem[] | null) => {
           // Set UI field display value only
           const isCreateOption = getIsCreateOption({ option: newValue, pk })
