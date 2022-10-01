@@ -7,12 +7,13 @@ export interface HtmlProps extends BoxProps {
 }
 
 const Html: React.FC<HtmlProps> = (props) => {
-  const { html, ...rest } = props
+  const { html, sx, ...rest } = props
 
   return (
     <Box
       sx={{
         '& p': { mt: 0, mb: 0 },
+        ...sx,
       }}
       dangerouslySetInnerHTML={{
         __html: printHtml(html),
