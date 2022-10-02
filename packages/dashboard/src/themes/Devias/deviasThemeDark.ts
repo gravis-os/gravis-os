@@ -28,7 +28,7 @@ const secondary = {
   main: '#10B981',
   light: '#3FC79A',
   dark: '#0B815A',
-  contrastText: neutral[900],
+  contrastText: '#fff',
 }
 const success = {
   main: '#14B8A6',
