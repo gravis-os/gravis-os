@@ -12,8 +12,8 @@ const Blocks: React.FC<BlocksProps> = (props) => {
 
   return (
     <>
-      {items.map((item, i) => {
-        return <Block id={item.key} {...item} />
+      {items.map((item) => {
+        return <Block id={String(item.key)} {...item} />
       })}
     </>
   )

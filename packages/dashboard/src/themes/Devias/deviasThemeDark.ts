@@ -14,8 +14,8 @@ const neutral = {
 }
 const background = {
   default: '#0B0F19', // Body background color
-  paper: neutral[900],
-  muted: neutral[800],
+  paper: neutral[800],
+  muted: neutral[900],
 }
 const divider = '#2D3748'
 const primary = {

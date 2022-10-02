@@ -55,6 +55,7 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
     | ButtonProps
     | LinkProps
     | DividerProps
+
   type?: BlockItemTypeEnum
 }
 

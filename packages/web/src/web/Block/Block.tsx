@@ -48,7 +48,7 @@ export interface BlockProps
   pb?: BlockPadding
   py?: BlockPadding
 
-  id: string
+  id?: string
 }
 
 const Block: React.FC<BlockProps> = (props) => {
