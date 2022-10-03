@@ -55,6 +55,7 @@ module.exports = {
     // a11y
     'jsx-a11y/anchor-is-valid': 0,
     // React
+    'react/no-unescaped-entities': 1,
     'react/require-default-props': 0,
     'react/prop-types': ['off', {}],
     'react/jsx-filename-extension': [
