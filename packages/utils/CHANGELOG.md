@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.20
+
+### Patch Changes
+
+- Add printIsoDate util
+
 ## 0.0.19
 
 ### Patch Changes

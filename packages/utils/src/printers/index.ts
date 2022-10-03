@@ -12,3 +12,6 @@ export * from './printSingularOrPluralText'
 
 export { default as printHtml } from './printHtml'
 export * from './printHtml'
+
+export { default as printIsoDate } from './printIsoDate'
+export * from './printIsoDate'
