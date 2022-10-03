@@ -1,22 +1,21 @@
 import React from 'react'
 import { Controller, ControllerProps } from 'react-hook-form'
-import DateField from './DateField'
+import DateField, { DateFieldProps } from './DateField'
 
-export interface ControlledDateFieldProps
-  extends Omit<ControllerProps, 'render'> {
-  label?: string
-  datePickerProps?: React.ComponentProps<typeof DateField>
+export interface ControlledDateFieldProps extends Partial<DateFieldProps> {
+  name: string
+  control: ControllerProps['control']
+  controllerProps?: Partial<ControllerProps>
 }
 
 const ControlledDateField: React.FC<ControlledDateFieldProps> = (props) => {
-  const { datePickerProps, label, ...rest } = props
+  const { name, controllerProps, ...rest } = props
   return (
     <Controller
-      render={({ field }) => (
-        <DateField label={label} {...field} {...datePickerProps} />
-      )}
+      name={name}
+      render={({ field }) => <DateField {...field} {...rest} />}
       defaultValue={new Date()}
-      {...rest}
+      {...controllerProps}
     />
   )
 }
