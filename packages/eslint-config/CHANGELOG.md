@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.0.8
+
+### Patch Changes
+
+- Update eslint rule typo
+
 ## 0.0.7
 
 ### Patch Changes
