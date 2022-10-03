@@ -1,5 +1,18 @@
 # web
 
+## 0.0.16
+
+### Patch Changes
+
+- [`f8f5f1f`](https://github.com/gravis-os/gravis-os/commit/f8f5f1fe952c0e0e570830e4556c733750ec664c) Thanks [@clodal](https://github.com/clodal)! - Add StorageImage component. Replace Image.imageSx with Image.sx
+
+- Updated dependencies [[`bc88225`](https://github.com/gravis-os/gravis-os/commit/bc882251066a4f727371b47040bc65d119dfedf2), [`9478ed3`](https://github.com/gravis-os/gravis-os/commit/9478ed3c0cf7483e3b5e9e9409b17bfcc669df7b), [`3148a3f`](https://github.com/gravis-os/gravis-os/commit/3148a3f37d029d88564d54c288f415b5504ab0c1), [`8bd2597`](https://github.com/gravis-os/gravis-os/commit/8bd2597b139f1c0c72ace6cfa991fe71c66faf30), [`ed89a34`](https://github.com/gravis-os/gravis-os/commit/ed89a34c066819b23570717e7bb0fef585d371e8), [`34ca286`](https://github.com/gravis-os/gravis-os/commit/34ca28615eb6f00b10c782e704e1ea231f420dd3), [`633358d`](https://github.com/gravis-os/gravis-os/commit/633358d74f8d2b93e80b934b150cfa09382c2c40), [`f8f5f1f`](https://github.com/gravis-os/gravis-os/commit/f8f5f1fe952c0e0e570830e4556c733750ec664c), [`411788c`](https://github.com/gravis-os/gravis-os/commit/411788c0cfd822fb2d71f53e7bd034a4fcaea9ed)]:
+  - @gravis-os/ui@0.0.40
+  - @gravis-os/web@0.0.21
+  - @gravis-os/form@0.0.66
+  - @gravis-os/utils@0.0.19
+  - @gravis-os/storage@0.0.21
+
 ## 0.0.15
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.19
+
+### Patch Changes
+
+- [`633358d`](https://github.com/gravis-os/gravis-os/commit/633358d74f8d2b93e80b934b150cfa09382c2c40) Thanks [@clodal](https://github.com/clodal)! - Update html field to include img with b64 src"
+
 ## 0.0.18
 
 ### Patch Changes

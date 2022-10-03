@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.22
+
+### Patch Changes
+
+- [`6dfc91e`](https://github.com/gravis-os/gravis-os/commit/6dfc91e12aecb5767f0a757ca002b7cc94f788ae) Thanks [@clodal](https://github.com/clodal)! - Update sample sql in saas package
+
+- Updated dependencies [[`633358d`](https://github.com/gravis-os/gravis-os/commit/633358d74f8d2b93e80b934b150cfa09382c2c40)]:
+  - @gravis-os/utils@0.0.19
+
 ## 0.0.21
 
 ### Patch Changes
