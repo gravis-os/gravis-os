@@ -81,6 +81,18 @@ module.exports = {
     ],
     'import/prefer-default-export': 0,
     'import/no-extraneous-dependencies': 0,
+    // Fixes an open TS issue from using typesVersions
+    // @issue https://github.com/microsoft/TypeScript/issues/43133
+    'import/no-unresolved': [
+      2,
+      {
+        ignore: [
+          '^@gravis-os/apps/*',
+          '^@gravis-os/stripe/*',
+          '^@gravis-os/auth-server/*',
+        ],
+      },
+    ],
   },
   settings: {
     'import/resolver': {

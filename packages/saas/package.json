@@ -6,22 +6,9 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
-  "typesVersions": {
-    "*": {
-      "server": [
-        "./dist/types/server/index.d.ts"
-      ]
-    }
-  },
   "exports": {
-    ".": {
-      "require": "./dist/cjs/index.js",
-      "import": "./dist/esm/index.js"
-    },
-    "./server": {
-      "require": "./dist/cjs/server/index.js",
-      "import": "./dist/esm/server/index.js"
-    }
+    "require": "./dist/cjs/index.js",
+    "import": "./dist/esm/index.js"
   },
   "files": [
     "dist"

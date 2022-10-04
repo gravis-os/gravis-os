@@ -42,6 +42,7 @@ export interface HeaderButtonWithMenuProps {
   fullWidth?: boolean
   disableNewTabIcon?: boolean
   buttonProps?: ButtonProps
+  sx?: ButtonProps['sx']
   linkProps?: LinkProps
   disableBackdrop?: boolean
 }
@@ -49,6 +50,7 @@ export interface HeaderButtonWithMenuProps {
 const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
   const {
     disableBackdrop,
+    sx,
     key,
     title,
     items,
@@ -142,6 +144,12 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
         {...bindAction(popupState)}
         color="inherit"
         endIcon={<ArrowDropDownOutlinedIcon />}
+        sx={
+          {
+            ...sx,
+            ...buttonProps?.sx,
+          } as ButtonProps['sx']
+        }
         {...buttonProps}
       >
         {title}

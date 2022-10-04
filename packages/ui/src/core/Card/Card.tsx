@@ -65,6 +65,7 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   disableBorderRadiusTop?: boolean
   disableBorderRadiusBottom?: boolean
   disablePadding?: boolean
+  disableCardContent?: boolean
   disableHeader?: boolean
 
   // Collapse
@@ -100,6 +101,7 @@ const Card: React.FC<CardProps> = (props) => {
     disableBorderRadiusTop,
     disableBorderRadiusBottom,
     disablePadding,
+    disableCardContent,
     ...rest
   } = props
 
@@ -134,16 +136,12 @@ const Card: React.FC<CardProps> = (props) => {
   const { title: contentTitle, subtitle: contentSubtitle } = content || {}
   const cardContentProps = {
     ...contentProps,
+    disableGutterBottom: disableLastGutterBottom,
+    padding,
     sx: {
       ...contentProps?.sx,
-      ...(disablePadding && { p: 0 }),
+      ...((disablePadding || disableCardContent) && { p: 0 }),
       ...(padding && { p: padding }),
-      // Overwrite the padding bottom that MUI ships with by default
-      ...((disableLastGutterBottom || typeof padding === 'number') && {
-        '&&.MuiCardContent-root': {
-          pb: typeof padding === 'number' ? padding : 1,
-        },
-      }),
     },
   }
 
@@ -174,7 +172,12 @@ const Card: React.FC<CardProps> = (props) => {
       )}
       {list && <CardList {...list} />}
       {table && <CardTable {...table} />}
-      {children && <CardContent {...cardContentProps}>{children}</CardContent>}
+      {children &&
+        (!disableCardContent ? (
+          <CardContent {...cardContentProps}>{children}</CardContent>
+        ) : (
+          children
+        ))}
       {links && (
         <CardActions {...cardActionProps}>
           {links.map((link) => {

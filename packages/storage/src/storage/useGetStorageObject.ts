@@ -18,6 +18,8 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
 
   // States
   const [savedFilePath, setSavedFilePath] = useState(injectedFilePath || value)
+
+  // Payload
   const [objectUrl, setObjectUrl] = useState('')
 
   // Update state when defaultValue changes
@@ -40,7 +42,7 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
       }
     }
     if (!objectUrl && savedFilePath) fetchStorageObject(savedFilePath)
-  }, [bucketName, client.storage, savedFilePath, value])
+  }, [objectUrl, savedFilePath])
 
   return { src: objectUrl }
 }

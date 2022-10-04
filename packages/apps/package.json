@@ -6,9 +6,29 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "accounting": [
+        "./dist/types/accounting/index.d.ts"
+      ],
+      "directory": [
+        "./dist/types/directory/index.d.ts"
+      ]
+    }
+  },
   "exports": {
-    "require": "./dist/cjs/index.js",
-    "import": "./dist/esm/index.js"
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    },
+    "./accounting": {
+      "require": "./dist/cjs/accounting/index.js",
+      "import": "./dist/esm/accounting/index.js"
+    },
+    "./directory": {
+      "require": "./dist/cjs/directory/index.js",
+      "import": "./dist/esm/directory/index.js"
+    }
   },
   "files": [
     "dist"
@@ -32,9 +52,11 @@
   "dependencies": {
     "@gravis-os/crud": "*",
     "@gravis-os/form": "*",
+    "@gravis-os/query": "*",
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
     "lodash": "^4.17.21",
+    "react-infinite-scroller": "^1.2.6",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3"
   },
@@ -85,6 +107,7 @@
     "@svgr/webpack": "^5.5.0",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.0",
+    "@types/react-infinite-scroller": "^1.2.3",
     "@types/styled-components": "^5.1.4",
     "@typescript-eslint/eslint-plugin": "^5.23.0",
     "@typescript-eslint/parser": "^5.23.0",

@@ -19,6 +19,9 @@ export * from './Breadcrumbs'
 export { default as Button } from './Button'
 export * from './Button'
 
+export { default as Card } from './Card'
+export * from './Card'
+
 export { default as ConfirmationDialog } from './ConfirmationDialog'
 export * from './ConfirmationDialog'
 
@@ -27,9 +30,6 @@ export * from './CircularProgress'
 
 export { default as Container } from './Container'
 export * from './Container'
-
-export { default as Card } from './Card/Card'
-export * from './Card'
 
 export { default as CheckboxGroup } from './CheckboxGroup'
 export * from './CheckboxGroup'
