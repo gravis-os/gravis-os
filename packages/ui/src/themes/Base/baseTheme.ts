@@ -55,6 +55,7 @@ const baseThemeConfig = {
     },
     MuiLink: {
       defaultProps: {
+        color: 'text.primary',
         underline: 'hover',
       },
     },

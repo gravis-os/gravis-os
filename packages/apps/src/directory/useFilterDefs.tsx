@@ -28,7 +28,7 @@ export const useFilterDefs = (
 
   // Router
   const router = useRouter()
-  const { query } = router
+  const { pathname, asPath, query } = router
 
   // Methods
   const getFilterDefByName = (
@@ -91,12 +91,19 @@ export const useFilterDefs = (
 
   // Methods
   const handleDeleteFilterChip = (filterChipToDelete: ChipProps) => {
-    return router.replace(
+    console.log('jjj: handleDeleteFilterChip', {
+      filterChipToDelete,
+      pathname,
+      asPath,
+      query,
+      router,
+    })
+    return router.push(
       {
-        pathname: router.pathname,
+        pathname,
         query: omit(query, filterChipToDelete.key),
       },
-      undefined,
+      asPath,
       { scroll: false }
     )
   }

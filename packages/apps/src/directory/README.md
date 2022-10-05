@@ -17,3 +17,12 @@ apps/blog
 		|__PostAsideListItem.tsx
 apps/forum
 	|__ForumTemplate.tsx
+
+
+## Directory
+Every Directory manages the following:
+1. Listing
+2. Pagination
+3. Filter
+4. Sort
+5. Search

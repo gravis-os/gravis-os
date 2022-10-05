@@ -12,20 +12,22 @@ export interface ChipProps extends Omit<MuiChipProps, 'color'> {
 
 const Chip: React.FC<ChipProps> = (props) => {
   const { title, color, ...rest } = props
+
   const isCustomColor = color && COLOR_REGEX.test(color)
-  const customColorSx = isCustomColor && {
-    '&&': {
-      backgroundColor: color,
-      color: (theme) => theme.palette.getContrastText(color),
-    },
-  }
+
   return (
     <MuiChip
       label={title}
       color={isCustomColor ? undefined : (color as MuiChipProps['color'])}
       {...rest}
       sx={{
-        ...customColorSx,
+        '&&': isCustomColor
+          ? {
+              backgroundColor: color,
+              color: (theme) => theme.palette[color].contrastText,
+            }
+          : { color: `${color}.contrastText` },
+
         ...rest.sx,
       }}
     />

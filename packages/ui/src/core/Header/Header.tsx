@@ -55,6 +55,7 @@ export interface HeaderProps extends AppBarProps {
   renderProps?: any
   center?: boolean
   disableScrollTrigger?: boolean
+  disableSticky?: boolean
   announcements?: Array<{ title: string }>
 }
 
@@ -69,6 +70,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     containerProps,
     center,
     disableScrollTrigger,
+    disableSticky,
     navItems,
     announcements,
     renderProps,
@@ -110,9 +112,18 @@ const Header: React.FC<HeaderProps> = (props) => {
     )
       return null
 
-    return navItems.map((navItem: HeaderNavItem) => {
-      const { linkProps, key, children, showOnMobileBar, preset, render, sx } =
-        navItem
+    return navItems.map((navItem: HeaderNavItem, i) => {
+      const {
+        linkProps,
+        key: injectedKey,
+        children,
+        showOnMobileBar,
+        preset,
+        render,
+        sx,
+      } = navItem
+
+      const key = injectedKey || `nav-item-${i}`
 
       // Get classes
       const navItemWrapperProps = {
@@ -280,7 +291,12 @@ const Header: React.FC<HeaderProps> = (props) => {
 
   // ChildrenJsx
   const childrenJsx = (
-    <AppBar {...rest}>
+    <AppBar
+      {...{
+        ...rest,
+        ...(disableSticky && { position: 'static' }),
+      }}
+    >
       <Container {...containerProps}>
         <Toolbar
           disableGutters

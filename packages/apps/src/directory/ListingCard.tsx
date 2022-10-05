@@ -33,17 +33,20 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
         <StorageImage
           src={item.avatar_src}
           alt={item.avatar_alt || item.title}
-          width={560}
-          height={560}
+          scaleOnHover
         />
       </Link>
 
       <CardContent disableGutterBottom sx={{ height: '100%' }}>
-        <Link href={brandModule.getWebHref([item.brand])}>
-          <Typography variant="overline">{item.brand?.title}</Typography>
+        <Link
+          variant="overline"
+          href={brandModule.getWebHref([item.brand])}
+          color="secondary"
+        >
+          {item.brand?.title}
         </Link>
-        <Link href={listingHref}>
-          <Typography variant="h4">{item.title}</Typography>
+        <Link variant="h4" href={listingHref}>
+          {item.title}
         </Link>
         <Typography>{item.subtitle}</Typography>
       </CardContent>

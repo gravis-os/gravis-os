@@ -1,6 +1,6 @@
 import React from 'react'
 import CancelIcon from '@mui/icons-material/Cancel'
-import ListIcon from '@mui/icons-material/List'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
 import {
   AppBar,
   Button,
@@ -8,22 +8,30 @@ import {
   Container,
   Stack,
   HeaderButtonWithMenu,
+  Typography,
 } from '@gravis-os/ui'
 import { Toolbar } from '@mui/material'
 import { UseFilterDefsReturn } from './useFilterDefs'
+import { UseSortDefsReturn } from './useSortDefs'
 
 export interface FilterAppBarProps {
   useFilterDefsProps?: UseFilterDefsReturn
+  useSortDefsProps?: UseSortDefsReturn
+  title?: string
+  subtitle?: string
 }
 
 const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
-  const { useFilterDefsProps } = props
+  const { title, subtitle, useFilterDefsProps, useSortDefsProps } = props
 
   const {
+    isFilterDrawerOpen,
     handleToggleIsFilterDrawerOpen,
     filterChips,
     handleDeleteFilterChip,
   } = useFilterDefsProps
+
+  const { sortDefs } = useSortDefsProps
 
   return (
     <AppBar
@@ -37,65 +45,95 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
       }}
     >
       <Container maxWidth={false} disableGutters>
-        <Toolbar variant="dense">
-          {/* Filter Menu Toggle */}
-          <Stack direction="row" alignItems="center" sx={{ mr: 2 }}>
-            <Button
-              color="inherit"
-              startIcon={<ListIcon />}
-              onClick={() => handleToggleIsFilterDrawerOpen()}
-            >
-              Filters
-            </Button>
+        <Toolbar
+          variant="dense"
+          sx={{
+            justifyContent: 'space-between',
+          }}
+        >
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={0.5}
+            sx={{ width: 'initial' }}
+          >
+            {title && <Typography variant="h5">{title}</Typography>}
+            {subtitle && (
+              <Typography variant="body1" color="text.secondary">
+                {subtitle}
+              </Typography>
+            )}
           </Stack>
 
           {/* Filter Chips */}
-          <Stack direction="row" spacing={1} sx={{ flexGrow: 1 }}>
-            {filterChips?.map((filterChip) => {
-              const { key, label } = filterChip
-              return (
-                <Chip
-                  key={key}
-                  label={label}
-                  onDelete={() => handleDeleteFilterChip(filterChip)}
-                  deleteIcon={
-                    <CancelIcon
-                      sx={{
-                        '&&': {
-                          color: 'primary.main',
-                          fontSize: 'body1.fontSize',
-                        },
-                      }}
-                    />
-                  }
-                  color="secondary"
-                  sx={{
-                    backgroundColor: 'secondary.light',
-                    color: 'primary.main',
-                  }}
-                />
-              )
-            })}
-          </Stack>
+          {Boolean(filterChips?.length) && (
+            <Stack
+              direction="row"
+              spacing={1}
+              sx={{
+                flexGrow: 1,
+                width: 'initial',
+                ml: 2,
+                justifyContent: 'flex-start',
+              }}
+            >
+              {filterChips?.map((filterChip) => {
+                const { key, label } = filterChip
+                return (
+                  <Chip
+                    size="small"
+                    key={key}
+                    label={label}
+                    onDelete={() => handleDeleteFilterChip(filterChip)}
+                    deleteIcon={
+                      <CancelIcon
+                        sx={{
+                          '&&': {
+                            color: 'primary.main',
+                            fontSize: 'body1.fontSize',
+                          },
+                        }}
+                      />
+                    }
+                    color="secondary"
+                    sx={{
+                      backgroundColor: 'secondary.light',
+                      color: 'primary.main',
+                    }}
+                  />
+                )
+              })}
+            </Stack>
+          )}
 
-          {/* Sort */}
-          <HeaderButtonWithMenu
-            sx={{ flex: 'none' }}
-            disableBackdrop
-            key="sort-by"
-            title="Sort by"
-            items={[
-              {
-                title: 'Most Popular',
-              },
-              {
-                title: 'Price: Lowest to Highest',
-              },
-              {
-                title: 'Price: Highest to Lowest',
-              },
-            ]}
-          />
+          {/* Filter + Sort */}
+          <div>
+            <Stack
+              direction="row"
+              alignItems="center"
+              spacing={1}
+              sx={{
+                '& > *': { flexShrink: 0 },
+              }}
+            >
+              {/* Filter */}
+              <Button
+                color="inherit"
+                startIcon={<TuneOutlinedIcon />}
+                onClick={() => handleToggleIsFilterDrawerOpen()}
+              >
+                {isFilterDrawerOpen ? 'Hide' : 'Show'} Filters
+              </Button>
+
+              {/* Sort */}
+              <HeaderButtonWithMenu
+                disableBackdrop
+                key="sort-by"
+                title="Sort By"
+                items={sortDefs as any}
+              />
+            </Stack>
+          </div>
         </Toolbar>
       </Container>
     </AppBar>

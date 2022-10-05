@@ -12,6 +12,7 @@ import {
   FormGroup,
 } from '@mui/material'
 import { NextRouter, useRouter } from 'next/router'
+import qs from 'qs'
 
 export interface FilterAccordionOptionInterface {
   value: string
@@ -81,10 +82,21 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
 
   // Method
   const router = useRouter()
-  const { query, pathname } = router
+  const { query, pathname, asPath } = router
   const handleCheckboxChange = (option: FilterAccordionOptionInterface) => {
     const nextQuery = getNextRouterQueryOnCheckboxChange(query, option, name)
-    return router.replace({ pathname, query: nextQuery }, undefined, {
+    const queryString = qs.stringify(nextQuery)
+    const nextAsPath = `${asPath.split('?')[0]}?${queryString}`
+    console.log('jjj: handleCheckboxChange', {
+      pathname,
+      query,
+      asPath,
+      nextQuery,
+      queryString,
+      nextAsPath,
+      router,
+    })
+    return router.push({ pathname, query: nextQuery }, nextAsPath, {
       scroll: false,
     })
   }
@@ -106,6 +118,10 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
               componentsProps={{
                 typography: { variant: 'body2' },
               }}
+              sx={{
+                '&:hover': { backgroundColor: 'action.hover' },
+                '&:active': { backgroundColor: 'action.selected' },
+              }}
             />
           )
         })}
@@ -122,6 +138,11 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon sx={{ fontSize: 'overline.fontSize' }} />}
+        sx={{
+          px: { xs: 2, md: 3 },
+          '&:hover': { backgroundColor: 'action.hover' },
+          '&:active': { backgroundColor: 'action.selected' },
+        }}
       >
         <Stack
           direction="row"
@@ -154,7 +175,12 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
           )}
         </Stack>
       </AccordionSummary>
-      <AccordionDetails sx={{ pt: 0 }}>
+      <AccordionDetails
+        sx={{
+          pt: 0,
+          px: { xs: 2, md: 3 },
+        }}
+      >
         {children || renderOptions(options)}
       </AccordionDetails>
     </Accordion>

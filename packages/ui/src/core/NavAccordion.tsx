@@ -32,6 +32,7 @@ export interface NavAccordionProps
   }>
   onClick?: (e: React.MouseEvent) => void
   children?: any
+  accordionProps?: Omit<AccordionProps, 'children'>
 }
 
 const EXPAND_ALL = 'EXPAND_ALL'
@@ -44,7 +45,7 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
     href,
     items,
     children,
-    ...rest
+    accordionProps,
   } = props
 
   // Handle expanded state onScreenResize
@@ -96,9 +97,9 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
       onChange={handleChange(title)}
       square
       disableGutters
-      {...rest}
+      {...accordionProps}
       sx={{
-        ...rest.sx,
+        ...accordionProps?.sx,
 
         boxShadow: 'none',
         borderBottom: (theme) => ({

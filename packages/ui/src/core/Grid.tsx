@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { forwardRef } from 'react'
 import { Grid as MuiGrid, GridProps as MuiGridProps } from '@mui/material'
 import getResponsiveSxProp, {
   ResponsiveSxProp,
@@ -8,11 +8,12 @@ export interface GridProps extends MuiGridProps {
   reverse?: ResponsiveSxProp
 }
 
-const Grid: React.FC<GridProps> = (props) => {
+const Grid: React.FC<GridProps> = forwardRef((props, ref) => {
   const { sx, reverse, ...rest } = props
   const { item, container, spacing } = rest
 
   const gridProps = {
+    ref,
     xs: item && 12,
     sx: {
       ...(reverse &&
@@ -42,6 +43,6 @@ const Grid: React.FC<GridProps> = (props) => {
   }
 
   return <MuiGrid {...gridProps} />
-}
+})
 
 export default Grid

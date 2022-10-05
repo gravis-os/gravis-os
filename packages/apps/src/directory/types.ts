@@ -20,6 +20,8 @@ export interface FilterDef {
   }>
 }
 
+export interface SortDef {}
+
 // @link https://github.com/DefinitelyTyped/DefinitelyTyped/blob/master/types/react-infinite-scroller/index.d.ts
 export interface InfiniteScrollProps {
   element?: React.ReactElement | any // Fix issue with TS

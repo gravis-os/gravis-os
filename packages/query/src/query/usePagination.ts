@@ -40,10 +40,15 @@ const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
 
   const page = query?.page ? Number(query?.page) : 1
   const range: [number, number] = [page * pageSize - pageSize, pageSize * page]
+  const pageCount =
+    totalCount / pageSize > 0 ? Math.ceil(totalCount / pageSize) : 1
+  const hasNextPage = page < pageCount
+  const hasPrevPage = page > 1
 
   const setPage = (newPage: number) => {
     // Page min must be 1.
     const nextPage = newPage > 0 ? newPage : 1
+    // TODO@Joel: Feed the full query string here, but omit the queryParams
     const queryString = qs.stringify({ page: nextPage })
     return router.push(
       {
@@ -56,11 +61,8 @@ const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
       `${router.asPath.split('?')[0]}?${queryString}`
     )
   }
-  const nextPage = () => setPage(page + 1)
-  const prevPage = () => setPage(page - 1)
-
-  const pageCount =
-    totalCount / pageSize > 0 ? Math.ceil(totalCount / pageSize) : 1
+  const nextPage = () => hasNextPage && setPage(page + 1)
+  const prevPage = () => hasPrevPage && setPage(page - 1)
 
   return {
     page,
@@ -71,8 +73,8 @@ const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
     setPage,
     nextPage,
     prevPage,
-    hasPrevPage: page > 1,
-    hasNextPage: page < pageCount,
+    hasPrevPage,
+    hasNextPage,
   }
 }
 

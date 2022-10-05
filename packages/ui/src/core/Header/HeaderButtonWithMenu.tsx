@@ -26,6 +26,7 @@ import Link, { LinkProps } from '../Link'
 export type NavItemClickFunction = (e: React.MouseEvent, item: any) => void
 
 export interface RecursiveNavItemInterface {
+  key: string
   title: string | React.ReactElement
   href?: string
   onClick?: NavItemClickFunction

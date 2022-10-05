@@ -1,4 +1,5 @@
 import React from 'react'
+import get from 'lodash/get'
 import RouterLink, { LinkProps as RouterLinkProps } from 'next/link'
 import { Link as MuiLink, LinkProps as MuiLinkProps } from '@mui/material'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
@@ -8,11 +9,18 @@ export interface LinkProps extends MuiLinkProps {
   rightCaret?: boolean
   displayBlock?: boolean
   fadeOnHover?: boolean
+  /**
+   * Set the textColor to text.primary and hoverColor to primary.main by default
+   */
+  hoverColor?: string
+  disableHoverColor?: boolean
 }
 
 const Link: React.FC<LinkProps> = (props) => {
   const {
     fadeOnHover,
+    hoverColor,
+    disableHoverColor,
     displayBlock,
     rightCaret,
     href,
@@ -27,10 +35,31 @@ const Link: React.FC<LinkProps> = (props) => {
       sx={{
         ...(pointer && { cursor: 'pointer' }),
         ...(displayBlock && { display: 'block' }),
-        '&:hover': {
-          color: rest.color || 'primary.main',
-          ...(fadeOnHover && { opacity: 0.8 }),
-        },
+
+        // Hover effects
+        transition: ({ transitions }) =>
+          transitions.create(['opacity', 'color'], {
+            duration: transitions.duration.shorter,
+          }),
+
+        // Color hover effect
+        ...(!disableHoverColor && {
+          '&:hover': {
+            color: ({ palette }) => {
+              const getKey =
+                typeof rest?.color === 'string'
+                  ? `${rest.color.split('.')[0]}.dark`
+                  : hoverColor || 'secondary.main'
+
+              return get(palette, getKey)
+            },
+          },
+        }),
+
+        // Fade hover effect
+        ...(fadeOnHover && { '&:hover': { opacity: 0.87 } }),
+
+        // Overrides
         ...sx,
       }}
       {...rest}

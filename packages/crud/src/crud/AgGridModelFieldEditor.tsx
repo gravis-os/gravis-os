@@ -28,6 +28,7 @@ const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
 
   return (
     <ModelField
+      ref={ref}
       module={module}
       value={value}
       setValue={setValue}
@@ -41,25 +42,6 @@ const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
       {...rest}
     />
   )
-
-  // return (
-  //   <Autocomplete
-  //     style={{ padding: '0 10px' }}
-  //     options={options}
-  //     value={value}
-  //     onChange={handleChange}
-  //     inputValue={inputValue}
-  //     onInputChange={handleInputChange}
-  //     disableClearable
-  //     renderInput={(params) => (
-  //       <TextField
-  //         {...params}
-  //         style={{ padding: '5px 0' }}
-  //         placeholder={`Select ${props.column.colId}`}
-  //       />
-  //     )}
-  //   />
-  // )
 })
 
 export default AgGridModelFieldEditor

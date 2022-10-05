@@ -38,6 +38,7 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
   const items = locales.map((localeItem) => {
     const { key, isoAlpha2, title } = localeItem
     return {
+      key,
       title: (
         <Stack key={key} direction="row" spacing={1.5}>
           <div>{getFlagFromCountryISOAlpha2(isoAlpha2)}</div>
