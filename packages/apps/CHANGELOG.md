@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.31
+
+### Patch Changes
+
+- [#93](https://github.com/gravis-os/gravis-os/pull/93) [`1ed2b79`](https://github.com/gravis-os/gravis-os/commit/1ed2b79fb84673d6ed1bf1050f1efdcbe734aca3) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Added printing configuration for DocumentFormSection
+
 ## 0.0.30
 
 ### Patch Changes

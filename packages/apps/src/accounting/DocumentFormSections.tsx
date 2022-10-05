@@ -25,6 +25,7 @@ import {
   FormSectionRenderReadOnlyProps,
 } from '@gravis-os/form'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
+import { SxProps } from '@mui/material'
 import { DocumentItem } from './types'
 
 const AddressReadOnlyFormSection: React.FC<{
@@ -103,6 +104,9 @@ const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
 
 export interface DocumentFormSectionsProps extends CrudFormJsxProps {
   actionButtons?: ButtonProps[]
+  onPrint?: () => void
+  printMode?: boolean
+  printModeOptions?: { pageBreak?: boolean }
 }
 
 const DocumentFormSections: React.FC<any> = (props) => {
@@ -115,8 +119,13 @@ const DocumentFormSections: React.FC<any> = (props) => {
     sections,
     item,
     actionButtons: injectedActionButtons = [],
+    onPrint,
+    printMode,
+    printModeOptions,
     ...rest
   } = props
+
+  const { pageBreak } = printModeOptions || {}
 
   if (!sections?.length) return null
 
@@ -180,6 +189,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
       key: 'print',
       children: 'Print',
       startIcon: <LocalPrintshopOutlinedIcon />,
+      onClick: onPrint,
     },
     <ConfirmationDialog
       buttonComponent={Button}
@@ -196,8 +206,15 @@ const DocumentFormSections: React.FC<any> = (props) => {
     ...injectedActionButtons,
   ].map((item) => ({ color: 'inherit' as ButtonProps['color'], ...item }))
 
+  const containerSx: SxProps = printMode
+    ? {
+        '& > .MuiCard-root': { background: 'none', boxShadow: 'none' },
+        '& > div > .MuiCard-root': { background: 'none', boxShadow: 'none' },
+      }
+    : null
+
   return (
-    <Stack spacing={2}>
+    <Stack spacing={2} sx={containerSx}>
       {/* Toolbar */}
       <Card
         square
@@ -211,7 +228,12 @@ const DocumentFormSections: React.FC<any> = (props) => {
           justifyContent="space-between"
         >
           {/* Left */}
-          <Stack direction="row" alignItems="center" spacing={0.5}>
+          <Stack
+            display={printMode ? 'none' : 'flex'}
+            direction="row"
+            alignItems="center"
+            spacing={0.5}
+          >
             {actionButtons?.map((actionButton) => {
               const isReactElement = React.isValidElement(actionButton)
               if (isReactElement) return actionButton
@@ -298,7 +320,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
               justifyContent="space-between"
             >
               <Grid container>
-                <Grid item xs={12} md={7}>
+                <Grid item xs={printMode ? 7 : 12} md={7}>
                   <Grid container spacing={5}>
                     {/* Project + Amount */}
                     {Boolean(sectionsPropsByKey.project) && (
@@ -388,7 +410,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
 
                 <Grid xs={0} md={1} />
 
-                <Grid item xs={12} md={4}>
+                <Grid item xs={printMode ? 5 : 12} md={4}>
                   <Grid container spacing={5}>
                     {/* Total */}
                     {Boolean(sectionsPropsByKey.total) && (
@@ -412,7 +434,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
                         {...sectionsPropsByKey.payment}
                       />
                     )}
-                    <Grid container>
+                    <Grid container spacing={printMode ? 1.5 : 2}>
                       <Grid item xs={12} md={6}>
                         {Boolean(sectionsPropsByKey.ready_at) && (
                           <FormSection
@@ -482,11 +504,13 @@ const DocumentFormSections: React.FC<any> = (props) => {
           )}
         </Box>
 
+        {printMode && pageBreak && <Box sx={{ pageBreakAfter: 'always' }} />}
+
         <Card disableBorderRadiusTop>
           {/* Summary */}
           <Stack direction="row" spacing={1} justifyContent="space-between">
             <Grid container>
-              <Grid item xs={12} md={6}>
+              <Grid item xs={printMode ? 6 : 12} md={6}>
                 <Grid container spacing={4}>
                   {/* Notes */}
                   {Boolean(sectionsPropsByKey.notes) && (
@@ -509,7 +533,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
 
               <Grid xs={0} md={2} />
 
-              <Grid item xs={12} md={4}>
+              <Grid item xs={printMode ? 6 : 12} md={4}>
                 <Grid container>
                   {/* Pricing */}
                   {Boolean(sectionsPropsByKey.pricing) && (
