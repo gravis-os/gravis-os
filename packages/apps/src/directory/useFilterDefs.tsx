@@ -16,6 +16,7 @@ export interface UseFilterDefsReturn {
   getHasFilterChip: (key: string) => boolean
   handleDeleteFilterChip: (filterChipToDelete: ChipProps) => Promise<boolean>
   handleToggleIsFilterDrawerOpen: () => void
+  setFilterDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 export const useFilterDefs = (
@@ -117,6 +118,7 @@ export const useFilterDefs = (
     filterDefs,
     filterChips,
     isFilterDrawerOpen,
+    setFilterDrawerOpen: setIsFilterDrawerOpen,
     getHasFilterChip,
     handleDeleteFilterChip,
     handleToggleIsFilterDrawerOpen,

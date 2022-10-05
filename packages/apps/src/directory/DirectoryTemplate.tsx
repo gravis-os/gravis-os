@@ -1,4 +1,4 @@
-import React, { forwardRef } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import {
   Box,
   CircularProgress,
@@ -10,7 +10,12 @@ import {
 import InfiniteScroll from 'react-infinite-scroller'
 import { CrudItem, RenderPropsFunction } from '@gravis-os/types'
 import { UsePaginationReturn } from '@gravis-os/query'
-import { Pagination } from '@mui/material'
+import {
+  SwipeableDrawer,
+  Pagination,
+  useMediaQuery,
+  useTheme,
+} from '@mui/material'
 import FilterAccordion from './FilterAccordion'
 import { UseFilterDefsReturn } from './useFilterDefs'
 import { UseSortDefsReturn } from './useSortDefs'
@@ -50,7 +55,7 @@ export interface DirectoryTemplateProps {
 }
 
 /**
- * Base Directory Template with Listings, Pagination, Filter, Sort, Search
+ * Base Directory Template with Listings, Pagination, Filter, Sort, Search, Compare
  * @param props
  * @constructor
  */
@@ -71,13 +76,26 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     filterDrawerWidth = 240,
   } = props
 
-  const { isFilterDrawerOpen, filterDefs, getHasFilterChip, filterChips } =
-    useFilterDefsProps
+  const {
+    setFilterDrawerOpen,
+    isFilterDrawerOpen,
+    filterDefs,
+    getHasFilterChip,
+    filterChips,
+  } = useFilterDefsProps
 
   const isInfiniteScroll =
     pageScrollType === DirectoryPageScrollEnum.InfiniteScroll
 
-  // TODO@Joel: Hide drawer on mobile, switch to overlay drawer
+  // Effects
+  // Hide drawer on mobile, switch to overlay drawer
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
+  useEffect(() => {
+    if (isDesktop && !isFilterDrawerOpen) setFilterDrawerOpen(true)
+    if (!isDesktop && isFilterDrawerOpen) setFilterDrawerOpen(false)
+  }, [isDesktop])
+
   return (
     <>
       <FilterAppBar
@@ -92,28 +110,35 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
           {/* Directory */}
           <Box sx={{ display: 'flex' }}>
             {/* Filter Drawer */}
-            <Drawer
+            <SwipeableDrawer
               open={isFilterDrawerOpen}
-              variant="permanent"
+              variant={isDesktop ? 'permanent' : 'temporary'}
+              {...(!isDesktop && {
+                onClose: () => setFilterDrawerOpen(false),
+                onOpen: () => setFilterDrawerOpen(true),
+              })}
               sx={{
                 '&, & .MuiDrawer-paper': {
-                  height: 'initial',
-                  width: isFilterDrawerOpen ? filterDrawerWidth : 0,
-                  top: 48, // FilterAppBar height is always at 48
-                  position: 'sticky',
-                  transition: (theme) =>
-                    theme.transitions.create(['width'], {
-                      easing:
-                        theme.transitions.easing[
-                          isFilterDrawerOpen ? 'sharp' : 'easeOut'
-                        ],
-                      duration:
-                        theme.transitions.duration[
-                          isFilterDrawerOpen
-                            ? 'leavingScreen'
-                            : 'enteringScreen'
-                        ],
-                    }),
+                  width: '90%',
+                  ...(isDesktop && {
+                    height: 'initial',
+                    width: isFilterDrawerOpen ? filterDrawerWidth : 0,
+                    top: 48, // FilterAppBar height is always at 48
+                    position: 'sticky',
+                    transition: (theme) =>
+                      theme.transitions.create(['width'], {
+                        easing:
+                          theme.transitions.easing[
+                            isFilterDrawerOpen ? 'sharp' : 'easeOut'
+                          ],
+                        duration:
+                          theme.transitions.duration[
+                            isFilterDrawerOpen
+                              ? 'leavingScreen'
+                              : 'enteringScreen'
+                          ],
+                      }),
+                  }),
                 },
               }}
             >
@@ -148,7 +173,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                   )
                 })}
               </Box>
-            </Drawer>
+            </SwipeableDrawer>
 
             {/* Listings */}
             <Box component="main" sx={{ flexGrow: 1 }}>

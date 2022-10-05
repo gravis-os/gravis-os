@@ -26,3 +26,4 @@ Every Directory manages the following:
 3. Filter
 4. Sort
 5. Search
+6. Compare

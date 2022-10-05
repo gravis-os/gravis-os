@@ -23,7 +23,7 @@ const Logo: React.FC<LogoProps> = (props) => {
     emblem,
     title,
     spacing = 1.5,
-    width = '100%',
+    width,
     height = 20,
     titleProps,
     sx,
