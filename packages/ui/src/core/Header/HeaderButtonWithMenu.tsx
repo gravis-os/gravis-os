@@ -13,6 +13,7 @@ import {
   Portal,
   Slide,
   Typography,
+  PopperProps,
 } from '@mui/material'
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
 import {
@@ -46,6 +47,7 @@ export interface HeaderButtonWithMenuProps {
   sx?: ButtonProps['sx']
   linkProps?: LinkProps
   disableBackdrop?: boolean
+  popperProps?: Omit<PopperProps, 'open'>
 }
 
 const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
@@ -60,6 +62,7 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
     isOpenOnHover,
     buttonProps,
     linkProps,
+    popperProps,
   } = props
 
   // Refs
@@ -158,13 +161,14 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
 
       <Popper
         {...bindPopper(popupState)}
+        transition
         anchorEl={anchorRef.current}
         placement={fullWidth ? 'bottom' : 'bottom-start'}
         sx={{
           zIndex: (theme) => theme.zIndex.appBar,
           ...(fullWidth && { width: '100vw', pointerEvents: 'none' }),
         }}
-        transition
+        {...popperProps}
       >
         {({ TransitionProps, placement }) => (
           <ClickAwayListener onClickAway={popupState.close} ref={containerRef}>

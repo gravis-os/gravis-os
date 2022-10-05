@@ -127,10 +127,12 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
 
               {/* Sort */}
               <HeaderButtonWithMenu
-                disableBackdrop
                 key="sort-by"
                 title="Sort By"
+                disableBackdrop
+                // TODO@Joel: Fix this typing when we've decided on the shape of the sortDefs
                 items={sortDefs as any}
+                popperProps={{ placement: 'auto-end' }}
               />
             </Stack>
           </div>
