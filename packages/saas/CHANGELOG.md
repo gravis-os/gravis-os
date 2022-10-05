@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.23
+
+### Patch Changes
+
+- [`5108f70`](https://github.com/gravis-os/gravis-os/commit/5108f701430f32ffa7599e196a0a496fb05d8bae) Thanks [@clodal](https://github.com/clodal)! - Add apps/directory
+
+- Updated dependencies [[`5108f70`](https://github.com/gravis-os/gravis-os/commit/5108f701430f32ffa7599e196a0a496fb05d8bae)]:
+  - @gravis-os/middleware@0.0.12
+
 ## 0.0.22
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.0.10
+
+### Patch Changes
+
+- [`5108f70`](https://github.com/gravis-os/gravis-os/commit/5108f701430f32ffa7599e196a0a496fb05d8bae) Thanks [@clodal](https://github.com/clodal)! - Add apps/directory
+
 ## 0.0.9
 
 ### Patch Changes

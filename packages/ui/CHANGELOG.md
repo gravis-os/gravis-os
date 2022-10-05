@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.41
+
+### Patch Changes
+
+- [`44da02d`](https://github.com/gravis-os/gravis-os/commit/44da02dc1a49edde96096cbec104c489927b8ec2) Thanks [@clodal](https://github.com/clodal)! - Add DirectoryTemplate
+
+* [`5108f70`](https://github.com/gravis-os/gravis-os/commit/5108f701430f32ffa7599e196a0a496fb05d8bae) Thanks [@clodal](https://github.com/clodal)! - Add apps/directory
+
 ## 0.0.40
 
 ### Patch Changes
