@@ -18,7 +18,6 @@ interface StorageImageProps extends Omit<ImageProps, 'alt' | 'src'> {
 const StorageImage: React.FC<StorageImageProps> = (props) => {
   const { src: filePath, value, alt, ...rest } = props
 
-  // TODO@Joel: Fix issue with image double flickering, try react-query for caching.
   const { src } = useGetStorageObject({ filePath, value })
 
   return <Image src={src} alt={alt || (src ? 'Image' : 'No image')} {...rest} />

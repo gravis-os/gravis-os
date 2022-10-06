@@ -1,4 +1,4 @@
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useEffect, useMemo } from 'react'
 import {
   Box,
   CircularProgress,
@@ -27,10 +27,6 @@ export interface DirectoryTemplateRenderProps {
   loading?: boolean
 }
 
-export enum DirectoryPageScrollEnum {
-  InfiniteScroll = 'infinite-scroll',
-  Pagination = 'pagination',
-}
 export enum DirectoryVariantEnum {
   Grid = 'grid',
   List = 'list',
@@ -45,13 +41,13 @@ export interface DirectoryTemplateProps {
   useFilterDefsProps?: UseFilterDefsReturn
   useSortDefsProps?: UseSortDefsReturn
   infiniteScrollProps?: InfiniteScrollProps
-  paginationProps?: UsePaginationReturn
+  pagination?: UsePaginationReturn
   gridProps?: GridProps
   gridItemProps?: GridProps
 
   variant?: DirectoryVariantEnum
-  pageScrollType?: DirectoryPageScrollEnum
   filterDrawerWidth?: number
+  isInfiniteScroll?: number
 }
 
 /**
@@ -65,14 +61,14 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     items,
     loading,
     renderItem,
-    infiniteScrollProps,
-    paginationProps,
+    infiniteScrollProps: injectedInfiniteScrollProps,
+    pagination,
     useFilterDefsProps,
     useSortDefsProps,
     gridProps,
     gridItemProps,
     variant = DirectoryVariantEnum.Grid,
-    pageScrollType = DirectoryPageScrollEnum.Pagination,
+    isInfiniteScroll,
     filterDrawerWidth = 240,
   } = props
 
@@ -84,9 +80,6 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     filterChips,
   } = useFilterDefsProps
 
-  const isInfiniteScroll =
-    pageScrollType === DirectoryPageScrollEnum.InfiniteScroll
-
   // Effects
   // Hide drawer on mobile, switch to overlay drawer
   const theme = useTheme()
@@ -96,11 +89,33 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     if (!isDesktop && isFilterDrawerOpen) setFilterDrawerOpen(false)
   }, [isDesktop])
 
+  // Memoized to prevent image flickering and unwanted re-renders
+  const infiniteScrollContainerElement = useMemo(() => {
+    return forwardRef((props: { children: React.ReactNode }, ref: any) => {
+      return <Grid ref={ref} container {...gridProps} {...props} />
+    })
+  }, [])
+  // Infinite scroll props
+  const infiniteScrollProps = {
+    element: infiniteScrollContainerElement,
+    loader: (
+      <Box key="loader" width="100%" center py={2}>
+        <CircularProgress size={32} />
+      </Box>
+    ),
+    ...(isInfiniteScroll
+      ? injectedInfiniteScrollProps
+      : {
+          loadMore: () => null,
+          hasMore: false,
+        }),
+  } as InfiniteScrollProps
+
   return (
     <>
       <FilterAppBar
         title={`${title}`}
-        subtitle={`(${paginationProps?.totalCount} results)`}
+        subtitle={`(${pagination?.count} results)`}
         useFilterDefsProps={useFilterDefsProps}
         useSortDefsProps={useSortDefsProps}
       />
@@ -177,29 +192,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
 
             {/* Listings */}
             <Box component="main" sx={{ flexGrow: 1 }}>
-              <InfiniteScroll
-                {...({
-                  element: forwardRef(
-                    (props: { children: React.ReactNode }, ref: any) => {
-                      return (
-                        <Grid ref={ref} container {...gridProps} {...props} />
-                      )
-                    }
-                  ),
-                  // element: Grid,
-                  loader: (
-                    <Box key="loader" width="100%" center py={2}>
-                      <CircularProgress size={32} />
-                    </Box>
-                  ),
-                  ...(isInfiniteScroll
-                    ? infiniteScrollProps
-                    : {
-                        loadMore: () => null,
-                        hasMore: false,
-                      }),
-                } as InfiniteScrollProps)}
-              >
+              <InfiniteScroll {...infiniteScrollProps}>
                 {items?.map((item) => (
                   <Grid key={item.id} item xs={12} md={4} {...gridItemProps}>
                     {renderItem({ item, loading })}
@@ -207,19 +200,19 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                 ))}
               </InfiniteScroll>
 
-              {!isInfiniteScroll && (
+              {!isInfiniteScroll && pagination && (
                 <Box sx={{ my: { xs: 3, md: 6 } }} center>
                   <Pagination
                     size="large"
                     disabled={loading}
-                    showFirstButton={paginationProps.hasPrevPage}
-                    showLastButton={paginationProps.hasNextPage}
-                    hideNextButton={!paginationProps.hasNextPage}
-                    hidePrevButton={!paginationProps.hasPrevPage}
-                    count={paginationProps.pageCount}
-                    page={paginationProps.page}
+                    showFirstButton={pagination.hasPrevPage}
+                    showLastButton={pagination.hasNextPage}
+                    hideNextButton={!pagination.hasNextPage}
+                    hidePrevButton={!pagination.hasPrevPage}
+                    count={pagination.pageCount}
+                    page={pagination.page}
                     onChange={(_, newPageNumber) =>
-                      paginationProps.setPage(newPageNumber)
+                      pagination.setPage(newPageNumber)
                     }
                   />
                 </Box>

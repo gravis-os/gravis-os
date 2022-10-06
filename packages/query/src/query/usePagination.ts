@@ -1,9 +1,10 @@
 import qs from 'qs'
 import { useRouter } from 'next/router'
+import useRouterQuery from './useRouterQuery'
 
 export interface UsePaginationProps {
   pageSize: number
-  totalCount: number
+  count: number
 }
 
 export interface UsePaginationReturn {
@@ -19,7 +20,7 @@ export interface UsePaginationReturn {
   /**
    * The total number of items
    */
-  totalCount: number
+  count: number
   /**
    * The total number of pages = total items / items per page
    */
@@ -33,33 +34,25 @@ export interface UsePaginationReturn {
 }
 
 const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
-  const { pageSize, totalCount } = props
+  const { pageSize, count } = props
 
   const router = useRouter()
   const { pathname, query } = router
 
   const page = query?.page ? Number(query?.page) : 1
   const range: [number, number] = [page * pageSize - pageSize, pageSize * page]
-  const pageCount =
-    totalCount / pageSize > 0 ? Math.ceil(totalCount / pageSize) : 1
+  const pageCount = count / pageSize > 0 ? Math.ceil(count / pageSize) : 1
   const hasNextPage = page < pageCount
   const hasPrevPage = page > 1
+
+  const { addQueryString } = useRouterQuery()
 
   const setPage = (newPage: number) => {
     // Page min must be 1.
     const nextPage = newPage > 0 ? newPage : 1
-    // TODO@Joel: Feed the full query string here, but omit the queryParams
-    const queryString = qs.stringify({ page: nextPage })
-    return router.push(
-      {
-        pathname,
-        query: {
-          ...query,
-          page: nextPage,
-        },
-      },
-      `${router.asPath.split('?')[0]}?${queryString}`
-    )
+
+    //  Feed the full query string here, but omit the queryParams
+    return addQueryString({ page: String(nextPage) })
   }
   const nextPage = () => hasNextPage && setPage(page + 1)
   const prevPage = () => hasPrevPage && setPage(page - 1)
@@ -67,7 +60,7 @@ const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
   return {
     page,
     pageSize,
-    totalCount,
+    count,
     pageCount,
     range,
     setPage,

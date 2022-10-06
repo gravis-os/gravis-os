@@ -3,7 +3,7 @@ import { CrudItem } from '@gravis-os/types'
 
 export interface FilterChip {
   key: string
-  value: string | string[]
+  value: unknown
   label: React.ReactNode
 }
 

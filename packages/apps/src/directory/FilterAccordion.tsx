@@ -11,8 +11,7 @@ import {
   FormControlLabel,
   FormGroup,
 } from '@mui/material'
-import { NextRouter, useRouter } from 'next/router'
-import qs from 'qs'
+import { useRouterQuery } from '@gravis-os/query'
 
 export interface FilterAccordionOptionInterface {
   value: string
@@ -26,39 +25,7 @@ export interface FilterAccordionProps extends Omit<AccordionProps, 'children'> {
   options?: FilterAccordionOptionInterface[]
   optionsSortOrder?: boolean | 'asc' | 'desc'
   children?: React.ReactNode
-  activeOptionLabels?: string[]
-}
-
-export const getNextRouterQueryOnCheckboxChange = (
-  query: NextRouter['query'],
-  option: FilterAccordionOptionInterface,
-  name: string
-): NextRouter['query'] => {
-  const newQueryValue = String(option.value)
-  const currentQueryValue: string | string[] = query[name]
-  const hasCurrentQueryValue: boolean = name in query
-  const currentQueryValueInArrayType: string[] = Array.isArray(
-    currentQueryValue
-  )
-    ? currentQueryValue
-    : [currentQueryValue]
-  const isNewQueryValueInCurrentQueryValue =
-    currentQueryValueInArrayType.includes(newQueryValue)
-  const getNextQueryValue = (): string | string[] => {
-    // If no existing, add first query value
-    if (!hasCurrentQueryValue) return newQueryValue
-
-    return isNewQueryValueInCurrentQueryValue
-      ? // Subtract if currently exists
-        currentQueryValueInArrayType.filter(
-          (currentQueryValue: string) => currentQueryValue !== newQueryValue
-        )
-      : // Append if new value is not already selected
-        [...currentQueryValueInArrayType, newQueryValue]
-  }
-  const nextQueryValue = getNextQueryValue()
-  const nextQuery = { ...query, [name]: nextQueryValue }
-  return nextQuery
+  activeOptionLabels?: unknown[]
 }
 
 const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
@@ -80,25 +47,11 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
     setIsExpanded(defaultExpanded)
   }, [defaultExpanded])
 
-  // Method
-  const router = useRouter()
-  const { query, pathname, asPath } = router
+  // Methods
+  const { toggleQueryString } = useRouterQuery()
+
   const handleCheckboxChange = (option: FilterAccordionOptionInterface) => {
-    const nextQuery = getNextRouterQueryOnCheckboxChange(query, option, name)
-    const queryString = qs.stringify(nextQuery)
-    const nextAsPath = `${asPath.split('?')[0]}?${queryString}`
-    console.log('jjj: handleCheckboxChange', {
-      pathname,
-      query,
-      asPath,
-      nextQuery,
-      queryString,
-      nextAsPath,
-      router,
-    })
-    return router.push({ pathname, query: nextQuery }, nextAsPath, {
-      scroll: false,
-    })
+    return toggleQueryString({ [name]: option.value })
   }
 
   // Options

@@ -4,7 +4,7 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
 import { isPathMatch } from '@gravis-os/utils'
-import { useQuery, useQueryClient } from 'react-query'
+import { useQuery, useQueryClient, QueryOptions } from 'react-query'
 import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
 
@@ -19,6 +19,7 @@ export interface UserProviderProps {
   }: {
     user?: UserContextInterface['user']
   }) => UserContextInterface['user']
+  queryOptions?: QueryOptions<DbUser>
 }
 
 /**
@@ -34,6 +35,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     guestPaths: injectedGuestPaths = [],
     authRoutes,
     setUser,
+    queryOptions,
     ...rest
   } = props
 
@@ -59,7 +61,11 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   const dbUserQueryResult = useQuery<DbUser>(
     getDbUserFromAuthUserQueryKey,
     () => fetchDbUserFromAuthUser({ authUser }),
-    { enabled: Boolean(authUser) }
+    {
+      enabled: Boolean(authUser),
+      staleTime: 60000, // 60s
+      ...queryOptions,
+    }
   )
   const {
     data: dbUser,

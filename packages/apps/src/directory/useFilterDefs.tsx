@@ -3,6 +3,7 @@ import { useRouter, NextRouter } from 'next/router'
 import omit from 'lodash/omit'
 import startCase from 'lodash/startCase'
 import { ChipProps } from '@gravis-os/ui'
+import { useRouterQuery } from '@gravis-os/query'
 import { FilterChip, FilterDef } from './types'
 
 export interface UseFilterDefsProps {
@@ -29,7 +30,8 @@ export const useFilterDefs = (
 
   // Router
   const router = useRouter()
-  const { pathname, asPath, query } = router
+  const { pathname, query, asPath } = router
+  const { parsedQs, removeQueryString } = useRouterQuery()
 
   // Methods
   const getFilterDefByName = (
@@ -71,8 +73,8 @@ export const useFilterDefs = (
       </span>
     )
   }
-  const getFilterChipsFromQuery = (query: NextRouter['query']) => {
-    return Object.entries(query)
+  const getFilterChipsFromQuery = (parsedQs) => {
+    return Object.entries(parsedQs)
       .map(([key, value]) => {
         if (!value) return
 
@@ -88,25 +90,11 @@ export const useFilterDefs = (
       .filter(Boolean)
   }
 
-  const filterChips = getFilterChipsFromQuery(query)
+  const filterChips = getFilterChipsFromQuery(parsedQs)
 
   // Methods
-  const handleDeleteFilterChip = (filterChipToDelete: ChipProps) => {
-    console.log('jjj: handleDeleteFilterChip', {
-      filterChipToDelete,
-      pathname,
-      asPath,
-      query,
-      router,
-    })
-    return router.push(
-      {
-        pathname,
-        query: omit(query, filterChipToDelete.key),
-      },
-      asPath,
-      { scroll: false }
-    )
+  const handleDeleteFilterChip = (filterChipToDelete: FilterChip) => {
+    return removeQueryString(filterChipToDelete.key)
   }
   const getHasFilterChip = (key: string): boolean => {
     return filterChips.some((filterChip) => filterChip.key === key)
@@ -114,7 +102,7 @@ export const useFilterDefs = (
   const handleToggleIsFilterDrawerOpen = () =>
     setIsFilterDrawerOpen(!isFilterDrawerOpen)
 
-  return {
+  const result = {
     filterDefs,
     filterChips,
     isFilterDrawerOpen,
@@ -123,6 +111,8 @@ export const useFilterDefs = (
     handleDeleteFilterChip,
     handleToggleIsFilterDrawerOpen,
   }
+
+  return result
 }
 
 export default useFilterDefs
