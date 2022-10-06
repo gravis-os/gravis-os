@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.42
+
+### Patch Changes
+
+- [`940a235`](https://github.com/gravis-os/gravis-os/commit/940a2354d9bc36b27f900b35fa11b46e5ab71ff1) Thanks [@clodal](https://github.com/clodal)! - Minor update popper placement in HeaderButtonWithMenu
+
+* [`c81b149`](https://github.com/gravis-os/gravis-os/commit/c81b14932d8585628385d9dd1843d59dcab268fa) Thanks [@clodal](https://github.com/clodal)! - Enhance DirectoryTemplate mobile responsiveness
+
 ## 0.0.41
 
 ### Patch Changes
