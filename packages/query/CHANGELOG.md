@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.8
+
+### Patch Changes
+
+- [`4fcd8dd`](https://github.com/gravis-os/gravis-os/commit/4fcd8dd383ce1dc0e78de2b411419c9c077ee959) Thanks [@clodal](https://github.com/clodal)! - Update DirectoryTemplate to include pagination. Add RouterQuery. Refactored useFilterDefs.
+
 ## 0.0.7
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.43
+
+### Patch Changes
+
+- [`317f7f8`](https://github.com/gravis-os/gravis-os/commit/317f7f8266cf5d4a582a904c19ea92a569ba744d) Thanks [@clodal](https://github.com/clodal)! - Complete DirectoryTemplate pagination
+
 ## 0.0.42
 
 ### Patch Changes
