@@ -1,5 +1,14 @@
 # web
 
+## 0.0.17
+
+### Patch Changes
+
+- [`05c6f74`](https://github.com/gravis-os/gravis-os/commit/05c6f7457b83e5cc2340592765d7a0917cf1b118) Thanks [@clodal](https://github.com/clodal)! - Rename gravis-os/web to gravis-os/landing
+
+- Updated dependencies [[`05c6f74`](https://github.com/gravis-os/gravis-os/commit/05c6f7457b83e5cc2340592765d7a0917cf1b118)]:
+  - @gravis-os/landing@0.0.22
+
 ## 0.0.16
 
 ### Patch Changes
