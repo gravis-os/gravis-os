@@ -29,6 +29,8 @@ const getDisplayTitle = (title) => {
       return title ? 'Yes' : 'No'
     case typeof title === 'string' || React.isValidElement(title):
       return title
+    case typeof title === 'number' && !Number.isNaN(title):
+      return title
     default:
       return '-'
   }
