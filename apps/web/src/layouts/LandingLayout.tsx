@@ -5,7 +5,7 @@ import {
   BlocksProps,
   LandingLayout as GvsLandingLayout,
   LandingLayoutProps as GvsLandingLayoutProps,
-} from '@gravis-os/web'
+} from '@gravis-os/landing'
 import { NextSeo } from 'next-seo'
 import type { NextSeoProps } from 'next-seo'
 import layoutConfig from '../app/layoutConfig'

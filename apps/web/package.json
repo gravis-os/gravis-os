@@ -20,7 +20,7 @@
     "@gravis-os/storage": "*",
     "@gravis-os/ui": "*",
     "@gravis-os/utils": "*",
-    "@gravis-os/web": "*",
+    "@gravis-os/landing": "*",
     "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.78",
     "@mui/material": "^5.6.2",

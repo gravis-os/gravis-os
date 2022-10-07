@@ -3,7 +3,7 @@ import { addDecorator } from '@storybook/react'
 import { useDarkMode } from 'storybook-dark-mode'
 import Layout from './Layout'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { gravisLandingTheme } from '../../../packages/web/src/themes'
+import { gravisLandingTheme } from '@gravis-os/landing'
 import { CssBaseline } from '@mui/material'
 // Next 12
 import { RouterContext } from "next/dist/shared/lib/router-context"

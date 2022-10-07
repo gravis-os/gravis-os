@@ -6,7 +6,7 @@ const darkCodeTheme = require('prism-react-renderer/themes/dracula')
 /** @type {import('@docusaurus/types').Config} */
 const config = {
   title: 'Gravis-OS',
-  tagline: 'Develop fast, powerful web apps with Gravis-OS.',
+  tagline: 'Develop fast, powerful landing apps with Gravis-OS.',
   url: 'https://www.gravis-os.com/',
   baseUrl: '/',
   onBrokenLinks: 'throw',

@@ -1,4 +1,4 @@
-import { BlockItemTypeEnum, BlocksProps } from '@gravis-os/web'
+import { BlockItemTypeEnum, BlocksProps } from '@gravis-os/landing'
 import { ButtonProps } from '@gravis-os/ui'
 import { Theme } from '@mui/material'
 import auth0_svg from '../../public/endorsements/auth0.svg'
