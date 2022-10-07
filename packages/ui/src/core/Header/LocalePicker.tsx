@@ -45,7 +45,7 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
           <div>{title}</div>
         </Stack>
       ),
-      onClick: () => router.push(asPath, asPath, { locale }),
+      onClick: () => router.push(asPath, asPath, { locale: isoAlpha2 }),
     }
   })
 
