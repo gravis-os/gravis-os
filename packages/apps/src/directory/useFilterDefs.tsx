@@ -35,55 +35,62 @@ export const useFilterDefs = (
   const getFilterDefByName = (
     filterDefs: FilterDef[],
     name: string
-  ): FilterDef => {
-    return filterDefs?.find((filterDef) => filterDef.name === name)
-  }
-  const getFilterChipLabel = (key, value) => {
-    const getLabelFromFilterDefs = (
-      filterDefs,
-      key: string,
-      value: string | string[]
-    ) => {
-      const currentFilterDef = getFilterDefByName(filterDefs, key)
+  ): FilterDef => filterDefs?.find((filterDef) => filterDef.name === name)
+
+  const getFilterChipLabel = (
+    name: FilterDef['name'],
+    parsedQsValue: string
+  ) => {
+    // Get labelValues from filterDefs
+    const getLabelValuesFromFilterDefs = (filterDefs, name, parsedQsValue) => {
+      const currentFilterDef = getFilterDefByName(filterDefs, name)
       if (!currentFilterDef) return
 
-      const currentOption = currentFilterDef.options.find((option) =>
-        Array.isArray(value)
-          ? value.includes(option.value)
-          : option.value === value
-      )
+      // @example parsedQsValue = 'eq.4'
+      const [op, filterValue] = parsedQsValue.split('.')
+
+      const currentOption = currentFilterDef.options.find((option) => {
+        return Array.isArray(parsedQsValue)
+          ? parsedQsValue.includes(String(option.value))
+          : filterValue === String(option.value)
+      })
+
       if (!currentOption) return
 
       return currentOption.label
     }
 
-    const labelValues = Array.isArray(value)
-      ? value
-          .map((val) => getLabelFromFilterDefs(filterDefs, key, val))
+    const labelValues = Array.isArray(parsedQsValue)
+      ? parsedQsValue
+          .map((val) => getLabelValuesFromFilterDefs(filterDefs, name, val))
+          .filter(Boolean)
           .join(', ')
-      : getLabelFromFilterDefs(filterDefs, key, value)
+      : getLabelValuesFromFilterDefs(filterDefs, name, parsedQsValue)
 
     if (!labelValues) return
 
+    // Display label
+    const currentFilterDef = getFilterDefByName(filterDefs, name)
+    const displayLabel =
+      typeof currentFilterDef.label === 'string'
+        ? startCase(currentFilterDef.label)
+        : currentFilterDef.label
+
     return (
       <span>
-        <strong>{startCase(key)}</strong>: {labelValues}
+        <strong>{displayLabel}</strong>: {labelValues}
       </span>
     )
   }
   const getFilterChipsFromQuery = (parsedQs) => {
     return Object.entries(parsedQs)
-      .map(([key, value]) => {
+      .map(([name, value]: [name: string, value: string]) => {
         if (!value) return
 
-        const filterChipLabel = getFilterChipLabel(key, value)
+        const filterChipLabel = getFilterChipLabel(name, value)
         if (!filterChipLabel) return
 
-        return {
-          label: filterChipLabel,
-          key,
-          value,
-        }
+        return { key: name, value, label: filterChipLabel }
       })
       .filter(Boolean)
   }

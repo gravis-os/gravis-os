@@ -12,20 +12,21 @@ import {
   FormGroup,
 } from '@mui/material'
 import { useRouterQuery } from '@gravis-os/query'
+import { UseFilterDefsReturn } from './useFilterDefs'
+import { FilterDefOptionValue, FilterDef } from './types'
 
 export interface FilterAccordionOptionInterface {
-  value: string
-  label?: React.ReactNode
-  children?: React.ReactNode
+  key: string
+  value: FilterDefOptionValue
+  label: React.ReactNode
 }
 
-export interface FilterAccordionProps extends Omit<AccordionProps, 'children'> {
-  name: string
-  label?: React.ReactNode
-  options?: FilterAccordionOptionInterface[]
+export interface FilterAccordionProps extends FilterDef {
   optionsSortOrder?: boolean | 'asc' | 'desc'
   children?: React.ReactNode
   activeOptionLabels?: unknown[]
+  useFilterDefsProps?: UseFilterDefsReturn
+  accordionProps?: Omit<AccordionProps, 'children'>
 }
 
 const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
@@ -33,12 +34,14 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
     activeOptionLabels,
     label,
     children,
-    defaultExpanded,
     options,
     name,
     optionsSortOrder = 'asc',
-    ...rest
+    useFilterDefsProps,
+    op,
+    accordionProps = {},
   } = props
+  const { defaultExpanded } = accordionProps
 
   // Expanded
   const [isExpanded, setIsExpanded] = useState(defaultExpanded)
@@ -51,7 +54,8 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
   const { toggleQueryString } = useRouterQuery()
 
   const handleCheckboxChange = (option: FilterAccordionOptionInterface) => {
-    return toggleQueryString({ [name]: option.value })
+    const newQsItem = { [name]: `${op}.${option.value}` }
+    return toggleQueryString(newQsItem)
   }
 
   // Options
@@ -59,15 +63,15 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
     return (
       <FormGroup>
         {orderBy(options, ['label'], [optionsSortOrder]).map((option) => {
-          const { value, label, children } = option
-          const isChecked = activeOptionLabels.includes(value)
+          const { key, value, label } = option
+          const isChecked = activeOptionLabels.includes(`${op}.${value}`)
           return (
             <FormControlLabel
               checked={isChecked}
-              key={value}
+              key={key}
               onChange={() => handleCheckboxChange(option)}
               control={<Checkbox size="small" />}
-              label={children || label}
+              label={label}
               componentsProps={{
                 typography: { variant: 'body2' },
               }}
@@ -87,7 +91,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
       expanded={isExpanded}
       onChange={handleChange}
       disableGutters
-      {...rest}
+      {...accordionProps}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon sx={{ fontSize: 'overline.fontSize' }} />}

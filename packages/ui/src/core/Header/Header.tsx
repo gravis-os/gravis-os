@@ -123,6 +123,8 @@ const Header: React.FC<HeaderProps> = (props) => {
         sx,
       } = navItem
 
+      if (!navItem) return null
+
       const key = injectedKey || `nav-item-${i}`
 
       // Get classes

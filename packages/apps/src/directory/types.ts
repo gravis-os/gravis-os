@@ -7,16 +7,30 @@ export interface FilterChip {
   label: React.ReactNode
 }
 
+export type FilterDefOptionValue = string | number | boolean
+
 export interface FilterDef {
   key: string
-  name: string
-  label?: React.ReactNode
   placeholder?: string
+  /**
+   * The name of the column to filter on
+   */
+  name: string
+  /**
+   * The postgrest operator to use
+   */
+  op: string
+  label: React.ReactNode
+  /**
+   * An array of option values to filter on
+   */
   options: Array<{
     key: string
+    /**
+     * The value to filter on
+     */
+    value: FilterDefOptionValue
     label: string
-    value: string
-    children?: React.ReactNode
   }>
 }
 

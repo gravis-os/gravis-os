@@ -183,6 +183,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
 
                   const filterChipsWithCurrentFilterItemName =
                     filterChips.filter((filterChip) => filterChip.key === name)
+
                   const activeOptionLabels =
                     filterChipsWithCurrentFilterItemName
                       .map(({ value }) => value)
@@ -195,7 +196,8 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                     <FilterAccordion
                       key={key}
                       activeOptionLabels={activeOptionLabels}
-                      defaultExpanded={defaultExpanded}
+                      useFilterDefsProps={useFilterDefsProps}
+                      accordionProps={{ defaultExpanded }}
                       {...filterDef}
                     />
                   )
