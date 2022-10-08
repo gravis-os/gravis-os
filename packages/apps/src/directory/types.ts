@@ -20,7 +20,14 @@ export interface FilterDef {
   }>
 }
 
-export interface SortDef {}
+export interface SortDef {
+  key: string
+  value: Record<
+    string,
+    string | Array<string | string | Record<string, unknown>>
+  >
+  label: string
+}
 
 export interface Listing extends CrudItem {
   avatar_src?: string

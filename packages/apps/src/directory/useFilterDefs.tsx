@@ -29,8 +29,6 @@ export const useFilterDefs = (
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(true)
 
   // Router
-  const router = useRouter()
-  const { pathname, query, asPath } = router
   const { parsedQs, removeQueryString } = useRouterQuery()
 
   // Methods

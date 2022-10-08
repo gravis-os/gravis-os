@@ -28,14 +28,15 @@ export type NavItemClickFunction = (e: React.MouseEvent, item: any) => void
 
 export interface RecursiveNavItemInterface {
   key: string
-  title: string | React.ReactElement
+  title?: React.ReactNode
+  label?: React.ReactNode
   href?: string
   onClick?: NavItemClickFunction
 }
 
 export interface HeaderButtonWithMenuProps {
   key: string
-  title: React.ReactNode
+  title?: React.ReactNode
 
   items?: RecursiveNavItemInterface[]
   renderItems?: ({ popupState: PopupState }) => React.ReactElement
@@ -119,7 +120,9 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
                     '&:hover': { color: (theme) => theme.palette.primary.main },
                   }}
                 >
-                  <Typography variant="button">{item.title}</Typography>
+                  <Typography variant="button">
+                    {item.title || item.label}
+                  </Typography>
                 </MenuItem>
               )
 

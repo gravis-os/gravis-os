@@ -206,11 +206,14 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
             {/* Listings */}
             <Box component="main" sx={{ flexGrow: 1 }}>
               <Grid container {...gridProps}>
-                {items?.map((item) => (
-                  <Grid key={item.id} item xs={12} md={4} {...gridItemProps}>
-                    {renderItem({ item, queryResult })}
-                  </Grid>
-                ))}
+                {items?.map((item) => {
+                  if (!item) return null
+                  return (
+                    <Grid key={item.id} item xs={12} md={4} {...gridItemProps}>
+                      {renderItem({ item, queryResult })}
+                    </Grid>
+                  )
+                })}
               </Grid>
 
               {isInfinitePaginationType && (

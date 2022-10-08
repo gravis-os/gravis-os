@@ -31,7 +31,7 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
     handleDeleteFilterChip,
   } = useFilterDefsProps
 
-  const { sortDefs } = useSortDefsProps
+  const { currentSortDef, sortDefs, handleSortDefClick } = useSortDefsProps
 
   return (
     <AppBar
@@ -128,11 +128,17 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
               {/* Sort */}
               <HeaderButtonWithMenu
                 key="sort-by"
-                title="Sort By"
+                title={
+                  currentSortDef
+                    ? `Sort By: ${currentSortDef.label}`
+                    : 'Sort By'
+                }
                 disableBackdrop
-                // TODO@Joel: Fix this typing when we've decided on the shape of the sortDefs
-                items={sortDefs as any}
                 popperProps={{ placement: 'auto-end' }}
+                items={sortDefs.map((sortDef) => ({
+                  ...sortDef,
+                  onClick: () => handleSortDefClick(sortDef),
+                }))}
               />
             </Stack>
           </div>
