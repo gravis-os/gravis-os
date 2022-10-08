@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react'
-import orderBy from 'lodash/orderBy'
 import { Chip, Stack, Typography } from '@gravis-os/ui'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
@@ -13,7 +12,7 @@ import {
 } from '@mui/material'
 import { useRouterQuery } from '@gravis-os/query'
 import { UseFilterDefsReturn } from './useFilterDefs'
-import { FilterDefOptionValue, FilterDef } from './types'
+import { FilterDef, FilterDefOptionValue } from './types'
 
 export interface FilterAccordionOptionInterface {
   key: string
@@ -22,7 +21,6 @@ export interface FilterAccordionOptionInterface {
 }
 
 export interface FilterAccordionProps extends FilterDef {
-  optionsSortOrder?: boolean | 'asc' | 'desc'
   children?: React.ReactNode
   activeOptionLabels?: unknown[]
   useFilterDefsProps?: UseFilterDefsReturn
@@ -36,7 +34,6 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
     children,
     options,
     name,
-    optionsSortOrder = 'asc',
     useFilterDefsProps,
     op,
     accordionProps = {},
@@ -62,7 +59,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
   const renderOptions = (options: FilterAccordionOptionInterface[]) => {
     return (
       <FormGroup>
-        {orderBy(options, ['label'], [optionsSortOrder]).map((option) => {
+        {options.map((option) => {
           const { key, value, label } = option
           const isChecked = activeOptionLabels.includes(`${op}.${value}`)
           return (
