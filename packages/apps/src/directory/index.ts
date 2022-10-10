@@ -17,3 +17,6 @@ export * from './DirectoryTemplate'
 
 export { default as ListingCard } from './ListingCard'
 export * from './ListingCard'
+
+export { default as useFilterDefsFromDirectoryAttributes } from './useFilterDefsFromDirectoryAttributes'
+export * from './useFilterDefsFromDirectoryAttributes'

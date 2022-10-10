@@ -1,6 +1,4 @@
 import React, { useState } from 'react'
-import { useRouter, NextRouter } from 'next/router'
-import omit from 'lodash/omit'
 import startCase from 'lodash/startCase'
 import { ChipProps } from '@gravis-os/ui'
 import { useRouterQuery } from '@gravis-os/query'

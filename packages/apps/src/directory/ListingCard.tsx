@@ -15,9 +15,19 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
 
   if (!item) return null
 
+  const {
+    title,
+    subtitle,
+    avatar_src,
+    avatar_alt,
+    brand,
+    directory_category,
+    attribute_value,
+  } = item
+
   const listingHref = listingModule.getWebHref([
-    item.directory_category.directory,
-    item.directory_category,
+    directory_category.directory,
+    directory_category,
     item,
   ])
 
@@ -30,25 +40,30 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
       {...rest}
     >
       <Link href={listingHref}>
-        <StorageImage
-          src={item.avatar_src}
-          alt={item.avatar_alt || item.title}
-          scaleOnHover
-        />
+        <StorageImage src={avatar_src} alt={avatar_alt || title} scaleOnHover />
       </Link>
 
       <CardContent disableGutterBottom sx={{ height: '100%' }}>
         <Link
           variant="overline"
-          href={brandModule.getWebHref([item.brand])}
+          href={brandModule.getWebHref([brand])}
           color="secondary"
         >
-          {item.brand?.title}
+          {brand?.title}
         </Link>
         <Link variant="h4" href={listingHref}>
-          {item.title}
+          {title}
         </Link>
-        <Typography>{item.subtitle}</Typography>
+        <Typography>{subtitle}</Typography>
+
+        {attribute_value?.map((attributeValue) => {
+          return (
+            <Typography key={attributeValue.id}>
+              {attributeValue.attribute?.title}:{' '}
+              {attributeValue.attribute_option?.title}
+            </Typography>
+          )
+        })}
       </CardContent>
     </Card>
   )
