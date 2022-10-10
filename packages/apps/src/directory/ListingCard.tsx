@@ -15,15 +15,8 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
 
   if (!item) return null
 
-  const {
-    title,
-    subtitle,
-    avatar_src,
-    avatar_alt,
-    brand,
-    directory_category,
-    attribute_value,
-  } = item
+  const { title, subtitle, avatar_src, avatar_alt, brand, directory_category } =
+    item
 
   const listingHref = listingModule.getWebHref([
     directory_category.directory,
@@ -55,15 +48,6 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
           {title}
         </Link>
         <Typography>{subtitle}</Typography>
-
-        {attribute_value?.map((attributeValue) => {
-          return (
-            <Typography key={attributeValue.id}>
-              {attributeValue.attribute?.title}:{' '}
-              {attributeValue.attribute_option?.title}
-            </Typography>
-          )
-        })}
       </CardContent>
     </Card>
   )

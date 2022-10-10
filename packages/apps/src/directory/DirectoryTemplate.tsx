@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useInView } from 'react-intersection-observer'
 import {
   Box,
@@ -23,6 +23,8 @@ import FilterAccordion from './FilterAccordion'
 import { UseFilterDefsReturn } from './useFilterDefs'
 import { UseSortDefsReturn } from './useSortDefs'
 import FilterAppBar from './FilterAppBar'
+import ListingCard, { ListingCardProps } from './ListingCard'
+import ListingListItem, { ListingListItemProps } from './ListingListItem'
 
 export enum DirectoryPaginationTypeEnum {
   InfiniteScroll = 'infinite-scroll',
@@ -42,12 +44,17 @@ export interface DirectoryTemplateProps {
   variant?: DirectoryVariantEnum
   filterDrawerWidth?: number
 
-  renderItem: RenderPropsFunction<DirectoryTemplateRenderProps>
+  renderItem?: RenderPropsFunction<DirectoryTemplateRenderProps>
   useFilterDefsProps?: UseFilterDefsReturn
   useSortDefsProps?: UseSortDefsReturn
 
   gridProps?: GridProps
   gridItemProps?: GridProps
+
+  /**
+   * Additional itemProps
+   */
+  itemProps?: Record<string, any>
 
   // PaginationType
   pagination?: UsePaginationReturn
@@ -57,9 +64,22 @@ export interface DirectoryTemplateProps {
   }
 }
 
-export interface DirectoryTemplateRenderProps {
+const renderItemByDirectoryVariant = (props: DirectoryTemplateRenderProps) => {
+  const { variant } = props
+  switch (variant) {
+    case DirectoryVariantEnum.Grid:
+      return <ListingCard {...(props as unknown as ListingCardProps)} />
+    case DirectoryVariantEnum.List:
+      return <ListingListItem {...(props as unknown as ListingListItemProps)} />
+    default:
+      return <ListingCard {...(props as unknown as ListingCardProps)} />
+  }
+}
+
+export interface DirectoryTemplateRenderProps extends Record<string, any> {
   item: CrudItem
   queryResult?: DirectoryTemplateProps['queryResult']
+  variant: DirectoryTemplateProps['variant']
 }
 
 /**
@@ -71,14 +91,15 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const {
     title,
     items,
-    variant = DirectoryVariantEnum.Grid,
+    variant: injectedVariant = DirectoryVariantEnum.Grid,
     renderItem,
+    itemProps,
     pagination,
     paginationType = DirectoryPaginationTypeEnum.Pagination,
     useFilterDefsProps,
     useSortDefsProps,
-    gridProps,
-    gridItemProps,
+    gridProps: injectedGridProps,
+    gridItemProps: injectedGridItemProps,
     filterDrawerWidth = 240,
     queryResult,
   } = props
@@ -124,6 +145,26 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     if (!isDesktop && isFilterDrawerOpen) setFilterDrawerOpen(false)
   }, [isDesktop])
 
+  // Set view
+  const [variant, setVariant] = useState(injectedVariant)
+  useEffect(() => {
+    if (variant !== injectedVariant) setVariant(injectedVariant)
+  }, [injectedVariant])
+  const isListVariant = variant === DirectoryVariantEnum.List
+  const gridProps = { ...injectedGridProps }
+  const gridItemProps = {
+    ...injectedGridItemProps,
+    // Reset grids if isListVariant
+    ...(isListVariant && {
+      xs: 12,
+      sm: 12,
+      md: 12,
+      lg: 12,
+      xl: 12,
+    }),
+  }
+  const commonRenderItemProps = { variant, queryResult, ...itemProps }
+
   return (
     <>
       <FilterAppBar
@@ -131,6 +172,8 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
         subtitle={`(${pagination?.count || items?.length} results)`}
         useFilterDefsProps={useFilterDefsProps}
         useSortDefsProps={useSortDefsProps}
+        directoryVariant={variant}
+        setDirectoryVariant={setVariant}
       />
 
       <Box>
@@ -209,7 +252,12 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                   if (!item) return null
                   return (
                     <Grid key={item.id} item xs={12} md={4} {...gridItemProps}>
-                      {renderItem({ item, queryResult })}
+                      {renderItem
+                        ? renderItem({ item, ...commonRenderItemProps })
+                        : renderItemByDirectoryVariant({
+                            item,
+                            ...commonRenderItemProps,
+                          })}
                     </Grid>
                   )
                 })}
@@ -232,7 +280,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                     </Button>
                   ) : (
                     Boolean(items?.length) && (
-                      <Divider role="presentation" sx={{ width: '50%' }}>
+                      <Divider role="presentation" sx={{ width: '25%' }}>
                         <Typography variant="caption" color="text.secondary">
                           End
                         </Typography>

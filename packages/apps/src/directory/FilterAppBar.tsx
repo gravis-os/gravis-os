@@ -6,23 +6,38 @@ import {
   Button,
   Chip,
   Container,
-  Stack,
   HeaderButtonWithMenu,
+  Stack,
   Typography,
 } from '@gravis-os/ui'
-import { Toolbar } from '@mui/material'
+import { ToggleButton, ToggleButtonGroup, Toolbar } from '@mui/material'
+import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined'
+import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined'
+import MapOutlinedIcon from '@mui/icons-material/MapOutlined'
 import { UseFilterDefsReturn } from './useFilterDefs'
 import { UseSortDefsReturn } from './useSortDefs'
+import { DirectoryVariantEnum } from './DirectoryTemplate'
 
 export interface FilterAppBarProps {
   useFilterDefsProps?: UseFilterDefsReturn
   useSortDefsProps?: UseSortDefsReturn
   title?: string
   subtitle?: string
+  directoryVariant: DirectoryVariantEnum
+  setDirectoryVariant: React.Dispatch<
+    React.SetStateAction<DirectoryVariantEnum>
+  >
 }
 
 const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
-  const { title, subtitle, useFilterDefsProps, useSortDefsProps } = props
+  const {
+    title,
+    subtitle,
+    useFilterDefsProps,
+    useSortDefsProps,
+    directoryVariant,
+    setDirectoryVariant,
+  } = props
 
   const {
     isFilterDrawerOpen,
@@ -140,6 +155,24 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
                   onClick: () => handleSortDefClick(sortDef),
                 }))}
               />
+
+              {/* View */}
+              <ToggleButtonGroup
+                exclusive
+                size="small"
+                onChange={(e, value) => setDirectoryVariant(value)}
+                value={directoryVariant}
+              >
+                <ToggleButton value={DirectoryVariantEnum.Grid}>
+                  <GridViewOutlinedIcon fontSize="small" />
+                </ToggleButton>
+                <ToggleButton value={DirectoryVariantEnum.List}>
+                  <FormatListBulletedOutlinedIcon fontSize="small" />
+                </ToggleButton>
+                <ToggleButton value={DirectoryVariantEnum.Map}>
+                  <MapOutlinedIcon fontSize="small" />
+                </ToggleButton>
+              </ToggleButtonGroup>
             </Stack>
           </div>
         </Toolbar>
