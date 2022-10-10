@@ -3,19 +3,21 @@ import { DatePicker, DatePickerProps } from '@mui/x-date-pickers'
 import { TextField, TextFieldProps } from '@mui/material'
 
 export interface DateFieldProps
-  extends Omit<DatePickerProps<unknown, Date>, 'renderInput'> {
-  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
-  renderInput?: DatePickerProps<unknown, Date>['renderInput']
+  extends Partial<Omit<TextFieldProps, 'variant' | 'onChange'>> {
+  datePickerProps?: Partial<DatePickerProps<unknown, Date>>
+  onChange: DatePickerProps<unknown, Date>['onChange']
 }
 
 const DateField: React.FC<DateFieldProps> = (props) => {
-  const { textFieldProps, ...rest } = props
+  const { datePickerProps, onChange, value, ...rest } = props
 
   return (
     <DatePicker
-      renderInput={(props) => <TextField {...props} {...textFieldProps} />}
+      renderInput={(props) => <TextField {...props} {...rest} />}
       inputFormat="dd MMM yyyy"
-      {...rest}
+      onChange={onChange}
+      value={value}
+      {...datePickerProps}
     />
   )
 }
