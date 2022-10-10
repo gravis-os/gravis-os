@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import startCase from 'lodash/startCase'
 import { ChipProps } from '@gravis-os/ui'
 import { useRouterQuery } from '@gravis-os/query'
-import { FilterChip, FilterDef } from './types'
+import { FilterChip, FilterDef, FilterDefTypeEnum } from './types'
 
 export interface UseFilterDefsProps {
   filterDefs: FilterDef[]
@@ -47,15 +47,18 @@ export const useFilterDefs = (
       // @example parsedQsValue = 'eq.4'
       const [op, filterValue] = parsedQsValue.split('.')
 
-      const currentOption = currentFilterDef.options.find((option) => {
-        return Array.isArray(parsedQsValue)
-          ? parsedQsValue.includes(String(option.value))
-          : filterValue === String(option.value)
-      })
-
-      if (!currentOption) return
-
-      return currentOption.label
+      switch (currentFilterDef.type) {
+        case FilterDefTypeEnum.Input:
+          return filterValue.replaceAll('%', '')
+        default:
+          const currentOption = currentFilterDef.options.find((option) => {
+            return Array.isArray(parsedQsValue)
+              ? parsedQsValue.includes(String(option.value))
+              : filterValue === String(option.value)
+          })
+          if (!currentOption) return
+          return currentOption.label
+      }
     }
 
     const labelValues = Array.isArray(parsedQsValue)

@@ -9,8 +9,17 @@ export interface FilterChip {
 
 export type FilterDefOptionValue = string | number | boolean
 
+export enum FilterDefTypeEnum {
+  Input = 'input',
+  Checkbox = 'checkbox',
+}
+
 export interface FilterDef {
   key: string
+  /**
+   * @default 'checkbox'
+   */
+  type?: FilterDefTypeEnum
   placeholder?: string
   /**
    * The name of the column to filter on
@@ -24,7 +33,7 @@ export interface FilterDef {
   /**
    * An array of option values to filter on
    */
-  options: Array<{
+  options?: Array<{
     key: string
     /**
      * The value to filter on

@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Chip, Stack, Typography } from '@gravis-os/ui'
+import { TextField } from '@gravis-os/form'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
   Accordion,
@@ -11,27 +12,104 @@ import {
   FormGroup,
 } from '@mui/material'
 import { useRouterQuery } from '@gravis-os/query'
+import startCase from 'lodash/startCase'
 import { UseFilterDefsReturn } from './useFilterDefs'
-import { FilterDef, FilterDefOptionValue } from './types'
+import { FilterDef, FilterDefOptionValue, FilterDefTypeEnum } from './types'
 
 export interface FilterAccordionOptionInterface {
   key: string
   value: FilterDefOptionValue
-  label: React.ReactNode
+  label: string
 }
 
 export interface FilterAccordionProps extends FilterDef {
-  children?: React.ReactNode
   activeOptionLabels?: unknown[]
   useFilterDefsProps?: UseFilterDefsReturn
   accordionProps?: Omit<AccordionProps, 'children'>
+}
+
+export interface CommonRenderProps extends Omit<FilterDef, 'key'> {
+  filterChips?: UseFilterDefsReturn['filterChips']
+}
+export interface RenderOptionProps extends CommonRenderProps {
+  options: FilterAccordionOptionInterface[]
+  activeOptionLabels: FilterAccordionProps['activeOptionLabels']
+  handleCheckboxChange: (option: FilterAccordionOptionInterface) => void
+}
+const renderCheckboxes = (props: RenderOptionProps) => {
+  const { activeOptionLabels, handleCheckboxChange, options, op } = props
+  if (!options?.length) return null
+  return (
+    <FormGroup>
+      {options.map((option) => {
+        const { key, value, label } = option
+        const isChecked = activeOptionLabels.includes(`${op}.${value}`)
+        return (
+          <FormControlLabel
+            checked={isChecked}
+            key={key}
+            onChange={() => handleCheckboxChange(option)}
+            control={<Checkbox size="small" />}
+            label={label}
+            componentsProps={{
+              typography: { variant: 'body2' },
+            }}
+            sx={{
+              '&:hover': { backgroundColor: 'action.hover' },
+              '&:active': { backgroundColor: 'action.selected' },
+            }}
+          />
+        )
+      })}
+    </FormGroup>
+  )
+}
+
+export interface RenderInputProps extends CommonRenderProps {
+  handleInputChange: (inputValue: string) => void
+}
+const renderInput = (props: RenderInputProps) => {
+  const { name, label, handleInputChange, filterChips } = props
+
+  const currentFilterChip = filterChips?.find(
+    (filterChip) => filterChip.key === name
+  )
+
+  const handleSubmit = (e) => {
+    e.preventDefault()
+    const formData = Object.fromEntries(
+      (new FormData(e.target) as any).entries()
+    )
+    const inputValue = formData[name]
+    return handleInputChange(inputValue)
+  }
+
+  // Intentionally keeping this field uncontrolled because we don't want to mount the state up
+  const defaultValue =
+    typeof currentFilterChip?.value === 'string'
+      ? currentFilterChip?.value.replaceAll('%', '').replace('ilike.', '')
+      : ''
+
+  return (
+    <form onSubmit={handleSubmit}>
+      <TextField
+        // Add a key to force re-render when the defaultValue changes
+        key={defaultValue}
+        name={name}
+        disableLabel
+        defaultValue={defaultValue}
+        size="small"
+        placeholder={startCase(typeof label === 'string' ? label : name)}
+      />
+    </form>
+  )
 }
 
 const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
   const {
     activeOptionLabels,
     label,
-    children,
+    type = 'checkbox',
     options,
     name,
     useFilterDefsProps,
@@ -48,39 +126,41 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
   }, [defaultExpanded])
 
   // Methods
-  const { toggleQueryString } = useRouterQuery()
+  const { toggleQueryString, replaceQueryString } = useRouterQuery()
+
+  const handleInputChange = (inputValue) => {
+    if (!inputValue) return
+
+    const newQsItem = { [name]: `${op}.%${inputValue}%` }
+    return replaceQueryString(newQsItem)
+  }
 
   const handleCheckboxChange = (option: FilterAccordionOptionInterface) => {
     const newQsItem = { [name]: `${op}.${option.value}` }
     return toggleQueryString(newQsItem)
   }
 
-  // Options
-  const renderOptions = (options: FilterAccordionOptionInterface[]) => {
-    return (
-      <FormGroup>
-        {options.map((option) => {
-          const { key, value, label } = option
-          const isChecked = activeOptionLabels.includes(`${op}.${value}`)
-          return (
-            <FormControlLabel
-              checked={isChecked}
-              key={key}
-              onChange={() => handleCheckboxChange(option)}
-              control={<Checkbox size="small" />}
-              label={label}
-              componentsProps={{
-                typography: { variant: 'body2' },
-              }}
-              sx={{
-                '&:hover': { backgroundColor: 'action.hover' },
-                '&:active': { backgroundColor: 'action.selected' },
-              }}
-            />
-          )
-        })}
-      </FormGroup>
-    )
+  const { filterChips } = useFilterDefsProps || {}
+  const commonRenderProps = { name, op, label, filterChips }
+  const renderInputProps = {
+    ...commonRenderProps,
+    handleInputChange,
+  }
+  const renderOptionProps = {
+    ...commonRenderProps,
+    activeOptionLabels,
+    options,
+    handleCheckboxChange,
+  }
+
+  const renderChildren = () => {
+    switch (type) {
+      case FilterDefTypeEnum.Input:
+        return renderInput(renderInputProps)
+      case FilterDefTypeEnum.Checkbox:
+      default:
+        return renderCheckboxes(renderOptionProps)
+    }
   }
 
   return (
@@ -135,7 +215,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
           px: { xs: 2, md: 3 },
         }}
       >
-        {children || renderOptions(options)}
+        {renderChildren()}
       </AccordionDetails>
     </Accordion>
   )

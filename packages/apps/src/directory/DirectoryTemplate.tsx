@@ -177,7 +177,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                 }}
               >
                 {filterDefs?.map((filterDef) => {
-                  const { key, name, options } = filterDef
+                  const { key, name } = filterDef
 
                   const defaultExpanded = getHasFilterChip(name) || true
 
@@ -188,9 +188,6 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                     filterChipsWithCurrentFilterItemName
                       .map(({ value }) => value)
                       .flat()
-
-                  const hasOptions = options?.length
-                  if (!hasOptions) return null
 
                   return (
                     <FilterAccordion
