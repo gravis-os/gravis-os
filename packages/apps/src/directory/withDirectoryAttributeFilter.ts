@@ -19,14 +19,13 @@ const withDirectoryAttributeFilter = () => (props) => {
   )
 
   const hasAttrFilters = attrFilters.length > 0
+  if (!hasAttrFilters) return props
 
   // Replace the attribute_value with !inner to filter across when attribute is present
-  const nextSelect = hasAttrFilters
-    ? module.select.list.replace(
-        'attribute_value(id, attribute(*), attribute_option(*))',
-        'attribute_value!inner(id, attribute!inner(*), attribute_option!inner(*))'
-      )
-    : module.select.list
+  const nextSelect = module.select.list.replace(
+    'attribute_value(id, attribute(*), attribute_option(*))',
+    'attribute_value!inner(id, attribute!inner(*), attribute_option!inner(*))'
+  )
 
   /**
    * Limitation, only allowed to filter by at least one attribute
