@@ -20,3 +20,6 @@ export * from './ListingCard'
 
 export { default as useFilterDefsFromDirectoryAttributes } from './useFilterDefsFromDirectoryAttributes'
 export * from './useFilterDefsFromDirectoryAttributes'
+
+export { default as withDirectoryAttributeFilter } from './withDirectoryAttributeFilter'
+export * from './withDirectoryAttributeFilter'
