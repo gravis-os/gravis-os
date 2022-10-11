@@ -56,7 +56,9 @@
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
     "lodash": "^4.17.21",
+    "mapbox-gl": "^2.10.0",
     "react-intersection-observer": "^9.4.0",
+    "react-use-measure": "^2.1.1",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3"
   },
@@ -105,6 +107,7 @@
     "@supabase/supabase-js": "^1.35.6",
     "@svgr/rollup": "^5.5.0",
     "@svgr/webpack": "^5.5.0",
+    "@types/mapbox-gl": "^2.7.6",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.0",
     "@types/styled-components": "^5.1.4",

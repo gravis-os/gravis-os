@@ -81,3 +81,14 @@ export interface Listing extends CrudItem {
     directory: any
   }
 }
+
+export enum DirectoryVariantEnum {
+  Grid = 'grid',
+  List = 'list',
+}
+
+export enum DirectoryPaginationTypeEnum {
+  InfiniteScroll = 'infinite-scroll',
+  Pagination = 'pagination',
+  LoadMore = 'load-more',
+}

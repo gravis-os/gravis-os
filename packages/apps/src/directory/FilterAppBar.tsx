@@ -16,7 +16,7 @@ import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBullet
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined'
 import { UseFilterDefsReturn } from './useFilterDefs'
 import { UseSortDefsReturn } from './useSortDefs'
-import { DirectoryVariantEnum } from './DirectoryTemplate'
+import { DirectoryVariantEnum } from './types'
 
 export interface FilterAppBarProps {
   useFilterDefsProps?: UseFilterDefsReturn
@@ -27,6 +27,8 @@ export interface FilterAppBarProps {
   setDirectoryVariant: React.Dispatch<
     React.SetStateAction<DirectoryVariantEnum>
   >
+  showMap: boolean
+  setShowMap: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
@@ -37,6 +39,8 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
     useSortDefsProps,
     directoryVariant,
     setDirectoryVariant,
+    showMap,
+    setShowMap,
   } = props
 
   const {
@@ -169,10 +173,16 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
                 <ToggleButton value={DirectoryVariantEnum.List}>
                   <FormatListBulletedOutlinedIcon fontSize="small" />
                 </ToggleButton>
-                <ToggleButton value={DirectoryVariantEnum.Map}>
-                  <MapOutlinedIcon fontSize="small" />
-                </ToggleButton>
               </ToggleButtonGroup>
+
+              <Button
+                color="inherit"
+                onClick={() => setShowMap(!showMap)}
+                startIcon={<MapOutlinedIcon fontSize="small" />}
+                sx={{ display: { xs: 'none', md: 'inline-flex' } }}
+              >
+                {showMap ? 'Hide' : 'Show'} Map
+              </Button>
             </Stack>
           </div>
         </Toolbar>

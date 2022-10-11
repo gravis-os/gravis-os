@@ -1,85 +1,22 @@
 import React, { useEffect, useState } from 'react'
-import { useInView } from 'react-intersection-observer'
-import {
-  Box,
-  Button,
-  CircularProgress,
-  Container,
-  Divider,
-  Grid,
-  GridProps,
-  Typography,
-} from '@gravis-os/ui'
-import { CrudItem, RenderPropsFunction } from '@gravis-os/types'
-import { UsePaginationReturn } from '@gravis-os/query'
-import {
-  Pagination,
-  SwipeableDrawer,
-  useMediaQuery,
-  useTheme,
-} from '@mui/material'
-import { UseInfiniteQueryResult, UseQueryResult } from 'react-query'
-import FilterAccordion from './FilterAccordion'
+import { Box, Container } from '@gravis-os/ui'
+import { useMediaQuery, useTheme } from '@mui/material'
 import { UseFilterDefsReturn } from './useFilterDefs'
 import { UseSortDefsReturn } from './useSortDefs'
 import FilterAppBar from './FilterAppBar'
-import ListingCard, { ListingCardProps } from './ListingCard'
-import ListingListItem, { ListingListItemProps } from './ListingListItem'
+import DirectoryDrawer from './DirectoryDrawer'
+import FilterAccordions from './FilterAccordions'
+import DirectoryListings, { DirectoryListingsProps } from './DirectoryListings'
+import { DirectoryVariantEnum, DirectoryPaginationTypeEnum } from './types'
+import BottomDrawer from './BottomDrawer'
+import MapDrawer from './MapDrawer'
+import { DIRECTORY_LISTING_GRID_ITEM_MIN_WIDTH } from './constants'
 
-export enum DirectoryPaginationTypeEnum {
-  InfiniteScroll = 'infinite-scroll',
-  Pagination = 'pagination',
-  LoadMore = 'load-more',
-}
-
-export enum DirectoryVariantEnum {
-  Grid = 'grid',
-  List = 'list',
-  Map = 'map',
-}
-
-export interface DirectoryTemplateProps {
+export interface DirectoryTemplateProps extends DirectoryListingsProps {
   title?: string
-  items?: CrudItem[]
-  variant?: DirectoryVariantEnum
   filterDrawerWidth?: number
-
-  renderItem?: RenderPropsFunction<DirectoryTemplateRenderProps>
   useFilterDefsProps?: UseFilterDefsReturn
   useSortDefsProps?: UseSortDefsReturn
-
-  gridProps?: GridProps
-  gridItemProps?: GridProps
-
-  /**
-   * Additional itemProps
-   */
-  itemProps?: Record<string, any>
-
-  // PaginationType
-  pagination?: UsePaginationReturn
-  paginationType?: DirectoryPaginationTypeEnum
-  queryResult: (UseInfiniteQueryResult | UseQueryResult) & {
-    pagination: UsePaginationReturn
-  }
-}
-
-const renderItemByDirectoryVariant = (props: DirectoryTemplateRenderProps) => {
-  const { variant } = props
-  switch (variant) {
-    case DirectoryVariantEnum.Grid:
-      return <ListingCard {...(props as unknown as ListingCardProps)} />
-    case DirectoryVariantEnum.List:
-      return <ListingListItem {...(props as unknown as ListingListItemProps)} />
-    default:
-      return <ListingCard {...(props as unknown as ListingCardProps)} />
-  }
-}
-
-export interface DirectoryTemplateRenderProps extends Record<string, any> {
-  item: CrudItem
-  queryResult?: DirectoryTemplateProps['queryResult']
-  variant: DirectoryTemplateProps['variant']
 }
 
 /**
@@ -98,46 +35,14 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     paginationType = DirectoryPaginationTypeEnum.Pagination,
     useFilterDefsProps,
     useSortDefsProps,
-    gridProps: injectedGridProps,
-    gridItemProps: injectedGridItemProps,
+    gridProps,
+    gridItemProps,
     filterDrawerWidth = 240,
     queryResult,
   } = props
 
-  const isInfiniteScroll =
-    paginationType === DirectoryPaginationTypeEnum.InfiniteScroll
-  const isLoadMore = paginationType === DirectoryPaginationTypeEnum.LoadMore
-  const isInfinitePaginationType = isInfiniteScroll || isLoadMore
-  const isRegularPagination =
-    paginationType === DirectoryPaginationTypeEnum.Pagination
-
-  const {
-    setFilterDrawerOpen,
-    isFilterDrawerOpen,
-    filterDefs,
-    getHasFilterChip,
-    filterChips,
-  } = useFilterDefsProps
-
-  // InfiniteQuery setup
-  const { isLoading } = queryResult
-  const hasNextPage = isInfinitePaginationType
-    ? (queryResult as UseInfiniteQueryResult).hasNextPage
-    : pagination?.hasNextPage
-  const isFetchingNextPage =
-    isInfinitePaginationType &&
-    (queryResult as UseInfiniteQueryResult).isFetchingNextPage
-  const fetchNextPage =
-    isInfinitePaginationType &&
-    (queryResult as UseInfiniteQueryResult).fetchNextPage
-  const { ref, inView } = useInView()
-
-  // Effect: Infinite scroll
-  useEffect(() => {
-    if (isInfiniteScroll && inView && !isLoading && hasNextPage) fetchNextPage()
-  }, [inView, isLoading, hasNextPage])
-
   // Effect: Hide drawer on mobile, switch to overlay drawer
+  const { setFilterDrawerOpen, isFilterDrawerOpen } = useFilterDefsProps
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
   useEffect(() => {
@@ -145,169 +50,101 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     if (!isDesktop && isFilterDrawerOpen) setFilterDrawerOpen(false)
   }, [isDesktop])
 
-  // Set view
+  // State: Variant
   const [variant, setVariant] = useState(injectedVariant)
   useEffect(() => {
     if (variant !== injectedVariant) setVariant(injectedVariant)
   }, [injectedVariant])
-  const isListVariant = variant === DirectoryVariantEnum.List
-  const gridProps = { ...injectedGridProps }
-  const gridItemProps = {
-    ...injectedGridItemProps,
-    // Reset grids if isListVariant
-    ...(isListVariant && {
-      xs: 12,
-      sm: 12,
-      md: 12,
-      lg: 12,
-      xl: 12,
-    }),
-  }
-  const commonRenderItemProps = { variant, queryResult, ...itemProps }
+
+  // State: Map
+  const [showMap, setShowMap] = useState(true)
+  const [expandMap, setExpandMap] = useState(false)
+
+  // State: Bottom drawer
+  const [showBottomDrawer, setShowBottomDrawer] = useState(true)
+
+  const directoryListingsJsx = (
+    <DirectoryListings
+      gridProps={gridProps}
+      gridItemProps={gridItemProps}
+      items={items}
+      itemProps={itemProps}
+      paginationType={paginationType}
+      pagination={pagination}
+      queryResult={queryResult}
+      renderItem={renderItem}
+      variant={variant}
+    />
+  )
+
+  const itemsCount = pagination?.count || items?.length
 
   return (
     <>
       <FilterAppBar
-        title={`${title}`}
-        subtitle={`(${pagination?.count || items?.length} results)`}
+        title={title}
+        subtitle={`(${itemsCount} results)`}
         useFilterDefsProps={useFilterDefsProps}
         useSortDefsProps={useSortDefsProps}
         directoryVariant={variant}
         setDirectoryVariant={setVariant}
+        showMap={showMap}
+        setShowMap={setShowMap}
       />
 
       <Box>
         <Container maxWidth={false} disableGutters>
           {/* Directory */}
-          <Box sx={{ display: 'flex' }}>
+          <Box
+            sx={{
+              display: 'flex',
+              position: 'relative',
+              minHeight: { xs: '100vh', md: 'initial' },
+            }}
+          >
             {/* Filter Drawer */}
-            <SwipeableDrawer
+            <DirectoryDrawer
               open={isFilterDrawerOpen}
-              variant={isDesktop ? 'permanent' : 'temporary'}
-              {...(!isDesktop && {
-                onClose: () => setFilterDrawerOpen(false),
-                onOpen: () => setFilterDrawerOpen(true),
-              })}
-              sx={{
-                '&, & .MuiDrawer-paper': {
-                  width: '90%',
-                  ...(isDesktop && {
-                    height: 'initial',
-                    width: isFilterDrawerOpen ? filterDrawerWidth : 0,
-                    top: 48, // FilterAppBar height is always at 48
-                    position: 'sticky',
-                    transition: (theme) =>
-                      theme.transitions.create(['width'], {
-                        easing:
-                          theme.transitions.easing[
-                            isFilterDrawerOpen ? 'sharp' : 'easeOut'
-                          ],
-                        duration:
-                          theme.transitions.duration[
-                            isFilterDrawerOpen
-                              ? 'leavingScreen'
-                              : 'enteringScreen'
-                          ],
-                      }),
-                  }),
-                },
-              }}
+              setOpen={setFilterDrawerOpen}
+              width={filterDrawerWidth}
             >
-              <Box
-                sx={{
-                  overflow: 'auto',
-                  height: (theme) => `calc(100vh - ${theme.spacing(8)})`,
-                }}
-              >
-                {filterDefs?.map((filterDef) => {
-                  const { key, name } = filterDef
-
-                  const defaultExpanded = getHasFilterChip(name) || true
-
-                  const filterChipsWithCurrentFilterItemName =
-                    filterChips.filter((filterChip) => filterChip.key === name)
-
-                  const activeOptionLabels =
-                    filterChipsWithCurrentFilterItemName
-                      .map(({ value }) => value)
-                      .flat()
-
-                  return (
-                    <FilterAccordion
-                      key={key}
-                      activeOptionLabels={activeOptionLabels}
-                      useFilterDefsProps={useFilterDefsProps}
-                      accordionProps={{ defaultExpanded }}
-                      {...filterDef}
-                    />
-                  )
-                })}
-              </Box>
-            </SwipeableDrawer>
+              <FilterAccordions useFilterDefsProps={useFilterDefsProps} />
+            </DirectoryDrawer>
 
             {/* Listings */}
-            <Box component="main" sx={{ flexGrow: 1 }}>
-              <Grid container {...gridProps}>
-                {items?.map((item) => {
-                  if (!item) return null
-                  return (
-                    <Grid key={item.id} item xs={12} md={4} {...gridItemProps}>
-                      {renderItem
-                        ? renderItem({ item, ...commonRenderItemProps })
-                        : renderItemByDirectoryVariant({
-                            item,
-                            ...commonRenderItemProps,
-                          })}
-                    </Grid>
-                  )
-                })}
-              </Grid>
+            {isDesktop ? (
+              <Box
+                component="main"
+                sx={{
+                  flexGrow: 1,
+                  minWidth: DIRECTORY_LISTING_GRID_ITEM_MIN_WIDTH,
+                  // Mobile view for map
+                  position: { xs: 'absolute', md: 'static' },
+                  height: { xs: '100%', md: 'inherit' },
+                  zIndex: { xs: 1, md: 'initial' },
+                }}
+              >
+                {directoryListingsJsx}
+              </Box>
+            ) : (
+              <BottomDrawer
+                title={`${itemsCount} Results`}
+                open={showBottomDrawer}
+                setOpen={setShowBottomDrawer}
+              >
+                {directoryListingsJsx}
+              </BottomDrawer>
+            )}
 
-              {isInfinitePaginationType && (
-                <Box ref={ref} sx={{ my: { xs: 2, md: 4 } }} center>
-                  {isLoading || isFetchingNextPage ? (
-                    <CircularProgress />
-                  ) : hasNextPage ? (
-                    <Button
-                      color="secondary"
-                      size="large"
-                      loading={isFetchingNextPage}
-                      onClick={() => fetchNextPage()}
-                      disabled={isFetchingNextPage}
-                      fullWidthOnMobile
-                    >
-                      Load More
-                    </Button>
-                  ) : (
-                    Boolean(items?.length) && (
-                      <Divider role="presentation" sx={{ width: '25%' }}>
-                        <Typography variant="caption" color="text.secondary">
-                          End
-                        </Typography>
-                      </Divider>
-                    )
-                  )}
-                </Box>
-              )}
-
-              {isRegularPagination && pagination && (
-                <Box sx={{ my: { xs: 3, md: 6 } }} center>
-                  <Pagination
-                    size="large"
-                    disabled={queryResult.isFetching}
-                    showFirstButton={pagination.hasPrevPage}
-                    showLastButton={pagination.hasNextPage}
-                    hideNextButton={!pagination.hasNextPage}
-                    hidePrevButton={!pagination.hasPrevPage}
-                    count={pagination.pageCount}
-                    page={pagination.page}
-                    onChange={(_, newPageNumber) =>
-                      pagination.setPage(newPageNumber)
-                    }
-                  />
-                </Box>
-              )}
-            </Box>
+            {/* Map Draawer */}
+            <MapDrawer
+              useFilterDefsProps={useFilterDefsProps}
+              width={filterDrawerWidth}
+              showMap={showMap}
+              setShowMap={setShowMap}
+              expandMap={expandMap}
+              setExpandMap={setExpandMap}
+            />
           </Box>
         </Container>
       </Box>
