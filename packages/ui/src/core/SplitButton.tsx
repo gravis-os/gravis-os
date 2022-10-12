@@ -21,7 +21,7 @@ export interface SplitButtonOption<T = string> {
 
 interface SplitButtonProps extends Omit<ButtonProps, 'onClick' | 'onChange'> {
   options: SplitButtonOption[]
-  onClick: (option: SplitButtonOption, event: SyntheticEvent) => void
+  onClick?: (option: SplitButtonOption, event: SyntheticEvent) => void
   onChange?: (option: SplitButtonOption) => void
 }
 
@@ -33,7 +33,7 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
   const { label, render } = options[selectedIndex] || {}
 
   const handleButtonClick = (event: SyntheticEvent) => {
-    onClick(options[selectedIndex], event)
+    onClick?.(options[selectedIndex], event)
   }
 
   const handleMenuItemClick = (event, index) => {

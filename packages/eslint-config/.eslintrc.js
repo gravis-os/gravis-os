@@ -36,7 +36,7 @@ module.exports = {
     'arrow-body-style': 0,
     'no-shadow': 0,
     'no-case-declarations': 0,
-    'no-use-before-define': 1,
+    'no-use-before-define': 0,
     'no-nested-ternary': 1,
     camelcase: 1,
     'consistent-return': 1,
@@ -52,6 +52,7 @@ module.exports = {
     '@typescript-eslint/no-empty-interface': 0,
     '@typescript-eslint/no-unused-vars': 1,
     '@typescript-eslint/ban-ts-comment': 1,
+    '@typescript-eslint/no-use-before-define': 1,
     // a11y
     'jsx-a11y/anchor-is-valid': 0,
     // React
