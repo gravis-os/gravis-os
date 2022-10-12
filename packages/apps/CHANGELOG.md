@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.0.35
+
+### Patch Changes
+
+- [`5332ba5`](https://github.com/gravis-os/gravis-os/commit/5332ba5e8ae36f880eb31c59e15cd8f028604d33) Thanks [@clodal](https://github.com/clodal)! - Enhance map functionality in apps/directory
+
+* [`c347d87`](https://github.com/gravis-os/gravis-os/commit/c347d875b7fbe1a647b9853ebf9be22655bed326) Thanks [@clodal](https://github.com/clodal)! - Add list view to directory template
+
+- [`3615d97`](https://github.com/gravis-os/gravis-os/commit/3615d97765b304e9af3a2f8b1ee08583ea43a5fe) Thanks [@clodal](https://github.com/clodal)! - Add working attribute filters in apps/directory
+
+* [`b7c7df9`](https://github.com/gravis-os/gravis-os/commit/b7c7df9326086800244ec94025f12d20ccc91afc) Thanks [@clodal](https://github.com/clodal)! - Fix issue with slug not updated when title changes
+
+- [`9f1bf0d`](https://github.com/gravis-os/gravis-os/commit/9f1bf0da943d28c82bf616f88a33607b62c81eac) Thanks [@clodal](https://github.com/clodal)! - Enhance useSortDef hook
+
+* [`0539143`](https://github.com/gravis-os/gravis-os/commit/053914356f5d608fd2737c602a935650cb880b07) Thanks [@clodal](https://github.com/clodal)! - Add markers to Map in apps/Directory
+
+- [`f46833e`](https://github.com/gravis-os/gravis-os/commit/f46833e6f429fa21fa26dbc1125fe39cae6ca0d7) Thanks [@clodal](https://github.com/clodal)! - Add ability to hide map based on directory setting
+
+* [`983e5d1`](https://github.com/gravis-os/gravis-os/commit/983e5d1b9bb3cfe9b62ab13db5a8119570a5f333) Thanks [@clodal](https://github.com/clodal)! - Add useDirectoryBrandsFilterDef
+
+- [`d6841eb`](https://github.com/gravis-os/gravis-os/commit/d6841ebae028843b7f1a89fa6917101741512afe) Thanks [@clodal](https://github.com/clodal)! - Add working filters in DirectoryTemplate
+
+* [`950c471`](https://github.com/gravis-os/gravis-os/commit/950c471dc86eccc12e568b9475675b61c7706e9c) Thanks [@clodal](https://github.com/clodal)! - Add withDirectoryAttributeFilter for use in apps/directory"
+
+- [`cc217b4`](https://github.com/gravis-os/gravis-os/commit/cc217b4d1d2bf45090cb624f6038e3d41a83afa5) Thanks [@clodal](https://github.com/clodal)! - Add FilterDefTypeEnum to allow search field filter by ilike
+
+- Updated dependencies [[`b672ce7`](https://github.com/gravis-os/gravis-os/commit/b672ce7503db0594b2116b1c73ff0f89829005bd), [`b7c7df9`](https://github.com/gravis-os/gravis-os/commit/b7c7df9326086800244ec94025f12d20ccc91afc), [`d0d66e6`](https://github.com/gravis-os/gravis-os/commit/d0d66e68d9406ef6a97beb5af080994cc5630daf), [`caa5991`](https://github.com/gravis-os/gravis-os/commit/caa59913cc9a04f14fc4d198caa8b1e6ba11fac2), [`9f1bf0d`](https://github.com/gravis-os/gravis-os/commit/9f1bf0da943d28c82bf616f88a33607b62c81eac), [`1df7833`](https://github.com/gravis-os/gravis-os/commit/1df783323b18a5975caa1a2ef94de5b5d499fd0a), [`d6841eb`](https://github.com/gravis-os/gravis-os/commit/d6841ebae028843b7f1a89fa6917101741512afe), [`bebf1fa`](https://github.com/gravis-os/gravis-os/commit/bebf1fa87f163e3a42320f9edb53dbb26f19ea50), [`cc217b4`](https://github.com/gravis-os/gravis-os/commit/cc217b4d1d2bf45090cb624f6038e3d41a83afa5)]:
+  - @gravis-os/ui@0.0.44
+  - @gravis-os/form@0.0.68
+  - @gravis-os/crud@0.0.51
+  - @gravis-os/query@0.0.9
+
 ## 0.0.34
 
 ### Patch Changes

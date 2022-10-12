@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.68
+
+### Patch Changes
+
+- [`b7c7df9`](https://github.com/gravis-os/gravis-os/commit/b7c7df9326086800244ec94025f12d20ccc91afc) Thanks [@clodal](https://github.com/clodal)! - Fix issue with slug not updated when title changes
+
+- Updated dependencies [[`b672ce7`](https://github.com/gravis-os/gravis-os/commit/b672ce7503db0594b2116b1c73ff0f89829005bd), [`caa5991`](https://github.com/gravis-os/gravis-os/commit/caa59913cc9a04f14fc4d198caa8b1e6ba11fac2), [`9f1bf0d`](https://github.com/gravis-os/gravis-os/commit/9f1bf0da943d28c82bf616f88a33607b62c81eac), [`1df7833`](https://github.com/gravis-os/gravis-os/commit/1df783323b18a5975caa1a2ef94de5b5d499fd0a), [`d6841eb`](https://github.com/gravis-os/gravis-os/commit/d6841ebae028843b7f1a89fa6917101741512afe), [`bebf1fa`](https://github.com/gravis-os/gravis-os/commit/bebf1fa87f163e3a42320f9edb53dbb26f19ea50)]:
+  - @gravis-os/ui@0.0.44
+
 ## 0.0.67
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.0.11
+
+### Patch Changes
+
+- [#95](https://github.com/gravis-os/gravis-os/pull/95) [`e360dbc`](https://github.com/gravis-os/gravis-os/commit/e360dbc6e080feeb117eb0e05bf704a861a3edb5) Thanks [@al1xt](https://github.com/al1xt)! - Update eslint-config
+
 ## 0.0.10
 
 ### Patch Changes

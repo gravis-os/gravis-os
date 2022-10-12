@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.44
+
+### Patch Changes
+
+- [`b672ce7`](https://github.com/gravis-os/gravis-os/commit/b672ce7503db0594b2116b1c73ff0f89829005bd) Thanks [@clodal](https://github.com/clodal)! - Fix crash in Header announcements
+
+* [`caa5991`](https://github.com/gravis-os/gravis-os/commit/caa59913cc9a04f14fc4d198caa8b1e6ba11fac2) Thanks [@clodal](https://github.com/clodal)! - Fix minor issue with LocalePicker not switching
+
+- [`9f1bf0d`](https://github.com/gravis-os/gravis-os/commit/9f1bf0da943d28c82bf616f88a33607b62c81eac) Thanks [@clodal](https://github.com/clodal)! - Enhance useSortDef hook
+
+* [#97](https://github.com/gravis-os/gravis-os/pull/97) [`1df7833`](https://github.com/gravis-os/gravis-os/commit/1df783323b18a5975caa1a2ef94de5b5d499fd0a) Thanks [@al1xt](https://github.com/al1xt)! - Make onClick optional in SplitButton
+
+- [`d6841eb`](https://github.com/gravis-os/gravis-os/commit/d6841ebae028843b7f1a89fa6917101741512afe) Thanks [@clodal](https://github.com/clodal)! - Add working filters in DirectoryTemplate
+
+* [`bebf1fa`](https://github.com/gravis-os/gravis-os/commit/bebf1fa87f163e3a42320f9edb53dbb26f19ea50) Thanks [@clodal](https://github.com/clodal)! - Add guard in Header to prevent crash
+
 ## 0.0.43
 
 ### Patch Changes

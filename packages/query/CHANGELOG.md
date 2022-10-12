@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.9
+
+### Patch Changes
+
+- [`cc217b4`](https://github.com/gravis-os/gravis-os/commit/cc217b4d1d2bf45090cb624f6038e3d41a83afa5) Thanks [@clodal](https://github.com/clodal)! - Add FilterDefTypeEnum to allow search field filter by ilike
+
 ## 0.0.8
 
 ### Patch Changes
