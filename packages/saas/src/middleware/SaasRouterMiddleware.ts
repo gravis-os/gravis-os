@@ -20,7 +20,8 @@ export interface SaasRouterMiddlewareProps {
   authorizationFailureRedirectTo: string
   modulesConfig: GetIsPermittedInSaaSMiddlewareProps['modulesConfig']
   userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
-  guestPaths?: string[]
+  guestPaths?: GetIsPermittedInSaaSMiddlewareProps['guestPaths']
+  validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
 }
 
 /**
@@ -41,6 +42,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     modulesConfig,
     userModule,
     guestPaths = [],
+    validRoles = [],
   } = props
 
   return async (req: NextRequest, event: NextFetchEvent) => {
@@ -68,7 +70,6 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       subdomain,
       nakedDomain,
       workspacesPathnamePrefix,
-      locale,
       // Checks
       isApiRoute,
       isAuthRoute,
@@ -98,7 +99,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       })
     }
 
-    // The sequence of these checks is important
+    // The sequence of these checks is important.
     switch (true) {
       case SCENARIOS.isLoggedInAndAtLoginPage:
         /**
@@ -170,15 +171,15 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         }
 
         // Redirect existing users to the dashboard if already logged in
-        url.pathname = authenticationSuccessRedirectTo
+        // Check if the user role has a custom redirect route
+        const authenticationSuccessRedirectRoute =
+          role?.authentication_success_redirect_route ||
+          authenticationSuccessRedirectTo
+
+        url.pathname = authenticationSuccessRedirectRoute
         return NextResponse.redirect(url)
       case SCENARIOS.isApiOrAuthRoute:
         // Allow auth routes and api routes to pass through
-        if (isDebug && !isApiRoute) {
-          console.log(`♻️ [DEBUG] Middleware isAuthRoute Passthrough`, {
-            isAuthRoute,
-          })
-        }
         return NextResponse.next()
       case SCENARIOS.isNakedDomainBaseRoute:
         // Redirect to app.hostname to preserve the nakedDomain for the landing page
@@ -228,6 +229,8 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
                 userModule,
                 subdomain,
                 pathname,
+                validRoles,
+                guestPaths,
               })(req)
 
               // Final: Only allow the user to pass through if all checks pass

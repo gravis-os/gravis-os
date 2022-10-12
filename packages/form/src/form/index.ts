@@ -85,6 +85,9 @@ export * from './utils/withoutId'
 export { default as withSkipOnSubmit } from './utils/withSkipOnSubmit'
 export * from './utils/withSkipOnSubmit'
 
+export { default as getIsArrayColumn } from './utils/getIsArrayColumn'
+export * from './utils/getIsArrayColumn'
+
 // ==============================
 // Effects
 // ==============================

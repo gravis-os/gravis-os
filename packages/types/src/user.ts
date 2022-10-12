@@ -7,6 +7,8 @@ export interface Permission {
 export interface Role {
   title: string
   permission: Permission[]
+  valid_subdirectory_pathnames?: string[]
+  authentication_success_redirect_route?: string
 }
 export interface Feature {
   title: string

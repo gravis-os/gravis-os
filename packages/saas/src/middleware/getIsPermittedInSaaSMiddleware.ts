@@ -1,6 +1,7 @@
 import { NextRequest } from 'next/server'
 import { CrudModule } from '@gravis-os/types'
 import { fetchDbUserFromMiddleware } from '@gravis-os/middleware'
+import { isPathMatch, getGuestPaths } from '@gravis-os/utils'
 import saasConfig from '../config/saasConfig'
 import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 import getIsValidPermissions from '../utils/getIsValidPermissions'
@@ -14,6 +15,17 @@ export interface GetIsPermittedInSaaSMiddlewareProps {
   // Get parts of the route needed to calculate the permissions
   pathname?: string
   subdomain?: string
+
+  /**
+   * A list of role.titles that are defined in the database
+   * @default []
+   */
+  validRoles?: string[]
+  /**
+   * A list of paths that are accessible to guests
+   * @default []
+   */
+  guestPaths?: string[]
 }
 
 /**
@@ -24,7 +36,15 @@ export interface GetIsPermittedInSaaSMiddlewareProps {
 const getIsPermittedInSaaSMiddleware = (
   props: GetIsPermittedInSaaSMiddlewareProps
 ) => {
-  const { authUser, userModule, modulesConfig, pathname, subdomain } = props
+  const {
+    validRoles = [],
+    guestPaths = [],
+    authUser,
+    userModule,
+    modulesConfig,
+    pathname,
+    subdomain,
+  } = props
 
   return async (req: NextRequest): Promise<boolean> => {
     // Handle degenerate cases
@@ -41,10 +61,27 @@ const getIsPermittedInSaaSMiddleware = (
 
     // 3. Check if the role is a valid role by duck-typing the role title
     const roleTitle = role.title
-    const isValidRole = saasConfig.VALID_ROLES.includes(roleTitle)
+    const isValidRole = [
+      ...saasConfig.DEFAULT_VALID_ROLES,
+      ...validRoles,
+    ].includes(roleTitle)
     if (!isValidRole) throw new Error('Invalid user role!')
 
-    // 4. If this is a module route, check if the user has the permissions to access the module
+    // 4. Check if the user is permitted to access the subdirectory defined in his/her role.
+    const validSubdirectoryPathnames = role.valid_subdirectory_pathnames
+    if (!validSubdirectoryPathnames) {
+      throw new Error('Role `valid_subdirectory_pathnames` property missing!')
+    }
+    const validPaths = getGuestPaths([
+      ...guestPaths,
+      ...validSubdirectoryPathnames,
+    ])
+    const isPermittedToAccessSubdirectory = isPathMatch(pathname, validPaths)
+    if (!isPermittedToAccessSubdirectory) {
+      throw new Error('Invalid subdirectory for this role!')
+    }
+
+    // 5. If this is a module route, check if the user has the permissions to access the module
     // Get the module by the module route to find the table name
     const module = modulesConfig.find((module) =>
       pathname.startsWith(module?.route?.plural || '')
@@ -59,7 +96,7 @@ const getIsPermittedInSaaSMiddleware = (
       throw new Error('Insufficient permissions!')
     }
 
-    // 5. Check if the user has the permission to access this workspace
+    // 6. Check if the user has the permission to access this workspace
     const isValidWorkspace = workspace?.slug === subdomain
     const isAdmin = getIsAdminRole(role)
     if (!isAdmin && !isValidWorkspace) {

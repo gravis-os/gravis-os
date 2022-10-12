@@ -3,7 +3,7 @@ import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
-import { isPathMatch } from '@gravis-os/utils'
+import { isPathMatch, getGuestPaths } from '@gravis-os/utils'
 import { useQuery, useQueryClient, QueryOptions } from 'react-query'
 import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
@@ -112,7 +112,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     ? getSaaSRoutePathname({ pathname: injectedPathname, query })
     : injectedPathname
 
-  const guestPaths = ['/', '/auth/*', ...injectedGuestPaths]
+  const guestPaths = getGuestPaths(injectedGuestPaths)
   const isGuestPath = isPathMatch(pathname, guestPaths)
 
   // Loader

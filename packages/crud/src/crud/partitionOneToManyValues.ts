@@ -1,4 +1,4 @@
-import { ARRAY_COLUMN_KEY_SUFFIXES } from '@gravis-os/form'
+import { getIsArrayColumn } from '@gravis-os/form'
 import { ONE_TO_MANY_KEY_SUFFIXES } from '../constants'
 
 // Find 12m relations as they need to be managed separately later
@@ -13,9 +13,7 @@ const partitionOneToManyValues = (values) => {
 
       // Exclude certain array columns from being treated as 1:m.
       // This is to allow for array columns to be used as normal columns.
-      const isArrayColumn = ARRAY_COLUMN_KEY_SUFFIXES.some((char) =>
-        key.endsWith(char)
-      )
+      const isArrayColumn = getIsArrayColumn(value as unknown[])
 
       const isOneToManyKey =
         !isArrayColumn && (isArrayValue || (isValidKeyName && isUndefinedValue))

@@ -6,13 +6,12 @@ import { handleSignIn } from './SupabaseAuth'
 import useUserRedirectEffect from './useUserRedirectEffect'
 
 export interface LoginFormProps extends Partial<FormProps<any>> {
-  redirectTo?: string // Success redirect to
   authOptions?: Record<string, unknown>
   boxProps?: Partial<AuthBoxProps>
 }
 
 const LoginForm: React.FC<LoginFormProps> = (props) => {
-  const { authOptions, boxProps, redirectTo, ...rest } = props
+  const { authOptions, boxProps, ...rest } = props
 
   useUserRedirectEffect()
 

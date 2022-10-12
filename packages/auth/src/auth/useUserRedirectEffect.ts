@@ -42,9 +42,15 @@ const useUserRedirectEffect = () => {
 
       // Outcome: Workspace Login
       toast.success('Successfully signed into workspace')
-      return router.push(
-        `/_workspaces/[workspace]${authRoutes.authenticationSuccessRedirect}`,
+
+      // Redirect existing users to the dashboard if already logged in
+      // Check if the user role has a custom redirect route
+      const successRedirectRoute =
+        role?.authentication_success_redirect_route ||
         authRoutes.authenticationSuccessRedirect
+      return router.push(
+        `/_workspaces/[workspace]${successRedirectRoute}`,
+        successRedirectRoute
       )
     }
 
