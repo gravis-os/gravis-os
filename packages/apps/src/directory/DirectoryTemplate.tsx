@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Box, Container } from '@gravis-os/ui'
 import { useMediaQuery, useTheme } from '@mui/material'
 import { UseFilterDefsReturn } from './useFilterDefs'

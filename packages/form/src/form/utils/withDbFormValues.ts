@@ -77,10 +77,10 @@ const withDbFormValues = (options: WithDbFormValuesOptions) => (values) => {
 
   const nextValues = {
     ...values,
-    updated_at: new Date().toISOString(),
-    ...slugValues,
-    ...isNewValues,
     ...idValues,
+    updated_at: new Date().toISOString(),
+    ...isNewValues,
+    ...slugValues,
   }
 
   return omitRelationalObjects(nextValues)
