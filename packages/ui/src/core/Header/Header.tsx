@@ -415,7 +415,7 @@ const Header: React.FC<HeaderProps> = (props) => {
         >
           <Container {...containerProps}>
             <Typography variant="subtitle2" color="inherit">
-              {announcements[0].title}
+              {announcements[0]?.title}
             </Typography>
           </Container>
         </Box>
