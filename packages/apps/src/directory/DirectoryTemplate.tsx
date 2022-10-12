@@ -14,6 +14,7 @@ import { DIRECTORY_LISTING_GRID_ITEM_MIN_WIDTH } from './constants'
 
 export interface DirectoryTemplateProps extends DirectoryListingsProps {
   title?: string
+  enableMap?: boolean
   filterDrawerWidth?: number
   useFilterDefsProps?: UseFilterDefsReturn
   useSortDefsProps?: UseSortDefsReturn
@@ -27,6 +28,7 @@ export interface DirectoryTemplateProps extends DirectoryListingsProps {
 const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const {
     title,
+    enableMap,
     items,
     variant: injectedVariant = DirectoryVariantEnum.Grid,
     renderItem,
@@ -40,6 +42,8 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     filterDrawerWidth = 240,
     queryResult,
   } = props
+
+  const itemsCount = pagination?.count || items?.length
 
   // Effect: Hide drawer on mobile, switch to overlay drawer
   const { setFilterDrawerOpen, isFilterDrawerOpen } = useFilterDefsProps
@@ -61,29 +65,6 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const [expandMap, setExpandMap] = useState(false)
 
   // State: Bottom drawer
-  const [showBottomDrawer, setShowBottomDrawer] = useState(true)
-
-  // Map Props
-  const mapProps = useMemo(() => {
-    return {
-      markers: items
-        ?.map((item) => {
-          if (!item) return
-
-          const { id, title, subtitle, lat, lng } = item
-          if (!lat && !lng) return
-
-          return {
-            id,
-            type: 'Feature',
-            geometry: { type: 'Point', coordinates: [lng, lat] },
-            properties: { title, subtitle },
-          }
-        })
-        ?.filter(Boolean),
-    }
-  }, [items])
-
   const directoryListingsJsx = (
     <DirectoryListings
       gridProps={gridProps}
@@ -98,41 +79,13 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     />
   )
 
-  const itemsCount = pagination?.count || items?.length
+  const [showBottomDrawer, setShowBottomDrawer] = useState(true)
 
-  return (
-    <>
-      <FilterAppBar
-        title={title}
-        subtitle={`(${itemsCount} results)`}
-        useFilterDefsProps={useFilterDefsProps}
-        useSortDefsProps={useSortDefsProps}
-        directoryVariant={variant}
-        setDirectoryVariant={setVariant}
-        showMap={showMap}
-        setShowMap={setShowMap}
-      />
-
-      <Box>
-        <Container maxWidth={false} disableGutters>
-          {/* Directory */}
-          <Box
-            sx={{
-              display: 'flex',
-              position: 'relative',
-              minHeight: { xs: '100vh', md: 'initial' },
-            }}
-          >
-            {/* Filter Drawer */}
-            <DirectoryDrawer
-              open={isFilterDrawerOpen}
-              setOpen={setFilterDrawerOpen}
-              width={filterDrawerWidth}
-            >
-              <FilterAccordions useFilterDefsProps={useFilterDefsProps} />
-            </DirectoryDrawer>
-
-            {/* Listings */}
+  const renderDirectoryListings = () => {
+    switch (true) {
+      case enableMap:
+        return (
+          <>
             {isDesktop ? (
               <Box
                 component="main"
@@ -156,17 +109,63 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                 {directoryListingsJsx}
               </BottomDrawer>
             )}
+          </>
+        )
+      default:
+        return (
+          <Box component="main" sx={{ flexGrow: 1 }}>
+            {directoryListingsJsx}
+          </Box>
+        )
+    }
+  }
 
-            {/* Map Draawer */}
-            <MapDrawer
-              useFilterDefsProps={useFilterDefsProps}
+  return (
+    <>
+      <FilterAppBar
+        title={title}
+        subtitle={`(${itemsCount} results)`}
+        useFilterDefsProps={useFilterDefsProps}
+        useSortDefsProps={useSortDefsProps}
+        directoryVariant={variant}
+        setDirectoryVariant={setVariant}
+        {...(enableMap && { showMap, setShowMap })}
+      />
+
+      <Box>
+        <Container maxWidth={false} disableGutters>
+          {/* Directory */}
+          <Box
+            sx={{
+              display: 'flex',
+              position: 'relative',
+              minHeight: { xs: '100vh', md: 'initial' },
+            }}
+          >
+            {/* Filter Drawer */}
+            <DirectoryDrawer
+              open={isFilterDrawerOpen}
+              setOpen={setFilterDrawerOpen}
               width={filterDrawerWidth}
-              showMap={showMap}
-              setShowMap={setShowMap}
-              expandMap={expandMap}
-              setExpandMap={setExpandMap}
-              mapProps={mapProps}
-            />
+            >
+              <FilterAccordions useFilterDefsProps={useFilterDefsProps} />
+            </DirectoryDrawer>
+
+            {/* Listings */}
+            {renderDirectoryListings()}
+
+            {/* Map Drawer */}
+            {enableMap && (
+              <MapDrawer
+                useFilterDefsProps={useFilterDefsProps}
+                width={filterDrawerWidth}
+                showMap={showMap}
+                setShowMap={setShowMap}
+                expandMap={expandMap}
+                setExpandMap={setExpandMap}
+                items={items}
+              />
+            )}
           </Box>
         </Container>
       </Box>

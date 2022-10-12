@@ -27,8 +27,8 @@ export interface FilterAppBarProps {
   setDirectoryVariant: React.Dispatch<
     React.SetStateAction<DirectoryVariantEnum>
   >
-  showMap: boolean
-  setShowMap: React.Dispatch<React.SetStateAction<boolean>>
+  showMap?: boolean
+  setShowMap?: React.Dispatch<React.SetStateAction<boolean>>
 }
 
 const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
@@ -175,14 +175,16 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
                 </ToggleButton>
               </ToggleButtonGroup>
 
-              <Button
-                color="inherit"
-                onClick={() => setShowMap(!showMap)}
-                startIcon={<MapOutlinedIcon fontSize="small" />}
-                sx={{ display: { xs: 'none', md: 'inline-flex' } }}
-              >
-                {showMap ? 'Hide' : 'Show'} Map
-              </Button>
+              {typeof showMap === 'boolean' && setShowMap && (
+                <Button
+                  color="inherit"
+                  onClick={() => setShowMap(!showMap)}
+                  startIcon={<MapOutlinedIcon fontSize="small" />}
+                  sx={{ display: { xs: 'none', md: 'inline-flex' } }}
+                >
+                  {showMap ? 'Hide' : 'Show'} Map
+                </Button>
+              )}
             </Stack>
           </div>
         </Toolbar>

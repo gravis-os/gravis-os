@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useMemo } from 'react'
 import { Box, IconButton } from '@gravis-os/ui'
 import dynamic from 'next/dynamic'
 import KeyboardTabOutlinedIcon from '@mui/icons-material/KeyboardTabOutlined'
 import DirectoryDrawer, { DirectoryDrawerProps } from './DirectoryDrawer'
 import { UseFilterDefsReturn } from './useFilterDefs'
 import type { MapProps } from './Map'
+import { DirectoryListingsProps } from './DirectoryListings'
 
 const Map = dynamic(() => import('./Map'), { ssr: false })
 
@@ -16,6 +17,7 @@ export interface MapDrawerProps {
   useFilterDefsProps: UseFilterDefsReturn
   width: DirectoryDrawerProps['width']
   mapProps?: MapProps
+  items?: DirectoryListingsProps['items']
 }
 
 const MapDrawer: React.FC<MapDrawerProps> = (props) => {
@@ -26,10 +28,31 @@ const MapDrawer: React.FC<MapDrawerProps> = (props) => {
     expandMap,
     setExpandMap,
     useFilterDefsProps,
-    mapProps,
+    mapProps: injectedMapProps,
+    items,
   } = props
 
   const { setFilterDrawerOpen } = useFilterDefsProps
+
+  const mapProps = useMemo(() => {
+    return {
+      markers: items
+        ?.map((item) => {
+          if (!item) return
+
+          const { id, title, subtitle, lat, lng } = item
+          if (!lat && !lng) return
+
+          return {
+            id,
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [lng, lat] },
+            properties: { title, subtitle },
+          }
+        })
+        ?.filter(Boolean),
+    }
+  }, [items])
 
   return (
     <DirectoryDrawer
@@ -81,7 +104,7 @@ const MapDrawer: React.FC<MapDrawerProps> = (props) => {
           </IconButton>
         </Box>
 
-        <Map shouldResize={expandMap} {...mapProps} />
+        <Map shouldResize={expandMap} {...injectedMapProps} {...mapProps} />
       </Box>
     </DirectoryDrawer>
   )
