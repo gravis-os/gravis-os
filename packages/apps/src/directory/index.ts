@@ -21,8 +21,11 @@ export * from './ListingCard'
 export { default as ListingListItem } from './ListingListItem'
 export * from './ListingListItem'
 
-export { default as useFilterDefsFromDirectoryAttributes } from './useFilterDefsFromDirectoryAttributes'
-export * from './useFilterDefsFromDirectoryAttributes'
+export { default as useDirectoryAttributesFilterDefs } from './useDirectoryAttributesFilterDefs'
+export * from './useDirectoryAttributesFilterDefs'
 
 export { default as withDirectoryAttributeFilter } from './withDirectoryAttributeFilter'
 export * from './withDirectoryAttributeFilter'
+
+export { default as useDirectoryBrandsFilterDef } from './useDirectoryBrandsFilterDef'
+export * from './useDirectoryBrandsFilterDef'

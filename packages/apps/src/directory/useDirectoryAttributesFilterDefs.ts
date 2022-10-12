@@ -2,9 +2,7 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useQuery } from 'react-query'
 import { Attribute, AttributeOption, FilterDef } from './types'
 
-const useFilterDefsFromDirectoryAttributes = (props: {
-  directory_id?: number
-}) => {
+const useDirectoryAttributesFilterDefs = (props: { directory_id?: number }) => {
   const { directory_id } = props
 
   const fetchDirectoryAttributes = async () => {
@@ -67,4 +65,4 @@ const useFilterDefsFromDirectoryAttributes = (props: {
   return filterDefsFromDirectoryAttributes
 }
 
-export default useFilterDefsFromDirectoryAttributes
+export default useDirectoryAttributesFilterDefs

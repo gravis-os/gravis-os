@@ -67,8 +67,12 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const mapProps = useMemo(() => {
     return {
       markers: items
-        ?.map(({ id, title, subtitle, lat, lng }) => {
+        ?.map((item) => {
+          if (!item) return
+
+          const { id, title, subtitle, lat, lng } = item
           if (!lat && !lng) return
+
           return {
             id,
             type: 'Feature',
