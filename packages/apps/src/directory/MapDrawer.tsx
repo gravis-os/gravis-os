@@ -4,6 +4,7 @@ import dynamic from 'next/dynamic'
 import KeyboardTabOutlinedIcon from '@mui/icons-material/KeyboardTabOutlined'
 import DirectoryDrawer, { DirectoryDrawerProps } from './DirectoryDrawer'
 import { UseFilterDefsReturn } from './useFilterDefs'
+import type { MapProps } from './Map'
 
 const Map = dynamic(() => import('./Map'), { ssr: false })
 
@@ -14,6 +15,7 @@ export interface MapDrawerProps {
   setExpandMap: React.Dispatch<React.SetStateAction<boolean>>
   useFilterDefsProps: UseFilterDefsReturn
   width: DirectoryDrawerProps['width']
+  mapProps?: MapProps
 }
 
 const MapDrawer: React.FC<MapDrawerProps> = (props) => {
@@ -24,6 +26,7 @@ const MapDrawer: React.FC<MapDrawerProps> = (props) => {
     expandMap,
     setExpandMap,
     useFilterDefsProps,
+    mapProps,
   } = props
 
   const { setFilterDrawerOpen } = useFilterDefsProps
@@ -78,7 +81,7 @@ const MapDrawer: React.FC<MapDrawerProps> = (props) => {
           </IconButton>
         </Box>
 
-        <Map shouldResize={expandMap} />
+        <Map shouldResize={expandMap} {...mapProps} />
       </Box>
     </DirectoryDrawer>
   )

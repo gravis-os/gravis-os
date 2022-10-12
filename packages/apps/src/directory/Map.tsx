@@ -1,42 +1,56 @@
 import React, { useRef, useEffect, useState } from 'react'
 import { Box } from '@gravis-os/ui'
 import { useTheme } from '@mui/material/styles'
+import xor from 'lodash/xor'
 // @ts-ignore
 // eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
 import mapboxgl from '!mapbox-gl'
-
-const geoJson = {
-  type: 'FeatureCollection',
-  features: [
-    {
-      type: 'Feature',
-      geometry: {
-        type: 'Point',
-        coordinates: [103.80967623079266, 1.3539376362829643],
-      },
-      properties: {
-        title: 'Singapore',
-        description: 'Pass this through from the frontend.',
-      },
-    },
-  ],
-}
 
 mapboxgl.accessToken =
   'pk.eyJ1IjoiZGV2MXh0IiwiYSI6ImNsOTMwZHIxMTBhZmE0MW52dGM0MXN3NWUifQ.kJvt1dnjnb3apHqAkCIdfA'
 
 export interface MapProps {
   shouldResize?: boolean
+  markers?: Array<{
+    id: number
+    type: string // 'Feature'
+    geometry: {
+      type: string // 'Point'
+      coordinates: number[] // Lng, Lat
+    }
+    properties: {
+      title?: string
+      subtitle?: string
+    }
+  }>
 }
 
+/**
+ * We need a cache to store the markers in the map to access them again later
+ * for removal. This is necessary because the mapbox-gl library does not provide a way
+ * for us to do so.
+ *
+ * Q. Why is this variable outside the component instead of using state?
+ * Performance reasons, setState will cause re-renders which may bring about
+ * unnecessary performance issues for something as heavy as this map.
+ *
+ * Q. Why do we have to use let instead of const?
+ * We also have to reset the cache when the markers change hence we have to
+ * use `let`.
+ *
+ * For more info, see:
+ * @link https://stackoverflow.com/a/55917076/3532313
+ */
+let mapMarkers = []
+
 const Map = (props: MapProps) => {
-  const { shouldResize }: any = props
+  const { shouldResize, markers: injectedMarkers } = props
 
   const theme = useTheme()
   const mapContainerRef = useRef(null)
   const [mapInstance, setMapInstance] = useState(null)
 
-  // Initialize map when component mounts
+  // Effect: Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({
       container: mapContainerRef.current,
@@ -44,25 +58,6 @@ const Map = (props: MapProps) => {
       center: [103.80967623079266, 1.3539376362829643],
       zoom: 11,
     })
-
-    // add markers to map
-    // eslint-disable-next-line no-restricted-syntax
-    for (const feature of geoJson.features) {
-      // create a HTML element for each feature
-      const el = document.createElement('div')
-      el.className = 'marker'
-
-      // make a marker for each feature and add it to the map
-      new mapboxgl.Marker({ color: theme.palette.primary.main })
-        .setLngLat(feature.geometry.coordinates)
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(
-              `<h3>${feature.properties.title}</h3><p>${feature.properties.description}</p>`
-            )
-        )
-        .addTo(map)
-    }
 
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), 'top-right')
@@ -74,6 +69,7 @@ const Map = (props: MapProps) => {
     return () => map.remove()
   }, [])
 
+  // Effect: Resize map
   useEffect(() => {
     if (mapInstance && window) {
       // Only able to trigger resize after adding timeout
@@ -81,6 +77,48 @@ const Map = (props: MapProps) => {
       window.setTimeout(() => mapInstance.resize(), 200)
     }
   }, [shouldResize])
+
+  // Effect: Add/Remove markers when data changes
+  const injectedMarkerIds = injectedMarkers.map(({ id }) => id)
+  const mapMarkerIds = mapMarkers.map(({ id }) => id)
+  const hasMarkersChanged = Boolean(xor(injectedMarkerIds, mapMarkerIds).length)
+  useEffect(() => {
+    if (!mapInstance) return
+
+    // Clear all markers. We have to do this imperatively.
+    // @link https://stackoverflow.com/a/55917076/3532313
+    mapMarkers.forEach(({ instance }) => instance.remove())
+    mapMarkers = []
+
+    // Add the new markers
+    injectedMarkers?.forEach((feature) => {
+      // create a HTML element for each feature
+      const el = document.createElement('div')
+      el.className = 'marker'
+
+      // Make a marker for each feature and add it to the map
+      const newMapMarker = new mapboxgl.Marker({
+        color: theme.palette.primary.main,
+      })
+        .setLngLat(feature.geometry.coordinates)
+        .setPopup(
+          new mapboxgl.Popup({ offset: 25 }) // add popups
+            .setHTML(
+              [
+                `<h3>${feature.properties.title}</h3>`,
+                feature.properties.subtitle &&
+                  `<p>${feature.properties.subtitle}</p>`,
+              ]
+                .filter(Boolean)
+                .join('')
+            )
+        )
+        .addTo(mapInstance)
+
+      // Add to cache to remove later
+      mapMarkers.push({ id: feature.id, instance: newMapMarker })
+    })
+  }, [hasMarkersChanged])
 
   return (
     <div>

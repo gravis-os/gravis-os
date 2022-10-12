@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useMemo, useState } from 'react'
 import { Box, Container } from '@gravis-os/ui'
 import { useMediaQuery, useTheme } from '@mui/material'
 import { UseFilterDefsReturn } from './useFilterDefs'
@@ -62,6 +62,23 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
 
   // State: Bottom drawer
   const [showBottomDrawer, setShowBottomDrawer] = useState(true)
+
+  // Map Props
+  const mapProps = useMemo(() => {
+    return {
+      markers: items
+        ?.map(({ id, title, subtitle, lat, lng }) => {
+          if (!lat && !lng) return
+          return {
+            id,
+            type: 'Feature',
+            geometry: { type: 'Point', coordinates: [lng, lat] },
+            properties: { title, subtitle },
+          }
+        })
+        ?.filter(Boolean),
+    }
+  }, [items])
 
   const directoryListingsJsx = (
     <DirectoryListings
@@ -144,6 +161,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
               setShowMap={setShowMap}
               expandMap={expandMap}
               setExpandMap={setExpandMap}
+              mapProps={mapProps}
             />
           </Box>
         </Container>

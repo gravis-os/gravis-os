@@ -16,7 +16,11 @@ import { useInView } from 'react-intersection-observer'
 import { UsePaginationReturn } from '@gravis-os/query'
 import ListingCard, { ListingCardProps } from './ListingCard'
 import ListingListItem, { ListingListItemProps } from './ListingListItem'
-import { DirectoryVariantEnum, DirectoryPaginationTypeEnum } from './types'
+import {
+  DirectoryVariantEnum,
+  DirectoryPaginationTypeEnum,
+  Listing,
+} from './types'
 import { DIRECTORY_LISTING_GRID_ITEM_MIN_WIDTH } from './constants'
 
 const renderItemByDirectoryVariant = (props: DirectoryTemplateRenderProps) => {
@@ -38,7 +42,7 @@ export interface DirectoryTemplateRenderProps extends Record<string, any> {
 }
 
 export interface DirectoryListingsProps {
-  items?: CrudItem[]
+  items?: Listing[]
 
   renderItem?: RenderPropsFunction<DirectoryTemplateRenderProps>
   itemProps?: Record<string, any>

@@ -76,6 +76,8 @@ export interface Listing extends CrudItem {
   avatar_alt?: string
   title: string
   subtitle?: string
+  lat?: number
+  lng?: number
   brand: any
   directory_category: {
     directory: any
