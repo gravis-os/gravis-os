@@ -211,6 +211,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               },
               ...leftAsideListItemProps,
             }}
+            sx={{
+              marginBottom: {
+                // eslint-disable-next-line no-nested-ternary
+                xs: isMiniVariantLeftAsideClosed
+                  ? disableClipUnderAppBar
+                    ? 0
+                    : `${headerHeight}px`
+                  : 0,
+                sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
+              },
+            }}
           />
         </ResponsiveDrawer>
 
