@@ -1,31 +1,31 @@
-import React from 'react'
-import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
-import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined'
-import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
-import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
-import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
-import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined'
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import { CrudFormJsxProps } from '@gravis-os/crud'
-import {
-  Button,
-  Box,
-  Card,
-  ConfirmationDialog,
-  Divider,
-  Grid,
-  Stack,
-  Typography,
-  ButtonProps,
-} from '@gravis-os/ui'
 import {
   FormSection,
   FormSectionProps,
   FormSectionReadOnlyStack,
   FormSectionRenderReadOnlyProps,
 } from '@gravis-os/form'
+import {
+  Box,
+  Button,
+  ButtonProps,
+  Card,
+  ConfirmationDialog,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from '@gravis-os/ui'
+import ApartmentOutlinedIcon from '@mui/icons-material/ApartmentOutlined'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
+import LocalPrintshopOutlinedIcon from '@mui/icons-material/LocalPrintshopOutlined'
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
+import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutlined'
+import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import { SxProps } from '@mui/material'
+import React from 'react'
 import { DocumentItem } from './types'
 
 const AddressReadOnlyFormSection: React.FC<{
@@ -159,6 +159,8 @@ const DocumentFormSections: React.FC<any> = (props) => {
     'pricing',
     'driver',
     'delivery_at',
+    'delivery_details',
+    'signature',
   ]
   const sectionsPropsByKey: Record<string, FormSectionProps> =
     sectionKeys.reduce(
@@ -509,7 +511,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
         <Card disableBorderRadiusTop>
           {/* Summary */}
           <Stack direction="row" spacing={1} justifyContent="space-between">
-            <Grid container>
+            <Grid container spacing={1}>
               <Grid item xs={printMode ? 6 : 12} md={6}>
                 <Grid container spacing={4}>
                   {/* Notes */}
@@ -531,9 +533,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
                 </Grid>
               </Grid>
 
-              <Grid xs={0} md={2} />
-
-              <Grid item xs={printMode ? 6 : 12} md={4}>
+              <Grid item xs={printMode ? 6 : 12} md={6}>
                 <Grid container>
                   {/* Pricing */}
                   {Boolean(sectionsPropsByKey.pricing) && (
@@ -546,6 +546,23 @@ const DocumentFormSections: React.FC<any> = (props) => {
                       gridProps={{ spacing: 0.5 }}
                       {...formSectionProps}
                       {...sectionsPropsByKey.pricing}
+                    />
+                  )}
+                  {/* Delivered On */}
+                  {Boolean(sectionsPropsByKey.delivery_details) && (
+                    <FormSection
+                      readOnlySx={{ textAlign: 'right' }}
+                      gridProps={{ spacing: 1 }}
+                      {...formSectionProps}
+                      {...sectionsPropsByKey.delivery_details}
+                    />
+                  )}
+                  {/* Signature */}
+                  {Boolean(sectionsPropsByKey.signature) && (
+                    <FormSection
+                      readOnlySx={{ textAlign: 'right' }}
+                      {...formSectionProps}
+                      {...sectionsPropsByKey.signature}
                     />
                   )}
                 </Grid>
