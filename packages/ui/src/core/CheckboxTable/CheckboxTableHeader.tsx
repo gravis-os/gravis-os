@@ -1,6 +1,6 @@
 import React from 'react'
 import CheckboxTableColumn from './CheckboxTableColumn'
-import { CheckboxTableColumns } from './CheckboxTable'
+import { CheckboxTableColumns } from './types'
 import Typography from '../Typography'
 import Stack from '../Stack'
 

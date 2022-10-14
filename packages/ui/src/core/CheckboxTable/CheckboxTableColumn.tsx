@@ -1,6 +1,6 @@
 import React, { useMemo } from 'react'
 import Box, { BoxProps } from '../Box'
-import { CheckboxTableColumns } from './CheckboxTable'
+import { CheckboxTableColumns } from './types'
 
 interface CheckboxTableColumnProps extends BoxProps {
   columns: CheckboxTableColumns

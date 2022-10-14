@@ -2,7 +2,7 @@ import React from 'react'
 import { Checkbox } from '@mui/material'
 import { CheckboxProps } from '@mui/material/Checkbox'
 import CheckboxTableColumn from './CheckboxTableColumn'
-import { CheckboxTableColumns } from './CheckboxTable'
+import { CheckboxTableColumns } from './types'
 
 interface CheckboxTableCheckboxColumnProps extends CheckboxProps {
   columns: CheckboxTableColumns

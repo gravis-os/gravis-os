@@ -1,6 +1,6 @@
 import React from 'react'
 import { every, toPairs } from 'lodash'
-import { CheckboxTableColumns, CheckboxTableRows } from './CheckboxTable'
+import { CheckboxTableColumns, CheckboxTableRows } from './types'
 import CheckboxTableCheckboxColumn from './CheckboxTableCheckboxColumn'
 import Typography from '../Typography'
 import Stack from '../Stack'
