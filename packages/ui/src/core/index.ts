@@ -34,6 +34,9 @@ export * from './Container'
 export { default as CheckboxGroup } from './CheckboxGroup'
 export * from './CheckboxGroup'
 
+export { default as CheckboxTable } from './CheckboxTable'
+export * from './CheckboxTable'
+
 export { default as Chip } from './Chip'
 export * from './Chip'
 
