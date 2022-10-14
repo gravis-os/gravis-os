@@ -1,6 +1,8 @@
 // ==============================
 // User-Related Models
 // ==============================
+import { User } from '@supabase/gotrue-js/dist/module/lib/types'
+
 export interface Permission {
   title: string
 }
@@ -27,7 +29,7 @@ export interface Person {
   role?: Role
   workspace?: Workspace
 }
-export interface AuthUser {}
+export interface AuthUser extends User {}
 export interface DbUser {
   id: string
   title: string
