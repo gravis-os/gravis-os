@@ -111,3 +111,34 @@ DarkMinivariantWithDisableClipUnderAppBarAndGrid.args = {
     },
   },
 }
+
+export const MinivariantWithSecondaryLeftAside = (props) => (
+  <DashboardLayout {...props} />
+)
+MinivariantWithSecondaryLeftAside.args = {
+  ...Minivariant.args,
+  disableHeaderMenuToggleOnMobile: true,
+  showSecondaryLeftAside: true,
+  defaultLeftAsideOpen: false,
+  defaultSecondaryLeftAsideOpen: false,
+  headerProps: MOCK_DASHBOARD_HEADER_PROPS,
+  leftAsideListItems: [
+    {
+      ...MOCK_LIST_ITEMS[0],
+      key: 'nested-quotations',
+      title: 'All Quotations',
+      defaultOpen: false,
+      selected: true,
+      items: [MOCK_LIST_ITEMS[1], { ...MOCK_LIST_ITEMS[2], selected: true }],
+    },
+    ...MOCK_LIST_ITEMS.slice(0, 4),
+  ],
+}
+
+export const MinivariantWithSecondaryLeftAsideWithDisableClipUnderAppBar = (
+  props
+) => <DashboardLayout {...props} />
+MinivariantWithSecondaryLeftAsideWithDisableClipUnderAppBar.args = {
+  ...MinivariantWithSecondaryLeftAside.args,
+  disableClipUnderAppBar: true,
+}

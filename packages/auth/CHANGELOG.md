@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.35
+
+### Patch Changes
+
+- [#98](https://github.com/gravis-os/gravis-os/pull/98) [`e8adfd7`](https://github.com/gravis-os/gravis-os/commit/e8adfd7a56946585e5aebc381f853eda52c3c5e4) Thanks [@winter-steve](https://github.com/winter-steve)! - show loader only on initial load while DB user is undefined
+
 ## 0.0.34
 
 ### Patch Changes
