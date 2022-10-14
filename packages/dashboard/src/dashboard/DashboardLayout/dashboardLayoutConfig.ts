@@ -4,4 +4,5 @@ export default {
   rightAsideWidth: 280,
   miniVariantListItemMinHeight: 48,
   miniVariantWidth: 64,
+  secondaryMiniVariantWidth: 20,
 }

@@ -1,14 +1,33 @@
 import React from 'react'
-import { Drawer, DrawerProps, Theme } from '@mui/material'
+import {
+  Drawer,
+  DrawerProps,
+  Button,
+  ButtonProps,
+  SvgIconProps,
+  Theme,
+  BoxProps,
+} from '@mui/material'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { Box } from '@gravis-os/ui'
 import { ThemeProvider } from '@mui/material/styles'
 import dashboardTheme from '../../themes/Dashboard/dashboardTheme'
+import dashboardLayoutConfig from './dashboardLayoutConfig'
+
+const { secondaryMiniVariantWidth } = dashboardLayoutConfig
 
 export interface ResponsiveDrawerProps extends DrawerProps {
   width: number
   mobileDrawerProps?: DrawerProps
   desktopDrawerProps?: DrawerProps
   dark?: boolean
+  showToggleBar?: boolean
+  showExitButton?: boolean
+  toggleBarBoxProps?: BoxProps
+  toggleButtonProps?: ButtonProps
+  toggleSvgIconProps?: SvgIconProps
+  onOpen?: () => void
 }
 
 const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
@@ -20,13 +39,43 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     children,
     width,
     open,
+    onOpen,
     onClose,
     sx,
+    showToggleBar,
+    showExitButton,
+    toggleBarBoxProps,
+    toggleButtonProps,
+    toggleSvgIconProps,
   } = props
+
+  const childrenJSX = (
+    <>
+      {children}
+      {open && showExitButton && (
+        <Box
+          flex={1}
+          display="flex"
+          justifyContent="center"
+          alignItems="flex-end"
+          mb={8}
+          px={3}
+        >
+          <Button
+            variant="outlined"
+            onClick={(e) => onClose(e, 'backdropClick')}
+            fullWidth
+          >
+            <ChevronLeftIcon />
+          </Button>
+        </Box>
+      )}
+    </>
+  )
 
   const commonDrawerProps = {
     anchor,
-    children,
+    children: childrenJSX,
     open,
     sx: {
       '& .MuiDrawer-paper': {
@@ -35,6 +84,12 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         ...sx,
       },
     } as DrawerProps['sx'],
+  }
+
+  const handleToggleDrawer = (e) => {
+    if (open) {
+      if (onClose) onClose(e, 'backdropClick')
+    } else if (onOpen) onOpen()
   }
 
   const drawerJsx = (
@@ -64,6 +119,57 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         {...commonDrawerProps}
         {...desktopDrawerProps}
       />
+      {showToggleBar && (
+        <Box
+          height="100%"
+          position="fixed"
+          top={0}
+          left={open ? width : 0}
+          {...toggleBarBoxProps}
+          onClick={handleToggleDrawer}
+          sx={{
+            zIndex: (theme) => theme.zIndex.drawer + 1,
+            transition: (theme) =>
+              theme.transitions.create(['left'], {
+                easing: theme.transitions.easing.sharp,
+                duration: theme.transitions.duration.leavingScreen,
+              }),
+            ...toggleBarBoxProps?.sx,
+          }}
+        >
+          <Button
+            color="primary"
+            variant="contained"
+            sx={{
+              p: 0,
+              height: '100%',
+              minWidth: open ? 0 : secondaryMiniVariantWidth,
+              borderRadius: 0,
+              opacity: 0.08,
+            }}
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            disableElevation
+            {...toggleButtonProps}
+            onClick={handleToggleDrawer}
+            sx={{
+              position: 'absolute',
+              top: 150,
+              right: -10,
+              p: 0,
+              transform: `rotate(${open ? 180 : 0}deg)`,
+              transition: `transform .275s ease-in`,
+              borderRadius: '50%',
+              minWidth: 'auto',
+              ...toggleButtonProps?.sx,
+            }}
+          >
+            <ChevronRightIcon fontSize="medium" {...toggleSvgIconProps} />
+          </Button>
+        </Box>
+      )}
     </Box>
   )
 
