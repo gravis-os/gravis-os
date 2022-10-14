@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.22
+
+### Patch Changes
+
+- [`76a9eee`](https://github.com/gravis-os/gravis-os/commit/76a9eeeffe3ae066d9ea6962f3e6ad8151333335) Thanks [@clodal](https://github.com/clodal)! - Enhance SaaS package and others to add additional subdirectory paths by role
+
+- Updated dependencies [[`76a9eee`](https://github.com/gravis-os/gravis-os/commit/76a9eeeffe3ae066d9ea6962f3e6ad8151333335)]:
+  - @gravis-os/types@0.0.18
+
 ## 0.0.21
 
 ### Patch Changes

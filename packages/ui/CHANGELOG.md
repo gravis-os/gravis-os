@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.45
+
+### Patch Changes
+
+- [`4949e11`](https://github.com/gravis-os/gravis-os/commit/4949e111f5f85575aa69836cde8fe045ebb5d80b) Thanks [@clodal](https://github.com/clodal)! - Update role management for inviting a new person
+
+- Updated dependencies [[`76a9eee`](https://github.com/gravis-os/gravis-os/commit/76a9eeeffe3ae066d9ea6962f3e6ad8151333335)]:
+  - @gravis-os/types@0.0.18
+  - @gravis-os/utils@0.0.22
+
 ## 0.0.44
 
 ### Patch Changes

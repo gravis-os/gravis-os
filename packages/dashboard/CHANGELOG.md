@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.14
+
+### Patch Changes
+
+- [#102](https://github.com/gravis-os/gravis-os/pull/102) [`37281a4`](https://github.com/gravis-os/gravis-os/commit/37281a4b4233e504bae540ce956e635bb2048efd) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Added Secondary Left Aside to DashboardLayout
+
+* [#99](https://github.com/gravis-os/gravis-os/pull/99) [`9a84a54`](https://github.com/gravis-os/gravis-os/commit/9a84a5425a6194e71a43c226a0b95f767137a2fa) Thanks [@al1xt](https://github.com/al1xt)! - Fix DashboardLayout drawer list under-scrolling issue
+
+* Updated dependencies [[`76a9eee`](https://github.com/gravis-os/gravis-os/commit/76a9eeeffe3ae066d9ea6962f3e6ad8151333335), [`4949e11`](https://github.com/gravis-os/gravis-os/commit/4949e111f5f85575aa69836cde8fe045ebb5d80b)]:
+  - @gravis-os/types@0.0.18
+  - @gravis-os/ui@0.0.45
+
 ## 0.0.13
 
 ### Patch Changes

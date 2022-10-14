@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.9
+
+### Patch Changes
+
+- [`4949e11`](https://github.com/gravis-os/gravis-os/commit/4949e111f5f85575aa69836cde8fe045ebb5d80b) Thanks [@clodal](https://github.com/clodal)! - Update role management for inviting a new person
+
 ## 0.0.8
 
 ### Patch Changes
