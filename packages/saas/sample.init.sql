@@ -228,24 +228,14 @@ CREATE OR REPLACE FUNCTION public.authorize_by_permission_on_user_table(requeste
 AS $function$
 DECLARE
     bind_permissions int;
+    is_public_role boolean;
     -- This would be 'workspace' after splitting front-end of 'workspace.read'
     table_name_text text := SPLIT_PART(requested_permission_title, '.', 1);
     -- This would be 'read' after splitting tail-end of 'workspace.read'
     operation_text text := SPLIT_PART(requested_permission_title, '.', 2);
-    -- A list of approved read-only tables required for user checks to function
-    permitted_read_only_tables text [] := ARRAY ['workspace', 'role', 'role_permission', 'permission', 'tier', 'tier_feature', 'feature'];
-    -- Allow read if this is a infrastructural table needed for the app to function.
-    -- Don't need check permissions if this is a permitted action and table
-    /*
-     * We want certain tables to be read only
-     * Here we are checking that this is a read action
-     * and that the table name is in a list of approved-system read-only tables
-     */
-    is_permitted_read_only_table boolean := (operation_text ILIKE '%read%'
-        AND table_name_text = ANY (permitted_read_only_tables));
 BEGIN
     /*
-     * Authorization Layer 1: Permissions
+     * Allow read user to read himself granted.
      */
     SELECT
         count(*)
@@ -261,7 +251,25 @@ BEGIN
       AND(perm.title = requested_permission_title
         OR perm.title = '*'
         OR row_id = person.user_id) INTO bind_permissions;
-    RETURN bind_permissions > 0;
+
+    /*
+     * Allow the user to read himself if the role is called 'Member'.
+     * Otherwise, when Member role has no permissions, no user will be returned
+     * and the user won't even be able to login as his/her own user data is blocked.
+     */
+    SELECT EXISTS (
+                   SELECT
+                       person.id
+                   FROM
+                       public.person AS person
+                           INNER JOIN public.role AS ROLE ON person.role_id = role.id
+                   WHERE
+                           person.user_id = auth_id
+                     AND role.title = 'Member'
+                     AND row_id = person.user_id
+               ) INTO is_public_role;
+
+    RETURN bind_permissions > 0 OR is_public_role;
 END;
 $function$;
 
@@ -460,9 +468,6 @@ DO $$
                 'directory',
                 'directory_category',
                 'listing',
-                'blog',
-                'blog_category',
-                'post',
                 'menu',
                 'menu_item',
                 'page',
