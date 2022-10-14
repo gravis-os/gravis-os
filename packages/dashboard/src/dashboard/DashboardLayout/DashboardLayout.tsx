@@ -6,7 +6,7 @@ import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer, { ResponsiveDrawerProps } from './ResponsiveDrawer'
 import DashboardLayoutHeader from './DashboardLayoutHeader'
 import getListItemsWithActiveStateFromRouter from './getListItemsWithActiveStateFromRouter'
-import getAsideWidth from './getAsideWith'
+import getAsideWidth from './getAsideWidth'
 
 const { miniVariantWidth, secondaryMiniVariantWidth, headerHeight } =
   dashboardLayoutConfig
