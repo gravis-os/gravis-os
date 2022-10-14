@@ -52,7 +52,8 @@ const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
         <List
           disablePadding
           key={`nested-list-${depth}`}
-          items={items.map((item, j) => {
+          items={items.map((item) => {
+            if (!item) return null
             return {
               ...item,
               ...commonListItemProps,

@@ -289,33 +289,39 @@ DECLARE
     -- Ensure that permitted read only tables are tenant isolated
     is_permitted_read_only_table_tenant_isolated boolean;
 BEGIN
-    EXECUTE FORMAT('SELECT
-         		($1 = ANY (SELECT DISTINCT
-         					person.user_id
-         				FROM
-         					public.role_permission
-         					INNER JOIN public.permission ON role_permission.permission_id = permission.id
-         					INNER JOIN public.person ON role_permission.role_id = person.role_id
-         					INNER JOIN public.role ON person.role_id = role.id
-         					INNER JOIN public.workspace ON person.workspace_id = workspace.id
-         					INNER JOIN public.tier ON workspace.tier_id = tier.id
-         					LEFT JOIN public.tier_feature ON tier_feature.tier_id = tier.id
-         					LEFT JOIN public.feature ON feature.id = tier_feature.feature_id
-         					LEFT JOIN public.company ON person.company_id = company.id
-         				WHERE
-         					person.user_id = $1
-         					AND (
-         					workspace.title = ''Admin''
-         					OR
-         					($2
-         					AND $3 = %I.id)
-         					)
-       					))', table_name_text)
-        USING auth_id,
-            is_permitted_read_only_table,
-            row_id
+    IF table_name_text = 'role' THEN
+        -- Allow public read on role table except for Admin and Super Admin roles specifically.
+        -- This is so that the Workspace Owner, can select roles for assignment to e.g. Workspace Manager.
+        SELECT (row_id = ANY (SELECT id FROM ROLE WHERE NOT(role.title = ANY (ARRAY ['Admin', 'Super Admin']))))
         INTO is_permitted_read_only_table_tenant_isolated;
-    RETURN is_permitted_read_only_table_tenant_isolated;
+
+        RETURN is_permitted_read_only_table_tenant_isolated;
+    ELSE
+        -- Allow self-reads only on the permitted read_only_tables.
+        EXECUTE FORMAT('SELECT
+	         		($1 = ANY (SELECT DISTINCT
+	         					person.user_id
+	         				FROM
+	         					public.role_permission
+	         					INNER JOIN public.permission ON role_permission.permission_id = permission.id
+	         					INNER JOIN public.person ON role_permission.role_id = person.role_id
+	         					INNER JOIN public.role ON person.role_id = role.id
+	         					INNER JOIN public.workspace ON person.workspace_id = workspace.id
+	         					INNER JOIN public.tier ON workspace.tier_id = tier.id
+	         					LEFT JOIN public.tier_feature ON tier_feature.tier_id = tier.id
+	         					LEFT JOIN public.feature ON feature.id = tier_feature.feature_id
+	         					LEFT JOIN public.company ON person.company_id = company.id
+	         				WHERE
+	         					person.user_id = $1
+	         					AND (
+	         						workspace.title = ''Admin''
+	         						OR ($2 AND $3 = %I.id)
+	         					)
+	       					))', table_name_text)
+            USING auth_id, is_permitted_read_only_table, row_id
+            INTO is_permitted_read_only_table_tenant_isolated;
+        RETURN is_permitted_read_only_table_tenant_isolated;
+    END IF;
 END;
 $function$;
 

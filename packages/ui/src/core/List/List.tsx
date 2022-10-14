@@ -22,6 +22,8 @@ const List: React.FC<ListProps> = (props) => {
   return (
     <MuiList disablePadding {...rest}>
       {items.map((item, i) => {
+        if (!item) return null
+
         const key = item.key || `list-item-${i}`
 
         // Nested List

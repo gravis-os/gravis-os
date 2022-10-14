@@ -21,9 +21,16 @@ const useAuthServerApi = () => {
     handleDeleteUser: async ({ id }: { id: string }) =>
       axios.post(config.apiRoutes.deleteUser, { id }),
 
-    handleSendInvite: async ({ email }: { email: string }) => {
+    handleSendInvite: async ({
+      email,
+      options,
+    }: {
+      email: string
+      options?: { redirectTo?: string }
+    }) => {
       return axios.post(config.apiRoutes.inviteUserByEmail, {
         email,
+        options,
       })
     },
 
