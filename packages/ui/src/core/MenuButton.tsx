@@ -28,55 +28,39 @@ const renderItems = ({
 }) => {
   const isSmall = size === 'small'
 
-  return (
-    <>
-      {items.map((item) => {
-        const {
-          key,
-          value,
-          label,
-          icon,
-          onClick: injectedOnClick,
-          ...rest
-        } = item
-        const handleClick = (e) => {
-          if (injectedOnClick) injectedOnClick(e)
-          popupState.close()
-        }
-        return (
-          <MuiMenuItem
-            key={key}
-            onClick={handleClick}
-            {...menuItemProps}
-            {...rest}
+  return items.map((item) => {
+    const { key, value, label, icon, onClick: injectedOnClick, ...rest } = item
+    const handleClick = (e) => {
+      if (injectedOnClick) injectedOnClick(e)
+      popupState.close()
+    }
+    return (
+      <MuiMenuItem key={key} onClick={handleClick} {...menuItemProps} {...rest}>
+        {icon && (
+          <ListItemIcon
+            {...listItemIconProps}
+            sx={{
+              '& .MuiIcon-root': {
+                ...(isSmall && { fontSize: isSmall && 'small' }),
+              },
+              ...listItemIconProps?.sx,
+            }}
           >
-            {icon && (
-              <ListItemIcon
-                {...listItemIconProps}
-                sx={{
-                  '& .MuiIcon-root': {
-                    ...(isSmall && { fontSize: isSmall && 'small' }),
-                  },
-                  ...listItemIconProps?.sx,
-                }}
-              >
-                {icon}
-              </ListItemIcon>
-            )}
-            <ListItemText
-              {...listItemTextProps}
-              primaryTypographyProps={{
-                variant: isSmall ? 'body2' : 'body1',
-                ...listItemTextProps?.primaryTypographyProps,
-              }}
-            >
-              {label}
-            </ListItemText>
-          </MuiMenuItem>
-        )
-      })}
-    </>
-  )
+            {icon}
+          </ListItemIcon>
+        )}
+        <ListItemText
+          {...listItemTextProps}
+          primaryTypographyProps={{
+            variant: isSmall ? 'body2' : 'body1',
+            ...listItemTextProps?.primaryTypographyProps,
+          }}
+        >
+          {label}
+        </ListItemText>
+      </MuiMenuItem>
+    )
+  })
 }
 
 export interface MenuButtonItem extends MuiMenuItemProps {
