@@ -494,7 +494,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           // Fallback primary key value if the injected primary key returns null or undefined
           return typeof option === 'string'
             ? option
-            : option[optionLabelKey] ?? option['title' as string]
+            : option[optionLabelKey] ?? option['title' as string] ?? ''
         }}
         renderInput={(params) => {
           return (
