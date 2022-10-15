@@ -79,8 +79,13 @@ const Link: React.FC<LinkProps> = (props) => {
 
   switch (true) {
     case Boolean(href):
+      // Ensure that a href link only contains 1 forward slash at the beginning with regex
+      const hrefWithSingleForwardSlashOnly = href.replace(/\/\/+/g, '/')
       return (
-        <RouterLink href={href as RouterLinkProps['href']} passHref>
+        <RouterLink
+          href={hrefWithSingleForwardSlashOnly as RouterLinkProps['href']}
+          passHref
+        >
           {childrenJsx}
         </RouterLink>
       )
