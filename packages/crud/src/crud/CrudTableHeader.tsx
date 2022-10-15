@@ -171,7 +171,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
                 fullWidthOnMobile
                 {...(hasAddFormSections
                   ? { onClick: () => setAddDialogOpen(true) }
-                  : { href: `/${route.plural}/new` })}
+                  : { href: `${route.plural}/new` })}
               >
                 Add {name.singular}
               </Button>

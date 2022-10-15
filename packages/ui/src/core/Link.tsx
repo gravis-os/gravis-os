@@ -3,6 +3,7 @@ import get from 'lodash/get'
 import RouterLink, { LinkProps as RouterLinkProps } from 'next/link'
 import { Link as MuiLink, LinkProps as MuiLinkProps } from '@mui/material'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
+import { cleanHref } from '@gravis-os/utils'
 
 export interface LinkProps extends MuiLinkProps {
   pointer?: boolean
@@ -79,13 +80,8 @@ const Link: React.FC<LinkProps> = (props) => {
 
   switch (true) {
     case Boolean(href):
-      // Ensure that a href link only contains 1 forward slash at the beginning with regex
-      const hrefWithSingleForwardSlashOnly = href.replace(/\/\/+/g, '/')
       return (
-        <RouterLink
-          href={hrefWithSingleForwardSlashOnly as RouterLinkProps['href']}
-          passHref
-        >
+        <RouterLink href={cleanHref(href) as RouterLinkProps['href']} passHref>
           {childrenJsx}
         </RouterLink>
       )
