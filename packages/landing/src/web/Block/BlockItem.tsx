@@ -227,12 +227,14 @@ const renderGrid = (props) => {
             return (
               <Grid {...gridItemProps}>
                 <Box {...boxProps}>
-                  {items.map((item) =>
-                    renderBlockItem({
-                      ...item,
-                      titleProps: merge({}, titleProps, item?.titleProps),
-                    })
-                  )}
+                  {items.map((item) => (
+                    <React.Fragment key={`grid-${item?.type || ''}-${i}`}>
+                      {renderBlockItem({
+                        ...item,
+                        titleProps: merge({}, titleProps, item?.titleProps),
+                      })}
+                    </React.Fragment>
+                  ))}
                 </Box>
               </Grid>
             )
@@ -293,12 +295,14 @@ const renderStack = (props) => {
 
             return (
               <Box key={`stack-item-${i}`} {...stackItemProps}>
-                {items.map((item) =>
-                  renderBlockItem({
-                    ...item,
-                    titleProps: merge({}, titleProps, item?.titleProps),
-                  })
-                )}
+                {items.map((item, i) => (
+                  <React.Fragment key={`stack-${item?.type || ''}-${i}`}>
+                    {renderBlockItem({
+                      ...item,
+                      titleProps: merge({}, titleProps, item?.titleProps),
+                    })}
+                  </React.Fragment>
+                ))}
               </Box>
             )
           })}

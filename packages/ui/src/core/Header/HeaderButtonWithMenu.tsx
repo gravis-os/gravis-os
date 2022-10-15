@@ -1,6 +1,5 @@
 import React from 'react'
 import {
-  Box,
   Backdrop,
   Button,
   ButtonProps,
@@ -35,7 +34,6 @@ export interface RecursiveNavItemInterface {
 }
 
 export interface HeaderButtonWithMenuProps {
-  key: string
   title?: React.ReactNode
 
   items?: RecursiveNavItemInterface[]
@@ -55,7 +53,6 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
   const {
     disableBackdrop,
     sx,
-    key,
     title,
     items,
     renderItems,
@@ -71,7 +68,10 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
   const containerRef = React.useRef(null)
 
   // Popper
-  const popupState = usePopupState({ variant: 'popper', popupId: key })
+  const popupState = usePopupState({
+    variant: 'popper',
+    ...(typeof title === 'string' && { popupId: title }),
+  })
 
   const bindAction = isOpenOnHover ? bindHover : bindTrigger
   const Transition = fullWidth ? Slide : Grow

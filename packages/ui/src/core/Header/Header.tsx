@@ -27,6 +27,7 @@ import AppBar, { AppBarProps } from '../AppBar'
 
 export interface HeaderNavItem
   extends Omit<HeaderButtonWithMenuProps, 'title'> {
+  key: string
   sx?: SxProps
   title?: HeaderButtonWithMenuProps['title']
   children?: React.ReactNode
