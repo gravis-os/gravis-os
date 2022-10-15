@@ -56,6 +56,7 @@ export interface ModelFieldProps {
   label?: string | false
   multiple?: boolean
   error?: TextFieldProps['error']
+  required?: boolean
   helperText?: TextFieldProps['helperText']
 
   // Mui
@@ -152,6 +153,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     // Error
     error,
     helperText,
+
+    // Required
+    required,
 
     // Tags
     optionLabelKey,
@@ -492,34 +496,44 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             ? option
             : option[optionLabelKey] ?? option['title' as string]
         }}
-        renderInput={(params) => (
-          <TextField
-            inputRef={ref}
-            multiline
-            label={
-              label === false
-                ? null
-                : label ||
-                  `Select ${startCase(
-                    name.endsWith('_id') ? name.split('_id')[0] : name
-                  )}`
-            }
-            {...params}
-            InputProps={{
-              ...params.InputProps,
-              endAdornment: (
-                <>
-                  {loading ? (
-                    <CircularProgress color="inherit" size={20} />
-                  ) : null}
-                  {params.InputProps.endAdornment}
-                </>
-              ),
-            }}
-            error={error}
-            helperText={helperText}
-          />
-        )}
+        renderInput={(params) => {
+          return (
+            <TextField
+              inputRef={ref}
+              multiline
+              label={
+                label === false
+                  ? null
+                  : label ||
+                    `Select ${startCase(
+                      name.endsWith('_id') ? name.split('_id')[0] : name
+                    )}`
+              }
+              {...params}
+              InputProps={{
+                ...params.InputProps,
+                endAdornment: (
+                  <>
+                    {loading ? (
+                      <CircularProgress color="inherit" size={20} />
+                    ) : null}
+                    {params.InputProps.endAdornment}
+                  </>
+                ),
+              }}
+              error={error}
+              helperText={helperText}
+              // eslint-disable-next-line react/jsx-no-duplicate-props
+              inputProps={
+                {
+                  ...params?.inputProps,
+                  ...(required && { required: true }),
+                } as TextFieldProps['inputProps']
+              }
+              {...(required && { required: true })}
+            />
+          )
+        }}
         renderOption={(props, option: DataItem | null, { inputValue }) => {
           const shouldSkipOption =
             isEmpty(option) ||
