@@ -17,6 +17,7 @@ export interface FormSectionJsxFieldProps {
   item: FormSectionProps['item']
   isNew: FormSectionProps['isNew']
   isReadOnly: FormSectionProps['isReadOnly']
+  isPreview: FormSectionProps['isPreview']
 }
 
 /**
@@ -80,6 +81,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
             item,
             isNew,
             isReadOnly,
+            isPreview,
           }
         )}
       </Grid>

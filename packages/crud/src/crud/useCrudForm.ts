@@ -62,7 +62,9 @@ export interface UseCrudFormArgs extends UseFormProps {
     toast: any
   }) => unknown
   afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => unknown
-  defaultValues?: Record<string, unknown>
+  defaultValues?:
+    | Record<string, unknown>
+    | (({ item }: { item?: CrudItem }) => Record<string, unknown>)
   sections?: FormSectionsProps['sections']
 }
 
@@ -106,12 +108,18 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const hasItem = Object.keys(item).length
   const isNew = getIsNew(item)
 
+  // Allow downstream to calculate defaultValues
+  const resolvedDefaultValues =
+    typeof injectedDefaultValues === 'function'
+      ? injectedDefaultValues({ item })
+      : injectedDefaultValues
+
   // Default Values
   const defaultValues = isNew
-    ? { ...fieldDefaultValues, ...injectedDefaultValues }
+    ? { ...fieldDefaultValues, ...resolvedDefaultValues }
     : getDefaultValues({
         isNew,
-        item: { ...fieldDefaultValues, ...injectedDefaultValues, ...item },
+        item: { ...fieldDefaultValues, ...resolvedDefaultValues, ...item },
       })
 
   // Form
