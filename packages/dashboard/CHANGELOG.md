@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.15
+
+### Patch Changes
+
+- [#105](https://github.com/gravis-os/gravis-os/pull/105) [`b9f3dad`](https://github.com/gravis-os/gravis-os/commit/b9f3dad23eecad2e79dd27c6f2d91dfa58c3cc55) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - update DashboardLayoutProps
+
 ## 0.0.14
 
 ### Patch Changes

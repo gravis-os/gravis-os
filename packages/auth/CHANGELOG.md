@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.37
+
+### Patch Changes
+
+- [#105](https://github.com/gravis-os/gravis-os/pull/105) [`d7bbb23`](https://github.com/gravis-os/gravis-os/commit/d7bbb23d359699e1327095820ed569d8eb244b64) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add authColumnKey to UserProvider
+
 ## 0.0.36
 
 ### Patch Changes
