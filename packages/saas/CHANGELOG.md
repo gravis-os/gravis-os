@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- [`96330fb`](https://github.com/gravis-os/gravis-os/commit/96330fbf742f5177e91d23de829869f8b6b19a1c) Thanks [@clodal](https://github.com/clodal)! - Add userAuthColumnKey to saas and middleware to allow querying of db user from a different column key
+
+- Updated dependencies [[`96330fb`](https://github.com/gravis-os/gravis-os/commit/96330fbf742f5177e91d23de829869f8b6b19a1c)]:
+  - @gravis-os/middleware@0.0.13
+
 ## 0.0.24
 
 ### Patch Changes
