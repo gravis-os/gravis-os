@@ -33,13 +33,13 @@ export interface DashboardLayoutProps {
   leftAsideWidth?: number
   leftAsideListItems?: ListItemProps['items']
   leftAsideListItemProps?: ListItemProps
-  leftAsideDrawerProps?: ResponsiveDrawerProps
+  leftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
 
   // Secondary Left Aside Props
   showSecondaryLeftAside?: boolean
   secondaryLeftAsideWidth?: number
   secondaryLeftAsideListItemProps?: ListItemProps
-  secondaryLeftAsideDrawerProps?: ResponsiveDrawerProps
+  secondaryLeftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
 
   // Right Aside
   rightAsideListItems?: ListItemProps['items']

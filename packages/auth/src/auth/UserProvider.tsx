@@ -10,6 +10,7 @@ import UserContext, { UserContextInterface } from './UserContext'
 
 export interface UserProviderProps {
   select?: string // supabaseClient query selector
+  authColumnKey?: string
   children?: React.ReactNode
   loader?: React.ReactElement
   guestPaths?: string[]
@@ -30,6 +31,7 @@ export interface UserProviderProps {
 const UserProvider: React.FC<UserProviderProps> = (props) => {
   const {
     select = '*',
+    authColumnKey = 'id',
     children,
     loader: injectedLoader,
     guestPaths: injectedGuestPaths = [],
@@ -52,7 +54,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     const { data } = await supabaseClient
       .from('user')
       .select(select)
-      .eq('id', authUser.id) // Feature: If isAdmin, expose switcheroo here
+      .eq(authColumnKey, authUser.id) // Feature: If isAdmin, expose switcheroo here
     if (!data) return
     const dbUser = data[0]
     return dbUser
