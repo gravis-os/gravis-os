@@ -10,6 +10,7 @@ import getIsAdminRole from '../utils/getIsAdminRole'
 export interface GetIsPermittedInSaaSMiddlewareProps {
   authUser: { id?: string; sub: string }
   userModule: CrudModule // The app's userModule
+  userAuthColumnKey?: string // The column key in the userModule table that matches the authUser id
   modulesConfig: CrudModule[] // List of the app's modules
 
   // Get parts of the route needed to calculate the permissions
@@ -41,6 +42,7 @@ const getIsPermittedInSaaSMiddleware = (
     guestPaths = [],
     authUser,
     userModule,
+    userAuthColumnKey = 'id',
     modulesConfig,
     pathname,
     subdomain,
@@ -51,7 +53,11 @@ const getIsPermittedInSaaSMiddleware = (
     if (!authUser) return false
 
     // 1. Check if the user is permitted to access the dashboard
-    const dbUser = await fetchDbUserFromMiddleware({ userModule, authUser })
+    const dbUser = await fetchDbUserFromMiddleware({
+      userModule,
+      userAuthColumnKey,
+      authUser,
+    })
     if (!dbUser) throw new Error('No db user found!')
 
     // 2. Check if the user has the role to access the dashboard

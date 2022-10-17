@@ -4,6 +4,7 @@ import fetchWithSupabaseFromMiddleware from './fetchWithSupabaseFromMiddleware'
 export interface FetchDbUserFromMiddlewareProps {
   authUser: { id?: string; sub: string }
   userModule: CrudModule // The app's userModule
+  userAuthColumnKey?: string
 }
 
 /**
@@ -12,14 +13,14 @@ export interface FetchDbUserFromMiddlewareProps {
 const fetchDbUserFromMiddleware = async (
   props: FetchDbUserFromMiddlewareProps
 ) => {
-  const { userModule, authUser } = props
+  const { userModule, authUser, userAuthColumnKey = 'id' } = props
 
   if (!authUser) return
 
   const { data } = await fetchWithSupabaseFromMiddleware({
     from: userModule.table.name,
     select: userModule.select.detail,
-    match: { id: authUser.sub || authUser.id },
+    match: { [userAuthColumnKey]: authUser.sub || authUser.id },
   })
 
   return data?.[0]

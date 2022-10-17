@@ -19,6 +19,7 @@ export interface SaasRouterMiddlewareProps {
   authenticationFailureRedirectTo: string
   authorizationFailureRedirectTo: string
   modulesConfig: GetIsPermittedInSaaSMiddlewareProps['modulesConfig']
+  userAuthColumnKey?: string
   userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
   guestPaths?: GetIsPermittedInSaaSMiddlewareProps['guestPaths']
   validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
@@ -40,6 +41,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     authenticationFailureRedirectTo,
     authorizationFailureRedirectTo,
     modulesConfig,
+    userAuthColumnKey = 'id',
     userModule,
     guestPaths = [],
     validRoles = [],
@@ -113,7 +115,11 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
          *
          * This case only happens when the user is logged in but gets redirected out.
          */
-        const dbUser = await fetchDbUserFromMiddleware({ userModule, authUser })
+        const dbUser = await fetchDbUserFromMiddleware({
+          userModule,
+          authUser,
+          userAuthColumnKey,
+        })
         const { workspace, role, isAdmin } =
           getPersonRelationsFromDbUser(dbUser)
 
@@ -227,6 +233,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
                 authUser,
                 modulesConfig,
                 userModule,
+                userAuthColumnKey,
                 subdomain,
                 pathname,
                 validRoles,
