@@ -1,18 +1,12 @@
-import React, { useMemo } from 'react'
+import React from 'react'
 import Box, { BoxProps } from '../Box'
-import { CheckboxTableColumns } from './types'
 
-interface CheckboxTableColumnProps extends BoxProps {
-  columns: CheckboxTableColumns
+export interface CheckboxTableColumnProps extends BoxProps {
+  width: number | string
 }
 
 const CheckboxTableColumn: React.FC<CheckboxTableColumnProps> = (props) => {
-  const { children, columns, ...rest } = props
-
-  const width = useMemo(
-    () => `calc(100% / ${columns.length} - 6%)`,
-    [columns.length]
-  )
+  const { children, width, ...rest } = props
 
   return (
     <Box {...rest} sx={{ flexBasis: width, minWidth: width, ...rest?.sx }}>
