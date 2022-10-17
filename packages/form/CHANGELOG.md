@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.70
+
+### Patch Changes
+
+- [`e2960fa`](https://github.com/gravis-os/gravis-os/commit/e2960fa71f3c85cd12c869083e353d9bee4f3cfc) Thanks [@clodal](https://github.com/clodal)! - Enforce required prop to ModelField
+
+* [`ce9d2d5`](https://github.com/gravis-os/gravis-os/commit/ce9d2d537d4421ea3ba6fe01cef1f8e1827ce8a8) Thanks [@clodal](https://github.com/clodal)! - Add Attributes to Listing Detail
+
+- [`03b3d5d`](https://github.com/gravis-os/gravis-os/commit/03b3d5de1042a65c2b0819b0b17f772f8a752e32) Thanks [@clodal](https://github.com/clodal)! - Fix console error where getOptionLabel was returning undefined
+
+- Updated dependencies [[`88842ba`](https://github.com/gravis-os/gravis-os/commit/88842ba6bee4c54ba7583d3760fe2405d71ce440), [`0f1e728`](https://github.com/gravis-os/gravis-os/commit/0f1e7288c22df44d3e12257352200420a65a09cd), [`bc30426`](https://github.com/gravis-os/gravis-os/commit/bc3042697ffbc212db2b8b30fb11aa955857bf6b), [`ce9d2d5`](https://github.com/gravis-os/gravis-os/commit/ce9d2d537d4421ea3ba6fe01cef1f8e1827ce8a8), [`27725f3`](https://github.com/gravis-os/gravis-os/commit/27725f346692a7da4caebe085de716df8e02522a)]:
+  - @gravis-os/ui@0.0.46
+  - @gravis-os/types@0.0.19
+
 ## 0.0.69
 
 ### Patch Changes

@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.46
+
+### Patch Changes
+
+- [`88842ba`](https://github.com/gravis-os/gravis-os/commit/88842ba6bee4c54ba7583d3760fe2405d71ce440) Thanks [@clodal](https://github.com/clodal)! - Add utils.cleanHref method to ensure we sanitize href values in our links
+
+* [`0f1e728`](https://github.com/gravis-os/gravis-os/commit/0f1e7288c22df44d3e12257352200420a65a09cd) Thanks [@clodal](https://github.com/clodal)! - Fix console error where strings with multiple forward slashes was pass to the href prop in the router link
+
+- [`bc30426`](https://github.com/gravis-os/gravis-os/commit/bc3042697ffbc212db2b8b30fb11aa955857bf6b) Thanks [@clodal](https://github.com/clodal)! - Fix console errors in Block and HeaderButtonWithMenu
+
+* [`27725f3`](https://github.com/gravis-os/gravis-os/commit/27725f346692a7da4caebe085de716df8e02522a) Thanks [@clodal](https://github.com/clodal)! - Fix console error with MUI Menu component doesn't accept Fragment as a child"
+
+* Updated dependencies [[`88842ba`](https://github.com/gravis-os/gravis-os/commit/88842ba6bee4c54ba7583d3760fe2405d71ce440), [`ce9d2d5`](https://github.com/gravis-os/gravis-os/commit/ce9d2d537d4421ea3ba6fe01cef1f8e1827ce8a8)]:
+  - @gravis-os/utils@0.0.23
+  - @gravis-os/types@0.0.19
+
 ## 0.0.45
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.23
+
+### Patch Changes
+
+- [`88842ba`](https://github.com/gravis-os/gravis-os/commit/88842ba6bee4c54ba7583d3760fe2405d71ce440) Thanks [@clodal](https://github.com/clodal)! - Add utils.cleanHref method to ensure we sanitize href values in our links
+
+- Updated dependencies [[`ce9d2d5`](https://github.com/gravis-os/gravis-os/commit/ce9d2d537d4421ea3ba6fe01cef1f8e1827ce8a8)]:
+  - @gravis-os/types@0.0.19
+
 ## 0.0.22
 
 ### Patch Changes

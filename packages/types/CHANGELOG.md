@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.19
+
+### Patch Changes
+
+- [`ce9d2d5`](https://github.com/gravis-os/gravis-os/commit/ce9d2d537d4421ea3ba6fe01cef1f8e1827ce8a8) Thanks [@clodal](https://github.com/clodal)! - Add Attributes to Listing Detail
+
 ## 0.0.18
 
 ### Patch Changes

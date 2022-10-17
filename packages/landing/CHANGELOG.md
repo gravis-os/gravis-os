@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.23
+
+### Patch Changes
+
+- [`bc30426`](https://github.com/gravis-os/gravis-os/commit/bc3042697ffbc212db2b8b30fb11aa955857bf6b) Thanks [@clodal](https://github.com/clodal)! - Fix console errors in Block and HeaderButtonWithMenu
+
+- Updated dependencies [[`88842ba`](https://github.com/gravis-os/gravis-os/commit/88842ba6bee4c54ba7583d3760fe2405d71ce440), [`0f1e728`](https://github.com/gravis-os/gravis-os/commit/0f1e7288c22df44d3e12257352200420a65a09cd), [`bc30426`](https://github.com/gravis-os/gravis-os/commit/bc3042697ffbc212db2b8b30fb11aa955857bf6b), [`ce9d2d5`](https://github.com/gravis-os/gravis-os/commit/ce9d2d537d4421ea3ba6fe01cef1f8e1827ce8a8), [`27725f3`](https://github.com/gravis-os/gravis-os/commit/27725f346692a7da4caebe085de716df8e02522a)]:
+  - @gravis-os/ui@0.0.46
+  - @gravis-os/types@0.0.19
+
 ## 0.0.22
 
 ### Patch Changes

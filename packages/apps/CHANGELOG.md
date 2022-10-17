@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.36
+
+### Patch Changes
+
+- [#100](https://github.com/gravis-os/gravis-os/pull/100) [`babca31`](https://github.com/gravis-os/gravis-os/commit/babca31e54c2d29ff29d328a74ff4302bcc5a8c2) Thanks [@robyonextech](https://github.com/robyonextech)! - Add delivery details to DocumentFormSections
+
+- Updated dependencies [[`88842ba`](https://github.com/gravis-os/gravis-os/commit/88842ba6bee4c54ba7583d3760fe2405d71ce440), [`0f1e728`](https://github.com/gravis-os/gravis-os/commit/0f1e7288c22df44d3e12257352200420a65a09cd), [`e2960fa`](https://github.com/gravis-os/gravis-os/commit/e2960fa71f3c85cd12c869083e353d9bee4f3cfc), [`bc30426`](https://github.com/gravis-os/gravis-os/commit/bc3042697ffbc212db2b8b30fb11aa955857bf6b), [`ce9d2d5`](https://github.com/gravis-os/gravis-os/commit/ce9d2d537d4421ea3ba6fe01cef1f8e1827ce8a8), [`27725f3`](https://github.com/gravis-os/gravis-os/commit/27725f346692a7da4caebe085de716df8e02522a), [`03b3d5d`](https://github.com/gravis-os/gravis-os/commit/03b3d5de1042a65c2b0819b0b17f772f8a752e32), [`fce14cb`](https://github.com/gravis-os/gravis-os/commit/fce14cb7329dc658ea4c4c4121283071929e39f7)]:
+  - @gravis-os/crud@0.0.53
+  - @gravis-os/ui@0.0.46
+  - @gravis-os/form@0.0.70
+  - @gravis-os/types@0.0.19
+
 ## 0.0.35
 
 ### Patch Changes
