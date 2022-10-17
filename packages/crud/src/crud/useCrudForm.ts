@@ -208,8 +208,6 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       default:
         createOrUpdateMutation.mutate(nextValues, {
           onSuccess: async (result) => {
-            await queryClient.invalidateQueries([table.name])
-
             // Handle errors
             const { error, data } = result
             if (error || !data) {
@@ -254,6 +252,8 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
                 module,
               })
             }
+
+            await queryClient.invalidateQueries([table.name])
 
             /**
              * Refetch data to get the latest join info because we're comparing against prev value
