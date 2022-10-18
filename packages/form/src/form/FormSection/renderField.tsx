@@ -35,6 +35,9 @@ import getFormSectionFieldWithFunctionType, {
   FormSectionFieldWithFunctionType,
 } from './getFormSectionFieldWithFunctionType'
 import ControlledChipField from '../fields/ControlledChipField'
+import ControlledCheckboxTable, {
+  ControlledCheckboxTableOptions,
+} from '../fields/ControlledCheckboxTable'
 
 export enum FormSectionFieldTypeEnum {
   // String
@@ -60,6 +63,7 @@ export enum FormSectionFieldTypeEnum {
   // Objects/Arrays
   MODEL = 'model',
   CHIP = 'chip',
+  CHECKBOX_TABLE = 'CHECKBOX_TABLE',
 
   // Date
   DATE = 'date',
@@ -77,6 +81,8 @@ export interface FormSectionFieldProps {
   multiple?: boolean
   options?: string[] | Array<{ key: string; value: string; label: string }>
   select?: any // Can either be MUI textfield select or react-query selector
+
+  checkboxTableProps?: ControlledCheckboxTableOptions
 
   // Manage layout
   gridProps?: GridProps
@@ -141,8 +147,16 @@ const renderField = (props: RenderFieldProps) => {
     readOnlySx,
     module: injectedModule,
   } = sectionProps
-  const { type, module, key, gridProps, fieldEffect, render, ...rest } =
-    fieldProps
+  const {
+    type,
+    module,
+    key,
+    gridProps,
+    fieldEffect,
+    checkboxTableProps,
+    render,
+    ...rest
+  } = fieldProps
   const {
     name,
     disabled,
@@ -192,6 +206,15 @@ const renderField = (props: RenderFieldProps) => {
 
     // Switch statements for managing readOnly mode for each field type
     switch (type) {
+      case FormSectionFieldTypeEnum.CHECKBOX_TABLE:
+        return (
+          <ControlledCheckboxTable
+            control={control}
+            checkboxTableProps={{ ...checkboxTableProps, isReadOnly: true }}
+            {...commonProps}
+          />
+        )
+
       case FormSectionFieldTypeEnum.MODEL:
         const modelName = getRelationalObjectKey(name)
         const modelLabel = injectedLabel || startCase(modelName)
@@ -285,6 +308,14 @@ const renderField = (props: RenderFieldProps) => {
   // ==============================
   const getChildrenJsx = () => {
     switch (type) {
+      case FormSectionFieldTypeEnum.CHECKBOX_TABLE:
+        return (
+          <ControlledCheckboxTable
+            control={control}
+            checkboxTableProps={checkboxTableProps}
+            {...commonProps}
+          />
+        )
       case FormSectionFieldTypeEnum.DATE:
         return <ControlledDateField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.DATE_TIME:
