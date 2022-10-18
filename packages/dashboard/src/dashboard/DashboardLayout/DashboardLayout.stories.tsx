@@ -1,15 +1,16 @@
-import React from 'react'
 import {
   Card,
-  List,
   Grid,
-  Typography,
+  List,
+  MOCK_DASHBOARD_HEADER_PROPS,
   TabContent,
   Tabs,
+  Typography,
   useTabs,
-  MOCK_DASHBOARD_HEADER_PROPS,
 } from '@gravis-os/ui'
-import { MOCK_TABS, MOCK_LOGO_JSX, MOCK_LIST_ITEMS } from '../../mocks'
+import React from 'react'
+import { MOCK_LIST_ITEMS, MOCK_LOGO_JSX, MOCK_TABS } from '../../mocks'
+import getStorybookTitle from '../../utils/getStorybookTitle'
 import DashboardLayout from './DashboardLayout'
 
 const DashboardLayoutChildren = () => {
@@ -25,6 +26,7 @@ const DashboardLayoutChildren = () => {
 
 export default {
   component: DashboardLayout,
+  title: getStorybookTitle('DashboardLayout'),
   parameters: { layout: 'fullscreen' },
   args: {
     logo: MOCK_LOGO_JSX,
