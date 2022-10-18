@@ -1,10 +1,11 @@
 import React from 'react'
+import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Badge from './Badge'
-import Stack from './Stack'
 import Button from './Button'
+import Stack from './Stack'
 
 export default {
-  title: 'ui/Badge',
+  title: getCoreStorybookTitle(Badge.name),
   component: Badge,
   args: {
     children: <Button variant="contained">Label</Button>,

@@ -1,9 +1,10 @@
 import React from 'react'
+import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Button from './Button'
 import Stack from './Stack'
 
 export default {
-  title: 'ui/Button',
+  title: getCoreStorybookTitle(Button.name),
   component: Button,
   args: { children: 'Label' },
 }

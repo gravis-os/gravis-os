@@ -1,8 +1,9 @@
 import React from 'react'
+import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import ConfirmationDialog from './ConfirmationDialog'
 
 export default {
-  title: 'ui/ConfirmationDialog',
+  title: getCoreStorybookTitle(ConfirmationDialog.name),
   component: ConfirmationDialog,
   args: { children: 'Label' },
 }
