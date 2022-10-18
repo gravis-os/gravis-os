@@ -1,9 +1,11 @@
 import React from 'react'
+import { MOCK_BLOCKS, MOCK_BLOCK_ALTERNATE_WING_GRID } from '../../mocks'
+import getStorybookTitle from '../../utils/getStorybookTitle'
 import Blocks from './Blocks'
-import { MOCK_BLOCK_ALTERNATE_WING_GRID, MOCK_BLOCKS } from '../../mocks'
 
 export default {
   component: Blocks,
+  title: getStorybookTitle(Blocks.displayName),
   args: {
     items: MOCK_BLOCKS,
   },

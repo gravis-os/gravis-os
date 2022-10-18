@@ -1,15 +1,17 @@
-import { Box } from '@mui/system'
 import CategoryIcon from '@mui/icons-material/Category'
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar'
 import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices'
-import React from 'react'
-import { Divider } from '@mui/material'
 import SearchIcon from '@mui/icons-material/Search'
+import { Divider } from '@mui/material'
+import { Box } from '@mui/system'
+import React from 'react'
+import getStorybookTitle from '../../utils/getStorybookTitle'
 import MegaSearch from './MegaSearch'
 import MegaSearchTabs from './MegaSearchTabs'
 
 export default {
   component: MegaSearch,
+  title: getStorybookTitle(MegaSearch.displayName),
 }
 
 const defaultMegaSearchProps = {

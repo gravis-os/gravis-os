@@ -1,9 +1,11 @@
+import { MOCK_HEADER_PROPS } from '@gravis-os/ui'
+import { CssBaseline } from '@mui/material'
+import { createTheme, ThemeProvider } from '@mui/material/styles'
 import React from 'react'
 import { useDarkMode } from 'storybook-dark-mode'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import { CssBaseline } from '@mui/material'
-import { MOCK_HEADER_PROPS } from '@gravis-os/ui'
-import LandingLayout from './LandingLayout'
+import PublicoHeadlineLight from '../../../public/fonts/Publico/PublicoHeadline-Light-Web.woff2'
+import PublicoTextRoman from '../../../public/fonts/Publico/PublicoText-Roman-Web.woff2'
+import PublicoTextSemibold from '../../../public/fonts/Publico/PublicoText-Semibold-Web.woff2'
 import {
   MOCK_BLOCK_ALTERNATE_WING_GRID,
   MOCK_BLOCK_HERO,
@@ -12,7 +14,6 @@ import {
   MOCK_FOOTER_PROPS,
   MOCK_RIGHT_WING_GRID_ITEMS,
 } from '../../mocks'
-import Blocks from '../Block/Blocks'
 import {
   appleLandingTheme,
   gravisLandingTheme,
@@ -20,14 +21,15 @@ import {
   vercelLandingTheme,
 } from '../../themes'
 import { BlockItemTypeEnum } from '../Block'
-import PublicoHeadlineLight from '../../../public/fonts/Publico/PublicoHeadline-Light-Web.woff2'
-import PublicoTextSemibold from '../../../public/fonts/Publico/PublicoText-Semibold-Web.woff2'
-import PublicoTextRoman from '../../../public/fonts/Publico/PublicoText-Roman-Web.woff2'
+import Blocks from '../Block/Blocks'
+import LandingLayout from './LandingLayout'
 
-import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
 import InterBold from '../../../public/fonts/Inter/Inter-Bold.ttf'
+import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
+import getStorybookTitle from '../../utils/getStorybookTitle'
 
 export default {
+  title: getStorybookTitle(LandingLayout.displayName),
   component: LandingLayout,
   parameters: { layout: 'fullscreen' },
   args: {

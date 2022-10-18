@@ -1,14 +1,14 @@
-import React from 'react'
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
   Accordion,
   AccordionDetails,
   AccordionSummary,
   Typography,
 } from '@mui/material'
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
+import React from 'react'
 
-interface FaqAccordionProps {
+export interface FaqAccordionProps {
   items: Array<{
     title: string
     content: React.ReactNode
