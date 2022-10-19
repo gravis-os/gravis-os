@@ -51,13 +51,6 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
               justifyContent: 'center',
             }}
           >
-            <Link
-              variant="overline"
-              href={blogCategoryModule.getWebHref([blog_category])}
-              color="secondary"
-            >
-              {blog_category?.title}
-            </Link>
             <Link variant="h4" href={postHref}>
               {title}
             </Link>

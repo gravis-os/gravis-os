@@ -18,7 +18,10 @@ const renderItemByVariant = (props) => {
   }
 }
 
-export interface PaginatedListingsProps extends PaginatedQueryViewProps {}
+export interface PaginatedListingsProps
+  extends Omit<PaginatedQueryViewProps, 'renderItem'> {
+  renderItem?: PaginatedQueryViewProps['renderItem']
+}
 
 const PaginatedListings: React.FC<PaginatedListingsProps> = (props) => {
   return <PaginatedQueryView {...props} renderItem={renderItemByVariant} />

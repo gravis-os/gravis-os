@@ -36,13 +36,6 @@ const PostCard: React.FC<PostCardProps> = (props) => {
       </Link>
 
       <CardContent disableGutterBottom sx={{ height: '100%' }}>
-        <Link
-          variant="overline"
-          href={blogCategoryModule.getWebHref([blog_category])}
-          color="secondary"
-        >
-          {blog_category?.title}
-        </Link>
         <Link variant="h4" href={postHref}>
           {title}
         </Link>
