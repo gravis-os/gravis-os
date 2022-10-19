@@ -1,5 +1,14 @@
 import React from 'react'
-import { Box, Card, CardProps, Grid, Link, Typography } from '@gravis-os/ui'
+import {
+  Box,
+  BoxProps,
+  Card,
+  CardContentProps,
+  CardProps,
+  Grid,
+  Link,
+  Typography,
+} from '@gravis-os/ui'
 import { StorageImage } from '@gravis-os/storage'
 import { CrudModule } from '@gravis-os/types'
 import { Post } from './types'
@@ -8,31 +17,38 @@ export interface PostListItemProps extends CardProps {
   item: Post
   postModule: CrudModule | any
   blogCategoryModule: CrudModule | any
+  size?: 'small' | 'medium' | 'large'
+  cardContentProps?: BoxProps
 }
 
 const PostListItem: React.FC<PostListItemProps> = (props) => {
-  const { item, postModule, blogCategoryModule, sx, ...rest } = props
+  const {
+    item,
+    size = 'medium',
+    postModule,
+    blogCategoryModule,
+    cardContentProps,
+    sx,
+    ...rest
+  } = props
 
   if (!item) return null
+
+  const isSmall = size === 'small'
+  const isLarge = size === 'large'
 
   const { title, subtitle, avatar_src, avatar_alt, blog_category } = item
 
   const postHref = postModule.getWebHref([
-    blog_category.blog,
+    blog_category?.blog,
     blog_category,
     item,
   ])
 
   return (
-    <Card
-      key={item.id}
-      disableCardContent
-      square
-      sx={{ height: '100%', ...sx }}
-      {...rest}
-    >
+    <Card key={item.id} disableCardContent square sx={{ ...sx }} {...rest}>
       <Grid container spacing={2}>
-        <Grid item xs={3} lg={2}>
+        <Grid item xs={3} lg={3}>
           <Link href={postHref}>
             <StorageImage
               src={avatar_src}
@@ -41,20 +57,43 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
             />
           </Link>
         </Grid>
-        <Grid item xs={9} lg={10}>
+        <Grid item xs={9} lg={9}>
           <Box
             py={2}
+            mr={2}
             stretch
             sx={{
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
+              ...cardContentProps?.sx,
             }}
+            {...cardContentProps}
           >
-            <Link variant="h4" href={postHref}>
+            <Link
+              href={blogCategoryModule.getWebHref([
+                blog_category.blog,
+                blog_category,
+              ])}
+            >
+              <Typography variant="overline" gutterBottom>
+                {blog_category.title}
+              </Typography>
+            </Link>
+            <Link
+              variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
+              href={postHref}
+            >
               {title}
             </Link>
-            <Typography>{subtitle}</Typography>
+            {subtitle && (
+              <Typography
+                variant={isSmall ? 'body2' : 'body1'}
+                color="text.secondary"
+              >
+                {subtitle}
+              </Typography>
+            )}
           </Box>
         </Grid>
       </Grid>

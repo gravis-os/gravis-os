@@ -1,5 +1,6 @@
 import React from 'react'
 import { Stack as MuiStack, StackProps as MuiStackProps } from '@mui/material'
+import Divider from './Divider'
 
 const getColumnOrRow = (direction) =>
   direction === 'column' ? 'row' : 'column'
@@ -7,10 +8,19 @@ const getColumnOrRow = (direction) =>
 export interface StackProps extends MuiStackProps {
   center?: boolean
   reverseDirectionOnMobile?: boolean
+  verticalDividers?: boolean
+  horizontalDividers?: boolean
 }
 
 const Stack: React.FC<StackProps> = (props) => {
-  const { sx, center, reverseDirectionOnMobile, ...rest } = props
+  const {
+    sx,
+    center,
+    reverseDirectionOnMobile,
+    verticalDividers,
+    horizontalDividers,
+    ...rest
+  } = props
   const { direction = 'column', spacing } = rest
 
   const stackProps = {
@@ -40,6 +50,17 @@ const Stack: React.FC<StackProps> = (props) => {
 
       ...sx,
     } as StackProps['sx'],
+
+    // Vertical Dividers
+    ...(verticalDividers && {
+      divider: <Divider orientation="vertical" flexItem />,
+    }),
+
+    // Horizontal Dividers
+    ...(horizontalDividers && {
+      divider: <Divider flexItem />,
+    }),
+
     ...rest,
   }
 

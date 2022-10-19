@@ -67,6 +67,7 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   disablePadding?: boolean
   disableCardContent?: boolean
   disableHeader?: boolean
+  disableBoxShadow?: boolean
 
   // Collapse
   collapsible?: boolean
@@ -102,6 +103,7 @@ const Card: React.FC<CardProps> = (props) => {
     disableBorderRadiusBottom,
     disablePadding,
     disableCardContent,
+    disableBoxShadow,
     ...rest
   } = props
 
@@ -246,6 +248,11 @@ const Card: React.FC<CardProps> = (props) => {
       ...(disableBorderRadiusBottom && {
         borderBottomLeftRadius: 0,
         borderBottomRightRadius: 0,
+      }),
+
+      // Box Shadow
+      ...(disableBoxShadow && {
+        boxShadow: 'none',
       }),
 
       ...sx,
