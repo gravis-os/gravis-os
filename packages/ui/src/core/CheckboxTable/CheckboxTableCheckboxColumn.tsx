@@ -6,14 +6,14 @@ import CheckboxTableColumn, {
 } from './CheckboxTableColumn'
 
 interface CheckboxTableCheckboxColumnProps extends CheckboxProps {
-  checkboxTableColumn: CheckboxTableColumnProps
+  checkboxTableColumnProps?: Partial<CheckboxTableColumnProps>
 }
 
 const CheckboxTableCheckboxColumn: React.FC<
   CheckboxTableCheckboxColumnProps
-> = ({ checked, checkboxTableColumn, ...rest }) => (
+> = ({ checked, checkboxTableColumnProps, ...rest }) => (
   <CheckboxTableColumn
-    {...checkboxTableColumn}
+    {...checkboxTableColumnProps}
     sx={{ display: 'flex', justifyContent: 'center' }}
   >
     <Checkbox checked={checked} value={checked} {...rest} />

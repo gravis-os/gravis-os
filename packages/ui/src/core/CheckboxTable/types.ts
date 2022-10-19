@@ -9,7 +9,7 @@ export interface CheckboxTableColumnDef {
 export type CheckboxTableColumnDefs = CheckboxTableColumnDef[]
 
 export interface CheckboxTableColumnCell<T> {
-  key: string
+  key: string | number
   value: T
   checked: boolean
   onChange: (checked: boolean, value: T) => void

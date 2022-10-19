@@ -2,15 +2,15 @@ import React, { useMemo } from 'react'
 import { pick, toUpper } from 'lodash'
 import CheckboxTableHeader from './CheckboxTableHeader'
 import CheckboxTableBody from './CheckboxTableBody'
-import Stack from '../Stack'
 import { CheckboxTableColumns, CheckboxTableRows } from './types'
+import Stack from '../Stack'
 
 export interface CheckboxTableProps<T> {
   isReadOnly?: boolean
   title: string
   columns: CheckboxTableColumns
   rows: CheckboxTableRows<T>
-  onChangeRow: (checked: boolean, row: string) => void
+  onChangeRow?: (checked: boolean, row: string) => void
 }
 
 const getDefaultColumnDef = (column, options) => ({

@@ -2,11 +2,11 @@ import React from 'react'
 import { first } from 'lodash'
 import CheckboxTableColumn from './CheckboxTableColumn'
 import { CheckboxTableColumnDefs } from './types'
-import Typography from '../Typography'
 import Stack from '../Stack'
+import { Typography } from '../index'
 
 interface CheckboxTableHeaderProps {
-  hasToggleAllColumn: boolean
+  hasToggleAllColumn?: boolean
   columnDefs: CheckboxTableColumnDefs
   title: string
 }
