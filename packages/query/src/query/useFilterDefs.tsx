@@ -1,8 +1,48 @@
 import React, { useState } from 'react'
 import startCase from 'lodash/startCase'
-import { ChipProps } from '@gravis-os/ui'
-import { useRouterQuery } from '@gravis-os/query'
-import { FilterChip, FilterDef, FilterDefTypeEnum } from './types'
+import useRouterQuery from './useRouterQuery'
+
+export interface FilterChip {
+  key: string
+  value: unknown
+  label: React.ReactNode
+}
+
+export type FilterDefOptionValue = string | number | boolean
+
+export enum FilterDefTypeEnum {
+  Input = 'input',
+  Checkbox = 'checkbox',
+}
+
+export interface FilterDef {
+  key: string
+  /**
+   * @default 'checkbox'
+   */
+  type?: FilterDefTypeEnum
+  placeholder?: string
+  /**
+   * The name of the column to filter on
+   */
+  name: string
+  /**
+   * The postgrest operator to use
+   */
+  op: string
+  label: React.ReactNode
+  /**
+   * An array of option values to filter on
+   */
+  options?: Array<{
+    key: string
+    /**
+     * The value to filter on
+     */
+    value: FilterDefOptionValue
+    label: string
+  }>
+}
 
 export interface UseFilterDefsProps {
   filterDefs: FilterDef[]
@@ -13,7 +53,7 @@ export interface UseFilterDefsReturn {
   filterChips: FilterChip[]
   isFilterDrawerOpen: boolean
   getHasFilterChip: (key: string) => boolean
-  handleDeleteFilterChip: (filterChipToDelete: ChipProps) => Promise<boolean>
+  handleDeleteFilterChip: (filterChipToDelete: FilterChip) => Promise<boolean>
   handleToggleIsFilterDrawerOpen: () => void
   setFilterDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
@@ -108,7 +148,7 @@ export const useFilterDefs = (
   const handleToggleIsFilterDrawerOpen = () =>
     setIsFilterDrawerOpen(!isFilterDrawerOpen)
 
-  const result = {
+  return {
     filterDefs,
     filterChips,
     isFilterDrawerOpen,
@@ -117,8 +157,6 @@ export const useFilterDefs = (
     handleDeleteFilterChip,
     handleToggleIsFilterDrawerOpen,
   }
-
-  return result
 }
 
 export default useFilterDefs

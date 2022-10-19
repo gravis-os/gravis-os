@@ -3,9 +3,9 @@ import { Box, IconButton } from '@gravis-os/ui'
 import dynamic from 'next/dynamic'
 import KeyboardTabOutlinedIcon from '@mui/icons-material/KeyboardTabOutlined'
 import DirectoryDrawer, { DirectoryDrawerProps } from './DirectoryDrawer'
-import { UseFilterDefsReturn } from './useFilterDefs'
+import { UseFilterDefsReturn } from '@gravis-os/query'
 import type { MapProps } from './Map'
-import { DirectoryListingsProps } from './DirectoryListings'
+import { PaginatedListingsProps } from './PaginatedListings'
 
 const Map = dynamic(() => import('./Map'), { ssr: false })
 
@@ -17,7 +17,7 @@ export interface MapDrawerProps {
   useFilterDefsProps: UseFilterDefsReturn
   width: DirectoryDrawerProps['width']
   mapProps?: MapProps
-  items?: DirectoryListingsProps['items']
+  items?: PaginatedListingsProps['items']
 }
 
 const MapDrawer: React.FC<MapDrawerProps> = (props) => {

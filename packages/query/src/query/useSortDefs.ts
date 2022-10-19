@@ -1,5 +1,13 @@
-import { useRouterQuery } from '@gravis-os/query'
-import { SortDef } from './types'
+import useRouterQuery from './useRouterQuery'
+
+export interface SortDef {
+  key: string
+  value: Record<
+    string,
+    string | Array<string | string | Record<string, unknown>>
+  >
+  label: string
+}
 
 export interface UseSortDefsProps {
   sortDefs: SortDef[]

@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from 'react'
 import { Box, Container } from '@gravis-os/ui'
 import { useMediaQuery, useTheme } from '@mui/material'
-import { UseFilterDefsReturn } from './useFilterDefs'
-import { UseSortDefsReturn } from './useSortDefs'
+import {
+  PaginatedQueryViewVariantEnum,
+  PaginatedQueryViewPaginationTypeEnum,
+  PAGINATED_QUERY_VIEW_GRID_ITEM_MIN_WIDTH,
+  UseFilterDefsReturn,
+  UseSortDefsReturn,
+} from '@gravis-os/query'
 import FilterAppBar from './FilterAppBar'
 import DirectoryDrawer from './DirectoryDrawer'
 import FilterAccordions from './FilterAccordions'
-import DirectoryListings, { DirectoryListingsProps } from './DirectoryListings'
-import { DirectoryVariantEnum, DirectoryPaginationTypeEnum } from './types'
+import PaginatedListings, { PaginatedListingsProps } from './PaginatedListings'
 import BottomDrawer from './BottomDrawer'
 import MapDrawer from './MapDrawer'
-import { DIRECTORY_LISTING_GRID_ITEM_MIN_WIDTH } from './constants'
 
-export interface DirectoryTemplateProps extends DirectoryListingsProps {
+export interface DirectoryTemplateProps extends PaginatedListingsProps {
   title?: string
   enableMap?: boolean
   filterDrawerWidth?: number
@@ -30,11 +33,11 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     title,
     enableMap,
     items,
-    variant: injectedVariant = DirectoryVariantEnum.Grid,
+    variant: injectedVariant = PaginatedQueryViewVariantEnum.Grid,
     renderItem,
     itemProps,
     pagination,
-    paginationType = DirectoryPaginationTypeEnum.Pagination,
+    paginationType = PaginatedQueryViewPaginationTypeEnum.Pagination,
     useFilterDefsProps,
     useSortDefsProps,
     gridProps,
@@ -66,7 +69,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
 
   // State: Bottom drawer
   const directoryListingsJsx = (
-    <DirectoryListings
+    <PaginatedListings
       gridProps={gridProps}
       gridItemProps={gridItemProps}
       items={items}
@@ -81,7 +84,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
 
   const [showBottomDrawer, setShowBottomDrawer] = useState(true)
 
-  const renderDirectoryListings = () => {
+  const renderPaginatedListings = () => {
     switch (true) {
       case enableMap:
         return (
@@ -91,7 +94,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                 component="main"
                 sx={{
                   flexGrow: 1,
-                  minWidth: DIRECTORY_LISTING_GRID_ITEM_MIN_WIDTH,
+                  minWidth: PAGINATED_QUERY_VIEW_GRID_ITEM_MIN_WIDTH,
                   // Mobile view for map
                   position: { xs: 'absolute', md: 'static' },
                   height: { xs: '100%', md: 'inherit' },
@@ -152,7 +155,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
             </DirectoryDrawer>
 
             {/* Listings */}
-            {renderDirectoryListings()}
+            {renderPaginatedListings()}
 
             {/* Map Drawer */}
             {enableMap && (

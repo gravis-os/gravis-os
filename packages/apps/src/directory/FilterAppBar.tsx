@@ -14,18 +14,20 @@ import { ToggleButton, ToggleButtonGroup, Toolbar } from '@mui/material'
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined'
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined'
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined'
-import { UseFilterDefsReturn } from './useFilterDefs'
-import { UseSortDefsReturn } from './useSortDefs'
-import { DirectoryVariantEnum } from './types'
+import {
+  PaginatedQueryViewVariantEnum,
+  UseFilterDefsReturn,
+  UseSortDefsReturn,
+} from '@gravis-os/query'
 
 export interface FilterAppBarProps {
   useFilterDefsProps?: UseFilterDefsReturn
   useSortDefsProps?: UseSortDefsReturn
   title?: string
   subtitle?: string
-  directoryVariant: DirectoryVariantEnum
+  directoryVariant: PaginatedQueryViewVariantEnum
   setDirectoryVariant: React.Dispatch<
-    React.SetStateAction<DirectoryVariantEnum>
+    React.SetStateAction<PaginatedQueryViewVariantEnum>
   >
   showMap?: boolean
   setShowMap?: React.Dispatch<React.SetStateAction<boolean>>
@@ -167,10 +169,10 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
                 onChange={(e, value) => setDirectoryVariant(value)}
                 value={directoryVariant}
               >
-                <ToggleButton value={DirectoryVariantEnum.Grid}>
+                <ToggleButton value={PaginatedQueryViewVariantEnum.Grid}>
                   <GridViewOutlinedIcon fontSize="small" />
                 </ToggleButton>
-                <ToggleButton value={DirectoryVariantEnum.List}>
+                <ToggleButton value={PaginatedQueryViewVariantEnum.List}>
                   <FormatListBulletedOutlinedIcon fontSize="small" />
                 </ToggleButton>
               </ToggleButtonGroup>

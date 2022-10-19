@@ -1,6 +1,7 @@
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useQuery } from 'react-query'
-import { Attribute, AttributeOption, FilterDef } from './types'
+import { FilterDef } from '@gravis-os/query/src'
+import { Attribute, AttributeOption } from './types'
 
 const useDirectoryAttributesFilterDefs = (props: { directory_id?: number }) => {
   const { directory_id } = props

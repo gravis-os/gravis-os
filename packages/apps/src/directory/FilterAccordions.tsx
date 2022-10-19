@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box } from '@gravis-os/ui'
 import FilterAccordion from './FilterAccordion'
-import { UseFilterDefsReturn } from './useFilterDefs'
+import { UseFilterDefsReturn } from '@gravis-os/query'
 
 export interface FilterAccordionsProps {
   useFilterDefsProps: UseFilterDefsReturn

@@ -10,58 +10,52 @@ import {
 } from '@gravis-os/ui'
 import useMeasure from 'react-use-measure'
 import { Pagination, useTheme } from '@mui/material'
-import { CrudItem, RenderPropsFunction } from '@gravis-os/types'
+import { RenderPropsFunction } from '@gravis-os/types'
 import { UseInfiniteQueryResult, UseQueryResult } from 'react-query'
 import { useInView } from 'react-intersection-observer'
-import { UsePaginationReturn } from '@gravis-os/query'
-import ListingCard, { ListingCardProps } from './ListingCard'
-import ListingListItem, { ListingListItemProps } from './ListingListItem'
-import {
-  DirectoryVariantEnum,
-  DirectoryPaginationTypeEnum,
-  Listing,
-} from './types'
-import { DIRECTORY_LISTING_GRID_ITEM_MIN_WIDTH } from './constants'
+import { UsePaginationReturn } from './usePagination'
 
-const renderItemByDirectoryVariant = (props: DirectoryTemplateRenderProps) => {
-  const { variant } = props
-  switch (variant) {
-    case DirectoryVariantEnum.Grid:
-      return <ListingCard {...(props as unknown as ListingCardProps)} />
-    case DirectoryVariantEnum.List:
-      return <ListingListItem {...(props as unknown as ListingListItemProps)} />
-    default:
-      return <ListingCard {...(props as unknown as ListingCardProps)} />
-  }
+export const PAGINATED_QUERY_VIEW_GRID_ITEM_MIN_WIDTH = 350
+
+export enum PaginatedQueryViewVariantEnum {
+  Grid = 'grid',
+  List = 'list',
 }
 
-export interface DirectoryTemplateRenderProps extends Record<string, any> {
-  item: CrudItem
-  queryResult?: DirectoryListingsProps['queryResult']
-  variant: DirectoryListingsProps['variant']
+export enum PaginatedQueryViewPaginationTypeEnum {
+  InfiniteScroll = 'infinite-scroll',
+  Pagination = 'pagination',
+  LoadMore = 'load-more',
 }
 
-export interface DirectoryListingsProps {
-  items?: Listing[]
+export interface PaginatedQueryViewRenderItemProps extends Record<string, any> {
+  item: Record<string, any>
+  queryResult?: PaginatedQueryViewProps['queryResult']
+  variant: PaginatedQueryViewProps['variant']
+}
 
-  renderItem?: RenderPropsFunction<DirectoryTemplateRenderProps>
+export interface PaginatedQueryViewProps {
+  // Item
+  items?: Record<string, any>[]
   itemProps?: Record<string, any>
+  renderItem: RenderPropsFunction<PaginatedQueryViewRenderItemProps>
 
-  // Grid
+  // ViewType
+  variant?: PaginatedQueryViewVariantEnum
+
+  // Grid View specific props
   gridProps?: GridProps
   gridItemProps?: GridProps
 
   // PaginationType
   pagination?: UsePaginationReturn
-  paginationType?: DirectoryPaginationTypeEnum
+  paginationType?: PaginatedQueryViewPaginationTypeEnum
   queryResult: (UseInfiniteQueryResult | UseQueryResult) & {
     pagination: UsePaginationReturn
   }
-
-  variant?: DirectoryVariantEnum
 }
 
-const DirectoryListings: React.FC<DirectoryListingsProps> = (props) => {
+const PaginatedQueryView: React.FC<PaginatedQueryViewProps> = (props) => {
   const {
     gridProps: injectedGridProps,
     gridItemProps: injectedGridItemProps,
@@ -74,16 +68,16 @@ const DirectoryListings: React.FC<DirectoryListingsProps> = (props) => {
     variant,
   } = props
 
-  const commonRenderItemProps = { variant, queryResult, ...itemProps }
+  const renderItemProps = { variant, queryResult, ...itemProps }
 
   // Resize on drawer change
   const [measureRef, bounds] = useMeasure()
   const theme = useTheme()
-  const minGridItemWidth = DIRECTORY_LISTING_GRID_ITEM_MIN_WIDTH
+  const minGridItemWidth = PAGINATED_QUERY_VIEW_GRID_ITEM_MIN_WIDTH
   const gridItemWidth = Math.floor(bounds?.width / minGridItemWidth)
 
   // View setup
-  const isListVariant = variant === DirectoryVariantEnum.List
+  const isListVariant = variant === PaginatedQueryViewVariantEnum.List
   const gridProps = { ...injectedGridProps }
   const gridItemProps = {
     ...injectedGridItemProps,
@@ -105,11 +99,12 @@ const DirectoryListings: React.FC<DirectoryListingsProps> = (props) => {
 
   // InfiniteQuery setup
   const isInfiniteScroll =
-    paginationType === DirectoryPaginationTypeEnum.InfiniteScroll
-  const isLoadMore = paginationType === DirectoryPaginationTypeEnum.LoadMore
+    paginationType === PaginatedQueryViewPaginationTypeEnum.InfiniteScroll
+  const isLoadMore =
+    paginationType === PaginatedQueryViewPaginationTypeEnum.LoadMore
   const isInfinitePaginationType = isInfiniteScroll || isLoadMore
   const isRegularPagination =
-    paginationType === DirectoryPaginationTypeEnum.Pagination
+    paginationType === PaginatedQueryViewPaginationTypeEnum.Pagination
   const { isLoading } = queryResult
   const hasNextPage = isInfinitePaginationType
     ? (queryResult as UseInfiniteQueryResult).hasNextPage
@@ -134,12 +129,7 @@ const DirectoryListings: React.FC<DirectoryListingsProps> = (props) => {
           if (!item) return null
           return (
             <Grid key={item.id} item xs={12} md={4} {...gridItemProps}>
-              {renderItem
-                ? renderItem({ item, ...commonRenderItemProps })
-                : renderItemByDirectoryVariant({
-                    item,
-                    ...commonRenderItemProps,
-                  })}
+              {renderItem({ ...renderItemProps, item })}
             </Grid>
           )
         })}
@@ -191,4 +181,4 @@ const DirectoryListings: React.FC<DirectoryListingsProps> = (props) => {
   )
 }
 
-export default DirectoryListings
+export default PaginatedQueryView

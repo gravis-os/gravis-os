@@ -13,8 +13,12 @@ import {
 } from '@mui/material'
 import { useRouterQuery } from '@gravis-os/query'
 import startCase from 'lodash/startCase'
-import { UseFilterDefsReturn } from './useFilterDefs'
-import { FilterDef, FilterDefOptionValue, FilterDefTypeEnum } from './types'
+import {
+  FilterDef,
+  FilterDefOptionValue,
+  FilterDefTypeEnum,
+  UseFilterDefsReturn,
+} from '@gravis-os/query'
 
 export interface FilterAccordionOptionInterface {
   key: string
