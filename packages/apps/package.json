@@ -13,6 +13,9 @@
       ],
       "directory": [
         "./dist/types/directory/index.d.ts"
+      ],
+      "blog": [
+        "./dist/types/blog/index.d.ts"
       ]
     }
   },
@@ -28,6 +31,10 @@
     "./directory": {
       "require": "./dist/cjs/directory/index.js",
       "import": "./dist/esm/directory/index.js"
+    },
+    "./blog": {
+      "require": "./dist/cjs/blog/index.js",
+      "import": "./dist/esm/blog/index.js"
     }
   },
   "files": [
