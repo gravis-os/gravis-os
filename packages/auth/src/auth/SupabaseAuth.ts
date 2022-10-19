@@ -11,7 +11,7 @@ export type HandleSignUp = (
   values: { email: string; password: string },
   authOptions?: SupabaseAuthOptions,
   submitOptions?: { toastSuccessMessage?: string }
-) => AuthUser
+) => Promise<AuthUser>
 
 export const handleSignUp: HandleSignUp = async (
   values,
@@ -49,7 +49,7 @@ export const handleSignUp: HandleSignUp = async (
 export type HandleSignIn = (
   values: { email: string; password: string },
   authOptions?: SupabaseAuthOptions
-) => AuthUser
+) => Promise<AuthUser>
 
 export const handleSignIn: HandleSignIn = async (
   values,
@@ -85,14 +85,18 @@ export const handleSignIn: HandleSignIn = async (
 export type HandleResetPassword = (
   values: { email: string },
   authOptions?: SupabaseAuthOptions
-) => AuthUser
+) => Promise<unknown>
 
 export const handleResetPassword: HandleResetPassword = async (
   values,
   authOptions = { redirectTo: '' }
 ) => {
   const { email } = values
-  if (!email) return toast.error('Please enter your email')
+
+  if (!email) {
+    toast.error('Please enter your email')
+    return
+  }
 
   try {
     const onResetPasswordForEmail =
@@ -120,11 +124,15 @@ export const handleResetPassword: HandleResetPassword = async (
 export type HandleRecoverPassword = (values: {
   accessToken: string
   password: string
-}) => AuthUser
+}) => Promise<AuthUser>
 
 export const handleRecoverPassword: HandleRecoverPassword = async (values) => {
   const { accessToken, password } = values
-  if (!password) return toast.error('Please enter your password')
+
+  if (!password) {
+    toast.error('Please enter your password')
+    return
+  }
 
   try {
     const onUpdateUser = await supabaseClient.auth.api.updateUser(accessToken, {
