@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.40
+
+### Patch Changes
+
+- [#107](https://github.com/gravis-os/gravis-os/pull/107) [`9f935c7`](https://github.com/gravis-os/gravis-os/commit/9f935c712615b36497899cff61cb2f8ad27ae35e) Thanks [@winter-steve](https://github.com/winter-steve)! - show page loader only in client environment
+
+- Updated dependencies [[`9f935c7`](https://github.com/gravis-os/gravis-os/commit/9f935c712615b36497899cff61cb2f8ad27ae35e), [`a4670bf`](https://github.com/gravis-os/gravis-os/commit/a4670bff67d1489fac7dad856bda1734e3c4de3c)]:
+  - @gravis-os/utils@0.0.24
+  - @gravis-os/ui@0.0.49
+
 ## 0.0.39
 
 ### Patch Changes

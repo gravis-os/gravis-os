@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
-import { Box, HeaderProps, List, ListItemProps } from '@gravis-os/ui'
+import { Box, HeaderProps, List, ListItemProps, ListProps } from '@gravis-os/ui'
 import { useRouter } from 'next/router'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer, { ResponsiveDrawerProps } from './ResponsiveDrawer'
@@ -31,14 +31,16 @@ export interface DashboardLayoutProps {
 
   // Left Aside Props
   leftAsideWidth?: number
+  leftAsideListProps?: Omit<ListProps, 'items' | 'listItemProps'>
   leftAsideListItems?: ListItemProps['items']
-  leftAsideListItemProps?: ListItemProps
+  leftAsideListItemProps?: Omit<ListItemProps, 'key'>
   leftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
 
   // Secondary Left Aside Props
   showSecondaryLeftAside?: boolean
   secondaryLeftAsideWidth?: number
-  secondaryLeftAsideListItemProps?: ListItemProps
+  secondaryLeftAsideListProps?: Omit<ListProps, 'items' | 'listItemProps'>
+  secondaryLeftAsideListItemProps?: Omit<ListItemProps, 'key'>
   secondaryLeftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
 
   // Right Aside
@@ -68,6 +70,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
     secondaryLeftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
     rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
+
+    leftAsideListProps,
+    secondaryLeftAsideListProps,
 
     leftAsideListItems: injectedLeftAsideListItems,
     rightAsideListItems,
@@ -272,6 +277,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             }}
           >
             <List
+              {...secondaryLeftAsideListProps}
               items={secondaryLeftAsideListItems}
               listItemProps={{
                 disableGutters: true,
@@ -339,6 +345,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           }}
         >
           <List
+            {...leftAsideListProps}
             items={primaryLeftAsideListItems}
             listItemProps={{
               disableGutters: true,
@@ -376,6 +383,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                   : 0,
                 sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
               },
+              ...leftAsideListProps?.sx,
             }}
           />
         </ResponsiveDrawer>

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.73
+
+### Patch Changes
+
+- [#109](https://github.com/gravis-os/gravis-os/pull/109) [`732ccf3`](https://github.com/gravis-os/gravis-os/commit/732ccf32085a3075f3da6c9037f3b9047947ac45) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - republish gravis
+
 ## 0.0.72
 
 ### Patch Changes
