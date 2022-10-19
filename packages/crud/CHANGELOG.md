@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.54
+
+### Patch Changes
+
+- [#106](https://github.com/gravis-os/gravis-os/pull/106) [`ccb9d3e`](https://github.com/gravis-os/gravis-os/commit/ccb9d3ee26b1cc7b8400e90d2196ba9fc849f121) Thanks [@winter-steve](https://github.com/winter-steve)! - fix useGetItemProps options type
+
+- Updated dependencies [[`9f935c7`](https://github.com/gravis-os/gravis-os/commit/9f935c712615b36497899cff61cb2f8ad27ae35e), [`a4670bf`](https://github.com/gravis-os/gravis-os/commit/a4670bff67d1489fac7dad856bda1734e3c4de3c)]:
+  - @gravis-os/auth@0.0.40
+  - @gravis-os/utils@0.0.24
+  - @gravis-os/ui@0.0.49
+
 ## 0.0.53
 
 ### Patch Changes

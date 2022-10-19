@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.24
+
+### Patch Changes
+
+- [#107](https://github.com/gravis-os/gravis-os/pull/107) [`9f935c7`](https://github.com/gravis-os/gravis-os/commit/9f935c712615b36497899cff61cb2f8ad27ae35e) Thanks [@winter-steve](https://github.com/winter-steve)! - show page loader only in client environment
+
 ## 0.0.23
 
 ### Patch Changes
