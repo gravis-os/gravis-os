@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import NextImage, { ImageProps as NextImageProps } from 'next/image'
 import omit from 'lodash/omit'
+import NextImage, { ImageProps as NextImageProps } from 'next/image'
+import React, { useState } from 'react'
 import Box, { BoxProps } from './Box'
 
 export interface ImageProps extends Omit<NextImageProps, 'loading'> {
@@ -37,7 +37,7 @@ const Image: React.FC<ImageProps> = (props) => {
   const { src } = rest
 
   const empty = !src
-  const [loading, setLoading] = useState(true)
+  const [loading, setLoading] = useState(injectedLoading ?? true)
   const [aspectWidth, aspectHeight] = ar?.split(':') || [1, 1]
 
   if (empty) {
