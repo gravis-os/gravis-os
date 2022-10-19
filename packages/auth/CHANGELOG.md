@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.38
+
+### Patch Changes
+
+- [#101](https://github.com/gravis-os/gravis-os/pull/101) [`98ddae1`](https://github.com/gravis-os/gravis-os/commit/98ddae1f6f29da80e3a3a36497088354d0499a32) Thanks [@winter-steve](https://github.com/winter-steve)! - fix supabase auth util types
+
+- Updated dependencies [[`efb01cc`](https://github.com/gravis-os/gravis-os/commit/efb01ccc4b6394e7138bc79f78cdfe5533dc20dc), [`98ddae1`](https://github.com/gravis-os/gravis-os/commit/98ddae1f6f29da80e3a3a36497088354d0499a32)]:
+  - @gravis-os/form@0.0.71
+  - @gravis-os/ui@0.0.47
+  - @gravis-os/types@0.0.20
+
 ## 0.0.37
 
 ### Patch Changes
