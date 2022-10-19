@@ -1,10 +1,10 @@
 /* @typescript-eslint/no-empty-function */
 import React from 'react'
 import { Controller, UseControllerProps } from 'react-hook-form'
-import { CheckboxTable, CheckboxTableProps } from '@gravis-os/ui'
 import { groupBy } from 'lodash'
+import { CheckboxTable, CheckboxTableProps } from '@gravis-os/ui'
 
-export interface ControlledCheckboxTableOptions<T = { id: string }>
+export interface ControlledCheckboxTableOptions<T = { id: string | number }>
   extends Pick<CheckboxTableProps<unknown>, 'isReadOnly' | 'title'> {
   hasToggleRowColumn?: boolean
   columns: string[]
@@ -34,7 +34,7 @@ const ControlledCheckboxTable: React.FC<ControlledCheckboxTableProps> = (
       render={({ field }) => {
         const { onChange, value: formValues = [], ...fieldProps } = field
 
-        const handleToggleCell = <T extends { id: string }>(
+        const handleToggleCell = <T extends { id: string | number }>(
           checked: boolean,
           value: T
         ) => {
@@ -72,7 +72,7 @@ const ControlledCheckboxTable: React.FC<ControlledCheckboxTableProps> = (
 
         return (
           <CheckboxTable
-            onChangeRow={hasToggleRowColumn && handleToggleRow}
+            onChangeRow={hasToggleRowColumn ? handleToggleRow : undefined}
             {...fieldProps}
             {...checkboxTableProps}
             rows={nextRows}
