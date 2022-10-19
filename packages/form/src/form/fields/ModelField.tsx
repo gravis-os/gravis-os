@@ -30,8 +30,6 @@ import isNil from 'lodash/isNil'
 import TextField from './TextField'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 
-// Commented to republish the package to npm
-
 type DataItem = Record<string, unknown> & { id?: string | number }
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
