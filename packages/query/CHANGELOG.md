@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.10
+
+### Patch Changes
+
+- [`a6ff813`](https://github.com/gravis-os/gravis-os/commit/a6ff81376d7c8ac14fcea35ac6d1eaea845a75d5) Thanks [@clodal](https://github.com/clodal)! - Abstracted PaginatedQueryView from apps/directory into query for re-use
+
 ## 0.0.9
 
 ### Patch Changes

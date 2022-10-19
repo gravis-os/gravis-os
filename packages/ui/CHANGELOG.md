@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.50
+
+### Patch Changes
+
+- [`4bdfa39`](https://github.com/gravis-os/gravis-os/commit/4bdfa39e3d12e5e72f0dddc7fb12216078d69cb5) Thanks [@clodal](https://github.com/clodal)! - Update Post renderItem UI
+
 ## 0.0.49
 
 ### Patch Changes

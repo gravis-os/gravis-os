@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.39
+
+### Patch Changes
+
+- [`a6ff813`](https://github.com/gravis-os/gravis-os/commit/a6ff81376d7c8ac14fcea35ac6d1eaea845a75d5) Thanks [@clodal](https://github.com/clodal)! - Abstracted PaginatedQueryView from apps/directory into query for re-use
+
+* [`4bdfa39`](https://github.com/gravis-os/gravis-os/commit/4bdfa39e3d12e5e72f0dddc7fb12216078d69cb5) Thanks [@clodal](https://github.com/clodal)! - Update Post renderItem UI
+
+- [`dd5793e`](https://github.com/gravis-os/gravis-os/commit/dd5793e5742165f129128ef66d554cbc2246f325) Thanks [@clodal](https://github.com/clodal)! - Update typing to omit renderItem in PaginatedList and PaginatedPost
+
+- Updated dependencies [[`a6ff813`](https://github.com/gravis-os/gravis-os/commit/a6ff81376d7c8ac14fcea35ac6d1eaea845a75d5), [`4bdfa39`](https://github.com/gravis-os/gravis-os/commit/4bdfa39e3d12e5e72f0dddc7fb12216078d69cb5)]:
+  - @gravis-os/query@0.0.10
+  - @gravis-os/ui@0.0.50
+
 ## 0.0.38
 
 ### Patch Changes
