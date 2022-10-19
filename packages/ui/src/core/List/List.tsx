@@ -11,10 +11,16 @@ import Badge from '../Badge'
 export interface ListProps extends MuiListProps {
   items: ListItemProps[]
   listItemProps?: Omit<ListItemWithCollapseProps, 'key' | 'depth'>
+  hideIndicator?: boolean
 }
 
 const List: React.FC<ListProps> = (props) => {
-  const { items, listItemProps: injectedListItemProps, ...rest } = props
+  const {
+    items,
+    listItemProps: injectedListItemProps,
+    hideIndicator,
+    ...rest
+  } = props
   const { dense } = rest
 
   if (!items.length) return null
@@ -37,7 +43,9 @@ const List: React.FC<ListProps> = (props) => {
 
         // Show badge dot on the highest parent that is currently slected
         const shouldShowIndicator =
-          isHighestParent && (isNestedMenu ? item.open : item.selected)
+          isHighestParent &&
+          (isNestedMenu ? item.open : item.selected) &&
+          !hideIndicator
 
         // Merge props
         const listItemProps = merge({ dense }, injectedListItemProps, item, {
