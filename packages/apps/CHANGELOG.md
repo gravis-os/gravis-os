@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.38
+
+### Patch Changes
+
+- [`09652e1`](https://github.com/gravis-os/gravis-os/commit/09652e1c10c28a20d2e83710f4f311bc2402e505) Thanks [@clodal](https://github.com/clodal)! - Republish certain packages because forgot to build earlier
+
+* [`e38db8c`](https://github.com/gravis-os/gravis-os/commit/e38db8c63e2bd168e7b6a8e55e531d5b74061bb5) Thanks [@clodal](https://github.com/clodal)! - Add BlogListTemplate to app export
+
+* Updated dependencies [[`09652e1`](https://github.com/gravis-os/gravis-os/commit/09652e1c10c28a20d2e83710f4f311bc2402e505)]:
+  - @gravis-os/form@0.0.72
+  - @gravis-os/types@0.0.21
+  - @gravis-os/ui@0.0.48
+
 ## 0.0.37
 
 ### Patch Changes

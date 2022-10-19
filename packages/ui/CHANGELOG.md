@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.48
+
+### Patch Changes
+
+- [`09652e1`](https://github.com/gravis-os/gravis-os/commit/09652e1c10c28a20d2e83710f4f311bc2402e505) Thanks [@clodal](https://github.com/clodal)! - Republish certain packages because forgot to build earlier
+
+- Updated dependencies [[`09652e1`](https://github.com/gravis-os/gravis-os/commit/09652e1c10c28a20d2e83710f4f311bc2402e505)]:
+  - @gravis-os/types@0.0.21
+
 ## 0.0.47
 
 ### Patch Changes
