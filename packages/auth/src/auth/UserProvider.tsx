@@ -3,7 +3,7 @@ import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
-import { isPathMatch, getGuestPaths } from '@gravis-os/utils'
+import { isPathMatch, getGuestPaths, isPlatformBrowser } from '@gravis-os/utils'
 import { useQuery, useQueryClient, QueryOptions } from 'react-query'
 import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
@@ -118,7 +118,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   const isGuestPath = isPathMatch(pathname, guestPaths)
 
   // Loader
-  const shouldShowLoader = !isGuestPath && !dbUser
+  const shouldShowLoader = isPlatformBrowser() && !isGuestPath && !dbUser
   const loader = injectedLoader || <CircularProgress fullScreen />
 
   if (process.env.DEBUG === 'true') {
