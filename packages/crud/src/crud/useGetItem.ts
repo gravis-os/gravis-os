@@ -1,13 +1,13 @@
 import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { QueryOptions, useQuery, UseQueryResult } from 'react-query'
+import { QueryObserverOptions, useQuery, UseQueryResult } from 'react-query'
 import { CrudModule } from '@gravis-os/types'
 import { useUser } from '@gravis-os/auth'
 
 export interface UseGetItemProps {
   module: CrudModule
   slug?: string | null
-  options?: QueryOptions
+  options?: QueryObserverOptions
 }
 
 export interface UseGetItemResult extends Omit<UseQueryResult, 'error'> {
