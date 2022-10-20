@@ -1,4 +1,4 @@
-import React, { SyntheticEvent, useRef, useState } from 'react'
+import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import {
   Button,
   ButtonGroup,
@@ -10,7 +10,7 @@ import {
   Paper,
   Popper,
 } from '@mui/material'
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
+import React, { SyntheticEvent, useRef, useState } from 'react'
 
 export interface SplitButtonOption<T = string> {
   label: string
@@ -19,7 +19,8 @@ export interface SplitButtonOption<T = string> {
   render?: () => React.ReactNode
 }
 
-interface SplitButtonProps extends Omit<ButtonProps, 'onClick' | 'onChange'> {
+export interface SplitButtonProps
+  extends Omit<ButtonProps, 'onClick' | 'onChange'> {
   options: SplitButtonOption[]
   onClick?: (option: SplitButtonOption, event: SyntheticEvent) => void
   onChange?: (option: SplitButtonOption) => void
