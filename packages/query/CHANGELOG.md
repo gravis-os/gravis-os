@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.11
+
+### Patch Changes
+
+- [`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b) Thanks [@clodal](https://github.com/clodal)! - Add useList and useDetail to query package. Add apps/blog components
+
 ## 0.0.10
 
 ### Patch Changes

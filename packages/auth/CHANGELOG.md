@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.41
+
+### Patch Changes
+
+- [`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b) Thanks [@clodal](https://github.com/clodal)! - Add useList and useDetail to query package. Add apps/blog components
+
+- Updated dependencies [[`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b)]:
+  - @gravis-os/ui@0.0.52
+
 ## 0.0.40
 
 ### Patch Changes
