@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.55
+
+### Patch Changes
+
+- [`82ba856`](https://github.com/gravis-os/gravis-os/commit/82ba8563862fbd49185b430f39c6c406064a11b5) Thanks [@clodal](https://github.com/clodal)! - Republish form and crud to ensure latest builds
+
+- Updated dependencies [[`82ba856`](https://github.com/gravis-os/gravis-os/commit/82ba8563862fbd49185b430f39c6c406064a11b5)]:
+  - @gravis-os/form@0.0.75
+
 ## 0.0.54
 
 ### Patch Changes
