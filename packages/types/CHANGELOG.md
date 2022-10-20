@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.22
+
+### Patch Changes
+
+- [`5fddac6`](https://github.com/gravis-os/gravis-os/commit/5fddac693f03e34631a52acc68e4dc9e1200815e) Thanks [@clodal](https://github.com/clodal)! - Rebuild packages to ensure latest build
+
 ## 0.0.21
 
 ### Patch Changes
