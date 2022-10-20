@@ -14,6 +14,12 @@ export interface LandingLayoutProps extends StackProps {
   footerProps?: FooterProps
   bodyProps?: BoxProps
   backgroundColor?: string
+
+  // Gutters (vertical)
+  disableGutters?: boolean
+  disableGutterTop?: boolean
+  disableGutterBottom?: boolean
+  gutterSize?: number
 }
 
 const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
@@ -24,6 +30,10 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
     sx,
     bodyProps,
     backgroundColor,
+    disableGutters,
+    disableGutterTop,
+    disableGutterBottom,
+    gutterSize = 4,
     ...rest
   } = props
 
@@ -39,6 +49,11 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
               backgroundColor,
             },
           }),
+
+          // Gutters
+          ...(!(disableGutterTop || disableGutters) && { pt: gutterSize }),
+          ...(!(disableGutterBottom || disableGutters) && { pb: gutterSize }),
+
           ...bodyProps?.sx,
         }}
       >

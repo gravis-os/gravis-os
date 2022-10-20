@@ -2,6 +2,8 @@ import { CrudItem } from '@gravis-os/types'
 
 export interface Post extends CrudItem {
   id: number
+  hero_src?: string
+  hero_alt?: string
   avatar_src?: string
   avatar_alt?: string
   title: string
