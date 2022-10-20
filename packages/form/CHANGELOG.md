@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.74
+
+### Patch Changes
+
+- [#110](https://github.com/gravis-os/gravis-os/pull/110) [`bc95973`](https://github.com/gravis-os/gravis-os/commit/bc9597339871b2561b4c42bb7676993d2e8af9fe) Thanks [@winter-steve](https://github.com/winter-steve)! - fix types for ControlledCheckboxTable and CheckboxTable
+
+- Updated dependencies [[`bc95973`](https://github.com/gravis-os/gravis-os/commit/bc9597339871b2561b4c42bb7676993d2e8af9fe)]:
+  - @gravis-os/ui@0.0.51
+
 ## 0.0.73
 
 ### Patch Changes

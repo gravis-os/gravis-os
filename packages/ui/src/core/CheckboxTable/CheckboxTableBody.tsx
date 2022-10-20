@@ -15,7 +15,7 @@ interface CheckboxTableBodyProps<T> {
 const CheckboxTableBody = <T,>(props: CheckboxTableBodyProps<T>) => {
   const { isReadOnly, onChangeRow, columnDefs, rows } = props
 
-  const columnWidth = first(columnDefs).width
+  const columnWidth = first(columnDefs)?.width
 
   return (
     <>
@@ -29,9 +29,7 @@ const CheckboxTableBody = <T,>(props: CheckboxTableBodyProps<T>) => {
               checked={every(cells, 'checked')}
               disabled={isReadOnly}
               onChange={(_, checked) => onChangeRow(checked, row)}
-              checkboxTableColumn={{
-                width: columnWidth,
-              }}
+              checkboxTableColumnProps={{ width: columnWidth }}
             />
           )}
           {cells.map((cell) => (
@@ -40,9 +38,7 @@ const CheckboxTableBody = <T,>(props: CheckboxTableBodyProps<T>) => {
               checked={cell.checked}
               disabled={isReadOnly}
               onChange={(_, checked) => cell?.onChange(checked, cell.value)}
-              checkboxTableColumn={{
-                width: columnWidth,
-              }}
+              checkboxTableColumnProps={{ width: columnWidth }}
             />
           ))}
         </Stack>
