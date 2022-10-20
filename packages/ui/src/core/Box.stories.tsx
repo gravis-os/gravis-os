@@ -3,7 +3,6 @@ import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Box from './Box'
 
 export default {
-  // * Box is used as Box component is a forwardRef and therefore Box.name would return undefined.
   title: getCoreStorybookTitle('Box'),
   component: Box,
   parameters: { layout: 'fullscreen' },
