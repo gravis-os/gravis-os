@@ -98,7 +98,7 @@ export const CalendarToolbar: FC<CalendarToolbarProps> = (props) => {
           }}
           variant="h4"
         >
-          {dayjs(date).format('y')}
+          {dayjs(date).format('YYYY')}
         </Typography>
       </Box>
       <Box
