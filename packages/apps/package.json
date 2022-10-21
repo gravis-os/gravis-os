@@ -11,6 +11,9 @@
       "accounting": [
         "./dist/types/accounting/index.d.ts"
       ],
+      "calendar": [
+        "./dist/types/calendar/index.d.ts"
+      ],
       "directory": [
         "./dist/types/directory/index.d.ts"
       ],
@@ -27,6 +30,10 @@
     "./accounting": {
       "require": "./dist/cjs/accounting/index.js",
       "import": "./dist/esm/accounting/index.js"
+    },
+    "./calendar": {
+      "require": "./dist/cjs/calendar/index.js",
+      "import": "./dist/esm/calendar/index.js"
     },
     "./directory": {
       "require": "./dist/cjs/directory/index.js",
@@ -92,8 +99,17 @@
     "@babel/core": "^7.10.5",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/runtime": "^7.17.9",
+    "dayjs": "^1.11.3",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
+    "@fullcalendar/common": "^5.10.1",
+    "@fullcalendar/core": "^5.10.1",
+    "@fullcalendar/daygrid": "^5.10.1",
+    "@fullcalendar/interaction": "^5.10.1",
+    "@fullcalendar/list": "^5.10.1",
+    "@fullcalendar/react": "^5.10.1",
+    "@fullcalendar/timegrid": "^5.10.1",
+    "@fullcalendar/timeline": "^5.10.1",
     "@gravis-os/eslint-config": "*",
     "@gravis-os/tsconfig": "*",
     "@mui/icons-material": "^5.6.2",
