@@ -166,6 +166,12 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
         return dropdownJsx
       })}
       <Button
+        variant="contained"
+        color="primary"
+        fullWidth
+        size="large"
+        type="submit"
+        {...ButtonProps}
         sx={{
           height: '100%',
           maxWidth: (theme) => ({
@@ -177,12 +183,6 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
           my: { xs: 2, md: 0 },
           ...ButtonProps?.sx,
         }}
-        variant="contained"
-        color="primary"
-        fullWidth
-        size="large"
-        type="submit"
-        {...ButtonProps}
       >
         Search
       </Button>
