@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.53
+
+### Patch Changes
+
+- [#112](https://github.com/gravis-os/gravis-os/pull/112) [`b8063e5`](https://github.com/gravis-os/gravis-os/commit/b8063e58877a3c2d801558ddc7e4f17a53e8aacf) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Update MegaSearch
+
 ## 0.0.52
 
 ### Patch Changes
