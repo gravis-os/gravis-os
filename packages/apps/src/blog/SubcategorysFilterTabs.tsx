@@ -1,11 +1,11 @@
 import React from 'react'
-import { CrudItem } from '@gravis-os/types'
-import { Tab, Tabs, TabsProps } from '@mui/material'
+import { Tab, Tabs, TabsProps } from '@gravis-os/ui'
 import { useRouterQuery } from '@gravis-os/query'
+import { CrudItem } from '@gravis-os/types'
 
-export interface SubcategorysFilterTabsProps extends TabsProps {
+export interface SubcategorysFilterTabsProps extends Omit<TabsProps, 'items'> {
   items?: CrudItem[]
-  // 'blog_category_id'
+  // @example 'blog_category_id'
   filterKey: string
   op?: string
 }
@@ -37,6 +37,8 @@ const SubcategorysFilterTabs: React.FC<SubcategorysFilterTabsProps> = (
 
   return (
     <Tabs
+      disableCard
+      disableMinHeight
       value={currentTabValue}
       onChange={handleChange}
       variant="scrollable"

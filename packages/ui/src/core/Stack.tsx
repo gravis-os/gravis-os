@@ -10,6 +10,7 @@ export interface StackProps extends MuiStackProps {
   reverseDirectionOnMobile?: boolean
   verticalDividers?: boolean
   horizontalDividers?: boolean
+  divider?: React.ReactNode
 }
 
 const Stack: React.FC<StackProps> = (props) => {
@@ -17,6 +18,7 @@ const Stack: React.FC<StackProps> = (props) => {
     sx,
     center,
     reverseDirectionOnMobile,
+    divider,
     verticalDividers,
     horizontalDividers,
     ...rest
@@ -53,12 +55,12 @@ const Stack: React.FC<StackProps> = (props) => {
 
     // Vertical Dividers
     ...(verticalDividers && {
-      divider: <Divider orientation="vertical" flexItem />,
+      divider: divider || <Divider orientation="vertical" flexItem />,
     }),
 
     // Horizontal Dividers
     ...(horizontalDividers && {
-      divider: <Divider flexItem />,
+      divider: divider || <Divider flexItem />,
     }),
 
     ...rest,

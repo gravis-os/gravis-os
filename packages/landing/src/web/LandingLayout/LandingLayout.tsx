@@ -33,7 +33,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
     disableGutters,
     disableGutterTop,
     disableGutterBottom,
-    gutterSize = 4,
+    gutterSize = 2,
     ...rest
   } = props
 

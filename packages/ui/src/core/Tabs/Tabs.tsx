@@ -9,52 +9,47 @@ export interface TabItem extends Omit<TabProps, 'children' | 'hidden'> {
   hidden?: boolean | (({ item }: any) => boolean)
 }
 
-export interface TabsProps extends CardProps {
+export interface TabsProps extends TabsBaseProps {
   currentTab?: string
   disableGutterBottom?: boolean
-  handleTabsChange: (e, value: string) => void
-  hasTabs: boolean
-  items: TabItem[]
+  disableCard?: boolean
+  handleTabsChange?: (e, value: string) => void
+  hasTabs?: boolean
+  items?: TabItem[]
   tabsProps?: TabsBaseProps
+  cardProps?: CardProps
   tabContentProps?: Record<string, unknown> // RenderProps
+  children?: React.ReactNode
 }
 
 const Tabs: React.FC<TabsProps> = (props) => {
   const {
     currentTab,
     disableGutterBottom,
+    disableCard,
     tabContentProps,
     items,
     handleTabsChange,
     tabsProps,
+    cardProps,
+    children,
     ...rest
   } = props
 
   // Terminate if no tabs
-  if (!items?.length) return null
+  if (!items?.length && !children) return null
 
-  return (
-    <Card
-      square
+  const childrenJsx = (
+    <TabsBase
+      onChange={handleTabsChange}
+      scrollButtons="auto"
+      value={currentTab}
+      variant="scrollable"
+      {...tabsProps}
       {...rest}
-      sx={{ ...(!disableGutterBottom && { mb: 3 }), ...rest?.sx }}
-      contentProps={{
-        sx: {
-          '&&': { py: 0 },
-          px: 2,
-          ...rest?.contentProps?.sx,
-        },
-        ...rest?.contentProps,
-      }}
     >
-      <TabsBase
-        onChange={handleTabsChange}
-        scrollButtons="auto"
-        value={currentTab}
-        variant="scrollable"
-        {...tabsProps}
-      >
-        {items?.map((tab) => {
+      {children ||
+        items?.map((tab) => {
           const { hidden } = tab
 
           // Hidden
@@ -70,8 +65,27 @@ const Tabs: React.FC<TabsProps> = (props) => {
 
           return <Tab key={tab.value} label={tab.label} value={tab.value} />
         })}
-      </TabsBase>
+    </TabsBase>
+  )
+
+  return !disableCard ? (
+    <Card
+      square
+      {...cardProps}
+      sx={{ ...(!disableGutterBottom && { mb: 3 }), ...rest?.sx }}
+      contentProps={{
+        sx: {
+          '&&': { py: 0 },
+          px: 2,
+          ...cardProps?.contentProps?.sx,
+        },
+        ...cardProps?.contentProps,
+      }}
+    >
+      {childrenJsx}
     </Card>
+  ) : (
+    childrenJsx
   )
 }
 
