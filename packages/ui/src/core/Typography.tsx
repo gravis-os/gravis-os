@@ -12,6 +12,7 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   spacing?: StackProps['spacing']
   maxWidth?: boolean | string // percentage e.g. '80%'. Shorthand for sx.maxWidth
   gradient?: string | { from: string; to: string; angle?: string }
+  maxLines?: number
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
@@ -21,6 +22,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     startIcon,
     endIcon,
     spacing = 0.5,
+    maxLines,
     sx,
     ...rest
   } = props
@@ -33,6 +35,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
           maxWidth: typeof maxWidth === 'boolean' ? '80%' : maxWidth,
           mx: 'auto',
         }),
+
         ...(gradient && {
           background: (theme) => {
             return typeof gradient === 'string'
@@ -44,6 +47,15 @@ const Typography: React.FC<TypographyProps> = (props) => {
           backgroundClip: 'text',
           color: 'transparent',
         }),
+
+        // maxLines
+        ...(maxLines && {
+          display: '-webkit-box',
+          WebkitBoxOrient: 'vertical',
+          WebkitLineClamp: maxLines,
+          overflowY: 'hidden',
+        }),
+
         ...sx,
       }}
       {...rest}

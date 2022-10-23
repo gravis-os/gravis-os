@@ -91,6 +91,7 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
               <Typography
                 variant={isSmall ? 'body2' : 'body1'}
                 color="text.secondary"
+                maxLines={3}
               >
                 {subtitle}
               </Typography>
