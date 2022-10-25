@@ -118,6 +118,7 @@ const Calendar: FC<CalendarProps> = (props) => {
           onViewChange={handleViewChange}
           view={view}
           mobile={smDown}
+          sx={{ mr: drawer.isOpen ? 3 : 0 }}
         />
         <FullCalendarWrapper>
           <FullCalendar

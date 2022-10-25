@@ -8,7 +8,7 @@ interface CreateCalendarThemeArgs {
 export const DEFAULT_DRAWER_WIDTH = '25%'
 
 export const createCalendarTheme = ({ theme }: CreateCalendarThemeArgs) => ({
-  height: `calc( 100vh - ${theme.spacing(11)} )`,
+  height: '100%',
   '& .fc-license-message': {
     display: 'none',
   },
@@ -28,7 +28,11 @@ export const createCalendarTheme = ({ theme }: CreateCalendarThemeArgs) => ({
   '& .fc-timegrid-slot': { height: theme.spacing(6) },
   '& .fc-timegrid-slot-minor': { border: 'none' },
   '& .fc-timegrid-slot-label': { verticalAlign: 'top' },
-  '& .fc-timegrid-event': { border: 'none' },
+  '& .fc-timegrid-event': {
+    background: 'transparent',
+    border: 'none',
+    '& .fc-event-main': { cursor: 'pointer', padding: 0 },
+  },
   '& .fc-theme-standard .fc-scrollgrid': { border: 'none' },
   '& .fc-scrollgrid-section > *': { border: 'none' },
   '& .fc .fc-col-header-cell-cushion': {

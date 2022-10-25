@@ -70,7 +70,6 @@ export const CalendarToolbar: FC<CalendarToolbarProps> = (props) => {
         display: 'flex',
         flexWrap: 'wrap',
         justifyContent: 'space-between',
-        px: 3,
         flexDirection: {
           xs: 'column',
           md: 'row',
