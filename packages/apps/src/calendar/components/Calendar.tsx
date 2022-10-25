@@ -33,7 +33,8 @@ interface CalendarDrawerState {
   eventId?: string
 }
 
-interface CalendarProps extends Omit<CalendarOptions, 'events'> {
+interface CalendarProps extends Omit<CalendarOptions, 'events' | 'height'> {
+  height: number | string
   events: CalendarEvent[]
   eventDrawerDefs: CalendarEventDrawerDefs
 }
@@ -41,7 +42,7 @@ interface CalendarProps extends Omit<CalendarOptions, 'events'> {
 const FullCalendarWrapper = styled('div')(createCalendarTheme)
 
 const Calendar: FC<CalendarProps> = (props) => {
-  const { events, eventDrawerDefs, ...calendarProps } = props
+  const { events, eventDrawerDefs, height, ...calendarProps } = props
 
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
@@ -108,7 +109,7 @@ const Calendar: FC<CalendarProps> = (props) => {
   const handleCloseDialog = () => setDrawer({ isOpen: false })
 
   return (
-    <Stack direction="row">
+    <Stack direction="row" sx={{ height }}>
       <Box sx={{ flexBasis: `calc(100% - ${drawerWidth})` }}>
         <CalendarToolbar
           date={date}
