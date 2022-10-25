@@ -14,17 +14,25 @@ const CalendarEventDrawerSection: FC<CalendarEventDrawerSectionProps> = (
   props
 ) => {
   const { event, eventDrawerDef, ...rest } = props
+  const { render, name, title } = eventDrawerDef
+
   const { extendedProps } = event
   const { data } = extendedProps
 
-  const value = (get(data, eventDrawerDef.name) as string) || FALLBACK_VALUE
+  const value = (get(data, name) as string) || FALLBACK_VALUE
+
+  const child = render ? (
+    render({ data, value })
+  ) : (
+    <Typography variant="subtitle1">{value}</Typography>
+  )
 
   return (
     <Box {...rest}>
       <Typography color="neutral.300" fontWeight={400} variant="subtitle1">
-        {eventDrawerDef.title}
+        {title}
       </Typography>
-      <Typography variant="subtitle1">{value}</Typography>
+      <>{child}</>
     </Box>
   )
 }
