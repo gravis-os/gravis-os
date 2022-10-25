@@ -41,7 +41,10 @@ export interface UseCrudFormArgs extends UseFormProps {
     values,
     isNew,
     item,
-  }: UseCrudFormValuesInterface) => Record<string, unknown>
+    rawValues,
+  }: UseCrudFormValuesInterface & {
+    rawValues: UseCrudFormValues
+  }) => Record<string, unknown>
   onSubmit?: ({
     values,
     isNew,
@@ -160,7 +163,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
     // Expose values to outer scope
     const exposedValues = setFormValues
-      ? setFormValues({ item, isNew, values: dbFormValues })
+      ? setFormValues({ item, isNew, values: dbFormValues, rawValues: values })
       : dbFormValues
 
     // Split join (one to many / many to many) values
