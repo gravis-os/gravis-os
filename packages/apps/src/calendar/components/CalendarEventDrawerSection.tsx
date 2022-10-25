@@ -15,9 +15,9 @@ const CalendarEventDrawerSection: FC<CalendarEventDrawerSectionProps> = (
 ) => {
   const { event, eventDrawerDef, ...rest } = props
   const { extendedProps } = event
+  const { data } = extendedProps
 
-  const value =
-    (get(extendedProps, eventDrawerDef.name) as string) || FALLBACK_VALUE
+  const value = (get(data, eventDrawerDef.name) as string) || FALLBACK_VALUE
 
   return (
     <Box {...rest}>
