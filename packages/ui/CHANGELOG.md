@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.54
+
+### Patch Changes
+
+- [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48) Thanks [@clodal](https://github.com/clodal)! - Update styles for apps/blog
+
+* [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917) Thanks [@clodal](https://github.com/clodal)! - Update apps/blog post card ui
+
 ## 0.0.53
 
 ### Patch Changes

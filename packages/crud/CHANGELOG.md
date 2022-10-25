@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.57
+
+### Patch Changes
+
+- [`3876184`](https://github.com/gravis-os/gravis-os/commit/3876184f09c45300fbc3b2247aee6172a8120a51) Thanks [@clodal](https://github.com/clodal)! - Add ability to declare join table name in saveManyToManyValues
+
+* [#113](https://github.com/gravis-os/gravis-os/pull/113) [`db5fd54`](https://github.com/gravis-os/gravis-os/commit/db5fd5400569251ddd1252996aac7a7558b1e939) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - expose rawValues in setFormValues
+
+* Updated dependencies [[`3876184`](https://github.com/gravis-os/gravis-os/commit/3876184f09c45300fbc3b2247aee6172a8120a51), [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48), [`82fb870`](https://github.com/gravis-os/gravis-os/commit/82fb870a532ff49bae88d5941c89c7c27b57e502), [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917)]:
+  - @gravis-os/form@0.0.77
+  - @gravis-os/ui@0.0.54
+  - @gravis-os/auth@0.0.43
+
 ## 0.0.56
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.41
+
+### Patch Changes
+
+- [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48) Thanks [@clodal](https://github.com/clodal)! - Update styles for apps/blog
+
+* [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917) Thanks [@clodal](https://github.com/clodal)! - Update apps/blog post card ui
+
+* Updated dependencies [[`3876184`](https://github.com/gravis-os/gravis-os/commit/3876184f09c45300fbc3b2247aee6172a8120a51), [`db5fd54`](https://github.com/gravis-os/gravis-os/commit/db5fd5400569251ddd1252996aac7a7558b1e939), [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48), [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917)]:
+  - @gravis-os/crud@0.0.57
+  - @gravis-os/form@0.0.77
+  - @gravis-os/ui@0.0.54
+
 ## 0.0.40
 
 ### Patch Changes
