@@ -74,7 +74,6 @@ export const CalendarToolbar: FC<CalendarToolbarProps> = (props) => {
           xs: 'column',
           md: 'row',
         },
-        my: 2,
         ...rest?.sx,
       }}
     >
