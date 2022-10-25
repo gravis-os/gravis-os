@@ -40,7 +40,9 @@ const CalendarEventContent: FC<CalendarEventContentProps> = (props) => {
         borderLeft: '4px solid',
         borderLeftColor: darken(backgroundColor, 0.3),
         p: 1,
+        textOverflow: 'ellipsis',
         width: '100%',
+        overflow: 'hidden',
       }}
     >
       <CalendarEvenTypography color="neutral.200">
