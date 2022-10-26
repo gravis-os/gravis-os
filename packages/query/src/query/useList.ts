@@ -131,9 +131,10 @@ const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
   }
 }
 const withSort = () => (props: UseListProps & UseListFilters) => {
+  const { order } = props
   const [sortKey, sortDirection] = getSort(props)
 
-  if (!sortKey) return props
+  if (order || !sortKey) return props
 
   return {
     ...props,
