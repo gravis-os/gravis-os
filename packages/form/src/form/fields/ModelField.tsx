@@ -30,7 +30,10 @@ import isNil from 'lodash/isNil'
 import TextField from './TextField'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 
-type DataItem = { id?: string | number }
+interface DataItem {
+  [key: string]: unknown
+  id?: string | number
+}
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
 /**
