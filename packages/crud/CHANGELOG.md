@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.58
+
+### Patch Changes
+
+- [`3473b1c`](https://github.com/gravis-os/gravis-os/commit/3473b1c024a1f1b2cd1ed578df31d7cc82a10289) Thanks [@winter-steve](https://github.com/winter-steve)! - republish to expose PageHeader export
+
 ## 0.0.57
 
 ### Patch Changes

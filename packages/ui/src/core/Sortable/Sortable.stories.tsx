@@ -1,16 +1,17 @@
-import React, { useState } from 'react'
 import faker from '@faker-js/faker'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
-import Sortable from './Sortable'
-import { SortableLayout } from './constants'
+import React, { useState } from 'react'
+import { getCoreStorybookTitle } from '../../utils/getStorybookTitle'
+import Avatar from '../Avatar'
 import Box from '../Box'
 import Card from '../Card'
-import Avatar from '../Avatar'
 import IconButton from '../IconButton'
+import { SortableLayout } from './constants'
 import createRange from './createRange'
+import Sortable from './Sortable'
 
 export default {
-  title: 'Components/Sortable',
+  title: getCoreStorybookTitle(Sortable.name),
 }
 
 export const Horizontal = () => <Sortable layout={SortableLayout.Horizontal} />

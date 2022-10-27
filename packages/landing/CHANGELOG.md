@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.0.28
+
+### Patch Changes
+
+- [#117](https://github.com/gravis-os/gravis-os/pull/117) [`edb758c`](https://github.com/gravis-os/gravis-os/commit/edb758c115948c3cb083b073456ce36803f5c3f4) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add hideButton props to MegaSearch
+
+- Updated dependencies [[`b42d928`](https://github.com/gravis-os/gravis-os/commit/b42d9282595c96670781a230231a228d1256fc1f)]:
+  - @gravis-os/ui@0.0.55
+
+## 0.0.27
+
+### Patch Changes
+
+- [`c525206`](https://github.com/gravis-os/gravis-os/commit/c5252062eab758f0b859823bd65d3035c0618cc6) Thanks [@clodal](https://github.com/clodal)! - Fix landing storybook
+
+- Updated dependencies [[`41d754a`](https://github.com/gravis-os/gravis-os/commit/41d754a2b0659ea417dabea2f81d990e3ce196e1)]:
+  - @gravis-os/storage@0.0.24
+
 ## 0.0.26
 
 ### Patch Changes

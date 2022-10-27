@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.24
+
+### Patch Changes
+
+- [`41d754a`](https://github.com/gravis-os/gravis-os/commit/41d754a2b0659ea417dabea2f81d990e3ce196e1) Thanks [@clodal](https://github.com/clodal)! - Add apps/ads
+
 ## 0.0.23
 
 ### Patch Changes

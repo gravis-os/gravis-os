@@ -1,31 +1,44 @@
 import React from 'react'
+import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Badge from './Badge'
-import Stack from './Stack'
 import Button from './Button'
-
+/* Constants */
+const colors = ['primary', 'secondary', 'success', 'error', 'info', 'warning']
+const variants = ['standard', 'dot', 'string']
 export default {
-  title: 'ui/Badge',
+  title: getCoreStorybookTitle(Badge.name),
   component: Badge,
   args: {
-    children: <Button variant="contained">Label</Button>,
     badgeContent: '99+',
+  },
+  argTypes: {
+    color: {
+      options: colors,
+      control: { type: 'select' },
+    },
+    variant: {
+      options: variants,
+      control: { type: 'select' },
+    },
   },
 }
 
-const Template = (args) => <Badge {...args} />
+/* Template */
+const Template = (args) => (
+  <Badge {...args}>
+    <Button variant="contained">Label</Button>
+  </Badge>
+)
+
+/* Variants */
+export const Basic = Template.bind({})
+Basic.args = {}
 
 export const Contained = Template.bind({})
-Contained.args = { variant: 'contained' }
+Contained.args = { variant: 'standard', color: 'primary' }
 
-export const ContainedAllColors = (args) => (
-  <Stack direction="row" alignItems="center" spacing={1}>
-    <Badge {...args} />
-    <Badge color="primary" {...args} />
-    <Badge color="secondary" {...args} />
-    <Badge color="success" {...args} />
-    <Badge color="error" {...args} />
-    <Badge color="info" {...args} />
-    <Badge color="warning" {...args} />
-  </Stack>
-)
-ContainedAllColors.args = { ...Contained.args }
+export const Dot = Template.bind({})
+Dot.args = { variant: 'dot', color: 'primary' }
+
+export const String = Template.bind({})
+String.args = { variant: 'string', color: 'primary' }

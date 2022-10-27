@@ -38,6 +38,7 @@ import ControlledChipField from '../fields/ControlledChipField'
 import ControlledCheckboxTable, {
   ControlledCheckboxTableOptions,
 } from '../fields/ControlledCheckboxTable'
+import { SetModelFieldQuery } from '../fields/ModelField'
 
 export enum FormSectionFieldTypeEnum {
   // String
@@ -82,6 +83,7 @@ export interface FormSectionFieldProps {
   options?: string[] | Array<{ key: string; value: string; label: string }>
   select?: any // Can either be MUI textfield select or react-query selector
 
+  modelFieldProps?: { setQuery?: SetModelFieldQuery }
   checkboxTableProps?: ControlledCheckboxTableOptions
 
   // Manage layout
@@ -155,6 +157,7 @@ const renderField = (props: RenderFieldProps) => {
     fieldEffect,
     checkboxTableProps,
     render,
+    modelFieldProps,
     ...rest
   } = fieldProps
   const {
@@ -385,6 +388,7 @@ const renderField = (props: RenderFieldProps) => {
             control={control}
             module={module}
             {...commonProps}
+            {...modelFieldProps}
           />
         )
       case FormSectionFieldTypeEnum.CHIP:

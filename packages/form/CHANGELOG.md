@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.0.82
+
+### Patch Changes
+
+- [#118](https://github.com/gravis-os/gravis-os/pull/118) [`76a3676`](https://github.com/gravis-os/gravis-os/commit/76a36765e0a805abc7ba0d6b4a2a9ec692b428f2) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add fullscreen Auth Layout
+
+## 0.0.81
+
+### Patch Changes
+
+- [`e804bb8`](https://github.com/gravis-os/gravis-os/commit/e804bb85a8901882aaa36cda444d75b198bdb542) Thanks [@winter-steve](https://github.com/winter-steve)! - republish form
+
+## 0.0.80
+
+### Patch Changes
+
+- [`ae39099`](https://github.com/gravis-os/gravis-os/commit/ae39099e105b0f817e679c16f26ed1a8c3c86125) Thanks [@winter-steve](https://github.com/winter-steve)! - fix ModelField DataItem type
+
+## 0.0.79
+
+### Patch Changes
+
+- [`d0c643f`](https://github.com/gravis-os/gravis-os/commit/d0c643f004eb03c1befbb7b5279a65043e1f7fa8) Thanks [@winter-steve](https://github.com/winter-steve)! - republish form
+
+## 0.0.78
+
+### Patch Changes
+
+- [#115](https://github.com/gravis-os/gravis-os/pull/115) [`9c7bd1a`](https://github.com/gravis-os/gravis-os/commit/9c7bd1aee7482acb8a51936f767eae1b7cc4c173) Thanks [@winter-steve](https://github.com/winter-steve)! - fix ModelField setQuery prop encapsulation and typing
+
 ## 0.0.77
 
 ### Patch Changes

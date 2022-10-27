@@ -28,6 +28,9 @@ export * from './fetchCrudItems'
 export { default as ListPage } from './ListPage'
 export * from './ListPage'
 
+export { default as PageHeader } from './PageHeader'
+export * from './PageHeader'
+
 export { default as ManageColumnsMenuButton } from './ManageColumnsMenuButton'
 export * from './ManageColumnsMenuButton'
 

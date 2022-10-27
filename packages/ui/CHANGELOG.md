@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.55
+
+### Patch Changes
+
+- [#111](https://github.com/gravis-os/gravis-os/pull/111) [`b42d928`](https://github.com/gravis-os/gravis-os/commit/b42d9282595c96670781a230231a228d1256fc1f) Thanks [@robyonextech](https://github.com/robyonextech)! - Add core UI storybook
+
 ## 0.0.54
 
 ### Patch Changes
