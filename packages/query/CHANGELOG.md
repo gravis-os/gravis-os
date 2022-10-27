@@ -1,5 +1,14 @@
 # @gravis-os/query
 
+## 0.0.13
+
+### Patch Changes
+
+- [`b3ce293`](https://github.com/gravis-os/gravis-os/commit/b3ce293b619a8640605affcffb8e25eb9b735231) Thanks [@clodal](https://github.com/clodal)! - Add apps/tags
+
+- Updated dependencies [[`522e92a`](https://github.com/gravis-os/gravis-os/commit/522e92a0b0bb5687a900db059a697b7cb17d7094)]:
+  - @gravis-os/types@0.0.23
+
 ## 0.0.12
 
 ### Patch Changes

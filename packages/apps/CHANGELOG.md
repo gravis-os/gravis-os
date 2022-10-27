@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.43
+
+### Patch Changes
+
+- [`b3ce293`](https://github.com/gravis-os/gravis-os/commit/b3ce293b619a8640605affcffb8e25eb9b735231) Thanks [@clodal](https://github.com/clodal)! - Add apps/tags
+
+* [`522e92a`](https://github.com/gravis-os/gravis-os/commit/522e92a0b0bb5687a900db059a697b7cb17d7094) Thanks [@clodal](https://github.com/clodal)! - Fix build and type errors downstream
+
+* Updated dependencies [[`b3ce293`](https://github.com/gravis-os/gravis-os/commit/b3ce293b619a8640605affcffb8e25eb9b735231), [`522e92a`](https://github.com/gravis-os/gravis-os/commit/522e92a0b0bb5687a900db059a697b7cb17d7094), [`fdfef0d`](https://github.com/gravis-os/gravis-os/commit/fdfef0dc5e377b97eb5530a553e2052f4a53abca)]:
+  - @gravis-os/query@0.0.13
+  - @gravis-os/types@0.0.23
+  - @gravis-os/crud@0.0.59
+  - @gravis-os/form@0.0.83
+
 ## 0.0.42
 
 ### Patch Changes

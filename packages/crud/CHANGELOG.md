@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.59
+
+### Patch Changes
+
+- [`fdfef0d`](https://github.com/gravis-os/gravis-os/commit/fdfef0dc5e377b97eb5530a553e2052f4a53abca) Thanks [@clodal](https://github.com/clodal)! - Add helper functions for m2m fields and columns in field and crud respectively
+
+- Updated dependencies [[`522e92a`](https://github.com/gravis-os/gravis-os/commit/522e92a0b0bb5687a900db059a697b7cb17d7094), [`fdfef0d`](https://github.com/gravis-os/gravis-os/commit/fdfef0dc5e377b97eb5530a553e2052f4a53abca)]:
+  - @gravis-os/types@0.0.23
+  - @gravis-os/form@0.0.83
+
 ## 0.0.58
 
 ### Patch Changes

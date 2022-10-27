@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/query",
-  "version": "0.0.12",
+  "version": "0.0.13",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
