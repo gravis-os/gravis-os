@@ -1,13 +1,24 @@
 import { useList } from '@gravis-os/query'
-import { CrudModule } from '@gravis-os/types'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 
-const useListRelatedItemsByTag = (props) => {
-  const { item, module, relatedModule, joinModule } = props
+export interface UseListRelatedItemsByTagProps {
+  tags?: Array<Record<string, unknown>>
+  item: CrudItem & {
+    tag_ids?: Array<Record<string, unknown>>
+    tag?: Array<Record<string, unknown>>
+  }
+  module: CrudModule
+  relatedModule: CrudModule
+  joinModule?: CrudModule
+}
+
+const useListRelatedItemsByTag = (props: UseListRelatedItemsByTagProps) => {
+  const { tags, item, module, relatedModule, joinModule } = props
 
   const relatedItemsTableName: string = relatedModule.table.name
   const isTheSameModule = module.table.name === relatedItemsTableName
 
-  const relatedTags = item?.tag || []
+  const relatedTags = tags || item?.tag_ids || item?.tag || []
   const relatedTagIds = relatedTags?.map(({ id }) => id)
   const hasRelatedTagIds = Boolean(relatedTagIds?.length)
   const onUseList = useList({
