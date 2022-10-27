@@ -1,9 +1,10 @@
 import React from 'react'
+import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Alert from './Alert'
 import Stack from './Stack'
 
 export default {
-  title: 'ui/Alert',
+  title: getCoreStorybookTitle(Alert.name),
   component: Alert,
   args: { children: 'Label' },
 }

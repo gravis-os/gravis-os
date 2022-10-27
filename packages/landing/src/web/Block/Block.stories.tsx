@@ -1,13 +1,15 @@
 import React from 'react'
-import Block from './Block'
-import { MOCK_BLOCK, MOCK_BLOCK_ITEM_TYPES } from '../../mocks'
-import { BlockItemTypeEnum } from './constants'
-import MOCK_RAINBOW_GRADIENT_1_IMAGE from '../../../public/images/mock_rainbow_gradient_1.jpg'
 import MOCK_DARK_BLUE_GRADIENT_1_IMAGE from '../../../public/images/mock_dark_blue_gradient_1.jpg'
+import MOCK_RAINBOW_GRADIENT_1_IMAGE from '../../../public/images/mock_rainbow_gradient_1.jpg'
+import { MOCK_BLOCK, MOCK_BLOCK_ITEM_TYPES } from '../../mocks'
+import getStorybookTitle from '../../utils/getStorybookTitle'
+import Block from './Block'
+import { BlockItemTypeEnum } from './constants'
 
 export default {
   component: Block,
   args: MOCK_BLOCK,
+  title: getStorybookTitle(Block.displayName),
   parameters: {
     layout: 'fullscreen',
     backgrounds: {

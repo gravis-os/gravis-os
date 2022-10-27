@@ -1,18 +1,20 @@
-import React from 'react'
-import { Badge, Box } from '@mui/material'
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
-import Header from './Header'
-import Button, { ButtonProps } from '../Button'
-import SubHeader from './SubHeader'
+import { Badge, Box } from '@mui/material'
+import React from 'react'
 import {
-  MOCK_HEADER_PROPS,
-  MOCK_SUB_HEADER_PROPS,
   MOCK_DASHBOARD_HEADER_PROPS,
+  MOCK_HEADER_PROPS,
   MOCK_LOGO_JSX,
+  MOCK_SUB_HEADER_PROPS,
 } from '../../mocks'
+import { getCoreStorybookTitle } from '../../utils/getStorybookTitle'
+import Button, { ButtonProps } from '../Button'
+import Header from './Header'
+import SubHeader from './SubHeader'
 
 export default {
+  title: getCoreStorybookTitle(Header.name),
   component: Header,
   parameters: { layout: 'fullscreen' },
   args: { ...MOCK_HEADER_PROPS },
