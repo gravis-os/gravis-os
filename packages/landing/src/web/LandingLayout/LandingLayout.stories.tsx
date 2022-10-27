@@ -437,7 +437,7 @@ GravisTheme.args = {
           },
         },
         {
-          maxWidth: 'md',
+          maxWidth: 'lg',
           sx: { mt: 8 },
           gridProps: { spacing: 3 },
           type: BlockItemTypeEnum.GRID,
