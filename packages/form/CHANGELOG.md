@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.80
+
+### Patch Changes
+
+- [`ae39099`](https://github.com/gravis-os/gravis-os/commit/ae39099e105b0f817e679c16f26ed1a8c3c86125) Thanks [@winter-steve](https://github.com/winter-steve)! - fix ModelField DataItem type
+
 ## 0.0.79
 
 ### Patch Changes
