@@ -128,10 +128,11 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
 export interface MegaSearchProps extends StackProps {
   ButtonProps?: ButtonProps
   dropdowns?: MegaSearchAutocompleteProps[]
+  hideButton?: boolean
 }
 
 const MegaSearch: React.FC<MegaSearchProps> = (props) => {
-  const { dropdowns, ButtonProps, sx } = props
+  const { dropdowns, ButtonProps, sx, hideButton } = props
 
   return (
     <Stack
@@ -152,11 +153,7 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
               control={control}
               render={(params) => {
                 return (
-                  <MegaSearchAutocomplete
-                    key={dropdown.name}
-                    {...rest}
-                    {...params}
-                  />
+                  <MegaSearchAutocomplete key={name} {...rest} {...params} />
                 )
               }}
             />
@@ -165,27 +162,29 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
 
         return dropdownJsx
       })}
-      <Button
-        variant="contained"
-        color="primary"
-        fullWidth
-        size="large"
-        type="submit"
-        {...ButtonProps}
-        sx={{
-          height: '100%',
-          maxWidth: (theme) => ({
-            xs: `calc(100% - ${theme.spacing(4)})`,
-            md: 200,
-          }),
-          minHeight: 60,
-          mx: { xs: 4, md: 2 },
-          my: { xs: 2, md: 0 },
-          ...ButtonProps?.sx,
-        }}
-      >
-        Search
-      </Button>
+      {!hideButton && (
+        <Button
+          variant="contained"
+          color="primary"
+          fullWidth
+          size="large"
+          type="submit"
+          {...ButtonProps}
+          sx={{
+            height: '100%',
+            maxWidth: (theme) => ({
+              xs: `calc(100% - ${theme.spacing(4)})`,
+              md: 200,
+            }),
+            minHeight: 60,
+            mx: { xs: 4, md: 2 },
+            my: { xs: 2, md: 0 },
+            ...ButtonProps?.sx,
+          }}
+        >
+          Search
+        </Button>
+      )}
     </Stack>
   )
 }
