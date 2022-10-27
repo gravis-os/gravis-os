@@ -194,17 +194,20 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 // ==============================
 // Matcher
 export const getUseListFilters = (props: UseListProps): UseListFilters => {
-  const { plugins = [] } = props
+  const { plugins = [], disableWorkspacePlugin } = props
   return pick(
-    flowRight([
-      ...plugins,
-      withPostgrestFilters(),
-      withSort(),
-      withInfinitePaginate(),
-      withPaginate(),
-      withLocale(),
-      withGetWorkspaceAndRenameWorkspaceToWorkspaceSlug(),
-    ])({
+    flowRight(
+      [
+        ...plugins,
+        withPostgrestFilters(),
+        withSort(),
+        withInfinitePaginate(),
+        withPaginate(),
+        withLocale(),
+        !disableWorkspacePlugin &&
+          withGetWorkspaceAndRenameWorkspaceToWorkspaceSlug(),
+      ].filter(Boolean)
+    )({
       // Initialize defaults here
       match: {},
       filters: [],
@@ -331,7 +334,12 @@ export const prefetchListQuery = async (
 
 // Hook
 const useList = (props: UseListProps): UseListReturn => {
-  const { params: injectedParams, pagination = {}, queryOptions } = props
+  const {
+    params: injectedParams,
+    pagination = {},
+    queryOptions,
+    disablePagination,
+  } = props
   const {
     pageSize = DEFAULT_PAGE_SIZE,
     paginationType = UseListPaginationType.Infinite,
@@ -374,7 +382,7 @@ const useList = (props: UseListProps): UseListReturn => {
       ...nextProps,
       pagination: { ...nextProps.pagination, countOnly: true },
     }),
-    { enabled: Boolean(isInfinitePagination) }
+    { enabled: Boolean(isInfinitePagination || !disablePagination) }
   )
   const countFromCountQuery = countQuery?.data?.count
 

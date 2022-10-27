@@ -1,5 +1,13 @@
 import React from 'react'
-import { Box, Card, CardProps, Link, Grid, Typography } from '@gravis-os/ui'
+import {
+  Box,
+  Card,
+  CardProps,
+  Link,
+  Grid,
+  Typography,
+  BoxProps,
+} from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
 import { StorageImage } from '@gravis-os/storage'
 import { Listing } from './types'
@@ -8,10 +16,20 @@ export interface ListingListItemProps extends CardProps {
   item: Listing
   brandModule: CrudModule | any
   listingModule: CrudModule | any
+  size?: 'small' | 'medium' | 'large'
+  cardContentProps?: BoxProps
 }
 
 const ListingListItem: React.FC<ListingListItemProps> = (props) => {
-  const { item, brandModule, listingModule, sx, ...rest } = props
+  const {
+    item,
+    size = 'medium',
+    cardContentProps,
+    brandModule,
+    listingModule,
+    sx,
+    ...rest
+  } = props
 
   if (!item) return null
 
@@ -50,7 +68,9 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
               display: 'flex',
               flexDirection: 'column',
               justifyContent: 'center',
+              ...cardContentProps?.sx,
             }}
+            {...cardContentProps}
           >
             <Link
               variant="overline"

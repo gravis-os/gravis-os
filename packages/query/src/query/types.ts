@@ -143,6 +143,16 @@ export interface UseListProps
    * Allow user to extend filters externally
    */
   plugins?: any[]
+  /**
+   * Allow user to disable workspace_id plugin
+   * @default false
+   */
+  disableWorkspacePlugin?: boolean
+  /**
+   * Allow user to disable pagination
+   * @default false
+   */
+  disablePagination?: boolean
 }
 
 export type UseListReturn = (UseInfiniteQueryResult | UseQueryResult) & {

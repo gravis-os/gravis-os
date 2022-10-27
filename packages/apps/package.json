@@ -19,6 +19,9 @@
       ],
       "ads": [
         "./dist/types/ads/index.d.ts"
+      ],
+      "tags": [
+        "./dist/types/tags/index.d.ts"
       ]
     }
   },
@@ -42,6 +45,10 @@
     "./ads": {
       "require": "./dist/cjs/ads/index.js",
       "import": "./dist/esm/ads/index.js"
+    },
+    "./tags": {
+      "require": "./dist/cjs/tags/index.js",
+      "import": "./dist/esm/tags/index.js"
     }
   },
   "files": [
