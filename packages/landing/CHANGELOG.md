@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.28
+
+### Patch Changes
+
+- [#117](https://github.com/gravis-os/gravis-os/pull/117) [`edb758c`](https://github.com/gravis-os/gravis-os/commit/edb758c115948c3cb083b073456ce36803f5c3f4) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add hideButton props to MegaSearch
+
+- Updated dependencies [[`b42d928`](https://github.com/gravis-os/gravis-os/commit/b42d9282595c96670781a230231a228d1256fc1f)]:
+  - @gravis-os/ui@0.0.55
+
 ## 0.0.27
 
 ### Patch Changes
