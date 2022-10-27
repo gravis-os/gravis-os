@@ -93,3 +93,8 @@ export * from './utils/getIsArrayColumn'
 // ==============================
 export { default as observeField } from './effects/observeField'
 export * from './effects/observeField'
+
+// ==============================
+// Field Defs
+// ==============================
+export * from './fieldDefs'
