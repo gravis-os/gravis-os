@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.81
+
+### Patch Changes
+
+- [`e804bb8`](https://github.com/gravis-os/gravis-os/commit/e804bb85a8901882aaa36cda444d75b198bdb542) Thanks [@winter-steve](https://github.com/winter-steve)! - republish form
+
 ## 0.0.80
 
 ### Patch Changes
