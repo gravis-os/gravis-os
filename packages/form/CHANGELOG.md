@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.78
+
+### Patch Changes
+
+- [#115](https://github.com/gravis-os/gravis-os/pull/115) [`9c7bd1a`](https://github.com/gravis-os/gravis-os/commit/9c7bd1aee7482acb8a51936f767eae1b7cc4c173) Thanks [@winter-steve](https://github.com/winter-steve)! - fix ModelField setQuery prop encapsulation and typing
+
 ## 0.0.77
 
 ### Patch Changes
