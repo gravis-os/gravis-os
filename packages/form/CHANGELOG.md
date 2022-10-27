@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.77
+
+### Patch Changes
+
+- [`3876184`](https://github.com/gravis-os/gravis-os/commit/3876184f09c45300fbc3b2247aee6172a8120a51) Thanks [@clodal](https://github.com/clodal)! - Add ability to declare join table name in saveManyToManyValues
+
+- Updated dependencies [[`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48), [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917)]:
+  - @gravis-os/ui@0.0.54
+
 ## 0.0.76
 
 ### Patch Changes
