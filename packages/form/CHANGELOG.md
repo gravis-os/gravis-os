@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.82
+
+### Patch Changes
+
+- [#118](https://github.com/gravis-os/gravis-os/pull/118) [`76a3676`](https://github.com/gravis-os/gravis-os/commit/76a36765e0a805abc7ba0d6b4a2a9ec692b428f2) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add fullscreen Auth Layout
+
 ## 0.0.81
 
 ### Patch Changes
