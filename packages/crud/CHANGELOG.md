@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.0.58
+
+### Patch Changes
+
+- [`3473b1c`](https://github.com/gravis-os/gravis-os/commit/3473b1c024a1f1b2cd1ed578df31d7cc82a10289) Thanks [@winter-steve](https://github.com/winter-steve)! - republish to expose PageHeader export
+
+## 0.0.57
+
+### Patch Changes
+
+- [`3876184`](https://github.com/gravis-os/gravis-os/commit/3876184f09c45300fbc3b2247aee6172a8120a51) Thanks [@clodal](https://github.com/clodal)! - Add ability to declare join table name in saveManyToManyValues
+
+* [#113](https://github.com/gravis-os/gravis-os/pull/113) [`db5fd54`](https://github.com/gravis-os/gravis-os/commit/db5fd5400569251ddd1252996aac7a7558b1e939) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - expose rawValues in setFormValues
+
+* Updated dependencies [[`3876184`](https://github.com/gravis-os/gravis-os/commit/3876184f09c45300fbc3b2247aee6172a8120a51), [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48), [`82fb870`](https://github.com/gravis-os/gravis-os/commit/82fb870a532ff49bae88d5941c89c7c27b57e502), [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917)]:
+  - @gravis-os/form@0.0.77
+  - @gravis-os/ui@0.0.54
+  - @gravis-os/auth@0.0.43
+
+## 0.0.56
+
+### Patch Changes
+
+- [`5fddac6`](https://github.com/gravis-os/gravis-os/commit/5fddac693f03e34631a52acc68e4dc9e1200815e) Thanks [@clodal](https://github.com/clodal)! - Rebuild packages to ensure latest build
+
+- Updated dependencies [[`5fddac6`](https://github.com/gravis-os/gravis-os/commit/5fddac693f03e34631a52acc68e4dc9e1200815e)]:
+  - @gravis-os/auth@0.0.42
+  - @gravis-os/form@0.0.76
+  - @gravis-os/types@0.0.22
+  - @gravis-os/utils@0.0.25
+
+## 0.0.55
+
+### Patch Changes
+
+- [`82ba856`](https://github.com/gravis-os/gravis-os/commit/82ba8563862fbd49185b430f39c6c406064a11b5) Thanks [@clodal](https://github.com/clodal)! - Republish form and crud to ensure latest builds
+
+- Updated dependencies [[`82ba856`](https://github.com/gravis-os/gravis-os/commit/82ba8563862fbd49185b430f39c6c406064a11b5)]:
+  - @gravis-os/form@0.0.75
+
 ## 0.0.54
 
 ### Patch Changes

@@ -7,11 +7,16 @@ const saveManyToManyValues = async (args) => {
 
   const getHelpers = ({ key, value }) => {
     const relationalObjectKey = getRelationalObjectKey(key)
-    const isInjectedRelation = Boolean(module?.relations?.[relationalObjectKey])
+    const isInjectedRelation = Boolean(
+      module?.relations?.[`${relationalObjectKey}s`]
+    )
     const joinKey = `${relationalObjectKey}_ids`
 
+    // If relation is declared in the module, use it, else fallback to
+    // Postgrest default shape to construct the join table name
+    // We're expecting { relations: { tags: { joinTable: { name: '' } } } }
     const joinTableName = isInjectedRelation
-      ? module.relations[relationalObjectKey]?.table?.name
+      ? module.relations[`${relationalObjectKey}s`]?.joinTable?.name
       : `${module.table.name}_${relationalObjectKey}`
 
     const helpers = {

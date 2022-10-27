@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
-import { Box, HeaderProps, List, ListItemProps, ListProps } from '@gravis-os/ui'
+import { Box, List, ListItemProps, ListProps } from '@gravis-os/ui'
 import { useRouter } from 'next/router'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer, { ResponsiveDrawerProps } from './ResponsiveDrawer'
-import DashboardLayoutHeader from './DashboardLayoutHeader'
+import DashboardLayoutHeader, {
+  DashboardLayoutHeaderProps,
+} from './DashboardLayoutHeader'
 import getListItemsWithActiveStateFromRouter from './getListItemsWithActiveStateFromRouter'
 import getAsideWidth from './getAsideWidth'
 
@@ -49,7 +51,7 @@ export interface DashboardLayoutProps {
 
   // Other elements
   disableHeaderMenuToggleOnMobile?: boolean
-  headerProps?: HeaderProps
+  headerProps?: DashboardLayoutHeaderProps
   children?: React.ReactNode
 }
 

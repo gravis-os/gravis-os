@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.0.54
+
+### Patch Changes
+
+- [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48) Thanks [@clodal](https://github.com/clodal)! - Update styles for apps/blog
+
+* [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917) Thanks [@clodal](https://github.com/clodal)! - Update apps/blog post card ui
+
+## 0.0.53
+
+### Patch Changes
+
+- [#112](https://github.com/gravis-os/gravis-os/pull/112) [`b8063e5`](https://github.com/gravis-os/gravis-os/commit/b8063e58877a3c2d801558ddc7e4f17a53e8aacf) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Update MegaSearch
+
+## 0.0.52
+
+### Patch Changes
+
+- [`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b) Thanks [@clodal](https://github.com/clodal)! - Add useList and useDetail to query package. Add apps/blog components
+
 ## 0.0.51
 
 ### Patch Changes

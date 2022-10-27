@@ -1,5 +1,41 @@
 # Changelog
 
+## 0.0.27
+
+### Patch Changes
+
+- [`c525206`](https://github.com/gravis-os/gravis-os/commit/c5252062eab758f0b859823bd65d3035c0618cc6) Thanks [@clodal](https://github.com/clodal)! - Fix landing storybook
+
+- Updated dependencies [[`41d754a`](https://github.com/gravis-os/gravis-os/commit/41d754a2b0659ea417dabea2f81d990e3ce196e1)]:
+  - @gravis-os/storage@0.0.24
+
+## 0.0.26
+
+### Patch Changes
+
+- [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48) Thanks [@clodal](https://github.com/clodal)! - Update styles for apps/blog
+
+- Updated dependencies [[`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48), [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917)]:
+  - @gravis-os/ui@0.0.54
+
+## 0.0.25
+
+### Patch Changes
+
+- [#112](https://github.com/gravis-os/gravis-os/pull/112) [`b8063e5`](https://github.com/gravis-os/gravis-os/commit/b8063e58877a3c2d801558ddc7e4f17a53e8aacf) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Update MegaSearch
+
+- Updated dependencies [[`b8063e5`](https://github.com/gravis-os/gravis-os/commit/b8063e58877a3c2d801558ddc7e4f17a53e8aacf)]:
+  - @gravis-os/ui@0.0.53
+
+## 0.0.24
+
+### Patch Changes
+
+- [`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b) Thanks [@clodal](https://github.com/clodal)! - Add useList and useDetail to query package. Add apps/blog components
+
+- Updated dependencies [[`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b)]:
+  - @gravis-os/ui@0.0.52
+
 ## 0.0.23
 
 ### Patch Changes

@@ -3,7 +3,6 @@ import {
   Box,
   BoxProps,
   Card,
-  CardContentProps,
   CardProps,
   Grid,
   Link,
@@ -48,16 +47,18 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
   return (
     <Card key={item.id} disableCardContent square sx={{ ...sx }} {...rest}>
       <Grid container spacing={2}>
-        <Grid item xs={3} lg={3}>
+        <Grid item xs={3} lg={isSmall ? 4 : 3}>
           <Link href={postHref}>
             <StorageImage
               src={avatar_src}
               alt={avatar_alt || title}
               scaleOnHover
+              ar="4:3"
+              rounded
             />
           </Link>
         </Grid>
-        <Grid item xs={9} lg={9}>
+        <Grid item xs={9} lg={isSmall ? 8 : 9}>
           <Box
             py={2}
             mr={2}
@@ -90,6 +91,7 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
               <Typography
                 variant={isSmall ? 'body2' : 'body1'}
                 color="text.secondary"
+                maxLines={3}
               >
                 {subtitle}
               </Typography>

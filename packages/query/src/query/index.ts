@@ -1,3 +1,5 @@
+export * from './types'
+
 export { default as makeFetchCrudItem } from './makeFetchCrudItem'
 export * from './makeFetchCrudItem'
 
@@ -15,3 +17,12 @@ export * from './useFilterDefs'
 
 export { default as useSortDefs } from './useSortDefs'
 export * from './useSortDefs'
+
+export { default as useList } from './useList'
+export * from './useList'
+
+export { default as useDetail } from './useDetail'
+export * from './useDetail'
+
+export { default as getStaticPathsByParams } from './getStaticPathsByParams'
+export * from './getStaticPathsByParams'

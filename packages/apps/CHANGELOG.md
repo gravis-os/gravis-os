@@ -1,5 +1,37 @@
 # Changelog
 
+## 0.0.42
+
+### Patch Changes
+
+- [`41d754a`](https://github.com/gravis-os/gravis-os/commit/41d754a2b0659ea417dabea2f81d990e3ce196e1) Thanks [@clodal](https://github.com/clodal)! - Add apps/ads
+
+- Updated dependencies [[`41d754a`](https://github.com/gravis-os/gravis-os/commit/41d754a2b0659ea417dabea2f81d990e3ce196e1), [`4d1f1b7`](https://github.com/gravis-os/gravis-os/commit/4d1f1b7b0b658b8e6e609a15352da1424c819f9a)]:
+  - @gravis-os/query@0.0.12
+
+## 0.0.41
+
+### Patch Changes
+
+- [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48) Thanks [@clodal](https://github.com/clodal)! - Update styles for apps/blog
+
+* [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917) Thanks [@clodal](https://github.com/clodal)! - Update apps/blog post card ui
+
+* Updated dependencies [[`3876184`](https://github.com/gravis-os/gravis-os/commit/3876184f09c45300fbc3b2247aee6172a8120a51), [`db5fd54`](https://github.com/gravis-os/gravis-os/commit/db5fd5400569251ddd1252996aac7a7558b1e939), [`327de95`](https://github.com/gravis-os/gravis-os/commit/327de9556f05c53f4120e78f2d79df815fa72b48), [`7203a55`](https://github.com/gravis-os/gravis-os/commit/7203a5575ad2eb5eafffd40638fc9d8970eb2917)]:
+  - @gravis-os/crud@0.0.57
+  - @gravis-os/form@0.0.77
+  - @gravis-os/ui@0.0.54
+
+## 0.0.40
+
+### Patch Changes
+
+- [`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b) Thanks [@clodal](https://github.com/clodal)! - Add useList and useDetail to query package. Add apps/blog components
+
+- Updated dependencies [[`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b)]:
+  - @gravis-os/query@0.0.11
+  - @gravis-os/ui@0.0.52
+
 ## 0.0.39
 
 ### Patch Changes

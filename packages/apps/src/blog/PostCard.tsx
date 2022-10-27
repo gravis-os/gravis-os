@@ -41,7 +41,7 @@ const PostCard: React.FC<PostCardProps> = (props) => {
   const isSmall = size === 'small'
   const isLarge = size === 'large'
 
-  const { title, subtitle, avatar_src, avatar_alt, blog_category } = item
+  const { title, subtitle, hero_src, hero_alt, blog_category } = item
 
   const postHref = postModule.getWebHref([
     blog_category?.blog,
@@ -70,7 +70,13 @@ const PostCard: React.FC<PostCardProps> = (props) => {
           ...(imageHeight && { height: imageHeight }),
         }}
       >
-        <StorageImage src={avatar_src} alt={avatar_alt || title} scaleOnHover />
+        <StorageImage
+          src={hero_src}
+          alt={hero_alt || title}
+          scaleOnHover
+          ar="16:9"
+          rounded
+        />
       </Link>
 
       <CardContent
@@ -98,6 +104,7 @@ const PostCard: React.FC<PostCardProps> = (props) => {
           <Typography
             variant={isSmall ? 'body2' : 'body1'}
             color="text.secondary"
+            maxLines={3}
           >
             {subtitle}
           </Typography>

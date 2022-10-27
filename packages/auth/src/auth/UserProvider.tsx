@@ -118,7 +118,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   const isGuestPath = isPathMatch(pathname, guestPaths)
 
   // Loader
-  const shouldShowLoader = isPlatformBrowser() && !isGuestPath && !dbUser
+  const shouldShowLoader = !isGuestPath && !dbUser
   const loader = injectedLoader || <CircularProgress fullScreen />
 
   if (process.env.DEBUG === 'true') {

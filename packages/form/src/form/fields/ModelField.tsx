@@ -30,7 +30,10 @@ import isNil from 'lodash/isNil'
 import TextField from './TextField'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 
-type DataItem = Record<string, unknown> & { id?: string | number }
+interface DataItem {
+  [key: string]: unknown
+  id?: string | number
+}
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
 /**
@@ -46,6 +49,14 @@ const delayFunction = debounce
  * @link: https://mui.com/material-ui/react-autocomplete/#custom-filter
  */
 const getClientSideFilterOptions = createFilterOptions<DataItem>()
+
+export type SetModelFieldQuery = ({
+  inputValue,
+  select,
+}: {
+  inputValue: string
+  select: string
+}) => Promise<PostgrestResponse<DataItem>>
 
 export interface ModelFieldProps {
   pk?: string
@@ -94,13 +105,7 @@ export interface ModelFieldProps {
    * setQuery
    * Allow downstream to override the server-side query
    */
-  setQuery?: ({
-    inputValue,
-    select,
-  }: {
-    inputValue: string
-    select: string
-  }) => Promise<PostgrestResponse<DataItem>>
+  setQuery?: SetModelFieldQuery
 
   /**
    * renderOption

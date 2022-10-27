@@ -230,9 +230,6 @@ const homeBlocks = [
                 title: 'https://source.unsplash.com/random/700x400',
                 titleProps: {
                   alt: 'MOCK_IMAGE',
-                  width: 700,
-                  height: 400,
-                  layout: 'responsive',
                   sx: { borderRadius: 3 },
                 },
               },
@@ -255,9 +252,6 @@ const homeBlocks = [
                 title: 'https://source.unsplash.com/random/700x400',
                 titleProps: {
                   alt: 'MOCK_IMAGE',
-                  width: 700,
-                  height: 400,
-                  layout: 'responsive',
                   sx: { borderRadius: 3 },
                 },
               },
@@ -319,9 +313,6 @@ const homeBlocks = [
                 title: 'https://source.unsplash.com/random/700x400',
                 titleProps: {
                   alt: 'MOCK_IMAGE',
-                  width: 700,
-                  height: 400,
-                  layout: 'responsive',
                   sx: { borderRadius: 3 },
                 },
               },

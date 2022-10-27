@@ -17,6 +17,7 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
   fadeOnHover?: boolean
   scaleOnHover?: boolean
   loading?: boolean
+  rounded?: boolean
 }
 
 /**
@@ -32,6 +33,7 @@ const Image: React.FC<ImageProps> = (props) => {
     containerSx,
     disablePointerEvents,
     disableResponsive,
+    rounded,
     ...rest
   } = props
   const { src } = rest
@@ -73,6 +75,9 @@ const Image: React.FC<ImageProps> = (props) => {
          * Adapted from https://github.com/leerob/image-gallery-supabase-tailwind-nextjs/blob/main/pages/index.tsx
          */
         filter: loading ? 'blur(40px) grayscale(100%)' : 'blur(0) grayscale(0)',
+
+        // Rounded adds border radius
+        ...(rounded && { borderRadius: 1 }),
 
         ...sx,
       },

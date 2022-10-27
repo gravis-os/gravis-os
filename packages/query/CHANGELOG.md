@@ -1,5 +1,19 @@
 # @gravis-os/query
 
+## 0.0.12
+
+### Patch Changes
+
+- [`41d754a`](https://github.com/gravis-os/gravis-os/commit/41d754a2b0659ea417dabea2f81d990e3ce196e1) Thanks [@clodal](https://github.com/clodal)! - Add apps/ads
+
+* [`4d1f1b7`](https://github.com/gravis-os/gravis-os/commit/4d1f1b7b0b658b8e6e609a15352da1424c819f9a) Thanks [@clodal](https://github.com/clodal)! - Add rpc folder to query to include increment_count
+
+## 0.0.11
+
+### Patch Changes
+
+- [`47b4d6b`](https://github.com/gravis-os/gravis-os/commit/47b4d6b0c6eb0ac7326fd120302ef64a9781697b) Thanks [@clodal](https://github.com/clodal)! - Add useList and useDetail to query package. Add apps/blog components
+
 ## 0.0.10
 
 ### Patch Changes
