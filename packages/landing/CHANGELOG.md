@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.27
+
+### Patch Changes
+
+- [`c525206`](https://github.com/gravis-os/gravis-os/commit/c5252062eab758f0b859823bd65d3035c0618cc6) Thanks [@clodal](https://github.com/clodal)! - Fix landing storybook
+
+- Updated dependencies [[`41d754a`](https://github.com/gravis-os/gravis-os/commit/41d754a2b0659ea417dabea2f81d990e3ce196e1)]:
+  - @gravis-os/storage@0.0.24
+
 ## 0.0.26
 
 ### Patch Changes
