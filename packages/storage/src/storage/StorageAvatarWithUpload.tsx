@@ -23,6 +23,7 @@ export interface StorageAvatarWithUploadProps extends AvatarProps {
   inputProps?: InputHTMLAttributes<HTMLInputElement>
   label?: string
   disableLabel?: boolean
+  altKey?: string
 }
 
 const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
@@ -44,6 +45,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     sx,
     label: injectedLabel,
     disableLabel,
+    altKey: injectedAltKey,
     ...rest
   } = props
   const { src } = props
@@ -104,7 +106,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
 
       // If item, autoSave to DB
       if (item) {
-        const altKey = name.replace('_src', '_alt')
+        const altKey = injectedAltKey || name.replace('_src', '_alt')
         await client
           .from(module.table.name)
           .update([{ [name]: savedFileKey, [altKey]: file.name }])

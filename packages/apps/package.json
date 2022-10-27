@@ -16,6 +16,9 @@
       ],
       "blog": [
         "./dist/types/blog/index.d.ts"
+      ],
+      "ads": [
+        "./dist/types/ads/index.d.ts"
       ]
     }
   },
@@ -35,6 +38,10 @@
     "./blog": {
       "require": "./dist/cjs/blog/index.js",
       "import": "./dist/esm/blog/index.js"
+    },
+    "./ads": {
+      "require": "./dist/cjs/ads/index.js",
+      "import": "./dist/esm/ads/index.js"
     }
   },
   "files": [

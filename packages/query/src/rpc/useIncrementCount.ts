@@ -1,6 +1,6 @@
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import setIncrementCount from './setIncrementCount'
 
 export interface UseIncrementCountProps {
   item: CrudItem
@@ -11,20 +11,19 @@ export interface UseIncrementCountProps {
 const useIncrementCount = (props: UseIncrementCountProps) => {
   const { item, module, countColumnName = 'view_count' } = props
 
+  const [isIncremented, setIsIncremented] = useState(false)
+
   const incrementCount = async () => {
     if (!item || !module) return
 
-    return supabaseClient.rpc('increment_count', {
-      table_name: module.table.name,
-      count_column_name: countColumnName,
-      slug_key: module.sk,
-      slug_value: item[module.sk],
-    })
+    await setIncrementCount({ item, module, countColumnName })
+
+    setIsIncremented(true)
   }
 
   useEffect(() => {
-    incrementCount()
-  }, [])
+    if (item && !isIncremented) incrementCount()
+  }, [item, isIncremented])
 }
 
 export default useIncrementCount
