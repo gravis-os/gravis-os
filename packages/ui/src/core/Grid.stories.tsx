@@ -1,4 +1,4 @@
-import { map } from 'lodash'
+import { kebabCase, map } from 'lodash'
 import React from 'react'
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Card from './Card'
@@ -21,7 +21,7 @@ const Template = (args) => {
   return (
     <Grid container reverse={reverse}>
       {map(children, (child) => (
-        <Grid item xs={xs}>
+        <Grid item xs={xs} key={kebabCase(child)}>
           <Card>{child}</Card>
         </Grid>
       ))}
