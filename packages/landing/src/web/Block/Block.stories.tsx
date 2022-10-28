@@ -9,7 +9,7 @@ import { BlockItemTypeEnum } from './constants'
 export default {
   component: Block,
   args: MOCK_BLOCK,
-  title: getStorybookTitle(Block.displayName),
+  title: getStorybookTitle(Block.name),
   parameters: {
     layout: 'fullscreen',
     backgrounds: {

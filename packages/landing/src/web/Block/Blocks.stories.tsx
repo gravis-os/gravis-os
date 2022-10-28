@@ -5,7 +5,7 @@ import Blocks from './Blocks'
 
 export default {
   component: Blocks,
-  title: getStorybookTitle(Blocks.displayName),
+  title: getStorybookTitle(Blocks.name),
   args: {
     items: MOCK_BLOCKS,
   },

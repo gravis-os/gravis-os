@@ -1,9 +1,10 @@
-import React from 'react'
 import { PaginatedQueryViewVariantEnum } from '@gravis-os/query'
+import React from 'react'
+import getStorybookTitle from '../utils/getStorybookTitle'
 import PaginatedPosts from './PaginatedPosts'
 
 export default {
-  component: PaginatedPosts,
+  component: getStorybookTitle(PaginatedPosts.name),
   args: {
     variant: PaginatedQueryViewVariantEnum.List,
     queryResult: {},
