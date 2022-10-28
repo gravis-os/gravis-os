@@ -58,7 +58,7 @@ const InfoCard: React.FC<InfoCardProps> = (props): React.ReactElement => {
   ) : (
     <Stack direction="row" alignItems="center" justifyContent="space-between">
       {/* Icon and Title */}
-      <Stack direction="row" spacing={1}>
+      <Stack direction="row" spacing={1} alignItems="center">
         {icon}
         <Typography variant="subtitle1" {...titleTypographyProps}>
           {title}
