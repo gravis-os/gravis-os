@@ -4,7 +4,8 @@ import getStorybookTitle from '../utils/getStorybookTitle'
 import PaginatedPosts from './PaginatedPosts'
 
 export default {
-  component: getStorybookTitle(PaginatedPosts.name),
+  title: getStorybookTitle(PaginatedPosts.name),
+  component: PaginatedPosts,
   args: {
     variant: PaginatedQueryViewVariantEnum.List,
     queryResult: {},
@@ -24,4 +25,3 @@ export default {
 const Template = (args) => <PaginatedPosts {...args} />
 
 export const Basic = Template.bind({})
-Basic.args = {}
