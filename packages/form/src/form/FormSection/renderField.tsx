@@ -93,6 +93,7 @@ export interface FormSectionFieldProps {
   hidden?: boolean | FormSectionFieldBooleanFunction
   disabled?: boolean | FormSectionFieldBooleanFunction
   required?: boolean
+  helperText?: React.ReactNode
   defaultValue?:
     | string
     | number
@@ -164,6 +165,7 @@ const renderField = (props: RenderFieldProps) => {
     name,
     disabled,
     hidden,
+    helperText,
     defaultValue,
     label: injectedLabel,
     withCreate,
@@ -191,7 +193,7 @@ const renderField = (props: RenderFieldProps) => {
     isNew,
     setValue,
     error: Boolean(errors[name]),
-    helperText: errors[name]?.message,
+    helperText: errors[name]?.message || helperText,
     // Resolved values
     disabled: isDisabled,
     hidden: isHidden,
