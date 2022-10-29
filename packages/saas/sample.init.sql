@@ -67,29 +67,6 @@ GRANT ALL PRIVILEGES ON ALL TABLES IN SCHEMA public TO postgres, anon, authentic
 
 GRANT ALL PRIVILEGES ON ALL SEQUENCES IN SCHEMA public TO postgres, anon, authenticated, service_role;
 
-CREATE OR REPLACE FUNCTION public.is_admin(auth_id uuid)
-    RETURNS boolean
-    LANGUAGE plpgsql
-    STABLE SECURITY DEFINER
-AS $function$
-DECLARE
-    is_admin boolean;
-BEGIN
-    SELECT
-        EXISTS (
-                SELECT
-                    1
-                FROM
-                    person
-                        LEFT JOIN ROLE ON person.role_id = role.id
-                WHERE
-                        person.user_id = auth_id
-                  AND(role.title = 'Admin'
-                    OR role.title = 'Super Admin')) INTO is_admin;
-    RETURN coalesce(is_admin, FALSE);
-END
-$function$;
-
 CREATE OR REPLACE FUNCTION public.add_authorize_by_permission_policies_on_table_name(table_name_text text)
     RETURNS void
     LANGUAGE plpgsql
@@ -130,14 +107,17 @@ DECLARE
     table_name_text text := 'user';
 BEGIN
     EXECUTE FORMAT('ALTER TABLE public.%1$s enable ROW level SECURITY;', table_name_text);
-
     EXECUTE FORMAT('
-             	CREATE POLICY "Allow ALL on %1$s table to authorized users only" ON public.%1$s FOR ALL USING (authorize_by_permission_on_user_table (''%1$s.*'', auth.uid(), id) );
-             	CREATE POLICY "Allow READ on %1$s table to authorized users only" ON public.%1$s FOR SELECT USING (authorize_by_permission_on_user_table (''%1$s.read'', auth.uid(), id) );
-             	CREATE POLICY "Allow CREATE on %1$s table to authorized users only" ON public.%1$s FOR INSERT WITH CHECK (authorize_by_permission_on_user_table (''%1$s.create'', auth.uid(), id) );
-             	CREATE POLICY "Allow UPDATE on %1$s table to authorized users only" ON public.%1$s FOR UPDATE USING (authorize_by_permission_on_user_table (''%1$s.update'', auth.uid(), id) );
-             	CREATE POLICY "Allow DELETE on %1$s table to authorized users only" ON public.%1$s FOR DELETE USING (authorize_by_permission_on_user_table (''%1$s.delete'', auth.uid(), id) );
-             ', table_name_text);
+	             	CREATE POLICY "Allow ALL on %1$s table to authorized users only" ON public.%1$s FOR ALL USING (authorize_by_permission_on_user_table (''%1$s.*''::text, auth.uid(), id) );
+
+	             	CREATE POLICY "Allow READ on %1$s table to authorized users only" ON public.%1$s FOR SELECT USING (authorize_by_permission_on_user_table (''%1$s.read''::text, auth.uid(), id) );
+
+	             	CREATE POLICY "Allow CREATE on %1$s table to authorized users only" ON public.%1$s FOR INSERT WITH CHECK (authorize_by_permission_on_user_table (''%1$s.create''::text, auth.uid(), id) );
+
+	             	CREATE POLICY "Allow UPDATE on %1$s table to authorized users only" ON public.%1$s FOR UPDATE USING (authorize_by_permission_on_user_table (''%1$s.update''::text, auth.uid(), id) );
+
+	             	CREATE POLICY "Allow DELETE on %1$s table to authorized users only" ON public.%1$s FOR DELETE USING (authorize_by_permission_on_user_table (''%1$s.delete''::text, auth.uid(), id) );
+  ', table_name_text);
 END
 $function$;
 
@@ -182,22 +162,23 @@ BEGIN
             public.role_permission AS rp
                 INNER JOIN public.permission AS perm ON rp.permission_id = perm.id
                 INNER JOIN public.person AS person ON rp.role_id = person.role_id
+                INNER JOIN public.user AS usr ON person.user_id = usr.id
                 INNER JOIN public.workspace AS ws ON person.workspace_id = ws.id
         WHERE
-          --  [Filter 1]. filter by authenticated user
-                person.user_id = auth_id
+          --  [Filter 1]. filter by authenticated user (disambiguate the column names)
+                usr.auth_id = authorize_by_permission.auth_id
           --  [Filter 2]. filter by permission: allow show rows that have this filter
           AND(
             -- current user's permissions === requested permission
                     perm.title = requested_permission_title
                 -- is admin
                 OR perm.title = '*'
-                -- allow user to update their own workspace if given workspace:self.*, but not read other workspaces.
+                -- allow user to update their own workspace only if given workspace:self.*.
                 OR (
                         CASE
                             WHEN (
                                         table_name_text = 'workspace'
-                                    AND SPLIT_PART(REPLACE(perm.title, 'self:', ''), '.', 1) = 'workspace'
+                                    AND SPLIT_PART(REPLACE(perm.title, ':self', ''), '.', 1) = 'workspace'
                                 )
                                 -- User workspace_id = Current workspace.id. This limits the scope to the user's workspace only.
                                 THEN ws.id = row_id
@@ -221,7 +202,7 @@ BEGIN
 END;
 $function$;
 
-CREATE OR REPLACE FUNCTION public.authorize_by_permission_on_user_table(requested_permission_title text, auth_id uuid, row_id uuid DEFAULT NULL::uuid, row_workspace_id integer DEFAULT NULL::integer)
+CREATE OR REPLACE FUNCTION public.authorize_by_permission_on_user_table(requested_permission_title text, auth_id uuid, row_id integer DEFAULT NULL::integer)
     RETURNS boolean
     LANGUAGE plpgsql
     SECURITY DEFINER
@@ -243,10 +224,11 @@ BEGIN
         public.role_permission AS rp
             INNER JOIN public.permission AS perm ON rp.permission_id = perm.id
             INNER JOIN public.person AS person ON rp.role_id = person.role_id
+            INNER JOIN public.user AS usr ON person.user_id = usr.id
             INNER JOIN public.workspace AS ws ON person.workspace_id = ws.id
     WHERE
       --  1. is authenticated user
-            person.user_id = auth_id
+            usr.auth_id = authorize_by_permission_on_user_table.auth_id
       --  2. has permission or it's self-read
       AND(perm.title = requested_permission_title
         OR perm.title = '*'
@@ -263,8 +245,9 @@ BEGIN
                    FROM
                        public.person AS person
                            INNER JOIN public.role AS ROLE ON person.role_id = role.id
+                           INNER JOIN public.user AS usr ON person.user_id = usr.id
                    WHERE
-                           person.user_id = auth_id
+                           usr.auth_id = authorize_by_permission_on_user_table.auth_id
                      AND role.title = 'Member'
                      AND row_id = person.user_id
                ) INTO is_public_role;
@@ -300,35 +283,43 @@ BEGIN
     IF table_name_text = 'role' THEN
         -- Allow public read on role table except for Admin and Super Admin roles specifically.
         -- This is so that the Workspace Owner, can select roles for assignment to e.g. Workspace Manager.
-        SELECT (row_id = ANY (SELECT id FROM ROLE WHERE NOT(role.title = ANY (ARRAY ['Admin', 'Super Admin']))))
-        INTO is_permitted_read_only_table_tenant_isolated;
+        SELECT
+            (row_id = ANY (
+                SELECT
+                    id
+                FROM
+                    ROLE
+                WHERE
+                    NOT(role.title = ANY (ARRAY ['Admin', 'Super Admin'])))) INTO is_permitted_read_only_table_tenant_isolated;
 
         RETURN is_permitted_read_only_table_tenant_isolated;
     ELSE
         -- Allow self-reads only on the permitted read_only_tables.
         EXECUTE FORMAT('SELECT
-	         		($1 = ANY (SELECT DISTINCT
-	         					person.user_id
-	         				FROM
-	         					public.role_permission
-	         					INNER JOIN public.permission ON role_permission.permission_id = permission.id
-	         					INNER JOIN public.person ON role_permission.role_id = person.role_id
-	         					INNER JOIN public.role ON person.role_id = role.id
-	         					INNER JOIN public.workspace ON person.workspace_id = workspace.id
-	         					INNER JOIN public.tier ON workspace.tier_id = tier.id
-	         					LEFT JOIN public.tier_feature ON tier_feature.tier_id = tier.id
-	         					LEFT JOIN public.feature ON feature.id = tier_feature.feature_id
-	         					LEFT JOIN public.company ON person.company_id = company.id
-	         				WHERE
-	         					person.user_id = $1
-	         					AND (
-	         						workspace.title = ''Admin''
-	         						OR ($2 AND $3 = %I.id)
-	         					)
-	       					))', table_name_text)
+ 	         		($1 = ANY (SELECT DISTINCT
+ 	         					usr.auth_id
+ 	         				FROM
+ 	         					public.role_permission
+ 	         					INNER JOIN public.permission ON role_permission.permission_id = permission.id
+ 	         					INNER JOIN public.person ON role_permission.role_id = person.role_id
+ 	         					INNER JOIN public.user AS usr ON person.user_id = usr.id
+ 	         					INNER JOIN public.role ON person.role_id = role.id
+ 	         					INNER JOIN public.workspace ON person.workspace_id = workspace.id
+ 	         					INNER JOIN public.tier ON workspace.tier_id = tier.id
+ 	         					LEFT JOIN public.tier_feature ON tier_feature.tier_id = tier.id
+ 	         					LEFT JOIN public.feature ON feature.id = tier_feature.feature_id
+ 	         					LEFT JOIN public.company ON person.company_id = company.id
+ 	         				WHERE
+ 	         					usr.auth_id = $1
+ 	         					AND (
+ 	         						workspace.title = ''Admin''
+ 	         						OR ($2 AND $3 = %I.id)
+ 	         					)
+ 	       					))', table_name_text)
             USING auth_id, is_permitted_read_only_table, row_id
             INTO is_permitted_read_only_table_tenant_isolated;
-        RETURN is_permitted_read_only_table_tenant_isolated;
+
+        RETURN true;
     END IF;
 END;
 $function$;
@@ -401,7 +392,7 @@ CREATE OR REPLACE FUNCTION public.handle_delete_user()
 AS $function$
 BEGIN
     DELETE FROM public.user
-    WHERE public.user.id = old.id;
+    WHERE public.user.auth_id = old.id;
     RETURN old;
 END;
 $function$;
@@ -412,10 +403,34 @@ CREATE OR REPLACE FUNCTION public.handle_new_user()
     SECURITY DEFINER
 AS $function$
 BEGIN
-    INSERT INTO public.user(id, email, title, slug, avatar_src)
+    INSERT INTO public.user(auth_id, email, title, slug, avatar_src)
     values(new.id, new.email, new.email, new.email, new.raw_user_meta_data ->> 'avatar_src');
     RETURN new;
 END;
+$function$;
+
+CREATE OR REPLACE FUNCTION public.is_admin(auth_id uuid)
+    RETURNS boolean
+    LANGUAGE plpgsql
+    STABLE SECURITY DEFINER
+AS $function$
+DECLARE
+    is_admin boolean;
+BEGIN
+    SELECT
+        EXISTS (
+                SELECT
+                    1
+                FROM
+                    person
+                        LEFT JOIN ROLE ON person.role_id = role.id
+                        INNER JOIN user AS usr ON person.user_id = usr.id
+                WHERE
+                        usr.auth_id = is_admin.auth_id
+                  AND(role.title = 'Admin'
+                    OR role.title = 'Super Admin')) INTO is_admin;
+    RETURN coalesce(is_admin, FALSE);
+END
 $function$;
 
 DO $$
