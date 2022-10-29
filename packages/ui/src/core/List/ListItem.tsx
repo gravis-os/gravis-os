@@ -14,7 +14,7 @@ import withTooltip from '../withTooltip'
 
 export interface ListItemProps
   extends Omit<MuiListItemProps, 'title' | 'onClick'> {
-  key: string
+  key: string | number
   title?: MuiListItemTextProps['primary']
   subtitle?: MuiListItemTextProps['secondary']
   textProps?: MuiListItemTextProps

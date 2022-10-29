@@ -60,6 +60,7 @@ const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
               // Recurse this
               depth: depth + 1,
               buttonProps: {
+                ...commonListItemProps?.buttonProps,
                 sx: {
                   // Calculate indentation of inner items recursively
                   pl: INITIAL_LIST_PL + INDENTED_LIST_PL * depth,

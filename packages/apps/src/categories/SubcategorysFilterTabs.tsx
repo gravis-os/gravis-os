@@ -5,7 +5,7 @@ import { CrudItem } from '@gravis-os/types'
 
 export interface SubcategorysFilterTabsProps extends Omit<TabsProps, 'items'> {
   items?: CrudItem[]
-  // @example 'blog_category_id'
+  // @example 'forum_category_id'
   filterKey: string
   op?: string
 }

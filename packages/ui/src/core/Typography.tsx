@@ -13,6 +13,7 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   maxWidth?: boolean | string // percentage e.g. '80%'. Shorthand for sx.maxWidth
   gradient?: string | { from: string; to: string; angle?: string }
   maxLines?: number
+  component?: string
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {

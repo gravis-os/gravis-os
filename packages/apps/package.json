@@ -25,6 +25,12 @@
       ],
       "tags": [
         "./dist/types/tags/index.d.ts"
+      ],
+      "categories": [
+        "./dist/types/categories/index.d.ts"
+      ],
+      "forum": [
+        "./dist/types/forum/index.d.ts"
       ]
     }
   },
@@ -56,6 +62,14 @@
     "./tags": {
       "require": "./dist/cjs/tags/index.js",
       "import": "./dist/esm/tags/index.js"
+    },
+    "./categories": {
+      "require": "./dist/cjs/categories/index.js",
+      "import": "./dist/esm/categories/index.js"
+    },
+    "./forum": {
+      "require": "./dist/cjs/forum/index.js",
+      "import": "./dist/esm/forum/index.js"
     }
   },
   "files": [
