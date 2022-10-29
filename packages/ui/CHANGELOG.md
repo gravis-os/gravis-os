@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.56
+
+### Patch Changes
+
+- [`3254b50`](https://github.com/gravis-os/gravis-os/commit/3254b509964e5dd15af099c6fc26db3c21e11901) Thanks [@clodal](https://github.com/clodal)! - Add AnimatedLoader component"
+
 ## 0.0.55
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.29
+
+### Patch Changes
+
+- [#116](https://github.com/gravis-os/gravis-os/pull/116) [`8972d10`](https://github.com/gravis-os/gravis-os/commit/8972d105fbb51f92b148c4b7980a5cf58415141b) Thanks [@robyonextech](https://github.com/robyonextech)! - Fix LandingLayout storybook error
+
+- Updated dependencies [[`3254b50`](https://github.com/gravis-os/gravis-os/commit/3254b509964e5dd15af099c6fc26db3c21e11901)]:
+  - @gravis-os/ui@0.0.56
+
 ## 0.0.28
 
 ### Patch Changes

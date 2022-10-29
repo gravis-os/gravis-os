@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.14
+
+### Patch Changes
+
+- [`fea3d22`](https://github.com/gravis-os/gravis-os/commit/fea3d22e0829807a1edcf92eabc62d4412158fcb) Thanks [@clodal](https://github.com/clodal)! - Republish auth, saas, middleware to ensure latest builds
+
 ## 0.0.13
 
 ### Patch Changes
