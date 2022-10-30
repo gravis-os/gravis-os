@@ -100,6 +100,7 @@
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.10.0",
     "react-intersection-observer": "^9.4.0",
+    "react-truncate-html": "^0.1.7",
     "react-use-measure": "^2.1.1",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3"
@@ -127,7 +128,6 @@
     "@babel/core": "^7.10.5",
     "@babel/plugin-transform-runtime": "^7.17.0",
     "@babel/runtime": "^7.17.9",
-    "dayjs": "^1.11.3",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
     "@fullcalendar/common": "^5.10.1",
@@ -168,6 +168,7 @@
     "babel-loader": "^8.1.0",
     "cross-env": "^7.0.3",
     "cssnano": "^4.1.10",
+    "dayjs": "^1.11.3",
     "eslint": "^8.15.0",
     "husky": "^4.2.5",
     "lint-staged": "^10.2.11",

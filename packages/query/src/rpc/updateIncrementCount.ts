@@ -1,6 +1,6 @@
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 
-export const setIncrementCount = async ({
+export const updateIncrementCount = async ({
   item,
   module,
   countColumnName = 'view_count',
@@ -16,4 +16,4 @@ export const setIncrementCount = async ({
   })
 }
 
-export default setIncrementCount
+export default updateIncrementCount

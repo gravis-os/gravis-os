@@ -1,31 +1,37 @@
 import React from 'react'
-import { Box, Stack, Link, Typography, List } from '@gravis-os/ui'
+import { List } from '@gravis-os/ui'
 import { CrudItem } from '@gravis-os/types'
+import { useRouter } from 'next/router'
 
 export interface CategorysSideBarProps {
-  items: CrudItem[]
+  items: Array<CrudItem & { emoji?: string }>
   getHref: (item: Record<string, any>) => string
-  size?: 'small' | 'medium'
 }
 
 const CategorysSideBar: React.FC<CategorysSideBarProps> = (props) => {
-  const { size = 'medium', items, getHref } = props
+  const { items, getHref } = props
+  const router = useRouter()
 
   if (!items?.length) return null
 
-  const isSmall = size === 'small'
-
   return (
     <List
-      items={items.map((item) => ({
-        key: item.id,
-        title: item.title,
-        href: getHref(item),
-        buttonProps: { dense: true },
-        textProps: {
-          primaryTypographyProps: { variant: 'subtitle2' },
-        },
-      }))}
+      disableIndicator
+      items={items.map((item) => {
+        if (!item) return
+        const selected = Object.values(router.query).includes(item.slug)
+        return {
+          selected,
+          key: item.id,
+          title: item.title,
+          href: getHref(item),
+          buttonProps: { dense: true },
+          textProps: { primaryTypographyProps: { variant: 'subtitle2' } },
+          avatar: item.emoji,
+          avatarProps: { sx: { minWidth: 0, mr: 1, fontSize: 'h6.fontSize' } },
+          spacing: 1,
+        }
+      })}
       disablePadding
     />
   )

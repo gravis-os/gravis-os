@@ -52,6 +52,7 @@ export interface PaginatedQueryViewProps {
   paginationType?: PaginatedQueryViewPaginationTypeEnum
   queryResult: (UseInfiniteQueryResult | UseQueryResult) & {
     pagination: UsePaginationReturn
+    items?: Record<string, any>[]
   }
 }
 

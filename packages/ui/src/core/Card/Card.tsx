@@ -59,6 +59,9 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   // Flex
   stretch?: boolean
 
+  // Styles
+  border?: boolean
+
   // Disables
   disableHeaderDivider?: boolean
   disableLastGutterBottom?: boolean
@@ -76,10 +79,9 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
 
 const Card: React.FC<CardProps> = (props) => {
   const {
-    // Collapsed
+    border,
     collapsible,
     defaultCollapsed,
-
     children,
     content = {},
     contentProps,
@@ -251,9 +253,10 @@ const Card: React.FC<CardProps> = (props) => {
       }),
 
       // Box Shadow
-      ...(disableBoxShadow && {
-        boxShadow: 'none',
-      }),
+      ...(disableBoxShadow && { boxShadow: 'none' }),
+
+      // Border
+      ...(border && { border: 1, borderColor: 'divider' }),
 
       ...sx,
     },

@@ -1,18 +1,22 @@
 import React from 'react'
 import {
   Box,
+  Button,
   Card,
   CardContent,
   CardContentProps,
   CardProps,
-  Html,
   Link,
   Stack,
   Typography,
 } from '@gravis-os/ui'
+import { printHtml } from '@gravis-os/utils'
 import { StorageAvatar } from '@gravis-os/storage'
 import { CrudModule } from '@gravis-os/types'
 import dayjs from 'dayjs'
+import Truncate from 'react-truncate-html'
+import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
+import { updateIncrementCount } from '@gravis-os/query'
 import { Thread } from './types'
 
 export interface ThreadCardProps extends CardProps {
@@ -39,7 +43,8 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
   const isSmall = size === 'small'
   const isLarge = size === 'large'
 
-  const { title, content, person, forum_category, created_at } = item
+  const { title, content, person, forum_category, created_at, upvote_count } =
+    item
 
   const threadHref = threadModule.getWebHref([
     forum_category?.forum,
@@ -47,11 +52,20 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
     item,
   ])
 
+  const handleUpvoteClick = () => {
+    return updateIncrementCount({
+      item,
+      module: threadModule as CrudModule,
+      countColumnName: 'upvote_count',
+    })
+  }
+
   return (
     <div>
       <Box sx={{ mb: 1 }}>
         <Stack direction="row" alignItems="center" spacing={1}>
           <StorageAvatar
+            letterAltFallback
             src={person.avatar_src}
             alt={person.avatar_alt || person.title}
             size={24}
@@ -76,7 +90,7 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
         </Stack>
       </Box>
 
-      <Card key={item.id} disableCardContent sx={sx} {...rest}>
+      <Card key={item.id} disableCardContent border sx={sx} {...rest}>
         <CardContent {...cardContentProps}>
           <Link
             variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
@@ -86,8 +100,37 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
           </Link>
 
           {content && (
-            <Html html={content} sx={{ mt: 1, color: 'text.secondary' }} />
+            <Box sx={{ mt: 1, color: 'text.secondary' }}>
+              <Truncate
+                lines={3}
+                dangerouslySetInnerHTML={{ __html: printHtml(content) }}
+              />
+              {printHtml(content).length > 150 && (
+                <Link
+                  href={threadHref}
+                  sx={{ mt: 1 }}
+                  variant="subtitle2"
+                  color="text.secondary"
+                >
+                  Read more
+                </Link>
+              )}
+            </Box>
           )}
+
+          {/* Actions */}
+          <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
+            <Button
+              disableLineHeight
+              disableMinWidth
+              variant="action"
+              size="small"
+              startIcon={<ArrowUpwardOutlinedIcon fontSize="small" />}
+              onClick={handleUpvoteClick}
+            >
+              {upvote_count}
+            </Button>
+          </Stack>
         </CardContent>
       </Card>
     </div>

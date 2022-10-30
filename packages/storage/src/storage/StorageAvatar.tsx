@@ -26,13 +26,6 @@ const StorageAvatar: React.FC<StorageAvatarProps> = (props) => {
       src={src}
       alt={alt || (src ? 'Avatar' : 'No image')}
       size={size}
-      sx={{
-        backgroundColor: 'transparent',
-        borderWidth: '1px',
-        color: 'primary.main',
-        borderStyle: src ? 'solid' : 'dashed',
-        borderColor: src ? 'transparent' : 'primary.main',
-      }}
       {...rest}
     />
   )

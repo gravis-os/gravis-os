@@ -11,3 +11,6 @@ export * from './ThreadListItem'
 
 export { default as ThreadCard } from './ThreadCard'
 export * from './ThreadCard'
+
+export { default as ForumLayout } from './ForumLayout'
+export * from './ForumLayout'

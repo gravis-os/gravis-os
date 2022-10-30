@@ -21,10 +21,14 @@ export interface ListItemProps
   avatarProps?: MuiListItemAvatarProps
   buttonProps?: ListItemButtonProps
 
+  // Avatar
+  avatar?: React.ReactNode
+
   start?: React.ReactElement
   end?: React.ReactElement
   startIcon?: React.ReactElement
   endIcon?: React.ReactElement
+
   startIconProps?: ListItemIconProps
   endIconProps?: ListItemIconProps
   iconProps?: ListItemIconProps
@@ -48,6 +52,9 @@ export interface ListItemProps
 
   // Selected state
   selected?: boolean
+
+  // Spacing between elements in ListItem
+  spacing?: number
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
@@ -55,6 +62,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     textProps: injectedListItemTextProps,
     avatarProps: injectedListItemAvatarProps,
     buttonProps: injectedListItemButtonProps,
+
+    // avatar
+    avatar,
 
     title,
     subtitle,
@@ -72,6 +82,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
     disableGutters,
     disablePadding,
+    spacing,
 
     // Tooltip
     hasTooltip,
@@ -97,8 +108,26 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     ...rest,
   }
 
-  const listItemAvatarProps = injectedListItemAvatarProps && {
+  const commonIconProps = {
+    dense: rest.dense,
+    ...iconProps,
+    sx: { color: 'primary.main', ...iconProps?.sx },
+  }
+
+  const listItemStartIconProps = {
+    ...commonIconProps,
+    ...startIconProps,
+    ...(spacing && {
+      sx: { minWidth: 0, mr: spacing, ...injectedListItemAvatarProps?.sx },
+    }),
+  }
+
+  const listItemAvatarProps = {
+    ...(avatar && { children: avatar }),
     ...injectedListItemAvatarProps,
+    ...(spacing && {
+      sx: { minWidth: 0, mr: spacing, ...injectedListItemAvatarProps?.sx },
+    }),
   }
 
   const listItemTextProps = {
@@ -107,18 +136,10 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     ...injectedListItemTextProps,
   }
 
-  const commonIconProps = {
-    dense: rest.dense,
-    ...iconProps,
-    sx: { color: 'primary.main', ...iconProps?.sx },
-  }
-
   const childrenJsx = (
     <>
       {startIcon && (
-        <ListItemIcon {...commonIconProps} {...startIconProps}>
-          {startIcon}
-        </ListItemIcon>
+        <ListItemIcon {...listItemStartIconProps}>{startIcon}</ListItemIcon>
       )}
       {listItemAvatarProps && <MuiListItemAvatar {...listItemAvatarProps} />}
       {listItemTextProps && <MuiListItemText {...listItemTextProps} />}

@@ -10,10 +10,17 @@ import withHref from './withHref'
 import withTooltip from './withTooltip'
 import CircularProgress from './CircularProgress'
 
+/**
+ * If you're making changes to these custom variants,
+ * update the ButtonVariants interface in `baseTheme.ts`
+ */
 const BUTTON_VARIANT_PAPER = 'paper'
 const BUTTON_VARIANT_MUTED = 'muted'
+const BUTTON_VARIANT_ACTION = 'action'
 
 export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
+  disableMinWidth?: boolean
+  disableLineHeight?: boolean
   title?: string
   href?: string
   component?: React.JSXElementConstructor<any> | string
@@ -26,12 +33,15 @@ export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
     | 'text'
     | typeof BUTTON_VARIANT_PAPER
     | typeof BUTTON_VARIANT_MUTED
+    | typeof BUTTON_VARIANT_ACTION
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
   const {
     loading,
     fullWidthOnMobile,
+    disableMinWidth,
+    disableLineHeight,
     tooltip,
     href,
     title,
@@ -42,17 +52,26 @@ const Button: React.FC<ButtonProps> = (props) => {
   } = props
   const { color } = rest
 
-  const isCustomVariant = [BUTTON_VARIANT_PAPER, BUTTON_VARIANT_MUTED].includes(
-    variant
-  )
+  const isCustomVariant = [
+    BUTTON_VARIANT_PAPER,
+    BUTTON_VARIANT_MUTED,
+    BUTTON_VARIANT_ACTION,
+  ].includes(variant)
   const buttonProps = loading ? omit(rest, ['startIcon', 'endIcon']) : rest
-  const childrenJsxContent = children || title
+  const childrenJsxContent = children ?? title
   const childrenJsx = (
     <MuiButton
       variant={isCustomVariant ? 'text' : variant}
       sx={{
         ...(fullWidthOnMobile && {
           width: { xs: '100%', md: 'initial' },
+        }),
+        ...(disableLineHeight && { lineHeight: 1 }),
+        ...(disableMinWidth && {
+          minWidth: 0,
+          '& .MuiButton-startIcon': { marginRight: 0.5, marginLeft: -0.5 },
+          // Increase horizontal padding slightly to make the button width more balanced
+          px: 1,
         }),
         // Outlined variant
         ...(variant === 'outlined' && {
@@ -86,6 +105,17 @@ const Button: React.FC<ButtonProps> = (props) => {
               const isDarkMode = mode === 'dark'
               return isDarkMode ? 'neutral.600' : 'grey.400'
             },
+          },
+        }),
+        // TODO@Joel: Add Action Variant
+        ...(variant === BUTTON_VARIANT_ACTION && {
+          backgroundColor: 'transparent',
+          color: 'text.secondary',
+          border: 1,
+          borderColor: 'divider',
+          '&:hover': {
+            backgroundColor: 'action.hover',
+            borderColor: 'text.secondary',
           },
         }),
         ...sx,

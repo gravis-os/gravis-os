@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react'
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import setIncrementCount from './setIncrementCount'
+import updateIncrementCount from './updateIncrementCount'
 
 export interface UseIncrementCountProps {
   item: CrudItem
@@ -16,7 +16,7 @@ const useIncrementCount = (props: UseIncrementCountProps) => {
   const incrementCount = async () => {
     if (!item || !module) return
 
-    await setIncrementCount({ item, module, countColumnName })
+    await updateIncrementCount({ item, module, countColumnName })
 
     setIsIncremented(true)
   }

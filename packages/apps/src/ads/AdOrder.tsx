@@ -1,7 +1,11 @@
 import React from 'react'
 import { Box } from '@gravis-os/ui'
 import { StorageImage } from '@gravis-os/storage'
-import { useList, useIncrementCount, setIncrementCount } from '@gravis-os/query'
+import {
+  useList,
+  useIncrementCount,
+  updateIncrementCount,
+} from '@gravis-os/query'
 import { CrudModule } from '@gravis-os/types'
 
 export interface AdOrderProps {
@@ -49,7 +53,7 @@ const AdOrder: React.FC<AdOrderProps> = (props) => {
   }
 
   const handleAdClick = async () => {
-    await setIncrementCount({
+    await updateIncrementCount({
       item: ad,
       module: adModule as CrudModule,
       countColumnName: 'click_count',

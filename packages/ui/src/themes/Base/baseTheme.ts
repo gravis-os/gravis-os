@@ -9,12 +9,14 @@ declare module '@mui/material/styles' {
   interface ButtonVariants {
     paper: React.CSSProperties
     muted: React.CSSProperties
+    action: React.CSSProperties
   }
 
   // allow configuration using `createTheme`
   interface ButtonVariantsOptions {
     paper?: React.CSSProperties
     muted?: React.CSSProperties
+    action?: React.CSSProperties
   }
 }
 
@@ -23,6 +25,7 @@ declare module '@mui/material/Button' {
   interface ButtonPropsVariantOverrides {
     paper: true
     muted: true
+    action: true
   }
 }
 
