@@ -141,7 +141,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       {startIcon && (
         <ListItemIcon {...listItemStartIconProps}>{startIcon}</ListItemIcon>
       )}
-      {listItemAvatarProps && <MuiListItemAvatar {...listItemAvatarProps} />}
+      {avatar && <MuiListItemAvatar {...listItemAvatarProps} />}
       {listItemTextProps && <MuiListItemText {...listItemTextProps} />}
       {endIcon && (
         <ListItemIcon
