@@ -6,6 +6,7 @@ import {
   CardContent,
   CardContentProps,
   CardProps,
+  Html,
   Link,
   Stack,
   Typography,
@@ -25,6 +26,8 @@ export interface ThreadCardProps extends CardProps {
   forumCategoryModule: CrudModule | any
   size?: 'small' | 'medium' | 'large'
   cardContentProps?: CardContentProps
+  disableTitle?: boolean
+  isDetail?: boolean
 }
 
 const ThreadCard: React.FC<ThreadCardProps> = (props) => {
@@ -34,6 +37,8 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
     threadModule,
     forumCategoryModule,
     cardContentProps,
+    disableTitle,
+    isDetail,
     sx,
     ...rest
   } = props
@@ -74,7 +79,7 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
             {person.first_name || person.title}
           </Typography>
           <Typography variant="body2" color="text.secondary">
-            asked a question in
+            asked {isDetail ? 'this' : 'a'} question in
           </Typography>
           <Link
             href={forumCategoryModule.getWebHref([
@@ -92,28 +97,41 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
 
       <Card key={item.id} disableCardContent border sx={sx} {...rest}>
         <CardContent {...cardContentProps}>
-          <Link
-            variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
-            href={threadHref}
-          >
-            {title}
-          </Link>
+          {!disableTitle && (
+            <Link
+              variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
+              href={threadHref}
+              sx={{ mb: 1 }}
+            >
+              {title}
+            </Link>
+          )}
 
           {content && (
-            <Box sx={{ mt: 1, color: 'text.secondary' }}>
-              <Truncate
-                lines={3}
-                dangerouslySetInnerHTML={{ __html: printHtml(content) }}
-              />
-              {printHtml(content).length > 150 && (
-                <Link
-                  href={threadHref}
-                  sx={{ mt: 1 }}
-                  variant="subtitle2"
-                  color="text.secondary"
-                >
-                  Read more
-                </Link>
+            <Box
+              sx={{
+                color: isDetail ? 'text.primary' : 'text.secondary',
+              }}
+            >
+              {isDetail ? (
+                <Html html={content} />
+              ) : (
+                <>
+                  <Truncate
+                    lines={3}
+                    dangerouslySetInnerHTML={{ __html: printHtml(content) }}
+                  />
+                  {printHtml(content).length > 150 && (
+                    <Link
+                      href={threadHref}
+                      sx={{ mt: 1 }}
+                      variant="subtitle2"
+                      color="text.secondary"
+                    >
+                      Read more
+                    </Link>
+                  )}
+                </>
               )}
             </Box>
           )}
