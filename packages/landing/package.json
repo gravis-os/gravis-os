@@ -35,6 +35,7 @@
     "clsx": "^1.1.1",
     "lodash": "^4.17.21",
     "material-ui-popup-state": "^3.1.1",
+    "nextjs-progressbar": "^0.0.16",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3"
   },
@@ -84,6 +85,7 @@
     "@supabase/supabase-js": "^1.35.6",
     "@svgr/rollup": "^5.5.0",
     "@svgr/webpack": "^5.5.0",
+    "@types/nprogress": "^0.2.0",
     "@types/react": "^18.0.6",
     "@types/react-dom": "^18.0.0",
     "@types/styled-components": "^5.1.4",

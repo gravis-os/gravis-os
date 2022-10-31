@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
 import { Box, List, ListItemProps, ListProps } from '@gravis-os/ui'
 import { useRouter } from 'next/router'
+import NextNProgress from 'nextjs-progressbar'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import ResponsiveDrawer, { ResponsiveDrawerProps } from './ResponsiveDrawer'
 import DashboardLayoutHeader, {
@@ -183,6 +184,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
   return (
     <Box display="flex">
+      <NextNProgress />
+
       {/* Header */}
       <DashboardLayoutHeader
         hideLeftAsideMenuToggle={isDesktop && disableHeaderMenuToggleOnMobile}

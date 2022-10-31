@@ -7,6 +7,7 @@ import {
   HeaderProps,
   BoxProps,
 } from '@gravis-os/ui'
+import NextNProgress from 'nextjs-progressbar'
 import Footer, { FooterProps } from '../Footer'
 
 export interface LandingLayoutProps extends StackProps {
@@ -39,6 +40,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
 
   return (
     <Stack sx={{ minHeight: '100vh', backgroundColor, ...sx }} {...rest}>
+      <NextNProgress />
       {headerProps && <Header {...headerProps} />}
       <Box
         {...bodyProps}
