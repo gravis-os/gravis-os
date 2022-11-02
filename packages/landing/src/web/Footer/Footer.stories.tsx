@@ -5,7 +5,7 @@ import Footer from './Footer'
 
 export default {
   component: Footer,
-  title: getStorybookTitle(Footer.displayName),
+  title: getStorybookTitle(Footer.name),
   parameters: { layout: 'fullscreen' },
 }
 
