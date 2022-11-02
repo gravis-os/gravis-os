@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.25
+
+### Patch Changes
+
+- [`830328d`](https://github.com/gravis-os/gravis-os/commit/830328dea1660238b8711364ff9578076fcbee57) Thanks [@clodal](https://github.com/clodal)! - Fix issue with CrudItem typing
+
 ## 0.0.24
 
 ### Patch Changes
