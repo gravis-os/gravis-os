@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.85
+
+### Patch Changes
+
+- [#119](https://github.com/gravis-os/gravis-os/pull/119) [`496d76f`](https://github.com/gravis-os/gravis-os/commit/496d76f43dc4cda1677ce3d6f30c467780777cdb) Thanks [@robyonextech](https://github.com/robyonextech)! - - Remove nested folders in storybook side panels.
+  - Fix node_modules error appearing in storybook.
+- Updated dependencies [[`496d76f`](https://github.com/gravis-os/gravis-os/commit/496d76f43dc4cda1677ce3d6f30c467780777cdb), [`46afd24`](https://github.com/gravis-os/gravis-os/commit/46afd248bf208081994b68d11fd5e2fcb63b1a8c), [`13b8d8f`](https://github.com/gravis-os/gravis-os/commit/13b8d8f9116518ae163eac47500a6fed24b576c8), [`496d76f`](https://github.com/gravis-os/gravis-os/commit/496d76f43dc4cda1677ce3d6f30c467780777cdb), [`38614e0`](https://github.com/gravis-os/gravis-os/commit/38614e062ef7bb0140a6d679e43159ea22adff03), [`02afca2`](https://github.com/gravis-os/gravis-os/commit/02afca21bbed15997c7eb92848089187eef23781), [`2cb260d`](https://github.com/gravis-os/gravis-os/commit/2cb260d91c27e4e7282960952033825e3313e5bb), [`7ae2d62`](https://github.com/gravis-os/gravis-os/commit/7ae2d6245f6cb8d881c09049644e623d97d2a9b8)]:
+  - @gravis-os/ui@0.0.57
+  - @gravis-os/storage@0.0.25
+  - @gravis-os/types@0.0.24
+
 ## 0.0.84
 
 ### Patch Changes

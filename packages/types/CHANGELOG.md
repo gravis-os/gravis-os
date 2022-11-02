@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.24
+
+### Patch Changes
+
+- [#119](https://github.com/gravis-os/gravis-os/pull/119) [`496d76f`](https://github.com/gravis-os/gravis-os/commit/496d76f43dc4cda1677ce3d6f30c467780777cdb) Thanks [@robyonextech](https://github.com/robyonextech)! - - Remove nested folders in storybook side panels.
+  - Fix node_modules error appearing in storybook.
+
+* [`38614e0`](https://github.com/gravis-os/gravis-os/commit/38614e062ef7bb0140a6d679e43159ea22adff03) Thanks [@clodal](https://github.com/clodal)! - Add apps/forum and apps/categories
+
+- [`2cb260d`](https://github.com/gravis-os/gravis-os/commit/2cb260d91c27e4e7282960952033825e3313e5bb) Thanks [@clodal](https://github.com/clodal)! - Add ThreadTemplate
+
+* [`7ae2d62`](https://github.com/gravis-os/gravis-os/commit/7ae2d6245f6cb8d881c09049644e623d97d2a9b8) Thanks [@clodal](https://github.com/clodal)! - Update ThreadTemplate UI
+
 ## 0.0.23
 
 ### Patch Changes
