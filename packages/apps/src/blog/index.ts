@@ -1,8 +1,5 @@
 export * from './types'
 
-export { default as BlogTemplate } from './BlogTemplate'
-export * from './BlogTemplate'
-
 export { default as PaginatedPosts } from './PaginatedPosts'
 export * from './PaginatedPosts'
 

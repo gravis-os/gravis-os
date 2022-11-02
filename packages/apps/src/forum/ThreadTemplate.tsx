@@ -8,6 +8,7 @@ import ThreadListItem from './ThreadListItem'
 import ThreadCommentCard from './ThreadCommentCard'
 import { CrudModuleWithGetWebHref, Thread, ThreadComment } from './types'
 import { Listing, ListingListItem } from '../directory'
+import { AdOrder, AdOrderProps } from '../ads'
 
 export interface ThreadTemplateProps {
   item?: Thread
@@ -27,6 +28,9 @@ export interface ThreadTemplateProps {
   relatedThreads?: Thread[]
   relatedThreadsByTag?: Thread[]
   relatedListingsByTag?: Listing[]
+
+  // AdOrderProps
+  adOrderProps?: AdOrderProps
 }
 
 const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
@@ -44,6 +48,8 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
     relatedThreads,
     relatedListingsByTag,
     relatedThreadsByTag,
+    // AdOrder
+    adOrderProps,
   } = props
   const forumCategory = thread?.forum_category
   const forum = forumCategory?.forum
@@ -169,6 +175,9 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
                     </Stack>
                   </Box>
                 )}
+
+                {/* Ad Order */}
+                {adOrderProps && <AdOrder {...adOrderProps} />}
               </Stack>
             </Grid>
           </Grid>

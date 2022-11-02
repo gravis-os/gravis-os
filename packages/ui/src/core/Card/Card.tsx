@@ -77,6 +77,9 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   // Collapse
   collapsible?: boolean
   defaultCollapsed?: boolean
+
+  // Size
+  size?: 'small' | 'medium' | 'large'
 }
 
 const Card: React.FC<CardProps> = (props) => {
@@ -99,8 +102,9 @@ const Card: React.FC<CardProps> = (props) => {
     actions,
     sx,
     py,
-    padding,
+    padding: injectedPadding,
     stretch,
+    size,
     disableHeader,
     disableHeaderDivider,
     disableLastGutterBottom,
@@ -112,6 +116,9 @@ const Card: React.FC<CardProps> = (props) => {
     disableBackgroundColor,
     ...rest
   } = props
+
+  // Size
+  const isSmall = size === 'small'
 
   // Collapse
   const initialCollapsed = defaultCollapsed || false
@@ -146,11 +153,10 @@ const Card: React.FC<CardProps> = (props) => {
     ...contentProps,
     disableGutterBottom: !gutterBottom,
     stretch,
-    padding,
+    padding: injectedPadding || (isSmall ? 1.5 : 2),
     sx: {
       ...contentProps?.sx,
       ...((disablePadding || disableCardContent) && { p: 0 }),
-      ...(padding && { p: padding }),
     },
   }
 

@@ -28,6 +28,7 @@ const ThreadListItem: React.FC<ThreadListItemProps> = (props) => {
 
   return (
     <Card
+      size={size}
       key={item.id}
       sx={{ ...sx, ...cardProps?.sx } as CardProps['sx']}
       {...cardProps}

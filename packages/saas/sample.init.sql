@@ -456,6 +456,7 @@ DO $$
         PERFORM
             bulk_authorize_tables (ARRAY [
                 'workspace',
+                'person',
                 'site',
                 'blog',
                 'blog_category',
@@ -478,6 +479,7 @@ DO $$
             ]);
             bulk_public_read_tables (ARRAY [
                 'workspace',
+                'person',
                 'site',
                 'blog',
                 'blog_category',
