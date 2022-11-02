@@ -1,9 +1,10 @@
 import React from 'react'
+import { MOCK_COLUMN_DEFS, MOCK_MODULE } from '../mocks/crud.mocks'
+import getStorybookTitle from '../utils/getStorybookTitle'
 import CrudTableComponent from './CrudTable'
-import { MOCK_MODULE, MOCK_COLUMN_DEFS } from '../mocks/crud.mocks'
 
 export default {
-  title: 'Crud/CrudTable',
+  title: getStorybookTitle(CrudTableComponent.name),
   component: CrudTableComponent,
   args: {
     module: MOCK_MODULE,
@@ -11,4 +12,4 @@ export default {
   },
 }
 
-export const CrudTable = (args) => <CrudTableComponent {...args} />
+export const Basic = (args) => <CrudTableComponent {...args} />

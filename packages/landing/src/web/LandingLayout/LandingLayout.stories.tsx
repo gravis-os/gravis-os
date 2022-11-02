@@ -50,7 +50,7 @@ import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
 import getStorybookTitle from '../../utils/getStorybookTitle'
 
 export default {
-  title: getStorybookTitle(LandingLayout.displayName),
+  title: getStorybookTitle(LandingLayout.name),
   component: LandingLayout,
   parameters: { layout: 'fullscreen' },
   args: {

@@ -1,9 +1,11 @@
-import React from 'react'
 import { Typography } from '@gravis-os/ui'
-import FormComponent from './Form'
+import React from 'react'
+import getStorybookTitle from '../../utils/getStorybookTitle'
 import FormSections from '../FormSection/FormSections'
+import FormComponent from './Form'
 
 export default {
+  title: getStorybookTitle(FormComponent.name),
   component: FormComponent,
   decorators: [
     // Layout
@@ -52,7 +54,7 @@ export default {
   },
 }
 
-export const Form = (args) => (
+export const Basic = (args) => (
   <>
     <Typography variant="h1">Form</Typography>
     <FormComponent {...args} />

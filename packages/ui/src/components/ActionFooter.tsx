@@ -10,6 +10,8 @@ import Box, { BoxProps } from '../core/Box'
 export interface ActionFooterProps extends BoxProps {
   /** List of ReactNodes to be rendered */
   actions: ReactNode[]
+  /** Props of the box wrapper. */
+  sxProps?: BoxProps['sx']
 }
 
 /**
@@ -27,7 +29,7 @@ export const ACTION_FOOTER_PADDING = '65px'
 const ActionFooter: React.FC<ActionFooterProps> = (
   props
 ): React.ReactElement => {
-  const { actions, ...rest } = props
+  const { actions, sxProps, ...rest } = props
   return (
     <Box
       sx={{
@@ -41,6 +43,7 @@ const ActionFooter: React.FC<ActionFooterProps> = (
         display: 'flex',
         backgroundColor: 'white',
         boxShadow: '1px 5px 8px #121828',
+        ...sxProps,
       }}
       {...rest}
     >

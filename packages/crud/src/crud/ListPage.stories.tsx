@@ -1,13 +1,14 @@
 import React from 'react'
-import ListPageComponent from './ListPage'
 import {
-  MOCK_MODULE,
   MOCK_COLUMN_DEFS,
   MOCK_FORM_SECTIONS,
+  MOCK_MODULE,
 } from '../mocks/crud.mocks'
+import getStorybookTitle from '../utils/getStorybookTitle'
+import ListPageComponent from './ListPage'
 
 export default {
-  title: 'Crud/ListPage',
+  title: getStorybookTitle(ListPageComponent.name),
   component: ListPageComponent,
   args: {
     module: MOCK_MODULE,
@@ -16,4 +17,4 @@ export default {
   },
 }
 
-export const ListPage = args => <ListPageComponent {...args} />
+export const Basic = (args) => <ListPageComponent {...args} />
