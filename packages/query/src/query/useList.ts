@@ -441,6 +441,7 @@ const useList = (props: UseListProps): UseListReturn => {
     pagination: onUsePagination,
     // Aliases
     items,
+    count: countFromCountQuery,
   }
 }
 

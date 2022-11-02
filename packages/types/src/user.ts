@@ -27,6 +27,14 @@ export interface Workspace {
 }
 export interface Company {}
 export interface Person {
+  id: number
+  title: string
+  slug: string
+  first_name?: string
+  last_name?: string
+  avatar_src?: string
+  avatar_alt?: string
+
   company?: Company
   role?: Role
   workspace?: Workspace

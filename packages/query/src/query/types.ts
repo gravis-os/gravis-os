@@ -158,6 +158,7 @@ export interface UseListProps
 export type UseListReturn = (UseInfiniteQueryResult | UseQueryResult) & {
   pagination: UsePaginationReturn
   items: CrudItem[] | []
+  count?: number
 }
 
 // ==============================

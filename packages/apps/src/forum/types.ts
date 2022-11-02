@@ -1,4 +1,4 @@
-import { CrudItem, CrudModule } from '@gravis-os/types'
+import { CrudItem, CrudModule, Person } from '@gravis-os/types'
 import { GetModuleHrefFunction } from '@gravis-os/crud'
 
 export interface CrudModuleWithGetWebHref extends CrudModule {
@@ -15,14 +15,7 @@ export interface Thread extends CrudItem {
   subtitle?: string
   content?: string
   upvote_count: number
-  person?: {
-    title: string
-    slug: string
-    first_name?: string
-    last_name?: string
-    avatar_src?: string
-    avatar_alt?: string
-  }
+  person?: Person
   forum_category?: {
     id: number
     title: string
@@ -33,4 +26,13 @@ export interface Thread extends CrudItem {
       slug: string
     }
   }
+}
+
+export interface ThreadComment extends CrudItem {
+  id: number
+  avatar_src?: string
+  avatar_alt?: string
+  content?: string
+  upvote_count: number
+  person?: Person
 }

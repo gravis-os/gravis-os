@@ -1,35 +1,17 @@
 import React from 'react'
-import {
-  Box,
-  BoxProps,
-  Card,
-  CardContent,
-  CardProps,
-  Grid,
-  Link,
-  Typography,
-} from '@gravis-os/ui'
+import { BoxProps, Card, CardProps, Link, Typography } from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
 import { Thread } from './types'
 
 export interface ThreadListItemProps extends CardProps {
   item: Thread
   threadModule: CrudModule | any
-  forumCategoryModule: CrudModule | any
   size?: 'small' | 'medium' | 'large'
-  cardContentProps?: BoxProps
+  cardProps?: CardProps
 }
 
 const ThreadListItem: React.FC<ThreadListItemProps> = (props) => {
-  const {
-    item,
-    size = 'medium',
-    threadModule,
-    forumCategoryModule,
-    cardContentProps,
-    sx,
-    ...rest
-  } = props
+  const { item, size = 'medium', threadModule, cardProps, sx } = props
 
   if (!item) return null
 
@@ -45,35 +27,26 @@ const ThreadListItem: React.FC<ThreadListItemProps> = (props) => {
   ])
 
   return (
-    <Card key={item.id} disableCardContent sx={{ ...sx }} {...rest}>
-      <Box
-        stretch
-        {...cardContentProps}
-        sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          justifyContent: 'center',
-          px: 2,
-          py: 1,
-          ...cardContentProps?.sx,
-        }}
+    <Card
+      key={item.id}
+      sx={{ ...sx, ...cardProps?.sx } as CardProps['sx']}
+      {...cardProps}
+    >
+      <Link
+        variant={isLarge ? 'h3' : isSmall ? 'body2' : 'h4'}
+        href={threadHref}
       >
-        <Link
-          variant={isLarge ? 'h3' : isSmall ? 'h5' : 'h4'}
-          href={threadHref}
+        {title}
+      </Link>
+      {subtitle && (
+        <Typography
+          variant={isSmall ? 'body2' : 'body1'}
+          color="text.secondary"
+          maxLines={3}
         >
-          {title}
-        </Link>
-        {subtitle && (
-          <Typography
-            variant={isSmall ? 'body2' : 'body1'}
-            color="text.secondary"
-            maxLines={3}
-          >
-            {subtitle}
-          </Typography>
-        )}
-      </Box>
+          {subtitle}
+        </Typography>
+      )}
     </Card>
   )
 }

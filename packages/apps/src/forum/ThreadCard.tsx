@@ -40,6 +40,7 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
     disableTitle,
     isDetail,
     sx,
+    stretch,
     ...rest
   } = props
 
@@ -66,92 +67,119 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
   }
 
   return (
-    <div>
+    <Box
+      sx={{
+        ...(stretch && {
+          height: '100%',
+          display: 'flex',
+          flexDirection: 'column',
+        }),
+      }}
+    >
       <Box sx={{ mb: 1 }}>
-        <Stack direction="row" alignItems="center" spacing={1}>
-          <StorageAvatar
-            letterAltFallback
-            src={person.avatar_src}
-            alt={person.avatar_alt || person.title}
-            size={24}
-          />
-          <Typography variant="subtitle2">
-            {person.first_name || person.title}
-          </Typography>
-          <Typography variant="body2" color="text.secondary">
-            asked {isDetail ? 'this' : 'a'} question in
-          </Typography>
-          <Link
-            href={forumCategoryModule.getWebHref([
-              forum_category.forum,
-              forum_category,
-            ])}
+        {/* Author Line */}
+        {person && (
+          <Stack
+            direction="row"
+            alignItems="center"
+            spacing={0.5}
+            sx={{
+              '&': { display: 'block' },
+              '& > *': { display: 'inline-block' },
+            }}
           >
-            <Typography variant="subtitle2">{forum_category.title}</Typography>
-          </Link>
-          <Typography variant="body2" color="text.secondary">
-            on {dayjs(created_at).format('D MMM YY')}
-          </Typography>
-        </Stack>
+            <div>
+              <StorageAvatar
+                letterAltFallback
+                src={person.avatar_src}
+                alt={person.avatar_alt || person.title}
+                size={24}
+              />
+            </div>
+            <Typography variant="subtitle2">
+              {person.first_name || person.title}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              asked {isDetail ? 'this' : 'a'} question in
+            </Typography>
+            <Link
+              href={forumCategoryModule.getWebHref([
+                forum_category?.forum,
+                forum_category,
+              ])}
+            >
+              <Typography variant="subtitle2">
+                {forum_category?.title}
+              </Typography>
+            </Link>
+            <Typography variant="body2" color="text.secondary">
+              on {dayjs(created_at).format('D MMM YY')}
+            </Typography>
+          </Stack>
+        )}
       </Box>
 
-      <Card key={item.id} disableCardContent border sx={sx} {...rest}>
-        <CardContent {...cardContentProps}>
-          {!disableTitle && (
-            <Link
-              variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
-              href={threadHref}
-              sx={{ mb: 1 }}
-            >
-              {title}
-            </Link>
-          )}
+      <Card key={item.id} border sx={sx} stretch={stretch} {...rest}>
+        {/* Title */}
+        {!disableTitle && (
+          <Link
+            variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
+            href={threadHref}
+            sx={{
+              mb: 1,
+              ...(stretch && {
+                height: '100%',
+              }),
+            }}
+          >
+            {title}
+          </Link>
+        )}
 
-          {content && (
-            <Box
-              sx={{
-                color: isDetail ? 'text.primary' : 'text.secondary',
-              }}
-            >
-              {isDetail ? (
-                <Html html={content} />
-              ) : (
-                <>
-                  <Truncate
-                    lines={3}
-                    dangerouslySetInnerHTML={{ __html: printHtml(content) }}
-                  />
-                  {printHtml(content).length > 150 && (
-                    <Link
-                      href={threadHref}
-                      sx={{ mt: 1 }}
-                      variant="subtitle2"
-                      color="text.secondary"
-                    >
-                      Read more
-                    </Link>
-                  )}
-                </>
-              )}
-            </Box>
-          )}
+        {content && (
+          <Box
+            sx={{
+              color: isDetail ? 'text.primary' : 'text.secondary',
+            }}
+          >
+            {isDetail ? (
+              <Html html={content} />
+            ) : (
+              <>
+                <Truncate
+                  lines={3}
+                  dangerouslySetInnerHTML={{ __html: printHtml(content) }}
+                />
+                {printHtml(content).length > 150 && (
+                  <Link
+                    href={threadHref}
+                    sx={{ mt: 1 }}
+                    variant="subtitle2"
+                    color="text.secondary"
+                  >
+                    Read more
+                  </Link>
+                )}
+              </>
+            )}
+          </Box>
+        )}
 
-          {/* Actions */}
-          <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
-            <Button
-              disableLineHeight
-              disableMinWidth
-              variant="action"
-              size="small"
-              startIcon={<ArrowUpwardOutlinedIcon fontSize="small" />}
-              onClick={handleUpvoteClick}
-            >
-              {upvote_count}
-            </Button>
-          </Stack>
-        </CardContent>
+        {/* Actions */}
+        <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
+          <Button
+            disableLineHeight
+            disableMinWidth
+            variant="action"
+            size="small"
+            startIcon={<ArrowUpwardOutlinedIcon fontSize="small" />}
+            onClick={handleUpvoteClick}
+          >
+            {upvote_count}
+          </Button>
+        </Stack>
       </Card>
-    </div>
+    </Box>
   )
 }
 

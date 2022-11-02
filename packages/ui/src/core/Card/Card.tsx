@@ -71,6 +71,8 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   disableCardContent?: boolean
   disableHeader?: boolean
   disableBoxShadow?: boolean
+  disableBackgroundColor?: boolean
+  gutterBottom?: boolean
 
   // Collapse
   collapsible?: boolean
@@ -79,13 +81,14 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
 
 const Card: React.FC<CardProps> = (props) => {
   const {
+    actionProps: injectedCardActionProps,
     border,
     collapsible,
     defaultCollapsed,
     children,
     content = {},
     contentProps,
-    actionProps: injectedCardActionProps,
+    gutterBottom,
     title,
     subtitle,
     icon,
@@ -106,6 +109,7 @@ const Card: React.FC<CardProps> = (props) => {
     disablePadding,
     disableCardContent,
     disableBoxShadow,
+    disableBackgroundColor,
     ...rest
   } = props
 
@@ -140,7 +144,8 @@ const Card: React.FC<CardProps> = (props) => {
   const { title: contentTitle, subtitle: contentSubtitle } = content || {}
   const cardContentProps = {
     ...contentProps,
-    disableGutterBottom: disableLastGutterBottom,
+    disableGutterBottom: !gutterBottom,
+    stretch,
     padding,
     sx: {
       ...contentProps?.sx,
@@ -257,6 +262,11 @@ const Card: React.FC<CardProps> = (props) => {
 
       // Border
       ...(border && { border: 1, borderColor: 'divider' }),
+
+      // Background Color
+      ...(disableBackgroundColor && {
+        '&, & .MuiPaper-root': { backgroundColor: 'transparent' },
+      }),
 
       ...sx,
     },

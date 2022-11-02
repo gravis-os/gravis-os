@@ -33,6 +33,8 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
 
   if (!item) return null
 
+  const isSmall = size === 'small'
+
   const { title, subtitle, avatar_src, avatar_alt, brand, directory_category } =
     item
 
@@ -51,7 +53,7 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
       {...rest}
     >
       <Grid container spacing={2}>
-        <Grid item xs={3} lg={2}>
+        <Grid item xs={3} lg={isSmall ? 3 : 2}>
           <Link href={listingHref}>
             <StorageImage
               src={avatar_src}
@@ -60,7 +62,7 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
             />
           </Link>
         </Grid>
-        <Grid item xs={9} lg={10}>
+        <Grid item xs={9} lg={isSmall ? 9 : 10}>
           <Box
             py={2}
             stretch
@@ -79,7 +81,7 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
             >
               {brand?.title}
             </Link>
-            <Link variant="h4" href={listingHref}>
+            <Link variant={isSmall ? 'h5' : 'h4'} href={listingHref}>
               {title}
             </Link>
             <Typography>{subtitle}</Typography>
