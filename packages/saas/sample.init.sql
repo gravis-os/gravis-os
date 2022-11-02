@@ -319,7 +319,7 @@ BEGIN
             USING auth_id, is_permitted_read_only_table, row_id
             INTO is_permitted_read_only_table_tenant_isolated;
 
-        RETURN true;
+        RETURN is_permitted_read_only_table_tenant_isolated;
     END IF;
 END;
 $function$;
