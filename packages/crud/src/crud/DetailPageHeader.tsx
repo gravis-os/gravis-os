@@ -1,7 +1,7 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { Skeleton } from '@gravis-os/ui'
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import PageHeader, { PageHeaderProps } from './PageHeader'
 import getIsNew from './getIsNew'
 
@@ -22,6 +22,12 @@ const getTitlePrefix = (props: {
   }
 }
 
+type RenderProps = {
+  state?: { isNew?: boolean; isPreview?: boolean; isReadOnly?: boolean }
+  item?: Record<string, any>
+}
+type RenderFunction = (props: RenderProps) => ReactNode
+
 export interface DetailPageHeaderProps extends PageHeaderProps {
   item?: CrudItem
   module: CrudModule
@@ -30,14 +36,8 @@ export interface DetailPageHeaderProps extends PageHeaderProps {
   loading?: boolean
   isPreview?: boolean
   isReadOnly?: boolean
-  renderTitle?: (args: {
-    state?: { isNew?: boolean; isPreview?: boolean; isReadOnly?: boolean }
-    item?: Record<string, any>
-  }) => string | React.ReactElement
-  renderSubtitle?: (args: {
-    state?: { isNew?: boolean; isPreview?: boolean; isReadOnly?: boolean }
-    item?: Record<string, any>
-  }) => string | React.ReactElement
+  renderTitle?: RenderFunction
+  renderSubtitle?: RenderFunction
 }
 
 const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
@@ -61,32 +61,27 @@ const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
   // isNew
   const isNew = getIsNew(item)
 
+  const renderProps = {
+    state: {
+      isNew,
+      isPreview,
+      isReadOnly,
+    },
+    item: injectedItem,
+  }
+
   // Title
   const title =
     !disableTitle &&
     (typeof renderTitle === 'function'
-      ? renderTitle({
-          state: {
-            isNew,
-            isPreview,
-            isReadOnly,
-          },
-          item: injectedItem,
-        })
+      ? renderTitle(renderProps)
       : `${getTitlePrefix({ isNew, isPreview, isReadOnly })} ${name.singular}`)
 
   // Subtitle
   const subtitle =
     !disableSubtitle &&
     (typeof renderSubtitle === 'function'
-      ? renderSubtitle({
-          state: {
-            isNew,
-            isPreview,
-            isReadOnly,
-          },
-          item: injectedItem,
-        })
+      ? renderSubtitle(renderProps)
       : injectedSubtitle)
 
   if (loading) return <Skeleton />

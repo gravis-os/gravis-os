@@ -27,7 +27,7 @@ import startCase from 'lodash/startCase'
 import uniqBy from 'lodash/uniqBy'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import TextField from './TextField'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 

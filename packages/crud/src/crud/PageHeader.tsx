@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
   Stack,
@@ -29,8 +29,8 @@ export interface PageHeaderProps
   disableBreadcrumbs?: boolean
   divider?: boolean
   size?: 'small' | 'medium' | 'large'
-  title?: string | React.ReactElement
-  subtitle?: string | React.ReactElement
+  title?: ReactNode
+  subtitle?: ReactNode
   onClose?: () => void
 }
 
@@ -102,7 +102,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
             {subtitle &&
               (typeof subtitle === 'string' ? (
                 <Typography
-                  variant={isSmall ? 'body1' : 'body2'}
+                  variant={isSmall ? 'body2' : 'body1'}
                   sx={{ mt: 1 }}
                 >
                   {subtitle}
