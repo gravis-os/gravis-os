@@ -37,6 +37,9 @@ export * from './fields/ControlledTextField'
 export { default as ControlledAmountField } from './fields/ControlledAmountField'
 export * from './fields/ControlledAmountField'
 
+export { default as PercentageField } from './fields/PercentageField'
+export * from './fields/PercentageField'
+
 export { default as ControlledPercentageField } from './fields/ControlledPercentageField'
 export * from './fields/ControlledPercentageField'
 
