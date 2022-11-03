@@ -27,6 +27,7 @@ export interface ResponsiveDrawerProps extends DrawerProps {
   toggleBarBoxProps?: BoxProps
   toggleButtonProps?: ButtonProps
   toggleSvgIconProps?: SvgIconProps
+  exitButtonProps?: Omit<ButtonProps, 'onClick'>
   onOpen?: () => void
 }
 
@@ -44,6 +45,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     sx,
     showToggleBar,
     showExitButton,
+    exitButtonProps,
     toggleBarBoxProps,
     toggleButtonProps,
     toggleSvgIconProps,
@@ -63,10 +65,11 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         >
           <Button
             variant="outlined"
-            onClick={(e) => onClose(e, 'backdropClick')}
             fullWidth
+            {...exitButtonProps}
+            onClick={(e) => onClose(e, 'backdropClick')}
           >
-            <ChevronLeftIcon />
+            {exitButtonProps?.children || <ChevronLeftIcon />}
           </Button>
         </Box>
       )}

@@ -1,6 +1,7 @@
 import React from 'react'
 import { Skeleton } from '@gravis-os/ui'
-import { CrudItem, CrudModule } from '@gravis-os/types'
+import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
+import get from 'lodash/get'
 import PageHeader, { PageHeaderProps } from './PageHeader'
 import getIsNew from './getIsNew'
 
@@ -21,13 +22,21 @@ const getTitlePrefix = (props: {
   }
 }
 
+type RenderProps = {
+  state?: { isNew?: boolean; isPreview?: boolean; isReadOnly?: boolean }
+  item?: Record<string, any>
+}
+
 export interface DetailPageHeaderProps extends PageHeaderProps {
   item?: CrudItem
   module: CrudModule
   disableTitle?: boolean
+  disableSubtitle?: boolean
   loading?: boolean
   isPreview?: boolean
   isReadOnly?: boolean
+  renderTitle?: RenderPropsFunction<RenderProps>
+  renderSubtitle?: RenderPropsFunction<RenderProps>
 }
 
 const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
@@ -36,8 +45,12 @@ const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
     isPreview,
     loading,
     disableTitle,
+    disableSubtitle,
     item: injectedItem,
     module,
+    renderTitle,
+    renderSubtitle,
+    subtitle: injectedSubtitle,
     ...rest
   } = props
   const { pk = 'title', sk = 'slug', name, route } = module
@@ -47,22 +60,41 @@ const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
   // isNew
   const isNew = getIsNew(item)
 
+  const renderProps = {
+    state: {
+      isNew,
+      isPreview,
+      isReadOnly,
+    },
+    item: injectedItem,
+  }
+
   // Title
   const title =
     !disableTitle &&
-    `${getTitlePrefix({ isNew, isPreview, isReadOnly })} ${name.singular}`
+    (typeof renderTitle === 'function'
+      ? renderTitle(renderProps)
+      : `${getTitlePrefix({ isNew, isPreview, isReadOnly })} ${name.singular}`)
+
+  // Subtitle
+  const subtitle =
+    !disableSubtitle &&
+    (typeof renderSubtitle === 'function'
+      ? renderSubtitle(renderProps)
+      : injectedSubtitle)
 
   if (loading) return <Skeleton />
 
   return (
     <PageHeader
       title={title}
+      subtitle={subtitle}
       breadcrumbs={[
         { key: name.plural, title: name.plural, href: route.plural },
         {
           key: name.singular,
-          title: isNew ? 'New' : item[pk],
-          href: `${route.plural}/${isNew ? 'new' : item[sk]}`,
+          title: isNew ? 'New' : get(item, pk),
+          href: `${route.plural}/${isNew ? 'new' : get(item, sk)}`,
         },
       ]}
       {...rest}

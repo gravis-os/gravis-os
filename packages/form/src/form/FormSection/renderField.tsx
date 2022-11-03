@@ -39,14 +39,17 @@ import ControlledCheckboxTable, {
   ControlledCheckboxTableOptions,
 } from '../fields/ControlledCheckboxTable'
 import { SetModelFieldQuery } from '../fields/ModelField'
+import ControlledRadioGroup from '../fields/ControlledRadioGroup'
 
 export enum FormSectionFieldTypeEnum {
   // String
   HTML = 'html',
   INPUT = 'input',
+  EMAIL = 'email',
   PASSWORD = 'password',
   TEXTAREA = 'textarea',
   TEXT = 'text', // alias for input
+  RADIO_GROUP = 'radio_group',
 
   // Number
   AMOUNT = 'amount',
@@ -321,6 +324,14 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
+      case FormSectionFieldTypeEnum.RADIO_GROUP:
+        return (
+          <ControlledRadioGroup
+            control={control}
+            {...commonProps}
+            options={commonProps.options || []}
+          />
+        )
       case FormSectionFieldTypeEnum.DATE:
         return <ControlledDateField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.DATE_TIME:
@@ -395,6 +406,14 @@ const renderField = (props: RenderFieldProps) => {
         )
       case FormSectionFieldTypeEnum.CHIP:
         return <ControlledChipField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.EMAIL:
+        return (
+          <ControlledTextField
+            control={control}
+            {...commonProps}
+            type="email"
+          />
+        )
       case FormSectionFieldTypeEnum.PASSWORD:
         return <ControlledPasswordField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.HTML:
