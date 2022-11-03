@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.19
+
+### Patch Changes
+
+- [#121](https://github.com/gravis-os/gravis-os/pull/121) [`e0b582a`](https://github.com/gravis-os/gravis-os/commit/e0b582a65f37557027fd10ffbf45730c2df44bc7) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Update Dashboard Layout components props
+
+- Updated dependencies [[`2492698`](https://github.com/gravis-os/gravis-os/commit/249269858b4c2e1bec1f8d561861d9b114438f4f), [`d5dc853`](https://github.com/gravis-os/gravis-os/commit/d5dc85363a6eff77431adbc80e34a902b69b1783), [`b1dd158`](https://github.com/gravis-os/gravis-os/commit/b1dd1585c7fc84cb5416304f7f390c92fb636833)]:
+  - @gravis-os/ui@0.0.58
+
 ## 0.0.18
 
 ### Patch Changes
