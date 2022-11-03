@@ -1,5 +1,14 @@
 # @gravis-os/query
 
+## 0.0.15
+
+### Patch Changes
+
+- [`e8e3a06`](https://github.com/gravis-os/gravis-os/commit/e8e3a06ab0eca34c79ca21049ff1c03341a0113a) Thanks [@clodal](https://github.com/clodal)! - onClick upvote_count, update cache immediately
+
+- Updated dependencies [[`775ce22`](https://github.com/gravis-os/gravis-os/commit/775ce22478a98693ab1c7e87014478acafd5c460)]:
+  - @gravis-os/types@0.0.26
+
 ## 0.0.14
 
 ### Patch Changes

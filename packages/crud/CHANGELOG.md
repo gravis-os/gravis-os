@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.62
+
+### Patch Changes
+
+- [`f0df491`](https://github.com/gravis-os/gravis-os/commit/f0df491c2230f6c72dba499db5acb71be2c94fea) Thanks [@clodal](https://github.com/clodal)! - Add ThreadCommentForm
+
+- Updated dependencies [[`7baea64`](https://github.com/gravis-os/gravis-os/commit/7baea646a8bb55bb37f123bc3808dc392016f58b), [`f0df491`](https://github.com/gravis-os/gravis-os/commit/f0df491c2230f6c72dba499db5acb71be2c94fea), [`08e5328`](https://github.com/gravis-os/gravis-os/commit/08e5328eeffed12ef42cafaac42cc7ac3c15590e), [`90b509f`](https://github.com/gravis-os/gravis-os/commit/90b509f4ccf4d0c011a023abd872a8344989f93d), [`5ea13c3`](https://github.com/gravis-os/gravis-os/commit/5ea13c34ac232e5273c127e73f8a0a047aeb11fe), [`775ce22`](https://github.com/gravis-os/gravis-os/commit/775ce22478a98693ab1c7e87014478acafd5c460)]:
+  - @gravis-os/form@0.0.87
+  - @gravis-os/ui@0.0.59
+  - @gravis-os/types@0.0.26
+
 ## 0.0.61
 
 ### Patch Changes

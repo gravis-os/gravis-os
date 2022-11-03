@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.26
+
+### Patch Changes
+
+- [`775ce22`](https://github.com/gravis-os/gravis-os/commit/775ce22478a98693ab1c7e87014478acafd5c460) Thanks [@clodal](https://github.com/clodal)! - Abstract CrudModuleWithGetWebHref to types
+
 ## 0.0.25
 
 ### Patch Changes

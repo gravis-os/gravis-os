@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.59
+
+### Patch Changes
+
+- [`5ea13c3`](https://github.com/gravis-os/gravis-os/commit/5ea13c34ac232e5273c127e73f8a0a047aeb11fe) Thanks [@clodal](https://github.com/clodal)! - Add ThreadFormDialog
+
+- Updated dependencies [[`775ce22`](https://github.com/gravis-os/gravis-os/commit/775ce22478a98693ab1c7e87014478acafd5c460)]:
+  - @gravis-os/types@0.0.26
+
 ## 0.0.58
 
 ### Patch Changes

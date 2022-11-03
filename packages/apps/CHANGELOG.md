@@ -1,5 +1,36 @@
 # Changelog
 
+## 0.0.45
+
+### Patch Changes
+
+- [`8c6beb2`](https://github.com/gravis-os/gravis-os/commit/8c6beb22fa7a1f9d2177537c67f25e05dbe03b97) Thanks [@clodal](https://github.com/clodal)! - Minor update add guard to ThreadCard
+
+* [`d9cd780`](https://github.com/gravis-os/gravis-os/commit/d9cd7803682156716abdea868f58ae083414e7f0) Thanks [@clodal](https://github.com/clodal)! - Clean up ThreadDialog close on Submit
+
+- [`f0df491`](https://github.com/gravis-os/gravis-os/commit/f0df491c2230f6c72dba499db5acb71be2c94fea) Thanks [@clodal](https://github.com/clodal)! - Add ThreadCommentForm
+
+* [`e8e3a06`](https://github.com/gravis-os/gravis-os/commit/e8e3a06ab0eca34c79ca21049ff1c03341a0113a) Thanks [@clodal](https://github.com/clodal)! - onClick upvote_count, update cache immediately
+
+- [`708007c`](https://github.com/gravis-os/gravis-os/commit/708007cabbe2354a9bec1406c552af63875098a6) Thanks [@clodal](https://github.com/clodal)! - Update ThreadCard style
+
+* [`50258f0`](https://github.com/gravis-os/gravis-os/commit/50258f0abd1c79d95640371e9a717fba6219cdfa) Thanks [@clodal](https://github.com/clodal)! - Add ThreadForm
+
+- [`08e5328`](https://github.com/gravis-os/gravis-os/commit/08e5328eeffed12ef42cafaac42cc7ac3c15590e) Thanks [@clodal](https://github.com/clodal)! - Add ThreadForm to ForumTemplate
+
+* [`90b509f`](https://github.com/gravis-os/gravis-os/commit/90b509f4ccf4d0c011a023abd872a8344989f93d) Thanks [@clodal](https://github.com/clodal)! - Add ThreadAuthorLine"
+
+- [`5ea13c3`](https://github.com/gravis-os/gravis-os/commit/5ea13c34ac232e5273c127e73f8a0a047aeb11fe) Thanks [@clodal](https://github.com/clodal)! - Add ThreadFormDialog
+
+* [`775ce22`](https://github.com/gravis-os/gravis-os/commit/775ce22478a98693ab1c7e87014478acafd5c460) Thanks [@clodal](https://github.com/clodal)! - Abstract CrudModuleWithGetWebHref to types
+
+* Updated dependencies [[`7baea64`](https://github.com/gravis-os/gravis-os/commit/7baea646a8bb55bb37f123bc3808dc392016f58b), [`f0df491`](https://github.com/gravis-os/gravis-os/commit/f0df491c2230f6c72dba499db5acb71be2c94fea), [`e8e3a06`](https://github.com/gravis-os/gravis-os/commit/e8e3a06ab0eca34c79ca21049ff1c03341a0113a), [`08e5328`](https://github.com/gravis-os/gravis-os/commit/08e5328eeffed12ef42cafaac42cc7ac3c15590e), [`90b509f`](https://github.com/gravis-os/gravis-os/commit/90b509f4ccf4d0c011a023abd872a8344989f93d), [`5ea13c3`](https://github.com/gravis-os/gravis-os/commit/5ea13c34ac232e5273c127e73f8a0a047aeb11fe), [`775ce22`](https://github.com/gravis-os/gravis-os/commit/775ce22478a98693ab1c7e87014478acafd5c460)]:
+  - @gravis-os/form@0.0.87
+  - @gravis-os/crud@0.0.62
+  - @gravis-os/query@0.0.15
+  - @gravis-os/ui@0.0.59
+  - @gravis-os/types@0.0.26
+
 ## 0.0.44
 
 ### Patch Changes
