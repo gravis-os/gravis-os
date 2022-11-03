@@ -1,6 +1,6 @@
 import React from 'react'
 import { Controller, ControllerProps } from 'react-hook-form'
-import { RadioGroup, RadioGroupProps } from '@gravis-os/ui'
+import RadioGroup, { RadioGroupProps } from './RadioGroup'
 
 export interface ControlledRadioGroupProps extends RadioGroupProps {
   name: string

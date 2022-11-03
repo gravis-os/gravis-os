@@ -123,6 +123,3 @@ export * from './Tooltip'
 
 export { default as Typography } from './Typography'
 export * from './Typography'
-
-export { default as RadioGroup } from './RadioGroup'
-export * from './RadioGroup'
