@@ -7,6 +7,7 @@ import {
 } from '@gravis-os/query'
 import { useListParentCategorys, CategorysSideBar } from '../categories'
 import PaginatedThreads from './PaginatedThreads'
+import ThreadForm, { ThreadFormProps } from './ThreadForm'
 
 export interface ForumTemplateProps {
   rightAside?: React.ReactNode
@@ -15,6 +16,8 @@ export interface ForumTemplateProps {
   threadModule: CrudModuleWithGetWebHref
   threadsQueryResult: PaginatedQueryViewProps['queryResult']
   forum?: CrudItem
+  forumCategory?: CrudItem
+  threadFormProps?: ThreadFormProps
 }
 
 const ForumTemplate: React.FC<ForumTemplateProps> = (props) => {
@@ -25,6 +28,8 @@ const ForumTemplate: React.FC<ForumTemplateProps> = (props) => {
     threadModule,
     forumModule,
     forum,
+    forumCategory,
+    threadFormProps,
   } = props
 
   // Fetch forum categories
@@ -49,7 +54,9 @@ const ForumTemplate: React.FC<ForumTemplateProps> = (props) => {
         <Grid item lg={2}>
           {/* Categories */}
           <Stack spacing={1.25}>
-            <Typography variant="h5">Categories</Typography>
+            <Typography variant="h5" gutterBottom>
+              Categories
+            </Typography>
             <CategorysSideBar
               items={forumCategorys}
               getHref={(item) =>
@@ -62,6 +69,17 @@ const ForumTemplate: React.FC<ForumTemplateProps> = (props) => {
           <PaginatedThreads {...paginatedThreadsProps} />
         </Grid>
         <Grid item md={3} lg={3}>
+          {/* Thread Form */}
+          {threadFormProps && (
+            <Box sx={{ mb: 2 }}>
+              <Typography variant="h5" gutterBottom>
+                Ask a Question
+                {forumCategory ? ` in ${forumCategory.title}` : ''}
+              </Typography>
+              <ThreadForm {...threadFormProps} />
+            </Box>
+          )}
+
           {rightAside}
         </Grid>
       </Grid>
