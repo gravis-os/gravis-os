@@ -16,7 +16,7 @@ import CrudPreviewDrawer from './CrudPreviewDrawer'
 import fetchCrudItems from './fetchCrudItems'
 import { CrudTableColumnDef } from '../types'
 import useCrud from './useCrud'
-import CrudDeleteDialog from './CrudDeleteDialog'
+import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
 
 export interface CrudTableProps {
   module: CrudModule
@@ -41,6 +41,7 @@ export interface CrudTableProps {
   addFormProps?: Partial<CrudFormProps>
   dataTableProps?: Partial<DataTableProps>
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
+  crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
@@ -68,6 +69,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     addFormProps,
     dataTableProps: injectedDataTableProps,
     useGetCrudTableColumnDefsProps,
+    crudDeleteDialogProps,
   } = props
   const { table } = module
   const { user } = useUser()
@@ -165,7 +167,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       />
 
       {/* Delete Dialog */}
-      <CrudDeleteDialog module={module} />
+      <CrudDeleteDialog {...crudDeleteDialogProps} module={module} />
     </>
   )
 }

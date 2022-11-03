@@ -11,8 +11,11 @@ import DashboardLayoutHeader, {
 import getListItemsWithActiveStateFromRouter from './getListItemsWithActiveStateFromRouter'
 import getAsideWidth from './getAsideWidth'
 
-const { miniVariantWidth, secondaryMiniVariantWidth, headerHeight } =
-  dashboardLayoutConfig
+const {
+  miniVariantWidth: defaultMiniVariantWidth,
+  secondaryMiniVariantWidth,
+  headerHeight,
+} = dashboardLayoutConfig
 
 export interface DashboardLayoutProps {
   // Default states
@@ -26,6 +29,7 @@ export interface DashboardLayoutProps {
 
   // Minivariant
   isMiniVariant?: boolean
+  miniVariantWidth?: number
   disableClipUnderAppBar?: boolean
 
   // Dark mode
@@ -62,6 +66,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     disableGutters,
     disablePadding,
     isMiniVariant: injectedIsMiniVariant,
+    miniVariantWidth: injectedMiniVariantWidth,
     disableClipUnderAppBar,
     headerProps,
     disableHeaderMenuToggleOnMobile,
@@ -130,6 +135,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   // Booleans
   // MiniVariant is to be applied from desktop viewport onwards
   const isMiniVariant = isDesktop && injectedIsMiniVariant
+  const miniVariantWidth = injectedMiniVariantWidth ?? defaultMiniVariantWidth
   const hasSecondaryLeftAside = Boolean(
     isDesktop && showSecondaryLeftAside && secondaryLeftAsideListItems?.length
   )

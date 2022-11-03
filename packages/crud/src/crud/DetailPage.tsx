@@ -37,6 +37,8 @@ export interface DetailPageProps {
   tabs?: TabsProps['items']
   tabsProps?: TabsProps
   useTabsProps?: UseTabsProps
+
+  disableBanner?: boolean
 }
 
 const DetailPage: React.FC<DetailPageProps> = (props) => {
@@ -53,6 +55,8 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
     tabs: injectedTabs,
     tabsProps,
     useTabsProps,
+
+    disableBanner,
   } = props
 
   // Get Item
@@ -107,9 +111,13 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
           {!isNew && (
             <>
               {/* Banner */}
-              <DetailBanner item={item} module={module} {...bannerProps} />
+              {!disableBanner && (
+                <>
+                  <DetailBanner item={item} module={module} {...bannerProps} />
 
-              <Divider />
+                  <Divider />
+                </>
+              )}
 
               {/* Tabs */}
               <Tabs

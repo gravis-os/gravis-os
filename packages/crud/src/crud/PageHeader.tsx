@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
   Stack,
@@ -29,7 +29,8 @@ export interface PageHeaderProps
   disableBreadcrumbs?: boolean
   divider?: boolean
   size?: 'small' | 'medium' | 'large'
-  title?: string | React.ReactElement
+  title?: ReactNode
+  subtitle?: ReactNode
   onClose?: () => void
 }
 
@@ -41,6 +42,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
     button,
     buttonProps,
     title,
+    subtitle,
     breadcrumbs,
     breadcrumbsProps,
     borderBottom,
@@ -96,6 +98,17 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                 <Typography variant={isSmall ? 'h4' : 'h2'}>{title}</Typography>
               ) : (
                 title
+              ))}
+            {subtitle &&
+              (typeof subtitle === 'string' ? (
+                <Typography
+                  variant={isSmall ? 'body2' : 'body1'}
+                  sx={{ mt: 1 }}
+                >
+                  {subtitle}
+                </Typography>
+              ) : (
+                subtitle
               ))}
           </div>
         </Stack>

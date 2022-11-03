@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.86
+
+### Patch Changes
+
+- [#121](https://github.com/gravis-os/gravis-os/pull/121) [`c131228`](https://github.com/gravis-os/gravis-os/commit/c131228e028e135348012d31297a728d26625a7a) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - PR refactor
+
+* [#121](https://github.com/gravis-os/gravis-os/pull/121) [`078c355`](https://github.com/gravis-os/gravis-os/commit/078c355360d88cc2ce17c34ee459a1836776c9bb) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add email and radio group fields and refactor ModelField
+
+- [#121](https://github.com/gravis-os/gravis-os/pull/121) [`2492698`](https://github.com/gravis-os/gravis-os/commit/249269858b4c2e1bec1f8d561861d9b114438f4f) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Move RadioGroup from packages/ui to packages/form
+
+- Updated dependencies [[`2492698`](https://github.com/gravis-os/gravis-os/commit/249269858b4c2e1bec1f8d561861d9b114438f4f), [`d5dc853`](https://github.com/gravis-os/gravis-os/commit/d5dc85363a6eff77431adbc80e34a902b69b1783), [`b1dd158`](https://github.com/gravis-os/gravis-os/commit/b1dd1585c7fc84cb5416304f7f390c92fb636833)]:
+  - @gravis-os/ui@0.0.58
+
 ## 0.0.85
 
 ### Patch Changes

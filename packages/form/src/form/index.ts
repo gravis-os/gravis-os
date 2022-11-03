@@ -40,6 +40,9 @@ export * from './fields/ControlledHtmlField'
 export { default as ControlledAmountField } from './fields/ControlledAmountField'
 export * from './fields/ControlledAmountField'
 
+export { default as PercentageField } from './fields/PercentageField'
+export * from './fields/PercentageField'
+
 export { default as ControlledPercentageField } from './fields/ControlledPercentageField'
 export * from './fields/ControlledPercentageField'
 
@@ -66,6 +69,9 @@ export * from './fields/DateTimeField'
 
 export { default as ControlledAutocompleteField } from './fields/ControlledAutocompleteField'
 export * from './fields/ControlledAutocompleteField'
+
+export { default as RadioGroup } from './fields/RadioGroup'
+export * from './fields/RadioGroup'
 
 // ==============================
 // Utils
