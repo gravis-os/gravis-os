@@ -27,6 +27,7 @@ import startCase from 'lodash/startCase'
 import uniqBy from 'lodash/uniqBy'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
+import { get } from 'lodash'
 import TextField from './TextField'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 
@@ -84,6 +85,7 @@ export interface ModelFieldProps {
   withCreate?: boolean
   onCreateClick?: (e, value: any) => void
 
+  disableDefaultPrimaryOrFilter?: boolean
   /**
    * `filters`
    * Setting this filter will switch the component to use
@@ -139,6 +141,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     // Extensions
     multiple,
     filters: injectedFilters,
+    disableDefaultPrimaryOrFilter,
 
     // withCreate
     withCreate,
@@ -161,7 +164,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     required,
 
     // Tags
-    optionLabelKey,
+    optionLabelKey: injectedOptionLabelKey,
 
     ...rest
   } = props
@@ -187,6 +190,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const loading = open && options.length === 0
   // Reverse lookup object if given a primitive value e.g. id
   const isPrimitiveValue = ['string', 'number'].includes(typeof displayValue)
+  const optionLabelKey = injectedOptionLabelKey || pk
 
   // ==============================
   // Effects
@@ -231,7 +235,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
       const defaultSelect = `id, ${pk}`
 
-      const select = injectedSelect ? `${pk}, ${injectedSelect}` : defaultSelect
+      const select = injectedSelect || defaultSelect
 
       let query: PostgrestFilterBuilder<DataItem> = supabaseClient
         .from(table.name)
@@ -263,7 +267,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
         // Append the additional filters
         const primaryOrFilterArray = [
-          ...defaultPrimaryOrFilterArray,
+          ...(disableDefaultPrimaryOrFilter ? [] : defaultPrimaryOrFilterArray),
           ...injectedPrimaryOrFiltersArray,
         ]
 
@@ -307,7 +311,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         }
 
         // Set QueryFilterBuilder imperatively
-        query = query.or(primaryOrFilterArray.join(','))
+        if (primaryOrFilterArray.length) {
+          query = query.or(primaryOrFilterArray.join(','))
+        }
       }
 
       const onSelect: PostgrestResponse<DataItem> = await (setQuery
@@ -360,8 +366,6 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
   // Fetch data onChange as the user types
   useEffect(() => {
-    // Prevent issue with unnecessary fetch from onSelect
-    if (!open) return
     // Fetch data
     fetchDataWithDelay({ inputValue, filters })
   }, [inputValue])
@@ -394,13 +398,13 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   // ==============================
   const withCreateOptions = withCreate && { freeSolo: true }
   const getIsCreateOption = ({ option, pk }) => {
-    if (!option?.[pk]) return
-    return option && pk && option[pk].startsWith('Add "')
+    if (!get(option, pk)) return
+    return option && pk && get(option, pk, '').startsWith('Add "')
   }
   const getCreateOption = ({ option, pk }) => {
-    if (!option?.[pk]) return
+    if (!get(option, pk)) return
     // e.g. 'Add "New Item"' -> 'New Item'
-    return option && pk && option[pk].split('"')[1]
+    return option && pk && get(option, pk).split('"')[1]
   }
 
   return (
@@ -435,7 +439,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           // Suggest the creation of a new value
           if (withCreate) {
             const isExisting = options.some(
-              (option) => inputValue === option?.[pk]
+              (option) => inputValue === get(option, pk)
             )
             if (inputValue !== '' && !isExisting) {
               clientSideFilteredOptions.push({ [pk]: `Add "${inputValue}"` })
@@ -448,7 +452,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             pk
           ).filter((option) => {
             const nextFormValue = multiple ? formValue : [formValue]
-            return !nextFormValue?.some((value) => value?.[pk] === option?.[pk])
+            return !nextFormValue?.some(
+              (value) => get(value, pk) === get(option, pk)
+            )
           })
 
           return nextClientSideFilteredOptions
@@ -482,7 +488,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         }}
         onInputChange={(event, newInputValue) => {
           if (newInputValue === '') {
-            setDisplayValue(null)
+            setDisplayValue(multiple ? [] : null)
 
             if (name.endsWith('_id')) {
               const relationalObjectKey = getRelationalObjectKey(name)
@@ -497,7 +503,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           // Fallback primary key value if the injected primary key returns null or undefined
           return typeof option === 'string'
             ? option
-            : option[optionLabelKey] ?? option['title' as string] ?? ''
+            : get(option, optionLabelKey) ?? ''
         }}
         renderInput={(params) => {
           return (
@@ -550,7 +556,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           // Careful, option might be null
           const primitiveOptionValue: React.ReactNode = renderOption
             ? renderOption({ option, pk })
-            : (option[pk] as string)
+            : (get(option, pk) as string)
 
           switch (true) {
             case isCreateOption:
