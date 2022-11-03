@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
   CardContentProps,
   CardProps,
   Html,
@@ -146,10 +145,12 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
               <Html html={content} />
             ) : (
               <>
-                <Truncate
-                  lines={3}
-                  dangerouslySetInnerHTML={{ __html: printHtml(content) }}
-                />
+                {printHtml(content) && (
+                  <Truncate
+                    lines={3}
+                    dangerouslySetInnerHTML={{ __html: printHtml(content) }}
+                  />
+                )}
                 {printHtml(content).length > 150 && (
                   <Link
                     href={threadHref}

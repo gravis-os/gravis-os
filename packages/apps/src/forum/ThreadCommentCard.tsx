@@ -3,7 +3,6 @@ import {
   Box,
   Button,
   Card,
-  CardContent,
   CardContentProps,
   CardProps,
   Html,
@@ -11,11 +10,9 @@ import {
   Stack,
   Typography,
 } from '@gravis-os/ui'
-import { printHtml } from '@gravis-os/utils'
 import { StorageAvatar } from '@gravis-os/storage'
 import { CrudModule } from '@gravis-os/types'
 import dayjs from 'dayjs'
-import Truncate from 'react-truncate-html'
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
 import { updateIncrementCount } from '@gravis-os/query'
 import { ThreadComment } from './types'
