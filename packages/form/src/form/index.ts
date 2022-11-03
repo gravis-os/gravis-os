@@ -34,6 +34,9 @@ export * from './fields/AmountField'
 export { default as ControlledTextField } from './fields/ControlledTextField'
 export * from './fields/ControlledTextField'
 
+export { default as ControlledHtmlField } from './fields/ControlledHtmlField'
+export * from './fields/ControlledHtmlField'
+
 export { default as ControlledAmountField } from './fields/ControlledAmountField'
 export * from './fields/ControlledAmountField'
 

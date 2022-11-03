@@ -5,6 +5,7 @@ import {
   useMutation,
   UseMutationOptions,
   UseMutationResult,
+  useQueryClient,
 } from 'react-query'
 import { CrudModule } from '@gravis-os/types'
 
@@ -47,11 +48,14 @@ const useCreateMutation = <
 ): UseCreateActionReturn<TData, TError, TVariables, TContext> => {
   const { module, options } = args
   const { table } = module
+  const queryClient = useQueryClient()
+
   const createMutationFunction: MutationFunction<
     PostgrestResponse<TData>,
     TVariables
   > = async (nextValues: TVariables) =>
     supabaseClient.from<TData>(table.name).insert([nextValues])
+
   const nextOptions: UseMutationOptions<
     PostgrestResponse<TData>,
     TError,
@@ -60,8 +64,14 @@ const useCreateMutation = <
   > = {
     mutationFn: createMutationFunction,
     ...options,
+    onSuccess: async (...args) => {
+      queryClient.invalidateQueries([module.table.name])
+      if (options?.onSuccess) options.onSuccess(...args)
+    },
   }
+
   const createMutation = useMutation(nextOptions)
+
   return { createMutation }
 }
 

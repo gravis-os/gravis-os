@@ -1,14 +1,15 @@
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
-import HtmlField from './HtmlField'
+import HtmlField, { HtmlFieldProps } from './HtmlField'
 
-export interface ControlledHtmlFieldProps {
+export interface ControlledHtmlFieldProps
+  extends Omit<HtmlFieldProps, 'value'> {
   control: Control
-  name: string
 }
 
 const ControlledHtmlField: React.FC<ControlledHtmlFieldProps> = (props) => {
   const { control, ...rest } = props
+
   return (
     <Controller
       control={control}

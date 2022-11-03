@@ -52,6 +52,11 @@ const deviasThemeConfig = {
       fontSize: '1rem',
       lineHeight: 1.375,
     },
+    h6: {
+      fontSize: '0.875rem',
+      fontWeight: 600,
+      lineHeight: 1.375,
+    },
     body1: {
       fontSize: '1rem',
       fontWeight: 400,

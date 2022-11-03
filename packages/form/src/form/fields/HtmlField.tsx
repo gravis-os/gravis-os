@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import startCase from 'lodash/startCase'
 import { useTheme } from '@mui/material/styles'
 import { useQuill } from 'react-quilljs'
@@ -14,29 +14,53 @@ export interface HtmlFieldProps {
   placeholder?: string
   children?: React.ReactNode
   onChange?: (value) => void
-  value: any
+  value: string
+  quillProps?: Record<string, unknown>
+  basic?: boolean
 }
 
 const HtmlField: React.FC<HtmlFieldProps> = (props) => {
-  const { children, name, label, placeholder, onChange, ...rest } = props
+  const {
+    children,
+    name,
+    label,
+    placeholder: injectedPlaceholder,
+    onChange,
+    quillProps,
+    basic,
+    ...rest
+  } = props
   const { value } = rest
 
+  const placeholder = injectedPlaceholder || label || startCase(name)
+  const basicModules = { toolbar: [['bold', 'italic', 'underline', 'link']] }
+
   const { quill: quillRef, quillRef: quillEditorRef } = useQuill({
-    placeholder: placeholder || label || startCase(name),
+    placeholder,
+    ...(basic && { modules: basicModules }),
+    ...quillProps,
   })
 
-  React.useEffect(() => {
+  // Set value (Do not listen to value as dep here)
+  useEffect(() => {
     if (quillRef) {
       // Load with initialValue
       quillRef.clipboard.dangerouslyPasteHTML(value)
 
-      // Set value onChange
+      // Set value on keyboard change
       quillRef.on('text-change', (delta, oldDelta, source) => {
         const value = quillRef.root.innerHTML
         onChange(value)
       })
     }
   }, [quillRef])
+
+  // Reset value
+  useEffect(() => {
+    if (quillRef) {
+      if (value === '') quillRef.clipboard.dangerouslyPasteHTML(value)
+    }
+  }, [quillRef, value])
 
   // Gotta useTheme because shorthand methods don't work on fill and stroke
   const theme = useTheme()
@@ -57,6 +81,7 @@ const HtmlField: React.FC<HtmlFieldProps> = (props) => {
           borderTopLeftRadius: borderRadius,
           borderTopRightRadius: borderRadius,
           borderColor: 'divider',
+          backgroundColor: 'background.default',
         },
         '& .ql-container': {
           borderBottomLeftRadius: borderRadius,

@@ -28,6 +28,10 @@ const dashboardThemeConfig = {
       fontSize: '1rem',
       lineHeight: 1.375,
     },
+    h6: {
+      fontWeight: 600,
+      fontSize: '0.875rem',
+    },
     body1: {
       fontSize: '1rem',
       fontWeight: 400,

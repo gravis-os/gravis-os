@@ -9,6 +9,7 @@ import ThreadCommentCard from './ThreadCommentCard'
 import { CrudModuleWithGetWebHref, Thread, ThreadComment } from './types'
 import { Listing, ListingListItem } from '../directory'
 import { AdOrder, AdOrderProps } from '../ads'
+import ThreadCommentForm, { ThreadCommentFormProps } from './ThreadCommentForm'
 
 export interface ThreadTemplateProps {
   item?: Thread
@@ -31,6 +32,9 @@ export interface ThreadTemplateProps {
 
   // AdOrderProps
   adOrderProps?: AdOrderProps
+
+  // ThreadCommentFormProps
+  threadCommentFormProps?: ThreadCommentFormProps
 }
 
 const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
@@ -50,6 +54,8 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
     relatedThreadsByTag,
     // AdOrder
     adOrderProps,
+    // ThreadCommentForm
+    threadCommentFormProps,
   } = props
   const forumCategory = thread?.forum_category
   const forum = forumCategory?.forum
@@ -95,6 +101,8 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
               <Typography variant="h3" component="h1" sx={{ my: 1 }}>
                 {thread?.title}
               </Typography>
+
+              {/* ThreadDetail */}
               <ThreadCard
                 item={thread}
                 threadModule={threadModule}
@@ -102,6 +110,16 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
                 disableTitle
                 isDetail
               />
+
+              {/* ThreadCommentForm */}
+              {threadCommentFormProps && (
+                <Box sx={{ mt: 3 }}>
+                  <Typography variant="h5" gutterBottom>
+                    Contribute
+                  </Typography>
+                  <ThreadCommentForm {...threadCommentFormProps} />
+                </Box>
+              )}
 
               {/* ThreadComments */}
               {Boolean(threadComments?.length) && (
