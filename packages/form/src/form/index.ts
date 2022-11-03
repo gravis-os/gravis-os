@@ -64,6 +64,9 @@ export * from './fields/ControlledDateTimeField'
 export { default as DateTimeField } from './fields/DateTimeField'
 export * from './fields/DateTimeField'
 
+export { default as ControlledAutocompleteField } from './fields/ControlledAutocompleteField'
+export * from './fields/ControlledAutocompleteField'
+
 // ==============================
 // Utils
 // ==============================

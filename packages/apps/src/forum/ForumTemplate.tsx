@@ -76,7 +76,13 @@ const ForumTemplate: React.FC<ForumTemplateProps> = (props) => {
                 Ask a Question
                 {forumCategory ? ` in ${forumCategory.title}` : ''}
               </Typography>
-              <ThreadForm {...threadFormProps} />
+              <ThreadForm
+                defaultValues={{
+                  forum_category_id: Number(forumCategory?.id) || null,
+                }}
+                forumCategorys={forumCategorys}
+                {...threadFormProps}
+              />
             </Box>
           )}
 

@@ -18,7 +18,7 @@ const ThreadCommentForm: React.FC<ThreadCommentFormProps> = (props) => {
   }
 
   return (
-    <Card border>
+    <Card border size="small">
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={1}>
           <ControlledHtmlField
