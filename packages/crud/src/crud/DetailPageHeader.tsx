@@ -1,6 +1,6 @@
-import React, { ReactNode } from 'react'
+import React from 'react'
 import { Skeleton } from '@gravis-os/ui'
-import { CrudItem, CrudModule } from '@gravis-os/types'
+import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
 import get from 'lodash/get'
 import PageHeader, { PageHeaderProps } from './PageHeader'
 import getIsNew from './getIsNew'
@@ -26,7 +26,6 @@ type RenderProps = {
   state?: { isNew?: boolean; isPreview?: boolean; isReadOnly?: boolean }
   item?: Record<string, any>
 }
-type RenderFunction = (props: RenderProps) => ReactNode
 
 export interface DetailPageHeaderProps extends PageHeaderProps {
   item?: CrudItem
@@ -36,8 +35,8 @@ export interface DetailPageHeaderProps extends PageHeaderProps {
   loading?: boolean
   isPreview?: boolean
   isReadOnly?: boolean
-  renderTitle?: RenderFunction
-  renderSubtitle?: RenderFunction
+  renderTitle?: RenderPropsFunction<RenderProps>
+  renderSubtitle?: RenderPropsFunction<RenderProps>
 }
 
 const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
