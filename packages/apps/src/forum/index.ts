@@ -20,3 +20,6 @@ export * from './ThreadFormDialog'
 
 export { default as ThreadFormCard } from './ThreadFormCard'
 export * from './ThreadFormCard'
+
+export { default as ThreadAuthorLine } from './ThreadAuthorLine'
+export * from './ThreadAuthorLine'

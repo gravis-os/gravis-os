@@ -1,5 +1,13 @@
 import { CrudItem, Person } from '@gravis-os/types'
 
+export interface ForumCategory extends CrudItem {
+  forum?: {
+    id: number
+    title: string
+    slug: string
+  }
+}
+
 export interface Thread extends CrudItem {
   id: number
   hero_src?: string
@@ -11,16 +19,7 @@ export interface Thread extends CrudItem {
   content?: string
   upvote_count: number
   person?: Person
-  forum_category?: {
-    id: number
-    title: string
-    slug: string
-    forum?: {
-      id: number
-      title: string
-      slug: string
-    }
-  }
+  forum_category?: ForumCategory
 }
 
 export interface ThreadComment extends CrudItem {

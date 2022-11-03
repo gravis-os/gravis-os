@@ -18,6 +18,7 @@ import Truncate from 'react-truncate-html'
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
 import { useUpdateIncrementCount } from '@gravis-os/query'
 import { Thread } from './types'
+import ThreadAuthorLine from './ThreadAuthorLine'
 
 export interface ThreadCardProps extends CardProps {
   item: Thread
@@ -45,8 +46,7 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
 
   if (!item) return null
 
-  const { title, content, person, forum_category, created_at, upvote_count } =
-    item
+  const { title, content, person, forum_category, upvote_count } = item
 
   const threadHref = threadModule.getWebHref([
     forum_category?.forum,
@@ -72,46 +72,12 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
       }}
     >
       <Box sx={{ mb: 1 }}>
-        {/* Author Line */}
-        {person && (
-          <Stack
-            direction="row"
-            alignItems="center"
-            spacing={0.5}
-            sx={{
-              '&': { display: 'block' },
-              '& > *': { display: 'inline-block' },
-            }}
-          >
-            <div>
-              <StorageAvatar
-                letterAltFallback
-                src={person.avatar_src}
-                alt={person.avatar_alt || person.title}
-                size={24}
-              />
-            </div>
-            <Typography variant="subtitle2">
-              {person.first_name || person.title}
-            </Typography>
-            <Typography variant="body2" color="text.secondary">
-              asked {isDetail ? 'this' : 'a'} question in
-            </Typography>
-            <Link
-              href={forumCategoryModule.getWebHref([
-                forum_category?.forum,
-                forum_category,
-              ])}
-            >
-              <Typography variant="subtitle2">
-                {forum_category?.title}
-              </Typography>
-            </Link>
-            <Typography variant="body2" color="text.secondary">
-              on {dayjs(created_at).format('D MMM YY')}
-            </Typography>
-          </Stack>
-        )}
+        <ThreadAuthorLine
+          person={person}
+          item={item}
+          forumCategory={forum_category}
+          forumCategoryModule={forumCategoryModule}
+        />
       </Box>
 
       <Card key={item.id} border sx={sx} stretch={stretch} {...rest}>

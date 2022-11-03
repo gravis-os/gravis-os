@@ -94,6 +94,12 @@ export * from './utils/withSkipOnSubmit'
 export { default as getIsArrayColumn } from './utils/getIsArrayColumn'
 export * from './utils/getIsArrayColumn'
 
+export { default as withResolvedIdValue } from './withResolvedIdValue'
+export * from './withResolvedIdValue'
+
+export { default as withSlugFromTitle } from './withSlugFromTitle'
+export * from './withSlugFromTitle'
+
 // ==============================
 // Effects
 // ==============================

@@ -15,6 +15,7 @@ import dayjs from 'dayjs'
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
 import { useUpdateIncrementCount } from '@gravis-os/query'
 import { ThreadComment } from './types'
+import ThreadAuthorLine from './ThreadAuthorLine'
 
 export interface ThreadCommentProps extends CardProps {
   item: ThreadComment
@@ -54,25 +55,7 @@ const ThreadComment: React.FC<ThreadCommentProps> = (props) => {
       <Card key={item.id} border sx={sx} {...rest}>
         {/* Author Line */}
         <Box sx={{ mb: 1 }}>
-          {person && (
-            <Stack direction="row" alignItems="center" spacing={1}>
-              <StorageAvatar
-                letterAltFallback
-                src={person.avatar_src}
-                alt={person.avatar_alt || person.title}
-                size={24}
-              />
-              <Typography variant="subtitle2">
-                {person.first_name || person.title}
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                replied
-              </Typography>
-              <Typography variant="body2" color="text.secondary">
-                on {dayjs(created_at).format('D MMM YY')}
-              </Typography>
-            </Stack>
-          )}
+          <ThreadAuthorLine person={person} item={item} />
         </Box>
 
         {content && <Html html={content} />}
