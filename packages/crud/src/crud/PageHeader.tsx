@@ -30,6 +30,7 @@ export interface PageHeaderProps
   divider?: boolean
   size?: 'small' | 'medium' | 'large'
   title?: string | React.ReactElement
+  subtitle?: string | React.ReactElement
   onClose?: () => void
 }
 
@@ -41,6 +42,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
     button,
     buttonProps,
     title,
+    subtitle,
     breadcrumbs,
     breadcrumbsProps,
     borderBottom,
@@ -96,6 +98,17 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
                 <Typography variant={isSmall ? 'h4' : 'h2'}>{title}</Typography>
               ) : (
                 title
+              ))}
+            {subtitle &&
+              (typeof subtitle === 'string' ? (
+                <Typography
+                  variant={isSmall ? 'body1' : 'body2'}
+                  sx={{ mt: 1 }}
+                >
+                  {subtitle}
+                </Typography>
+              ) : (
+                subtitle
               ))}
           </div>
         </Stack>
