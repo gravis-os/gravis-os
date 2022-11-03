@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, Card, Stack } from '@gravis-os/ui'
+import { Button, ButtonProps, Stack } from '@gravis-os/ui'
 import { useForm } from 'react-hook-form'
 import {
   ControlledHtmlField,
@@ -16,6 +16,7 @@ export interface ThreadFormProps {
   onSubmit?: (values: any) => void
   forumCategorys?: CrudItem[]
   defaultValues?: ThreadFormValues
+  submitButtonProps?: ButtonProps
 }
 
 const ThreadForm: React.FC<ThreadFormProps> = (props) => {
@@ -23,6 +24,7 @@ const ThreadForm: React.FC<ThreadFormProps> = (props) => {
     defaultValues: injectedDefaultValues,
     onSubmit: injectedOnSubmit,
     forumCategorys,
+    submitButtonProps,
   } = props
 
   // Form
@@ -42,38 +44,39 @@ const ThreadForm: React.FC<ThreadFormProps> = (props) => {
   }))
 
   return (
-    <Card border size="small">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <Stack spacing={1}>
-          {!defaultValues?.forum_category_id && forumCategorys && (
-            <ControlledAutocompleteField
-              name="forum_category_id"
-              control={control}
-              options={forumCategoryOptions}
-              required
-            />
-          )}
+    <form onSubmit={handleSubmit(onSubmit)}>
+      <Stack spacing={1}>
+        <ControlledTextField
+          name="title"
+          control={control}
+          placeholder="What is your question?"
+          disableLabel
+          required
+          variant="standard"
+          sx={{ mb: 1 }}
+        />
 
-          <ControlledTextField
-            name="title"
+        {!defaultValues?.forum_category_id && forumCategorys && (
+          <ControlledAutocompleteField
+            name="forum_category_id"
             control={control}
-            placeholder="What is your question about?"
+            options={forumCategoryOptions}
             required
           />
+        )}
 
-          <ControlledHtmlField
-            name="content"
-            control={control}
-            placeholder="Describe your question"
-            basic
-          />
+        <ControlledHtmlField
+          name="content"
+          control={control}
+          placeholder="Tell us more"
+          basic
+        />
 
-          <Button type="submit" variant="action">
-            Ask Question
-          </Button>
-        </Stack>
-      </form>
-    </Card>
+        <Button type="submit" variant="action" {...submitButtonProps}>
+          Ask Question
+        </Button>
+      </Stack>
+    </form>
   )
 }
 

@@ -14,3 +14,9 @@ export * from './ForumTemplate'
 
 export { default as ThreadTemplate } from './ThreadTemplate'
 export * from './ThreadTemplate'
+
+export { default as ThreadFormDialog } from './ThreadFormDialog'
+export * from './ThreadFormDialog'
+
+export { default as ThreadFormCard } from './ThreadFormCard'
+export * from './ThreadFormCard'

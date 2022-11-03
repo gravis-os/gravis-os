@@ -52,6 +52,9 @@ export * from './Divider'
 export { default as Dialog } from './Dialog'
 export * from './Dialog'
 
+export { default as DialogTitle } from './DialogTitle'
+export * from './DialogTitle'
+
 export { default as Drawer } from './Drawer'
 export * from './Drawer'
 

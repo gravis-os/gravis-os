@@ -8,6 +8,7 @@ import {
 import { useListParentCategorys, CategorysSideBar } from '../categories'
 import PaginatedThreads from './PaginatedThreads'
 import ThreadForm, { ThreadFormProps } from './ThreadForm'
+import ThreadFormDialog from './ThreadFormDialog'
 
 export interface ForumTemplateProps {
   rightAside?: React.ReactNode
@@ -69,19 +70,12 @@ const ForumTemplate: React.FC<ForumTemplateProps> = (props) => {
           <PaginatedThreads {...paginatedThreadsProps} />
         </Grid>
         <Grid item md={3} lg={3}>
-          {/* Thread Form */}
           {threadFormProps && (
             <Box sx={{ mb: 2 }}>
-              <Typography variant="h5" gutterBottom>
-                Ask a Question
-                {forumCategory ? ` in ${forumCategory.title}` : ''}
-              </Typography>
-              <ThreadForm
-                defaultValues={{
-                  forum_category_id: Number(forumCategory?.id) || null,
-                }}
+              <ThreadFormDialog
+                threadFormProps={threadFormProps}
                 forumCategorys={forumCategorys}
-                {...threadFormProps}
+                forumCategory={forumCategory}
               />
             </Box>
           )}
