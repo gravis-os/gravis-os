@@ -1,6 +1,7 @@
 import React from 'react'
 import { Card, CardProps, Link, Typography } from '@gravis-os/ui'
-import { CrudModuleWithGetWebHref, Thread } from './types'
+import { CrudModuleWithGetWebHref } from '@gravis-os/types'
+import { Thread } from './types'
 
 export interface ThreadListItemProps extends CardProps {
   item: Thread

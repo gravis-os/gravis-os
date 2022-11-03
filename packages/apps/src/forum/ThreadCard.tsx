@@ -12,12 +12,12 @@ import {
 } from '@gravis-os/ui'
 import { printHtml } from '@gravis-os/utils'
 import { StorageAvatar } from '@gravis-os/storage'
-import { CrudModule } from '@gravis-os/types'
+import { CrudModule, CrudModuleWithGetWebHref } from '@gravis-os/types'
 import dayjs from 'dayjs'
 import Truncate from 'react-truncate-html'
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
 import { useUpdateIncrementCount } from '@gravis-os/query'
-import { CrudModuleWithGetWebHref, Thread } from './types'
+import { Thread } from './types'
 
 export interface ThreadCardProps extends CardProps {
   item: Thread

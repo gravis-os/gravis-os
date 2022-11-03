@@ -1,9 +1,4 @@
-import { CrudItem, CrudModule, Person } from '@gravis-os/types'
-import { GetModuleHrefFunction } from '@gravis-os/crud'
-
-export interface CrudModuleWithGetWebHref extends CrudModule {
-  getWebHref: GetModuleHrefFunction
-}
+import { CrudItem, Person } from '@gravis-os/types'
 
 export interface Thread extends CrudItem {
   id: number

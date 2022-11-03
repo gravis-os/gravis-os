@@ -10,11 +10,11 @@ import {
   Typography,
 } from '@gravis-os/ui'
 import { StorageAvatar } from '@gravis-os/storage'
-import { CrudModule } from '@gravis-os/types'
+import { CrudModule, CrudModuleWithGetWebHref } from '@gravis-os/types'
 import dayjs from 'dayjs'
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
 import { useUpdateIncrementCount } from '@gravis-os/query'
-import { CrudModuleWithGetWebHref, ThreadComment } from './types'
+import { ThreadComment } from './types'
 
 export interface ThreadCommentProps extends CardProps {
   item: ThreadComment

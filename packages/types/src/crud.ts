@@ -39,3 +39,10 @@ export interface CrudContextInterface<AppCrudModule = any, AppCrudItem = any> {
   handleDeleteDialogOpen: () => void
   handleDeleteDialogClose: () => void
 }
+
+// ==============================
+// Plugins
+// ==============================
+export interface CrudModuleWithGetWebHref extends CrudModule {
+  getWebHref: (items: CrudItem[] | CrudItem) => string
+}

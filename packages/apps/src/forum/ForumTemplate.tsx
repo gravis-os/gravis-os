@@ -1,11 +1,10 @@
 import React from 'react'
 import { Box, Grid, Stack, Typography } from '@gravis-os/ui'
-import { CrudItem } from '@gravis-os/types'
+import { CrudItem, CrudModuleWithGetWebHref } from '@gravis-os/types'
 import {
   PaginatedQueryViewProps,
   PaginatedQueryViewVariantEnum,
 } from '@gravis-os/query'
-import { CrudModuleWithGetWebHref } from './types'
 import { useListParentCategorys, CategorysSideBar } from '../categories'
 import PaginatedThreads from './PaginatedThreads'
 
