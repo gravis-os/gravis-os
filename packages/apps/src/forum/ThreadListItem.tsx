@@ -1,11 +1,10 @@
 import React from 'react'
-import { BoxProps, Card, CardProps, Link, Typography } from '@gravis-os/ui'
-import { CrudModule } from '@gravis-os/types'
-import { Thread } from './types'
+import { Card, CardProps, Link, Typography } from '@gravis-os/ui'
+import { CrudModuleWithGetWebHref, Thread } from './types'
 
 export interface ThreadListItemProps extends CardProps {
   item: Thread
-  threadModule: CrudModule | any
+  threadModule: CrudModuleWithGetWebHref
   size?: 'small' | 'medium' | 'large'
   cardProps?: CardProps
 }
@@ -18,7 +17,7 @@ const ThreadListItem: React.FC<ThreadListItemProps> = (props) => {
   const isSmall = size === 'small'
   const isLarge = size === 'large'
 
-  const { title, subtitle, avatar_src, avatar_alt, forum_category } = item
+  const { title, subtitle, forum_category } = item
 
   const threadHref = threadModule.getWebHref([
     forum_category?.forum,

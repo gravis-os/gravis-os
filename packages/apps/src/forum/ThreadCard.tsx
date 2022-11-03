@@ -16,13 +16,13 @@ import { CrudModule } from '@gravis-os/types'
 import dayjs from 'dayjs'
 import Truncate from 'react-truncate-html'
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
-import { updateIncrementCount } from '@gravis-os/query'
-import { Thread } from './types'
+import { useUpdateIncrementCount } from '@gravis-os/query'
+import { CrudModuleWithGetWebHref, Thread } from './types'
 
 export interface ThreadCardProps extends CardProps {
   item: Thread
-  threadModule: CrudModule | any
-  forumCategoryModule: CrudModule | any
+  threadModule: CrudModuleWithGetWebHref
+  forumCategoryModule: CrudModuleWithGetWebHref
   size?: 'small' | 'medium' | 'large'
   cardContentProps?: CardContentProps
   disableTitle?: boolean
@@ -45,9 +45,6 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
 
   if (!item) return null
 
-  const isSmall = size === 'small'
-  const isLarge = size === 'large'
-
   const { title, content, person, forum_category, created_at, upvote_count } =
     item
 
@@ -57,13 +54,12 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
     item,
   ])
 
-  const handleUpvoteClick = () => {
-    return updateIncrementCount({
-      item,
+  const { updateIncrementCount: updateThreadUpvoteCount } =
+    useUpdateIncrementCount({
       module: threadModule as CrudModule,
       countColumnName: 'upvote_count',
     })
-  }
+  const handleUpvoteClick = async () => updateThreadUpvoteCount(item)
 
   return (
     <Box

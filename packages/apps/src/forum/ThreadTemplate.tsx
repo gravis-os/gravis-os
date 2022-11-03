@@ -19,7 +19,7 @@ export interface ThreadTemplateProps {
   forumModule: CrudModuleWithGetWebHref
   forumCategoryModule: CrudModuleWithGetWebHref
   threadModule: CrudModuleWithGetWebHref
-  threadCommentModule: CrudModule
+  threadCommentModule: CrudModuleWithGetWebHref
   brandModule: CrudModuleWithGetWebHref
   listingModule: CrudModuleWithGetWebHref
 

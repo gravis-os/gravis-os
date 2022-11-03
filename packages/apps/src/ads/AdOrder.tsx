@@ -4,7 +4,7 @@ import { StorageImage } from '@gravis-os/storage'
 import {
   useList,
   useIncrementCount,
-  updateIncrementCount,
+  useUpdateIncrementCount,
 } from '@gravis-os/query'
 import { CrudModule } from '@gravis-os/types'
 
@@ -52,12 +52,13 @@ const AdOrder: React.FC<AdOrderProps> = (props) => {
     }
   }
 
+  const { updateIncrementCount: updateAdClickCount } = useUpdateIncrementCount({
+    module: adModule as CrudModule,
+    countColumnName: 'click_count',
+  })
+
   const handleAdClick = async () => {
-    await updateIncrementCount({
-      item: ad,
-      module: adModule as CrudModule,
-      countColumnName: 'click_count',
-    })
+    await updateAdClickCount(ad)
     window.open(ad.url, '_blank', 'noopener, noreferrer')
   }
 

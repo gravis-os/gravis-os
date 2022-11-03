@@ -6,7 +6,6 @@ import {
   CardContentProps,
   CardProps,
   Html,
-  Link,
   Stack,
   Typography,
 } from '@gravis-os/ui'
@@ -14,17 +13,16 @@ import { StorageAvatar } from '@gravis-os/storage'
 import { CrudModule } from '@gravis-os/types'
 import dayjs from 'dayjs'
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
-import { updateIncrementCount } from '@gravis-os/query'
-import { ThreadComment } from './types'
+import { useUpdateIncrementCount } from '@gravis-os/query'
+import { CrudModuleWithGetWebHref, ThreadComment } from './types'
 
 export interface ThreadCommentProps extends CardProps {
   item: ThreadComment
-  threadModule: CrudModule | any
-  threadCommentModule: CrudModule | any
-  forumCategoryModule: CrudModule | any
+  threadModule: CrudModuleWithGetWebHref
+  threadCommentModule: CrudModuleWithGetWebHref
+  forumCategoryModule: CrudModuleWithGetWebHref
   size?: 'small' | 'medium' | 'large'
   cardContentProps?: CardContentProps
-  disableTitle?: boolean
 }
 
 const ThreadComment: React.FC<ThreadCommentProps> = (props) => {
@@ -35,27 +33,21 @@ const ThreadComment: React.FC<ThreadCommentProps> = (props) => {
     threadCommentModule,
     forumCategoryModule,
     cardContentProps,
-    disableTitle,
     sx,
     ...rest
   } = props
 
   if (!item) return null
 
-  const isSmall = size === 'small'
-  const isLarge = size === 'large'
+  const { content, person, created_at, upvote_count } = item
 
-  const { title, content, person, created_at, upvote_count } = item
-
-  const threadHref = ''
-
-  const handleUpvoteClick = () => {
-    return updateIncrementCount({
-      item,
+  const { updateIncrementCount: updateThreadCommentUpvoteCount } =
+    useUpdateIncrementCount({
       module: threadCommentModule as CrudModule,
       countColumnName: 'upvote_count',
     })
-  }
+
+  const handleUpvoteClick = async () => updateThreadCommentUpvoteCount(item)
 
   return (
     <div>
@@ -82,17 +74,6 @@ const ThreadComment: React.FC<ThreadCommentProps> = (props) => {
             </Stack>
           )}
         </Box>
-
-        {/* Title */}
-        {!disableTitle && (
-          <Link
-            variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
-            href={threadHref}
-            sx={{ mb: 1 }}
-          >
-            {title}
-          </Link>
-        )}
 
         {content && <Html html={content} />}
 
