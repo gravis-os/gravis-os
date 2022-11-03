@@ -122,7 +122,7 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
         {/* Title */}
         {!disableTitle && (
           <Link
-            variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
+            variant="h4"
             href={threadHref}
             sx={{
               mb: 1,
@@ -144,7 +144,7 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
             {isDetail ? (
               <Html html={content} />
             ) : (
-              <>
+              <Box sx={{ mt: 1, '& p': { my: 0 } }}>
                 {printHtml(content) && (
                   <Truncate
                     lines={3}
@@ -161,7 +161,7 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
                     Read more
                   </Link>
                 )}
-              </>
+              </Box>
             )}
           </Box>
         )}
