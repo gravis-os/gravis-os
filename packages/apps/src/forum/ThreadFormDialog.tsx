@@ -58,10 +58,15 @@ const ThreadFormDialog: React.FC<ThreadFormDialogProps> = (props) => {
                 forum_category_id: Number(forumCategory?.id) || null,
               }}
               forumCategorys={forumCategorys}
-              submitButtonProps={{
-                variant: 'contained',
-              }}
+              submitButtonProps={{ variant: 'contained' }}
               {...threadFormProps}
+              onSubmit={async (...args) => {
+                if (threadFormProps?.onSubmit) {
+                  const submitted = await threadFormProps.onSubmit(...args)
+                  closeDialog()
+                  return submitted
+                }
+              }}
             />
           )}
         </Box>
