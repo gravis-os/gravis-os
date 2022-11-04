@@ -1,14 +1,17 @@
-import React, { FC, useEffect } from 'react'
+import React, { forwardRef, useEffect } from 'react'
 import NumberFormat, { NumberFormatProps } from 'react-number-format'
 import TextField, { TextFieldProps } from './TextField'
 
-interface PercentageFieldProps
+export interface PercentageFieldProps
   extends Omit<NumberFormatProps<TextFieldProps>, 'onChange'> {
   onChange: (percentage: number) => void
   value: number
 }
 
-const PercentageField: FC<PercentageFieldProps> = (props) => {
+const PercentageField = forwardRef<
+  NumberFormat<TextFieldProps>,
+  PercentageFieldProps
+>((props, ref) => {
   const { onChange, value, ...rest } = props
   const [displayValue, setDisplayValue] = React.useState(value)
 
@@ -32,8 +35,9 @@ const PercentageField: FC<PercentageFieldProps> = (props) => {
       }}
       isNumericString
       suffix="%"
+      ref={ref}
     />
   )
-}
+})
 
 export default PercentageField
