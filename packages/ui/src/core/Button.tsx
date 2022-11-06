@@ -84,10 +84,11 @@ const Button: React.FC<ButtonProps> = (props) => {
         // Paper variant
         ...(variant === BUTTON_VARIANT_PAPER && {
           backgroundColor: 'background.paper',
+          color: color ? `${color}.main` : 'text.primary',
           '&:hover': {
             backgroundColor: (theme) =>
               alpha(theme.palette.background.paper, 0.8),
-            color: `${color || 'primary'}.dark`,
+            color: color ? `${color}.dark` : 'primary.main',
           },
         }),
         // Muted variant
@@ -107,7 +108,6 @@ const Button: React.FC<ButtonProps> = (props) => {
             },
           },
         }),
-        // TODO@Joel: Add Action Variant
         ...(variant === BUTTON_VARIANT_ACTION && {
           backgroundColor: 'transparent',
           color: 'text.secondary',

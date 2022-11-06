@@ -7,14 +7,16 @@ import { ListItemProps } from './ListItem'
 
 export interface ListItemIconProps extends MuiListItemIconProps {
   dense?: ListItemProps['dense']
+  fontSize?: string
 }
 
 const ListItemIcon: React.FC<ListItemIconProps> = (props) => {
-  const { sx, dense, ...rest } = props
+  const { sx, dense, fontSize, ...rest } = props
   return (
     <MuiListItemIcon
       sx={{
         minWidth: dense ? 32 : 40,
+        ...(fontSize && { '& svg': { fontSize } }),
         ...sx,
       }}
       {...rest}

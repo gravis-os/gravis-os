@@ -19,5 +19,8 @@ export * from './ListCard'
 export { default as QuantityCard } from './QuantityCard'
 export * from './QuantityCard'
 
+export { default as Slider } from './Slider'
+export * from './Slider'
+
 export { default as VerticalIconButton } from './VerticalIconButton'
 export * from './VerticalIconButton'

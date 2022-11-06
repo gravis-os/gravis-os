@@ -1,3 +1,6 @@
+export { default as Accordion } from './Accordion'
+export * from './Accordion'
+
 export { default as Alert } from './Alert'
 export * from './Alert'
 
@@ -96,6 +99,9 @@ export * from './NavAccordion'
 
 export { default as Paper } from './Paper'
 export * from './Paper'
+
+export { default as Ratings } from './Ratings'
+export * from './Ratings'
 
 export { default as Reveal } from './Reveal'
 export * from './Reveal'

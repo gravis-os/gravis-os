@@ -16,7 +16,9 @@ export interface ListItemProps
   extends Omit<MuiListItemProps, 'title' | 'onClick'> {
   key: string | number
   title?: MuiListItemTextProps['primary']
+  titleProps?: MuiListItemTextProps['primaryTypographyProps']
   subtitle?: MuiListItemTextProps['secondary']
+  subtitleProps?: MuiListItemTextProps['secondaryTypographyProps']
   textProps?: MuiListItemTextProps
   avatarProps?: MuiListItemAvatarProps
   buttonProps?: ListItemButtonProps
@@ -53,7 +55,7 @@ export interface ListItemProps
   // Selected state
   selected?: boolean
 
-  // Spacing between elements in ListItem
+  // Horizontal spacing between elements in ListItem
   spacing?: number
 }
 
@@ -67,7 +69,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     avatar,
 
     title,
+    titleProps,
     subtitle,
+    subtitleProps,
     href,
 
     start,
@@ -101,10 +105,11 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     selected,
     ...injectedListItemButtonProps,
   }
-  const hasButton = Boolean(onClick || listItemButtonProps)
+  const hasButton = Boolean(onClick || href)
 
   const listItemProps = {
     disablePadding: disablePadding || hasButton,
+    disableGutters,
     ...rest,
   }
 
@@ -132,7 +137,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
   const listItemTextProps = {
     primary: title,
+    primaryTypographyProps: titleProps,
     secondary: subtitle,
+    secondaryTypographyProps: { lineHeight: 1.35, ...subtitleProps },
     ...injectedListItemTextProps,
   }
 
