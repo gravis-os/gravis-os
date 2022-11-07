@@ -70,7 +70,6 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
     'auth',
     'dashboard',
     'app',
-    'admin',
   ].includes(subdomain)
 
   const result = {
