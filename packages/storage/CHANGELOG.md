@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.26
+
+### Patch Changes
+
+- [`6df93f7`](https://github.com/gravis-os/gravis-os/commit/6df93f7331042f9ceab49277c1528b35fba71286) Thanks [@clodal](https://github.com/clodal)! - Update UI and update saas router middleware to remove app. redirect
+
+- Updated dependencies [[`a216fc4`](https://github.com/gravis-os/gravis-os/commit/a216fc4041d9a313b6bfe4814e5a5697599f8a93), [`6df93f7`](https://github.com/gravis-os/gravis-os/commit/6df93f7331042f9ceab49277c1528b35fba71286), [`c948f45`](https://github.com/gravis-os/gravis-os/commit/c948f457e433e76e870a36750b4647251bd252e0)]:
+  - @gravis-os/ui@0.0.60
+  - @gravis-os/types@0.0.27
+
 ## 0.0.25
 
 ### Patch Changes
