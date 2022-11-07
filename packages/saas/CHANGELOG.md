@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.29
+
+### Patch Changes
+
+- [`b45aa34`](https://github.com/gravis-os/gravis-os/commit/b45aa34208041634e79c1460ff8ddd76bd33921a) Thanks [@clodal](https://github.com/clodal)! - Remove admin from reserved keyword from middleware else it would be redirect out
+
+- Updated dependencies [[`b45aa34`](https://github.com/gravis-os/gravis-os/commit/b45aa34208041634e79c1460ff8ddd76bd33921a)]:
+  - @gravis-os/middleware@0.0.16
+
 ## 0.0.28
 
 ### Patch Changes
