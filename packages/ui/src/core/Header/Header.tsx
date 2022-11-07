@@ -409,8 +409,8 @@ const Header: React.FC<HeaderProps> = (props) => {
         <Box
           sx={{
             py: 0.5,
-            backgroundColor: 'secondary.main',
-            color: 'secondary.contrastText',
+            backgroundColor: 'primary.main',
+            color: 'primary.contrastText',
             textAlign: 'center',
           }}
         >

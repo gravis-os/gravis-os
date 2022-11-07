@@ -24,6 +24,7 @@ export interface CrudItem {
   slug?: string
   subtitle?: string | null
   avatar_src?: string | null
+  workspace_id?: number
 }
 
 // ==============================

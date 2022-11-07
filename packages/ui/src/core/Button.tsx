@@ -17,6 +17,7 @@ import CircularProgress from './CircularProgress'
 const BUTTON_VARIANT_PAPER = 'paper'
 const BUTTON_VARIANT_MUTED = 'muted'
 const BUTTON_VARIANT_ACTION = 'action'
+const BUTTON_VARIANT_CALLOUT = 'callout'
 
 export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   disableMinWidth?: boolean
@@ -34,6 +35,7 @@ export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
     | typeof BUTTON_VARIANT_PAPER
     | typeof BUTTON_VARIANT_MUTED
     | typeof BUTTON_VARIANT_ACTION
+    | typeof BUTTON_VARIANT_CALLOUT
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -56,6 +58,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     BUTTON_VARIANT_PAPER,
     BUTTON_VARIANT_MUTED,
     BUTTON_VARIANT_ACTION,
+    BUTTON_VARIANT_CALLOUT,
   ].includes(variant)
   const buttonProps = loading ? omit(rest, ['startIcon', 'endIcon']) : rest
   const childrenJsxContent = children ?? title
@@ -81,14 +84,28 @@ const Button: React.FC<ButtonProps> = (props) => {
             borderColor: `${color || 'primary'}.dark`,
           },
         }),
+        // Callout variant
+        ...(variant === BUTTON_VARIANT_CALLOUT && {
+          color: `${color || 'primary'}.main`,
+          backgroundColor: ({ palette }) =>
+            alpha(palette[color || 'primary'].light, 0.04),
+          '&:hover': {
+            borderColor: `${color || 'primary'}.main`,
+            backgroundColor: ({ palette }) =>
+              alpha(palette[color || 'primary'].light, 0.08),
+          },
+        }),
         // Paper variant
         ...(variant === BUTTON_VARIANT_PAPER && {
           backgroundColor: 'background.paper',
           color: color ? `${color}.main` : 'text.primary',
+          border: 1,
+          borderColor: 'transparent',
           '&:hover': {
             backgroundColor: (theme) =>
               alpha(theme.palette.background.paper, 0.8),
             color: color ? `${color}.dark` : 'primary.main',
+            borderColor: color ? `${color}.dark` : 'primary.main',
           },
         }),
         // Muted variant

@@ -64,6 +64,14 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
       })
     ).json())
   const isLoggedIn = Boolean(authUser?.id)
+  const isReservedSubdomain = [
+    'www',
+    'api',
+    'auth',
+    'dashboard',
+    'app',
+    'admin',
+  ].includes(subdomain)
 
   const result = {
     url,
@@ -91,6 +99,9 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
     isCustomDomain,
     nakedCustomDomain,
     customDomainWorkspace,
+
+    // Reserved subdomains
+    isReservedSubdomain,
 
     // Locale
     locale,

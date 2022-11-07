@@ -79,6 +79,9 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           ...row,
           // The relation_id e.g. product_id
           [`${primaryTableName}_id`]: primaryRecord.id,
+          ...(primaryRecord.workspace_id && {
+            workspace_id: primaryRecord.workspace_id,
+          }),
         }))
       )
 

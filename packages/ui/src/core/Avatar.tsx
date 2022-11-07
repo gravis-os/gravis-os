@@ -66,7 +66,7 @@ export interface AvatarProps extends MuiAvatarProps {
 
 const Avatar: React.FC<AvatarProps> = (props) => {
   const { size, sx, letterAltFallback, ...rest } = props
-  const { src, alt } = rest
+  const { src, alt, children } = rest
 
   // Size
   const sizeSx = size && { width: size, height: size }
@@ -86,6 +86,8 @@ const Avatar: React.FC<AvatarProps> = (props) => {
         borderColor: src ? 'transparent' : 'primary.main',
       }
 
+  const shouldFallback = !src && !children
+
   // Common props
   const avatarProps = {
     ...rest,
@@ -93,10 +95,10 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       ...sizeSx,
       ...sx,
       // Fallback styles
-      ...(!src && fallbackSx),
+      ...(shouldFallback && fallbackSx),
     },
     // Calculate fallback
-    ...(!src && fallbackProps),
+    ...(shouldFallback && fallbackProps),
   }
 
   // Default render

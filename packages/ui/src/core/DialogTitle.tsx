@@ -14,25 +14,9 @@ export interface DialogTitleProps extends MuiDialogTitleProps {
 const DialogTitle: React.FC<DialogTitleProps> = (props) => {
   const { children, onClose, sx, ...rest } = props
   return (
-    <>
-      <MuiDialogTitle sx={{ m: 0, p: 2, ...sx }} variant="h5" {...rest}>
-        {children}
-        {onClose ? (
-          <IconButton
-            aria-label="close"
-            onClick={(e) => onClose(e, 'backdropClick')}
-            sx={{
-              position: 'absolute',
-              right: 8,
-              top: 8,
-              color: (theme) => theme.palette.grey[500],
-            }}
-          >
-            <CloseIcon />
-          </IconButton>
-        ) : null}
-      </MuiDialogTitle>
-    </>
+    <MuiDialogTitle sx={{ m: 0, p: 2, ...sx }} variant="h5" {...rest}>
+      {children}
+    </MuiDialogTitle>
   )
 }
 

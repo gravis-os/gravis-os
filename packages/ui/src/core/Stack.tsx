@@ -11,6 +11,7 @@ export interface StackProps extends MuiStackProps {
   verticalDividers?: boolean
   horizontalDividers?: boolean
   divider?: React.ReactNode
+  component?: React.ElementType
 }
 
 const Stack: React.FC<StackProps> = (props) => {

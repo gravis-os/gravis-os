@@ -6,6 +6,7 @@ import getResponsiveSxProp, {
 
 export interface GridProps extends MuiGridProps {
   reverse?: ResponsiveSxProp
+  component?: React.ElementType
 }
 
 const Grid: React.FC<GridProps> = forwardRef((props, ref) => {

@@ -12,6 +12,7 @@ import Box, { BoxProps } from '../../core/Box'
 import IconButton, { IconButtonProps } from '../../core/IconButton'
 import Button, { ButtonProps } from '../../core/Button'
 import Dialog, { DialogProps } from '../../core/Dialog'
+import ImageList, { ImageListProps } from '../../core/ImageList'
 import withAutoplayPlugin from './withAutoplayPlugin'
 import withScrollPlugin from './withScrollPlugin'
 import withThumbnailsPlugin from './withThumbnailsPlugin'
@@ -175,7 +176,7 @@ const Slider: React.FC<SliderProps> = (props) => {
               fullWidth
               maxWidth="lg"
             >
-              This is a placeholder
+              <ImageList items={items} />
             </Dialog>
           </>
         )}

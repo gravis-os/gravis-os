@@ -10,6 +10,7 @@ declare module '@mui/material/styles' {
     paper: React.CSSProperties
     muted: React.CSSProperties
     action: React.CSSProperties
+    callout: React.CSSProperties
   }
 
   // allow configuration using `createTheme`
@@ -17,6 +18,7 @@ declare module '@mui/material/styles' {
     paper?: React.CSSProperties
     muted?: React.CSSProperties
     action?: React.CSSProperties
+    callout?: React.CSSProperties
   }
 }
 
@@ -26,6 +28,7 @@ declare module '@mui/material/Button' {
     paper: true
     muted: true
     action: true
+    callout: true
   }
 }
 

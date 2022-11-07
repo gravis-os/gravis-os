@@ -81,6 +81,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       isWorkspaceBaseRoute,
       isLoggedIn,
       isCustomDomain,
+      isReservedSubdomain,
       authUser,
     } = middlewareRouteBreakdown
 
@@ -91,6 +92,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       isGuestAtWorkspacePage: !isLoggedIn && isWorkspaceBaseRoute,
       isWorkspaceRoute: isWorkspace,
       isCustomDomain,
+      isReservedSubdomain,
     }
 
     if (!isApiRoute && isDebug) {
@@ -187,16 +189,16 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       case SCENARIOS.isApiOrAuthRoute:
         // Allow auth routes and api routes to pass through
         return NextResponse.next()
-      case SCENARIOS.isNakedDomainBaseRoute:
-        // Redirect to app.hostname to preserve the nakedDomain for the landing page
-        const baseRouteRedirectUrl = `${protocol}://app.${hostname}`
+      case SCENARIOS.isReservedSubdomain:
+        // Terminate reserved subdomains directly out to the main page.
         if (isDebug) {
-          console.log(
-            `♻️ [DEBUG] Middleware isBaseRoute Redirect`,
-            baseRouteRedirectUrl
-          )
+          console.log(`♻️ [DEBUG] Middleware isReservedSubdomain Redirect`)
         }
-        return NextResponse.redirect(baseRouteRedirectUrl)
+        return NextResponse.next()
+      case SCENARIOS.isNakedDomainBaseRoute:
+        // Terminate baseRoute directly out to the main page.
+        if (isDebug) console.log(`♻️ [DEBUG] Middleware isBaseRoute Redirect`)
+        return NextResponse.next()
       case SCENARIOS.isGuestAtWorkspacePage:
         url.pathname = workspacesPathnamePrefix // Redirect to the workspace home
         return NextResponse.rewrite(url)
