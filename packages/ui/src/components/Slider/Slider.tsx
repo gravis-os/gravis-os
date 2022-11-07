@@ -4,7 +4,6 @@ import {
   KeenSliderOptions,
   KeenSliderPlugin,
 } from 'keen-slider/react'
-import 'keen-slider/keen-slider.min.css'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined'
@@ -30,6 +29,7 @@ export interface SliderProps extends BoxProps {
   viewAll?: boolean
 }
 
+// @usage: Add `import 'keen-slider/keen-slider.min.css'` in your app
 const Slider: React.FC<SliderProps> = (props) => {
   const {
     sx,
