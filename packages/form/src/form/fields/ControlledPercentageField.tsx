@@ -1,11 +1,9 @@
 import React from 'react'
-import { Control, Controller } from 'react-hook-form'
-import PercentageField from './PercentageField'
+import { Controller, UseControllerProps } from 'react-hook-form'
+import PercentageField, { PercentageFieldProps } from './PercentageField'
 
-export interface ControlledPercentageFieldProps {
-  control: Control
-  name: string
-}
+export type ControlledPercentageFieldProps = UseControllerProps &
+  Partial<PercentageFieldProps>
 
 const ControlledPercentageField: React.FC<ControlledPercentageFieldProps> = (
   props

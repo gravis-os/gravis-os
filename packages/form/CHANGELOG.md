@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.88
+
+### Patch Changes
+
+- [#122](https://github.com/gravis-os/gravis-os/pull/122) [`a29430d`](https://github.com/gravis-os/gravis-os/commit/a29430d9fcc4079e95842ad94edeb89e4bcf786c) Thanks [@winter-steve](https://github.com/winter-steve)! - fix PercentageField and ControlledPercentageField props
+
 ## 0.0.87
 
 ### Patch Changes
