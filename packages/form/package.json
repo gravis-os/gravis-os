@@ -34,6 +34,8 @@
     "@gravis-os/ui": "*",
     "@mui/x-date-pickers": "^5.0.2",
     "downloadjs": "^1.4.7",
+    "google-libphonenumber": "^3.2.31",
+    "i18n-iso-countries": "^7.5.0",
     "lodash": "^4.17.21",
     "quill": ">=1.3.7",
     "react-quilljs": ">=1.2.17",
