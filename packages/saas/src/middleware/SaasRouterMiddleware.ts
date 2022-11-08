@@ -23,6 +23,7 @@ export interface SaasRouterMiddlewareProps {
   userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
   guestPaths?: GetIsPermittedInSaaSMiddlewareProps['guestPaths']
   validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
+  reservedSubdomains?: string[]
 }
 
 /**
@@ -45,6 +46,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     userModule,
     guestPaths = [],
     validRoles = [],
+    reservedSubdomains: injectedReservedSubdomains = [],
   } = props
 
   return async (req: NextRequest, event: NextFetchEvent) => {
@@ -81,9 +83,19 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       isWorkspaceBaseRoute,
       isLoggedIn,
       isCustomDomain,
-      isReservedSubdomain,
       authUser,
     } = middlewareRouteBreakdown
+
+    const isReservedSubdomain = [
+      // Default
+      'www',
+      'api',
+      'auth',
+      'dashboard',
+      'app',
+      // User-defined
+      ...injectedReservedSubdomains,
+    ].includes(subdomain)
 
     const SCENARIOS = {
       isLoggedInAndAtLoginPage: isLoggedIn && isLoginRoute,
