@@ -7,7 +7,7 @@ import {
   StorageFiles,
   StorageGallery,
 } from '@gravis-os/storage'
-import { GridProps } from '@gravis-os/ui'
+import { GridProps, Html } from '@gravis-os/ui'
 import {
   CrudContextInterface,
   CrudModule,
@@ -19,7 +19,9 @@ import ControlledAmountField from '../fields/ControlledAmountField'
 import ControlledPercentageField from '../fields/ControlledPercentageField'
 import ControlledRateField from '../fields/ControlledRateField'
 import ControlledSwitchField from '../fields/ControlledSwitchField'
-import ControlledModelField from '../fields/ControlledModelField'
+import ControlledModelField, {
+  ControlledModelFieldProps,
+} from '../fields/ControlledModelField'
 import ControlledPasswordField from '../fields/ControlledPasswordField'
 import ControlledHtmlField from '../fields/ControlledHtmlField'
 import ControlledTextField from '../fields/ControlledTextField'
@@ -41,6 +43,7 @@ import ControlledCheckboxTable, {
 import { SetModelFieldQuery } from '../fields/ModelField'
 import ControlledRadioGroup from '../fields/ControlledRadioGroup'
 import ControlledPhoneExtCodeField from '../fields/ControlledPhoneExtCodeField'
+import ControlledCountryField from '../fields/ControlledCountryField'
 
 export enum FormSectionFieldTypeEnum {
   // String
@@ -54,6 +57,7 @@ export enum FormSectionFieldTypeEnum {
 
   // Dropdown
   PHONE_EXT_CODE_LIST = 'phone_ext_code_list',
+  COUNTRY_LIST = 'country_list',
 
   // Number
   AMOUNT = 'amount',
@@ -199,8 +203,8 @@ const renderField = (props: RenderFieldProps) => {
     ...rest,
     isNew,
     setValue,
-    error: Boolean(errors[name]),
-    helperText: errors[name]?.message || helperText,
+    error: Boolean(get(errors, name)),
+    helperText: get(errors, name)?.message || helperText,
     // Resolved values
     disabled: isDisabled,
     hidden: isHidden,
@@ -233,12 +237,17 @@ const renderField = (props: RenderFieldProps) => {
 
         if (!item) return null
 
-        const modelValue = item[getRelationalObjectKey(name)]
+        const modelValue = get(item, getRelationalObjectKey(name))
 
         // Escape if no value found
         if (!isReadOnly && !modelValue) return null
 
-        const modelTitle = modelValue?.[module.pk || 'title']
+        const modelTitle = get(
+          modelValue,
+          (fieldProps as Partial<ControlledModelFieldProps>).pk ||
+            module.pk ||
+            'title'
+        )
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
@@ -261,7 +270,7 @@ const renderField = (props: RenderFieldProps) => {
       case FormSectionFieldTypeEnum.IMAGE:
       case FormSectionFieldTypeEnum.IMAGES:
       case FormSectionFieldTypeEnum.FILES:
-        const files = item?.[name]
+        const files = get(item, name)
         return (
           <FormSectionReadOnlyStack
             label={label}
@@ -288,6 +297,16 @@ const renderField = (props: RenderFieldProps) => {
           <FormSectionReadOnlyStack
             label={label}
             title={joinedTitle}
+            sx={readOnlySx}
+          />
+        )
+      case FormSectionFieldTypeEnum.HTML:
+        const html = get(item, name)
+
+        return (
+          <FormSectionReadOnlyStack
+            label={label}
+            title={typeof html === 'string' ? <Html html={html} /> : '-'}
             sx={readOnlySx}
           />
         )
@@ -436,6 +455,8 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <ControlledPhoneExtCodeField control={control} {...commonProps} />
         )
+      case FormSectionFieldTypeEnum.COUNTRY_LIST:
+        return <ControlledCountryField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.TEXT:
       case FormSectionFieldTypeEnum.INPUT:
       default:
