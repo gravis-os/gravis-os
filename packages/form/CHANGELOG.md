@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.89
+
+### Patch Changes
+
+- [#124](https://github.com/gravis-os/gravis-os/pull/124) [`b0cff43`](https://github.com/gravis-os/gravis-os/commit/b0cff43a66ef894f6e6892bb9fc113399136334f) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add CountryField to renderField and update HTML field readonly
+
+* [#124](https://github.com/gravis-os/gravis-os/pull/124) [`58db265`](https://github.com/gravis-os/gravis-os/commit/58db265a3f0ab07da36cc3f279ef3be3bd8357ea) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add PhoneExtCodeField
+
+- [#124](https://github.com/gravis-os/gravis-os/pull/124) [`daa3895`](https://github.com/gravis-os/gravis-os/commit/daa3895ebbc0913e5a60f1cb6a19172f836b2d17) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Rename PhoneExtCodeField to CountryCodeField and update renderField enum values
+
 ## 0.0.88
 
 ### Patch Changes
