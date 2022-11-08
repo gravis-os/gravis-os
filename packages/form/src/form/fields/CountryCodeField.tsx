@@ -32,7 +32,7 @@ export type GetOptionLabelArgs = {
   phoneExtCode: string
 }
 
-export interface PhoneExtCodeFieldProps
+export interface CountryCodeFieldProps
   extends Partial<
     Omit<
       AutocompleteProps<any, boolean, boolean, boolean>,
@@ -49,7 +49,7 @@ export interface PhoneExtCodeFieldProps
   showCountry?: boolean
 }
 
-const PhoneExtCodeField: React.FC<PhoneExtCodeFieldProps> = (props) => {
+const CountryCodeField: React.FC<CountryCodeFieldProps> = (props) => {
   const {
     name,
     label: injectedlabel,
@@ -121,6 +121,7 @@ const PhoneExtCodeField: React.FC<PhoneExtCodeFieldProps> = (props) => {
       handleSetValueFromInjectedValue(injectedDefaultValue)
   }, [injectedDefaultValue])
 
+  // Update local value when injected value change e.g. from React Hook Form setValue
   useEffect(() => {
     if (!isEqual(value, injectedValue))
       handleSetValueFromInjectedValue(injectedValue)
@@ -153,4 +154,4 @@ const PhoneExtCodeField: React.FC<PhoneExtCodeFieldProps> = (props) => {
   )
 }
 
-export default PhoneExtCodeField
+export default CountryCodeField

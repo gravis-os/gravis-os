@@ -42,7 +42,7 @@ import ControlledCheckboxTable, {
 } from '../fields/ControlledCheckboxTable'
 import { SetModelFieldQuery } from '../fields/ModelField'
 import ControlledRadioGroup from '../fields/ControlledRadioGroup'
-import ControlledPhoneExtCodeField from '../fields/ControlledPhoneExtCodeField'
+import ControlledCountryCodeField from '../fields/ControlledCountryCodeField'
 import ControlledCountryField from '../fields/ControlledCountryField'
 
 export enum FormSectionFieldTypeEnum {
@@ -56,8 +56,8 @@ export enum FormSectionFieldTypeEnum {
   RADIO_GROUP = 'radio_group',
 
   // Dropdown
-  PHONE_EXT_CODE_LIST = 'phone_ext_code_list',
-  COUNTRY_LIST = 'country_list',
+  COUNTRY_CODE = 'country_code',
+  COUNTRY = 'country',
 
   // Number
   AMOUNT = 'amount',
@@ -451,11 +451,9 @@ const renderField = (props: RenderFieldProps) => {
           />
         )
       // Dropdowns
-      case FormSectionFieldTypeEnum.PHONE_EXT_CODE_LIST:
-        return (
-          <ControlledPhoneExtCodeField control={control} {...commonProps} />
-        )
-      case FormSectionFieldTypeEnum.COUNTRY_LIST:
+      case FormSectionFieldTypeEnum.COUNTRY_CODE:
+        return <ControlledCountryCodeField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.COUNTRY:
         return <ControlledCountryField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.TEXT:
       case FormSectionFieldTypeEnum.INPUT:

@@ -106,6 +106,7 @@ const CountryField: React.FC<CountryFieldProps> = (props) => {
       handleSetValueFromInjectedValue(injectedDefaultValue)
   }, [injectedDefaultValue])
 
+  // Update local value when injected value change e.g. from React Hook Form setValue
   useEffect(() => {
     if (!isEqual(value, injectedValue))
       handleSetValueFromInjectedValue(injectedValue)
