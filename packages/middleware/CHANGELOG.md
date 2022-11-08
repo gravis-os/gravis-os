@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.17
+
+### Patch Changes
+
+- [`19534d0`](https://github.com/gravis-os/gravis-os/commit/19534d04ef9f7b724534fb65fdd1ca497a5e55fe) Thanks [@clodal](https://github.com/clodal)! - Expose reservedSubdomains as an arg from the downstream app
+
 ## 0.0.16
 
 ### Patch Changes
