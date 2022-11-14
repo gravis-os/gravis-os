@@ -68,7 +68,11 @@ const Accordion: React.FC<AccordionProps> = (props) => {
                 ...(disablePadding && { px: 0 }),
               }}
             >
-              <Typography>{content}</Typography>
+              {typeof content === 'string' ? (
+                <Typography>{content}</Typography>
+              ) : (
+                content
+              )}
             </AccordionDetails>
           </MuiAccordion>
         )
