@@ -18,6 +18,8 @@ export interface AuthLayoutProps extends BoxProps {
   actions?: React.ReactElement
   children?: React.ReactElement
   disableResetPasswordButton?: boolean
+  disableDivider?: boolean
+  disableCard?: boolean
   authRoutes?: {
     resetPassword?: string
   }
@@ -35,6 +37,8 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
     actions,
     children,
     disableResetPasswordButton,
+    disableDivider,
+    disableCard,
     authRoutes,
     sx,
     fullScreen,
@@ -124,6 +128,41 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
     )
   }
 
+  const contentJsx = (
+    <>
+      {logo && (
+        <Box
+          {...logoProps}
+          sx={{
+            alignItems: 'center',
+            display: 'flex',
+            flexDirection: 'column',
+            justifyContent: 'center',
+            ...logoProps?.sx,
+          }}
+        >
+          {logoJsx}
+        </Box>
+      )}
+      <Box
+        sx={{
+          flexGrow: 1,
+          mt: 3,
+        }}
+      >
+        {children}
+      </Box>
+      {!disableDivider && <Divider sx={{ my: 3 }} />}
+
+      {actionsJsx}
+      {copyright && (
+        <Box width="100%" textAlign="center" mt={3}>
+          {copyrightJsx}
+        </Box>
+      )}
+    </>
+  )
+
   return (
     <Box
       component="main"
@@ -145,38 +184,13 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
           },
         }}
       >
-        <Card elevation={16} sx={{ p: 4, position: 'relative' }}>
-          {logo && (
-            <Box
-              {...logoProps}
-              sx={{
-                alignItems: 'center',
-                display: 'flex',
-                flexDirection: 'column',
-                justifyContent: 'center',
-                ...logoProps?.sx,
-              }}
-            >
-              {logoJsx}
-            </Box>
-          )}
-          <Box
-            sx={{
-              flexGrow: 1,
-              mt: 3,
-            }}
-          >
-            {children}
-          </Box>
-          <Divider sx={{ my: 3 }} />
-
-          {actionsJsx}
-          {copyright && (
-            <Box width="100%" textAlign="center" mt={3}>
-              {copyrightJsx}
-            </Box>
-          )}
-        </Card>
+        {disableCard ? (
+          contentJsx
+        ) : (
+          <Card elevation={16} sx={{ p: 4, position: 'relative' }}>
+            {contentJsx}
+          </Card>
+        )}
       </Container>
     </Box>
   )

@@ -8,7 +8,7 @@ import useUserRedirectEffect from './useUserRedirectEffect'
 export interface RegisterFormProps extends Partial<FormProps<any>> {
   submitOptions?: Record<string, unknown>
   authOptions?: Record<string, unknown> & { redirectTo: string }
-  boxProps?: AuthBoxProps
+  boxProps?: Omit<AuthBoxProps, 'children'>
 }
 
 const RegisterForm: React.FC<RegisterFormProps> = (props) => {
