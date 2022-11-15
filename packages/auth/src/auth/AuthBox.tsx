@@ -20,6 +20,9 @@ export interface AuthBoxProps extends BoxProps {
   collapseProps?: Omit<CollapseProps, 'in'>
   children: React.ReactNode
   icon?: React.ReactNode
+
+  // Collapse
+  collapsible?: boolean
   expand?: boolean
   toggleExpand?: VoidFunction
   expandIconButtonProps?: Omit<IconButtonProps, 'onClick'>
@@ -35,6 +38,8 @@ const AuthBox: React.FC<AuthBoxProps> = (props) => {
     subtitleProps,
     collapseProps,
     icon,
+
+    collapsible,
     expand = true,
     toggleExpand,
     expandIconButtonProps,
@@ -45,7 +50,12 @@ const AuthBox: React.FC<AuthBoxProps> = (props) => {
   return (
     <Box {...rest}>
       {/* Header */}
-      <Stack spacing={1} direction="row" alignItems="center">
+      <Stack
+        spacing={1}
+        direction="row"
+        alignItems="center"
+        sx={!collapsible && { mb: 4 }}
+      >
         {icon}
         <Box>
           {title && (
@@ -63,7 +73,7 @@ const AuthBox: React.FC<AuthBoxProps> = (props) => {
             </Typography>
           )}
         </Box>
-        {toggleExpand && (
+        {collapsible && (
           <Box flex={1} textAlign="right">
             <IconButton
               // eslint-disable-next-line react/no-children-prop
@@ -82,9 +92,13 @@ const AuthBox: React.FC<AuthBoxProps> = (props) => {
       </Stack>
 
       {/* Form */}
-      <Collapse {...collapseProps} in={expand}>
-        <Box pt={4}>{children}</Box>
-      </Collapse>
+      {collapsible ? (
+        <Collapse {...collapseProps} in={expand}>
+          <Box pt={4}>{children}</Box>
+        </Collapse>
+      ) : (
+        children
+      )}
     </Box>
   )
 }
