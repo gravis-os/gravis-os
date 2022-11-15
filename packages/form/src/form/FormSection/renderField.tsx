@@ -36,7 +36,9 @@ import getFormSectionFieldRenderProps from './getFormSectionFieldRenderProps'
 import getFormSectionFieldWithFunctionType, {
   FormSectionFieldWithFunctionType,
 } from './getFormSectionFieldWithFunctionType'
-import ControlledChipField from '../fields/ControlledChipField'
+import ControlledChipField, {
+  ControlledChipFieldProps,
+} from '../fields/ControlledChipField'
 import ControlledCheckboxTable, {
   ControlledCheckboxTableOptions,
 } from '../fields/ControlledCheckboxTable'
@@ -95,6 +97,7 @@ export interface FormSectionFieldProps {
   select?: any // Can either be MUI textfield select or react-query selector
 
   modelFieldProps?: { setQuery?: SetModelFieldQuery }
+  chipFieldProps?: Partial<ControlledChipFieldProps>
   checkboxTableProps?: ControlledCheckboxTableOptions
 
   // Manage layout
@@ -170,6 +173,7 @@ const renderField = (props: RenderFieldProps) => {
     checkboxTableProps,
     render,
     modelFieldProps,
+    chipFieldProps,
     ...rest
   } = fieldProps
   const {
@@ -428,7 +432,13 @@ const renderField = (props: RenderFieldProps) => {
           />
         )
       case FormSectionFieldTypeEnum.CHIP:
-        return <ControlledChipField control={control} {...commonProps} />
+        return (
+          <ControlledChipField
+            control={control}
+            {...commonProps}
+            {...chipFieldProps}
+          />
+        )
       case FormSectionFieldTypeEnum.EMAIL:
         return (
           <ControlledTextField

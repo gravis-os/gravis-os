@@ -6,10 +6,11 @@ export interface ChipFieldProps extends TextFieldProps {
   options?: string[]
   value?: any
   onChange?: (data) => void
+  disableCloseOnSelect?: boolean
 }
 
 const ChipField: React.FC<ChipFieldProps> = (props) => {
-  const { options, onChange, value, ...rest } = props
+  const { options, onChange, value, disableCloseOnSelect, ...rest } = props
 
   const nextValue = value || []
 
@@ -27,6 +28,7 @@ const ChipField: React.FC<ChipFieldProps> = (props) => {
       )}
       onChange={(e, data) => onChange?.(data)}
       value={nextValue}
+      disableCloseOnSelect={disableCloseOnSelect}
     />
   )
 }
