@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.47
+
+### Patch Changes
+
+- [#125](https://github.com/gravis-os/gravis-os/pull/125) [`83ae21e`](https://github.com/gravis-os/gravis-os/commit/83ae21e5bfbd4fc67705d3eeff5569608a86c5fc) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add collapse to AuthBox
+
+* [#125](https://github.com/gravis-os/gravis-os/pull/125) [`2f43a18`](https://github.com/gravis-os/gravis-os/commit/2f43a18bea5304b77573498d48de2ad8fc2a7d8a) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add collapsible prop to AuthBox
+
+* Updated dependencies [[`30fe3c8`](https://github.com/gravis-os/gravis-os/commit/30fe3c8f174dbc9e41d188acda53caf7a13d2347)]:
+  - @gravis-os/form@0.0.90
+
 ## 0.0.46
 
 ### Patch Changes

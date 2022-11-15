@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.90
+
+### Patch Changes
+
+- [#126](https://github.com/gravis-os/gravis-os/pull/126) [`30fe3c8`](https://github.com/gravis-os/gravis-os/commit/30fe3c8f174dbc9e41d188acda53caf7a13d2347) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add chipFieldProps to renderField
+
 ## 0.0.89
 
 ### Patch Changes
