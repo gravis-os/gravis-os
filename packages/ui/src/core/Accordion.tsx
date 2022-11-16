@@ -12,12 +12,19 @@ import Typography, { TypographyProps } from './Typography'
 export interface AccordionProps {
   transparent?: boolean
   disablePadding?: boolean
-  items: Array<{ key: string; title: string; content: React.ReactNode }>
+  items: Array<
+    { key: string; title: string; content: React.ReactNode } | undefined
+  >
   titleProps?: TypographyProps
 }
 
 const Accordion: React.FC<AccordionProps> = (props) => {
-  const { items, transparent, disablePadding, titleProps } = props
+  const {
+    items: injectedItems,
+    transparent,
+    disablePadding,
+    titleProps,
+  } = props
 
   // Icon
   const [expanded, setExpanded] = React.useState({})
@@ -25,6 +32,8 @@ const Accordion: React.FC<AccordionProps> = (props) => {
     e.stopPropagation()
     setExpanded({ ...expanded, [panel]: isExpanded })
   }
+
+  const items = injectedItems?.filter(Boolean)
 
   if (!items?.length) return null
 

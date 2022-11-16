@@ -49,6 +49,9 @@ export * from './ChipStack'
 export { default as StatStack } from './StatStack'
 export * from './StatStack'
 
+export { default as DescriptionList } from './DescriptionList'
+export * from './DescriptionList'
+
 export { default as Divider } from './Divider'
 export * from './Divider'
 
