@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.61
+
+### Patch Changes
+
+- [#127](https://github.com/gravis-os/gravis-os/pull/127) [`886a0f1`](https://github.com/gravis-os/gravis-os/commit/886a0f1a990fefb3849ab1dd3e8c5142e03d29f2) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add icon to StatStack item
+
 ## 0.0.60
 
 ### Patch Changes

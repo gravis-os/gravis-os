@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/ui",
-  "version": "0.0.60",
+  "version": "0.0.61",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
