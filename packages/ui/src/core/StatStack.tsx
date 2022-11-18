@@ -1,5 +1,6 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { printNumber } from '@gravis-os/utils'
+import { SxProps } from '@mui/material'
 import Stack, { StackProps } from './Stack'
 import Box from './Box'
 import Divider from './Divider'
@@ -34,13 +35,15 @@ const getSubtitleVariantBySize = (size): TypographyProps['variant'] => {
 
 export interface StatStackItem {
   key: string
-  title: number | string
-  overline: string
-  subtitle?: string
+  title: ReactNode
+  overline?: ReactNode
+  subtitle?: ReactNode
   formatType?: 'amount' | string
   titleTypographyProps?: TypographyProps
   subtitleTypographyProps?: TypographyProps
   overlineTypographyProps?: TypographyProps
+  icon?: ReactNode
+  stackProps?: StackProps
 }
 
 export interface StatStackProps extends StackProps {
@@ -51,6 +54,7 @@ export interface StatStackProps extends StackProps {
   titleTypographyProps?: TypographyProps
   subtitleTypographyProps?: TypographyProps
   overlineTypographyProps?: TypographyProps
+  itemStackProps?: StackProps
 }
 
 const StatStack: React.FC<StatStackProps> = (props) => {
@@ -62,6 +66,7 @@ const StatStack: React.FC<StatStackProps> = (props) => {
     size,
     sx,
     reverse,
+    itemStackProps,
     ...rest
   } = props
 
@@ -74,62 +79,81 @@ const StatStack: React.FC<StatStackProps> = (props) => {
       {...rest}
     >
       {items.map((item) => {
-        const { key, title, overline, subtitle, formatType } = item
+        const { key, title, overline, subtitle, formatType, icon, stackProps } =
+          item
 
         return (
           <React.Fragment key={key}>
-            <Box>
-              <Stack
-                direction={reverse ? 'column-reverse' : 'column'}
-                spacing={0.5}
-              >
-                {/* Overline */}
-                <Typography
-                  variant={getOverlineVariantBySize(size)}
-                  color="text.secondary"
-                  {...overlineTypographyProps}
-                  {...item.overlineTypographyProps}
-                  sx={
-                    {
-                      textTransform: 'uppercase',
-                      ...overlineTypographyProps?.sx,
-                      ...item.overlineTypographyProps?.sx,
-                    } as any
-                  }
+            <Stack
+              direction="row"
+              spacing={2}
+              alignItems="center"
+              {...itemStackProps}
+              {...stackProps}
+              sx={
+                {
+                  width: 'auto',
+                  ...itemStackProps?.sx,
+                  ...stackProps?.sx,
+                } as SxProps
+              }
+            >
+              {icon}
+              <Box>
+                <Stack
+                  direction={reverse ? 'column-reverse' : 'column'}
+                  spacing={0.5}
                 >
-                  {overline}
-                </Typography>
+                  {/* Overline */}
+                  {overline && (
+                    <Typography
+                      variant={getOverlineVariantBySize(size)}
+                      color="text.secondary"
+                      {...overlineTypographyProps}
+                      {...item.overlineTypographyProps}
+                      sx={
+                        {
+                          textTransform: 'uppercase',
+                          ...overlineTypographyProps?.sx,
+                          ...item.overlineTypographyProps?.sx,
+                        } as any
+                      }
+                    >
+                      {overline}
+                    </Typography>
+                  )}
 
-                {/* Title */}
-                <Typography
-                  variant={getTitleVariantBySize(size)}
-                  {...titleTypographyProps}
-                  {...item.titleTypographyProps}
-                >
-                  {typeof title === 'number'
-                    ? printNumber(title, { type: formatType })
-                    : title}
-                </Typography>
-              </Stack>
+                  {/* Title */}
+                  <Typography
+                    variant={getTitleVariantBySize(size)}
+                    {...titleTypographyProps}
+                    {...item.titleTypographyProps}
+                  >
+                    {typeof title === 'number'
+                      ? printNumber(title, { type: formatType })
+                      : title}
+                  </Typography>
+                </Stack>
 
-              {/* Subtitle */}
-              {subtitle && (
-                <Typography
-                  variant={getSubtitleVariantBySize(size)}
-                  {...subtitleTypographyProps}
-                  {...item.subtitleTypographyProps}
-                  sx={
-                    {
-                      mt: 1.5,
-                      ...subtitleTypographyProps?.sx,
-                      ...item.subtitleTypographyProps?.sx,
-                    } as any
-                  }
-                >
-                  {subtitle}
-                </Typography>
-              )}
-            </Box>
+                {/* Subtitle */}
+                {subtitle && (
+                  <Typography
+                    variant={getSubtitleVariantBySize(size)}
+                    {...subtitleTypographyProps}
+                    {...item.subtitleTypographyProps}
+                    sx={
+                      {
+                        mt: 1.5,
+                        ...subtitleTypographyProps?.sx,
+                        ...item.subtitleTypographyProps?.sx,
+                      } as SxProps
+                    }
+                  >
+                    {subtitle}
+                  </Typography>
+                )}
+              </Box>
+            </Stack>
           </React.Fragment>
         )
       })}
