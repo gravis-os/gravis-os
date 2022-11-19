@@ -6,6 +6,7 @@ import {
   StandardTextFieldProps as MuiTextFieldProps,
 } from '@mui/material'
 import type { UseFormReturn } from 'react-hook-form'
+import { Box, Typography, TypographyProps } from '@gravis-os/ui'
 
 interface OptionItem {
   key: string
@@ -13,11 +14,13 @@ interface OptionItem {
   label: string
 }
 
-export interface TextFieldProps extends MuiTextFieldProps {
+export interface TextFieldProps extends Omit<MuiTextFieldProps, 'title'> {
   options?: string[] | OptionItem[]
   disableLabel?: boolean
   disableBorders?: boolean
   setValue?: UseFormReturn['setValue']
+  title?: React.ReactNode
+  titleProps?: TypographyProps
 }
 
 const TextField: React.FC<TextFieldProps> = (props) => {
@@ -29,13 +32,15 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     sx,
     hidden,
     inputProps,
+    title,
+    titleProps,
     ...rest
   } = props
-  const { name, value, setValue } = rest
+  const { name, value, setValue, required } = rest
 
   const textFieldProps = {
     variant: 'outlined' as TextFieldProps['variant'],
-    label: hidden || disableLabel ? null : startCase(name),
+    label: title || hidden || disableLabel ? null : startCase(name),
     fullWidth: true,
     InputLabelProps: {
       ...InputLabelProps,
@@ -78,30 +83,57 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     if (setValue) setValue(name, defaultOption)
   }, [options])
 
-  if (options) {
-    return (
-      <MuiTextField {...textFieldProps} select SelectProps={{ native: true }}>
-        {(options as any[]).map((option) => {
-          const isObjectOption = typeof option === 'object'
-          const pk = Object.keys(option).includes('title') ? 'title' : 'label'
+  const renderChildren = () => {
+    switch (true) {
+      case Boolean(options):
+        return (
+          <MuiTextField
+            {...textFieldProps}
+            select
+            SelectProps={{ native: true }}
+          >
+            {(options as any[]).map((option) => {
+              const isObjectOption = typeof option === 'object'
+              const pk = Object.keys(option).includes('title')
+                ? 'title'
+                : 'label'
 
-          const key = isObjectOption ? option[pk] : option
-          const value = isObjectOption ? option.value : option
-          const label = isObjectOption ? option[pk] : startCase(option)
+              const key = isObjectOption ? option[pk] : option
+              const value = isObjectOption ? option.value : option
+              const label = isObjectOption ? option[pk] : startCase(option)
 
-          const optionProps = isObjectOption ? option : {}
+              const optionProps = isObjectOption ? option : {}
 
-          return (
-            <option key={key} value={value} {...optionProps}>
-              {label}
-            </option>
-          )
-        })}
-      </MuiTextField>
-    )
+              return (
+                <option key={key} value={value} {...optionProps}>
+                  {label}
+                </option>
+              )
+            })}
+          </MuiTextField>
+        )
+      default:
+        return <MuiTextField {...textFieldProps} />
+    }
   }
 
-  return <MuiTextField {...textFieldProps} />
+  const childrenJsx = renderChildren()
+
+  return (
+    <div>
+      {title && (
+        <Typography variant="subtitle1" {...titleProps}>
+          {title}
+          {required && (
+            <Box component="span" sx={{ color: 'error.main' }}>
+              *
+            </Box>
+          )}
+        </Typography>
+      )}
+      {childrenJsx}
+    </div>
+  )
 }
 
 export default TextField
