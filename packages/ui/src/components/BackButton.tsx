@@ -31,7 +31,7 @@ export interface BackButtonProps extends ButtonProps {
 }
 
 /**
- * Button component containing an arrow icon which is used mainly for users to click to to navigate to the previous page.
+ * Button component containing an arrow icon which is used mainly for users to click to navigate to the previous page.
  * @param props Property of the BackButton, primarily concerned with the styling of the component and extends ButtonProps
  * @returns ReactElement to be rendered
  */

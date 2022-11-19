@@ -139,7 +139,11 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     primary: title,
     primaryTypographyProps: titleProps,
     secondary: subtitle,
-    secondaryTypographyProps: { lineHeight: 1.35, ...subtitleProps },
+    secondaryTypographyProps: {
+      lineHeight: 1.35,
+      ...subtitleProps,
+      sx: { mt: -0.5, ...subtitleProps?.sx },
+    },
     ...injectedListItemTextProps,
   }
 

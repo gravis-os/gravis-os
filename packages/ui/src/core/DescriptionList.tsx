@@ -26,7 +26,7 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
         return (
           <Grid key={key} container spacing={{ xs: 0, md: 1 }} sx={{ py: 1 }}>
             <Grid item md={4} lg={5} component="dt">
-              <Typography variant="body1" color="text.secondary">
+              <Typography variant="subtitle1" color="text.secondary">
                 {label}
               </Typography>
             </Grid>

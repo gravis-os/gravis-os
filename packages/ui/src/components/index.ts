@@ -7,6 +7,9 @@ export * from './BackButton'
 export { default as CardIconButtonRow } from './CardIconButtonRow'
 export * from './CardIconButtonRow'
 
+export { default as CopyLink } from './CopyLink'
+export * from './CopyLink'
+
 export { default as IconProgressBar } from './IconProgressBar'
 export * from './IconProgressBar'
 
@@ -21,6 +24,9 @@ export * from './QuantityCard'
 
 export { default as Slider } from './Slider'
 export * from './Slider'
+
+export { default as ShareStack } from './ShareStack'
+export * from './ShareStack'
 
 export { default as VerticalIconButton } from './VerticalIconButton'
 export * from './VerticalIconButton'

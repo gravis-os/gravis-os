@@ -62,10 +62,11 @@ export interface AvatarProps extends MuiAvatarProps {
    * Fallback to Avatar with truncated letters from `alt` prop
    */
   letterAltFallback?: boolean
+  border?: boolean
 }
 
 const Avatar: React.FC<AvatarProps> = (props) => {
-  const { size, sx, letterAltFallback, ...rest } = props
+  const { size, sx, letterAltFallback, border, ...rest } = props
   const { src, alt, children } = rest
 
   // Size
@@ -93,6 +94,10 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     ...rest,
     sx: {
       ...sizeSx,
+
+      // Border
+      ...(border && { border: '1px solid', borderColor: 'divider' }),
+
       ...sx,
       // Fallback styles
       ...(shouldFallback && fallbackSx),

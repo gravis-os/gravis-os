@@ -6,6 +6,7 @@ import {
   ButtonProps as MuiButtonProps,
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
+import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
 import withHref from './withHref'
 import withTooltip from './withTooltip'
 import CircularProgress from './CircularProgress'
@@ -22,12 +23,14 @@ const BUTTON_VARIANT_CALLOUT = 'callout'
 export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   disableMinWidth?: boolean
   disableLineHeight?: boolean
+  square?: boolean
   title?: string
   href?: string
   component?: React.JSXElementConstructor<any> | string
   fullWidthOnMobile?: boolean
   tooltip?: string
   loading?: boolean
+  targetBlank?: boolean
   variant?:
     | 'contained'
     | 'outlined'
@@ -50,6 +53,8 @@ const Button: React.FC<ButtonProps> = (props) => {
     children,
     sx,
     variant,
+    square,
+    targetBlank,
     ...rest
   } = props
   const { color } = rest
@@ -70,6 +75,7 @@ const Button: React.FC<ButtonProps> = (props) => {
           width: { xs: '100%', md: 'initial' },
         }),
         ...(disableLineHeight && { lineHeight: 1 }),
+        ...(square && { borderRadius: 0 }),
         ...(disableMinWidth && {
           minWidth: 0,
           '& .MuiButton-startIcon': { marginRight: 0.5, marginLeft: -0.5 },
@@ -138,12 +144,15 @@ const Button: React.FC<ButtonProps> = (props) => {
         ...sx,
       }}
       {...buttonProps}
+      {...(targetBlank && { endIcon: <LaunchOutlinedIcon fontSize="small" /> })}
     >
       {loading ? <CircularProgress size={20} /> : childrenJsxContent}
     </MuiButton>
   )
 
-  return flowRight([withHref({ href }), withTooltip({ tooltip })])(childrenJsx)
+  return flowRight([withHref({ href, targetBlank }), withTooltip({ tooltip })])(
+    childrenJsx
+  )
 }
 
 export default Button
