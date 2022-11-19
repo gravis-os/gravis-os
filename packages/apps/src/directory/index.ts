@@ -23,3 +23,6 @@ export * from './withDirectoryAttributeFilter'
 
 export { default as useDirectoryBrandsFilterDef } from './useDirectoryBrandsFilterDef'
 export * from './useDirectoryBrandsFilterDef'
+
+export { default as GetTextBackFormDialogButton } from './GetTextBackFormDialogButton'
+export * from './GetTextBackFormDialogButton'

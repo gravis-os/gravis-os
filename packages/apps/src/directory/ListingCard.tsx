@@ -47,7 +47,6 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
         <Link variant="h4" href={listingHref}>
           {title}
         </Link>
-        <Typography>{subtitle}</Typography>
       </CardContent>
     </Card>
   )
