@@ -1,5 +1,5 @@
 import React from 'react'
-import Stack from './Stack'
+import Stack, { StackProps } from './Stack'
 import Grid from './Grid'
 import Typography from './Typography'
 
@@ -9,17 +9,17 @@ export interface DescriptionListItem {
   value: React.ReactNode
 }
 
-export interface DescriptionListProps {
+export interface DescriptionListProps extends StackProps {
   items: DescriptionListItem[]
 }
 
 const DescriptionList: React.FC<DescriptionListProps> = (props) => {
-  const { items } = props
+  const { items, sx } = props
 
   if (!items?.length) return null
 
   return (
-    <Stack component="dl" horizontalDividers>
+    <Stack component="dl" sx={{ my: 0, ...sx }} horizontalDividers>
       {items.map((item) => {
         const { key, value, label } = item
 

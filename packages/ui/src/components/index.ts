@@ -30,3 +30,6 @@ export * from './ShareStack'
 
 export { default as VerticalIconButton } from './VerticalIconButton'
 export * from './VerticalIconButton'
+
+export { default as WhatsappButton } from './WhatsappButton'
+export * from './WhatsappButton'
