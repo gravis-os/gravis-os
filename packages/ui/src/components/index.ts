@@ -16,6 +16,9 @@ export * from './IconProgressBar'
 export { default as InfoCard } from './InfoCard'
 export * from './InfoCard'
 
+export { default as ImageList } from './ImageList'
+export * from './ImageList'
+
 export { default as ListCard } from './ListCard'
 export * from './ListCard'
 

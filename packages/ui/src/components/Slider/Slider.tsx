@@ -11,7 +11,8 @@ import Box, { BoxProps } from '../../core/Box'
 import IconButton, { IconButtonProps } from '../../core/IconButton'
 import Button, { ButtonProps } from '../../core/Button'
 import Dialog, { DialogProps } from '../../core/Dialog'
-import ImageList, { ImageListProps } from '../../core/ImageList'
+import ImageList, { ImageListProps } from '../ImageList'
+import ViewAllDialogButton from './ViewAllDialogButton'
 import withAutoplayPlugin from './withAutoplayPlugin'
 import withScrollPlugin from './withScrollPlugin'
 import withThumbnailsPlugin from './withThumbnailsPlugin'
@@ -151,35 +152,7 @@ const Slider: React.FC<SliderProps> = (props) => {
           </IconButton>
         )}
         {/* View All */}
-        {viewAll && (
-          <>
-            <Button
-              variant="paper"
-              startIcon={<CollectionsOutlinedIcon />}
-              onClick={() => setIsViewAllOpen(true)}
-              sx={{
-                position: 'absolute',
-                zIndex: 1,
-                right: 0,
-                bottom: 0,
-                mr: 1,
-                mb: 1,
-              }}
-            >
-              View All
-            </Button>
-
-            {/* View All Dialog */}
-            <Dialog
-              open={isViewAllOpen}
-              onClose={() => setIsViewAllOpen(false)}
-              fullWidth
-              maxWidth="lg"
-            >
-              <ImageList items={items} />
-            </Dialog>
-          </>
-        )}
+        {viewAll && <ViewAllDialogButton items={items} />}
 
         {/* Main Slider */}
         <Box ref={ref} className="keen-slider" sx={sx} {...rest}>

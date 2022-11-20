@@ -79,9 +79,6 @@ export * from './IconButton'
 export { default as Image } from './Image'
 export * from './Image'
 
-export { default as ImageList } from './ImageList'
-export * from './ImageList'
-
 export { default as Layout } from './Layout'
 export * from './Layout'
 
