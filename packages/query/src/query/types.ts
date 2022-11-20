@@ -96,6 +96,7 @@ export interface UseListFilters {
   gte: Array<string | number> | null
   lte: Array<string | number> | null
   ilike: Array<string | number> | null
+  not: Array<string | number> | null
   select?: string
 }
 

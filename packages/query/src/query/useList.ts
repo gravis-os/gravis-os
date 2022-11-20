@@ -16,6 +16,7 @@ import usePagination from './usePagination'
 import useRouterQuery from './useRouterQuery'
 import {
   SupabasePostgrestBuilderFiltersType,
+  SupabasePostgrestFilterOperator,
   UseListFilters,
   UseListPaginationType,
   UseListProps,
@@ -220,6 +221,7 @@ export const getUseListFilters = (props: UseListProps): UseListFilters => {
       lt: null,
       gte: null,
       lte: null,
+      not: null,
       ...props,
     }),
     [
@@ -234,6 +236,7 @@ export const getUseListFilters = (props: UseListProps): UseListFilters => {
       'gte',
       'lte',
       'select',
+      'not',
     ]
   ) as UseListFilters
 }
@@ -272,6 +275,7 @@ export const getFetchList = (props: UseListProps) => {
       lt,
       gte,
       lte,
+      not,
       select,
     } = listFilters
 
@@ -305,6 +309,10 @@ export const getFetchList = (props: UseListProps) => {
     if (lt) query.lt(lt[0], lt[1])
     if (gte) query.gte(gte[0], gte[1])
     if (lte) query.lte(lte[0], lte[1])
+    // { not: ['avatar_src', 'is', null] }
+    if (not) {
+      query.not(not[0], not[1] as SupabasePostgrestFilterOperator, not[2])
+    }
 
     // Terminate early for countOnly
     if (countOnly) return query

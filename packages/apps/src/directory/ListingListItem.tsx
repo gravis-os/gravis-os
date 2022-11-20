@@ -37,9 +37,11 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
 
   const { title, subtitle, avatar_src, avatar_alt, brand, directory_category } =
     item
+  const { directory } = directory_category
+  const { is_listing_image_enabled } = directory
 
   const listingHref = listingModule.getWebHref([
-    directory_category.directory,
+    directory,
     directory_category,
     item,
   ])
@@ -53,16 +55,18 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
       {...rest}
     >
       <Grid container spacing={2}>
-        <Grid item xs={3} lg={isSmall ? 3 : 2}>
-          <Link href={listingHref}>
-            <StorageImage
-              src={avatar_src}
-              alt={avatar_alt || title}
-              scaleOnHover
-            />
-          </Link>
-        </Grid>
-        <Grid item xs={9} lg={isSmall ? 9 : 10}>
+        {is_listing_image_enabled && (
+          <Grid item xs={3} lg={isSmall ? 3 : 2}>
+            <Link href={listingHref}>
+              <StorageImage
+                src={avatar_src}
+                alt={avatar_alt || title}
+                scaleOnHover
+              />
+            </Link>
+          </Grid>
+        )}
+        <Grid item xs>
           <Box
             py={2}
             stretch

@@ -15,11 +15,12 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
 
   if (!item) return null
 
-  const { title, subtitle, avatar_src, avatar_alt, brand, directory_category } =
-    item
+  const { title, avatar_src, avatar_alt, brand, directory_category } = item
+  const { directory } = directory_category
+  const { is_listing_image_enabled } = directory
 
   const listingHref = listingModule.getWebHref([
-    directory_category.directory,
+    directory,
     directory_category,
     item,
   ])
@@ -32,9 +33,15 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
       sx={{ height: '100%', ...sx }}
       {...rest}
     >
-      <Link href={listingHref}>
-        <StorageImage src={avatar_src} alt={avatar_alt || title} scaleOnHover />
-      </Link>
+      {is_listing_image_enabled && (
+        <Link href={listingHref}>
+          <StorageImage
+            src={avatar_src}
+            alt={avatar_alt || title}
+            scaleOnHover
+          />
+        </Link>
+      )}
 
       <CardContent disableGutterBottom sx={{ height: '100%' }}>
         <Link
