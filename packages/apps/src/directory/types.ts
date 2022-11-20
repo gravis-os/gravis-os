@@ -17,6 +17,10 @@ export interface AttributeValue {
   attribute_option: AttributeOption
 }
 
+export interface Variant extends CrudItem {
+  price?: number
+}
+
 export interface Listing extends CrudItem {
   id: number
   attribute_value?: AttributeValue[]
@@ -26,8 +30,14 @@ export interface Listing extends CrudItem {
   subtitle?: string
   lat?: number
   lng?: number
+  // Relations
   brand: any
   directory_category: {
     directory: any
   }
+  default_variant?: Variant
+  variants?: Variant[]
+  // Virtuals
+  price?: number
+  priceText?: string
 }

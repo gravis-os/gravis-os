@@ -2,6 +2,7 @@ import React from 'react'
 import { Card, CardContent, CardProps, Link, Typography } from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
 import { StorageImage } from '@gravis-os/storage'
+import { printAmount } from '@gravis-os/utils'
 import { Listing } from './types'
 
 export interface ListingCardProps extends CardProps {
@@ -15,9 +16,16 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
 
   if (!item) return null
 
-  const { title, avatar_src, avatar_alt, brand, directory_category } = item
+  const {
+    title,
+    avatar_src,
+    avatar_alt,
+    brand,
+    directory_category,
+    priceText,
+  } = item
   const { directory } = directory_category
-  const { is_listing_image_enabled } = directory
+  const { is_listing_image_enabled, is_listing_price_enabled } = directory
 
   const listingHref = listingModule.getWebHref([
     directory,
@@ -54,6 +62,9 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
         <Link variant="h4" href={listingHref}>
           {title}
         </Link>
+        {is_listing_price_enabled && priceText && (
+          <Typography variant="body2">{priceText}</Typography>
+        )}
       </CardContent>
     </Card>
   )

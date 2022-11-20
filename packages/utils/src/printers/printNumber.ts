@@ -8,12 +8,7 @@ interface PrintNumberOptions {
 type PrintNumber = (value: number, options?: PrintNumberOptions) => string
 
 const printNumber: PrintNumber = (value: number, options = {}) => {
-  const {
-    currency = 'SGD',
-    type = 'amount',
-    zeroPlaceholder = '-',
-    dp = 0,
-  } = options
+  const { currency = 'SGD', type = 'amount', zeroPlaceholder, dp = 0 } = options
 
   const isNumber =
     ['number', 'string'].includes(typeof value) && !Number.isNaN(Number(value))
@@ -21,7 +16,8 @@ const printNumber: PrintNumber = (value: number, options = {}) => {
   switch (true) {
     case !isNumber:
     case value === 0:
-      return zeroPlaceholder
+      // Allow null to be returned
+      return typeof zeroPlaceholder === 'undefined' ? '-' : zeroPlaceholder
     case type === 'percentage':
       return `${(value * 100).toFixed(dp)}%`
     case type === 'amount':

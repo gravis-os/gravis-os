@@ -35,10 +35,17 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
 
   const isSmall = size === 'small'
 
-  const { title, subtitle, avatar_src, avatar_alt, brand, directory_category } =
-    item
+  const {
+    title,
+    subtitle,
+    avatar_src,
+    avatar_alt,
+    brand,
+    directory_category,
+    priceText,
+  } = item
   const { directory } = directory_category
-  const { is_listing_image_enabled } = directory
+  const { is_listing_image_enabled, is_listing_price_enabled } = directory
 
   const listingHref = listingModule.getWebHref([
     directory,
@@ -89,6 +96,9 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
               {title}
             </Link>
             <Typography>{subtitle}</Typography>
+            {is_listing_price_enabled && priceText && (
+              <Typography variant="body2">{priceText}</Typography>
+            )}
           </Box>
         </Grid>
       </Grid>
