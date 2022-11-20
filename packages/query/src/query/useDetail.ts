@@ -3,6 +3,7 @@ import { useQuery } from 'react-query'
 import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import type { CrudModule } from '@gravis-os/types'
+import { getObjectWithGetters } from '@gravis-os/utils'
 import camelCase from 'lodash/camelCase'
 import capitalize from 'lodash/capitalize'
 import omit from 'lodash/omit'
@@ -157,10 +158,13 @@ const useDetail = (props: UseDetailProps): UseDetailReturn => {
   const { data } = onUseQuery
   const item = (data as any)?.data || {}
 
+  // Add virtuals
+  const itemWithVirtuals = getObjectWithGetters(item, module.virtuals)
+
   return {
     ...onUseQuery,
     // Aliases
-    item,
+    item: itemWithVirtuals,
   }
 }
 

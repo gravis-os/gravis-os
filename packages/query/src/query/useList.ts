@@ -11,6 +11,7 @@ import flowRight from 'lodash/flowRight'
 import uniqBy from 'lodash/uniqBy'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
+import { getObjectWithGetters } from '@gravis-os/utils'
 import usePagination from './usePagination'
 import useRouterQuery from './useRouterQuery'
 import {
@@ -339,6 +340,7 @@ const useList = (props: UseListProps): UseListReturn => {
     pagination = {},
     queryOptions,
     disablePagination,
+    module,
   } = props
   const {
     pageSize = DEFAULT_PAGE_SIZE,
@@ -436,11 +438,16 @@ const useList = (props: UseListProps): UseListReturn => {
     }
   }, [isRegularPagination, onUsePagination.hasNextPage, page, queryClient])
 
+  // Add virtuals
+  const itemsWithVirtuals = items?.map((item) =>
+    getObjectWithGetters(item, module.virtuals)
+  )
+
   return {
     ...onUseQuery,
     pagination: onUsePagination,
     // Aliases
-    items,
+    items: itemsWithVirtuals,
     count: countFromCountQuery,
   }
 }

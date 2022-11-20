@@ -3,6 +3,7 @@ import { useUser } from '@gravis-os/auth'
 import { useQuery } from 'react-query'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
+import { getObjectWithGetters } from '@gravis-os/utils'
 import DataTable, { DataTableProps } from './DataTable'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
@@ -81,13 +82,18 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   ])
   const { filters, setFilters } = useRouterQueryFilters({ filterFields })
 
+  // TODO: This needs to be refactored for server-side pagination and filtering
   // List items Fetch items with ReactQuery's composite key using filters as a dep
-  const { data: items, refetch } = useQuery(
+  const { data: fetchedItems, refetch } = useQuery(
     [table.name, 'list', filters],
     () => fetchCrudItems({ filters, module, setQuery, filterFields }),
     // Only allow authenticated users to fetch CRUD items due to RLS
     { enabled: Boolean(user) }
   )
+  // Add virtuals
+  const items =
+    module &&
+    fetchedItems?.map((item) => getObjectWithGetters(item, module.virtuals))
 
   // Preview drawer
   const usePreviewDrawerProps = usePreviewDrawer({

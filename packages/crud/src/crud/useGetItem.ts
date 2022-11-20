@@ -3,6 +3,7 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { QueryObserverOptions, useQuery, UseQueryResult } from 'react-query'
 import { CrudModule } from '@gravis-os/types'
 import { useUser } from '@gravis-os/auth'
+import { getObjectWithGetters } from '@gravis-os/utils'
 
 export interface UseGetItemProps {
   module: CrudModule
@@ -61,9 +62,15 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
   })
   const { data: item, isLoading: loading, isError: error } = onUseQuery
 
+  // Add virtuals
+  const itemWithVirtuals = getObjectWithGetters(
+    item as Record<string, unknown>,
+    module.virtuals
+  )
+
   return {
     ...onUseQuery,
-    item,
+    item: itemWithVirtuals,
     loading,
     error,
   }

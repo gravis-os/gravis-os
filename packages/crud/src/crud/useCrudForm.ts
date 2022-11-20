@@ -145,8 +145,18 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       : client.from(table.name).update([nextValues]).match(queryMatcher)
   const deleteMutationFunction = async () =>
     client.from(table.name).delete().match(queryMatcher)
-  const createOrUpdateMutation = useMutation(createOrUpdateMutationFunction)
-  const deleteMutation = useMutation(deleteMutationFunction)
+  const handleMutationError = (error) => {
+    toast.error('Something went wrong')
+    console.error('Error caught:', error)
+  }
+  const createOrUpdateMutation = useMutation({
+    mutationFn: createOrUpdateMutationFunction,
+    onError: handleMutationError,
+  })
+  const deleteMutation = useMutation({
+    mutationFn: deleteMutationFunction,
+    onError: handleMutationError,
+  })
 
   // onSubmit will manage create and update function
   const onSubmit = async (values) => {
@@ -256,6 +266,15 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
               })
             }
 
+            // Add `afterInsert` or `afterUpdate` trigger
+            const { afterInsert, afterUpdate } = module.triggers || {}
+            if (afterInsert || afterUpdate) {
+              const afterTriggerProps = { item: nextItem, values, user, client }
+              if (isNew && afterInsert) await afterInsert(afterTriggerProps)
+              if (!isNew && afterUpdate) await afterUpdate(afterTriggerProps)
+            }
+
+            // Update cache
             await queryClient.invalidateQueries([table.name])
 
             /**
@@ -267,10 +286,6 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             if (refetch) refetch()
 
             return handleSuccess({ item: nextItem })
-          },
-          onError: (error) => {
-            toast.error('Something went wrong')
-            console.error('Error caught:', error)
           },
         })
     }

@@ -1,6 +1,18 @@
+import type { SupabaseClient } from '@supabase/auth-helpers-nextjs'
 // ==============================
 // Crud
 // ==============================
+export type CrudModuleAfterTriggerFunction = ({
+  item,
+  values,
+  client,
+}: {
+  client: SupabaseClient
+  item: Record<string, unknown>
+  user: Record<string, unknown>
+  values: Record<string, unknown>
+}) => Promise<unknown>
+
 export interface CrudModule {
   pk?: string // primary key - used for display e.g. title
   sk: string // slug key - used for route e.g. slug
@@ -14,6 +26,13 @@ export interface CrudModule {
   }
   // For modules with `exclusive_locales` and `blocked_locales` columns
   hasLocales?: boolean
+  // Virtuals
+  virtuals?: Record<string, (item: Record<string, unknown>) => unknown>
+  // Application Triggers
+  triggers?: {
+    afterInsert?: CrudModuleAfterTriggerFunction
+    afterUpdate?: CrudModuleAfterTriggerFunction
+  }
 }
 
 export interface CrudItem {
