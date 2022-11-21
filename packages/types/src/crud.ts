@@ -27,7 +27,7 @@ export interface CrudModule {
   // For modules with `exclusive_locales` and `blocked_locales` columns
   hasLocales?: boolean
   // Virtuals
-  virtuals?: Record<string, (item: Record<string, unknown>) => unknown>
+  virtuals?: Record<string, (item: any) => any>
   // Application Triggers
   triggers?: {
     afterInsert?: CrudModuleAfterTriggerFunction

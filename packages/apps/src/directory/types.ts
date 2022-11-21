@@ -36,6 +36,7 @@ export interface Listing extends CrudItem {
     directory: any
   }
   default_variant?: Variant
+  default_variant_id?: number
   variants?: Variant[]
   // Virtuals
   price?: number
