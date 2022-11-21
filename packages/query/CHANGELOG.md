@@ -1,5 +1,16 @@
 # @gravis-os/query
 
+## 0.0.16
+
+### Patch Changes
+
+- [`0d90e57`](https://github.com/gravis-os/gravis-os/commit/0d90e57c9ab354a1aeb503a0e8799ff06dce4139) Thanks [@clodal](https://github.com/clodal)! - Add CrudModule virtuals and triggers
+
+* [`7d745ad`](https://github.com/gravis-os/gravis-os/commit/7d745ad6edd4dc366c85a8ca3bbdfdb3db50c0e4) Thanks [@clodal](https://github.com/clodal)! - Add not to useList query"
+
+* Updated dependencies [[`63df067`](https://github.com/gravis-os/gravis-os/commit/63df067f09ed24ecf7420b61e339ff68d626c206), [`0d90e57`](https://github.com/gravis-os/gravis-os/commit/0d90e57c9ab354a1aeb503a0e8799ff06dce4139)]:
+  - @gravis-os/types@0.0.28
+
 ## 0.0.15
 
 ### Patch Changes

@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.28
+
+### Patch Changes
+
+- [`63df067`](https://github.com/gravis-os/gravis-os/commit/63df067f09ed24ecf7420b61e339ff68d626c206) Thanks [@clodal](https://github.com/clodal)! - Update types
+
+* [`0d90e57`](https://github.com/gravis-os/gravis-os/commit/0d90e57c9ab354a1aeb503a0e8799ff06dce4139) Thanks [@clodal](https://github.com/clodal)! - Add CrudModule virtuals and triggers
+
 ## 0.0.27
 
 ### Patch Changes

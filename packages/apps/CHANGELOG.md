@@ -1,5 +1,26 @@
 # Changelog
 
+## 0.0.46
+
+### Patch Changes
+
+- [`63df067`](https://github.com/gravis-os/gravis-os/commit/63df067f09ed24ecf7420b61e339ff68d626c206) Thanks [@clodal](https://github.com/clodal)! - Update types
+
+* [`1543d70`](https://github.com/gravis-os/gravis-os/commit/1543d705ce74356728a6ced1264f7333ce82ec44) Thanks [@clodal](https://github.com/clodal)! - Add SendEnquiryForm
+
+- [`9cce9b5`](https://github.com/gravis-os/gravis-os/commit/9cce9b50537f65d9f5e691d302ceaced42af8558) Thanks [@clodal](https://github.com/clodal)! - Add price to Listing
+
+* [`7d745ad`](https://github.com/gravis-os/gravis-os/commit/7d745ad6edd4dc366c85a8ca3bbdfdb3db50c0e4) Thanks [@clodal](https://github.com/clodal)! - Add not to useList query"
+
+- [`5889174`](https://github.com/gravis-os/gravis-os/commit/58891741774f86357629fe4564e267be2262c5c6) Thanks [@clodal](https://github.com/clodal)! - Add GetTextBackForm
+
+- Updated dependencies [[`6350fd8`](https://github.com/gravis-os/gravis-os/commit/6350fd86deacfa980f2d5357587f29d35e132601), [`b157648`](https://github.com/gravis-os/gravis-os/commit/b15764842a40b217d03468290709e7187a823bf2), [`63df067`](https://github.com/gravis-os/gravis-os/commit/63df067f09ed24ecf7420b61e339ff68d626c206), [`0d90e57`](https://github.com/gravis-os/gravis-os/commit/0d90e57c9ab354a1aeb503a0e8799ff06dce4139), [`1543d70`](https://github.com/gravis-os/gravis-os/commit/1543d705ce74356728a6ced1264f7333ce82ec44), [`8b87704`](https://github.com/gravis-os/gravis-os/commit/8b87704d82ff25aca9e4955aeabb0506ae039009), [`7ce9fa5`](https://github.com/gravis-os/gravis-os/commit/7ce9fa5641b5e7bd541926da61b093c3de206d1f), [`17140fa`](https://github.com/gravis-os/gravis-os/commit/17140faed1c232e5fae1f4708587b25eaa5caa84), [`7d745ad`](https://github.com/gravis-os/gravis-os/commit/7d745ad6edd4dc366c85a8ca3bbdfdb3db50c0e4), [`8340b9d`](https://github.com/gravis-os/gravis-os/commit/8340b9d662035596104137e13cdafe595acf408e), [`dad5aa6`](https://github.com/gravis-os/gravis-os/commit/dad5aa64ed79f3c82542931b1abcdbefe80ee6c7)]:
+  - @gravis-os/ui@0.0.62
+  - @gravis-os/types@0.0.28
+  - @gravis-os/crud@0.0.63
+  - @gravis-os/query@0.0.16
+  - @gravis-os/form@0.0.91
+
 ## 0.0.45
 
 ### Patch Changes

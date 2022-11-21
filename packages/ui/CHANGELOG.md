@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.0.62
+
+### Patch Changes
+
+- [`6350fd8`](https://github.com/gravis-os/gravis-os/commit/6350fd86deacfa980f2d5357587f29d35e132601) Thanks [@clodal](https://github.com/clodal)! - Add DescriptionList component
+
+* [`b157648`](https://github.com/gravis-os/gravis-os/commit/b15764842a40b217d03468290709e7187a823bf2) Thanks [@clodal](https://github.com/clodal)! - Add responsive cols to ImageList
+
+- [`8b87704`](https://github.com/gravis-os/gravis-os/commit/8b87704d82ff25aca9e4955aeabb0506ae039009) Thanks [@clodal](https://github.com/clodal)! - Update breadcrumbs styles
+
+* [`7ce9fa5`](https://github.com/gravis-os/gravis-os/commit/7ce9fa5641b5e7bd541926da61b093c3de206d1f) Thanks [@clodal](https://github.com/clodal)! - Update Accordion detail
+
+- [`17140fa`](https://github.com/gravis-os/gravis-os/commit/17140faed1c232e5fae1f4708587b25eaa5caa84) Thanks [@clodal](https://github.com/clodal)! - Add CopyLink and ShareStack components
+
+* [`8340b9d`](https://github.com/gravis-os/gravis-os/commit/8340b9d662035596104137e13cdafe595acf408e) Thanks [@clodal](https://github.com/clodal)! - Add WhatsappButton component
+
+- [`dad5aa6`](https://github.com/gravis-os/gravis-os/commit/dad5aa64ed79f3c82542931b1abcdbefe80ee6c7) Thanks [@clodal](https://github.com/clodal)! - Add ViewAllDialogButton into ImageList
+
+- Updated dependencies [[`63df067`](https://github.com/gravis-os/gravis-os/commit/63df067f09ed24ecf7420b61e339ff68d626c206), [`0d90e57`](https://github.com/gravis-os/gravis-os/commit/0d90e57c9ab354a1aeb503a0e8799ff06dce4139), [`9cce9b5`](https://github.com/gravis-os/gravis-os/commit/9cce9b50537f65d9f5e691d302ceaced42af8558)]:
+  - @gravis-os/types@0.0.28
+  - @gravis-os/utils@0.0.26
+
 ## 0.0.61
 
 ### Patch Changes
