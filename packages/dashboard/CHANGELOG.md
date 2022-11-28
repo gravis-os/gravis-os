@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.21
+
+### Patch Changes
+
+- [#128](https://github.com/gravis-os/gravis-os/pull/128) [`48df2fb`](https://github.com/gravis-os/gravis-os/commit/48df2fbc47f97b36cea992c89804a1fa1d261e1a) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add headerHeight and leftAsideBottomActions to DashboardLayout
+
+- Updated dependencies [[`84ec242`](https://github.com/gravis-os/gravis-os/commit/84ec24201bff5178f6a2473ef27867ead2fadc55)]:
+  - @gravis-os/ui@0.0.63
+
 ## 0.0.20
 
 ### Patch Changes

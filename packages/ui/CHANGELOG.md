@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.63
+
+### Patch Changes
+
+- [#128](https://github.com/gravis-os/gravis-os/pull/128) [`84ec242`](https://github.com/gravis-os/gravis-os/commit/84ec24201bff5178f6a2473ef27867ead2fadc55) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add height prop to Header
+
 ## 0.0.62
 
 ### Patch Changes
