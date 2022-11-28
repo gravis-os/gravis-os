@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { ReactNode, useEffect, useState } from 'react'
 import { SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
 import { Box, List, ListItemProps, ListProps } from '@gravis-os/ui'
 import { useRouter } from 'next/router'
@@ -14,7 +14,7 @@ import getAsideWidth from './getAsideWidth'
 const {
   miniVariantWidth: defaultMiniVariantWidth,
   secondaryMiniVariantWidth,
-  headerHeight,
+  headerHeight: defaultHeaderHeight,
 } = dashboardLayoutConfig
 
 export interface DashboardLayoutProps {
@@ -42,6 +42,7 @@ export interface DashboardLayoutProps {
   leftAsideListItems?: ListItemProps['items']
   leftAsideListItemProps?: Omit<ListItemProps, 'key'>
   leftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
+  leftAsideBottomActions?: ReactNode | ReactNode[]
 
   // Secondary Left Aside Props
   showSecondaryLeftAside?: boolean
@@ -58,6 +59,7 @@ export interface DashboardLayoutProps {
   disableHeaderMenuToggleOnMobile?: boolean
   headerProps?: DashboardLayoutHeaderProps
   children?: React.ReactNode
+  headerHeight?: number
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
@@ -93,8 +95,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     leftAsideDrawerProps,
     secondaryLeftAsideDrawerProps,
 
+    leftAsideBottomActions,
+
     darkLeftAside,
     darkSecondaryLeftAside,
+
+    headerHeight: injectedHeaderHeight,
   } = props
 
   // States
@@ -145,6 +151,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const isMiniVariantLeftAsideClosed = isMiniVariant && !isLeftAsideOpen
   const isSecondaryMiniVariantLeftAsideClosed =
     hasSecondaryLeftAside && !isSecondaryLeftAsideOpen
+  const headerHeight = injectedHeaderHeight ?? defaultHeaderHeight
 
   // Calculated
   const totalLeftAsideWidth = getAsideWidth({
@@ -194,6 +201,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
       {/* Header */}
       <DashboardLayoutHeader
+        height={headerHeight}
         hideLeftAsideMenuToggle={isDesktop && disableHeaderMenuToggleOnMobile}
         {...headerProps}
         renderProps={layoutProps}
@@ -397,6 +405,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               ...leftAsideListProps?.sx,
             }}
           />
+          {leftAsideBottomActions}
         </ResponsiveDrawer>
 
         {/* Main */}
