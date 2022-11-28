@@ -58,6 +58,7 @@ export interface HeaderProps extends AppBarProps {
   disableScrollTrigger?: boolean
   disableSticky?: boolean
   announcements?: Array<{ title: string }>
+  height?: number
 }
 
 /**
@@ -76,6 +77,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     announcements,
     renderProps,
     toolbarProps,
+    height,
     ...rest
   } = props
 
@@ -308,6 +310,7 @@ const Header: React.FC<HeaderProps> = (props) => {
           sx={{
             justifyContent: 'space-between',
             alignItems: 'stretch',
+            ...(typeof height === 'number' && { height }),
             ...toolbarProps?.sx,
           }}
         >
