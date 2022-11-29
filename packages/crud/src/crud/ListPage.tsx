@@ -1,9 +1,20 @@
-import React from 'react'
-import { Container, ContainerProps } from '@gravis-os/ui'
+import React, { useEffect, useState } from 'react'
+import { 
+  Container, 
+  ContainerProps,
+  CircularProgress,
+  Divider,
+  Tabs,
+  TabContent,
+  useTabs,
+  TabsProps,
+  UseTabsProps
+ } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import PageHeader from './PageHeader'
 import CrudTable, { CrudTableProps } from './CrudTable'
+
 
 export interface ListPageProps {
   module: CrudModule
@@ -14,6 +25,11 @@ export interface ListPageProps {
   addFormSections?: FormSectionsProps['sections']
   crudTableProps?: Partial<CrudTableProps>
   containerProps?: ContainerProps
+
+  // Tabs
+  tabs?: TabsProps['items']
+  tabsProps?: TabsProps
+  useTabsProps?: UseTabsProps  
 }
 
 const ListPage: React.FC<ListPageProps> = (props) => {
@@ -26,6 +42,12 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     columnDefs,
     module,
     containerProps,
+
+    // Tabs
+    tabs: injectedTabs,
+    tabsProps,
+    useTabsProps,
+
   } = props
   const { name, route } = module
 
@@ -43,19 +65,51 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     },
   ]
 
+  // ==============================
+  // Tabs
+  // ==============================
+  const onUseTabs = useTabs({ tabs: injectedTabs, ...useTabsProps })
+  const { hasTabs, currentTab, items: tabs } = onUseTabs  
+  const [filter, setFilter] = useState('')
+
+  useEffect(() => {
+    setFilter(currentTab)
+  },[currentTab])
+
+  const actionJsx = (
+    <Tabs
+      // tabContentProps={renderProps}
+      {...onUseTabs}
+      {...tabsProps}
+      // onTabChange={handleTabChange}
+      currentTab={currentTab}
+    />   
+  )
+
   return (
     <Container maxWidth="xl" {...containerProps}>
       <PageHeader {...pageHeaderProps} />
-
+      <Tabs
+        // tabContentProps={renderProps}
+        {...useTabs}
+        {...tabsProps}
+        // onTabChange={handleTabChange}
+        currentTab={currentTab}
+      />         
       <CrudTable
         isListPage
         columnDefs={columnDefs}
+        actions={actionJsx}
         module={module}
         addFormSections={addFormSections}
         previewFormSections={previewFormSections}
         filterFormSections={filterFormSections}
         searchFormSections={searchFormSections}
         {...crudTableProps}
+        filters={{
+          status: currentTab,
+          ...crudTableProps?.filters
+        }}
       />
     </Container>
   )

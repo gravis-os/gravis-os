@@ -14,6 +14,8 @@ export interface DataTableProps extends AgGridProps {
   sx?: SxProps
   actions?: React.ReactNode
   module?: CrudModule
+  
+  disableHeader?: boolean
 }
 
 /**
@@ -34,6 +36,9 @@ const DataTable = React.forwardRef<
     rowData,
     columnDefs: injectedColumnDefs,
     module,
+
+    disableHeader,
+
     ...rest
   } = props
 
@@ -62,6 +67,7 @@ const DataTable = React.forwardRef<
         disableLastGutterBottom
         sx={{ borderBottom: 1, borderColor: 'divider' }}
       >
+        {!disableHeader && (
         <Stack
           direction="row"
           alignItems="center"
@@ -111,7 +117,7 @@ const DataTable = React.forwardRef<
               setColumnDefs={setColumnDefs}
             />
           </Stack>
-        </Stack>
+        </Stack>)}
       </Card>
 
       {/* AgGrid */}

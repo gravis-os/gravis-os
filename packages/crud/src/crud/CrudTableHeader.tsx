@@ -63,7 +63,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const { setAddDialogOpen } = useAddDialogProps
 
   // Methods
-  const handleSubmit = ({ values }) => {
+  const handleSubmit = ({ values }) => {    
     setFilters({ ...filters, ...values })
     setOpenFilterDrawer(false)
   }

@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react'
 import { useUser } from '@gravis-os/auth'
 import { useQuery } from 'react-query'
 import { FormSectionsProps } from '@gravis-os/form'
@@ -18,6 +18,7 @@ import fetchCrudItems from './fetchCrudItems'
 import { CrudTableColumnDef } from '../types'
 import useCrud from './useCrud'
 import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
+import isEqual from 'lodash/isEqual'
 
 export interface CrudTableProps {
   module: CrudModule
@@ -42,7 +43,10 @@ export interface CrudTableProps {
   addFormProps?: Partial<CrudFormProps>
   dataTableProps?: Partial<DataTableProps>
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
-  crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
+  crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>  
+
+  actions?: React.ReactNode
+  filters?: {status: String}
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
@@ -70,7 +74,10 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     addFormProps,
     dataTableProps: injectedDataTableProps,
     useGetCrudTableColumnDefsProps,
-    crudDeleteDialogProps,
+    crudDeleteDialogProps,   
+
+    actions,
+    filters: injectedFilters
   } = props
   const { table } = module
   const { user } = useUser()
@@ -81,6 +88,18 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     ...filterFormSections,
   ])
   const { filters, setFilters } = useRouterQueryFilters({ filterFields })
+  const [currentInjectedFilters, setCurrentInjectedFilters] = useState({})
+  
+  useEffect(() => {
+    if (!isEqual(currentInjectedFilters, injectedFilters))
+      setCurrentInjectedFilters(injectedFilters)
+  }, [injectedFilters])
+  useEffect(() => {
+    if (currentInjectedFilters){
+      setFilters({...filters, ...currentInjectedFilters})      
+    }
+  }, [currentInjectedFilters])  
+
 
   // TODO: This needs to be refactored for server-side pagination and filtering
   // List items Fetch items with ReactQuery's composite key using filters as a dep
@@ -134,6 +153,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     ...useGetCrudTableColumnDefsProps,
   })
 
+
   return (
     <>
       {/* Search + Add Row */}
@@ -152,6 +172,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
           ...headerProps?.addDialogProps,
         }}
       />
+      {/* Additional actions (tabs) */}
+      {actions}
 
       {/* DataTable + Toolbar Row */}
       <DataTable
@@ -173,7 +195,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       />
 
       {/* Delete Dialog */}
-      <CrudDeleteDialog {...crudDeleteDialogProps} module={module} />
+      <CrudDeleteDialog {...crudDeleteDialogProps} module={module} />    
     </>
   )
 }
