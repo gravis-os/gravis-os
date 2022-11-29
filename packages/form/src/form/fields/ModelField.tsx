@@ -28,6 +28,7 @@ import uniqBy from 'lodash/uniqBy'
 import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
+import { filter, identity, negate, orderBy } from 'lodash'
 import TextField from './TextField'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 
@@ -108,7 +109,13 @@ export interface ModelFieldProps {
    * Allow downstream to override the server-side query
    */
   setQuery?: SetModelFieldQuery
-
+  /**
+   * orderBy
+   * Allow ordering of options with the 2nd and 3rd parameters of lodash.orderBy
+   */
+  orderBy?:
+    | [Parameters<typeof orderBy>[1]]
+    | [Parameters<typeof orderBy>[1], Parameters<typeof orderBy>[2]]
   /**
    * renderOption
    * Expose option item rendering to downstream
@@ -150,6 +157,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     // Component
     setQuery,
     renderOption,
+    orderBy: injectedOrderBy,
 
     // RHF
     onChange: injectedOnChange,
@@ -327,9 +335,13 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
       const newOptions =
         typeof displayValue === 'object' ? [displayValue as DataItem] : []
 
-      const nextOptions = (
-        dbItems ? [...newOptions, ...dbItems] : newOptions
-      ).filter((nextOption) => !isNil(nextOption))
+      const nextOptions = (injectedOrderBy ? orderBy : identity).apply(null, [
+        filter(
+          dbItems ? [...newOptions, ...dbItems] : newOptions,
+          negate(isNil)
+        ),
+        ...injectedOrderBy,
+      ])
 
       // Set options
       setOptions(nextOptions)
