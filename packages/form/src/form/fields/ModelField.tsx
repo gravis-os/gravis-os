@@ -340,7 +340,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           dbItems ? [...newOptions, ...dbItems] : newOptions,
           negate(isNil)
         ),
-        ...injectedOrderBy,
+        ...(injectedOrderBy || []),
       ])
 
       // Set options
