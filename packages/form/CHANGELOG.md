@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.93
+
+### Patch Changes
+
+- Prevent spreading undefined with injected orderBy of ModelField
+
 ## 0.0.92
 
 ### Patch Changes
