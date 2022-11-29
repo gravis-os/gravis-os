@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.92
+
+### Patch Changes
+
+- [#129](https://github.com/gravis-os/gravis-os/pull/129) [`f2da5ce`](https://github.com/gravis-os/gravis-os/commit/f2da5ced7f6e7c2bfe0b0d0098078c0c014cbc90) Thanks [@al1xt](https://github.com/al1xt)! - Allow options ordering in ModelField
+
 ## 0.0.91
 
 ### Patch Changes
