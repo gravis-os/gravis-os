@@ -9,6 +9,7 @@ import { alpha } from '@mui/material/styles'
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
 import withHref from './withHref'
 import withTooltip from './withTooltip'
+import withPopover from './withPopover'
 import CircularProgress from './CircularProgress'
 
 /**
@@ -29,6 +30,7 @@ export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   component?: React.JSXElementConstructor<any> | string
   fullWidthOnMobile?: boolean
   tooltip?: string
+  popover?: React.ReactNode
   loading?: boolean
   targetBlank?: boolean
   variant?:
@@ -48,6 +50,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     disableMinWidth,
     disableLineHeight,
     tooltip,
+    popover,
     href,
     title,
     children,
@@ -94,11 +97,11 @@ const Button: React.FC<ButtonProps> = (props) => {
         ...(variant === BUTTON_VARIANT_CALLOUT && {
           color: `${color || 'primary'}.main`,
           backgroundColor: ({ palette }) =>
-            alpha(palette[color || 'primary'].light, 0.04),
+            alpha(palette[color || 'primary'].light, 0.18),
           '&:hover': {
             borderColor: `${color || 'primary'}.main`,
             backgroundColor: ({ palette }) =>
-              alpha(palette[color || 'primary'].light, 0.08),
+              alpha(palette[color || 'primary'].light, 0.24),
           },
         }),
         // Paper variant
@@ -150,9 +153,11 @@ const Button: React.FC<ButtonProps> = (props) => {
     </MuiButton>
   )
 
-  return flowRight([withHref({ href, targetBlank }), withTooltip({ tooltip })])(
-    childrenJsx
-  )
+  return flowRight([
+    withHref({ href, targetBlank }),
+    withTooltip({ tooltip }),
+    withPopover({ popover }),
+  ])(childrenJsx)
 }
 
 export default Button

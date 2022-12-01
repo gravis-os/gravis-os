@@ -153,7 +153,7 @@ const Card: React.FC<CardProps> = (props) => {
     ...contentProps,
     disableGutterBottom: !gutterBottom,
     stretch,
-    padding: injectedPadding || (isSmall ? 1.5 : 2),
+    padding: disablePadding ? 0 : injectedPadding || (isSmall ? 1.5 : 2),
     sx: {
       ...contentProps?.sx,
       ...((disablePadding || disableCardContent) && { p: 0 }),

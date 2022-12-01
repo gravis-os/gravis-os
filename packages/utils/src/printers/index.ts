@@ -15,3 +15,9 @@ export * from './printHtml'
 
 export { default as printIsoDate } from './printIsoDate'
 export * from './printIsoDate'
+
+export { default as printAddress } from './printAddress'
+export * from './printAddress'
+
+export { default as printDateTime } from './printDateTime'
+export * from './printDateTime'

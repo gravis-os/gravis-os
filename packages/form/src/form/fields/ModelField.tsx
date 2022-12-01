@@ -12,7 +12,6 @@ import {
   Autocomplete,
   AutocompleteProps,
   createFilterOptions,
-  TextFieldProps,
 } from '@mui/material'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import {
@@ -29,7 +28,7 @@ import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 import { filter, identity, negate, orderBy } from 'lodash'
-import TextField from './TextField'
+import TextField, { TextFieldProps } from './TextField'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 
 interface DataItem {
@@ -69,6 +68,8 @@ export interface ModelFieldProps {
   error?: TextFieldProps['error']
   required?: boolean
   helperText?: TextFieldProps['helperText']
+  textFieldProps?: TextFieldProps
+  sx?: ModelAutocompleteProps['sx']
 
   // Mui
   disableClearable?: ModelAutocompleteProps['disableClearable']
@@ -173,6 +174,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
     // Tags
     optionLabelKey: injectedOptionLabelKey,
+
+    // TextField
+    textFieldProps,
 
     ...rest
   } = props
@@ -552,6 +556,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
                 } as TextFieldProps['inputProps']
               }
               {...(required && { required: true })}
+              {...textFieldProps}
             />
           )
         }}

@@ -1,4 +1,5 @@
 import React from 'react'
+import startCase from 'lodash/startCase'
 import Stack, { StackProps } from './Stack'
 import Grid from './Grid'
 import Typography from './Typography'
@@ -26,9 +27,13 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
         return (
           <Grid key={key} container spacing={{ xs: 0, md: 1 }} sx={{ py: 1 }}>
             <Grid item md={4} lg={5} component="dt">
-              <Typography variant="subtitle1" color="text.secondary">
-                {label}
-              </Typography>
+              {typeof label === 'string' ? (
+                <Typography variant="subtitle1" color="text.secondary">
+                  {startCase(label)}
+                </Typography>
+              ) : (
+                label
+              )}
             </Grid>
             <Grid item md={8} lg={7} component="dd">
               <Typography variant="body1">{value}</Typography>

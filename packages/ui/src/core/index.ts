@@ -103,6 +103,9 @@ export * from './NavAccordion'
 export { default as Paper } from './Paper'
 export * from './Paper'
 
+export { default as Popover } from './Popover'
+export * from './Popover'
+
 export { default as Ratings } from './Ratings'
 export * from './Ratings'
 
@@ -129,6 +132,12 @@ export * from './Stack'
 
 export { default as Tabs } from './Tabs'
 export * from './Tabs'
+
+export { default as Timeline } from './Timeline'
+export * from './Timeline'
+
+export { default as TimelineItem } from './TimelineItem'
+export * from './TimelineItem'
 
 export { default as Tooltip } from './Tooltip'
 export * from './Tooltip'

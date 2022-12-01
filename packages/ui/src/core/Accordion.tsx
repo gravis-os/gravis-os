@@ -4,7 +4,6 @@ import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
   Accordion as MuiAccordion,
   AccordionDetails,
-  AccordionProps as MuiAccordionProps,
   AccordionSummary,
 } from '@mui/material'
 import Typography, { TypographyProps } from './Typography'
@@ -12,10 +11,14 @@ import Typography, { TypographyProps } from './Typography'
 export interface AccordionProps {
   transparent?: boolean
   disablePadding?: boolean
-  items: Array<
-    { key: string; title: string; content: React.ReactNode } | undefined
-  >
+  items?: Array<{
+    key: string
+    title: React.ReactNode
+    children?: React.ReactNode
+    content?: React.ReactNode
+  }>
   titleProps?: TypographyProps
+  defaultExpandedKeys?: string[]
 }
 
 const Accordion: React.FC<AccordionProps> = (props) => {
@@ -24,10 +27,17 @@ const Accordion: React.FC<AccordionProps> = (props) => {
     transparent,
     disablePadding,
     titleProps,
+    defaultExpandedKeys = [],
   } = props
 
   // Icon
-  const [expanded, setExpanded] = React.useState({})
+  const initialExpanded = defaultExpandedKeys.length
+    ? defaultExpandedKeys.reduce((acc, defaultExpandedKey) => {
+        return { ...acc, [defaultExpandedKey]: true }
+      }, {})
+    : {}
+  const [expanded, setExpanded] = React.useState(initialExpanded)
+
   const handleChange = (panel) => (e, isExpanded) => {
     e.stopPropagation()
     setExpanded({ ...expanded, [panel]: isExpanded })
@@ -40,16 +50,17 @@ const Accordion: React.FC<AccordionProps> = (props) => {
   return (
     <div>
       {items.map((item) => {
-        const { title, content } = item
+        const { key, title } = item
+        const content = item.children || item.content
 
-        const isExpanded = Boolean(expanded[title])
+        const isExpanded = Boolean(expanded[key])
         const ExpansionIcon = isExpanded ? CloseOutlinedIcon : AddOutlinedIcon
 
         return (
           <MuiAccordion
             expanded={isExpanded}
-            onChange={handleChange(title)}
-            key={item.title}
+            onChange={handleChange(key)}
+            key={key}
             square
             disableGutters
             sx={{
