@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.64
+
+### Patch Changes
+
+- [#131](https://github.com/gravis-os/gravis-os/pull/131) [`9a27aa1`](https://github.com/gravis-os/gravis-os/commit/9a27aa1a0d564ed8ef3176abda6439d4a385aec8) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add renderHeader and defaultIsReadOnly props to CrudForm
+
 ## 0.0.63
 
 ### Patch Changes
