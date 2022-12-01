@@ -412,6 +412,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         <Box
           component="main"
           sx={{
+            width: '100%',
             flexGrow: 1,
             ...(!disablePadding && { p: 3 }),
             ...(disableGutters && { px: 0 }), // Remove horizontal padding
