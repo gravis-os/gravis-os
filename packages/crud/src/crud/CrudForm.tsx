@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import { CircularProgress, ButtonProps } from '@gravis-os/ui'
 import {
@@ -25,6 +25,14 @@ type HiddenFunction = ({
   isPreview: boolean
 }) => boolean
 
+interface RenderHeaderProps
+  extends Pick<
+    CrudFormJsxProps,
+    'isNew' | 'isReadOnly' | 'setIsReadOnly' | 'onSubmit' | 'onDelete'
+  > {
+  formContext: UseCrudFormReturn['formContext']
+}
+
 export interface CrudFormProps {
   item?: CrudItem // Typically gets injected via DetailPage cloneElement
   setItem?: React.Dispatch<React.SetStateAction<CrudItem>> // Typically gets injected via DetailPage cloneElement
@@ -45,6 +53,8 @@ export interface CrudFormProps {
   formProps?: Partial<FormProps<any>>
   formTemplate?: React.JSXElementConstructor<any>
   formTemplateProps?: Record<string, unknown>
+  renderHeader?: (props: RenderHeaderProps) => ReactNode
+  defaultIsReadOnly?: boolean
 }
 
 export interface CrudFormJsxProps extends FormSectionsProps {
@@ -80,6 +90,9 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     module,
     children,
     loading,
+    defaultIsReadOnly: injectedDefaultIsReadOnly,
+
+    renderHeader,
 
     // Form Jsx is the template/ui/layout of the form
     formTemplate: FormTemplate = FormSections,
@@ -106,11 +119,15 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   const { formContext, isNew, onSubmit, onDelete } = crudForm
 
   // Read Only State
-  const [isReadOnly, setIsReadOnly] = useState(!isNew)
+  const defaultIsReadOnly =
+    typeof injectedDefaultIsReadOnly === 'boolean'
+      ? injectedDefaultIsReadOnly
+      : !isNew
+  const [isReadOnly, setIsReadOnly] = useState(defaultIsReadOnly)
 
   // Update isNew state after data is loaded
   useEffect(() => {
-    setIsReadOnly(!isNew)
+    setIsReadOnly(defaultIsReadOnly)
   }, [isNew])
 
   // Form states
@@ -169,6 +186,15 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
       >
         {(renderProps: FormRenderPropsInterface) => (
           <>
+            {renderHeader &&
+              renderHeader({
+                isNew,
+                onSubmit,
+                onDelete,
+                formContext,
+                isReadOnly,
+                setIsReadOnly,
+              })}
             {!disableHeader && (
               <DetailPageHeader
                 loading={loading}
