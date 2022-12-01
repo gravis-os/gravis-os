@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/dashboard",
-  "version": "0.0.21",
+  "version": "0.0.22",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",

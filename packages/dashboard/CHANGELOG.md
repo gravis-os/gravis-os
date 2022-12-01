@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.22
+
+### Patch Changes
+
+- [`6b07700`](https://github.com/gravis-os/gravis-os/commit/6b077006dad1655ed2ece1c306c76034d69e00f4) Thanks [@clodal](https://github.com/clodal)! - Fix issue with DashboardLayout mobile side scrolling
+
+- Updated dependencies [[`c69f978`](https://github.com/gravis-os/gravis-os/commit/c69f97881b21f2d63e50b0e03a0ac3364079dc21)]:
+  - @gravis-os/ui@0.0.64
+
 ## 0.0.21
 
 ### Patch Changes

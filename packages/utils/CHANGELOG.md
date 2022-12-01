@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.27
+
+### Patch Changes
+
+- [`c69f978`](https://github.com/gravis-os/gravis-os/commit/c69f97881b21f2d63e50b0e03a0ac3364079dc21) Thanks [@clodal](https://github.com/clodal)! - Update ui and utils required for ContactDetail UI"
+
 ## 0.0.26
 
 ### Patch Changes
