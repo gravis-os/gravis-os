@@ -69,7 +69,7 @@ const Tabs: React.FC<TabsProps> = (props) => {
   )
 
   return !disableCard ? (
-    <Card square {...cardProps}>
+    <Card square {...{ disablePadding: true, ...cardProps }}>
       {childrenJsx}
     </Card>
   ) : (

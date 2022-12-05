@@ -35,6 +35,7 @@ interface CardHeaderProps extends BaseCardHeaderProps {
 
 export interface CardProps extends Omit<MuiCardProps, 'title'> {
   // Shorthands
+  overline?: React.ReactNode
   title?: CardHeaderProps['title']
   subtitle?: CardHeaderProps['subheader']
   icon?: CardHeaderProps['avatar']
@@ -92,6 +93,7 @@ const Card: React.FC<CardProps> = (props) => {
     content = {},
     contentProps,
     gutterBottom,
+    overline,
     title,
     subtitle,
     icon,
@@ -286,7 +288,14 @@ const Card: React.FC<CardProps> = (props) => {
     </MuiCard>
   )
 
-  return cardChildrenJsx
+  return overline ? (
+    <>
+      {overline}
+      {cardChildrenJsx}
+    </>
+  ) : (
+    cardChildrenJsx
+  )
 }
 
 export default Card

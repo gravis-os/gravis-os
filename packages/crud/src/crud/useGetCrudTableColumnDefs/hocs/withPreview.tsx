@@ -1,7 +1,7 @@
 import React from 'react'
 import get from 'lodash/get'
 import { Link, Stack } from '@gravis-os/ui'
-import { StorageAvatarWithUpload } from '@gravis-os/storage'
+import { StorageAvatar, StorageAvatarWithUpload } from '@gravis-os/storage'
 
 const withPreview = (props) => {
   const {
@@ -73,8 +73,7 @@ const withPreview = (props) => {
           return (
             <Stack direction="row" alignItems="center" spacing={1}>
               {hasAvatar && (
-                <StorageAvatarWithUpload
-                  module={module}
+                <StorageAvatar
                   src={params.data.avatar_src}
                   alt={params.data.avatar_alt || params.data.title}
                   size={32}

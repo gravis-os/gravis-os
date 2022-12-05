@@ -10,6 +10,9 @@ import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
 import withHref from './withHref'
 import withTooltip from './withTooltip'
 import withPopover from './withPopover'
+import withSetLoadingInOnClick, {
+  WithSetLoadingInOnClick,
+} from './withSetLoadingInOnClick'
 import CircularProgress from './CircularProgress'
 
 /**
@@ -21,7 +24,8 @@ const BUTTON_VARIANT_MUTED = 'muted'
 const BUTTON_VARIANT_ACTION = 'action'
 const BUTTON_VARIANT_CALLOUT = 'callout'
 
-export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
+export interface ButtonProps
+  extends Omit<MuiButtonProps, 'variant' | 'onClick'> {
   disableMinWidth?: boolean
   disableLineHeight?: boolean
   square?: boolean
@@ -33,6 +37,7 @@ export interface ButtonProps extends Omit<MuiButtonProps, 'variant'> {
   popover?: React.ReactNode
   loading?: boolean
   targetBlank?: boolean
+  onClick?: WithSetLoadingInOnClick | any
   variant?:
     | 'contained'
     | 'outlined'
@@ -157,6 +162,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     withHref({ href, targetBlank }),
     withTooltip({ tooltip }),
     withPopover({ popover }),
+    withSetLoadingInOnClick({ onClick: rest?.onClick }),
   ])(childrenJsx)
 }
 

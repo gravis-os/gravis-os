@@ -4,6 +4,7 @@ import {
   AvatarProps as MuiAvatarProps,
 } from '@mui/material'
 import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined'
+import { getCssStringSplit } from '@gravis-os/utils'
 
 // Adapted from mui
 // @link https://mui.com/material-ui/react-avatar/#letter-avatars
@@ -66,8 +67,16 @@ export interface AvatarProps extends MuiAvatarProps {
 }
 
 const Avatar: React.FC<AvatarProps> = (props) => {
-  const { size, sx, letterAltFallback, border, ...rest } = props
+  const {
+    size,
+    sx,
+    letterAltFallback: injectedLetterAltFallback,
+    border,
+    ...rest
+  } = props
   const { src, alt, children } = rest
+
+  const letterAltFallback = injectedLetterAltFallback ?? Boolean(alt)
 
   // Size
   const sizeSx = size && { width: size, height: size }
@@ -78,7 +87,15 @@ const Avatar: React.FC<AvatarProps> = (props) => {
     : getIconAvatarFallbackProps({ size, sizeSx })
 
   const fallbackSx = letterAltFallback
-    ? { bgcolor: getColorFromString(alt), fontSize: 'subtitle2.fontSize' }
+    ? {
+        bgcolor: getColorFromString(alt),
+        fontSize: (theme) => {
+          const [number, unit] = getCssStringSplit(
+            theme.typography.subtitle2.fontSize
+          )
+          return `${number * (size / 40)}${unit}`
+        },
+      }
     : {
         backgroundColor: 'transparent',
         borderWidth: '1px',

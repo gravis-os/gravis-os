@@ -14,6 +14,7 @@
     "commit": "git-cz",
     "yalc:push": "turbo run yalc:push",
     "watch": "turbo run watch",
+    "watch:apps": "npm run watch --filter=@gravis-os/apps...",
     "tslint": "turbo run tslint",
     "cs": "changeset",
     "cs:version": "changeset version",

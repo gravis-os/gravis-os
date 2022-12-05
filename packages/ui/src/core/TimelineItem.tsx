@@ -3,20 +3,33 @@ import MuiTimelineItem, {
   TimelineItemProps as MuiTimelineItemProps,
 } from '@mui/lab/TimelineItem'
 import MuiTimelineSeparator from '@mui/lab/TimelineSeparator'
-import MuiTimelineConnector from '@mui/lab/TimelineConnector'
+import MuiTimelineConnector, {
+  TimelineConnectorProps as MuiTimelineConnectorProps,
+} from '@mui/lab/TimelineConnector'
 import MuiTimelineContent from '@mui/lab/TimelineContent'
-import MuiTimelineDot from '@mui/lab/TimelineDot'
+import MuiTimelineDot, {
+  TimelineDotProps as MuiTimelineDotProps,
+} from '@mui/lab/TimelineDot'
 
-export interface TimelineItemProps extends MuiTimelineItemProps {}
+export interface TimelineItemProps extends MuiTimelineItemProps {
+  dotColor?: MuiTimelineDotProps['color']
+  connectorColor?: MuiTimelineConnectorProps['color']
+}
 
 const TimelineItem: React.FC<TimelineItemProps> = (props) => {
-  const { children } = props
+  const { children, dotColor, connectorColor } = props
 
   return (
     <MuiTimelineItem>
       <MuiTimelineSeparator>
-        <MuiTimelineDot />
-        <MuiTimelineConnector />
+        <MuiTimelineDot color={dotColor} />
+        <MuiTimelineConnector
+          sx={{
+            ...(connectorColor && {
+              backgroundColor: `${connectorColor}.main`,
+            }),
+          }}
+        />
       </MuiTimelineSeparator>
 
       <MuiTimelineContent>{children}</MuiTimelineContent>

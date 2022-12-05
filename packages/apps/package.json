@@ -31,6 +31,9 @@
       ],
       "forum": [
         "./dist/types/forum/index.d.ts"
+      ],
+      "crm": [
+        "./dist/types/crm/index.d.ts"
       ]
     }
   },
@@ -70,6 +73,10 @@
     "./forum": {
       "require": "./dist/cjs/forum/index.js",
       "import": "./dist/esm/forum/index.js"
+    },
+    "./crm": {
+      "require": "./dist/cjs/crm/index.js",
+      "import": "./dist/esm/crm/index.js"
     }
   },
   "files": [

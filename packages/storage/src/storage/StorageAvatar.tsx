@@ -21,14 +21,7 @@ const StorageAvatar: React.FC<StorageAvatarProps> = (props) => {
 
   const { src } = useGetStorageObject({ filePath, value })
 
-  return (
-    <Avatar
-      src={src}
-      alt={alt || (src ? 'Avatar' : 'No image')}
-      size={size}
-      {...rest}
-    />
-  )
+  return <Avatar src={src} alt={alt} size={size} {...rest} />
 }
 
 export default StorageAvatar
