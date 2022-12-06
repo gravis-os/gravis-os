@@ -18,56 +18,12 @@ import { ControllerProps, Controller } from 'react-hook-form'
 const marginBetweenAutocompleteIconAndText = 1
 const paddingXInAutocomplete = 2
 const marginTopInAutocomplete = 5
-const textFieldSx = {
-  // Icon
-  '& .MuiInputAdornment-root': { mt: -marginTopInAutocomplete },
-  // Overline
-  '& label': {
-    marginTop: marginTopInAutocomplete / 2,
-    fontSize: 'h6.fontSize',
-    left: (theme) =>
-      theme.spacing(
-        4 + marginBetweenAutocompleteIconAndText + paddingXInAutocomplete
-      ),
-    color: 'text.secondary',
-  },
-  // Placeholder
-  '& input::placeholder': {
-    fontWeight: 'bold',
-    color: 'text.primary',
-    opacity: 1,
-  },
-  // Placeholder onFocus
-  '& input:focus::placeholder': {
-    opacity: 0.4,
-  },
-  // Text Input Wrapper
-  '&& .MuiInput-root': {
-    paddingLeft: paddingXInAutocomplete,
-    paddingRight: paddingXInAutocomplete + 4,
-    marginTop: marginTopInAutocomplete,
-    // Caret
-    '& .MuiAutocomplete-endAdornment': {
-      right: (theme) => theme.spacing(paddingXInAutocomplete),
-      mt: -marginTopInAutocomplete / 2,
-    },
-    '&:before, &:hover:before': { borderBottom: 0 },
-  },
-  // Text Input
-  '&& .MuiInput-input': {
-    marginLeft: marginBetweenAutocompleteIconAndText,
-    padding: (theme) => theme.spacing(0.5, 2, 2, 0),
-    fontWeight: 'bold',
-    // Cursor
-    '&:not(:focus)': { cursor: 'pointer' },
-  },
-}
 
 interface MegaSearchAutocompleteProps {
   control?: ControllerProps<any, any>['control']
   name: string
   options: Partial<AutocompleteProps<any, any, any, any>['options']>
-  Icon: React.JSXElementConstructor<IconProps>
+  Icon?: React.JSXElementConstructor<IconProps>
   sx?: SxProps
   AutocompleteProps?: Partial<AutocompleteProps<any, any, any, any>>
   label: string
@@ -92,6 +48,57 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
     ...rest
   } = props
 
+  const iconSpacing = Icon ? 4 : 0
+  const textFieldSx = {
+    // Icon
+    '& .MuiInputAdornment-root': { mt: -marginTopInAutocomplete },
+    // Overline
+    '& label': {
+      marginTop: marginTopInAutocomplete / 2,
+      fontSize: 'h6.fontSize',
+      left: (theme) =>
+        theme.spacing(
+          iconSpacing +
+            marginBetweenAutocompleteIconAndText +
+            paddingXInAutocomplete
+        ),
+      color: 'text.secondary',
+      ...sx?.['& label'],
+    },
+    // Placeholder
+    '& input::placeholder': {
+      fontWeight: 'bold',
+      color: 'text.primary',
+      opacity: 1,
+      ...sx?.['& input::placeholder'],
+    },
+    // Placeholder onFocus
+    '& input:focus::placeholder': {
+      opacity: 0.4,
+    },
+    // Text Input Wrapper
+    '&& .MuiInput-root': {
+      paddingLeft: paddingXInAutocomplete,
+      paddingRight: paddingXInAutocomplete + 4,
+      marginTop: marginTopInAutocomplete,
+      // Caret
+      '& .MuiAutocomplete-endAdornment': {
+        right: (theme) => theme.spacing(paddingXInAutocomplete),
+        mt: -marginTopInAutocomplete / 2,
+      },
+      '&:before, &:hover:before': { borderBottom: 0 },
+    },
+    // Text Input
+    '&& .MuiInput-input': {
+      marginLeft: marginBetweenAutocompleteIconAndText,
+      padding: (theme) => theme.spacing(0.5, 2, 2, 0),
+      fontWeight: 'bold',
+      // Cursor
+      '&:not(:focus)': { cursor: 'pointer' },
+      ...sx?.['&& .MuiInput-input'],
+    },
+  }
+
   return (
     <Autocomplete
       disablePortal
@@ -104,18 +111,24 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
           {...params}
           InputProps={{
             ...params.InputProps,
-            startAdornment: (
-              <InputAdornment position="start">
-                <Icon color="secondary" />
-              </InputAdornment>
-            ),
+            ...(Icon && {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <Icon color="secondary" />
+                </InputAdornment>
+              ),
+            }),
+          }}
+          InputLabelProps={{
+            shrink: true,
+            ...params?.InputLabelProps,
           }}
           fullWidth
           variant="standard"
           sx={{
-            ...textFieldSx,
             // Overrides
             ...sx,
+            ...textFieldSx,
           }}
           {...rest}
         />
@@ -132,7 +145,7 @@ export interface MegaSearchProps extends StackProps {
 }
 
 const MegaSearch: React.FC<MegaSearchProps> = (props) => {
-  const { dropdowns, ButtonProps, sx, hideButton } = props
+  const { dropdowns, ButtonProps, sx, hideButton, ...rest } = props
 
   return (
     <Stack
@@ -140,20 +153,35 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
       alignItems="center"
       divider={<Divider orientation="vertical" flexItem />}
       sx={{ background: 'white', borderRadius: 2, ...sx }}
+      {...rest}
     >
       {dropdowns.map((dropdown) => {
-        const { control, ...rest } = dropdown
+        const { control, onChange: injectedOnChange, ...rest } = dropdown
         const { name } = dropdown
-        const dropdownJsx = <MegaSearchAutocomplete key={name} {...rest} />
+        const dropdownJsx = (
+          <MegaSearchAutocomplete
+            key={name}
+            onChange={injectedOnChange}
+            {...rest}
+          />
+        )
 
         if (control) {
           return (
             <Controller
               name={name}
               control={control}
-              render={(params) => {
+              render={({ field }) => {
                 return (
-                  <MegaSearchAutocomplete key={name} {...rest} {...params} />
+                  <MegaSearchAutocomplete
+                    key={name}
+                    {...rest}
+                    {...field}
+                    onChange={(value) => {
+                      if (injectedOnChange) injectedOnChange(value)
+                      field.onChange(value)
+                    }}
+                  />
                 )
               }}
             />
@@ -182,7 +210,7 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
             ...ButtonProps?.sx,
           }}
         >
-          Search
+          {ButtonProps?.children ?? 'Search'}
         </Button>
       )}
     </Stack>
