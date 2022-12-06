@@ -46,6 +46,7 @@ import { SetModelFieldQuery } from '../fields/ModelField'
 import ControlledRadioGroup from '../fields/ControlledRadioGroup'
 import ControlledCountryCodeField from '../fields/ControlledCountryCodeField'
 import ControlledCountryField from '../fields/ControlledCountryField'
+import { SxProps } from '@mui/material'
 
 export enum FormSectionFieldTypeEnum {
   // String
@@ -136,6 +137,9 @@ export interface FormSectionFieldProps {
 
   // Submission
   skipOnSubmit?: boolean
+
+  // Styling
+  sx?: SxProps
 }
 
 export interface RenderFieldProps {

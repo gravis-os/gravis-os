@@ -13,7 +13,7 @@ import {
 } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import { ButtonProps } from '@mui/material'
+import { ButtonProps, SxProps } from '@mui/material'
 import styleConfig from '../config/styleConfig'
 import FilterForm from './FilterForm'
 import SearchForm from './SearchForm'
@@ -24,6 +24,7 @@ import CrudAddDialog from './CrudAddDialog'
 export interface CrudTableHeaderProps {
   module: CrudModule
   disableAdd?: boolean
+  disableChips?: boolean
   addModule?: CrudModule
   filterFormSections?: FormSectionsProps['sections']
   searchFormSections?: FormSectionsProps['sections']
@@ -42,6 +43,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     setFilters,
     module,
     disableAdd,
+    disableChips,
     addModule = module,
     addDialogProps,
     addFormSections = [],
@@ -74,7 +76,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     filters,
     setFilters,
   }) as ChipStackProps['items']
-  const hasChips = chips && chips?.length > 0
+  const hasChips = chips && chips?.length > 0 && !disableChips
 
   return (
     <>

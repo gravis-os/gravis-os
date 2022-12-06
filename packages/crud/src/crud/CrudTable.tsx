@@ -27,6 +27,7 @@ export interface CrudTableProps {
   setQuery?: (query) => Promise<any>
   headerProps?: Partial<CrudTableHeaderProps>
   disableAdd?: boolean
+  disableChips?: boolean
   disableDelete?: boolean
   disableManage?: boolean
   disablePreview?: boolean
@@ -43,10 +44,10 @@ export interface CrudTableProps {
   addFormProps?: Partial<CrudFormProps>
   dataTableProps?: Partial<DataTableProps>
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
-  crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>  
+  crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
 
   actions?: React.ReactNode
-  filters?: {status: String}
+  filters?: { status: string }
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
@@ -57,6 +58,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     headerProps,
     disableAdd,
+    disableChips,
     disableDelete,
     disableManage,
     disablePreview,
@@ -74,10 +76,10 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     addFormProps,
     dataTableProps: injectedDataTableProps,
     useGetCrudTableColumnDefsProps,
-    crudDeleteDialogProps,   
+    crudDeleteDialogProps,
 
     actions,
-    filters: injectedFilters
+    filters: injectedFilters,
   } = props
   const { table } = module
   const { user } = useUser()
@@ -89,16 +91,16 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   ])
   const { filters, setFilters } = useRouterQueryFilters({ filterFields })
   const [currentInjectedFilters, setCurrentInjectedFilters] = useState({})
-  
+
   useEffect(() => {
     if (!isEqual(currentInjectedFilters, injectedFilters))
       setCurrentInjectedFilters(injectedFilters)
   }, [injectedFilters])
   useEffect(() => {
-    if (currentInjectedFilters){
-      setFilters({...filters, ...currentInjectedFilters})      
+    if (currentInjectedFilters) {
+      setFilters({ ...filters, ...currentInjectedFilters })
     }
-  }, [currentInjectedFilters])  
+  }, [currentInjectedFilters])
 
 
   // TODO: This needs to be refactored for server-side pagination and filtering
@@ -153,13 +155,13 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     ...useGetCrudTableColumnDefsProps,
   })
 
-
   return (
     <>
       {/* Search + Add Row */}
       <CrudTableHeader
         module={module}
         disableAdd={disableAdd}
+        disableChips={disableChips}
         addModule={addModule}
         filters={filters}
         setFilters={setFilters}
@@ -195,7 +197,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       />
 
       {/* Delete Dialog */}
-      <CrudDeleteDialog {...crudDeleteDialogProps} module={module} />    
+      <CrudDeleteDialog {...crudDeleteDialogProps} module={module} />
     </>
   )
 }

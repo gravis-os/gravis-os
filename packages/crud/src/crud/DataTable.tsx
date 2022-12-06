@@ -14,7 +14,7 @@ export interface DataTableProps extends AgGridProps {
   sx?: SxProps
   actions?: React.ReactNode
   module?: CrudModule
-  
+
   disableHeader?: boolean
 }
 
@@ -36,9 +36,7 @@ const DataTable = React.forwardRef<
     rowData,
     columnDefs: injectedColumnDefs,
     module,
-
     disableHeader,
-
     ...rest
   } = props
 
@@ -61,64 +59,65 @@ const DataTable = React.forwardRef<
   return (
     <>
       {/* Toolbar */}
+      {!disableHeader && (
       <Card
         square
         py={1}
         disableLastGutterBottom
         sx={{ borderBottom: 1, borderColor: 'divider' }}
       >
-        {!disableHeader && (
-        <Stack
-          direction="row"
-          alignItems="center"
-          justifyContent="space-between"
-          spacing={1}
-        >
-          {/* Left */}
-          <Stack direction="row" spacing={1} alignItems="center" width="100%">
-            {/* Title */}
-            {TitleIcon && <TitleIcon sx={{ color: 'primary.main' }} />}
-            <Typography variant="h5">{module?.name?.plural}</Typography>
-
-            {/* Selection Count */}
-            {hasSelectedItems && (
-              <Typography variant="body2" color="text.secondary">
-                {selectedItems.length}{' '}
-                {printSingularOrPluralText(selectedItems, 'item')} selected
-              </Typography>
-            )}
-          </Stack>
-
-          {/* Right */}
           <Stack
             direction="row"
-            spacing={1}
             alignItems="center"
-            justifyContent="flex-end"
+            justifyContent="space-between"
+            spacing={1}
           >
-            {actions}
+            {/* Left */}
+            <Stack direction="row" spacing={1} alignItems="center" width="100%">
+              {/* Title */}
+              {TitleIcon && <TitleIcon sx={{ color: 'primary.main' }} />}
+              <Typography variant="h5">{module?.name?.plural}</Typography>
 
-            {/* BulkDeleteButton */}
-            {hasMultipleSelectedItems && (
-              <Button
-                size="small"
-                color="error"
-                startIcon={<DeleteOutlineOutlinedIcon />}
-                onClick={handleDeleteDialogOpen}
-              >
-                Bulk Delete
-              </Button>
-            )}
+              {/* Selection Count */}
+              {hasSelectedItems && (
+                <Typography variant="body2" color="text.secondary">
+                  {selectedItems.length}{' '}
+                  {printSingularOrPluralText(selectedItems, 'item')} selected
+                </Typography>
+              )}
+            </Stack>
 
-            {/* ManageColumnsMenuButton */}
-            <ManageColumnsMenuButton
-              initialColumnDefs={injectedColumnDefs}
-              columnDefs={columnDefs}
-              setColumnDefs={setColumnDefs}
-            />
+            {/* Right */}
+            <Stack
+              direction="row"
+              spacing={1}
+              alignItems="center"
+              justifyContent="flex-end"
+            >
+              {actions}
+
+              {/* BulkDeleteButton */}
+              {hasMultipleSelectedItems && (
+                <Button
+                  size="small"
+                  color="error"
+                  startIcon={<DeleteOutlineOutlinedIcon />}
+                  onClick={handleDeleteDialogOpen}
+                >
+                  Bulk Delete
+                </Button>
+              )}
+
+              {/* ManageColumnsMenuButton */}
+              <ManageColumnsMenuButton
+                initialColumnDefs={injectedColumnDefs}
+                columnDefs={columnDefs}
+                setColumnDefs={setColumnDefs}
+              />
+            </Stack>
           </Stack>
-        </Stack>)}
       </Card>
+      )}
 
       {/* AgGrid */}
       <AgGrid
@@ -138,6 +137,7 @@ const DataTable = React.forwardRef<
         rowDragMultiRow
         suppressRowClickSelection
         suppressMoveWhenRowDragging
+        suppressHorizontalScroll
         {...rest}
       />
     </>
