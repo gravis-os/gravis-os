@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.29
+
+### Patch Changes
+
+- [`625203d`](https://github.com/gravis-os/gravis-os/commit/625203dac5d6fb0d31652b309b92efe21e68f8d1) Thanks [@clodal](https://github.com/clodal)! - Update styles for apps/crm with a little ui refactoring
+
 ## 0.0.28
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.31
+
+### Patch Changes
+
+- [#132](https://github.com/gravis-os/gravis-os/pull/132) [`a026ad4`](https://github.com/gravis-os/gravis-os/commit/a026ad4ce5d91c35f763b92cafdb24e08c1a6160) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Make Icon optional and fix style overiding on MegaSearch
+
+- Updated dependencies [[`625203d`](https://github.com/gravis-os/gravis-os/commit/625203dac5d6fb0d31652b309b92efe21e68f8d1)]:
+  - @gravis-os/storage@0.0.27
+  - @gravis-os/types@0.0.29
+  - @gravis-os/ui@0.0.65
+
 ## 0.0.30
 
 ### Patch Changes
