@@ -16,6 +16,8 @@ export enum AccordionIconVariantEnum {
 
 export interface AccordionProps {
   transparent?: boolean
+  gutterBottom?: boolean
+  defaultExpandAll?: boolean
   disablePadding?: boolean
   items?: Array<{
     key: string
@@ -43,13 +45,18 @@ const Accordion: React.FC<AccordionProps> = (props) => {
   const {
     items: injectedItems,
     transparent,
+    gutterBottom,
+    defaultExpandAll,
     disablePadding,
     titleProps,
-    defaultExpandedKeys = [],
+    defaultExpandedKeys: injectedDefaultExpandedKeys = [],
     iconVariant = AccordionIconVariantEnum.Caret,
   } = props
 
   // Icon
+  const defaultExpandedKeys = defaultExpandAll
+    ? injectedItems.map(({ key }) => key)
+    : injectedDefaultExpandedKeys
   const initialExpanded = defaultExpandedKeys.length
     ? defaultExpandedKeys.reduce((acc, defaultExpandedKey) => {
         return { ...acc, [defaultExpandedKey]: true }
@@ -84,7 +91,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
             onChange={handleChange(key)}
             key={key}
             square
-            disableGutters
+            disableGutters={!gutterBottom}
             sx={{
               boxShadow: 'none',
               '&.Mui-expanded': {

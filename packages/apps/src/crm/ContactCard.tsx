@@ -1,17 +1,16 @@
 import React from 'react'
 import {
-  Card,
-  Stack,
-  Box,
   Accordion,
-  Typography,
-  DescriptionList,
+  Card,
   CardProps,
+  DescriptionList,
+  Stack,
+  Typography,
 } from '@gravis-os/ui'
 import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import { printAddress } from '@gravis-os/utils'
-import { StorageAvatar } from '@gravis-os/storage'
 import { Contact } from './types'
+import ContactBio from './ContactBio'
 
 export interface ContactCardProps extends CardProps {
   item: Contact
@@ -20,35 +19,12 @@ export interface ContactCardProps extends CardProps {
 const ContactCard: React.FC<ContactCardProps> = (props) => {
   const { item, ...rest } = props
 
-  const { avatar_src, avatar_alt, full_name, title, role, mobile, email } = item
-
-  const displayTitle = full_name || email || title
+  const { title, mobile, email } = item
 
   return (
     <Card disablePadding {...rest}>
       <Stack spacing={4}>
-        <Box
-          sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            flexDirection: 'column',
-            alignItems: 'center',
-            mt: 5,
-            px: 3,
-          }}
-        >
-          <StorageAvatar
-            src={avatar_src}
-            alt={avatar_alt || displayTitle}
-            size={80}
-          />
-          <Box sx={{ mt: 1 }}>
-            <Typography variant="h3">{displayTitle}</Typography>
-            <Typography variant="body1" color="text.secondary">
-              {role?.title}
-            </Typography>
-          </Box>
-        </Box>
+        <ContactBio item={item} />
 
         <Accordion
           defaultExpandedKeys={['profile']}

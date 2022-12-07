@@ -11,3 +11,6 @@ export * from './StatusUpdateFormCard'
 
 export { default as ContactCard } from './ContactCard'
 export * from './ContactCard'
+
+export { default as ContactBio } from './ContactBio'
+export * from './ContactBio'
