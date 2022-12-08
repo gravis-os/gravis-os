@@ -6,8 +6,12 @@ import {
   Accordion as MuiAccordion,
   AccordionDetails,
   AccordionSummary,
+  useMediaQuery,
+  useTheme,
 } from '@mui/material'
 import Typography, { TypographyProps } from './Typography'
+import Stack, { StackProps } from './Stack'
+import IconButton, { IconButtonProps } from './IconButton'
 
 export enum AccordionIconVariantEnum {
   Plus = 'plus',
@@ -15,16 +19,18 @@ export enum AccordionIconVariantEnum {
 }
 
 export interface AccordionProps {
-  transparent?: boolean
   gutterBottom?: boolean
   defaultExpandAll?: boolean
+  defaultExpandAllOnDesktopOnly?: boolean
   disablePadding?: boolean
   items?: Array<{
     key: string
     title: React.ReactNode
     children?: React.ReactNode
     content?: React.ReactNode
+    actionIconButtons?: IconButtonProps[]
   }>
+  transparent?: boolean
   titleProps?: TypographyProps
   defaultExpandedKeys?: string[]
   iconVariant?: AccordionIconVariantEnum
@@ -47,6 +53,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
     transparent,
     gutterBottom,
     defaultExpandAll,
+    defaultExpandAllOnDesktopOnly,
     disablePadding,
     titleProps,
     defaultExpandedKeys: injectedDefaultExpandedKeys = [],
@@ -54,9 +61,12 @@ const Accordion: React.FC<AccordionProps> = (props) => {
   } = props
 
   // Icon
-  const defaultExpandedKeys = defaultExpandAll
-    ? injectedItems.map(({ key }) => key)
-    : injectedDefaultExpandedKeys
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
+  const defaultExpandedKeys =
+    defaultExpandAll || (defaultExpandAllOnDesktopOnly && isDesktop)
+      ? injectedItems.map(({ key }) => key)
+      : injectedDefaultExpandedKeys
   const initialExpanded = defaultExpandedKeys.length
     ? defaultExpandedKeys.reduce((acc, defaultExpandedKey) => {
         return { ...acc, [defaultExpandedKey]: true }
@@ -76,7 +86,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
   return (
     <div>
       {items.map((item) => {
-        const { key, title } = item
+        const { key, title, actionIconButtons = [] } = item
         const content = item.children || item.content
 
         const isExpanded = Boolean(expanded[key])
@@ -108,10 +118,44 @@ const Accordion: React.FC<AccordionProps> = (props) => {
                 ...(disablePadding && { px: 0 }),
               }}
             >
-              <Typography variant="h5" {...titleProps}>
-                {title}
-              </Typography>
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent="space-between"
+                spacing={1}
+              >
+                <div>
+                  <Typography variant="h5" {...titleProps}>
+                    {title}
+                  </Typography>
+                </div>
+
+                <div>
+                  {Boolean(actionIconButtons?.length) && (
+                    <Stack direction="row" alignItems="center" sx={{ mr: 0.5 }}>
+                      {actionIconButtons.map((actionIconButton) => (
+                        <IconButton
+                          {...actionIconButton}
+                          sx={{
+                            // Mirror expanded icon size
+                            padding: 0.5,
+                            '& svg': { fontSize: '1.25rem' },
+                            ...actionIconButton?.sx,
+                          }}
+                          onClick={(e) => {
+                            e.stopPropagation()
+                            e.preventDefault()
+                            actionIconButton.onClick(e)
+                          }}
+                        />
+                      ))}
+                    </Stack>
+                  )}
+                </div>
+              </Stack>
             </AccordionSummary>
+
+            {/* Details */}
             <AccordionDetails
               sx={{
                 ...(disablePadding && { px: 0 }),

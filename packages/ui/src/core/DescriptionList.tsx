@@ -4,6 +4,7 @@ import startCase from 'lodash/startCase'
 import Stack, { StackProps } from './Stack'
 import Grid from './Grid'
 import Typography, { TypographyProps } from './Typography'
+import Button, { ButtonProps } from './Button'
 
 export interface DescriptionListItem {
   key: string
@@ -16,20 +17,65 @@ export interface DescriptionListProps extends Omit<StackProps, 'title'> {
   placeholder?: string
   title?: React.ReactNode
   titleProps?: TypographyProps
+  actions?: React.ReactNode
+  actionButtonProps?: ButtonProps
 }
 
 const DescriptionList: React.FC<DescriptionListProps> = (props) => {
-  const { title, titleProps, items, sx, placeholder = '-' } = props
+  const {
+    actions,
+    actionButtonProps,
+    title,
+    titleProps,
+    items,
+    sx,
+    placeholder = '-',
+  } = props
 
   if (!items?.length) return null
 
   return (
     <div>
-      {/* Title */}
-      {title && (
-        <Typography variant="overline" {...titleProps}>
-          {title}
-        </Typography>
+      {/* Header */}
+      {(title || actions || actionButtonProps) && (
+        <Stack
+          direction="row"
+          alignItems="center"
+          justifyContent="space-between"
+          spacing={1}
+        >
+          <div>
+            {title && (
+              <Typography variant="overline" gutterBottom {...titleProps}>
+                {title}
+              </Typography>
+            )}
+          </div>
+
+          <div>
+            <Stack direction="row" alignItems="center" spacing={0.5}>
+              <div>{actions}</div>
+
+              <div>
+                {actionButtonProps && (
+                  <Button
+                    variant="text"
+                    size="small"
+                    sx={{
+                      mr: -2,
+                      '&:hover, &:active': {
+                        backgroundColor: 'transparent',
+                        color: 'primary.dark',
+                      },
+                    }}
+                    title="Edit"
+                    {...actionButtonProps}
+                  />
+                )}
+              </div>
+            </Stack>
+          </div>
+        </Stack>
       )}
 
       {/* Stack */}
