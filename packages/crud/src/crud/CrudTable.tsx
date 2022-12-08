@@ -1,7 +1,7 @@
-import React, { ReactElement, ReactNode, useEffect, useRef, useState } from 'react'
+import React, { useRef } from 'react'
 import { useUser } from '@gravis-os/auth'
 import { useQuery } from 'react-query'
-import { FormSectionsProps } from '@gravis-os/form'
+import { FormSectionFieldProps, FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import DataTable, { DataTableProps } from './DataTable'
@@ -18,7 +18,6 @@ import fetchCrudItems from './fetchCrudItems'
 import { CrudTableColumnDef } from '../types'
 import useCrud from './useCrud'
 import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
-import isEqual from 'lodash/isEqual'
 
 export interface CrudTableProps {
   module: CrudModule
@@ -39,7 +38,6 @@ export interface CrudTableProps {
   filterFormSections?: FormSectionsProps['sections']
   searchFormSections?: FormSectionsProps['sections']
   addFormSections?: FormSectionsProps['sections']
-
   previewFormProps?: Partial<CrudFormProps>
   addFormProps?: Partial<CrudFormProps>
   dataTableProps?: Partial<DataTableProps>
@@ -47,7 +45,9 @@ export interface CrudTableProps {
   crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
 
   actions?: React.ReactNode
-  filters?: { status: string }
+  filters?: Record<string, any>
+  filterFields?: FormSectionFieldProps[]
+  disableReset?: boolean
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
@@ -80,6 +80,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     actions,
     filters: injectedFilters,
+    filterFields: injectedFilterFields,
+    disableReset
   } = props
   const { table } = module
   const { user } = useUser()
@@ -90,27 +92,25 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     ...filterFormSections,
   ])
   const { filters, setFilters } = useRouterQueryFilters({ filterFields })
-  const [currentInjectedFilters, setCurrentInjectedFilters] = useState({})
 
-  useEffect(() => {
-    if (!isEqual(currentInjectedFilters, injectedFilters))
-      setCurrentInjectedFilters(injectedFilters)
-  }, [injectedFilters])
-  useEffect(() => {
-    if (currentInjectedFilters) {
-      setFilters({ ...filters, ...currentInjectedFilters })
-    }
-  }, [currentInjectedFilters])
-
+  const combinedFilters = {
+    ...filters,
+    ...injectedFilters,
+  }
+  const combinedFilterFields = (filterFields || []).concat(injectedFilterFields)
 
   // TODO: This needs to be refactored for server-side pagination and filtering
   // List items Fetch items with ReactQuery's composite key using filters as a dep
   const { data: fetchedItems, refetch } = useQuery(
-    [table.name, 'list', filters],
-    () => fetchCrudItems({ filters, module, setQuery, filterFields }),
+    [table.name, 'list', combinedFilters],
+    () => fetchCrudItems({ filters: combinedFilters, module, setQuery, filterFields: combinedFilterFields }),
     // Only allow authenticated users to fetch CRUD items due to RLS
-    { enabled: Boolean(user) }
+    { enabled: (Boolean(user)
+      // && filters['content_creator_user_id'] == userId
+    )}
+    //
   )
+
   // Add virtuals
   const items =
     module &&
@@ -173,6 +173,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
           crudFormProps: addFormProps,
           ...headerProps?.addDialogProps,
         }}
+        disableReset = {disableReset}
       />
       {/* Additional actions (tabs) */}
       {actions}

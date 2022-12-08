@@ -13,7 +13,7 @@ import {
 } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import { ButtonProps, SxProps } from '@mui/material'
+import { ButtonProps } from '@mui/material'
 import styleConfig from '../config/styleConfig'
 import FilterForm from './FilterForm'
 import SearchForm from './SearchForm'
@@ -35,6 +35,7 @@ export interface CrudTableHeaderProps {
   >
   addDialogProps?: Record<string, unknown>
   renderAddButton?: (buttonProps: ButtonProps) => React.ReactElement
+  disableReset?: boolean
 }
 
 const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
@@ -50,6 +51,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     searchFormSections = [],
     filterFormSections = [],
     renderAddButton,
+    disableReset,
   } = props
   const { route, name } = module
 
@@ -65,7 +67,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const { setAddDialogOpen } = useAddDialogProps
 
   // Methods
-  const handleSubmit = ({ values }) => {    
+  const handleSubmit = ({ values }) => {   
     setFilters({ ...filters, ...values })
     setOpenFilterDrawer(false)
   }
@@ -116,7 +118,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
               spacing={1}
             >
               {/* Reset */}
-              {hasChips && <Button onClick={handleReset}>Reset</Button>}
+              {hasChips && !disableReset && <Button onClick={handleReset}>Reset</Button>}
 
               {/* Filters */}
               {hasFilterFormSections && (

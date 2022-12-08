@@ -1,11 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import {
   Container,
   ContainerProps,
-  Tabs,
-  useTabs,
-  TabsProps,
-  UseTabsProps,
 } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
@@ -21,11 +17,8 @@ export interface ListPageProps {
   addFormSections?: FormSectionsProps['sections']
   crudTableProps?: Partial<CrudTableProps>
   containerProps?: ContainerProps
-
-  // Tabs
-  tabs?: TabsProps['items']
-  tabsProps?: TabsProps
-  useTabsProps?: UseTabsProps
+  actions?: React.ReactNode
+  disableHeader?: boolean
 }
 
 const ListPage: React.FC<ListPageProps> = (props) => {
@@ -38,11 +31,8 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     columnDefs,
     module,
     containerProps,
-
-    // Tabs
-    tabs: injectedTabs,
-    tabsProps,
-    useTabsProps,
+    actions,
+    disableHeader
   } = props
   const { name, route } = module
 
@@ -60,42 +50,19 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     },
   ]
 
-  // ==============================
-  // Tabs
-  // ==============================
-  const onUseTabs = useTabs({ tabs: injectedTabs, ...useTabsProps })
-  const { hasTabs, currentTab, items: tabs } = onUseTabs
-  const [filter, setFilter] = useState('')
-
-  useEffect(() => {
-    setFilter(currentTab)
-  }, [currentTab])
-
-  const actionJsx = (
-    <Tabs
-      {...onUseTabs}
-      {...tabsProps}
-      currentTab={currentTab}
-    />
-  )
-
   return (
     <Container maxWidth="xl" {...containerProps}>
-      <PageHeader {...pageHeaderProps} />
+      {!disableHeader && <PageHeader {...pageHeaderProps} />}
       <CrudTable
         isListPage
         columnDefs={columnDefs}
-        actions={actionJsx}
+        actions = {actions}
         module={module}
         addFormSections={addFormSections}
         previewFormSections={previewFormSections}
         filterFormSections={filterFormSections}
         searchFormSections={searchFormSections}
         {...crudTableProps}
-        filters={{
-          status: currentTab,
-          ...crudTableProps?.filters,
-        }}
       />
     </Container>
   )
