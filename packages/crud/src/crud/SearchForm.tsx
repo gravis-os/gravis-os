@@ -77,10 +77,10 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                     ),
                   },
                   size: 'small',
-                  sx:{
+                  sx: {
                     backgroundColor: 'common.white',
                     filter: 'drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1))',
-                    ...(field as FormSectionFieldProps).sx
+                    ...(field as FormSectionFieldProps)?.sx,
                   },
                 }
               }),

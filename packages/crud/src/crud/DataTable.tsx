@@ -60,12 +60,12 @@ const DataTable = React.forwardRef<
     <>
       {/* Toolbar */}
       {!disableHeader && (
-      <Card
-        square
-        py={1}
-        disableLastGutterBottom
-        sx={{ borderBottom: 1, borderColor: 'divider' }}
-      >
+        <Card
+          square
+          py={1}
+          disableLastGutterBottom
+          sx={{ borderBottom: 1, borderColor: 'divider' }}
+        >
           <Stack
             direction="row"
             alignItems="center"
@@ -116,7 +116,7 @@ const DataTable = React.forwardRef<
               />
             </Stack>
           </Stack>
-      </Card>
+        </Card>
       )}
 
       {/* AgGrid */}

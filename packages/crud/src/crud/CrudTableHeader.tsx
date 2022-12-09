@@ -67,7 +67,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const { setAddDialogOpen } = useAddDialogProps
 
   // Methods
-  const handleSubmit = ({ values }) => {   
+  const handleSubmit = ({ values }) => {
     setFilters({ ...filters, ...values })
     setOpenFilterDrawer(false)
   }
@@ -118,7 +118,9 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
               spacing={1}
             >
               {/* Reset */}
-              {hasChips && !disableReset && <Button onClick={handleReset}>Reset</Button>}
+              {hasChips && !disableReset && (
+                <Button onClick={handleReset}>Reset</Button>
+              )}
 
               {/* Filters */}
               {hasFilterFormSections && (
@@ -187,7 +189,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
       </Stack>
 
       {/* Second Row */}
-      {hasChips  && !disableChips && (
+      {hasChips && !disableChips && (
         <Paper square sx={{ p: 2 }}>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="overline">Filters:</Typography>

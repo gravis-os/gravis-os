@@ -1,8 +1,5 @@
 import React from 'react'
-import {
-  Container,
-  ContainerProps,
-} from '@gravis-os/ui'
+import { Container, ContainerProps } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import PageHeader from './PageHeader'
@@ -30,7 +27,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     columnDefs,
     module,
     containerProps,
-    disableHeader
+    disableHeader,
   } = props
   const { name, route } = module
 

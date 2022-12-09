@@ -93,15 +93,23 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     ...filters,
     ...injectedFilters,
   }
-  const combinedFilterFields = (filterFields || []).concat(injectedFilterFields)
+  const combinedFilterFields = (filterFields || []).concat(
+    injectedFilterFields || []
+  )
 
   // TODO: This needs to be refactored for server-side pagination and filtering
   // List items Fetch items with ReactQuery's composite key using filters as a dep
   const { data: fetchedItems, refetch } = useQuery(
     [table.name, 'list', combinedFilters],
-    () => fetchCrudItems({ filters: combinedFilters, module, setQuery, filterFields: combinedFilterFields }),
+    () =>
+      fetchCrudItems({
+        filters: combinedFilters,
+        module,
+        setQuery,
+        filterFields: combinedFilterFields,
+      }),
     // Only allow authenticated users to fetch CRUD items due to RLS
-    { enabled: Boolean(user)}
+    { enabled: Boolean(user) }
   )
 
   // Add virtuals
