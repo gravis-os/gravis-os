@@ -58,7 +58,6 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     headerProps,
     disableAdd,
-    disableChips,
     disableDelete,
     disableManage,
     disablePreview,
@@ -81,7 +80,6 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     actions,
     filters: injectedFilters,
     filterFields: injectedFilterFields,
-    disableReset
   } = props
   const { table } = module
   const { user } = useUser()
@@ -158,7 +156,6 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       <CrudTableHeader
         module={module}
         disableAdd={disableAdd}
-        disableChips={disableChips}
         addModule={addModule}
         filters={filters}
         setFilters={setFilters}
@@ -170,9 +167,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
           crudFormProps: addFormProps,
           ...headerProps?.addDialogProps,
         }}
-        disableReset = {disableReset}
       />
-      {/* Additional actions (tabs) */}
+      {/* Additional actions (eg. tabs, etc. ) */}
       {actions}
 
       {/* DataTable + Toolbar Row */}

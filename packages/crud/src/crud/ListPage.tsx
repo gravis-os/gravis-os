@@ -31,7 +31,6 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     columnDefs,
     module,
     containerProps,
-    actions,
     disableHeader
   } = props
   const { name, route } = module
@@ -56,7 +55,6 @@ const ListPage: React.FC<ListPageProps> = (props) => {
       <CrudTable
         isListPage
         columnDefs={columnDefs}
-        actions = {actions}
         module={module}
         addFormSections={addFormSections}
         previewFormSections={previewFormSections}

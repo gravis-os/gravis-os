@@ -78,7 +78,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     filters,
     setFilters,
   }) as ChipStackProps['items']
-  const hasChips = chips && chips?.length > 0 && !disableChips
+  const hasChips = chips && chips?.length > 0
 
   return (
     <>
@@ -187,7 +187,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
       </Stack>
 
       {/* Second Row */}
-      {hasChips && (
+      {hasChips  && !disableChips && (
         <Paper square sx={{ p: 2 }}>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="overline">Filters:</Typography>
