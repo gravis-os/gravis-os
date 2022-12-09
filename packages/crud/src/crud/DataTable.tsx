@@ -137,7 +137,6 @@ const DataTable = React.forwardRef<
         rowDragMultiRow
         suppressRowClickSelection
         suppressMoveWhenRowDragging
-        suppressHorizontalScroll
         {...rest}
       />
     </>

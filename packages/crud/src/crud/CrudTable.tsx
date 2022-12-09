@@ -105,10 +105,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     [table.name, 'list', combinedFilters],
     () => fetchCrudItems({ filters: combinedFilters, module, setQuery, filterFields: combinedFilterFields }),
     // Only allow authenticated users to fetch CRUD items due to RLS
-    { enabled: (Boolean(user)
-      // && filters['content_creator_user_id'] == userId
-    )}
-    //
+    { enabled: Boolean(user)}
   )
 
   // Add virtuals
