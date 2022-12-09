@@ -134,6 +134,11 @@ export interface ModelFieldProps {
    * If not provided, the main primary key will be used.
    */
   optionLabelKey?: string
+
+  /**
+   * Group options by the returned string of the groupBy function
+   */
+  groupBy?: ModelAutocompleteProps['groupBy']
 }
 
 const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {

@@ -1,7 +1,7 @@
 import React, { useRef } from 'react'
 import { useUser } from '@gravis-os/auth'
 import { useQuery } from 'react-query'
-import { FormSectionsProps } from '@gravis-os/form'
+import { FormSectionFieldProps, FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import DataTable, { DataTableProps } from './DataTable'
@@ -37,12 +37,15 @@ export interface CrudTableProps {
   filterFormSections?: FormSectionsProps['sections']
   searchFormSections?: FormSectionsProps['sections']
   addFormSections?: FormSectionsProps['sections']
-
   previewFormProps?: Partial<CrudFormProps>
   addFormProps?: Partial<CrudFormProps>
   dataTableProps?: Partial<DataTableProps>
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
   crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
+
+  actions?: React.ReactNode
+  filters?: Record<string, any>
+  filterFields?: FormSectionFieldProps[]
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
@@ -71,6 +74,10 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     dataTableProps: injectedDataTableProps,
     useGetCrudTableColumnDefsProps,
     crudDeleteDialogProps,
+
+    actions,
+    filters: injectedFilters,
+    filterFields: injectedFilterFields,
   } = props
   const { table } = module
   const { user } = useUser()
@@ -82,14 +89,29 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   ])
   const { filters, setFilters } = useRouterQueryFilters({ filterFields })
 
+  const combinedFilters = {
+    ...filters,
+    ...injectedFilters,
+  }
+  const combinedFilterFields = (filterFields || []).concat(
+    injectedFilterFields || []
+  )
+
   // TODO: This needs to be refactored for server-side pagination and filtering
   // List items Fetch items with ReactQuery's composite key using filters as a dep
   const { data: fetchedItems, refetch } = useQuery(
-    [table.name, 'list', filters],
-    () => fetchCrudItems({ filters, module, setQuery, filterFields }),
+    [table.name, 'list', combinedFilters],
+    () =>
+      fetchCrudItems({
+        filters: combinedFilters,
+        module,
+        setQuery,
+        filterFields: combinedFilterFields,
+      }),
     // Only allow authenticated users to fetch CRUD items due to RLS
     { enabled: Boolean(user) }
   )
+
   // Add virtuals
   const items =
     module &&
@@ -152,6 +174,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
           ...headerProps?.addDialogProps,
         }}
       />
+      {/* Additional actions (eg. tabs, etc. ) */}
+      {actions}
 
       {/* DataTable + Toolbar Row */}
       <DataTable
