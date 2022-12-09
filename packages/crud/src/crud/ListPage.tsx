@@ -17,7 +17,6 @@ export interface ListPageProps {
   addFormSections?: FormSectionsProps['sections']
   crudTableProps?: Partial<CrudTableProps>
   containerProps?: ContainerProps
-  actions?: React.ReactNode
   disableHeader?: boolean
 }
 

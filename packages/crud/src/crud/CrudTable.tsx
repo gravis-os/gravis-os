@@ -26,7 +26,6 @@ export interface CrudTableProps {
   setQuery?: (query) => Promise<any>
   headerProps?: Partial<CrudTableHeaderProps>
   disableAdd?: boolean
-  disableChips?: boolean
   disableDelete?: boolean
   disableManage?: boolean
   disablePreview?: boolean
@@ -47,7 +46,6 @@ export interface CrudTableProps {
   actions?: React.ReactNode
   filters?: Record<string, any>
   filterFields?: FormSectionFieldProps[]
-  disableReset?: boolean
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
