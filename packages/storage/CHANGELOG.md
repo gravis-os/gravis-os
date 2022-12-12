@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.28
+
+### Patch Changes
+
+- [#134](https://github.com/gravis-os/gravis-os/pull/134) [`2eecec7`](https://github.com/gravis-os/gravis-os/commit/2eecec740aea49194e098f3ecab8252047773cfd) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Make setFormValue optional and add storageRecords and setUpsertRowsValue props
+
 ## 0.0.27
 
 ### Patch Changes
