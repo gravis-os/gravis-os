@@ -7,7 +7,8 @@ export interface MakeGetModuleHrefProps {
 }
 
 /**
- * A function that returns a function that returns a href for a given module and items
+ * A curried function that returns a href for a given module and items
+ * Used for constructing consistent routes based on CrudModules
  * @param prefix
  * @param modules
  */

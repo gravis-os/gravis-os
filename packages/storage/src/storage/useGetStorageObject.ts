@@ -6,6 +6,7 @@ type UseGetStorageObject = (props: {
   filePath?: string
   bucketName?: string
   client?: SupabaseClient
+  skip?: boolean
 }) => { src: string }
 
 const useGetStorageObject: UseGetStorageObject = (props) => {
@@ -14,6 +15,7 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
     value,
     client = supabaseClient,
     bucketName = 'public',
+    skip,
   } = props
 
   // States
@@ -41,8 +43,8 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
         console.error('Error downloading image: ', error.message)
       }
     }
-    if (!objectUrl && savedFilePath) fetchStorageObject(savedFilePath)
-  }, [objectUrl, savedFilePath])
+    if (!objectUrl && savedFilePath && !skip) fetchStorageObject(savedFilePath)
+  }, [objectUrl, savedFilePath, skip])
 
   return { src: objectUrl }
 }

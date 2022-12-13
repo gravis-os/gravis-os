@@ -18,9 +18,21 @@ interface StorageImageProps extends Omit<ImageProps, 'alt' | 'src'> {
 const StorageImage: React.FC<StorageImageProps> = (props) => {
   const { src: filePath, value, alt, ...rest } = props
 
-  const { src } = useGetStorageObject({ filePath, value })
+  const isAbsolutePath = filePath.startsWith('http')
 
-  return <Image src={src} alt={alt || (src ? 'Image' : 'No image')} {...rest} />
+  const { src } = useGetStorageObject({
+    filePath,
+    value,
+    skip: isAbsolutePath,
+  })
+
+  return (
+    <Image
+      src={isAbsolutePath ? filePath : src}
+      alt={alt || (src ? 'Image' : 'No image')}
+      {...rest}
+    />
+  )
 }
 
 export default StorageImage
