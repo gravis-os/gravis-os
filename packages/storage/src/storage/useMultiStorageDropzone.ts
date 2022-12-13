@@ -9,9 +9,13 @@ import { File } from './types'
 
 export interface UseMultiStorageDropzoneProps {
   item?: CrudItem // The primary module instance (e.g. Product) instance, possibly undefined for a new product
+  storageRecords?: Record<string, unknown>[]
   module: { table: { name } } // Product module
   storageModule: { table: { name } } // ProductImage module
-  setFormValue: (value: any) => void
+  setFormValue?: (value: any) => void
+  setUpsertRowsValue?: (
+    rows: Record<string, unknown>[]
+  ) => Record<string, unknown>[]
   dropzoneProps?: DropzoneOptions
 }
 
@@ -23,13 +27,21 @@ export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
 }
 
 const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
-  const { item, module, storageModule, setFormValue, dropzoneProps } = props
+  const {
+    item,
+    storageRecords,
+    module,
+    storageModule,
+    setFormValue,
+    setUpsertRowsValue,
+    dropzoneProps,
+  } = props
 
   // Vars
   const primaryTableName = module.table.name // Base model e.g. `product`
   const foreignTableName = storageModule.table.name // Has Many e.g. `product_image`
   const primaryRecord = item // `product` instance
-  const foreignRecords = item?.[foreignTableName] // `product_image` instances
+  const foreignRecords = storageRecords ?? item?.[foreignTableName] // `product_image` instances
 
   // State
   const { files, setFiles } = useFiles({ items: foreignRecords })
@@ -54,21 +66,29 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       if (!uploadedFileMetas.length) return
 
       // If uploaded successfully, prepare to save the S3 keys to db
-      const foreignTableRows = uploadedFileMetas.map((uploadedFileMeta, i) => {
-        const savedFileKey = uploadedFileMeta.data.Key
-        const file = files[i]
-        return {
-          src: savedFileKey,
-          alt: file.name,
-          name: file.name,
-          size: file.size,
-          type: file.type,
-          position: file.position || 0,
+      const defaultForeignTableRows = uploadedFileMetas.map(
+        (uploadedFileMeta, i) => {
+          const savedFileKey = uploadedFileMeta.data.Key
+          const file = files[i]
+          return {
+            src: savedFileKey,
+            alt: file.name,
+            name: file.name,
+            size: file.size,
+            type: file.type,
+            position: file.position || 0,
+          }
         }
-      })
+      )
+
+      // Allow modify foreignTableRows
+      const foreignTableRows =
+        primaryRecord && setUpsertRowsValue
+          ? setUpsertRowsValue(defaultForeignTableRows)
+          : defaultForeignTableRows
 
       // This is a new item, defer db saving action instead by storing in the form value
-      if (!primaryRecord) {
+      if (!primaryRecord && setFormValue) {
         setFormValue(foreignTableRows)
         return foreignTableRows
       }

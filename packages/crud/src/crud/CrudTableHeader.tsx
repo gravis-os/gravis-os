@@ -24,6 +24,7 @@ import CrudAddDialog from './CrudAddDialog'
 export interface CrudTableHeaderProps {
   module: CrudModule
   disableAdd?: boolean
+  disableChips?: boolean
   addModule?: CrudModule
   filterFormSections?: FormSectionsProps['sections']
   searchFormSections?: FormSectionsProps['sections']
@@ -34,6 +35,7 @@ export interface CrudTableHeaderProps {
   >
   addDialogProps?: Record<string, unknown>
   renderAddButton?: (buttonProps: ButtonProps) => React.ReactElement
+  disableReset?: boolean
 }
 
 const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
@@ -42,12 +44,14 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     setFilters,
     module,
     disableAdd,
+    disableChips,
     addModule = module,
     addDialogProps,
     addFormSections = [],
     searchFormSections = [],
     filterFormSections = [],
     renderAddButton,
+    disableReset,
   } = props
   const { route, name } = module
 
@@ -114,7 +118,9 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
               spacing={1}
             >
               {/* Reset */}
-              {hasChips && <Button onClick={handleReset}>Reset</Button>}
+              {hasChips && !disableReset && (
+                <Button onClick={handleReset}>Reset</Button>
+              )}
 
               {/* Filters */}
               {hasFilterFormSections && (
@@ -183,7 +189,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
       </Stack>
 
       {/* Second Row */}
-      {hasChips && (
+      {hasChips && !disableChips && (
         <Paper square sx={{ p: 2 }}>
           <Stack direction="row" alignItems="center" spacing={1}>
             <Typography variant="overline">Filters:</Typography>

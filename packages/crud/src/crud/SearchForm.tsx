@@ -5,6 +5,7 @@ import { Stack, Button } from '@gravis-os/ui'
 import {
   Form,
   FormProps,
+  FormSectionFieldProps,
   FormSections,
   FormSectionsProps,
 } from '@gravis-os/form'
@@ -79,6 +80,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                   sx: {
                     backgroundColor: 'common.white',
                     filter: 'drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1))',
+                    ...(field as FormSectionFieldProps)?.sx,
                   },
                 }
               }),

@@ -14,6 +14,7 @@ export interface ListPageProps {
   addFormSections?: FormSectionsProps['sections']
   crudTableProps?: Partial<CrudTableProps>
   containerProps?: ContainerProps
+  disableHeader?: boolean
 }
 
 const ListPage: React.FC<ListPageProps> = (props) => {
@@ -26,6 +27,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     columnDefs,
     module,
     containerProps,
+    disableHeader,
   } = props
   const { name, route } = module
 
@@ -45,8 +47,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
 
   return (
     <Container maxWidth="xl" {...containerProps}>
-      <PageHeader {...pageHeaderProps} />
-
+      {!disableHeader && <PageHeader {...pageHeaderProps} />}
       <CrudTable
         isListPage
         columnDefs={columnDefs}
