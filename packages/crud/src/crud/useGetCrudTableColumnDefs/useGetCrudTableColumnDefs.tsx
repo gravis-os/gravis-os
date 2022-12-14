@@ -64,36 +64,34 @@ const useGetCrudTableColumnDefs = (
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
 
   // Column addons
-  const nextColumnDefs = React.useMemo(
-    () =>
-      flowRight([
-        withCheckboxSelection(),
-        withFallbackPlaceholder({
-          fallbackPlaceholder,
-          disableFallbackPlaceholder,
-        }),
-        withTimestampFormat(),
-        withPreview({
-          setPreview,
-          module,
-          previewFormSections,
-          disablePreview,
-        }),
-        withHeaderNames(),
-        withTitle({ isDesktop, disableTitle }),
-        withHide({ user }),
-      ])(injectedColumnDefs).filter(({ field }) => field !== 'actions'),
-    [
-      disablePreview,
-      disableTitle,
-      injectedColumnDefs,
-      isDesktop,
-      module,
-      previewFormSections,
-      setPreview,
-      user,
-    ]
-  )
+  const columnDefsUseMemoDeps = [
+    disablePreview,
+    disableTitle,
+    injectedColumnDefs,
+    isDesktop,
+    module,
+    previewFormSections,
+    user,
+  ]
+  const nextColumnDefs = React.useMemo(() => {
+    return flowRight([
+      withCheckboxSelection(),
+      withFallbackPlaceholder({
+        fallbackPlaceholder,
+        disableFallbackPlaceholder,
+      }),
+      withTimestampFormat(),
+      withPreview({
+        setPreview,
+        module,
+        previewFormSections,
+        disablePreview,
+      }),
+      withHeaderNames(),
+      withTitle({ isDesktop, disableTitle }),
+      withHide({ user }),
+    ])(injectedColumnDefs).filter(({ field }) => field !== 'actions')
+  }, columnDefsUseMemoDeps)
 
   // Actions column
   const injectedActionsColumnDef = injectedColumnDefs.find(

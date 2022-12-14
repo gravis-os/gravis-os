@@ -17,9 +17,9 @@ interface StorageAvatarProps extends Omit<AvatarProps, 'alt'> {
  * @example <StorageAvatar src={item.avatar_src} alt={item.avatar_alt} />
  */
 const StorageAvatar: React.FC<StorageAvatarProps> = (props) => {
-  const { src: filePath, size = 64, value, alt, ...rest } = props
+  const { src: injectedSrc, size = 64, value, alt, ...rest } = props
 
-  const { src } = useGetStorageObject({ filePath, value })
+  const { src } = useGetStorageObject({ filePath: injectedSrc, value })
 
   return <Avatar src={src} alt={alt} size={size} {...rest} />
 }

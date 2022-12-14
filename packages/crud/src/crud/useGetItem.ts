@@ -34,7 +34,7 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
   const slug = injectedSlug || routerSlug
 
   // Method
-  const getItem = async ({ slug }) => {
+  const fetchItem = async ({ slug }) => {
     const onItemQuery = await supabaseClient
       .from(table.name)
       .select(select?.detail || '*')
@@ -56,7 +56,7 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
     : [table.name, 'detail', { routerSlug, slug }]
 
   // Fetch
-  const onUseQuery = useQuery(queryKey, () => getItem({ slug }), {
+  const onUseQuery = useQuery(queryKey, () => fetchItem({ slug }), {
     enabled: Boolean(user && slug),
     ...queryOptions,
   })

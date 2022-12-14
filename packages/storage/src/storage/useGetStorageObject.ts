@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { QueryObserverOptions, useQuery } from 'react-query'
 
 type UseGetStorageObject = (props: {
   value?: string // Typically the form value
@@ -7,6 +8,7 @@ type UseGetStorageObject = (props: {
   bucketName?: string
   client?: SupabaseClient
   skip?: boolean
+  queryOptions?: QueryObserverOptions
 }) => { src: string }
 
 const useGetStorageObject: UseGetStorageObject = (props) => {
@@ -16,6 +18,7 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
     client = supabaseClient,
     bucketName = 'public',
     skip,
+    queryOptions,
   } = props
 
   // States
@@ -29,22 +32,23 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
     setSavedFilePath(injectedFilePath || value)
   }, [injectedFilePath, value])
 
+  const fetchStorageObject = async (path) => {
+    const { data, error } = await client.storage.from(bucketName).download(path)
+    if (error || !data) throw error
+    const objectUrl = URL.createObjectURL(data)
+    if (objectUrl) setObjectUrl(objectUrl)
+    return data
+  }
+
   // Download image when src exists
-  useEffect(() => {
-    const fetchStorageObject = async (path) => {
-      try {
-        const { data, error } = await client.storage
-          .from(bucketName)
-          .download(path)
-        if (error || !data) throw error
-        const objectUrl = URL.createObjectURL(data)
-        if (objectUrl) setObjectUrl(objectUrl)
-      } catch (error) {
-        console.error('Error downloading image: ', error.message)
-      }
+  const onUseQuery = useQuery(
+    ['use-get-storage-object', savedFilePath],
+    () => fetchStorageObject(savedFilePath),
+    {
+      enabled: Boolean(!objectUrl && savedFilePath && !skip),
+      ...queryOptions,
     }
-    if (!objectUrl && savedFilePath && !skip) fetchStorageObject(savedFilePath)
-  }, [objectUrl, savedFilePath, skip])
+  )
 
   return { src: objectUrl }
 }
