@@ -6,6 +6,7 @@ import {
   Typography,
   CardActionsProps,
 } from '@mui/material'
+import flowRight from 'lodash/flowRight'
 import CardHeader, {
   CardHeaderProps as BaseCardHeaderProps,
 } from './CardHeader'
@@ -14,6 +15,8 @@ import CardTable, { CardTableProps } from './CardTable'
 import CardList, { CardListProps } from './CardList'
 import CardContent, { CardContentProps } from './CardContent'
 import Collapse from '../Collapse'
+import withHref from '../withHref'
+import getHoverColor from '../../utils/getHoverColor'
 
 interface CardLinkInterface extends ButtonLinkProps {
   key: string
@@ -62,6 +65,7 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
 
   // Styles
   border?: boolean
+  borderHoverColor?: string
 
   // Disables
   disableHeaderDivider?: boolean
@@ -81,12 +85,17 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
 
   // Size
   size?: 'small' | 'medium' | 'large'
+
+  // Href
+  href?: string
+  targetBlank?: boolean
 }
 
 const Card: React.FC<CardProps> = (props) => {
   const {
     actionProps: injectedCardActionProps,
     border,
+    borderHoverColor = 'primary',
     collapsible,
     defaultCollapsed,
     children,
@@ -98,6 +107,7 @@ const Card: React.FC<CardProps> = (props) => {
     subtitle,
     icon,
     header,
+    href,
     list,
     table,
     links,
@@ -107,6 +117,7 @@ const Card: React.FC<CardProps> = (props) => {
     padding: injectedPadding,
     stretch,
     size,
+    targetBlank,
     disableHeader,
     disableHeaderDivider,
     disableLastGutterBottom,
@@ -269,7 +280,8 @@ const Card: React.FC<CardProps> = (props) => {
       ...(disableBoxShadow && { boxShadow: 'none' }),
 
       // Border
-      ...(border && { border: 1, borderColor: 'divider' }),
+      border: '1px solid transparent',
+      ...(border && { borderColor: 'divider' }),
 
       // Background Color
       ...(disableBackgroundColor && {
@@ -288,7 +300,7 @@ const Card: React.FC<CardProps> = (props) => {
     </MuiCard>
   )
 
-  return overline ? (
+  const cardChildrenWithOverlineJsx = overline ? (
     <>
       {overline}
       {cardChildrenJsx}
@@ -296,6 +308,20 @@ const Card: React.FC<CardProps> = (props) => {
   ) : (
     cardChildrenJsx
   )
+
+  return flowRight([
+    withHref({
+      href,
+      targetBlank,
+      linkProps: {
+        sx: {
+          '&:hover .MuiCard-root': {
+            borderColor: getHoverColor(borderHoverColor),
+          },
+        },
+      },
+    }),
+  ])(cardChildrenWithOverlineJsx)
 }
 
 export default Card

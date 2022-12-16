@@ -34,6 +34,8 @@ const Link: React.FC<LinkProps> = (props) => {
   const childrenJsx = (
     <MuiLink
       sx={{
+        width: '100%',
+
         ...(pointer && { cursor: 'pointer' }),
         ...(displayBlock && { display: 'block' }),
 

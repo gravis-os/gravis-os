@@ -12,3 +12,6 @@ export * from './renderStatefulChildren'
 
 export { default as States } from './States'
 export * from './States'
+
+export { default as getHoverColor } from './getHoverColor'
+export * from './getHoverColor'

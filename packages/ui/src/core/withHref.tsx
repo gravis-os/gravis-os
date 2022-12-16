@@ -1,28 +1,33 @@
 import React from 'react'
-import RouterLink from 'next/link'
 import { cleanHref } from '@gravis-os/utils'
-import Link from './Link'
+import Link, { LinkProps } from './Link'
 
-const withHref =
-  ({ href, targetBlank = false }) =>
-  (children) => {
+export interface WithHrefProps {
+  href?: string
+  targetBlank?: boolean
+  linkProps?: LinkProps
+}
+
+const withHref = (props: WithHrefProps) => {
+  const { href, targetBlank = false, linkProps: injectedLinkProps } = props
+
+  return (children) => {
     if (!href) return children
 
     const nextHref = cleanHref(href)
+    const isTargetBlank = nextHref.startsWith('http') || targetBlank
 
-    if (nextHref.startsWith('http') || targetBlank) {
-      return (
-        <Link href={nextHref} underline="none" target="_blank">
-          {children}
-        </Link>
-      )
+    const linkProps = {
+      href,
+      underline: 'none' as LinkProps['underline'],
+      ...(isTargetBlank
+        ? { target: '_blank', href: nextHref }
+        : { passHref: true }),
+      ...injectedLinkProps,
     }
 
-    return (
-      <RouterLink href={nextHref} passHref>
-        {children}
-      </RouterLink>
-    )
+    return <Link {...linkProps}>{children}</Link>
   }
+}
 
 export default withHref

@@ -5,7 +5,7 @@ export interface StatesProps {
   isLoading?: boolean
   isError?: boolean
   isEmpty?: boolean
-  children?: typeof React.Children
+  children?: React.ReactNode
 }
 
 const States: React.FC<StatesProps> = (props) => {

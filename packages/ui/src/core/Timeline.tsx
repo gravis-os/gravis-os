@@ -34,6 +34,7 @@ const Timeline: React.FC<TimelineProps> = (props) => {
       }}
     >
       {items?.map((item) => {
+        if (!item) return null
         return <TimelineItem key={item.key} {...item} />
       })}
     </MuiTimeline>

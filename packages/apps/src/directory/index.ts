@@ -9,6 +9,9 @@ export * from './FilterAccordion'
 export { default as DirectoryTemplate } from './DirectoryTemplate'
 export * from './DirectoryTemplate'
 
+export { default as PaginatedListings } from './PaginatedListings'
+export * from './PaginatedListings'
+
 export { default as ListingCard } from './ListingCard'
 export * from './ListingCard'
 

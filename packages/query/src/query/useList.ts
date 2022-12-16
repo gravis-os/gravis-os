@@ -12,6 +12,7 @@ import uniqBy from 'lodash/uniqBy'
 import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 import { getObjectWithGetters } from '@gravis-os/utils'
+import { CrudItem } from '@gravis-os/types'
 import usePagination from './usePagination'
 import useRouterQuery from './useRouterQuery'
 import {
@@ -404,9 +405,10 @@ const useList = (props: UseListProps): UseListReturn => {
       // Calculate nextToken. Only applicable for infinite pagination
       getNextPageParam: (lastPage, pages) => {
         const [sortKey] = getSort(nextProps)
-        const lastPageData = (lastPage?.data as [] | null) || []
+        const lastPageData = (lastPage?.data as CrudItem[] | null) || []
         const nextIndex = lastPageData.length - 1
         const nextToken = lastPageData[nextIndex]?.[sortKey]
+        // Do not return null or undefined here, or it will be sent as the next payload as a param
         return nextToken
       },
     }),
@@ -419,10 +421,8 @@ const useList = (props: UseListProps): UseListReturn => {
   } = onUseQuery
   const getItemsFromPages = (pages) => {
     if (!pages) return
-    return uniqBy(
-      pages?.reduce((acc, { data }) => acc.concat(data), []),
-      'id'
-    )
+    const data = pages?.reduce((acc, { data }) => acc.concat(data), [])
+    return uniqBy(data, 'id')
   }
   const items =
     (isInfinitePagination ? getItemsFromPages(data?.pages) : data?.data) || []

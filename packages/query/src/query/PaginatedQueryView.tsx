@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import uniq from 'lodash/uniq'
 import {
   Box,
   Button,
@@ -107,9 +108,18 @@ const PaginatedQueryView: React.FC<PaginatedQueryViewProps> = (props) => {
   const isRegularPagination =
     paginationType === PaginatedQueryViewPaginationTypeEnum.Pagination
   const { isLoading } = queryResult
-  const hasNextPage = isInfinitePaginationType
+  const hasNextToken = isInfinitePaginationType
     ? (queryResult as UseInfiniteQueryResult).hasNextPage
     : pagination?.hasNextPage
+
+  // Resolve issue where nextToken always returns the same page
+  // resulting in isInfinitePaginationTypes from never showing the end state
+  // @note: This code here still results in one final cycle of duplication
+  // Moving forward, we should test if the data is the same as the prev page.
+  const pageParams = (queryResult?.data as any)?.pageParams || []
+  const isPageParamsUnique = uniq(pageParams).length === pageParams.length
+  const hasNextPage = hasNextToken && isPageParamsUnique
+
   const isFetchingNextPage =
     isInfinitePaginationType &&
     (queryResult as UseInfiniteQueryResult).isFetchingNextPage

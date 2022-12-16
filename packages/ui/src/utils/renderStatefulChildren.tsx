@@ -18,6 +18,7 @@ const renderStatefulChildren = (children, states) => {
           Error: Something went wrong.
         </Typography>
       )
+    case Boolean(!children):
     case Boolean(isEmpty):
       return (
         <Typography {...commonTypographyProps}>No data available.</Typography>

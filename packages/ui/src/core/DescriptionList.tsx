@@ -10,6 +10,8 @@ export interface DescriptionListItem {
   key: string
   value?: React.ReactNode
   label?: React.ReactNode
+  labelProps?: TypographyProps
+  valueProps?: TypographyProps
 }
 
 export interface DescriptionListProps extends Omit<StackProps, 'title'> {
@@ -81,23 +83,46 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
       {/* Stack */}
       <Stack component="dl" sx={{ my: 0, ...sx }} horizontalDividers>
         {items.map((item) => {
-          const { key, value, label } = item
+          const {
+            key,
+            value,
+            valueProps,
+            label: injectedLabel,
+            labelProps,
+          } = item
 
+          const label = injectedLabel || startCase(key)
+          const shouldShowPlaceholder = isNil(value) || value === ''
+
+          // Each line is a Grid with a <dt> and <dd> pair
           return (
             <Grid key={key} container spacing={{ xs: 0, md: 1 }} sx={{ py: 1 }}>
+              {/* Left */}
               <Grid item md={4} lg={5} component="dt">
                 {typeof label === 'string' ? (
-                  <Typography variant="subtitle1" color="text.secondary">
-                    {startCase(label)}
+                  <Typography variant="subtitle1" {...labelProps}>
+                    {label}
                   </Typography>
                 ) : (
-                  label || startCase(key)
+                  label
                 )}
               </Grid>
+
+              {/* Right */}
               <Grid item md={8} lg={7} component="dd">
-                <Typography variant="body1">
-                  {isNil(value) || value === '' ? placeholder : value}
-                </Typography>
+                {shouldShowPlaceholder ? (
+                  <Typography
+                    variant="body1"
+                    color="text.secondary"
+                    {...valueProps}
+                  >
+                    {placeholder}
+                  </Typography>
+                ) : (
+                  <Typography variant="body1" {...valueProps}>
+                    {value}
+                  </Typography>
+                )}
               </Grid>
             </Grid>
           )

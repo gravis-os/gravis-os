@@ -14,3 +14,6 @@ export * from './ContactCard'
 
 export { default as ContactBio } from './ContactBio'
 export * from './ContactBio'
+
+export { default as ContactLeaflet } from './ContactLeaflet'
+export * from './ContactLeaflet'
