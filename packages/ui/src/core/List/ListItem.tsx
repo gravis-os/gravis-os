@@ -57,6 +57,8 @@ export interface ListItemProps
 
   // Horizontal spacing between elements in ListItem
   spacing?: number
+
+  disableText?: boolean
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
@@ -96,21 +98,27 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     // Selected
     selected,
 
+    disableText,
+
     ...rest
   } = props
 
+  const hasButton = Boolean(onClick || href)
   const listItemButtonProps = {
     onClick,
     href,
     selected,
     ...injectedListItemButtonProps,
   }
-  const hasButton = Boolean(onClick || href)
 
   const listItemProps = {
     disablePadding: disablePadding || hasButton,
     disableGutters,
     ...rest,
+    sx: {
+      ...(href && { '&, & > a': { width: '100%' } }),
+      ...rest?.sx,
+    },
   }
 
   const commonIconProps = {
@@ -153,7 +161,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         <ListItemIcon {...listItemStartIconProps}>{startIcon}</ListItemIcon>
       )}
       {avatar && <MuiListItemAvatar {...listItemAvatarProps} />}
-      {listItemTextProps && <MuiListItemText {...listItemTextProps} />}
+      {!disableText && listItemTextProps && (
+        <MuiListItemText {...listItemTextProps} />
+      )}
       {endIcon && (
         <ListItemIcon
           {...commonIconProps}

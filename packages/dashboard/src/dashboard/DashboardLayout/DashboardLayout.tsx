@@ -148,7 +148,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const isLeftAsideOpen = leftAsideOpen
   const isSecondaryLeftAsideOpen = secondaryLeftAsideOpen
   const isRightAsideOpen = rightAsideOpen
-  const isMiniVariantLeftAsideClosed = isMiniVariant && !isLeftAsideOpen
+  const isMiniVariantLeftAsideClosed = Boolean(
+    isMiniVariant && !isLeftAsideOpen
+  )
   const isSecondaryMiniVariantLeftAsideClosed =
     hasSecondaryLeftAside && !isSecondaryLeftAsideOpen
   const headerHeight = injectedHeaderHeight ?? defaultHeaderHeight
@@ -180,13 +182,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   }
 
   // Styling
-  const listItemTextSx: SxProps<Theme> = {
-    opacity: 0,
-    transition: theme.transitions.create(['opacity'], {
-      easing: theme.transitions.easing.sharp,
-      duration: theme.transitions.duration.leavingScreen,
-    }),
-  }
   const responsiveDrawerSx: SxProps<Theme> = {
     overflowX: 'hidden',
     transition: theme.transitions.create(['width'], {
@@ -301,11 +296,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               listItemProps={{
                 disableGutters: true,
                 hasTooltip: isSecondaryMiniVariantLeftAsideClosed,
+                disableText: isSecondaryMiniVariantLeftAsideClosed,
                 textProps: {
                   primaryTypographyProps: { variant: 'subtitle2' },
-                  ...(isSecondaryMiniVariantLeftAsideClosed && {
-                    sx: listItemTextSx,
-                  }),
                 },
                 buttonProps: {
                   sx: {
@@ -369,18 +362,20 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             listItemProps={{
               disableGutters: true,
               hasTooltip: isMiniVariantLeftAsideClosed,
+              disableText: isMiniVariantLeftAsideClosed,
               textProps: {
                 primaryTypographyProps: { variant: 'subtitle2' },
-                ...(isMiniVariantLeftAsideClosed && {
-                  sx: listItemTextSx,
-                }),
               },
               buttonProps: {
                 sx: {
                   ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
                 },
                 ...(isMiniVariantLeftAsideClosed && {
-                  onClick: () => setLeftAsideOpen(true),
+                  onClick: (e) => {
+                    e.stopPropagation()
+                    e.preventDefault()
+                    setLeftAsideOpen(true)
+                  },
                 }),
               },
               collapseProps: {
