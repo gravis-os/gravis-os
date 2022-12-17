@@ -1,6 +1,6 @@
 import React from 'react'
 import { Tabs as MuiTabs, TabsProps as MuiTabsProps } from '@mui/material'
-import getHoverColor from '../../utils/getHoverColor'
+import getPaletteColor from '../../utils/getPaletteColor'
 
 export interface TabsBaseProps extends MuiTabsProps {
   borderBottom?: boolean
@@ -16,7 +16,7 @@ const TabsBase: React.FC<TabsBaseProps> = (props) => {
         ...(disableMinHeight && { '&, & .MuiTab-root': { minHeight: 0 } }),
         ...(hoverColor && {
           '& .MuiTab-root:hover': {
-            color: getHoverColor(hoverColor),
+            color: getPaletteColor(hoverColor),
           },
         }),
         ...(borderBottom && { borderBottom: 1, borderColor: 'divider' }),

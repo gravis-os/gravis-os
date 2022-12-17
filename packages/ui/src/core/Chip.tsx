@@ -1,5 +1,6 @@
 import React from 'react'
 import { Chip as MuiChip, ChipProps as MuiChipProps } from '@mui/material'
+import getPaletteColor from '../utils/getPaletteColor'
 
 // #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), color()
 const COLOR_REGEX =
@@ -11,20 +12,22 @@ export interface ChipProps extends Omit<MuiChipProps, 'color'> {
 }
 
 const Chip: React.FC<ChipProps> = (props) => {
-  const { title, color, ...rest } = props
+  const { title, children, color, ...rest } = props
 
   const isCustomColor = color && COLOR_REGEX.test(color)
 
   return (
     <MuiChip
-      label={title}
+      label={children || title}
       color={isCustomColor ? undefined : (color as MuiChipProps['color'])}
       {...rest}
       sx={{
         '&&': isCustomColor
           ? {
-              backgroundColor: color,
-              color: (theme) => theme.palette[color].contrastText,
+              backgroundColor: isCustomColor ? color : getPaletteColor(color),
+              color: isCustomColor
+                ? 'common.white'
+                : ({ palette }) => palette[color].contrastText,
             }
           : { color: `${color}.contrastText` },
 

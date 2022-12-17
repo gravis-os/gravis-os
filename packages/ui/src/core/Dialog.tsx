@@ -15,7 +15,7 @@ const Dialog: React.FC<DialogProps> = (props) => {
   const { title, children, ...rest } = props
   const { onClose } = rest
   return (
-    <MuiDialog {...rest}>
+    <MuiDialog fullWidth {...rest}>
       {onClose && (
         <IconButton
           aria-label="close"

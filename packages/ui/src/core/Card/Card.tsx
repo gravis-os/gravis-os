@@ -16,7 +16,7 @@ import CardList, { CardListProps } from './CardList'
 import CardContent, { CardContentProps } from './CardContent'
 import Collapse from '../Collapse'
 import withHref from '../withHref'
-import getHoverColor from '../../utils/getHoverColor'
+import getPaletteColor from '../../utils/getPaletteColor'
 
 interface CardLinkInterface extends ButtonLinkProps {
   key: string
@@ -316,7 +316,7 @@ const Card: React.FC<CardProps> = (props) => {
       linkProps: {
         sx: {
           '&:hover .MuiCard-root': {
-            borderColor: getHoverColor(borderHoverColor),
+            borderColor: getPaletteColor(borderHoverColor),
           },
         },
       },

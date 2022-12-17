@@ -52,12 +52,7 @@ const SendEnquiryFormDialogButton: React.FC<
       </Button>
 
       {/* Dialog */}
-      <Dialog
-        open={confirmationDialogOpen}
-        onClose={closeDialog}
-        fullWidth
-        {...rest}
-      >
+      <Dialog open={confirmationDialogOpen} onClose={closeDialog} {...rest}>
         <Box sx={{ p: 2 }}>
           {/* Form */}
           <SendEnquiryForm

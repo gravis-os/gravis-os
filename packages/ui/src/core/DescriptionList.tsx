@@ -15,7 +15,8 @@ export interface DescriptionListItem {
 }
 
 export interface DescriptionListProps extends Omit<StackProps, 'title'> {
-  items: DescriptionListItem[]
+  data?: Record<string, any>
+  items: DescriptionListItem[] | string[]
   placeholder?: string
   title?: React.ReactNode
   titleProps?: TypographyProps
@@ -25,6 +26,7 @@ export interface DescriptionListProps extends Omit<StackProps, 'title'> {
 
 const DescriptionList: React.FC<DescriptionListProps> = (props) => {
   const {
+    data,
     actions,
     actionButtonProps,
     title,
@@ -82,17 +84,31 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
 
       {/* Stack */}
       <Stack component="dl" sx={{ my: 0, ...sx }} horizontalDividers>
-        {items.map((item) => {
+        {items.map((injectedItem) => {
+          const item =
+            typeof injectedItem === 'string'
+              ? { key: injectedItem }
+              : injectedItem
+
           const {
             key,
-            value,
-            valueProps,
             label: injectedLabel,
             labelProps,
+            value: injectedValue,
+            valueProps,
           } = item
 
           const label = injectedLabel || startCase(key)
+
+          const valueFromData = data?.[key]
+          const value = injectedValue || valueFromData
+
           const shouldShowPlaceholder = isNil(value) || value === ''
+          const placeholderJsx = (
+            <Typography variant="body1" color="text.secondary" {...valueProps}>
+              {placeholder}
+            </Typography>
+          )
 
           // Each line is a Grid with a <dt> and <dd> pair
           return (
@@ -100,7 +116,14 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
               {/* Left */}
               <Grid item md={4} lg={5} component="dt">
                 {typeof label === 'string' ? (
-                  <Typography variant="subtitle1" {...labelProps}>
+                  <Typography
+                    variant="subtitle1"
+                    {...labelProps}
+                    sx={{
+                      lineHeight: 1.25,
+                      ...labelProps?.sx,
+                    }}
+                  >
                     {label}
                   </Typography>
                 ) : (
@@ -111,15 +134,20 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
               {/* Right */}
               <Grid item md={8} lg={7} component="dd">
                 {shouldShowPlaceholder ? (
+                  placeholderJsx
+                ) : (
                   <Typography
                     variant="body1"
-                    color="text.secondary"
                     {...valueProps}
+                    sx={{
+                      // For managing overflow
+                      overflow: 'scroll',
+                      whiteSpace: 'nowrap',
+                      '&::-webkit-scrollbar': { display: 'none' },
+
+                      ...valueProps?.sx,
+                    }}
                   >
-                    {placeholder}
-                  </Typography>
-                ) : (
-                  <Typography variant="body1" {...valueProps}>
                     {value}
                   </Typography>
                 )}

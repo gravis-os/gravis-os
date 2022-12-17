@@ -133,6 +133,9 @@ export * from './Stack'
 export { default as Tabs } from './Tabs'
 export * from './Tabs'
 
+export { default as Tag } from './Tag'
+export * from './Tag'
+
 export { default as Timeline } from './Timeline'
 export * from './Timeline'
 

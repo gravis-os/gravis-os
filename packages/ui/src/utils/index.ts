@@ -13,5 +13,8 @@ export * from './renderStatefulChildren'
 export { default as States } from './States'
 export * from './States'
 
-export { default as getHoverColor } from './getHoverColor'
-export * from './getHoverColor'
+export { default as getPaletteColor } from './getPaletteColor'
+export * from './getPaletteColor'
+
+export { default as getColorFromString } from './getColorFromString'
+export * from './getColorFromString'

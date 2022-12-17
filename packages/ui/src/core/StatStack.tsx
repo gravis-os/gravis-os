@@ -49,12 +49,13 @@ export interface StatStackItem {
 export interface StatStackProps extends StackProps {
   variant?: 'contained' | 'outlined'
   items: StatStackItem[]
-  size?: 'small' | 'middle' | 'large'
+  size?: 'small' | 'medium' | 'large'
   reverse?: boolean
   titleTypographyProps?: TypographyProps
   subtitleTypographyProps?: TypographyProps
   overlineTypographyProps?: TypographyProps
   itemStackProps?: StackProps
+  spacing?: StackProps['spacing']
 }
 
 const StatStack: React.FC<StatStackProps> = (props) => {
@@ -67,6 +68,7 @@ const StatStack: React.FC<StatStackProps> = (props) => {
     sx,
     reverse,
     itemStackProps,
+    spacing = 0.5,
     ...rest
   } = props
 
@@ -99,10 +101,11 @@ const StatStack: React.FC<StatStackProps> = (props) => {
               }
             >
               {icon}
+
               <Box>
                 <Stack
                   direction={reverse ? 'column-reverse' : 'column'}
-                  spacing={0.5}
+                  spacing={spacing}
                 >
                   {/* Overline */}
                   {overline && (
@@ -116,7 +119,7 @@ const StatStack: React.FC<StatStackProps> = (props) => {
                           textTransform: 'uppercase',
                           ...overlineTypographyProps?.sx,
                           ...item.overlineTypographyProps?.sx,
-                        } as any
+                        } as SxProps
                       }
                     >
                       {overline}

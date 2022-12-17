@@ -3,7 +3,7 @@ import customParseFormat from 'dayjs/plugin/customParseFormat'
 
 dayjs.extend(customParseFormat)
 
-const outputFormat = 'MMMM D, YYYY h:mm A'
+const outputFormat = 'MMMM D, YYYY'
 
 const printDateTime = (dateTime: string, inputFormat = '') => {
   if (!dateTime) return

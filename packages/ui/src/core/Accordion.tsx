@@ -29,6 +29,7 @@ export interface AccordionProps {
     children?: React.ReactNode
     content?: React.ReactNode
     actionIconButtons?: IconButtonProps[]
+    disablePadding?: boolean
   }>
   transparent?: boolean
   titleProps?: TypographyProps
@@ -86,7 +87,12 @@ const Accordion: React.FC<AccordionProps> = (props) => {
   return (
     <div>
       {items.map((item) => {
-        const { key, title, actionIconButtons = [] } = item
+        const {
+          key,
+          title,
+          actionIconButtons = [],
+          disablePadding: disableItemPadding,
+        } = item
         const content = item.children || item.content
 
         const isExpanded = Boolean(expanded[key])
@@ -158,7 +164,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
             {/* Details */}
             <AccordionDetails
               sx={{
-                ...(disablePadding && { px: 0 }),
+                ...((disablePadding || disableItemPadding) && { px: 0 }),
               }}
             >
               {typeof content === 'string' ? (
