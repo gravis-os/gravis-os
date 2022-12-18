@@ -18,6 +18,7 @@ import dashboardLayoutConfig from './dashboardLayoutConfig'
 const { secondaryMiniVariantWidth } = dashboardLayoutConfig
 
 export interface ResponsiveDrawerProps extends DrawerProps {
+  disableBorder?: boolean
   width: number
   mobileDrawerProps?: DrawerProps
   desktopDrawerProps?: DrawerProps
@@ -34,11 +35,12 @@ export interface ResponsiveDrawerProps extends DrawerProps {
 const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
   const {
     dark,
-    mobileDrawerProps,
+    disableBorder,
     desktopDrawerProps,
     anchor = 'left',
     children,
     width,
+    mobileDrawerProps,
     open,
     onOpen,
     onClose,
@@ -84,6 +86,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
       '& .MuiDrawer-paper': {
         width,
         boxSizing: 'border-box',
+        ...(disableBorder && { border: 0 }),
         ...sx,
       },
     } as DrawerProps['sx'],

@@ -1,4 +1,5 @@
 import React from 'react'
+import merge from 'lodash/merge'
 import {
   ListItem as MuiListItem,
   ListItemProps as MuiListItemProps,
@@ -59,6 +60,19 @@ export interface ListItemProps
   spacing?: number
 
   disableText?: boolean
+
+  // Advanced styles
+  advancedStyles?: {
+    iconColor?: any
+    titleColor?: any
+    subtitleColor?: any
+    linkColor?: any
+    buttonColor?: any
+    selectedTextColor?: any
+
+    selectedBackgroundColor: any
+    textColor: any
+  }
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
@@ -100,8 +114,32 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
     disableText,
 
+    // Advanced Styles
+    advancedStyles: injectedAdvancedStyles,
+
     ...rest
   } = props
+
+  // ==============================
+  // Advanced Styles
+  // ==============================
+  const defaultAdvancedStyles = {
+    iconColor: 'inherit',
+    titleColor: 'inherit',
+    subtitleColor: 'inherit',
+    selectedTextColor: 'inherit',
+    linkColor: 'inherit',
+    buttonColor: 'inherit',
+    textColor: '',
+    selectedBackgroundColor: '',
+  }
+  const advancedStyles = {
+    ...defaultAdvancedStyles,
+    ...injectedAdvancedStyles,
+  }
+  const hasAdvancedStyles = Boolean(
+    advancedStyles.textColor && advancedStyles.selectedBackgroundColor
+  )
 
   const hasButton = Boolean(onClick || href)
   const listItemButtonProps = {
@@ -109,6 +147,16 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     href,
     selected,
     ...injectedListItemButtonProps,
+    sx: {
+      ...(hasAdvancedStyles && {
+        color: advancedStyles.buttonColor,
+        '&.Mui-selected': {
+          background: advancedStyles.selectedBackgroundColor,
+          color: advancedStyles.selectedTextColor,
+        },
+      }),
+      ...injectedListItemButtonProps?.sx,
+    },
   }
 
   const listItemProps = {
@@ -116,7 +164,22 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     disableGutters,
     ...rest,
     sx: {
-      ...(href && { '&, & > a': { width: '100%' } }),
+      ...(hasAdvancedStyles && {
+        color: advancedStyles.textColor,
+      }),
+
+      ...(href && {
+        // Expand by default
+        '&, & > a': { width: '100%' },
+
+        // Link Props
+        '& > a': {
+          ...(hasAdvancedStyles && {
+            color: advancedStyles.linkColor,
+          }),
+        },
+      }),
+
       ...rest?.sx,
     },
   }
@@ -124,15 +187,25 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   const commonIconProps = {
     dense: rest.dense,
     ...iconProps,
-    sx: { color: 'primary.main', ...iconProps?.sx },
+    sx: {
+      color: advancedStyles ? advancedStyles.iconColor : 'primary.main',
+      ...iconProps?.sx,
+    },
   }
 
   const listItemStartIconProps = {
     ...commonIconProps,
     ...startIconProps,
-    ...(spacing && {
-      sx: { minWidth: 0, mr: spacing, ...injectedListItemAvatarProps?.sx },
-    }),
+    sx: {
+      ...commonIconProps?.sx,
+      ...startIconProps?.sx,
+      ...injectedListItemAvatarProps?.sx,
+
+      ...(spacing && {
+        minWidth: 0,
+        mr: spacing,
+      }),
+    } as ListItemIconProps['sx'],
   }
 
   const listItemAvatarProps = {
@@ -143,17 +216,29 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     }),
   }
 
-  const listItemTextProps = {
-    primary: title,
-    primaryTypographyProps: titleProps,
-    secondary: subtitle,
-    secondaryTypographyProps: {
-      lineHeight: 1.35,
-      ...subtitleProps,
-      sx: { mt: -0.5, ...subtitleProps?.sx },
+  const listItemTextProps = merge(
+    {
+      primary: title,
+      primaryTypographyProps: {
+        ...titleProps,
+        sx: {
+          ...(hasAdvancedStyles && { color: advancedStyles.titleColor }),
+          ...titleProps?.sx,
+        },
+      },
+      secondary: subtitle,
+      secondaryTypographyProps: {
+        lineHeight: 1.35,
+        ...subtitleProps,
+        sx: {
+          mt: -0.5,
+          ...(hasAdvancedStyles && { color: advancedStyles.subtitleColor }),
+          ...subtitleProps?.sx,
+        },
+      },
     },
-    ...injectedListItemTextProps,
-  }
+    injectedListItemTextProps
+  )
 
   const childrenJsx = (
     <>

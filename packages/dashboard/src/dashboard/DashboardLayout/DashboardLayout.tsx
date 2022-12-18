@@ -15,6 +15,7 @@ const {
   miniVariantWidth: defaultMiniVariantWidth,
   secondaryMiniVariantWidth,
   headerHeight: defaultHeaderHeight,
+  primaryLeftAsideItemMinHeight,
 } = dashboardLayoutConfig
 
 export interface DashboardLayoutProps {
@@ -190,6 +191,16 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     }),
   }
 
+  const isTrue = {
+    iconColor: 'inherit',
+    titleColor: 'inherit',
+    subtitleColor: 'inherit',
+    activeTextColor: 'inherit',
+
+    textColor: 'white',
+    activeBackgroundColor: 'indigo',
+  }
+
   return (
     <Box display="flex">
       <NextNProgress />
@@ -322,7 +333,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           </ResponsiveDrawer>
         )}
 
-        {/* Left Aside */}
+        {/* Primary Left Aside */}
         <ResponsiveDrawer
           showExitButton={isDesktop && disableHeaderMenuToggleOnMobile}
           {...leftAsideDrawerProps}
@@ -363,13 +374,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
               disableGutters: true,
               hasTooltip: isMiniVariantLeftAsideClosed,
               disableText: isMiniVariantLeftAsideClosed,
-              textProps: {
-                primaryTypographyProps: { variant: 'subtitle2' },
-              },
+              textProps: { primaryTypographyProps: { variant: 'subtitle2' } },
               buttonProps: {
                 sx: {
                   ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
+                  // Min-height on primary left aside items
+                  minHeight: primaryLeftAsideItemMinHeight,
                 },
+
+                // Make first click on mini-variant open the drawer instead of routing
                 ...(isMiniVariantLeftAsideClosed && {
                   onClick: (e) => {
                     e.stopPropagation()
