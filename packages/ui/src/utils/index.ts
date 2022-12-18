@@ -18,3 +18,9 @@ export * from './getPaletteColor'
 
 export { default as getColorFromString } from './getColorFromString'
 export * from './getColorFromString'
+
+export { default as getPaletteColorOrFallback } from './getPaletteColorOrFallback'
+export * from './getPaletteColorOrFallback'
+
+export { default as setThemeColor } from './setThemeColor'
+export * from './setThemeColor'

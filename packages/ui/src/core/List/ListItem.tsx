@@ -8,6 +8,7 @@ import {
   ListItemAvatar as MuiListItemAvatar,
   ListItemAvatarProps as MuiListItemAvatarProps,
 } from '@mui/material'
+import type { SxCssProperties } from '@gravis-os/types'
 import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
 import ListItemButton, { ListItemButtonProps } from './ListItemButton'
 import { TooltipProps } from '../Tooltip'
@@ -63,15 +64,17 @@ export interface ListItemProps
 
   // Advanced styles
   advancedStyles?: {
-    iconColor?: any
-    titleColor?: any
-    subtitleColor?: any
-    linkColor?: any
-    buttonColor?: any
-    selectedTextColor?: any
-
-    selectedBackgroundColor: any
-    textColor: any
+    iconColor?: SxCssProperties
+    titleColor?: SxCssProperties
+    subtitleColor?: SxCssProperties
+    linkColor?: SxCssProperties
+    buttonColor?: SxCssProperties
+    selectedTextColor?: SxCssProperties
+    hoverBackgroundColor?: SxCssProperties
+    hoverTextColor?: SxCssProperties
+    // Only the following styles are required:
+    selectedBackgroundColor: SxCssProperties
+    textColor: SxCssProperties
   }
 }
 
@@ -130,6 +133,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     selectedTextColor: 'inherit',
     linkColor: 'inherit',
     buttonColor: 'inherit',
+    hoverBackgroundColor: 'inherit',
+    hoverTextColor: 'inherit',
     textColor: '',
     selectedBackgroundColor: '',
   }
@@ -150,9 +155,16 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     sx: {
       ...(hasAdvancedStyles && {
         color: advancedStyles.buttonColor,
-        '&.Mui-selected': {
+        // Selected
+        '&.Mui-selected, &.Mui-selected:hover': {
           background: advancedStyles.selectedBackgroundColor,
           color: advancedStyles.selectedTextColor,
+        },
+
+        // Hover
+        '&:hover': {
+          background: advancedStyles.hoverBackgroundColor,
+          color: advancedStyles.hoverTextColor,
         },
       }),
       ...injectedListItemButtonProps?.sx,
@@ -176,6 +188,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         '& > a': {
           ...(hasAdvancedStyles && {
             color: advancedStyles.linkColor,
+            '&:hover': {
+              color: advancedStyles.hoverTextColor,
+            },
           }),
         },
       }),
