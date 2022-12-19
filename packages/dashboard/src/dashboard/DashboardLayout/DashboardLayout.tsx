@@ -1,10 +1,16 @@
 import React, { ReactNode, useEffect, useState } from 'react'
 import { SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
-import { Box, List, ListItemProps, ListProps } from '@gravis-os/ui'
+import {
+  ResponsiveDrawer,
+  ResponsiveDrawerProps,
+  Box,
+  List,
+  ListItemProps,
+  ListProps,
+} from '@gravis-os/ui'
 import { useRouter } from 'next/router'
 import NextNProgress from 'nextjs-progressbar'
 import dashboardLayoutConfig from './dashboardLayoutConfig'
-import ResponsiveDrawer, { ResponsiveDrawerProps } from './ResponsiveDrawer'
 import DashboardLayoutHeader, {
   DashboardLayoutHeaderProps,
 } from './DashboardLayoutHeader'
@@ -27,6 +33,7 @@ export interface DashboardLayoutProps {
   // Disables
   disablePadding?: boolean
   disableGutters?: boolean
+  disableResponsiveCollapse?: boolean
 
   // Minivariant
   isMiniVariant?: boolean
@@ -53,8 +60,11 @@ export interface DashboardLayoutProps {
   secondaryLeftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
 
   // Right Aside
+  rightAside?: React.ReactNode
   rightAsideListItems?: ListItemProps['items']
   rightAsideWidth?: number
+  rightAsideOpen?: boolean
+  setRightAsideOpen?: React.Dispatch<React.SetStateAction<boolean>>
 
   // Other elements
   disableHeaderMenuToggleOnMobile?: boolean
@@ -73,32 +83,34 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     disableClipUnderAppBar,
     headerProps,
     disableHeaderMenuToggleOnMobile,
+    disableResponsiveCollapse,
 
     defaultLeftAsideOpen = true,
     defaultSecondaryLeftAsideOpen = false,
+
+    // Right Aside
+    rightAside,
     defaultRightAsideOpen = true,
-
-    leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
-    secondaryLeftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
+    rightAsideOpen: injectedRightAsideOpen,
+    setRightAsideOpen: injectedSetRightAsideOpen,
     rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
-
-    leftAsideListProps,
-    secondaryLeftAsideListProps,
-
-    leftAsideListItems: injectedLeftAsideListItems,
     rightAsideListItems,
 
-    showSecondaryLeftAside,
-
+    // Left Aside
+    leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
+    leftAsideListProps,
+    leftAsideListItems: injectedLeftAsideListItems,
     leftAsideListItemProps,
-    secondaryLeftAsideListItemProps,
-
     leftAsideDrawerProps,
-    secondaryLeftAsideDrawerProps,
-
     leftAsideBottomActions,
-
     darkLeftAside,
+
+    // Left Secondary Aside
+    secondaryLeftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
+    secondaryLeftAsideListProps,
+    showSecondaryLeftAside,
+    secondaryLeftAsideListItemProps,
+    secondaryLeftAsideDrawerProps,
     darkSecondaryLeftAside,
 
     headerHeight: injectedHeaderHeight,
@@ -109,7 +121,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const [secondaryLeftAsideOpen, setSecondaryLeftAsideOpen] = useState(
     defaultSecondaryLeftAsideOpen
   )
-  const [rightAsideOpen, setRightAsideOpen] = useState(defaultRightAsideOpen)
+  const [localRightAsideOpen, setLocalRightAsideOpen] = useState(
+    defaultRightAsideOpen
+  )
+  const rightAsideOpen =
+    typeof injectedRightAsideOpen !== 'undefined'
+      ? injectedRightAsideOpen
+      : localRightAsideOpen
+  const setRightAsideOpen =
+    typeof injectedSetRightAsideOpen !== 'undefined'
+      ? injectedSetRightAsideOpen
+      : setLocalRightAsideOpen
 
   // Router
   const router = useRouter()
@@ -119,7 +141,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
   useEffect(() => {
-    if (!isDesktop) {
+    if (!isDesktop && !disableResponsiveCollapse) {
       setLeftAsideOpen(false)
       setSecondaryLeftAsideOpen(false)
       setRightAsideOpen(false)
@@ -191,16 +213,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     }),
   }
 
-  const isTrue = {
-    iconColor: 'inherit',
-    titleColor: 'inherit',
-    subtitleColor: 'inherit',
-    activeTextColor: 'inherit',
-
-    textColor: 'white',
-    activeBackgroundColor: 'indigo',
-  }
-
   return (
     <Box display="flex">
       <NextNProgress />
@@ -239,7 +251,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           ml: { md: `${totalLeftAsideWidth}px` },
 
           // Right drawer
-          ...(Boolean(rightAsideListItems?.length) &&
+          ...(Boolean(rightAside || rightAsideListItems?.length) &&
             isRightAsideOpen && { mr: { md: `${rightAsideWidth}px` } }),
 
           // Animations
@@ -430,14 +442,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         </Box>
 
         {/* Right Aside */}
-        {Boolean(rightAsideListItems?.length) && (
-          <ResponsiveDrawer
-            anchor="right"
-            width={rightAsideWidth}
-            open={isRightAsideOpen}
-            onClose={() => setRightAsideOpen(false)}
-            sx={{ marginTop: `${headerHeight}px` }}
-          >
+        <ResponsiveDrawer
+          anchor="right"
+          width={rightAsideWidth}
+          open={isRightAsideOpen}
+          onClose={() => setRightAsideOpen(false)}
+          sx={{ marginTop: `${headerHeight}px` }}
+        >
+          {rightAside}
+          {Boolean(rightAsideListItems?.length) && (
             <List
               dense
               items={rightAsideListItems.map((item) => ({
@@ -445,8 +458,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                 disableGutters: true,
               }))}
             />
-          </ResponsiveDrawer>
-        )}
+          )}
+        </ResponsiveDrawer>
       </Box>
     </Box>
   )

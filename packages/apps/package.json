@@ -34,6 +34,9 @@
       ],
       "crm": [
         "./dist/types/crm/index.d.ts"
+      ],
+      "pos": [
+        "./dist/types/pos/index.d.ts"
       ]
     }
   },
@@ -77,6 +80,10 @@
     "./crm": {
       "require": "./dist/cjs/crm/index.js",
       "import": "./dist/esm/crm/index.js"
+    },
+    "./pos": {
+      "require": "./dist/cjs/pos/index.js",
+      "import": "./dist/esm/pos/index.js"
     }
   },
   "files": [
@@ -104,6 +111,7 @@
     "@gravis-os/query": "*",
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
+    "@gravis-os/dashboard": "*",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.10.0",
     "react-intersection-observer": "^9.4.0",

@@ -16,8 +16,11 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
     ...rest
   } = props
 
+  const injectedLeftNavItems = navItems?.left || []
+  const injectedRightNavItems = navItems?.right || []
+
   const leftNavItems = hideLeftAsideMenuToggle
-    ? [...navItems?.left]
+    ? injectedLeftNavItems
     : [
         {
           key: 'left-aside-menu-toggle',
@@ -36,7 +39,7 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
           },
           showOnMobileBar: true,
         },
-        ...navItems?.left,
+        ...injectedLeftNavItems,
       ]
 
   return (
@@ -46,7 +49,7 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
       {...rest}
       navItems={{
         left: leftNavItems,
-        right: navItems?.right?.length && [...navItems.right],
+        right: injectedRightNavItems,
       }}
       containerProps={{ maxWidth: false, ...containerProps }}
       toolbarProps={{

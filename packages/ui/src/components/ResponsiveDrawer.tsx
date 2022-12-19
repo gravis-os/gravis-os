@@ -1,25 +1,25 @@
 import React from 'react'
+import type { SvgIconProps, Theme } from '@mui/material'
+
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import { ThemeProvider } from '@mui/material/styles'
 import {
   Drawer,
   DrawerProps,
   Button,
   ButtonProps,
-  SvgIconProps,
-  Theme,
+  Box,
   BoxProps,
-} from '@mui/material'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
-import { Box } from '@gravis-os/ui'
-import { ThemeProvider } from '@mui/material/styles'
-import dashboardTheme from '../../themes/Dashboard/dashboardTheme'
-import dashboardLayoutConfig from './dashboardLayoutConfig'
+} from '../core'
 
-const { secondaryMiniVariantWidth } = dashboardLayoutConfig
+// TODO@Joel: Expose as prop instead
+const secondaryMiniVariantWidth = 20
 
 export interface ResponsiveDrawerProps extends DrawerProps {
   disableBorder?: boolean
-  width: number
+  width?: number | string
+  maxWidth?: number | string
   mobileDrawerProps?: DrawerProps
   desktopDrawerProps?: DrawerProps
   dark?: boolean
@@ -40,6 +40,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     anchor = 'left',
     children,
     width,
+    maxWidth = '100%',
     mobileDrawerProps,
     open,
     onOpen,
@@ -85,6 +86,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     sx: {
       '& .MuiDrawer-paper': {
         width,
+        maxWidth,
         boxSizing: 'border-box',
         ...(disableBorder && { border: 0 }),
         ...sx,
@@ -125,12 +127,13 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         {...commonDrawerProps}
         {...desktopDrawerProps}
       />
+
       {showToggleBar && (
         <Box
           height="100%"
           position="fixed"
           top={0}
-          left={open ? width : 0}
+          left={open ? (maxWidth in props ? maxWidth : width) : 0}
           {...toggleBarBoxProps}
           onClick={handleToggleDrawer}
           sx={{
@@ -191,7 +194,6 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
              * @note that mode: 'dark', does nothing because we're using a custom palette
              */
             mode: 'dark',
-            ...dashboardTheme.dark.palette,
           },
         }
 

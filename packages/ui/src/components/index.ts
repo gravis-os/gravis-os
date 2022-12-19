@@ -25,6 +25,9 @@ export * from './ListCard'
 export { default as QuantityCard } from './QuantityCard'
 export * from './QuantityCard'
 
+export { default as ResponsiveDrawer } from './ResponsiveDrawer'
+export * from './ResponsiveDrawer'
+
 export { default as Slider } from './Slider'
 export * from './Slider'
 
