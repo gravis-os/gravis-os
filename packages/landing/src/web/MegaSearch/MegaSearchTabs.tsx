@@ -18,7 +18,8 @@ const MegaSearchTabs: React.FC<MegaSearchTabsProps> = (props) => {
   const { tabs } = props
 
   const [value, setValue] = React.useState(tabs[0].value)
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => setValue(newValue)
+  const handleChange = (event: React.SyntheticEvent, newValue: string) =>
+    setValue(newValue)
 
   const borderRadius = 4
   const tabListProps = {
@@ -40,7 +41,9 @@ const MegaSearchTabs: React.FC<MegaSearchTabsProps> = (props) => {
       },
     },
   }
-  const tabPanelProps = { sx: { padding: 0, '&& > *': { borderTopLeftRadius: 0 } } }
+  const tabPanelProps = {
+    sx: { padding: 0, '&& > *': { borderTopLeftRadius: 0 } },
+  }
 
   return (
     <Box sx={{ width: '100%' }}>
