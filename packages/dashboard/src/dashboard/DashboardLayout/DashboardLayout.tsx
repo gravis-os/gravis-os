@@ -90,7 +90,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
     // Right Aside
     rightAside,
-    defaultRightAsideOpen = true,
+    defaultRightAsideOpen = false,
     rightAsideOpen: injectedRightAsideOpen,
     setRightAsideOpen: injectedSetRightAsideOpen,
     rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
