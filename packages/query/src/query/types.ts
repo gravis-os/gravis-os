@@ -181,6 +181,6 @@ export interface FetchDetailFilters {
   match?: SupabasePostgrestBuilderMatchType
 }
 
-export type UseDetailReturn = UseQueryResult & {
-  item: Record<string, any>
+export type UseDetailReturn<T = any> = UseQueryResult & {
+  item: CrudItem & T
 }

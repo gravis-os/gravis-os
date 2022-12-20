@@ -23,12 +23,18 @@ export interface ResponsiveDrawerProps extends DrawerProps {
   mobileDrawerProps?: DrawerProps
   desktopDrawerProps?: DrawerProps
   dark?: boolean
+
+  // Toggle Bar
+  // TODO@Fernando: Move to separate component
   showToggleBar?: boolean
-  showExitButton?: boolean
   toggleBarBoxProps?: BoxProps
-  toggleButtonProps?: ButtonProps
+  toggleBarButtonProps?: ButtonProps
   toggleSvgIconProps?: SvgIconProps
-  exitButtonProps?: Omit<ButtonProps, 'onClick'>
+
+  // Toggle Button
+  showToggleButton?: boolean
+  toggleButtonProps?: ButtonProps
+
   onOpen?: () => void
 }
 
@@ -46,35 +52,31 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     onOpen,
     onClose,
     sx,
+
+    // Toggle bar is a white full height bar
     showToggleBar,
-    showExitButton,
-    exitButtonProps,
     toggleBarBoxProps,
-    toggleButtonProps,
+    toggleBarButtonProps,
     toggleSvgIconProps,
+
+    // Exit button
+    showToggleButton,
+    toggleButtonProps,
   } = props
 
   const childrenJSX = (
     <>
       {children}
-      {open && showExitButton && (
-        <Box
-          flex={1}
-          display="flex"
-          justifyContent="center"
-          alignItems="flex-end"
-          mb={8}
-          px={3}
+
+      {/* Toggle Button */}
+      {open && showToggleButton && (
+        <Button
+          fullWidth
+          onClick={(e) => onClose(e, 'backdropClick')}
+          {...toggleButtonProps}
         >
-          <Button
-            variant="outlined"
-            fullWidth
-            {...exitButtonProps}
-            onClick={(e) => onClose(e, 'backdropClick')}
-          >
-            {exitButtonProps?.children || <ChevronLeftIcon />}
-          </Button>
-        </Box>
+          {toggleButtonProps?.children || <ChevronLeftIcon />}
+        </Button>
       )}
     </>
   )
@@ -128,6 +130,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
         {...desktopDrawerProps}
       />
 
+      {/* Toggle Bar */}
       {showToggleBar && (
         <Box
           height="100%"
@@ -161,7 +164,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
             variant="contained"
             color="primary"
             disableElevation
-            {...toggleButtonProps}
+            {...toggleBarButtonProps}
             onClick={handleToggleDrawer}
             sx={{
               position: 'absolute',
@@ -172,7 +175,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
               transition: `transform .275s ease-in`,
               borderRadius: '50%',
               minWidth: 'auto',
-              ...toggleButtonProps?.sx,
+              ...toggleBarButtonProps?.sx,
             }}
           >
             <ChevronRightIcon fontSize="medium" {...toggleSvgIconProps} />

@@ -1,7 +1,9 @@
+import { CrudItem } from '@gravis-os/types'
+
 const getObjectWithGetters = (
-  item: Record<string, unknown>,
-  virtuals: Record<string, (item: Record<string, unknown>) => unknown>
-) => {
+  item: CrudItem,
+  virtuals: Record<string, (item: CrudItem) => unknown>
+): CrudItem => {
   if (!item || !virtuals) return item
 
   const nextItem = { ...item }
@@ -14,7 +16,7 @@ const getObjectWithGetters = (
     })
   })
 
-  return nextItem
+  return nextItem as CrudItem
 }
 
 export default getObjectWithGetters

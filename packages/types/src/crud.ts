@@ -37,8 +37,8 @@ export interface CrudModule {
 
 export interface CrudItem {
   id: number | string
-  created_at?: string
-  updated_at?: string
+  created_at?: string | Date
+  updated_at?: string | Date
   title: string
   slug?: string
   subtitle?: string | null
