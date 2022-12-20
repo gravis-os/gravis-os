@@ -5,7 +5,7 @@ dayjs.extend(customParseFormat)
 
 const outputFormat = 'MMMM D, YYYY'
 
-const printDateTime = (dateTime: string, inputFormat = '') => {
+const printDateTime = (dateTime: string | Date, inputFormat = '') => {
   if (!dateTime) return
   if (inputFormat) return dayjs(dateTime, inputFormat).format(outputFormat)
   return dayjs(dateTime).format(outputFormat)

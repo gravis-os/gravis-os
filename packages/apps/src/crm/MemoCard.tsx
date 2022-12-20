@@ -7,7 +7,7 @@ export interface MemoCardProps {
     title: React.ReactNode
     content?: string
     user?: { full_name?: string; title?: string }
-    created_at?: string
+    created_at?: string | Date
   }
   actions?: React.ReactNode
 }

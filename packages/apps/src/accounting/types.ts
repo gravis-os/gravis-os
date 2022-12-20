@@ -9,12 +9,12 @@ export interface DocumentItem {
    * Format: timestamp with time zone
    * @default CURRENT_TIMESTAMP
    */
-  created_at?: string
+  created_at?: string | Date
   /**
    * Format: timestamp with time zone
    * @default CURRENT_TIMESTAMP
    */
-  updated_at?: string
+  updated_at?: string | Date
   /** Format: uuid */
   created_by?: string
   /** Format: uuid */
