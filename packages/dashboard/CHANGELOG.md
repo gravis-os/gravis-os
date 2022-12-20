@@ -1,5 +1,25 @@
 # Changelog
 
+## 0.0.23
+
+### Patch Changes
+
+- [`8e296d6`](https://github.com/gravis-os/gravis-os/commit/8e296d61c1fa25983565c74ab35bcf2ba9d65c5c) Thanks [@clodal](https://github.com/clodal)! - Update StorageImage to include skip and also update theme
+
+* [`7968cea`](https://github.com/gravis-os/gravis-os/commit/7968ceabef0f220eae5f16f899a808c1f84758e9) Thanks [@clodal](https://github.com/clodal)! - Update dashboard layout list item behaviour
+
+- [`030b52f`](https://github.com/gravis-os/gravis-os/commit/030b52fcf91cf7039e119cc51018f221cfac7ef0) Thanks [@clodal](https://github.com/clodal)! - Fix issue in DashboardLayout where rightAside was open by default
+
+* [`2cf42ae`](https://github.com/gravis-os/gravis-os/commit/2cf42aed68f6910172e063360c5e8fb9c054ac82) Thanks [@clodal](https://github.com/clodal)! - Add @gravis-os/apps/pos
+
+- [`a05d9e7`](https://github.com/gravis-os/gravis-os/commit/a05d9e72b215b848b1d3312e17cf9abdf0c1d5bb) Thanks [@clodal](https://github.com/clodal)! - Add @gravis-os/theme and update ListItem to handle advancedStyles
+
+* [`4fbc557`](https://github.com/gravis-os/gravis-os/commit/4fbc55710fb7fe547c3feefba3f2f51809c24564) Thanks [@clodal](https://github.com/clodal)! - Fix broken build in @gravis-os/dashboard
+
+* Updated dependencies [[`2b2e2f7`](https://github.com/gravis-os/gravis-os/commit/2b2e2f7c44b223ca0909aa1bee82689f3158dab7), [`7968cea`](https://github.com/gravis-os/gravis-os/commit/7968ceabef0f220eae5f16f899a808c1f84758e9), [`2cf42ae`](https://github.com/gravis-os/gravis-os/commit/2cf42aed68f6910172e063360c5e8fb9c054ac82), [`7ea863c`](https://github.com/gravis-os/gravis-os/commit/7ea863c043105daccc473a1a3e59882ea2082c45), [`a05d9e7`](https://github.com/gravis-os/gravis-os/commit/a05d9e72b215b848b1d3312e17cf9abdf0c1d5bb), [`350218a`](https://github.com/gravis-os/gravis-os/commit/350218a32bfa9c0208bad3fd2451778d3c99e57e), [`cec58a9`](https://github.com/gravis-os/gravis-os/commit/cec58a9826b7a119c1c53d769a0c641d3fe1fe3f), [`de4af0a`](https://github.com/gravis-os/gravis-os/commit/de4af0a6f851aa6ed7091cc43f4176d7f4f8a779)]:
+  - @gravis-os/types@0.0.30
+  - @gravis-os/ui@0.0.66
+
 ## 0.0.22
 
 ### Patch Changes

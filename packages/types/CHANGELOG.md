@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.30
+
+### Patch Changes
+
+- [`2b2e2f7`](https://github.com/gravis-os/gravis-os/commit/2b2e2f7c44b223ca0909aa1bee82689f3158dab7) Thanks [@clodal](https://github.com/clodal)! - In ListItem, clean up advancedStyles and add hoverTextColor
+
+* [`7ea863c`](https://github.com/gravis-os/gravis-os/commit/7ea863c043105daccc473a1a3e59882ea2082c45) Thanks [@clodal](https://github.com/clodal)! - Update build and types
+
 ## 0.0.29
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # @gravis-os/query
 
+## 0.0.17
+
+### Patch Changes
+
+- [`ed58912`](https://github.com/gravis-os/gravis-os/commit/ed58912e99dd3ba5e98cf0d6cfd9e5a0735ed5d0) Thanks [@clodal](https://github.com/clodal)! - Add @gravis-os/pg package
+
+* [`7ea863c`](https://github.com/gravis-os/gravis-os/commit/7ea863c043105daccc473a1a3e59882ea2082c45) Thanks [@clodal](https://github.com/clodal)! - Update build and types
+
+- [`cec58a9`](https://github.com/gravis-os/gravis-os/commit/cec58a9826b7a119c1c53d769a0c641d3fe1fe3f) Thanks [@clodal](https://github.com/clodal)! - Update CRM related components"
+
+- Updated dependencies [[`2b2e2f7`](https://github.com/gravis-os/gravis-os/commit/2b2e2f7c44b223ca0909aa1bee82689f3158dab7), [`7ea863c`](https://github.com/gravis-os/gravis-os/commit/7ea863c043105daccc473a1a3e59882ea2082c45)]:
+  - @gravis-os/types@0.0.30
+
 ## 0.0.16
 
 ### Patch Changes

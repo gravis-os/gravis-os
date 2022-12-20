@@ -1,5 +1,24 @@
 # Changelog
 
+## 0.0.48
+
+### Patch Changes
+
+- [`2cf42ae`](https://github.com/gravis-os/gravis-os/commit/2cf42aed68f6910172e063360c5e8fb9c054ac82) Thanks [@clodal](https://github.com/clodal)! - Add @gravis-os/apps/pos
+
+* [`00096ea`](https://github.com/gravis-os/gravis-os/commit/00096ead32f4322579fc88d4ec38191c66bf7c48) Thanks [@clodal](https://github.com/clodal)! - Fix build error"
+
+- [`cec58a9`](https://github.com/gravis-os/gravis-os/commit/cec58a9826b7a119c1c53d769a0c641d3fe1fe3f) Thanks [@clodal](https://github.com/clodal)! - Update CRM related components"
+
+* [`de4af0a`](https://github.com/gravis-os/gravis-os/commit/de4af0a6f851aa6ed7091cc43f4176d7f4f8a779) Thanks [@clodal](https://github.com/clodal)! - Update UI
+
+* Updated dependencies [[`2b2e2f7`](https://github.com/gravis-os/gravis-os/commit/2b2e2f7c44b223ca0909aa1bee82689f3158dab7), [`8e296d6`](https://github.com/gravis-os/gravis-os/commit/8e296d61c1fa25983565c74ab35bcf2ba9d65c5c), [`7968cea`](https://github.com/gravis-os/gravis-os/commit/7968ceabef0f220eae5f16f899a808c1f84758e9), [`75092c6`](https://github.com/gravis-os/gravis-os/commit/75092c6f366850f210c8258f57723627e3c23222), [`030b52f`](https://github.com/gravis-os/gravis-os/commit/030b52fcf91cf7039e119cc51018f221cfac7ef0), [`ed58912`](https://github.com/gravis-os/gravis-os/commit/ed58912e99dd3ba5e98cf0d6cfd9e5a0735ed5d0), [`2cf42ae`](https://github.com/gravis-os/gravis-os/commit/2cf42aed68f6910172e063360c5e8fb9c054ac82), [`7ea863c`](https://github.com/gravis-os/gravis-os/commit/7ea863c043105daccc473a1a3e59882ea2082c45), [`a05d9e7`](https://github.com/gravis-os/gravis-os/commit/a05d9e72b215b848b1d3312e17cf9abdf0c1d5bb), [`350218a`](https://github.com/gravis-os/gravis-os/commit/350218a32bfa9c0208bad3fd2451778d3c99e57e), [`cec58a9`](https://github.com/gravis-os/gravis-os/commit/cec58a9826b7a119c1c53d769a0c641d3fe1fe3f), [`de4af0a`](https://github.com/gravis-os/gravis-os/commit/de4af0a6f851aa6ed7091cc43f4176d7f4f8a779), [`4fbc557`](https://github.com/gravis-os/gravis-os/commit/4fbc55710fb7fe547c3feefba3f2f51809c24564)]:
+  - @gravis-os/types@0.0.30
+  - @gravis-os/ui@0.0.66
+  - @gravis-os/crud@0.0.67
+  - @gravis-os/dashboard@0.0.23
+  - @gravis-os/query@0.0.17
+
 ## 0.0.47
 
 ### Patch Changes

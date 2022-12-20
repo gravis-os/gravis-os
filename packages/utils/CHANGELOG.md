@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.29
+
+### Patch Changes
+
+- [`7ea863c`](https://github.com/gravis-os/gravis-os/commit/7ea863c043105daccc473a1a3e59882ea2082c45) Thanks [@clodal](https://github.com/clodal)! - Update build and types
+
+* [`00096ea`](https://github.com/gravis-os/gravis-os/commit/00096ead32f4322579fc88d4ec38191c66bf7c48) Thanks [@clodal](https://github.com/clodal)! - Fix build error"
+
+- [`de4af0a`](https://github.com/gravis-os/gravis-os/commit/de4af0a6f851aa6ed7091cc43f4176d7f4f8a779) Thanks [@clodal](https://github.com/clodal)! - Update UI
+
+- Updated dependencies [[`2b2e2f7`](https://github.com/gravis-os/gravis-os/commit/2b2e2f7c44b223ca0909aa1bee82689f3158dab7), [`7ea863c`](https://github.com/gravis-os/gravis-os/commit/7ea863c043105daccc473a1a3e59882ea2082c45)]:
+  - @gravis-os/types@0.0.30
+
 ## 0.0.28
 
 ### Patch Changes
