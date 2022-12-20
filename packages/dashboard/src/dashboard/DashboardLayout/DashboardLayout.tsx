@@ -347,7 +347,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
         {/* Primary Left Aside */}
         <ResponsiveDrawer
-          showExitButton={isDesktop && disableHeaderMenuToggleOnMobile}
+          showToggleButton={isDesktop && disableHeaderMenuToggleOnMobile}
           {...leftAsideDrawerProps}
           dark={darkLeftAside}
           width={
