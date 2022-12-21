@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.31
+
+### Patch Changes
+
+- [`88f6837`](https://github.com/gravis-os/gravis-os/commit/88f68378691e85e972daa44b44d4956aafedd504) Thanks [@clodal](https://github.com/clodal)! - Update Pos to include checkout
+
 ## 0.0.30
 
 ### Patch Changes
