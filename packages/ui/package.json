@@ -44,7 +44,8 @@
     "react-reveal": "^1.2.2",
     "react-share": "^4.4.1",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.3"
+    "typescript": "^4.6.3",
+    "use-error-boundary": "^2.0.6"
   },
   "peerDependencies": {
     "@emotion/react": ">=11.9.0",

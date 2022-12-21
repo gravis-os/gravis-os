@@ -10,14 +10,14 @@ const renderStatefulChildren = (children, states) => {
   const { isLoading, isError, isEmpty } = states
 
   switch (true) {
-    case Boolean(isLoading):
-      return <Typography {...commonTypographyProps}>Loading...</Typography>
     case Boolean(isError):
       return (
         <Typography {...commonTypographyProps}>
           Error: Something went wrong.
         </Typography>
       )
+    case Boolean(isLoading):
+      return <Typography {...commonTypographyProps}>Loading...</Typography>
     case Boolean(!children):
     case Boolean(isEmpty):
       return (

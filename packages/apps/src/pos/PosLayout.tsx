@@ -1,24 +1,26 @@
-import React from 'react'
-import Paper from '@mui/material/Paper'
+import React, { useState } from 'react'
+import { DashboardLayout, DashboardLayoutProps } from '@gravis-os/dashboard'
+import PosCart from './PosCart'
 import posConfig from './posConfig'
 
-export interface PosLayoutProps {
-  children?: React.ReactNode
-}
+export interface PosLayoutProps extends DashboardLayoutProps {}
 
 const PosLayout: React.FC<PosLayoutProps> = (props) => {
-  const { children } = props
+  const [isPosCartDrawerOpen, setIsPosCartDrawerOpen] = useState(true)
 
   return (
-    <div>
-      {/* Children */}
-      <Paper
-        square
-        sx={{ height: `calc(100vh - ${posConfig.appBarHeight}px)` }}
-      >
-        {children}
-      </Paper>
-    </div>
+    <DashboardLayout
+      disablePadding
+      defaultLeftAsideOpen={false}
+      disableResponsiveCollapse
+      headerHeight={posConfig.appBarHeight}
+      // Right Aside
+      rightAside={<PosCart />}
+      rightAsideOpen={isPosCartDrawerOpen}
+      setRightAsideOpen={setIsPosCartDrawerOpen}
+      rightAsideWidth={posConfig.cartDrawerMaxWidth}
+      {...props}
+    />
   )
 }
 

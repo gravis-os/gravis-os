@@ -43,6 +43,7 @@ export interface CrudItem {
   slug?: string
   subtitle?: string | null
   avatar_src?: string | null
+  avatar_alt?: string
   workspace_id?: number
 }
 

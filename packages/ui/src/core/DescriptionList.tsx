@@ -22,6 +22,9 @@ export interface DescriptionListProps extends Omit<StackProps, 'title'> {
   titleProps?: TypographyProps
   actions?: React.ReactNode
   actionButtonProps?: ButtonProps
+  justifyContent?: 'space-between'
+  labelProps?: TypographyProps
+  valueProps?: TypographyProps
 }
 
 const DescriptionList: React.FC<DescriptionListProps> = (props) => {
@@ -34,9 +37,14 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
     items,
     sx,
     placeholder = '-',
+    justifyContent,
+    valueProps: commonValueProps,
+    labelProps: commonLabelProps,
   } = props
 
   if (!items?.length) return null
+
+  const isSpaceBetween = justifyContent === 'space-between'
 
   return (
     <div>
@@ -118,9 +126,11 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
                 {typeof label === 'string' ? (
                   <Typography
                     variant="subtitle1"
+                    {...commonLabelProps}
                     {...labelProps}
                     sx={{
                       lineHeight: 1.25,
+                      ...commonLabelProps?.sx,
                       ...labelProps?.sx,
                     }}
                   >
@@ -132,12 +142,21 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
               </Grid>
 
               {/* Right */}
-              <Grid item md={8} lg={7} component="dd">
+              <Grid
+                item
+                md={8}
+                lg={7}
+                component="dd"
+                sx={{
+                  ...(isSpaceBetween && { textAlign: 'right' }),
+                }}
+              >
                 {shouldShowPlaceholder ? (
                   placeholderJsx
                 ) : (
                   <Typography
                     variant="body1"
+                    {...commonValueProps}
                     {...valueProps}
                     sx={{
                       // For managing overflow
@@ -145,6 +164,7 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
                       whiteSpace: 'nowrap',
                       '&::-webkit-scrollbar': { display: 'none' },
 
+                      ...commonValueProps?.sx,
                       ...valueProps?.sx,
                     }}
                   >

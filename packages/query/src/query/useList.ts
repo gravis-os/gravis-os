@@ -37,7 +37,7 @@ const withGetWorkspaceAndRenameWorkspaceToWorkspaceSlug =
   () => (props: UseListProps & UseListFilters) => {
     const { params, match } = props
 
-    if (!params) return props
+    if (!params?.workspace) return props
 
     return {
       ...props,
@@ -447,9 +447,9 @@ const useList = (props: UseListProps): UseListReturn => {
   }, [isRegularPagination, onUsePagination.hasNextPage, page, queryClient])
 
   // Add virtuals
-  const itemsWithVirtuals = items?.map((item) =>
-    getObjectWithGetters(item, module.virtuals)
-  )
+  const itemsWithVirtuals = items
+    ?.map((item) => getObjectWithGetters(item, module.virtuals))
+    ?.filter(Boolean)
 
   return {
     ...onUseQuery,

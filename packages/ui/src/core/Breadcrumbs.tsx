@@ -8,16 +8,18 @@ import {
 import NextLink from 'next/link'
 
 export interface BreadcrumbsProps extends MuiBreadcrumbsProps {
-  items?: Array<{ key: string; title: string; href: string }>
+  items: Array<{ key: string; title: string; href: string }>
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   const { items = [], sx, ...rest } = props
 
+  if (!items?.length) return null
+
   const nextItems = [{ key: 'home', title: 'Home', href: '/' }, ...items]
 
   return (
-    <MuiBreadcrumbs separator="/" sx={{ mb: 1, ...sx }} {...rest}>
+    <MuiBreadcrumbs separator="/" sx={{ ...sx }} {...rest}>
       {nextItems.map((item, i) => {
         const { key, title, href } = item
         const isLast = i === nextItems.length - 1

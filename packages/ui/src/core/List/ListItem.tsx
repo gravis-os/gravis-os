@@ -11,6 +11,7 @@ import {
 import type { SxCssProperties } from '@gravis-os/types'
 import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
 import ListItemButton, { ListItemButtonProps } from './ListItemButton'
+import Box from '../Box'
 import { TooltipProps } from '../Tooltip'
 import withTooltip from '../withTooltip'
 
@@ -76,6 +77,9 @@ export interface ListItemProps
     selectedBackgroundColor: SxCssProperties
     textColor: SxCssProperties
   }
+
+  // Right
+  right?: React.ReactNode
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
@@ -105,7 +109,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
     disableGutters,
     disablePadding,
-    spacing,
+    spacing = 1,
 
     // Tooltip
     hasTooltip,
@@ -119,6 +123,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
     // Advanced Styles
     advancedStyles: injectedAdvancedStyles,
+
+    // Right
+    right,
 
     ...rest
   } = props
@@ -217,7 +224,6 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       ...injectedListItemAvatarProps?.sx,
 
       ...(spacing && {
-        minWidth: 0,
         mr: spacing,
       }),
     } as ListItemIconProps['sx'],
@@ -227,7 +233,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     ...(avatar && { children: avatar }),
     ...injectedListItemAvatarProps,
     ...(spacing && {
-      sx: { minWidth: 0, mr: spacing, ...injectedListItemAvatarProps?.sx },
+      sx: { mr: spacing, ...injectedListItemAvatarProps?.sx },
     }),
   }
 
@@ -264,6 +270,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       {!disableText && listItemTextProps && (
         <MuiListItemText {...listItemTextProps} />
       )}
+      {right && <Box sx={{ justifyContent: 'flex-end' }}>{right}</Box>}
       {endIcon && (
         <ListItemIcon
           {...commonIconProps}

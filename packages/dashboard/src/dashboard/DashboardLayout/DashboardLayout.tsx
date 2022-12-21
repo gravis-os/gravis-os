@@ -7,6 +7,11 @@ import {
   List,
   ListItemProps,
   ListProps,
+  BoxProps,
+  Breadcrumbs,
+  BreadcrumbsProps,
+  Typography,
+  TypographyProps,
 } from '@gravis-os/ui'
 import { useRouter } from 'next/router'
 import NextNProgress from 'nextjs-progressbar'
@@ -64,6 +69,7 @@ export interface DashboardLayoutProps {
   rightAsideListItems?: ListItemProps['items']
   rightAsideWidth?: number
   rightAsideOpen?: boolean
+  disableRightAside?: boolean
   setRightAsideOpen?: React.Dispatch<React.SetStateAction<boolean>>
 
   // Other elements
@@ -71,6 +77,13 @@ export interface DashboardLayoutProps {
   headerProps?: DashboardLayoutHeaderProps
   children?: React.ReactNode
   headerHeight?: number
+  sx?: BoxProps['sx']
+
+  // Hero
+  title?: React.ReactNode
+  titleProps?: TypographyProps
+  breadcrumbs?: BreadcrumbsProps['items']
+  breadcrumbsProps?: BreadcrumbsProps
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
@@ -90,6 +103,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
     // Right Aside
     rightAside,
+    disableRightAside,
     defaultRightAsideOpen = false,
     rightAsideOpen: injectedRightAsideOpen,
     setRightAsideOpen: injectedSetRightAsideOpen,
@@ -114,6 +128,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     darkSecondaryLeftAside,
 
     headerHeight: injectedHeaderHeight,
+    sx,
+
+    // Hero
+    breadcrumbs,
+    breadcrumbsProps,
+    title,
+    titleProps,
   } = props
 
   // States
@@ -252,6 +273,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
           // Right drawer
           ...(Boolean(rightAside || rightAsideListItems?.length) &&
+            !disableRightAside &&
             isRightAsideOpen && { mr: { md: `${rightAsideWidth}px` } }),
 
           // Animations
@@ -259,6 +281,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
           }),
+
+          ...sx,
         }}
       >
         {/* Secondary Left Aside */}
@@ -438,28 +462,43 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             ...(disableGutters && { px: 0 }), // Remove horizontal padding
           }}
         >
+          {/* Hero */}
+          {(title || breadcrumbs) && (
+            <Box sx={{ p: 2 }}>
+              <Breadcrumbs items={breadcrumbs} {...breadcrumbsProps} />
+              {title && (
+                <Typography variant="h1" {...titleProps}>
+                  {title}
+                </Typography>
+              )}
+            </Box>
+          )}
+
+          {/* Children */}
           {children}
         </Box>
 
         {/* Right Aside */}
-        <ResponsiveDrawer
-          anchor="right"
-          width={rightAsideWidth}
-          open={isRightAsideOpen}
-          onClose={() => setRightAsideOpen(false)}
-          sx={{ marginTop: `${headerHeight}px` }}
-        >
-          {rightAside}
-          {Boolean(rightAsideListItems?.length) && (
-            <List
-              dense
-              items={rightAsideListItems.map((item) => ({
-                ...item,
-                disableGutters: true,
-              }))}
-            />
-          )}
-        </ResponsiveDrawer>
+        {!disableRightAside && (
+          <ResponsiveDrawer
+            anchor="right"
+            width={rightAsideWidth}
+            open={isRightAsideOpen}
+            onClose={() => setRightAsideOpen(false)}
+            sx={{ marginTop: `${headerHeight}px` }}
+          >
+            {rightAside}
+            {Boolean(rightAsideListItems?.length) && (
+              <List
+                dense
+                items={rightAsideListItems.map((item) => ({
+                  ...item,
+                  disableGutters: true,
+                }))}
+              />
+            )}
+          </ResponsiveDrawer>
+        )}
       </Box>
     </Box>
   )

@@ -24,3 +24,9 @@ export * from './getPaletteColorOrFallback'
 
 export { default as setThemeColor } from './setThemeColor'
 export * from './setThemeColor'
+
+export { default as withStates } from './withStates'
+export * from './withStates'
+
+export { default as hideScrollbarSx } from './hideScrollbarSx'
+export * from './hideScrollbarSx'
