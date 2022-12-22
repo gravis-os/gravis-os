@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.50
+
+### Patch Changes
+
+- [`ecb4c94`](https://github.com/gravis-os/gravis-os/commit/ecb4c9430a5668f8820ce28dca19f25697496ad0) Thanks [@clodal](https://github.com/clodal)! - Update pos ui
+
+- Updated dependencies [[`ecb4c94`](https://github.com/gravis-os/gravis-os/commit/ecb4c9430a5668f8820ce28dca19f25697496ad0)]:
+  - @gravis-os/dashboard@0.0.25
+
 ## 0.0.49
 
 ### Patch Changes
