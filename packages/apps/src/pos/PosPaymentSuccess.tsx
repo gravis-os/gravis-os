@@ -4,6 +4,7 @@ import {
   Box,
   Button,
   Container,
+  DescriptionList,
   Divider,
   Grid,
   List,
@@ -72,7 +73,10 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
         <Container>
           <Stack spacing={4}>
             {/* Customer */}
-            <Typography {...commonSectionTitleProps}>Customer</Typography>
+            <div>
+              <Typography {...commonSectionTitleProps}>Customer</Typography>
+              <div>-</div>
+            </div>
 
             {/* Receipt Option */}
             <div>

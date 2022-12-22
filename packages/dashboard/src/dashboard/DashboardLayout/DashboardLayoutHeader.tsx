@@ -17,30 +17,36 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
   } = props
 
   const injectedLeftNavItems = navItems?.left || []
+  const injectedCenterNavItems = navItems?.center || []
   const injectedRightNavItems = navItems?.right || []
 
-  const leftNavItems = hideLeftAsideMenuToggle
-    ? injectedLeftNavItems
-    : [
-        {
-          key: 'left-aside-menu-toggle',
-          render: (props) => {
-            const { setLeftAsideOpen, leftAsideOpen, isLeftAsideOpen } = props
-            return (
-              <IconButton
-                color="inherit"
-                edge="start"
-                onClick={() => setLeftAsideOpen(!leftAsideOpen)}
-                sx={{ mr: 1 }}
-              >
-                {isLeftAsideOpen ? <MenuOpenOutlinedIcon /> : <MenuIcon />}
-              </IconButton>
-            )
-          },
-          showOnMobileBar: true,
-        },
-        ...injectedLeftNavItems,
-      ]
+  const leftNavItems =
+    Boolean(injectedLeftNavItems.length) && !hideLeftAsideMenuToggle
+      ? [
+          ...(Boolean(injectedLeftNavItems.length) && [
+            {
+              key: 'left-aside-menu-toggle',
+              render: (props) => {
+                const { setLeftAsideOpen, leftAsideOpen, isLeftAsideOpen } =
+                  props
+                return (
+                  <IconButton
+                    color="inherit"
+                    edge="start"
+                    onClick={() => setLeftAsideOpen(!leftAsideOpen)}
+                    sx={{ mr: 1 }}
+                  >
+                    {isLeftAsideOpen ? <MenuOpenOutlinedIcon /> : <MenuIcon />}
+                  </IconButton>
+                )
+              },
+              showOnMobileBar: true,
+            },
+          ]),
+
+          ...injectedLeftNavItems,
+        ]
+      : []
 
   return (
     <Header
@@ -49,6 +55,7 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
       {...rest}
       navItems={{
         left: leftNavItems,
+        center: injectedCenterNavItems,
         right: injectedRightNavItems,
       }}
       containerProps={{ maxWidth: false, ...containerProps }}
