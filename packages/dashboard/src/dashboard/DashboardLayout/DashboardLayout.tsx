@@ -241,7 +241,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       {/* Header */}
       <DashboardLayoutHeader
         height={headerHeight}
-        hideLeftAsideMenuToggle={isDesktop && disableHeaderMenuToggleOnMobile}
+        disableLeftAsideMenuToggle={isDesktop && disableHeaderMenuToggleOnMobile}
         {...headerProps}
         renderProps={layoutProps}
         sx={{

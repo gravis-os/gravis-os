@@ -4,7 +4,7 @@ import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined'
 import MenuIcon from '@mui/icons-material/Menu'
 
 export interface DashboardLayoutHeaderProps extends HeaderProps {
-  hideLeftAsideMenuToggle?: boolean
+  disableLeftAsideMenuToggle?: boolean
 }
 
 const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
@@ -12,7 +12,7 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
     navItems,
     containerProps,
     toolbarProps,
-    hideLeftAsideMenuToggle,
+    disableLeftAsideMenuToggle,
     ...rest
   } = props
 
@@ -20,10 +20,10 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
   const injectedCenterNavItems = navItems?.center || []
   const injectedRightNavItems = navItems?.right || []
 
-  const leftNavItems =
-    Boolean(injectedLeftNavItems.length) && !hideLeftAsideMenuToggle
-      ? [
-          ...(Boolean(injectedLeftNavItems.length) && [
+  const leftNavItems = injectedLeftNavItems.length
+    ? [
+        ...(Boolean(injectedLeftNavItems.length) && [
+          ...(!disableLeftAsideMenuToggle && [
             {
               key: 'left-aside-menu-toggle',
               render: (props) => {
@@ -43,10 +43,10 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
               showOnMobileBar: true,
             },
           ]),
-
-          ...injectedLeftNavItems,
-        ]
-      : []
+        ]),
+        ...injectedLeftNavItems,
+      ]
+    : []
 
   return (
     <Header
