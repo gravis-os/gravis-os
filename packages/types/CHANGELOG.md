@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.32
+
+### Patch Changes
+
+- [`67e8f7a`](https://github.com/gravis-os/gravis-os/commit/67e8f7a9f47d29e9c72cdb05d4102bdd1ee707e5) Thanks [@clodal](https://github.com/clodal)! - Build: update mui and react types deps
+
 ## 0.0.31
 
 ### Patch Changes

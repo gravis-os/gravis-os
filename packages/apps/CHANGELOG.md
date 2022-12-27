@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.51
+
+### Patch Changes
+
+- [`67e8f7a`](https://github.com/gravis-os/gravis-os/commit/67e8f7a9f47d29e9c72cdb05d4102bdd1ee707e5) Thanks [@clodal](https://github.com/clodal)! - Build: update mui and react types deps
+
+- Updated dependencies [[`67e8f7a`](https://github.com/gravis-os/gravis-os/commit/67e8f7a9f47d29e9c72cdb05d4102bdd1ee707e5), [`c503db9`](https://github.com/gravis-os/gravis-os/commit/c503db9fe443a25a2ffdcf40bfe8e9b3daa16286), [`9394e0b`](https://github.com/gravis-os/gravis-os/commit/9394e0bb1606e7bcc488e4cbab63fe3358d50c86)]:
+  - @gravis-os/crud@0.0.68
+  - @gravis-os/dashboard@0.0.26
+  - @gravis-os/form@0.0.96
+  - @gravis-os/query@0.0.19
+  - @gravis-os/types@0.0.32
+  - @gravis-os/ui@0.0.68
+
 ## 0.0.50
 
 ### Patch Changes
