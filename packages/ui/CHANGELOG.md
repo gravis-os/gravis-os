@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.69
+
+### Patch Changes
+
+- [`d87ad94`](https://github.com/gravis-os/gravis-os/commit/d87ad940906da256d9735f935f75fcdd86c9b5e7) Thanks [@clodal](https://github.com/clodal)! - Fix type error
+
 ## 0.0.68
 
 ### Patch Changes
