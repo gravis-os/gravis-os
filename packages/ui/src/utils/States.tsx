@@ -10,7 +10,7 @@ export interface StatesProps {
   loading?: boolean
 
   isError?: boolean
-  error?: boolean
+  error?: boolean | unknown
 
   isEmpty?: boolean
   empty?: boolean
