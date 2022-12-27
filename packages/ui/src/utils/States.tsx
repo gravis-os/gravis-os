@@ -2,8 +2,8 @@ import React from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
 import renderStatefulChildren from './renderStatefulChildren'
 
-const ErrorFallback = ({ error, resetErrorBoundary, children }) =>
-  renderStatefulChildren(children || error.message, { isError: true })
+const ErrorFallback = ({ error }) =>
+  renderStatefulChildren(error.message, { isError: true })
 
 export interface StatesProps {
   isLoading?: boolean
