@@ -241,6 +241,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     {
       primary: title,
       primaryTypographyProps: {
+        ...(React.isValidElement(title) && { component: 'div' }),
         ...titleProps,
         sx: {
           ...(hasAdvancedStyles && { color: advancedStyles.titleColor }),
@@ -249,6 +250,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       },
       secondary: subtitle,
       secondaryTypographyProps: {
+        ...(React.isValidElement(subtitle) && { component: 'div' }),
         lineHeight: 1.35,
         ...subtitleProps,
         sx: {

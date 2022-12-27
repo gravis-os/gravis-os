@@ -15,6 +15,7 @@ export interface LinkProps extends MuiLinkProps {
    */
   hoverColor?: string
   disableHoverColor?: boolean
+  passHref?: boolean
 }
 
 const Link: React.FC<LinkProps> = (props) => {
@@ -28,6 +29,7 @@ const Link: React.FC<LinkProps> = (props) => {
     children,
     pointer,
     sx,
+    passHref,
     ...rest
   } = props
 

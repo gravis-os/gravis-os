@@ -3,7 +3,7 @@ import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/router'
 import { CircularProgress } from '@gravis-os/ui'
-import { isPathMatch, getGuestPaths, isPlatformBrowser } from '@gravis-os/utils'
+import { isPathMatch, getGuestPaths } from '@gravis-os/utils'
 import { useQuery, useQueryClient, QueryOptions } from 'react-query'
 import { DbUser } from '@gravis-os/types'
 import UserContext, { UserContextInterface } from './UserContext'
@@ -21,6 +21,7 @@ export interface UserProviderProps {
     user?: UserContextInterface['user']
   }) => UserContextInterface['user']
   queryOptions?: QueryOptions<DbUser>
+  dbUser?: DbUser
 }
 
 /**
@@ -30,6 +31,7 @@ export interface UserProviderProps {
  */
 const UserProvider: React.FC<UserProviderProps> = (props) => {
   const {
+    dbUser: injectedDbUser,
     select = '*',
     authColumnKey = 'id',
     children,
@@ -54,9 +56,10 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     const { data } = await supabaseClient
       .from('user')
       .select(select)
-      .eq(authColumnKey, authUser.id) // Feature: If isAdmin, expose switcheroo here
+      .eq(authColumnKey, authUser.id)
+      .single() // TODO@feature: If isAdmin, expose switcheroo here
     if (!data) return
-    const dbUser = data[0]
+    const dbUser = data
     return dbUser
   }
   const getDbUserFromAuthUserQueryKey = ['get-db-user-from-auth-user-query']
@@ -70,7 +73,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     }
   )
   const {
-    data: dbUser,
+    data: fetchedDbUser,
     refetch: refetchDbUserQuery,
     isLoading: dbUserLoading,
     isFetching: dbUserFetching,
@@ -83,11 +86,13 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     if (
       authUser &&
       !authUserLoading &&
-      (!dbUser || dbUser?.id !== authUser?.id)
+      (!fetchedDbUser || fetchedDbUser?.id !== authUser?.id)
     ) {
       refetchDbUserQuery()
     }
-  }, [authUser, dbUser, authUserLoading, select])
+  }, [authUser, fetchedDbUser, authUserLoading, select])
+
+  const dbUser = injectedDbUser || fetchedDbUser
 
   // Guest auth paths
   const router = useRouter()
@@ -119,7 +124,9 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
 
   // Loader
   const shouldShowLoader = !isGuestPath && !dbUser
-  const loader = injectedLoader || <CircularProgress fullScreen />
+  const loader = injectedLoader || (
+    <CircularProgress fullScreen id="UserProvider-CircularProgress" />
+  )
 
   if (process.env.DEBUG === 'true') {
     console.log(`👤 [DEBUG] UserProvider`, {

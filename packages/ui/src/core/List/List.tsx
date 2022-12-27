@@ -1,5 +1,6 @@
 import React from 'react'
 import merge from 'lodash/merge'
+import omit from 'lodash/omit'
 import { List as MuiList, ListProps as MuiListProps } from '@mui/material'
 import ListItem, { ListItemProps } from './ListItem'
 import ListItemWithCollapse, {
@@ -78,7 +79,12 @@ const List: React.FC<ListProps> = (props) => {
                 <ListItemWithCollapse key={key} depth={1} {...listItemProps} />
               )
             default:
-              return <ListItem key={key} {...listItemProps} />
+              return (
+                <ListItem
+                  key={key}
+                  {...omit(listItemProps, ['collapseProps'])}
+                />
+              )
           }
         })}
       </Stack>
