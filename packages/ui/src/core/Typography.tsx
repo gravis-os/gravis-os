@@ -5,6 +5,8 @@ import {
 } from '@mui/material'
 import get from 'lodash/get'
 import Stack, { StackProps } from './Stack'
+import { RevealProps } from './Reveal'
+import withReveal from './withReveal'
 
 export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   startIcon?: React.ReactElement
@@ -14,6 +16,7 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   gradient?: string | { from: string; to: string; angle?: string }
   maxLines?: number
   component?: string
+  reveal?: RevealProps
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
@@ -22,6 +25,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     maxWidth,
     startIcon,
     endIcon,
+    reveal,
     spacing = 0.5,
     maxLines,
     sx,
@@ -82,7 +86,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     )
   }
 
-  return childrenJsx
+  return withReveal({ reveal })(childrenJsx)
 }
 
 export default Typography

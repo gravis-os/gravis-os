@@ -1,12 +1,13 @@
 import React, { forwardRef } from 'react'
 import { Box as MuiBox, BoxProps as MuiBoxProps } from '@mui/material'
-import Reveal from './Reveal'
+import { RevealProps } from './Reveal'
+import withReveal from './withReveal'
 
 export interface BoxProps extends MuiBoxProps {
   fullWidthOnMobile?: boolean
   center?: boolean
   stretch?: boolean
-  reveal?: boolean | Record<string, unknown>
+  reveal?: RevealProps
 }
 
 const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
@@ -40,15 +41,11 @@ const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
     ...rest,
   }
 
-  return reveal ? (
-    <MuiBox {...boxProps}>
-      <Reveal {...(typeof reveal === 'object' ? reveal : {})}>
-        {children}
-      </Reveal>
-    </MuiBox>
-  ) : (
-    <MuiBox {...boxProps}>{children}</MuiBox>
-  )
+  const enhancedChildren = withReveal({
+    reveal,
+  })(children)
+
+  return <MuiBox {...boxProps}>{enhancedChildren}</MuiBox>
 })
 
 export default Box

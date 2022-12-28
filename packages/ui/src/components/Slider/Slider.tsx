@@ -17,8 +17,16 @@ import withAutoplayPlugin from './withAutoplayPlugin'
 import withScrollPlugin from './withScrollPlugin'
 import withThumbnailsPlugin from './withThumbnailsPlugin'
 
+export type RenderItemFunction = ({
+  prev,
+  next,
+}: {
+  prev: () => void
+  next: () => void
+}) => React.ReactNode
+
 export interface SliderProps extends BoxProps {
-  items: React.ReactElement[]
+  items: Array<React.ReactNode | RenderItemFunction>
   options?: KeenSliderOptions
   plugins?: KeenSliderPlugin[]
   autoplay?: boolean
@@ -152,14 +160,19 @@ const Slider: React.FC<SliderProps> = (props) => {
           </IconButton>
         )}
         {/* View All */}
-        {viewAll && <ViewAllDialogButton items={items} />}
+        {viewAll && <ViewAllDialogButton items={items as React.ReactNode[]} />}
 
         {/* Main Slider */}
         <Box ref={ref} className="keen-slider" sx={sx} {...rest}>
           {items.map((item, i) => {
             return (
               <Box key={`item-slide-${i}`} {...commonItemProps}>
-                {item}
+                {typeof item === 'function'
+                  ? item({
+                      prev: instanceRef.current?.prev,
+                      next: instanceRef.current?.next,
+                    })
+                  : item}
               </Box>
             )
           })}
@@ -177,7 +190,7 @@ const Slider: React.FC<SliderProps> = (props) => {
           }}
           {...rest}
         >
-          {items.map((item, i) => {
+          {(items as React.ReactNode[]).map((item, i) => {
             return (
               <Box
                 key={`item-slide-thumbnail-${i}`}
