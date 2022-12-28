@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.35
+
+### Patch Changes
+
+- [`06dc300`](https://github.com/gravis-os/gravis-os/commit/06dc30084d31ac67c933d83322f94b78c38c9a26) Thanks [@clodal](https://github.com/clodal)! - Remove StorageAvatar from landing to keep it pure
+
 ## 0.0.34
 
 ### Patch Changes
