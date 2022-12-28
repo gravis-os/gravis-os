@@ -6,7 +6,7 @@ import Card, { CardProps } from '../core/Card'
 import Grid from '../core/Grid'
 import Image from '../core/Image'
 import Stack from '../core/Stack'
-import { getStorageImageUrl, renderReactNodeOrString } from '../utils'
+import { renderReactNodeOrString } from '../utils'
 
 /**
  * Property of the QuantityCard component.
@@ -30,6 +30,10 @@ export interface QuantityCardProps extends CardProps {
   description?: ReactNode
   /** URL of the image displayed on the left side of the component */
   imageSrc?: string
+  /**
+   * ReactNode to display the image
+   */
+  image?: React.ReactNode
   /** Displays an error icon next to the quantity value if set to true */
   hasError?: boolean
 }
@@ -39,6 +43,7 @@ const QuantityCard: React.FC<QuantityCardProps> = (
 ): React.ReactElement => {
   const {
     title,
+    image,
     quantity: injectedQuantity,
     setQuantity: injectedSetQuantity,
     subtitle,
@@ -56,28 +61,12 @@ const QuantityCard: React.FC<QuantityCardProps> = (
     return injectedSetQuantity ? injectedSetQuantity(value) : setQuantity(value)
   }
 
-  // Get image URL
-  const [imageUrl, setImageUrl] = useState<string | undefined>(undefined)
-
-  useEffect(() => {
-    const getImage = async () => {
-      const fetchedImageUrl = await getStorageImageUrl(imageSrc)
-      setImageUrl(fetchedImageUrl)
-    }
-    getImage()
-  }, [imageSrc])
-
   return (
     // Override default padding
     <Card disablePadding padding={1.5} {...rest}>
       <Grid container spacing={1} display="flex" alignItems="center">
         <Grid item xs={3}>
-          <Image
-            src={imageUrl ?? imageSrc}
-            height="100%"
-            width="100%"
-            sx={{ alignItems: 'center', display: 'flex' }}
-          />
+          {image}
         </Grid>
         <Grid item xs={6}>
           <Stack spacing={1}>

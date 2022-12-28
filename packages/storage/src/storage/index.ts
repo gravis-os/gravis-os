@@ -13,6 +13,9 @@ export * from './StorageGallery'
 export { default as StorageImage } from './StorageImage'
 export * from './StorageImage'
 
+export { default as getStorageImageUrl } from './getStorageImageUrl'
+export * from './getStorageImageUrl'
+
 // ==============================
 // Hooks
 // ==============================
