@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.31
+
+### Patch Changes
+
+- [`f5c5dd8`](https://github.com/gravis-os/gravis-os/commit/f5c5dd8ed2a0145372a51167a797f13a5e40efd0) Thanks [@clodal](https://github.com/clodal)! - Move getStorageImageUrl to storage from ui to keep ui pure
+
+- Updated dependencies [[`4baf33c`](https://github.com/gravis-os/gravis-os/commit/4baf33cef11783df263141c3be9f47b6c98ff178), [`f5c5dd8`](https://github.com/gravis-os/gravis-os/commit/f5c5dd8ed2a0145372a51167a797f13a5e40efd0)]:
+  - @gravis-os/ui@0.0.71
+
 ## 0.0.30
 
 ### Patch Changes
