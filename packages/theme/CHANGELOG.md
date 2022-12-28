@@ -1,5 +1,11 @@
 # @gravis-os/theme
 
+## 0.0.4
+
+### Patch Changes
+
+- [`d7a073c`](https://github.com/gravis-os/gravis-os/commit/d7a073c977d182f5e94b7b2f9f4380df41cf2340) Thanks [@clodal](https://github.com/clodal)! - Add ThemeProvider update deps
+
 ## 0.0.3
 
 ### Patch Changes
