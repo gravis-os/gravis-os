@@ -29,7 +29,6 @@
     "tslint": "tsc --noEmit --incremental"
   },
   "dependencies": {
-    "@gravis-os/storage": "*",
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
     "clsx": "^1.1.1",
