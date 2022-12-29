@@ -1,7 +1,8 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import startCase from 'lodash/startCase'
 import isNil from 'lodash/isNil'
 import {
+  InputAdornment,
   TextField as MuiTextField,
   StandardTextFieldProps as MuiTextFieldProps,
 } from '@mui/material'
@@ -15,11 +16,14 @@ interface OptionItem {
 }
 
 export interface TextFieldProps extends Omit<MuiTextFieldProps, 'title'> {
+  focus?: boolean
   options?: string[] | OptionItem[]
   disableLabel?: boolean
   disableBorders?: boolean
   setValue?: UseFormReturn['setValue']
   title?: React.ReactNode
+  start?: React.ReactNode
+  end?: React.ReactNode
   titleProps?: TypographyProps
 }
 
@@ -34,13 +38,28 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     inputProps,
     title,
     titleProps,
+    focus,
+    start,
+    end,
+    InputProps,
     ...rest
   } = props
   const { name, value, setValue, required } = rest
 
+  // Autofocus
+  // @link https://github.com/mui/material-ui/issues/7247#issuecomment-576032102
+  const inputRef = useRef<HTMLInputElement>(null)
+  useEffect(() => {
+    if (inputRef.current && focus) {
+      inputRef.current.focus()
+    }
+  }, [focus, inputRef])
+
+  // Define TextField props
   const textFieldProps = {
     variant: 'outlined' as TextFieldProps['variant'],
     label: title || hidden || disableLabel ? null : startCase(name),
+    inputRef,
     fullWidth: true,
     InputLabelProps: {
       ...InputLabelProps,
@@ -63,6 +82,21 @@ const TextField: React.FC<TextFieldProps> = (props) => {
       ...inputProps,
     },
     hiddenLabel: hidden,
+
+    InputProps: {
+      // Start/End Icon
+      ...(start && {
+        startAdornment: (
+          <InputAdornment position="start">{start}</InputAdornment>
+        ),
+      }),
+      ...(end && {
+        endAdornment: <InputAdornment position="end">{end}</InputAdornment>,
+      }),
+
+      ...InputProps,
+    },
+
     ...rest,
   }
 
@@ -83,6 +117,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     if (setValue) setValue(name, defaultOption)
   }, [options])
 
+  // Prepare children
   const renderChildren = () => {
     switch (true) {
       case Boolean(options):
@@ -116,7 +151,6 @@ const TextField: React.FC<TextFieldProps> = (props) => {
         return <MuiTextField {...textFieldProps} />
     }
   }
-
   const childrenJsx = renderChildren()
 
   return (

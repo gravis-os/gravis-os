@@ -5,7 +5,7 @@ import {
   ControlledHtmlField,
   ControlledTextField,
   ControlledAutocompleteField,
-} from '@gravis-os/form'
+} from '@gravis-os/fields'
 import { CrudItem } from '@gravis-os/types'
 
 export type ThreadFormValues = Record<string, unknown> & {

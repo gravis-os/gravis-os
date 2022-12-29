@@ -16,7 +16,7 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   gradient?: string | { from: string; to: string; angle?: string }
   maxLines?: number
   component?: string
-  reveal?: RevealProps
+  reveal?: boolean | RevealProps
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {

@@ -7,7 +7,7 @@ export interface BoxProps extends MuiBoxProps {
   fullWidthOnMobile?: boolean
   center?: boolean
   stretch?: boolean
-  reveal?: RevealProps
+  reveal?: boolean | RevealProps
 }
 
 const Box: React.FC<BoxProps> = forwardRef((props, ref) => {

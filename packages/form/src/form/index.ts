@@ -25,6 +25,12 @@ export * from './FormSection/getFormSectionFieldBooleanFunction'
 export { default as getFormSectionFieldRenderProps } from './FormSection/getFormSectionFieldRenderProps'
 export * from './FormSection/getFormSectionFieldRenderProps'
 
+export { default as ModelField } from './fields/ModelField'
+export * from './fields/ModelField'
+
+export { default as ControlledModelField } from './fields/ControlledModelField'
+export * from './fields/ControlledModelField'
+
 // ==============================
 // Utils
 // ==============================

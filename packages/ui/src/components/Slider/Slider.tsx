@@ -108,9 +108,6 @@ const Slider: React.FC<SliderProps> = (props) => {
     },
   }
 
-  // View all
-  const [isViewAllOpen, setIsViewAllOpen] = useState(false)
-
   // Degenerate case
   if (!items?.length) return null
 
