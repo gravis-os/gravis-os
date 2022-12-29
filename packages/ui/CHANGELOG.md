@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.72
+
+### Patch Changes
+
+- [`91a4d9d`](https://github.com/gravis-os/gravis-os/commit/91a4d9d0641cc6f69af9b623962636dc5d3db9b5) Thanks [@clodal](https://github.com/clodal)! - Add withReveal hoc to enhance typography ui
+
+* [`8569a87`](https://github.com/gravis-os/gravis-os/commit/8569a87036339874401ff44c78588e27160633a4) Thanks [@clodal](https://github.com/clodal)! - Update ui components
+
+- [`89f9f34`](https://github.com/gravis-os/gravis-os/commit/89f9f34ecb5379ae26f4a31f75ccea84f2aafc52) Thanks [@clodal](https://github.com/clodal)! - Fix build error, update ui components
+
+* [`6baaf6e`](https://github.com/gravis-os/gravis-os/commit/6baaf6e4390bc98c9fc86c9a8087e378fee4af64) Thanks [@clodal](https://github.com/clodal)! - Fix type error
+
+* Updated dependencies [[`74ddc47`](https://github.com/gravis-os/gravis-os/commit/74ddc47cd7f8cd00c98a4ac10eaecf34337ccf42)]:
+  - @gravis-os/utils@0.0.31
+
 ## 0.0.71
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.31
+
+### Patch Changes
+
+- [`74ddc47`](https://github.com/gravis-os/gravis-os/commit/74ddc47cd7f8cd00c98a4ac10eaecf34337ccf42) Thanks [@clodal](https://github.com/clodal)! - Rename getFormValues to getFormEventValues
+
 ## 0.0.30
 
 ### Patch Changes

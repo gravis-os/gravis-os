@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.52
+
+### Patch Changes
+
+- [`8449ea6`](https://github.com/gravis-os/gravis-os/commit/8449ea673bab3416dbcdfe34e8824eb51156d0fa) Thanks [@clodal](https://github.com/clodal)! - Abstracted form fields to @gravis-os/fields to keep components pure
+
+* [`89f9f34`](https://github.com/gravis-os/gravis-os/commit/89f9f34ecb5379ae26f4a31f75ccea84f2aafc52) Thanks [@clodal](https://github.com/clodal)! - Fix build error, update ui components
+
+* Updated dependencies [[`8449ea6`](https://github.com/gravis-os/gravis-os/commit/8449ea673bab3416dbcdfe34e8824eb51156d0fa), [`91a4d9d`](https://github.com/gravis-os/gravis-os/commit/91a4d9d0641cc6f69af9b623962636dc5d3db9b5), [`8569a87`](https://github.com/gravis-os/gravis-os/commit/8569a87036339874401ff44c78588e27160633a4), [`89f9f34`](https://github.com/gravis-os/gravis-os/commit/89f9f34ecb5379ae26f4a31f75ccea84f2aafc52), [`6baaf6e`](https://github.com/gravis-os/gravis-os/commit/6baaf6e4390bc98c9fc86c9a8087e378fee4af64)]:
+  - @gravis-os/fields@0.0.2
+  - @gravis-os/form@0.0.97
+  - @gravis-os/ui@0.0.72
+
 ## 0.0.51
 
 ### Patch Changes
