@@ -1,7 +1,7 @@
 import React from 'react'
 import { Box, Button, ButtonProps, Stack, Typography } from '@gravis-os/ui'
 import { useForm } from 'react-hook-form'
-import { ControlledTextField } from '@gravis-os/form'
+import { ControlledTextField } from '@gravis-os/fields'
 import QuestionAnswerOutlinedIcon from '@mui/icons-material/QuestionAnswerOutlined'
 
 export type GetTextBackFormValues = Record<string, unknown>

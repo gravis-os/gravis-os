@@ -10,7 +10,7 @@ import {
 } from '@gravis-os/ui'
 import { StorageAvatar } from '@gravis-os/storage'
 import { useForm, UseFormReturn } from 'react-hook-form'
-import { ControlledTextField } from '@gravis-os/form'
+import { ControlledTextField } from '@gravis-os/fields'
 import { RenderPropsFunction } from '@gravis-os/types'
 
 export type StatusUpdateFormValuesCard = Record<string, unknown>

@@ -9,7 +9,7 @@ import {
   Typography,
 } from '@gravis-os/ui'
 import { useForm } from 'react-hook-form'
-import { ControlledTextField } from '@gravis-os/form'
+import { ControlledTextField } from '@gravis-os/fields'
 import SendIcon from '@mui/icons-material/Send'
 
 export type SendEnquiryFormValues = Record<string, unknown>

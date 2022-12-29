@@ -108,6 +108,7 @@
   "dependencies": {
     "@gravis-os/crud": "*",
     "@gravis-os/dashboard": "*",
+    "@gravis-os/fields": "*",
     "@gravis-os/form": "*",
     "@gravis-os/query": "*",
     "@gravis-os/types": "*",

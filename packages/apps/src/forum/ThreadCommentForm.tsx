@@ -1,7 +1,7 @@
 import React from 'react'
 import { Button, Card, Stack } from '@gravis-os/ui'
 import { useForm } from 'react-hook-form'
-import { ControlledHtmlField } from '@gravis-os/form'
+import { ControlledHtmlField } from '@gravis-os/fields'
 
 export interface ThreadCommentFormProps {
   onSubmit?: (values: any) => void

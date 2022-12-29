@@ -28,7 +28,7 @@ import isEqual from 'lodash/isEqual'
 import isNil from 'lodash/isNil'
 import get from 'lodash/get'
 import { filter, identity, negate, orderBy } from 'lodash'
-import TextField, { TextFieldProps } from './TextField'
+import { TextField, TextFieldProps } from '@gravis-os/fields'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 
 interface DataItem {

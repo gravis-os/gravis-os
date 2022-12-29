@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { Chip, Stack, Typography } from '@gravis-os/ui'
-import { TextField } from '@gravis-os/form'
+import { TextField } from '@gravis-os/fields'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
   Accordion,
@@ -11,14 +11,14 @@ import {
   FormControlLabel,
   FormGroup,
 } from '@mui/material'
-import { useRouterQuery } from '@gravis-os/query'
-import startCase from 'lodash/startCase'
 import {
+  useRouterQuery,
   FilterDef,
   FilterDefOptionValue,
   FilterDefTypeEnum,
   UseFilterDefsReturn,
 } from '@gravis-os/query'
+import startCase from 'lodash/startCase'
 
 export interface FilterAccordionOptionInterface {
   key: string
