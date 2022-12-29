@@ -19,7 +19,6 @@ const Stack: React.FC<StackProps> = (props) => {
     sx,
     center,
     reverseDirectionOnMobile,
-    divider,
     verticalDividers,
     horizontalDividers,
     ...rest
@@ -56,12 +55,12 @@ const Stack: React.FC<StackProps> = (props) => {
 
     // Vertical Dividers
     ...(verticalDividers && {
-      divider: divider || <Divider orientation="vertical" flexItem />,
+      divider: <Divider orientation="vertical" flexItem />,
     }),
 
     // Horizontal Dividers
     ...(horizontalDividers && {
-      divider: divider || <Divider flexItem />,
+      divider: <Divider flexItem />,
     }),
 
     ...rest,

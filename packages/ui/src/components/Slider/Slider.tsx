@@ -1,17 +1,13 @@
 import React, { useState } from 'react'
 import {
-  useKeenSlider,
   KeenSliderOptions,
   KeenSliderPlugin,
+  useKeenSlider,
 } from 'keen-slider/react'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined'
 import Box, { BoxProps } from '../../core/Box'
-import IconButton, { IconButtonProps } from '../../core/IconButton'
-import Button, { ButtonProps } from '../../core/Button'
-import Dialog, { DialogProps } from '../../core/Dialog'
-import ImageList, { ImageListProps } from '../ImageList'
+import IconButton from '../../core/IconButton'
 import ViewAllDialogButton from './ViewAllDialogButton'
 import withAutoplayPlugin from './withAutoplayPlugin'
 import withScrollPlugin from './withScrollPlugin'
@@ -23,6 +19,7 @@ export type RenderItemFunction = ({
 }: {
   prev: () => void
   next: () => void
+  reset: () => void
 }) => React.ReactNode
 
 export interface SliderProps extends BoxProps {
@@ -171,6 +168,7 @@ const Slider: React.FC<SliderProps> = (props) => {
                   ? item({
                       prev: instanceRef.current?.prev,
                       next: instanceRef.current?.next,
+                      reset: () => instanceRef.current?.moveToIdx?.(0),
                     })
                   : item}
               </Box>

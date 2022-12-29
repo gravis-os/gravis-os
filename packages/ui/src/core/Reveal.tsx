@@ -5,9 +5,10 @@ export type RevealProps =
   | boolean
   | {
       cascade?: boolean
+      children?: React.ReactNode
       bottom?: boolean
       left?: boolean
-      children?: React.ReactNode
+      delay?: number
     }
 
 const Reveal: React.FC<RevealProps> = (props) => {
