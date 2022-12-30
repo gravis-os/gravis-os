@@ -72,11 +72,13 @@ export interface DashboardLayoutProps {
   disableRightAside?: boolean
   setRightAsideOpen?: React.Dispatch<React.SetStateAction<boolean>>
 
-  // Other elements
-  disableHeaderMenuToggleOnMobile?: boolean
+  // Header
   headerProps?: DashboardLayoutHeaderProps
-  children?: React.ReactNode
   headerHeight?: number
+  showHeaderLeftMenuToggle?: boolean
+
+  // Other elements
+  children?: React.ReactNode
   sx?: BoxProps['sx']
 
   // Hero
@@ -94,11 +96,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     isMiniVariant: injectedIsMiniVariant,
     miniVariantWidth: injectedMiniVariantWidth,
     disableClipUnderAppBar,
-    headerProps,
-    disableHeaderMenuToggleOnMobile,
     disableResponsiveCollapse,
 
-    defaultLeftAsideOpen = true,
+    // Header
+    showHeaderLeftMenuToggle = false,
+    headerProps,
+
+    defaultLeftAsideOpen: injectedDefaultLeftAsideOpen = true,
     defaultSecondaryLeftAsideOpen = false,
 
     // Left Aside
@@ -137,6 +141,32 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     titleProps,
   } = props
 
+  // Router
+  const router = useRouter()
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
+
+  // List Items
+  const leftAsideListItems = getListItemsWithActiveStateFromRouter(
+    injectedLeftAsideListItems,
+    router
+  )
+  const primaryLeftAsideListItems =
+    isDesktop && showSecondaryLeftAside
+      ? // Not to show nested List Items if showSecondaryLeftAside=true
+        leftAsideListItems?.map(({ items, ...listItem }) => listItem)
+      : leftAsideListItems
+  const { items: secondaryLeftAsideListItems } =
+    leftAsideListItems?.find(({ selected }) => selected) || {}
+
+  const hasPrimaryLeftAsideListItems = Boolean(
+    primaryLeftAsideListItems?.length
+  )
+
+  const defaultLeftAsideOpen = Boolean(
+    hasPrimaryLeftAsideListItems && injectedDefaultLeftAsideOpen
+  )
+
   // States
   const [leftAsideOpen, setLeftAsideOpen] = useState(defaultLeftAsideOpen)
   const [secondaryLeftAsideOpen, setSecondaryLeftAsideOpen] = useState(
@@ -154,13 +184,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       ? injectedSetRightAsideOpen
       : setLocalRightAsideOpen
 
-  // Router
-  const router = useRouter()
-
-  // Effects
   // Collapse asides below desktop breakpoint
-  const theme = useTheme()
-  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
+  // Effects
   useEffect(() => {
     if (!isDesktop && !disableResponsiveCollapse) {
       setLeftAsideOpen(false)
@@ -168,19 +193,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       setRightAsideOpen(false)
     }
   }, [isDesktop])
-
-  // List Items
-  const leftAsideListItems = getListItemsWithActiveStateFromRouter(
-    injectedLeftAsideListItems,
-    router
-  )
-  const primaryLeftAsideListItems =
-    isDesktop && showSecondaryLeftAside
-      ? // Not to show nested List Items if showSecondaryLeftAside=true
-        leftAsideListItems?.map(({ items, ...listItem }) => listItem)
-      : leftAsideListItems
-  const { items: secondaryLeftAsideListItems } =
-    leftAsideListItems?.find(({ selected }) => selected) || {}
 
   // Booleans
   // MiniVariant is to be applied from desktop viewport onwards
@@ -241,8 +253,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       {/* Header */}
       <DashboardLayoutHeader
         height={headerHeight}
-        disableLeftAsideMenuToggle={
-          isDesktop && disableHeaderMenuToggleOnMobile
+        showLeftMenuToggle={
+          hasPrimaryLeftAsideListItems && showHeaderLeftMenuToggle
         }
         {...headerProps}
         renderProps={layoutProps}
@@ -373,7 +385,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
         {/* Primary Left Aside */}
         <ResponsiveDrawer
-          showToggleButton={isDesktop && disableHeaderMenuToggleOnMobile}
+          showToggleButton={hasPrimaryLeftAsideListItems}
           {...leftAsideDrawerProps}
           dark={darkLeftAside}
           width={
@@ -405,52 +417,55 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
             variant: isMiniVariant ? 'permanent' : 'persistent',
           }}
         >
-          <List
-            {...leftAsideListProps}
-            items={primaryLeftAsideListItems}
-            listItemProps={{
-              disableGutters: true,
-              hasTooltip: isMiniVariantLeftAsideClosed,
-              disableText: isMiniVariantLeftAsideClosed,
-              textProps: { primaryTypographyProps: { variant: 'subtitle2' } },
-              buttonProps: {
-                sx: {
-                  ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
-                  // Min-height on primary left aside items
-                  minHeight: primaryLeftAsideItemMinHeight,
-                },
-
-                // Make first click on mini-variant open the drawer instead of routing
-                ...(isMiniVariantLeftAsideClosed && {
-                  onClick: (e) => {
-                    e.stopPropagation()
-                    e.preventDefault()
-                    setLeftAsideOpen(true)
+          {hasPrimaryLeftAsideListItems && (
+            <List
+              {...leftAsideListProps}
+              items={primaryLeftAsideListItems}
+              listItemProps={{
+                disableGutters: true,
+                hasTooltip: isMiniVariantLeftAsideClosed,
+                disableText: isMiniVariantLeftAsideClosed,
+                textProps: { primaryTypographyProps: { variant: 'subtitle2' } },
+                buttonProps: {
+                  sx: {
+                    ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
+                    // Min-height on primary left aside items
+                    minHeight: primaryLeftAsideItemMinHeight,
                   },
-                }),
-              },
-              collapseProps: {
-                sx: {
+
+                  // Make first click on mini-variant open the drawer instead of routing
                   ...(isMiniVariantLeftAsideClosed && {
-                    display: 'none',
+                    onClick: (e) => {
+                      e.stopPropagation()
+                      e.preventDefault()
+                      setLeftAsideOpen(true)
+                    },
                   }),
                 },
-              },
-              ...leftAsideListItemProps,
-            }}
-            sx={{
-              marginBottom: {
-                // eslint-disable-next-line no-nested-ternary
-                xs: isMiniVariantLeftAsideClosed
-                  ? disableClipUnderAppBar
-                    ? 0
-                    : `${headerHeight}px`
-                  : 0,
-                sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
-              },
-              ...leftAsideListProps?.sx,
-            }}
-          />
+                collapseProps: {
+                  sx: {
+                    ...(isMiniVariantLeftAsideClosed && {
+                      display: 'none',
+                    }),
+                  },
+                },
+                ...leftAsideListItemProps,
+              }}
+              sx={{
+                marginBottom: {
+                  // eslint-disable-next-line no-nested-ternary
+                  xs: isMiniVariantLeftAsideClosed
+                    ? disableClipUnderAppBar
+                      ? 0
+                      : `${headerHeight}px`
+                    : 0,
+                  sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
+                },
+                ...leftAsideListProps?.sx,
+              }}
+            />
+          )}
+
           {leftAsideBottomActions}
         </ResponsiveDrawer>
 

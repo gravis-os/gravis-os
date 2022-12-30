@@ -4,7 +4,7 @@ import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined'
 import MenuIcon from '@mui/icons-material/Menu'
 
 export interface DashboardLayoutHeaderProps extends HeaderProps {
-  disableLeftAsideMenuToggle?: boolean
+  showLeftMenuToggle?: boolean
 }
 
 const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
@@ -12,7 +12,7 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
     navItems,
     containerProps,
     toolbarProps,
-    disableLeftAsideMenuToggle,
+    showLeftMenuToggle,
     ...rest
   } = props
 
@@ -23,7 +23,7 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
   const leftNavItems = injectedLeftNavItems.length
     ? [
         ...(Boolean(injectedLeftNavItems.length) && [
-          ...(!disableLeftAsideMenuToggle && [
+          ...(showLeftMenuToggle && [
             {
               key: 'left-aside-menu-toggle',
               render: (props) => {
