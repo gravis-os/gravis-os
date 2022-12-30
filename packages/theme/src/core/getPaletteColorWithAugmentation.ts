@@ -9,24 +9,22 @@ import createGradientFromMainColor from './createGradientFromMainColor'
  */
 const getPaletteColorWithAugmentation = ({
   themeOptions,
-  palette,
+  paletteOptions,
   paletteKey,
   mainColor: injectedMainColor,
 }): { [key: string]: Record<string, unknown> } => {
-  const mainColor = injectedMainColor || palette[paletteKey].main
+  const mainColor =
+    injectedMainColor ||
+    (paletteOptions[paletteKey] || themeOptions.palette[paletteKey]).main
 
   const defaultPaletteColorOptions = themeOptions.palette.augmentColor({
     color: { main: mainColor } as PaletteColorOptions,
   })
 
-  const result = {
-    [paletteKey]: {
-      ...defaultPaletteColorOptions,
-      gradient: createGradientFromMainColor(defaultPaletteColorOptions.main),
-    },
+  return {
+    ...defaultPaletteColorOptions,
+    gradient: createGradientFromMainColor(defaultPaletteColorOptions.main),
   }
-
-  return result
 }
 
 export default getPaletteColorWithAugmentation

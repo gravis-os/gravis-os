@@ -5,8 +5,11 @@ import {
   createTheme,
   ThemeOptions,
   ThemeProvider as MuiThemeProvider,
+  PaletteOptions,
 } from '@mui/material/styles'
 import getPalette from './getPalette'
+
+const defaultTheme = createTheme()
 
 export interface ThemeProviderProps {
   // Infra
@@ -30,8 +33,8 @@ export interface ThemeProviderProps {
   mode?: 'light' | 'dark'
   primaryColor?: string
   secondaryColor?: string
-  lightPalette?: Record<string, unknown>
-  darkPalette?: Record<string, unknown>
+  lightPalette?: PaletteOptions
+  darkPalette?: PaletteOptions
 }
 
 const ThemeProvider: React.FC<ThemeProviderProps> = (props) => {
@@ -41,7 +44,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = (props) => {
     emotionCache,
 
     // Theme
-    theme: themeOptions = {},
+    theme: themeOptions = defaultTheme,
 
     // Palette
     mode = 'light',
@@ -54,7 +57,12 @@ const ThemeProvider: React.FC<ThemeProviderProps> = (props) => {
   const theme = useMemo(() => {
     const themeWithPalette = getPalette({
       themeOptions,
-      palette: mode === 'light' ? lightPalette : darkPalette,
+      paletteOptions:
+        !lightPalette || !darkPalette
+          ? (themeOptions.palette as PaletteOptions)
+          : mode === 'light'
+          ? lightPalette
+          : darkPalette,
       primaryColorOverride: primaryColor,
       secondaryColorOverride: secondaryColor,
     })

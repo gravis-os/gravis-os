@@ -101,15 +101,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     defaultLeftAsideOpen = true,
     defaultSecondaryLeftAsideOpen = false,
 
-    // Right Aside
-    rightAside,
-    disableRightAside,
-    defaultRightAsideOpen = false,
-    rightAsideOpen: injectedRightAsideOpen,
-    setRightAsideOpen: injectedSetRightAsideOpen,
-    rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
-    rightAsideListItems,
-
     // Left Aside
     leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
     leftAsideListProps,
@@ -126,6 +117,15 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     secondaryLeftAsideListItemProps,
     secondaryLeftAsideDrawerProps,
     darkSecondaryLeftAside,
+
+    // Right Aside
+    rightAside,
+    disableRightAside,
+    defaultRightAsideOpen = false,
+    rightAsideOpen: injectedRightAsideOpen,
+    setRightAsideOpen: injectedSetRightAsideOpen,
+    rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
+    rightAsideListItems,
 
     headerHeight: injectedHeaderHeight,
     sx,
@@ -241,7 +241,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       {/* Header */}
       <DashboardLayoutHeader
         height={headerHeight}
-        disableLeftAsideMenuToggle={isDesktop && disableHeaderMenuToggleOnMobile}
+        disableLeftAsideMenuToggle={
+          isDesktop && disableHeaderMenuToggleOnMobile
+        }
         {...headerProps}
         renderProps={layoutProps}
         sx={{

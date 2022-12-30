@@ -1,18 +1,19 @@
 import merge from 'lodash/merge'
-import { Palette, ThemeOptions } from '@mui/material/styles'
+import { PaletteOptions, ThemeOptions } from '@mui/material/styles'
 import getPaletteColorWithAugmentation from './getPaletteColorWithAugmentation'
 
-export interface getPaletteProps {
-  themeOptions: ThemeOptions
-  palette: Partial<Palette>
+export interface GetPaletteProps {
+  themeOptions?: ThemeOptions
+  paletteOptions?: PaletteOptions
+
   primaryColorOverride?: string
   secondaryColorOverride?: string
 }
 
-const getPalette = (props: getPaletteProps) => {
+const getPalette = (props: GetPaletteProps) => {
   const {
     themeOptions,
-    palette,
+    paletteOptions = {},
     primaryColorOverride,
     secondaryColorOverride,
   } = props
@@ -23,33 +24,29 @@ const getPalette = (props: getPaletteProps) => {
       ...themeOptions.palette,
 
       // App colors
-      ...palette,
+      ...paletteOptions,
 
       // Spread with user-defined primary
-      ...(primaryColorOverride && {
-        primary: {
-          ...palette.primary,
-          ...getPaletteColorWithAugmentation({
-            themeOptions,
-            palette,
-            paletteKey: 'primary',
-            mainColor: primaryColorOverride,
-          }).primary,
-        },
-      }),
+      primary: {
+        ...paletteOptions.primary,
+        ...getPaletteColorWithAugmentation({
+          themeOptions,
+          paletteOptions,
+          paletteKey: 'primary',
+          mainColor: primaryColorOverride,
+        }),
+      },
 
       // Spread with user-defined secondary
-      ...(secondaryColorOverride && {
-        secondary: {
-          ...palette.secondary,
-          ...getPaletteColorWithAugmentation({
-            themeOptions,
-            palette,
-            paletteKey: 'secondary',
-            mainColor: secondaryColorOverride,
-          }).secondary,
-        },
-      }),
+      secondary: {
+        ...paletteOptions.secondary,
+        ...getPaletteColorWithAugmentation({
+          themeOptions,
+          paletteOptions,
+          paletteKey: 'secondary',
+          mainColor: secondaryColorOverride,
+        }),
+      },
     },
   })
 }

@@ -55,6 +55,7 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 1,
     // a11y
     'jsx-a11y/anchor-is-valid': 0,
+    'jsx-a11y/alt-text': 0,
     // React
     'react/no-unescaped-entities': 1,
     'react/require-default-props': 0,
