@@ -58,7 +58,7 @@ const ThemeProvider: React.FC<ThemeProviderProps> = (props) => {
     const themeWithPalette = getPalette({
       themeOptions,
       paletteOptions:
-        !lightPalette || !darkPalette
+        !lightPalette && !darkPalette
           ? (themeOptions.palette as PaletteOptions)
           : mode === 'light'
           ? lightPalette
