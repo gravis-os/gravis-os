@@ -1,31 +1,85 @@
-import React from 'react'
-import {
-  ThemeProvider as MuiThemeProvider,
-  createTheme,
-  Theme,
-} from '@mui/material/styles'
-import { CacheProvider, EmotionCache } from '@emotion/react'
+import React, { ReactNode, useMemo } from 'react'
 import CssBaseline from '@mui/material/CssBaseline'
-
-const defaultTheme = createTheme()
+import { CacheProvider, EmotionCache } from '@emotion/react'
+import {
+  createTheme,
+  ThemeOptions,
+  ThemeProvider as MuiThemeProvider,
+} from '@mui/material/styles'
+import getPalette from './getPalette'
 
 export interface ThemeProviderProps {
-  children: React.ReactNode
+  // Infra
+  children?: ReactNode | ReactNode[]
+  /**
+   * Initialised on client-side by default.
+   * But pass in server-side cache for SSR styles
+   */
   emotionCache?: EmotionCache
-  theme?: Theme
+
+  /**
+   * ThemeOptions not Theme
+   * as Theme will be constructed from ThemeOptions
+   */
+  theme?: ThemeOptions
+
+  /**
+   * Palette mode
+   * @default 'light'
+   */
+  mode?: 'light' | 'dark'
+  primaryColor?: string
+  secondaryColor?: string
+  lightPalette?: Record<string, unknown>
+  darkPalette?: Record<string, unknown>
 }
 
 const ThemeProvider: React.FC<ThemeProviderProps> = (props) => {
-  const { theme: injectedTheme, emotionCache, children } = props
-  const theme = injectedTheme || defaultTheme
+  const {
+    // Infra
+    children,
+    emotionCache,
 
-  return (
-    <CacheProvider value={emotionCache}>
-      <MuiThemeProvider theme={theme}>
-        <CssBaseline />
-        {children}
-      </MuiThemeProvider>
-    </CacheProvider>
+    // Theme
+    theme: themeOptions = {},
+
+    // Palette
+    mode = 'light',
+    lightPalette,
+    darkPalette,
+    primaryColor,
+    secondaryColor,
+  } = props
+
+  const theme = useMemo(() => {
+    const themeWithPalette = getPalette({
+      themeOptions,
+      palette: mode === 'light' ? lightPalette : darkPalette,
+      primaryColorOverride: primaryColor,
+      secondaryColorOverride: secondaryColor,
+    })
+
+    return createTheme(themeWithPalette)
+  }, [
+    themeOptions,
+    mode,
+    lightPalette,
+    darkPalette,
+    primaryColor,
+    secondaryColor,
+  ])
+
+  const childrenJsx = (
+    <MuiThemeProvider theme={theme}>
+      <CssBaseline />
+      {children}
+    </MuiThemeProvider>
+  )
+
+  return emotionCache ? (
+    <CacheProvider value={emotionCache}>{childrenJsx}</CacheProvider>
+  ) : (
+    childrenJsx
   )
 }
 
