@@ -13,17 +13,19 @@ import withAutoplayPlugin from './withAutoplayPlugin'
 import withScrollPlugin from './withScrollPlugin'
 import withThumbnailsPlugin from './withThumbnailsPlugin'
 
-export type RenderItemFunction = ({
-  prev,
-  next,
-}: {
+export interface SliderRenderItemProps {
   prev: () => void
   next: () => void
   reset: () => void
-}) => React.ReactNode
+}
+
+export type SliderRenderItem = ({
+  prev,
+  next,
+}: SliderRenderItemProps) => React.ReactNode
 
 export interface SliderProps extends BoxProps {
-  items: Array<React.ReactNode | RenderItemFunction>
+  items: Array<React.ReactNode | SliderRenderItem>
   options?: KeenSliderOptions
   plugins?: KeenSliderPlugin[]
   autoplay?: boolean
@@ -33,6 +35,7 @@ export interface SliderProps extends BoxProps {
   arrows?: boolean
   disableLeftArrow?: boolean
   viewAll?: boolean
+  disableCenter?: boolean
 }
 
 // @usage: Add `import 'keen-slider/keen-slider.min.css'` in your app
@@ -42,6 +45,7 @@ const Slider: React.FC<SliderProps> = (props) => {
     items,
     options: injectedOptions = {},
     plugins: injectedPlugins = [],
+    disableCenter,
     autoplay,
     loop,
     scroll,
@@ -89,7 +93,7 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   // Item Props
   const commonItemProps = {
-    center: true,
+    center: !disableCenter,
     className: 'keen-slider__slide',
     sx: {
       '&:hover': { cursor: 'ew-resize' },
