@@ -154,7 +154,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
   const childrenJsx = renderChildren()
 
   return (
-    <div>
+    <Box sx={{ width: '100%' }}>
       {title && (
         <Typography variant="subtitle1" {...titleProps}>
           {title}
@@ -166,7 +166,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
         </Typography>
       )}
       {childrenJsx}
-    </div>
+    </Box>
   )
 }
 

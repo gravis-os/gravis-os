@@ -274,6 +274,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       {/* Body */}
       <Box
         sx={{
+          // Left aside offset to prevent overflowX
+          ml: { md: `${totalLeftAsideWidth}px` },
+          width: { md: `calc(100% - ${totalLeftAsideWidth}px)` },
+
           zIndex: (theme) => theme.zIndex.appBar - 1,
           display: 'flex',
           flex: '1 1 auto',
@@ -281,9 +285,6 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           marginTop: `${
             headerHeight + (disablePadding || disableGutters ? 0 : 24)
           }px`,
-
-          // Left aside
-          ml: { md: `${totalLeftAsideWidth}px` },
 
           // Right drawer
           ...(Boolean(rightAside || rightAsideListItems?.length) &&

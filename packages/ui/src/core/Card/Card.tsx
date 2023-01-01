@@ -132,6 +132,7 @@ const Card: React.FC<CardProps> = (props) => {
 
   // Size
   const isSmall = size === 'small'
+  const isLarge = size === 'large'
 
   // Collapse
   const initialCollapsed = defaultCollapsed || false
@@ -166,7 +167,9 @@ const Card: React.FC<CardProps> = (props) => {
     ...contentProps,
     disableGutterBottom: !gutterBottom,
     stretch,
-    padding: disablePadding ? 0 : injectedPadding || (isSmall ? 1.5 : 2),
+    padding: disablePadding
+      ? 0
+      : injectedPadding || (isSmall ? 1.5 : isLarge ? 2.5 : 2),
     sx: {
       ...contentProps?.sx,
       ...((disablePadding || disableCardContent) && { p: 0 }),

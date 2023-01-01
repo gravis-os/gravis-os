@@ -93,12 +93,10 @@ const Typeform: React.FC<TypeformProps> = (props) => {
   return (
     <Slider
       items={nextItems}
+      autoHeight
       disableCenter
+      disableDrag
       {...sliderProps}
-      options={{
-        drag: false,
-        ...sliderProps?.options,
-      }}
     />
   )
 }

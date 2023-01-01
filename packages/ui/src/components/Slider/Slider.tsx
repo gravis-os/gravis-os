@@ -12,11 +12,13 @@ import ViewAllDialogButton from './ViewAllDialogButton'
 import withAutoplayPlugin from './withAutoplayPlugin'
 import withScrollPlugin from './withScrollPlugin'
 import withThumbnailsPlugin from './withThumbnailsPlugin'
+import withAutoHeight from './withAutoHeight'
 
 export interface SliderRenderItemProps {
   prev: () => void
   next: () => void
   reset: () => void
+  goTo: (index: number) => void
 }
 
 export type SliderRenderItem = ({
@@ -28,14 +30,17 @@ export interface SliderProps extends BoxProps {
   items: Array<React.ReactNode | SliderRenderItem>
   options?: KeenSliderOptions
   plugins?: KeenSliderPlugin[]
+
+  autoHeight?: boolean
   autoplay?: boolean
   scroll?: boolean
   loop?: boolean
   thumbnails?: boolean
   arrows?: boolean
-  disableLeftArrow?: boolean
   viewAll?: boolean
+  disableLeftArrow?: boolean
   disableCenter?: boolean
+  disableDrag?: boolean
 }
 
 // @usage: Add `import 'keen-slider/keen-slider.min.css'` in your app
@@ -45,10 +50,13 @@ const Slider: React.FC<SliderProps> = (props) => {
     items,
     options: injectedOptions = {},
     plugins: injectedPlugins = [],
+
+    disableDrag,
     disableCenter,
     autoplay,
     loop,
     scroll,
+    autoHeight,
     thumbnails,
     arrows,
     disableLeftArrow,
@@ -69,12 +77,14 @@ const Slider: React.FC<SliderProps> = (props) => {
       created() {
         setLoaded(true)
       },
+      ...(disableDrag && { drag: false }),
       ...injectedOptions,
     },
     // Plugins
     [
       ...(autoplay ? [withAutoplayPlugin] : []),
       ...(scroll ? [withScrollPlugin] : []),
+      ...(autoHeight ? [withAutoHeight] : []),
       ...injectedPlugins,
     ].filter(Boolean)
   )
@@ -170,6 +180,8 @@ const Slider: React.FC<SliderProps> = (props) => {
                       prev: instanceRef.current?.prev,
                       next: instanceRef.current?.next,
                       reset: () => instanceRef.current?.moveToIdx?.(0),
+                      goTo: (index: number) =>
+                        instanceRef.current?.moveToIdx?.(index),
                     })
                   : item}
               </Box>

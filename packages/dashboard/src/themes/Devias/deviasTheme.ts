@@ -30,12 +30,12 @@ const deviasThemeConfig = {
     h1: {
       fontWeight: 700,
       fontSize: '2.25rem',
-      lineHeight: 1.375,
+      lineHeight: 1.15,
     },
     h2: {
       fontWeight: 700,
       fontSize: '2rem',
-      lineHeight: 1.375,
+      lineHeight: 1.2,
     },
     h3: {
       fontWeight: 600,
