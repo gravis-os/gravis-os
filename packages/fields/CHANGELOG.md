@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 0.0.3
+
+### Patch Changes
+
+- [`4493a42`](https://github.com/gravis-os/gravis-os/commit/4493a42918be01ce2ba02562defc45e8565dc063) Thanks [@clodal](https://github.com/clodal)! - Update dashboard ui and add Slider.autoHeight capability
+
 ## 0.0.2
 
 ### Patch Changes

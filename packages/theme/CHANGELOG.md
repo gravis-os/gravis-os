@@ -1,5 +1,18 @@
 # @gravis-os/theme
 
+## 0.0.5
+
+### Patch Changes
+
+- [`9c265b3`](https://github.com/gravis-os/gravis-os/commit/9c265b33226805d9897697941d2541a7702f3432) Thanks [@clodal](https://github.com/clodal)! - Update theme
+
+* [`ce5f32a`](https://github.com/gravis-os/gravis-os/commit/ce5f32accdca812dc20b13f6596d741ffcc03e72) Thanks [@clodal](https://github.com/clodal)! - Update ThemeProvider in theme package
+
+- [`9c5193c`](https://github.com/gravis-os/gravis-os/commit/9c5193c92a1427b95d9bc8e1b30b589a808f34f9) Thanks [@clodal](https://github.com/clodal)! - Fix issue with theme boolean
+
+- Updated dependencies [[`4493a42`](https://github.com/gravis-os/gravis-os/commit/4493a42918be01ce2ba02562defc45e8565dc063), [`8899614`](https://github.com/gravis-os/gravis-os/commit/8899614a3daa025a418629001f2629f92347e3d5), [`d9211bf`](https://github.com/gravis-os/gravis-os/commit/d9211bfce215aab80b9dab39c86c68a3ad4e4a9c)]:
+  - @gravis-os/ui@0.0.73
+
 ## 0.0.4
 
 ### Patch Changes

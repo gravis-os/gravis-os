@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.27
+
+### Patch Changes
+
+- [`4493a42`](https://github.com/gravis-os/gravis-os/commit/4493a42918be01ce2ba02562defc45e8565dc063) Thanks [@clodal](https://github.com/clodal)! - Update dashboard ui and add Slider.autoHeight capability
+
+* [`9c265b3`](https://github.com/gravis-os/gravis-os/commit/9c265b33226805d9897697941d2541a7702f3432) Thanks [@clodal](https://github.com/clodal)! - Update theme
+
+- [`dda1d8e`](https://github.com/gravis-os/gravis-os/commit/dda1d8e14a3a008be5708244122a333ccceefe35) Thanks [@clodal](https://github.com/clodal)! - Update DashboardLayout props
+
+- Updated dependencies [[`4493a42`](https://github.com/gravis-os/gravis-os/commit/4493a42918be01ce2ba02562defc45e8565dc063), [`8899614`](https://github.com/gravis-os/gravis-os/commit/8899614a3daa025a418629001f2629f92347e3d5), [`d9211bf`](https://github.com/gravis-os/gravis-os/commit/d9211bfce215aab80b9dab39c86c68a3ad4e4a9c)]:
+  - @gravis-os/ui@0.0.73
+
 ## 0.0.26
 
 ### Patch Changes
