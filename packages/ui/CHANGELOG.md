@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.73
+
+### Patch Changes
+
+- [`4493a42`](https://github.com/gravis-os/gravis-os/commit/4493a42918be01ce2ba02562defc45e8565dc063) Thanks [@clodal](https://github.com/clodal)! - Update dashboard ui and add Slider.autoHeight capability
+
+* [`8899614`](https://github.com/gravis-os/gravis-os/commit/8899614a3daa025a418629001f2629f92347e3d5) Thanks [@clodal](https://github.com/clodal)! - Add Typeform component
+
+- [`d9211bf`](https://github.com/gravis-os/gravis-os/commit/d9211bfce215aab80b9dab39c86c68a3ad4e4a9c) Thanks [@clodal](https://github.com/clodal)! - Add Slider.disableCenter prop
+
 ## 0.0.72
 
 ### Patch Changes
