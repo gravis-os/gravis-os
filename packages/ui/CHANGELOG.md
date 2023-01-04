@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.75
+
+### Patch Changes
+
+- [`410110a`](https://github.com/gravis-os/gravis-os/commit/410110a8102c82c954eec90079c94afd53c991e9) Thanks [@clodal](https://github.com/clodal)! - Update keen-slider to fix broken animations when building a NextJS application with swcMinify on.
+
 ## 0.0.74
 
 ### Patch Changes
