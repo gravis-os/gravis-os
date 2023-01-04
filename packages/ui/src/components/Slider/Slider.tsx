@@ -43,14 +43,15 @@ export interface SliderProps extends BoxProps {
   disableDrag?: boolean
 }
 
-// @usage: Add `import 'keen-slider/keen-slider.min.css'` in your app
+/**
+ * @note Add `import 'keen-slider/keen-slider.min.css'` in your app
+ */
 const Slider: React.FC<SliderProps> = (props) => {
   const {
     sx,
     items,
     options: injectedOptions = {},
     plugins: injectedPlugins = [],
-
     disableDrag,
     disableCenter,
     autoplay,
