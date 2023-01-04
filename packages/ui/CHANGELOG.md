@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.74
+
+### Patch Changes
+
+- [`547c19b`](https://github.com/gravis-os/gravis-os/commit/547c19ba30188fbb83cde5a7d293f276215acff6) Thanks [@clodal](https://github.com/clodal)! - Add jsdoc to Slider ui
+
 ## 0.0.73
 
 ### Patch Changes
