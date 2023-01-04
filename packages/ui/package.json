@@ -37,7 +37,7 @@
     "@gravis-os/types": "*",
     "@gravis-os/utils": "*",
     "clsx": "^1.1.1",
-    "keen-slider": "^6.8.3",
+    "keen-slider": "^6.8.5",
     "lodash": "^4.17.21",
     "material-ui-popup-state": "^3.1.1",
     "react-awesome-reveal": "4.0.1",
