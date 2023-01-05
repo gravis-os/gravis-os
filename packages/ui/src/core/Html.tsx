@@ -13,6 +13,9 @@ const Html: React.FC<HtmlProps> = (props) => {
     <Box
       sx={{
         '& p': { mt: 0, mb: 0 },
+        '& img': {
+          maxWidth: '100%',
+        },
         ...sx,
       }}
       dangerouslySetInnerHTML={{
