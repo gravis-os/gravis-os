@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.76
+
+### Patch Changes
+
+- [`43a45a9`](https://github.com/gravis-os/gravis-os/commit/43a45a9fc64985c3e935d11eadb9e67f6bf34266) Thanks [@clodal](https://github.com/clodal)! - Add image maxWidth in Html compoenent for better UI
+
 ## 0.0.75
 
 ### Patch Changes
