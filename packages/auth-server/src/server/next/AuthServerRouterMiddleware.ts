@@ -21,6 +21,7 @@ const AuthServerRouterMiddleware = (
 ) => {
   return async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
     const {
+      method,
       query: { supabase: injectedRoute },
     } = req
 
@@ -35,9 +36,10 @@ const AuthServerRouterMiddleware = (
     )
     if (!isValidRoute) res.status(404).end()
 
-    // Only allow POST Requests
-    if (req.method !== 'POST') {
-      res.setHeader('Allow', 'POST')
+    // Only allow certain requests
+    const allowedMethods = ['POST', 'PATCH', 'DELETE']
+    if (!allowedMethods.includes(method)) {
+      res.setHeader('Allow', allowedMethods)
       res.status(405).end('Method Not Allowed')
     }
 

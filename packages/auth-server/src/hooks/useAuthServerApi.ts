@@ -1,25 +1,31 @@
 import axios from 'axios'
+import { AdminUserAttributes } from '@supabase/supabase-js'
 import config from '../config/config'
+
+type CreateUserInput = Omit<AdminUserAttributes, 'email'> & { email: string }
+type UpdateUserInput = { id: string } & AdminUserAttributes
+type DeleteUserInput = { id: string }
 
 const useAuthServerApi = () => {
   const AuthServerMethods = {
     handleCreateUser: async ({
       email,
       password,
+      user_metadata,
       email_confirm = true, // Always confirm for now
-    }: {
-      email: string
-      password: string
-      email_confirm?: boolean
-    }) =>
+    }: CreateUserInput) =>
       axios.post(config.apiRoutes.createUser, {
         email,
         password,
         email_confirm,
+        user_metadata,
       }),
 
-    handleDeleteUser: async ({ id }: { id: string }) =>
-      axios.post(config.apiRoutes.deleteUser, { id }),
+    handleUpdateUser: async (input: UpdateUserInput) =>
+      axios.patch(config.apiRoutes.updateUser, input),
+
+    handleDeleteUser: async ({ id }: DeleteUserInput) =>
+      axios.delete(config.apiRoutes.deleteUser, { data: { id } }),
 
     handleSendInvite: async ({
       email,
