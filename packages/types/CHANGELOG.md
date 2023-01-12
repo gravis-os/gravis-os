@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.33
+
+### Patch Changes
+
+- [#137](https://github.com/gravis-os/gravis-os/pull/137) [`4a10f65`](https://github.com/gravis-os/gravis-os/commit/4a10f659071c5e4b775e5055e3df0ce1937874a6) Thanks [@al1xt](https://github.com/al1xt)! - Update CrudModule type
+
 ## 0.0.32
 
 ### Patch Changes

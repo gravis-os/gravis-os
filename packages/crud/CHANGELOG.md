@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.69
+
+### Patch Changes
+
+- [#139](https://github.com/gravis-os/gravis-os/pull/139) [`f5bf257`](https://github.com/gravis-os/gravis-os/commit/f5bf257f0e7327f8413c2becc09a6ac83385ff40) Thanks [@al1xt](https://github.com/al1xt)! - Add preview to CrudTable actions more items
+
+- Updated dependencies [[`4a10f65`](https://github.com/gravis-os/gravis-os/commit/4a10f659071c5e4b775e5055e3df0ce1937874a6)]:
+  - @gravis-os/types@0.0.33
+
 ## 0.0.68
 
 ### Patch Changes
