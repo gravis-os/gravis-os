@@ -2,6 +2,35 @@ import React from 'react'
 import get from 'lodash/get'
 import { Link, Stack } from '@gravis-os/ui'
 import { StorageAvatar, StorageAvatarWithUpload } from '@gravis-os/storage'
+import { FormSectionsProps } from '@gravis-os/form'
+import { ICellRendererParams } from 'ag-grid-community'
+import { CrudModule } from '@gravis-os/types'
+import { UsePreviewDrawerReturn } from '../../usePreviewDrawer'
+import getRelationFieldKey from '../../../utils/getRelationFieldKey'
+
+export const handlePreview = ({
+  module,
+  previewFormSections,
+  setPreview,
+  params,
+}: {
+  module: CrudModule
+  previewFormSections: FormSectionsProps['sections']
+  setPreview: UsePreviewDrawerReturn['setPreview']
+  params: ICellRendererParams
+}) => {
+  const { colDef, data } = params
+  const { field } = colDef
+  const relationFieldKey = getRelationFieldKey({ field, module })
+
+  const previewSlug: string = get(data, relationFieldKey)
+  const previewArgs = {
+    module,
+    previewSlug,
+    previewFormSections,
+  }
+  setPreview(previewArgs)
+}
 
 const withPreview = (props) => {
   const {
@@ -23,40 +52,10 @@ const withPreview = (props) => {
       // Handle degenerate case
       if (!hasPreview) return columnDef
 
-      // Dynamically calculate relation key to access the relation field
-      const getRelationFieldKey = () => {
-        const hasRelation = field?.includes('.')
-        switch (true) {
-          case hasRelation:
-            // Return 'id' if current module is a join table
-            const isModuleJoinTable = module.table.isJoinTable
-            if (isModuleJoinTable) return 'id'
-
-            // Dynamically calculate relation key to access the relation field
-            return `${field.split('.').slice(0, -1).join('.')}.${module.sk}`
-          default:
-            // No relations, so just return the current item's sk
-            return module.sk
-        }
-      }
-      const relationFieldKey = getRelationFieldKey()
-
       // Show preview drawer when clicking on related item
       return {
         ...columnDef,
         cellRenderer: (params) => {
-          // Methods
-          const handlePreviewClick = async () => {
-            const previewSlug = get(params.data, relationFieldKey)
-            const previewArgs = {
-              module,
-              previewSlug,
-              previewFormSections,
-              columnDef,
-            }
-            setPreview(previewArgs)
-          }
-
           // Show with avatar if avatar_src is present
           const { hasAvatar } = columnDef
 
@@ -64,7 +63,15 @@ const withPreview = (props) => {
             href: disablePreview
               ? module.route?.plural?.concat(`/${params.data[module.sk]}`) ?? ''
               : null,
-            onClick: disablePreview ? null : handlePreviewClick,
+            onClick: disablePreview
+              ? null
+              : () =>
+                  handlePreview({
+                    module,
+                    previewFormSections,
+                    setPreview,
+                    params,
+                  }),
             underline: 'hover' as const,
             color: 'inherit',
             pointer: true,
