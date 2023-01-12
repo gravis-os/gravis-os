@@ -2,6 +2,7 @@ import React from 'react'
 import get from 'lodash/get'
 import { Link, Stack } from '@gravis-os/ui'
 import { StorageAvatar, StorageAvatarWithUpload } from '@gravis-os/storage'
+import getRelationFieldKey from '../../../utils/getRelationFieldKey'
 
 const withPreview = (props) => {
   const {
@@ -23,23 +24,7 @@ const withPreview = (props) => {
       // Handle degenerate case
       if (!hasPreview) return columnDef
 
-      // Dynamically calculate relation key to access the relation field
-      const getRelationFieldKey = () => {
-        const hasRelation = field?.includes('.')
-        switch (true) {
-          case hasRelation:
-            // Return 'id' if current module is a join table
-            const isModuleJoinTable = module.table.isJoinTable
-            if (isModuleJoinTable) return 'id'
-
-            // Dynamically calculate relation key to access the relation field
-            return `${field.split('.').slice(0, -1).join('.')}.${module.sk}`
-          default:
-            // No relations, so just return the current item's sk
-            return module.sk
-        }
-      }
-      const relationFieldKey = getRelationFieldKey()
+      const relationFieldKey = getRelationFieldKey({ field, module })
 
       // Show preview drawer when clicking on related item
       return {

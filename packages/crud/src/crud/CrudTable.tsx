@@ -18,6 +18,7 @@ import fetchCrudItems from './fetchCrudItems'
 import { CrudTableColumnDef } from '../types'
 import useCrud from './useCrud'
 import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
+import { ManageMode } from './CrudTableActionsColumnCellRenderer'
 
 export interface CrudTableProps {
   module: CrudModule
@@ -43,6 +44,7 @@ export interface CrudTableProps {
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
   crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
 
+  manageMode?: ManageMode
   actions?: React.ReactNode
   filters?: Record<string, any>
   filterFields?: FormSectionFieldProps[]
@@ -75,6 +77,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     useGetCrudTableColumnDefsProps,
     crudDeleteDialogProps,
 
+    manageMode,
     actions,
     filters: injectedFilters,
     filterFields: injectedFilterFields,
@@ -149,6 +152,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     disableTitle,
     disableActions,
     user,
+    manageMode,
     // For Preview
     setPreview,
     previewFormSections,

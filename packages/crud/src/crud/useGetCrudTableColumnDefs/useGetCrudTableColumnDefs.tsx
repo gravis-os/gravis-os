@@ -8,6 +8,7 @@ import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import CrudTableActionsColumnCellRenderer, {
   CrudTableActionsColumnCellRendererProps,
+  ManageMode,
 } from '../CrudTableActionsColumnCellRenderer'
 import {
   withHeaderNames,
@@ -33,6 +34,7 @@ export interface UseGetCrudTableColumnDefsProps {
   disableActions?: boolean
   disableFallbackPlaceholder?: boolean
   fallbackPlaceholder?: React.ReactNode
+  manageMode?: ManageMode
   user?: Record<string, unknown> | any
   actionsCellRendererParams?: Omit<
     CrudTableActionsColumnCellRendererProps,
@@ -55,6 +57,7 @@ const useGetCrudTableColumnDefs = (
     disableActions,
     disableFallbackPlaceholder,
     fallbackPlaceholder = '-',
+    manageMode,
     user,
     actionsCellRendererParams,
   } = props
@@ -112,8 +115,12 @@ const useGetCrudTableColumnDefs = (
           cellRenderer: CrudTableActionsColumnCellRenderer,
           cellRendererParams: {
             module,
+            manageMode,
             disableDelete,
             disableManage,
+            disablePreview,
+            previewFormSections,
+            setPreview,
             ...actionsCellRendererParams,
           },
         },
