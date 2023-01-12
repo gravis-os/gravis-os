@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.70
+
+### Patch Changes
+
+- Pass preview props to CrudTableActionsColumnCellRenderer
+
 ## 0.0.69
 
 ### Patch Changes
