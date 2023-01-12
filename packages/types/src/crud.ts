@@ -18,7 +18,7 @@ export interface CrudModule {
   sk: string // slug key - used for route e.g. slug
   name: { singular: string; plural: string }
   route?: { plural: string }
-  table: { name: string }
+  table: { name: string; isJoinTable?: boolean }
   select?: { detail?: string; list?: string }
   Icon?: React.ElementType
   relations?: {
