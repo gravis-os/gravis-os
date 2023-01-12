@@ -1,6 +1,7 @@
 import React from 'react'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined'
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import {
   IconButton,
   MoreIconButton,
@@ -8,8 +9,12 @@ import {
   Stack,
 } from '@gravis-os/ui'
 import { CrudItem, CrudModule } from '@gravis-os/types'
+import { FormSectionsProps } from '@gravis-os/form'
+import { ICellRendererParams } from 'ag-grid-community'
 import getCrudItemHref from './getCrudItemHref'
 import useCrud from './useCrud'
+import { UsePreviewDrawerReturn } from './usePreviewDrawer'
+import { handlePreview } from './useGetCrudTableColumnDefs/hocs/withPreview'
 
 type RenderMoreItemsFunction<CrudItem> = ({
   data,
@@ -17,11 +22,15 @@ type RenderMoreItemsFunction<CrudItem> = ({
   data: CrudItem
 }) => MoreIconButtonProps['items']
 
-export interface CrudTableActionsColumnCellRendererProps {
+export interface CrudTableActionsColumnCellRendererProps
+  extends ICellRendererParams {
   module: CrudModule
   data: CrudItem
   disableManage?: boolean
   disableDelete?: boolean
+  disablePreview?: boolean
+  previewFormSections?: FormSectionsProps['sections']
+  setPreview?: UsePreviewDrawerReturn['setPreview']
   renderMoreItems?: RenderMoreItemsFunction<CrudItem>
   children?: React.ReactNode
   afterDelete?: ({ data }: { data: CrudItem | any }) => Promise<void>
@@ -35,6 +44,9 @@ const CrudTableActionsColumnCellRenderer: React.FC<
     data: item,
     disableDelete,
     disableManage,
+    disablePreview,
+    previewFormSections,
+    setPreview,
     renderMoreItems,
     children,
     afterDelete,
@@ -46,6 +58,19 @@ const CrudTableActionsColumnCellRenderer: React.FC<
   // MoreItems
   const moreItems = [
     ...(renderMoreItems ? renderMoreItems({ data: item }) : []),
+    !disablePreview && {
+      key: 'preview',
+      value: 'preview',
+      label: 'Preview',
+      icon: <VisibilityOutlinedIcon fontSize="small" />,
+      onClick: () =>
+        handlePreview({
+          module,
+          previewFormSections,
+          setPreview,
+          params: props,
+        }),
+    },
     !disableDelete && {
       key: 'delete',
       value: 'delete',
