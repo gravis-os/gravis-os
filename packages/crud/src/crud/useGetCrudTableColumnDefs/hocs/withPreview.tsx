@@ -29,7 +29,7 @@ export const handlePreview = ({
     previewSlug,
     previewFormSections,
   }
-  setPreview(previewArgs)
+  setPreview?.(previewArgs)
 }
 
 const withPreview = (props) => {
