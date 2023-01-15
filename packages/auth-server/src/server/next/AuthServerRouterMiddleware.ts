@@ -1,6 +1,6 @@
-import type { NextApiRequest, NextApiResponse } from 'next'
+import type { NextApiHandler } from 'next'
 import camelCase from 'lodash/camelCase'
-import { withApiAuth } from '@supabase/auth-helpers-nextjs'
+import withApiAuthAndAuthz from '../utils/withApiAuthAndAuthz'
 import config from '../../config/config'
 import { initSupabaseAdminClient } from '../index'
 
@@ -18,8 +18,8 @@ export interface AuthServerMiddlewareProps {}
  */
 const AuthServerRouterMiddleware = (
   injectedConfig: AuthServerMiddlewareProps = {}
-) => {
-  return async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+): NextApiHandler => {
+  return async (req, res) => {
     const {
       method,
       query: { supabase: injectedRoute },
@@ -62,8 +62,6 @@ const AuthServerRouterMiddleware = (
   }
 }
 
-export default (config = {}) => {
-  return withApiAuth(async (req, res) => {
-    return AuthServerRouterMiddleware(config)(req, res)
-  })
+export default (config: AuthServerMiddlewareProps = {}) => {
+  return withApiAuthAndAuthz(AuthServerRouterMiddleware(config))
 }
