@@ -2,3 +2,4 @@ export { default as initSupabaseAdminClient } from './supabase/initSupabaseAdmin
 export * from './supabase/initSupabaseAdminClient'
 
 export * from './next'
+export * from './utils'
