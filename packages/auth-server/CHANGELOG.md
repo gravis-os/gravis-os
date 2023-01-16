@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.12
+
+### Patch Changes
+
+- [#144](https://github.com/gravis-os/gravis-os/pull/144) [`eb58695`](https://github.com/gravis-os/gravis-os/commit/eb58695f5383e628a474abba5d952195bcb8bc90) Thanks [@al1xt](https://github.com/al1xt)! - Export auth-server utils
+
 ## 0.0.11
 
 ### Patch Changes
