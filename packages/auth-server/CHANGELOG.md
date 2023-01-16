@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.11
+
+### Patch Changes
+
+- [#142](https://github.com/gravis-os/gravis-os/pull/142) [`8bb732d`](https://github.com/gravis-os/gravis-os/commit/8bb732d16d18309fc3bc594a1778935fd283f953) Thanks [@al1xt](https://github.com/al1xt)! - Add withApiAuthAndAuthz to auth-server
+
+* [#136](https://github.com/gravis-os/gravis-os/pull/136) [`b67e6fc`](https://github.com/gravis-os/gravis-os/commit/b67e6fc3b60aea3d84f9b0a52f273ee78d518e98) Thanks [@al1xt](https://github.com/al1xt)! - Add update user to auth-server
+
 ## 0.0.10
 
 ### Patch Changes
