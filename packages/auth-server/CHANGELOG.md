@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.13
+
+### Patch Changes
+
+- Rebuild
+
 ## 0.0.12
 
 ### Patch Changes
