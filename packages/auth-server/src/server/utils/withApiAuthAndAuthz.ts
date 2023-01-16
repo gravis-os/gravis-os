@@ -3,6 +3,7 @@ import {
   CookieOptions,
   COOKIE_OPTIONS,
   TOKEN_REFRESH_MARGIN,
+  User,
 } from '@supabase/auth-helpers-shared'
 import {
   getUser as getAuthUser,
@@ -10,8 +11,8 @@ import {
 } from '@supabase/auth-helpers-nextjs'
 
 export type AuthorizerFunction = (params: {
-  context: Parameters<typeof getAuthUser>[0]
-  user: Awaited<ReturnType<typeof getAuthUser>>['user']
+  context: { req: NextApiRequest; res: NextApiResponse }
+  user: User
 }) => Promise<boolean>
 
 /**
