@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.14
+
+### Patch Changes
+
+- [#146](https://github.com/gravis-os/gravis-os/pull/146) [`ea6f5e8`](https://github.com/gravis-os/gravis-os/commit/ea6f5e8a2aefba90fe28e0abbf1ab92c7b6125aa) Thanks [@al1xt](https://github.com/al1xt)! - Update type for authorizer function
+
 ## 0.0.13
 
 ### Patch Changes
