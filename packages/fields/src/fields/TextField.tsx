@@ -25,6 +25,7 @@ export interface TextFieldProps extends Omit<MuiTextFieldProps, 'title'> {
   start?: React.ReactNode
   end?: React.ReactNode
   titleProps?: TypographyProps
+  backgroundColor?: string
 }
 
 const TextField: React.FC<TextFieldProps> = (props) => {
@@ -42,6 +43,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     start,
     end,
     InputProps,
+    backgroundColor,
     ...rest
   } = props
   const { name, value, setValue, required } = rest
@@ -67,6 +69,11 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     },
     sx: {
       ...sx,
+
+      ...(backgroundColor && {
+        '& .MuiInputBase-root': { backgroundColor },
+      }),
+
       ...(disableBorders && {
         '& .MuiOutlinedInput-notchedOutline': { border: 0 },
       }),

@@ -75,28 +75,18 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
   if (fullScreen) {
     return (
       <Box component="main" {...rest} sx={sx}>
-        <Grid
-          container
-          spacing={0}
-          alignItems="stretch"
-          sx={{
-            backgroundColor: 'background.paper',
-            width: '100vw',
-            height: '100vh',
-          }}
-        >
+        <Grid container spacing={0} sx={{ width: '100vw', height: '100vh' }}>
+          {/* Left Children */}
           <Grid item xs sx={{ height: '100%' }}>
             <Stack
-              alignItems="center"
               justifyContent="center"
-              sx={{
-                px: 5,
-                height: '100%',
-                textAlign: 'center',
-                position: 'relative',
-              }}
+              sx={{ height: '100%', position: 'relative' }}
             >
-              {logo && <Box {...logoProps}>{logoJsx}</Box>}
+              {logo && (
+                <Box {...logoProps} sx={{ mb: 2, ...logoProps?.sx }}>
+                  {logoJsx}
+                </Box>
+              )}
               {children}
               {actionsJsx}
               {copyright && (
@@ -111,15 +101,14 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
               )}
             </Stack>
           </Grid>
+
+          {/* Right Background */}
           {Boolean(backgroundImgSrc) && (
             <Grid item xs={false} md={5} sx={{ height: '100%' }}>
               <Image
                 src={backgroundImgSrc}
-                objectFit="cover"
-                containerSx={{
-                  height: '100%',
-                  pb: 0,
-                }}
+                // objectFit="cover"
+                containerSx={{ height: '100%', pb: 0 }}
               />
             </Grid>
           )}

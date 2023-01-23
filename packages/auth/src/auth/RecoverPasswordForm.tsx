@@ -31,8 +31,11 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props) => {
           const user = await handleRecoverPassword({ accessToken, ...values })
           return router.push(redirectTo)
         }}
-        submitButtonProps={{ title: 'Set New Password' }}
         {...rest}
+        submitButtonProps={{
+          title: 'Set New Password',
+          ...rest?.submitButtonProps,
+        }}
       />
     </AuthBox>
   )

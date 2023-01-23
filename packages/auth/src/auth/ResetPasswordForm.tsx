@@ -21,8 +21,11 @@ const ResetPasswordForm: React.FC<ResetPasswordFormProps> = (props) => {
       <AuthForm
         fields={['email']}
         onSubmit={(values) => handleResetPassword(values, authOptions)}
-        submitButtonProps={{ title: 'Reset Password' }}
         {...rest}
+        submitButtonProps={{
+          title: 'Reset Password',
+          ...rest?.submitButtonProps,
+        }}
       />
     </AuthBox>
   )

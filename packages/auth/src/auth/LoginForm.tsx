@@ -23,8 +23,8 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
     >
       <AuthForm
         onSubmit={(values) => handleSignIn(values, authOptions)}
-        submitButtonProps={{ title: 'Login' }}
         {...rest}
+        submitButtonProps={{ title: 'Login', ...rest?.submitButtonProps }}
       />
     </AuthBox>
   )

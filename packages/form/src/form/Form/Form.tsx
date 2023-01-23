@@ -42,7 +42,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
     useFormProps = {},
     formJsx,
     children,
-    formRenderProps,
+    formRenderProps: injectedFormRenderProps,
     sx,
     ...rest
   } = props
@@ -59,7 +59,11 @@ const Form: React.FC<FormProps<any>> = (props) => {
   const renderChildren = (): React.ReactNode => {
     switch (true) {
       case isChildrenRenderProp:
-        const formRenderProps = getFormRenderProps({ ...props, formContext })
+        const formRenderProps = getFormRenderProps({
+          ...props,
+          formContext,
+          ...injectedFormRenderProps,
+        })
         return (children as RenderPropsFunction<FormRenderPropsInterface>)(
           formRenderProps
         )

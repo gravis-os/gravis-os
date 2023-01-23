@@ -7,12 +7,12 @@ import {
   BoxProps,
   IconButton,
   IconButtonProps,
-  Stack,
   Typography,
   TypographyProps,
 } from '@gravis-os/ui'
 
 export interface AuthBoxProps extends BoxProps {
+  disableHeader?: boolean
   title: string
   titleProps?: TypographyProps
   subtitle?: string
@@ -38,6 +38,7 @@ const AuthBox: React.FC<AuthBoxProps> = (props) => {
     subtitleProps,
     collapseProps,
     icon,
+    disableHeader,
 
     collapsible,
     expand = true,
@@ -50,46 +51,40 @@ const AuthBox: React.FC<AuthBoxProps> = (props) => {
   return (
     <Box {...rest}>
       {/* Header */}
-      <Stack
-        spacing={1}
-        direction="row"
-        alignItems="center"
-        sx={!collapsible && { mb: 4 }}
-      >
-        {icon}
-        <Box>
-          {title && (
-            <Typography variant="h4" gutterBottom {...titleProps}>
-              {title}
-            </Typography>
-          )}
-          {subtitle && (
-            <Typography
-              variant="body2"
-              color="text.secondary"
-              {...subtitleProps}
-            >
-              {subtitle}
-            </Typography>
-          )}
+      {!disableHeader && (
+        <>
+          {icon}
+          <div>
+            {title && (
+              <Typography variant="h4" gutterBottom {...titleProps}>
+                {title}
+              </Typography>
+            )}
+            {subtitle && (
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                {...subtitleProps}
+              >
+                {subtitle}
+              </Typography>
+            )}
+          </div>
+        </>
+      )}
+
+      {/* Collapase */}
+      {collapsible && (
+        <Box flex={1} textAlign="right">
+          <IconButton {...expandIconButtonProps} onClick={toggleExpand}>
+            {expand ? (
+              <ExpandLessIcon {...expandIconProps} />
+            ) : (
+              <ExpandMoreIcon {...expandIconProps} />
+            )}
+          </IconButton>
         </Box>
-        {collapsible && (
-          <Box flex={1} textAlign="right">
-            <IconButton
-              // eslint-disable-next-line react/no-children-prop
-              children={
-                expand ? (
-                  <ExpandLessIcon {...expandIconProps} />
-                ) : (
-                  <ExpandMoreIcon {...expandIconProps} />
-                )
-              }
-              {...expandIconButtonProps}
-              onClick={toggleExpand}
-            />
-          </Box>
-        )}
-      </Stack>
+      )}
 
       {/* Form */}
       {collapsible ? (

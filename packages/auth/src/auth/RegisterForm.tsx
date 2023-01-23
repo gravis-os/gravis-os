@@ -24,8 +24,8 @@ const RegisterForm: React.FC<RegisterFormProps> = (props) => {
     >
       <AuthForm
         onSubmit={(values) => handleSignUp(values, authOptions, submitOptions)}
-        submitButtonProps={{ title: 'Register' }}
         {...rest}
+        submitButtonProps={{ title: 'Register', ...rest?.submitButtonProps }}
       />
     </AuthBox>
   )

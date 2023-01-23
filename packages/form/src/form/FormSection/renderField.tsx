@@ -140,6 +140,7 @@ export interface FormSectionFieldProps {
 
   // Styling
   sx?: SxProps
+  backgroundColor?: string
 }
 
 export interface RenderFieldProps {
