@@ -1,8 +1,10 @@
+import { printDateTime } from '@gravis-os/utils'
+
 const withTimestampFormat = () => (columnDefs) =>
   columnDefs.map((columnDef) =>
     columnDef.field?.endsWith('_at')
       ? {
-          valueFormatter: ({ value }) => new Date(value).toLocaleString(),
+          valueFormatter: ({ value }) => printDateTime(value),
           ...columnDef,
         }
       : columnDef

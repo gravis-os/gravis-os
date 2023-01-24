@@ -39,6 +39,7 @@ export interface ListItemProps
   iconProps?: ListItemIconProps
 
   href?: string
+  targetBlank?: boolean
   onClick?: ListItemButtonProps['onClick']
 
   // NestedItems
@@ -95,7 +96,10 @@ const ListItem: React.FC<ListItemProps> = (props) => {
     titleProps,
     subtitle,
     subtitleProps,
+
+    // Link
     href,
+    targetBlank,
 
     start,
     startIcon,
@@ -157,6 +161,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   const listItemButtonProps = {
     onClick,
     href,
+    targetBlank,
     selected,
     ...injectedListItemButtonProps,
     sx: {
@@ -232,9 +237,17 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   const listItemAvatarProps = {
     ...(avatar && { children: avatar }),
     ...injectedListItemAvatarProps,
-    ...(spacing && {
-      sx: { mr: spacing, ...injectedListItemAvatarProps?.sx },
-    }),
+    sx: {
+      // Reset minWidth
+      minWidth: 'initial',
+
+      // Spacing
+      ...(spacing && {
+        mr: spacing,
+      }),
+
+      ...injectedListItemAvatarProps?.sx,
+    },
   }
 
   const listItemTextProps = merge(

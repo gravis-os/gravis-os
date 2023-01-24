@@ -157,7 +157,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   })
 
   return (
-    <>
+    <div>
       {/* Search + Add Row */}
       <CrudTableHeader
         module={module}
@@ -198,7 +198,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
       {/* Delete Dialog */}
       <CrudDeleteDialog {...crudDeleteDialogProps} module={module} />
-    </>
+    </div>
   )
 }
 

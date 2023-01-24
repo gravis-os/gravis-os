@@ -10,12 +10,15 @@ import withTooltip from '../withTooltip'
 export interface ListItemButtonProps extends MuiListItemButtonProps {
   href?: string
   tooltip?: string
+  targetBlank?: boolean
 }
 
 const ListItemButton: React.FC<ListItemButtonProps> = (props) => {
-  const { href, tooltip, ...rest } = props
+  const { href, tooltip, targetBlank, ...rest } = props
   const childrenJsx = <MuiListItemButton {...rest} />
-  return flowRight([withHref({ href }), withTooltip({ tooltip })])(childrenJsx)
+  return flowRight([withHref({ href, targetBlank }), withTooltip({ tooltip })])(
+    childrenJsx
+  )
 }
 
 export default ListItemButton

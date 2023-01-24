@@ -8,9 +8,9 @@ interface TagProps extends ChipProps {
 
 const Tag: React.FC<TagProps> = (props) => {
   const { color: injectedColor, sx, ...rest } = props
-  const { title, children } = rest
+  const { title } = rest
 
-  const color = injectedColor || getColorFromString(children || title)
+  const color = injectedColor || getColorFromString(title)
 
   return (
     <Chip
