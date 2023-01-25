@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.49
+
+### Patch Changes
+
+- [`9698444`](https://github.com/gravis-os/gravis-os/commit/9698444b12a4278b7ee5df07d21f4e7f799dfe08) Thanks [@clodal](https://github.com/clodal)! - Update auth layout
+
+- Updated dependencies [[`699b9d1`](https://github.com/gravis-os/gravis-os/commit/699b9d1ca41b289df0c7b949ebacd3783798970f), [`9698444`](https://github.com/gravis-os/gravis-os/commit/9698444b12a4278b7ee5df07d21f4e7f799dfe08)]:
+  - @gravis-os/ui@0.0.77
+  - @gravis-os/form@0.0.98
+
 ## 0.0.48
 
 ### Patch Changes

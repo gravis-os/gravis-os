@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.77
+
+### Patch Changes
+
+- [`699b9d1`](https://github.com/gravis-os/gravis-os/commit/699b9d1ca41b289df0c7b949ebacd3783798970f) Thanks [@clodal](https://github.com/clodal)! - Clean up UI
+
 ## 0.0.76
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 0.0.5
+
+### Patch Changes
+
+- [`9698444`](https://github.com/gravis-os/gravis-os/commit/9698444b12a4278b7ee5df07d21f4e7f799dfe08) Thanks [@clodal](https://github.com/clodal)! - Update auth layout
+
 ## 0.0.4
 
 ### Patch Changes
