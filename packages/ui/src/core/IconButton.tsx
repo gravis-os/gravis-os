@@ -12,10 +12,11 @@ export interface IconButtonProps extends MuiIconButtonProps {
   component?: React.JSXElementConstructor<any> | string
   href?: string
   tooltip?: string
+  targetBlank?: boolean
 }
 
 const IconButton: React.FC<IconButtonProps> = (props) => {
-  const { title, href, children, tooltip, sx, ...rest } = props
+  const { title, href, children, tooltip, targetBlank, sx, ...rest } = props
   const { color } = rest
 
   const childrenJsx = (
@@ -30,7 +31,9 @@ const IconButton: React.FC<IconButtonProps> = (props) => {
     </MuiIconButton>
   )
 
-  return flowRight([withHref({ href }), withTooltip({ tooltip })])(childrenJsx)
+  return flowRight([withHref({ href, targetBlank }), withTooltip({ tooltip })])(
+    childrenJsx
+  )
 }
 
 export default IconButton

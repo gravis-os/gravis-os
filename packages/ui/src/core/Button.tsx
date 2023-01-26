@@ -65,7 +65,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     targetBlank,
     ...rest
   } = props
-  const { color } = rest
+  const { color, disabled } = rest
 
   const isCustomVariant = [
     BUTTON_VARIANT_PAPER,
@@ -159,7 +159,7 @@ const Button: React.FC<ButtonProps> = (props) => {
   )
 
   return flowRight([
-    withHref({ href, targetBlank }),
+    withHref({ href, targetBlank, disabled }),
     withTooltip({ tooltip }),
     withPopover({ popover }),
     withSetLoadingInOnClick({ onClick: rest?.onClick }),
