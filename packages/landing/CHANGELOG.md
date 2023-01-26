@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.37
+
+### Patch Changes
+
+- [#147](https://github.com/gravis-os/gravis-os/pull/147) [`4c44e3c`](https://github.com/gravis-os/gravis-os/commit/4c44e3cdb72118970c99d7f90e62c637a605e723) Thanks [@sean-onextech](https://github.com/sean-onextech)! - Added TextFieldElement to MegaSearchAutocomplete
+
+- Updated dependencies [[`f731a05`](https://github.com/gravis-os/gravis-os/commit/f731a052630e1a92780582a66983214c83cd106b)]:
+  - @gravis-os/ui@0.0.78
+
 ## 0.0.36
 
 ### Patch Changes

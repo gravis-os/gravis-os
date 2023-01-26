@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.78
+
+### Patch Changes
+
+- [`f731a05`](https://github.com/gravis-os/gravis-os/commit/f731a052630e1a92780582a66983214c83cd106b) Thanks [@clodal](https://github.com/clodal)! - Update Button and IconButton withHref
+
 ## 0.0.77
 
 ### Patch Changes
