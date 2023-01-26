@@ -6,7 +6,7 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material'
-import React, { ReactElement } from 'react'
+import React from 'react'
 import { SxProps } from '@mui/system'
 
 // Constants
