@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.15
+
+### Patch Changes
+
+- [`e65980e`](https://github.com/gravis-os/gravis-os/commit/e65980e72c65d8aa07944fa3a75a0859e24b88cd) Thanks [@clodal](https://github.com/clodal)! - Republish auth server
+
 ## 0.0.14
 
 ### Patch Changes
