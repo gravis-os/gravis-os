@@ -6,7 +6,7 @@ import {
   InputAdornment,
   TextField,
 } from '@mui/material'
-import React from 'react'
+import React, { ReactElement } from 'react'
 import { SxProps } from '@mui/system'
 
 // Constants
@@ -27,6 +27,7 @@ export interface MegaSearchAutocompleteProps {
   title?: React.ReactNode
   onChange?: any
   value?: any
+  TextFieldElement?: React.JSXElementConstructor<any>
 }
 
 const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
@@ -41,6 +42,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
     autocompleteProps,
     onChange,
     value,
+    TextFieldElement = TextField,
     ...rest
   } = props
 
@@ -103,7 +105,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
       value={value}
       onChange={(e, newValue: any) => onChange?.(newValue?.value || newValue)}
       renderInput={(params) => (
-        <TextField
+        <TextFieldElement
           {...params}
           InputProps={{
             ...params.InputProps,
