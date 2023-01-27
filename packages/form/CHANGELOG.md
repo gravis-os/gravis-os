@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.99
+
+### Patch Changes
+
+- [`7487f80`](https://github.com/gravis-os/gravis-os/commit/7487f8062ae922625a0886ed2735d01689bcd757) Thanks [@clodal](https://github.com/clodal)! - Update hidden prop in @gravis-os/form and @gravis-os/fields
+
+- Updated dependencies [[`7487f80`](https://github.com/gravis-os/gravis-os/commit/7487f8062ae922625a0886ed2735d01689bcd757)]:
+  - @gravis-os/fields@0.0.6
+
 ## 0.0.98
 
 ### Patch Changes
