@@ -161,7 +161,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
   const childrenJsx = renderChildren()
 
   return (
-    <Box sx={{ width: '100%' }}>
+    <Box sx={{ width: '100%', ...(hidden && { position: 'absolute' }) }}>
       {title && (
         <Typography variant="subtitle1" {...titleProps}>
           {title}

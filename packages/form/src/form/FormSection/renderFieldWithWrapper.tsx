@@ -33,6 +33,7 @@ export interface RenderFieldWithWrapperProps
     | FormSectionFieldProps[]
     | React.ReactElement
 }
+
 const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const { userContext, crudContext, formContext, sectionProps, fieldProps } =
     props
@@ -95,11 +96,12 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   // The set of props available to the end-user when defining a function in the fieldDef
   const renderProps = getFormSectionFieldRenderProps(props as RenderFieldProps)
   const isHidden = getFormSectionFieldBooleanFunction(hidden, renderProps)
-  if (isReadOnly && isHidden) return null
-  if (isHidden) return fieldJsx
 
-  // Define children (default)
-  const childrenJsx = (
+  // ==============================
+  // Wrappers
+  // ==============================
+  // Render with a Grid wrapper
+  const fieldJsxWithGrid = (
     <Grid
       item
       xs={12}
@@ -110,21 +112,31 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
     </Grid>
   )
 
-  // Render with fieldEffect
+  // Render with a fieldEffect wrapper
   const hasFieldEffect = Boolean(fieldEffect)
-  if (hasFieldEffect) {
-    const fieldEffectProviderProps: FieldEffectProviderProps = {
-      item,
-      ...(fieldProps as FormSectionFieldProps),
-      fieldEffect,
-      children: childrenJsx,
-      formContext,
-    }
-    return <FieldEffectProvider {...fieldEffectProviderProps} />
+  const fieldEffectProviderProps: FieldEffectProviderProps = {
+    item,
+    ...(fieldProps as FormSectionFieldProps),
+    fieldEffect,
+    // Manage hidden fields with fieldEffect
+    // TODO@Joel: Refactor to compose the wrappers with plugins instead
+    children: isHidden ? (isReadOnly ? null : fieldJsx) : fieldJsxWithGrid,
+    formContext,
   }
 
-  // Default render
-  return childrenJsx
+  // ==============================
+  // Render
+  // ==============================
+  switch (true) {
+    case hasFieldEffect:
+      return <FieldEffectProvider {...fieldEffectProviderProps} />
+    case isReadOnly && isHidden:
+      return null
+    case isHidden:
+      return fieldJsx
+    default:
+      return fieldJsxWithGrid
+  }
 }
 
 export default renderFieldWithWrapper
