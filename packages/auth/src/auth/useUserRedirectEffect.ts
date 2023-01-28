@@ -60,8 +60,8 @@ const useUserRedirectEffect = () => {
   }
 
   useEffect(() => {
-    if (authUser) handleRedirect()
-  }, [authUser, dbUser, dbUserFetching, authRoutes])
+    if (dbUser) handleRedirect()
+  }, [dbUser])
 }
 
 export default useUserRedirectEffect
