@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.34
+
+### Patch Changes
+
+- [`0d1ace6`](https://github.com/gravis-os/gravis-os/commit/0d1ace6e9ef05dcd57e349d10b97127c7cace382) Thanks [@clodal](https://github.com/clodal)! - Add useList to CrudTable
+
 ## 0.0.33
 
 ### Patch Changes

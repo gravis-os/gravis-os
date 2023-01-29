@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.72
+
+### Patch Changes
+
+- [`0d1ace6`](https://github.com/gravis-os/gravis-os/commit/0d1ace6e9ef05dcd57e349d10b97127c7cace382) Thanks [@clodal](https://github.com/clodal)! - Add useList to CrudTable
+
+- Updated dependencies [[`0d1ace6`](https://github.com/gravis-os/gravis-os/commit/0d1ace6e9ef05dcd57e349d10b97127c7cace382), [`8d84720`](https://github.com/gravis-os/gravis-os/commit/8d8472091e3933d21286f4ed9143938ac88965be)]:
+  - @gravis-os/form@0.0.100
+  - @gravis-os/storage@0.0.32
+  - @gravis-os/types@0.0.34
+  - @gravis-os/ui@0.0.79
+  - @gravis-os/utils@0.0.32
+  - @gravis-os/auth@0.0.50
+
 ## 0.0.71
 
 ### Patch Changes

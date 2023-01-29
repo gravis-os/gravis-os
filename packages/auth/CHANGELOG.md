@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.50
+
+### Patch Changes
+
+- [#148](https://github.com/gravis-os/gravis-os/pull/148) [`8d84720`](https://github.com/gravis-os/gravis-os/commit/8d8472091e3933d21286f4ed9143938ac88965be) Thanks [@al1xt](https://github.com/al1xt)! - Prevent multiple toast messages on login
+
+- Updated dependencies [[`0d1ace6`](https://github.com/gravis-os/gravis-os/commit/0d1ace6e9ef05dcd57e349d10b97127c7cace382)]:
+  - @gravis-os/form@0.0.100
+  - @gravis-os/types@0.0.34
+  - @gravis-os/ui@0.0.79
+  - @gravis-os/utils@0.0.32
+
 ## 0.0.49
 
 ### Patch Changes
