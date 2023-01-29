@@ -1,4 +1,3 @@
-import kebabCase from 'lodash/kebabCase'
 import omit from 'lodash/omit'
 import getIsArrayColumn from './getIsArrayColumn'
 import getRelationalObjectKey from './getRelationalObjectKey'
@@ -61,13 +60,9 @@ export interface WithDbFormValuesOptions {
  */
 const withDbFormValues = (options: WithDbFormValuesOptions) => (values) => {
   const { isNew } = options
-  const { title } = values
 
   // Add default value for `created_at` column in new records
   const isNewValues = isNew && { created_at: new Date().toISOString() }
-
-  // Add default value for `slug` column
-  const slugValues = values.title && { slug: kebabCase(title) }
 
   // Get the id values of relational objects e.g. product_id = 1
   const idValues = getIdValuesWithRelationalKeysFromRelationalObjects(values)
@@ -77,7 +72,6 @@ const withDbFormValues = (options: WithDbFormValuesOptions) => (values) => {
     ...idValues,
     updated_at: new Date().toISOString(),
     ...isNewValues,
-    ...slugValues,
   }
 
   return omitRelationalObjects(nextValues)

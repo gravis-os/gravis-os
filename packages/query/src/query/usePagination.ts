@@ -51,7 +51,7 @@ const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
     // Page min must be 1.
     const nextPage = newPage > 0 ? newPage : 1
 
-    //  Feed the full query string here, but omit the queryParams
+    // Feed the full query string here, but omit the queryParams
     return addQueryString({ page: String(nextPage) })
   }
   const nextPage = () => hasNextPage && setPage(page + 1)

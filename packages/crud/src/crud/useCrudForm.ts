@@ -9,6 +9,7 @@ import {
   getDefaultValues,
   withoutId,
   withSkipOnSubmit,
+  withSlugFromTitle,
   FormSectionsProps,
 } from '@gravis-os/form'
 import toast from 'react-hot-toast'
@@ -162,11 +163,16 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const onSubmit = async (values) => {
     // Cleaning function for dbFormValues
     const fields = getFieldsFromFormSections(sections)
-    const withValuesArgs = { isNew, user, fields }
+    const withValuesArgs = { isNew, user, fields, module }
     const dbFormValues = flowRight([
+      // Add user.id to _by columns
       withCreatedUpdatedBy(withValuesArgs),
+      // Remove id if isNew
       withoutId(withValuesArgs),
+      // Add timestamps and resolve relational objects
       withDbFormValues(withValuesArgs),
+      // Add default value for `slug` column
+      withSlugFromTitle(withValuesArgs),
       // Omit fields that have skipOnSubmit: true
       withSkipOnSubmit(withValuesArgs),
     ])(values)

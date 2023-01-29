@@ -44,7 +44,7 @@ const Chip: React.FC<ChipProps> = (props) => {
                   ? 'common.white'
                   : ({ palette }) => palette[color].contrastText,
               }
-            : { color: `${color}.contrastText` },
+            : { color: color && `${color}.contrastText` },
         }),
 
         // Callout variant
@@ -62,6 +62,11 @@ const Chip: React.FC<ChipProps> = (props) => {
         ...(square && { borderRadius: 1 }),
 
         ...rest.sx,
+
+        // Hover on the icon
+        '&& .MuiChip-deleteIcon:hover': {
+          color: color ? `${color}.contrastText` : 'action.active',
+        },
       }}
     />
   )

@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import get from 'lodash/get'
 import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
 import {
@@ -20,6 +21,7 @@ import SearchForm from './SearchForm'
 import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'
 import CrudAddDialog from './CrudAddDialog'
+import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 
 export interface CrudTableHeaderProps {
   module: CrudModule
@@ -67,8 +69,52 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const { setAddDialogOpen } = useAddDialogProps
 
   // Methods
+  /**
+   * Submit the search + filter field values by setting it as a query param
+   * @param values
+   */
   const handleSubmit = ({ values }) => {
-    setFilters({ ...filters, ...values })
+    // Submit the search + filter form here
+    const appliedFilters = { ...filters, ...values }
+
+    // Apply op to the filters by scanning through the defs
+    const filterAndSearchFormFieldDefs = {
+      ...getFieldDefsFromSections(filterFormSections),
+      ...getFieldDefsFromSections(searchFormSections),
+    }
+
+    // Scan through the appliedFilters to apply any operator to the value
+    const nextFilters = Object.entries(appliedFilters).reduce(
+      (acc, [key, value]) => {
+        if (typeof value === 'object') return acc
+
+        // Get the operator
+        const op = get(filterAndSearchFormFieldDefs, key)?.op
+        const hasOp = Boolean(op)
+
+        // Remove nested values as they interfere with the get() later
+        const appliedFiltersWithoutEmptyValue = Object.entries(
+          appliedFilters
+        ).reduce((acc, [key, value]) => {
+          // Filter out values that are empty string
+          if (value === '') return acc
+          return { ...acc, [key]: value }
+        }, {})
+
+        // If value is empty, fetch from object instead
+        const resolvedValue =
+          value === '' ? get(appliedFiltersWithoutEmptyValue, key) : value
+
+        // Set the resolved value with the operator
+        const nextValue = hasOp ? `${op}.${resolvedValue}` : resolvedValue
+
+        return { ...acc, [key]: nextValue }
+      },
+      {}
+    )
+
+    // Set state
+    setFilters(nextFilters)
     setOpenFilterDrawer(false)
   }
   const handleReset = () => setFilters({})
@@ -92,7 +138,12 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
       >
         {/* Search */}
         {hasSearchFormSections && (
-          <Box width={{ xs: '100%', md: styleConfig.searchWidth }}>
+          <Box
+            sx={{
+              width: '100%',
+              maxWidth: { xs: '100%', md: styleConfig.searchWidth },
+            }}
+          >
             <SearchForm
               module={module}
               sections={searchFormSections as FormSectionsProps['sections']}
@@ -108,6 +159,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           alignItems="center"
           justifyContent="flex-end"
           spacing={1}
+          sx={{ width: { xs: 'inherit', md: 'fit-content' } }}
         >
           {/* Filter Button */}
           {hasFilterFormSections && (

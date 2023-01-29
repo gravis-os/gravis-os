@@ -4,6 +4,8 @@ import { Button, Card, Stack, Typography } from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import { printSingularOrPluralText } from '@gravis-os/utils'
+import type { BodyScrollEvent } from 'ag-grid-community'
+import type { UseListReturn } from '@gravis-os/query'
 import useCrud from './useCrud'
 import AgGrid, { AgGridProps } from './AgGrid'
 // Framework Components
@@ -14,8 +16,18 @@ export interface DataTableProps extends AgGridProps {
   sx?: SxProps
   actions?: React.ReactNode
   module?: CrudModule
-
   disableHeader?: boolean
+  /**
+   * For managing serverSide rows
+   */
+  serverSideRowModelProps?: {
+    pagination: UseListReturn['pagination']
+    fetchNextPage: () => void | Promise<any>
+  }
+  /**
+   * To display the total row count
+   */
+  serverSideRowCount?: number
 }
 
 /**
@@ -37,6 +49,12 @@ const DataTable = React.forwardRef<
     columnDefs: injectedColumnDefs,
     module,
     disableHeader,
+
+    // Server-side pagination
+    rowModelType,
+    serverSideRowModelProps,
+    serverSideRowCount,
+
     ...rest
   } = props
 
@@ -56,15 +74,48 @@ const DataTable = React.forwardRef<
   // Title
   const TitleIcon = module?.Icon
 
+  const getAgGridPropsByRowModelType = (rowModelType) => {
+    switch (rowModelType) {
+      // This is our own custom serverSide function
+      case 'externalServerSide':
+        const { pagination, fetchNextPage } = serverSideRowModelProps
+        const { pageSize, hasNextPage, nextPage } = pagination
+        return {
+          // Load the full data by default
+          rowData,
+          // To fetch the next page when we reach the end of the grid
+          onBodyScroll: (e: BodyScrollEvent) => {
+            const { api: gridApi } = e
+            const lastDisplayedRow = gridApi.getLastDisplayedRow() + 1
+            const isEndOfScroll = lastDisplayedRow === rowData.length
+            const shouldFetchNextPage = isEndOfScroll && hasNextPage
+            if (shouldFetchNextPage) fetchNextPage()
+          },
+          // To prevent scroll from flickering back to top
+          getRowId: (params) => params.data.id,
+        }
+      default:
+        return {
+          rowData,
+        }
+    }
+  }
+
+  // AgGridProps
+  const agGridProps = {
+    ...getAgGridPropsByRowModelType(rowModelType),
+    ...rest,
+  }
+
   return (
     <>
       {/* Toolbar */}
       {!disableHeader && (
         <Card
           square
-          py={1}
           disableLastGutterBottom
-          sx={{ borderBottom: 1, borderColor: 'divider' }}
+          padding={1}
+          sx={{ borderBottom: 1, px: 1, borderColor: 'divider' }}
         >
           <Stack
             direction="row"
@@ -78,9 +129,25 @@ const DataTable = React.forwardRef<
               {TitleIcon && <TitleIcon sx={{ color: 'primary.main' }} />}
               <Typography variant="h5">{module?.name?.plural}</Typography>
 
+              {/* Server-side Row Count */}
+              {Boolean(serverSideRowCount) && (
+                <Typography
+                  variant="body2"
+                  color="text.secondary"
+                  sx={{ lineHeight: 1 }}
+                >
+                  {serverSideRowCount}{' '}
+                  {printSingularOrPluralText(serverSideRowCount, 'record')}
+                </Typography>
+              )}
+
               {/* Selection Count */}
               {hasSelectedItems && (
-                <Typography variant="body2" color="text.secondary">
+                <Typography
+                  variant="subtitle2"
+                  color="primary.main"
+                  sx={{ lineHeight: 1 }}
+                >
                   {selectedItems.length}{' '}
                   {printSingularOrPluralText(selectedItems, 'item')} selected
                 </Typography>
@@ -103,6 +170,7 @@ const DataTable = React.forwardRef<
                   color="error"
                   startIcon={<DeleteOutlineOutlinedIcon />}
                   onClick={handleDeleteDialogOpen}
+                  sx={{ lineHeight: 1 }}
                 >
                   Bulk Delete
                 </Button>
@@ -127,7 +195,6 @@ const DataTable = React.forwardRef<
         }}
         ref={ref}
         columnDefs={columnDefs}
-        rowData={rowData}
         // Ag Grid Props
         animateRows
         disableResizeGrid
@@ -137,7 +204,7 @@ const DataTable = React.forwardRef<
         rowDragMultiRow
         suppressRowClickSelection
         suppressMoveWhenRowDragging
-        {...rest}
+        {...agGridProps}
       />
     </>
   )

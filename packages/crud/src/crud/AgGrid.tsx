@@ -66,7 +66,7 @@ export interface AgGridProps extends AgGridReactProps {
   disableResizeGrid?: boolean
   enableExport?: boolean
   exportProject?: string
-  height?: number
+  height?: number | string
   sx?: BoxProps['sx']
 }
 

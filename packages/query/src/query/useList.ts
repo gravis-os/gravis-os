@@ -2,6 +2,7 @@ import { useEffect } from 'react'
 import {
   QueryClient,
   useInfiniteQuery,
+  UseInfiniteQueryResult,
   useQuery,
   useQueryClient,
 } from 'react-query'
@@ -83,8 +84,11 @@ const withPaginate = () => (props: UseListProps & UseListFilters) => {
 }
 
 const getSort = (props) => {
-  const { parsedQs } = props
-  const { order } = parsedQs || {}
+  const { parsedQs, defaultSortOrder } = props
+
+  // @example: { order: 'id.desc' }
+  const { order: routerOrder } = parsedQs || {}
+  const order = routerOrder || defaultSortOrder
 
   const defaultSortKey = 'created_at'
   const defaultSortDirection = 'desc'
@@ -99,7 +103,11 @@ const getSort = (props) => {
 }
 const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
   const { pagination = {} } = props
-  const { paginationType, pageSize = DEFAULT_PAGE_SIZE, pageParam } = pagination
+  const {
+    paginationType = UseListPaginationType.Infinite,
+    pageSize = DEFAULT_PAGE_SIZE,
+    pageParam,
+  } = pagination
 
   const isInfinitePagination = paginationType === UseListPaginationType.Infinite
 
@@ -158,15 +166,33 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
    * ?or=(directory_category_id.eq.14,age.lte.18)
    */
   const nextFilters = Object.entries(parsedQs).reduce(
-    (acc, [key, parsedQsValue]) => {
+    (acc, [key, injectedParsedQsValue]) => {
       if (key === 'order') return acc
 
+      const parsedQsValue = String(injectedParsedQsValue)
+
+      const getOpAndFilterValue = (parsedQsValue: string): string[] => {
+        // Check if we have an op
+        const isOpInParsedQsValue = parsedQsValue.includes('.')
+
+        // Return eq as op by default
+        if (!isOpInParsedQsValue) return ['eq', parsedQsValue]
+
+        const [op, filterValue] = parsedQsValue.split('.')
+
+        // If op is ilike, add `%`
+        if (op === 'ilike') return [op, `%${filterValue}%`]
+
+        return [op, filterValue]
+      }
+
+      // Early terminate on multiple filters
       const isMultipleFilterOnTheSameColumn = Array.isArray(parsedQsValue)
       if (isMultipleFilterOnTheSameColumn) {
-        // qs = price=lt.300&price=gt.100; parsedQsValue = ['lt.300', 'gt.100']
+        // @example qs = price=lt.300&price=gt.100; parsedQsValue = ['lt.300', 'gt.100']
         const nextFilters = (parsedQsValue as Record<string, any>).reduce(
           (acc, parsedQsValueItem) => {
-            const [op, filterValue] = String(parsedQsValueItem).split('.')
+            const [op, filterValue] = getOpAndFilterValue(parsedQsValueItem)
             const newFilter = { key, op, value: filterValue }
             return acc.concat(newFilter)
           },
@@ -175,12 +201,14 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
         return [...acc, ...nextFilters]
       }
 
-      const [op, filterValue] = String(parsedQsValue).split('.')
+      // Single filter
+      const [op, filterValue] = getOpAndFilterValue(parsedQsValue)
       const newFilter = {
         key,
         op,
         value: filterValue,
       } as unknown as SupabasePostgrestBuilderFiltersType
+
       return acc.concat(newFilter)
     },
     filters as SupabasePostgrestBuilderFiltersType[]
@@ -249,8 +277,8 @@ export const getFetchListQueryKey = (props: UseListProps) => {
 }
 
 // Fetcher
-export const getFetchList = (props: UseListProps) => {
-  const { module, pagination = {} } = props
+export const getFetchListQueryFn = (props: UseListProps) => {
+  const { setQuery, module, pagination = {} } = props
 
   const { countOnly } = pagination
   const countProps = countOnly ? { head: true } : {}
@@ -280,11 +308,12 @@ export const getFetchList = (props: UseListProps) => {
       select,
     } = listFilters
 
-    // Setup query
     // @note: The order of the filters below matter.
+    // Setup query
     const query = supabaseClient
       .from(module.table.name)
       .select(select || module?.select?.list || '*', {
+        // This is both the HEAD and GET query as this count gets overriden from above.
         count: 'exact',
         ...countProps,
       })
@@ -327,6 +356,9 @@ export const getFetchList = (props: UseListProps) => {
     // Ensure to always limit last
     if (limit) query.limit(limit)
 
+    // Allow user to override the query
+    if (setQuery) return setQuery(query)
+
     return query
   }
 }
@@ -338,7 +370,7 @@ export const prefetchListQuery = async (
 ) => {
   return queryClient.prefetchQuery(
     getFetchListQueryKey(props),
-    getFetchList(props)
+    getFetchListQueryFn(props)
   )
 }
 
@@ -364,7 +396,6 @@ const useList = (props: UseListProps): UseListReturn => {
   const { query, defaultLocale, locale, locales } = router
   const params = injectedParams || query
   const page = query?.page ? Number(query?.page) : 1
-
   const { parsedQs } = useRouterQuery()
 
   // Pass through router props to simulate getStaticPropsContext on the client
@@ -384,12 +415,12 @@ const useList = (props: UseListProps): UseListReturn => {
   }
 
   const listQueryKey = getFetchListQueryKey(nextProps)
-  const fetchList = getFetchList(nextProps)
+  const listQueryFn = getFetchListQueryFn(nextProps)
 
   // Fire a separate count query function to fetch the count for infinitePagination
   const countQuery = useQuery(
     [listQueryKey, 'count'],
-    getFetchList({
+    getFetchListQueryFn({
       ...nextProps,
       pagination: { ...nextProps.pagination, countOnly: true },
     }),
@@ -399,7 +430,7 @@ const useList = (props: UseListProps): UseListReturn => {
 
   // Switch between useQuery and useInfiniteQuery
   const useQueryFn = isInfinitePagination ? useInfiniteQuery : useQuery
-  const onUseQuery = useQueryFn(listQueryKey, fetchList, {
+  const onUseQuery = useQueryFn(listQueryKey, listQueryFn, {
     keepPreviousData: isRegularPagination,
     ...(isInfinitePagination && {
       // Calculate nextToken. Only applicable for infinite pagination
@@ -441,7 +472,7 @@ const useList = (props: UseListProps): UseListReturn => {
       }
       queryClient.prefetchQuery(
         getFetchListQueryKey(prefetchNextPageProps),
-        getFetchList(prefetchNextPageProps)
+        getFetchListQueryFn(prefetchNextPageProps)
       )
     }
   }, [isRegularPagination, onUsePagination.hasNextPage, page, queryClient])
@@ -451,9 +482,24 @@ const useList = (props: UseListProps): UseListReturn => {
     ?.map((item) => getObjectWithGetters(item, module.virtuals))
     ?.filter(Boolean)
 
+  // Override fetchNextPage for infiniteQuery
+  const getInfinitePaginationFetchNextPage = (
+    onUseQuery: UseInfiniteQueryResult
+  ) => {
+    const { isFetching, fetchNextPage } = onUseQuery
+    const shouldFetchNextPage = queryOptions?.enabled && !isFetching
+    const nextFetchNextPage = shouldFetchNextPage ? fetchNextPage : () => null
+    return { fetchNextPage: nextFetchNextPage }
+  }
+
   return {
     ...onUseQuery,
     pagination: onUsePagination,
+
+    // fetchNextPage
+    ...(isInfinitePagination &&
+      getInfinitePaginationFetchNextPage(onUseQuery as UseInfiniteQueryResult)),
+
     // Aliases
     items: itemsWithVirtuals,
     count: countFromCountQuery,

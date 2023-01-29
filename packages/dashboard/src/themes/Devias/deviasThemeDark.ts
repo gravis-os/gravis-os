@@ -70,24 +70,6 @@ const deviasThemeDark: ThemeOptions = {
         },
       },
     },
-    MuiChip: {
-      styleOverrides: {
-        root: {
-          '&.MuiChip-filledDefault': {
-            backgroundColor: neutral[800],
-            '& .MuiChip-deleteIcon': {
-              color: neutral[500],
-            },
-          },
-          '&.MuiChip-outlinedDefault': {
-            borderColor: neutral[700],
-            '& .MuiChip-deleteIcon': {
-              color: neutral[700],
-            },
-          },
-        },
-      },
-    },
     MuiInputBase: {
       styleOverrides: {
         input: {

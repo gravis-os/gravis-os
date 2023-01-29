@@ -1,5 +1,5 @@
 const styleConfig = {
-  searchWidth: 560,
+  searchWidth: 460,
   rightAsideWidth: 480,
   rightAsideBoxShadow: 3,
 }

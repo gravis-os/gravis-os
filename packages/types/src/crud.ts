@@ -33,6 +33,7 @@ export interface CrudModule {
     afterInsert?: CrudModuleAfterTriggerFunction
     afterUpdate?: CrudModuleAfterTriggerFunction
   }
+  disableAutoSlug?: boolean // To disable autoSlug
 }
 
 export interface CrudItem {

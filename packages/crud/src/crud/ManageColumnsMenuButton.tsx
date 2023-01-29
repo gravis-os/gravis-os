@@ -24,7 +24,7 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
       size="small"
       color="inherit"
       variant="text"
-      sx={{ color: 'text.secondary', ...sx }}
+      sx={{ color: 'text.secondary', lineHeight: 1, ...sx }}
       {...rest}
     >
       {() => {

@@ -79,7 +79,7 @@ const withPreview = (props) => {
 
           return (
             <Stack direction="row" alignItems="center" spacing={1}>
-              {hasAvatar && (
+              {hasAvatar && params.data && (
                 <StorageAvatar
                   src={params.data.avatar_src}
                   alt={params.data.avatar_alt || params.data.title}

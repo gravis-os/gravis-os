@@ -6,11 +6,12 @@ import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox, { CheckboxProps } from '@mui/material/Checkbox'
 import { SxProps } from '@mui/material'
+import Typography from './Typography'
 
 export interface CheckboxGroupItem {
   key: string
   value: boolean // true / false the checked state
-  label: string
+  label: React.ReactNode
 }
 
 export interface CheckboxGroupProps {
@@ -45,7 +46,11 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
       <FormGroup>
         {items.map((item) => {
           const { key, value, label: injectedLabel } = item
-          const label = injectedLabel || startCase(key)
+          const label = (
+            <Typography variant="subtitle2">
+              {injectedLabel || startCase(key)}
+            </Typography>
+          )
           return (
             <FormControlLabel
               key={key}

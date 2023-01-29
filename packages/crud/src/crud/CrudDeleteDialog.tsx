@@ -5,7 +5,7 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material'
-import { Button, Dialog, DialogProps } from '@gravis-os/ui'
+import { Button, Dialog, DialogProps, Typography } from '@gravis-os/ui'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
 import { CrudItem, CrudModule } from '@gravis-os/types'
@@ -77,9 +77,11 @@ const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
   }
 
   return (
-    <Dialog open={open} onClose={onClose}>
+    <Dialog maxWidth="xs" open={open} onClose={onClose}>
       <DialogTitle>
-        {isBulkDelete ? 'Bulk Delete' : 'Delete'} Confirmation
+        <Typography variant="h3">
+          {isBulkDelete ? 'Bulk Delete' : 'Delete'} Confirmation
+        </Typography>
       </DialogTitle>
       <DialogContent>
         <DialogContentText>
@@ -88,9 +90,16 @@ const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
         </DialogContentText>
       </DialogContent>
       <DialogActions>
-        <Button onClick={onCancel}>Cancel</Button>
-        <Button onClick={handleDeleteConfirmClick} autoFocus>
-          Confirm
+        <Button color="inherit" onClick={onCancel}>
+          Cancel
+        </Button>
+        <Button
+          variant="contained"
+          color="error"
+          onClick={handleDeleteConfirmClick}
+          autoFocus
+        >
+          Confirm Delete
         </Button>
       </DialogActions>
     </Dialog>

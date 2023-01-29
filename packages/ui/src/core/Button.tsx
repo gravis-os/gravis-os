@@ -15,6 +15,15 @@ import withSetLoadingInOnClick, {
 } from './withSetLoadingInOnClick'
 import CircularProgress from './CircularProgress'
 
+// Methods
+const getFullWidthOnMobileSx = (fullWidthOnMobile) => {
+  return (
+    fullWidthOnMobile && {
+      width: { xs: '100%', md: 'initial' },
+    }
+  )
+}
+
 /**
  * If you're making changes to these custom variants,
  * update the ButtonVariants interface in `baseTheme.ts`
@@ -79,9 +88,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     <MuiButton
       variant={isCustomVariant ? 'text' : variant}
       sx={{
-        ...(fullWidthOnMobile && {
-          width: { xs: '100%', md: 'initial' },
-        }),
+        ...getFullWidthOnMobileSx(fullWidthOnMobile),
         ...(disableLineHeight && { lineHeight: 1 }),
         ...(square && { borderRadius: 0 }),
         ...(disableMinWidth && {
@@ -159,7 +166,14 @@ const Button: React.FC<ButtonProps> = (props) => {
   )
 
   return flowRight([
-    withHref({ href, targetBlank, disabled }),
+    withHref({
+      href,
+      targetBlank,
+      disabled,
+      ...(fullWidthOnMobile && {
+        linkProps: { sx: { ...getFullWidthOnMobileSx(fullWidthOnMobile) } },
+      }),
+    }),
     withTooltip({ tooltip }),
     withPopover({ popover }),
     withSetLoadingInOnClick({ onClick: rest?.onClick }),

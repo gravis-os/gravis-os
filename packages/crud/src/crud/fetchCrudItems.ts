@@ -19,10 +19,11 @@ const fetchCrudItems = async (props: FetchCrudItemsProps = {}) => {
     filterFields,
   })
 
-  // Fire query
+  // Fire injected query via setQuery to allow for outer override
   const onQuery = await (setQuery
     ? setQuery(defaultQueryWithFilters)
     : defaultQueryWithFilters)
+
   const { data, error } = onQuery
 
   if (error) throw new Error(error.message)

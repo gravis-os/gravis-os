@@ -119,7 +119,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
     ...(fieldProps as FormSectionFieldProps),
     fieldEffect,
     // Manage hidden fields with fieldEffect
-    // TODO@Joel: Refactor to compose the wrappers with plugins instead
+    // TODO: Refactor to compose the wrappers with plugins instead
     children: isHidden ? (isReadOnly ? null : fieldJsx) : fieldJsxWithGrid,
     formContext,
   }

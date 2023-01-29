@@ -154,12 +154,22 @@ export interface UseListProps
    * @default false
    */
   disablePagination?: boolean
+  /**
+   * Default sort order
+   * @default 'created_at.desc'
+   */
+  defaultSortOrder?: string
+  /**
+   * Escape hatch for the final query
+   */
+  setQuery?: (query) => Promise<any>
 }
 
 export type UseListReturn = (UseInfiniteQueryResult | UseQueryResult) & {
   pagination: UsePaginationReturn
   items: CrudItem[] | []
   count?: number
+  fetchNextPage?: UseInfiniteQueryResult['fetchNextPage']
 }
 
 // ==============================

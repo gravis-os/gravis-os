@@ -1,10 +1,10 @@
-import { printDateTime } from '@gravis-os/utils'
+import { printShortDateTime } from '@gravis-os/utils'
 
 const withTimestampFormat = () => (columnDefs) =>
   columnDefs.map((columnDef) =>
     columnDef.field?.endsWith('_at')
       ? {
-          valueFormatter: ({ value }) => printDateTime(value),
+          valueFormatter: ({ value }) => printShortDateTime(value),
           ...columnDef,
         }
       : columnDef

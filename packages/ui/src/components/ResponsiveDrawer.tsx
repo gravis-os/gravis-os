@@ -13,9 +13,6 @@ import {
   BoxProps,
 } from '../core'
 
-// TODO@Joel: Expose as prop instead
-const secondaryMiniVariantWidth = 20
-
 export interface ResponsiveDrawerProps extends DrawerProps {
   disableBorder?: boolean
   width?: number | string
@@ -155,7 +152,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
             sx={{
               p: 0,
               height: '100%',
-              minWidth: open ? 0 : secondaryMiniVariantWidth,
+              minWidth: open ? 0 : 20,
               borderRadius: 0,
               opacity: 0.08,
             }}

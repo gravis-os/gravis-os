@@ -65,18 +65,18 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
               fields: sections[0].fields.map((field, i) => {
                 if (i !== 0) return field
                 return {
-                  ...field,
                   disableBorders: true,
                   disableLabel: true,
                   placeholder: 'Search',
                   InputProps: {
                     startAdornment: (
                       <InputAdornment position="start">
-                        <SearchOutlinedIcon />
+                        <SearchOutlinedIcon fontSize="small" />
                       </InputAdornment>
                     ),
                   },
                   size: 'small',
+                  ...field,
                   sx: {
                     backgroundColor: 'common.white',
                     filter: 'drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1))',

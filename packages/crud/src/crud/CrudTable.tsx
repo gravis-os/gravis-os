@@ -1,9 +1,9 @@
 import React, { useRef } from 'react'
 import { useUser } from '@gravis-os/auth'
-import { useQuery } from 'react-query'
-import { FormSectionFieldProps, FormSectionsProps } from '@gravis-os/form'
+import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
+import { useList, UseListProps } from '@gravis-os/query'
 import DataTable, { DataTableProps } from './DataTable'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
@@ -14,7 +14,6 @@ import useGetCrudTableColumnDefs, {
 import usePreviewDrawer from './usePreviewDrawer'
 import { CrudFormProps } from './CrudForm'
 import CrudPreviewDrawer from './CrudPreviewDrawer'
-import fetchCrudItems from './fetchCrudItems'
 import { CrudTableColumnDef } from '../types'
 import useCrud from './useCrud'
 import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
@@ -23,7 +22,7 @@ export interface CrudTableProps {
   module: CrudModule
   addModule?: CrudModule
   columnDefs?: CrudTableColumnDef[]
-  setQuery?: (query) => Promise<any>
+  setQuery?: UseListProps['setQuery']
   headerProps?: Partial<CrudTableHeaderProps>
   disableAdd?: boolean
   disableDelete?: boolean
@@ -31,6 +30,7 @@ export interface CrudTableProps {
   disablePreview?: boolean
   disableTitle?: boolean
   disableActions?: boolean
+  disableServerSideRowModel?: boolean
   isListPage?: boolean
 
   previewFormSections?: FormSectionsProps['sections']
@@ -42,10 +42,9 @@ export interface CrudTableProps {
   dataTableProps?: Partial<DataTableProps>
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
   crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
+  useListProps?: Partial<UseListProps>
 
   actions?: React.ReactNode
-  filters?: Record<string, any>
-  filterFields?: FormSectionFieldProps[]
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
@@ -53,34 +52,40 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     module,
     addModule = module,
     columnDefs: injectedColumnDefs,
+    isListPage,
 
-    headerProps,
+    // Data
+    setQuery,
+
+    // Disables
     disableAdd,
     disableDelete,
     disableManage,
     disablePreview,
     disableTitle,
     disableActions,
-    setQuery,
-    isListPage,
+    disableServerSideRowModel,
 
+    // Form Sections
     previewFormSections: injectedPreviewFormSections = [],
     filterFormSections = [],
     searchFormSections = [],
     addFormSections = [],
 
+    // Props
+    actions,
+    headerProps,
     previewFormProps,
     addFormProps,
     dataTableProps: injectedDataTableProps,
     useGetCrudTableColumnDefsProps,
     crudDeleteDialogProps,
-
-    actions,
-    filters: injectedFilters,
-    filterFields: injectedFilterFields,
+    useListProps,
   } = props
-  const { table } = module
+  // Contexts
   const { user } = useUser()
+  const onUseCrud = useCrud()
+  const { setSelectedItems } = onUseCrud
 
   // Filters
   const filterFields = getFieldsFromFormSections([
@@ -89,28 +94,18 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   ])
   const { filters, setFilters } = useRouterQueryFilters({ filterFields })
 
-  const combinedFilters = {
-    ...filters,
-    ...injectedFilters,
-  }
-  const combinedFilterFields = (filterFields || []).concat(
-    injectedFilterFields || []
-  )
-
-  // TODO: This needs to be refactored for server-side pagination and filtering
-  // List items Fetch items with ReactQuery's composite key using filters as a dep
-  const { data: fetchedItems, refetch } = useQuery(
-    [table.name, 'list', combinedFilters],
-    () =>
-      fetchCrudItems({
-        filters: combinedFilters,
-        module,
-        setQuery,
-        filterFields: combinedFilterFields,
-      }),
-    // Only allow authenticated users to fetch CRUD items due to RLS
-    { enabled: Boolean(user) }
-  )
+  // List Query
+  const onUseList = useList({
+    module,
+    disableWorkspacePlugin: true,
+    filterByQueryString: true,
+    defaultSortOrder: 'id.desc',
+    ...useListProps,
+    pagination: { pageSize: 100, ...useListProps?.pagination },
+    queryOptions: { enabled: Boolean(user), ...useListProps?.queryOptions },
+    setQuery,
+  })
+  const { items: fetchedItems, refetch, pagination, fetchNextPage } = onUseList
 
   // Add virtuals
   const items =
@@ -124,19 +119,26 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   })
   const { setPreview, previewFormSections } = usePreviewDrawerProps
 
-  // CrudContext
-  const onUseCrud = useCrud()
-  const { setSelectedItems } = onUseCrud
-
   // AgGrid Ref
   const gridRef = useRef(null)
+
+  // DataTable props
   const dataTableProps = {
-    ...injectedDataTableProps,
     onSelectionChanged: (event) => {
       const selectedRows = event.api.getSelectedNodes()
       const selectedRowData = selectedRows?.map(({ data }) => data)
       setSelectedItems(selectedRowData)
     },
+
+    // By default, fetch data from server-side paginated
+    ...(!disableServerSideRowModel && {
+      rowModelType: 'externalServerSide',
+      height: '60vh',
+      serverSideRowModelProps: { pagination, fetchNextPage },
+      serverSideRowCount: onUseList?.count,
+    }),
+
+    ...injectedDataTableProps,
   }
 
   // ColumnDefs

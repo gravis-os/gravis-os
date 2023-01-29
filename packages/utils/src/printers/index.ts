@@ -22,5 +22,8 @@ export * from './printAddress'
 export { default as printDateTime } from './printDateTime'
 export * from './printDateTime'
 
+export { default as printShortDateTime } from './printShortDateTime'
+export * from './printShortDateTime'
+
 export { default as printDate } from './printDate'
 export * from './printDate'

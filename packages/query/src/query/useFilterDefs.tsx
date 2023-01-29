@@ -61,9 +61,11 @@ export interface UseFilterDefsReturn {
 export const useFilterDefs = (
   props: UseFilterDefsProps
 ): UseFilterDefsReturn => {
-  const { filterDefs } = props
+  const { filterDefs: injectedFilterDefs } = props
 
-  // tate
+  const filterDefs = injectedFilterDefs.filter(Boolean)
+
+  // State
   const [isFilterDrawerOpen, setIsFilterDrawerOpen] = useState(true)
 
   // Router
@@ -87,9 +89,11 @@ export const useFilterDefs = (
       // @example parsedQsValue = 'eq.4'
       const [op, filterValue] = parsedQsValue.split('.')
 
+      if (!filterValue) return
+
       switch (currentFilterDef.type) {
         case FilterDefTypeEnum.Input:
-          return filterValue.replaceAll('%', '')
+          return filterValue?.replaceAll('%', '')
         default:
           const currentOption = currentFilterDef.options.find((option) => {
             return Array.isArray(parsedQsValue)

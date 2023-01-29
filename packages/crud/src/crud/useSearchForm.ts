@@ -2,6 +2,7 @@ import { useForm } from 'react-hook-form'
 import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { getSearchFormValues } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
+import toast from 'react-hot-toast'
 
 interface UseSearchFormValues {
   values: Record<string, any>
@@ -45,6 +46,7 @@ const useSearchForm = (args: UseSearchFormArgs) => {
       if (resetOnSubmit) reset(defaultValues)
     } catch (err) {
       console.error('Error caught:', err)
+      toast.error('Something went wrong')
     }
   }
 
