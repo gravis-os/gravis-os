@@ -1,4 +1,4 @@
-import { NextRouter, useRouter } from 'next/router'
+import { useRouter } from 'next/router'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { QueryObserverOptions, useQuery, UseQueryResult } from 'react-query'
 import { CrudItem, CrudModule } from '@gravis-os/types'
@@ -42,6 +42,7 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
       .from(table.name)
       .select(select?.detail || '*')
       .match({ [module.sk]: slug })
+      .limit(1)
       .single()
 
     const { data, error } = onItemQuery
