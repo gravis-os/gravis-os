@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.34
+
+### Patch Changes
+
+- [`2749edc`](https://github.com/gravis-os/gravis-os/commit/2749edc91038d93ab8b17006f35bf7b721c44d1d) Thanks [@clodal](https://github.com/clodal)! - Rebuild deps in utils
+
 ## 0.0.33
 
 ### Patch Changes
