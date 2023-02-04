@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.73
+
+### Patch Changes
+
+- [`4e3648d`](https://github.com/gravis-os/gravis-os/commit/4e3648d058067c4f71297b93a1ba2b802adb2896) Thanks [@clodal](https://github.com/clodal)! - Add limit 1 to useGetItem
+
+- Updated dependencies [[`42868de`](https://github.com/gravis-os/gravis-os/commit/42868dee4b5a8910dc05a806e0861dde556dca84)]:
+  - @gravis-os/types@0.0.35
+  - @gravis-os/ui@0.0.80
+  - @gravis-os/utils@0.0.33
+
 ## 0.0.72
 
 ### Patch Changes
