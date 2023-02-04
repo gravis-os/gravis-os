@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.35
+
+### Patch Changes
+
+- [`ae683cb`](https://github.com/gravis-os/gravis-os/commit/ae683cb5987bc73285a152bf974c78d2d3ff3c2a) Thanks [@clodal](https://github.com/clodal)! - Remove dayjs dep in downstream
+
 ## 0.0.34
 
 ### Patch Changes
