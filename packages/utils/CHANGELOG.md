@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.36
+
+### Patch Changes
+
+- [`16f7b30`](https://github.com/gravis-os/gravis-os/commit/16f7b30d108ed81569447115d9bf4bca59986c5f) Thanks [@clodal](https://github.com/clodal)! - Update ui and utils to fix dep issue
+
 ## 0.0.35
 
 ### Patch Changes
