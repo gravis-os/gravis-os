@@ -20,7 +20,7 @@ export const GravisContext = createContext<GravisConfig>(
 // ==============================
 export const useGravis = () => useContext(GravisContext)
 
-export interface GravisProviderProps extends GravisConfig {
+export interface GravisProviderProps {
   children?: React.ReactNode
   config?: GravisConfig
 }
