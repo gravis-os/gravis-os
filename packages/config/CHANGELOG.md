@@ -1,5 +1,11 @@
 # @gravis-os/config
 
+## 0.0.3
+
+### Patch Changes
+
+- [`3bf2d42`](https://github.com/gravis-os/gravis-os/commit/3bf2d428c91610b78b9937019c6716596890f506) Thanks [@clodal](https://github.com/clodal)! - Fix types in gravis config
+
 ## 0.0.2
 
 ### Patch Changes
