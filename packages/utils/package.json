@@ -30,6 +30,7 @@
   },
   "dependencies": {
     "@gravis-os/types": "*",
+    "dayjs": "^1.11.3",
     "lodash": "^4.17.21",
     "micromatch": "^4.0.5",
     "sanitize-html": "^2.7.2",

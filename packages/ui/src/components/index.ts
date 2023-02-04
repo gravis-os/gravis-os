@@ -34,9 +34,6 @@ export * from './Slider'
 export { default as ShareStack } from './ShareStack'
 export * from './ShareStack'
 
-export { default as Typeform } from './Typeform'
-export * from './Typeform'
-
 export { default as VerticalIconButton } from './VerticalIconButton'
 export * from './VerticalIconButton'
 

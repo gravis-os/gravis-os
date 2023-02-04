@@ -1,8 +1,11 @@
 import React from 'react'
 import create from 'zustand'
 import { useForm, UseFormReturn } from 'react-hook-form'
-import Slider, { SliderProps, SliderRenderItemProps } from './Slider'
+import { Slider, SliderProps, SliderRenderItemProps } from '@gravis-os/ui'
 
+// ==============================
+// State
+// ==============================
 export interface TypeformState {
   values: Record<string, unknown>
   add: (newItems: Record<string, unknown>) => void
@@ -21,6 +24,9 @@ export const useTypeformStore = create<TypeformState>((set) => ({
   reset: () => set({ values: {} }),
 }))
 
+// ==============================
+// UI
+// ==============================
 export interface TypeformItemRenderProps {
   form: UseFormReturn
   store: TypeformState
