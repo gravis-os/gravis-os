@@ -34,9 +34,8 @@ export interface UseGetCrudTableColumnDefsProps {
   disableFallbackPlaceholder?: boolean
   fallbackPlaceholder?: React.ReactNode
   user?: Record<string, unknown> | any
-  actionsCellRendererParams?: Omit<
-    CrudTableActionsColumnCellRendererProps,
-    'module' | 'data'
+  actionsCellRendererParams?: Partial<
+    Omit<CrudTableActionsColumnCellRendererProps, 'module' | 'data'>
   >
 }
 
