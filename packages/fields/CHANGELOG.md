@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 0.0.8
+
+### Patch Changes
+
+- [`4684d33`](https://github.com/gravis-os/gravis-os/commit/4684d337ad8dc4f8d1e7fd59a668840e20ed0410) Thanks [@clodal](https://github.com/clodal)! - Update landing package. Move components around"
+
 ## 0.0.7
 
 ### Patch Changes
