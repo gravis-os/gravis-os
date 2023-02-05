@@ -3,17 +3,15 @@ import {
   AppBar,
   AppBarProps,
   Box,
-  Button,
-  ButtonProps,
   Collapse,
   IconButton,
-  Link,
+  Stack,
   Toolbar,
   Typography,
-  Stack,
 } from '@mui/material'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
-import RouterLink from 'next/link'
+import Button, { ButtonProps } from '../Button'
+import Link from '../Link'
 import Container, { ContainerProps } from '../Container'
 
 interface SubHeaderButton {
@@ -46,16 +44,16 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
     >
       {links?.map((link) => {
         return (
-          <RouterLink key={link.title} href={link.href} passHref>
-            <Button
-              size="small"
-              variant="text"
-              onClick={handleLinkClick}
-              {...link.ButtonProps}
-            >
-              {link.title}
-            </Button>
-          </RouterLink>
+          <Button
+            key={link.title}
+            href={link.href}
+            size="small"
+            variant="text"
+            onClick={handleLinkClick}
+            {...link.ButtonProps}
+          >
+            {link.title}
+          </Button>
         )
       })}
     </Stack>
@@ -113,11 +111,9 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
 
             {/* Button */}
             {button && (
-              <RouterLink href={button.href} passHref>
-                <Button size="small" variant="contained">
-                  {button.title}
-                </Button>
-              </RouterLink>
+              <Button size="small" href={button.href} variant="contained">
+                {button.title}
+              </Button>
             )}
           </Toolbar>
 

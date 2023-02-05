@@ -2,10 +2,9 @@ import React from 'react'
 import {
   Breadcrumbs as MuiBreadcrumbs,
   BreadcrumbsProps as MuiBreadcrumbsProps,
-  Link,
   Typography,
 } from '@mui/material'
-import NextLink from 'next/link'
+import Link from './Link'
 
 export interface BreadcrumbsProps extends MuiBreadcrumbsProps {
   items: Array<{ key: string; title: string; href: string }>
@@ -33,9 +32,9 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
         }
 
         return (
-          <NextLink key={key} href={href} passHref>
-            <Link variant="subtitle2">{title}</Link>
-          </NextLink>
+          <Link key={key} href={href} variant="subtitle2">
+            {title}
+          </Link>
         )
       })}
     </MuiBreadcrumbs>

@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, ButtonProps, Link } from '@mui/material'
+import { Button, ButtonProps } from '@mui/material'
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
-import RouterLink from 'next/link'
+import Link from './Link'
 
 export interface ButtonLinkProps extends ButtonProps {
   href: string
@@ -39,9 +39,9 @@ const ButtonLink: React.FC<ButtonLinkProps> = (props) => {
   }
 
   return (
-    <RouterLink passHref href={href}>
-      <Button {...defaultButtonProps}>{children}</Button>
-    </RouterLink>
+    <Button href={href} {...defaultButtonProps}>
+      {children}
+    </Button>
   )
 }
 

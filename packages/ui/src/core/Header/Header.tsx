@@ -39,6 +39,7 @@ export interface HeaderNavItem
   // Custom
   hideInMobileDrawer?: boolean
   showOnMobileBar?: boolean
+  offsetLeft?: boolean
   preset?: {
     type: 'search'
   } & Record<string, unknown> // NavItemSearchPreset
@@ -121,6 +122,7 @@ const Header: React.FC<HeaderProps> = (props) => {
         key: injectedKey,
         children,
         showOnMobileBar,
+        offsetLeft,
         preset,
         render,
         sx,
@@ -136,6 +138,7 @@ const Header: React.FC<HeaderProps> = (props) => {
         sx: {
           display: { xs: 'none', md: 'flex' },
           ...(showOnMobileBar && { display: 'flex' }),
+          ...(offsetLeft && { ml: -2 }),
           '& > button': { whiteSpace: 'nowrap' },
           ...sx,
         },
@@ -187,6 +190,8 @@ const Header: React.FC<HeaderProps> = (props) => {
             const nextButtonProps: ButtonProps = {
               ...buttonProps,
               sx: {
+                height: '100%',
+                lineHeight: 1,
                 ...buttonProps?.sx,
                 padding: (theme) => theme.spacing(1.5, 2),
                 borderRadius: 0,

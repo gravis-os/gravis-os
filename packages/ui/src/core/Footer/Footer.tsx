@@ -1,20 +1,18 @@
 import React from 'react'
-import {
-  NavAccordion,
-  Box,
-  Container,
-  Divider,
-  Grid,
-  Stack,
-  Typography,
-  Link,
-  IconButton,
-} from '@gravis-os/ui'
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined'
 import TwitterIcon from '@mui/icons-material/Twitter'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import YouTubeIcon from '@mui/icons-material/YouTube'
+import NavAccordion from '../NavAccordion'
+import Box from '../Box'
+import Container from '../Container'
+import Divider from '../Divider'
+import Grid from '../Grid'
+import Stack from '../Stack'
+import Typography from '../Typography'
+import Link from '../Link'
+import IconButton from '../IconButton'
 
 interface FooterNavItem {
   title: string

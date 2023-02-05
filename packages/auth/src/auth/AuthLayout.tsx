@@ -1,5 +1,4 @@
 import React, { ReactNode } from 'react'
-import NextLink from 'next/link'
 import { StaticImageData } from 'next/image'
 import {
   Box,
@@ -8,6 +7,7 @@ import {
   Card,
   Container,
   Divider,
+  Link,
   Grid,
   Image,
   Stack,
@@ -66,11 +66,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
       {copyright}
     </Typography>
   )
-  const logoJsx = (
-    <NextLink href="/" passHref>
-      <a>{logo}</a>
-    </NextLink>
-  )
+  const logoJsx = <Link href="/">{logo}</Link>
 
   if (fullScreen) {
     return (

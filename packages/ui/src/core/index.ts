@@ -64,6 +64,9 @@ export * from './DialogTitle'
 export { default as Drawer } from './Drawer'
 export * from './Drawer'
 
+export { default as Footer } from './Footer'
+export * from './Footer'
+
 export { default as Grid } from './Grid'
 export * from './Grid'
 

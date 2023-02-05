@@ -4,7 +4,6 @@ import {
   AccordionDetails,
   AccordionProps,
   AccordionSummary,
-  Link,
   List,
   ListItem,
   ListItemText,
@@ -14,7 +13,7 @@ import {
 import { useTheme } from '@mui/material/styles'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import RouterLink from 'next/link'
+import Link from './Link'
 
 interface NavAccordionStyleProps {
   disablePadding?: boolean
@@ -72,12 +71,9 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
     switch (true) {
       case hasLink:
         return (
-          <RouterLink href={href} passHref>
-            {/* eslint-disable-next-line jsx-a11y/anchor-is-valid */}
-            <Link color="inherit" variant="button" onClick={onClick}>
-              {title}
-            </Link>
-          </RouterLink>
+          <Link color="inherit" variant="button" href={href} onClick={onClick}>
+            {title}
+          </Link>
         )
       // Title is a Jsx
       case typeof title === 'object':
@@ -164,7 +160,6 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
 
               const listItemJsx = (
                 <ListItem
-                  component={Link}
                   sx={{
                     lineHeight: disablePadding ? 1.2 : 1,
                     padding: disablePadding && 0,
@@ -173,7 +168,7 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
                   {...listItemProps}
                 >
                   <ListItemText disableTypography>
-                    <Typography variant="button" fontWeight="normal">
+                    <Typography variant="button" sx={{ textTransform: 'none' }}>
                       {item.title}
                     </Typography>
                   </ListItemText>
@@ -185,9 +180,9 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
               }
 
               return (
-                <RouterLink key={key} href={item.href} passHref>
+                <Link key={key} href={item.href}>
                   {listItemJsx}
-                </RouterLink>
+                </Link>
               )
             })}
           </List>

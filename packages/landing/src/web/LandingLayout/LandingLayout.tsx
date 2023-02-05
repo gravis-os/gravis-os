@@ -1,14 +1,16 @@
 import React from 'react'
+import NextNProgress from 'nextjs-progressbar'
+import { NextSeo, NextSeoProps } from 'next-seo'
 import {
   Box,
+  BoxProps,
   Stack,
   StackProps,
   Header,
   HeaderProps,
-  BoxProps,
+  Footer,
+  FooterProps,
 } from '@gravis-os/ui'
-import NextNProgress from 'nextjs-progressbar'
-import Footer, { FooterProps } from '../Footer'
 
 export interface LandingLayoutProps extends StackProps {
   headerProps?: HeaderProps
@@ -21,6 +23,9 @@ export interface LandingLayoutProps extends StackProps {
   disableGutterTop?: boolean
   disableGutterBottom?: boolean
   gutterSize?: number
+
+  // Next-seo
+  seo?: NextSeoProps
 }
 
 const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
@@ -35,13 +40,23 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
     disableGutterTop,
     disableGutterBottom,
     gutterSize = 2,
+
+    // seo
+    seo,
+
     ...rest
   } = props
 
   return (
     <Stack sx={{ minHeight: '100vh', backgroundColor, ...sx }} {...rest}>
       <NextNProgress />
+
+      {/* SEO */}
+      {seo && <NextSeo {...seo} />}
+
+      {/* Header */}
       {headerProps && <Header {...headerProps} />}
+
       <Box
         {...bodyProps}
         sx={{
@@ -61,6 +76,8 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
       >
         {children}
       </Box>
+
+      {/* Footer */}
       {footerProps && <Footer {...footerProps} />}
     </Stack>
   )

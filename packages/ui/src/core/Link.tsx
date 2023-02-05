@@ -91,7 +91,7 @@ const Link: React.FC<LinkProps> = (props) => {
     case Boolean(href):
       const nextHref = cleanHref(href)
 
-      //  If next >= 13, check next link implementation
+      // If next >= 13, check next link implementation
       if (next.version >= 13) {
         return (
           <MuiLink
