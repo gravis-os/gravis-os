@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.37
+
+### Patch Changes
+
+- [`3722506`](https://github.com/gravis-os/gravis-os/commit/3722506e422457f0f5f9fb1bbbda3bd68edb4865) Thanks [@clodal](https://github.com/clodal)! - Add getJsxFromReactNodeOrElement
+
 ## 0.0.36
 
 ### Patch Changes

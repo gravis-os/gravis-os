@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@gravis-os/eslint-config": "^0.0.13",
-    "@gravis-os/tsconfig": "^0.0.5",
+    "@gravis-os/tsconfig": "^0.0.6",
     "@next/bundle-analyzer": "^12.1.5",
     "@svgr/webpack": "^6.3.1",
     "@types/lodash": "^4.14.185",

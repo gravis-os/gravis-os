@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.74
+
+### Patch Changes
+
+- [#150](https://github.com/gravis-os/gravis-os/pull/150) [`14aff4e`](https://github.com/gravis-os/gravis-os/commit/14aff4e3f2c42a04c8a5122a9e184c3edf7ba353) Thanks [@al1xt](https://github.com/al1xt)! - Fix type for actionsCellRendererParams in useGetCrudTableColumnDefsProps
+
+- Updated dependencies [[`3722506`](https://github.com/gravis-os/gravis-os/commit/3722506e422457f0f5f9fb1bbbda3bd68edb4865)]:
+  - @gravis-os/utils@0.0.37
+
 ## 0.0.73
 
 ### Patch Changes

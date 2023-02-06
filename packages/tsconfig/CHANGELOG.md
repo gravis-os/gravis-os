@@ -1,5 +1,11 @@
 # @gravis-os/tsconfig
 
+## 0.0.6
+
+### Patch Changes
+
+- [#149](https://github.com/gravis-os/gravis-os/pull/149) [`d5c8c3e`](https://github.com/gravis-os/gravis-os/commit/d5c8c3ec9e9736d4871906206a653c30b14a3c22) Thanks [@al1xt](https://github.com/al1xt)! - Add source maps for types
+
 ## 0.0.5
 
 ### Patch Changes
