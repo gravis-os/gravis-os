@@ -3,6 +3,7 @@
     "allowSyntheticDefaultImports": true,
     "baseUrl": ".",
     "declaration": true,
+    "declarationMap": true,
     "declarationDir": "dist",
     "module": "esnext",
     "target": "es5",
