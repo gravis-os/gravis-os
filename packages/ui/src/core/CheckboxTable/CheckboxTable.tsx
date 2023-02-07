@@ -3,9 +3,9 @@ import { pick, toUpper } from 'lodash'
 import CheckboxTableHeader from './CheckboxTableHeader'
 import CheckboxTableBody from './CheckboxTableBody'
 import { CheckboxTableColumns, CheckboxTableRows } from './types'
-import Stack from '../Stack'
+import Stack, { StackProps } from '../Stack'
 
-export interface CheckboxTableProps<T> {
+export interface CheckboxTableProps<T> extends StackProps {
   isReadOnly?: boolean
   title: string
   columns: CheckboxTableColumns
@@ -20,7 +20,7 @@ const getDefaultColumnDef = (column, options) => ({
 })
 
 const CheckboxTable = <T,>(props: CheckboxTableProps<T>) => {
-  const { columns, rows, isReadOnly, title, onChangeRow } = props
+  const { columns, rows, isReadOnly, title, onChangeRow, ...rest } = props
 
   const width = useMemo(
     () => `calc(100% / ${columns.length + (onChangeRow ? 1 : 0)} - 6%)`,
@@ -32,7 +32,7 @@ const CheckboxTable = <T,>(props: CheckboxTableProps<T>) => {
   )
 
   return (
-    <Stack>
+    <Stack {...rest}>
       <CheckboxTableHeader
         columnDefs={columnDefs}
         title={title}
