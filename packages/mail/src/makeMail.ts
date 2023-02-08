@@ -39,7 +39,7 @@ const makeMail = (props: MakeMailProps) => {
   })
 
   const Mail = {
-    send: async ({ to, from, subject, email }) => {
+    send: async ({ to, from = '', subject, email }) => {
       return Sendgrid.send({
         to,
         from: from || injectedFrom,
