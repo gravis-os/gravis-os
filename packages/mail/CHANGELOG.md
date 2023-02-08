@@ -1,5 +1,11 @@
 # @gravis-os/mail
 
+## 0.0.2
+
+### Patch Changes
+
+- [#153](https://github.com/gravis-os/gravis-os/pull/153) [`34d5eb7`](https://github.com/gravis-os/gravis-os/commit/34d5eb7defa16c9f3b60deb6e2dedfb727edc687) Thanks [@al1xt](https://github.com/al1xt)! - fix makeMail to use from prop for from email
+
 ## 0.0.1
 
 ### Patch Changes

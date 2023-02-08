@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.84
+
+### Patch Changes
+
+- [#152](https://github.com/gravis-os/gravis-os/pull/152) [`b6db11d`](https://github.com/gravis-os/gravis-os/commit/b6db11d90addd96799a83e0d6b5aa9925e3dc833) Thanks [@winter-steve](https://github.com/winter-steve)! - spread checkbox table props
+
 ## 0.0.83
 
 ### Patch Changes
