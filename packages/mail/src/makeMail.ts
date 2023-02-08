@@ -23,7 +23,11 @@ export interface MakeMailProps {
  * await Mail.send({ to, subject, email })
  */
 const makeMail = (props: MakeMailProps) => {
-  const { from, mailgenConfig, mailService = MailServiceEnum.SENDGRID } = props
+  const {
+    from: injectedFrom,
+    mailgenConfig,
+    mailService = MailServiceEnum.SENDGRID,
+  } = props
 
   // Configure mailgen by setting a theme and your product info
   const mailgen = new Mailgen({
@@ -35,10 +39,10 @@ const makeMail = (props: MakeMailProps) => {
   })
 
   const Mail = {
-    send: async ({ to, subject, email }) => {
+    send: async ({ to, from, subject, email }) => {
       return Sendgrid.send({
-        from,
         to,
+        from: from || injectedFrom,
         subject,
         html: mailgen.generate(email),
         text: mailgen.generatePlaintext(email),
