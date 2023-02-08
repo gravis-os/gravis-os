@@ -10,6 +10,9 @@ export * from './CardIconButtonRow'
 export { default as CopyLink } from './CopyLink'
 export * from './CopyLink'
 
+export { default as DialogButton } from './DialogButton'
+export * from './DialogButton'
+
 export { default as IconProgressBar } from './IconProgressBar'
 export * from './IconProgressBar'
 

@@ -54,7 +54,9 @@ const useCreateMutation = <
     PostgrestResponse<TData>,
     TVariables
   > = async (nextValues: TVariables) =>
-    supabaseClient.from<TData>(table.name).insert([nextValues])
+    supabaseClient
+      .from<TData>(table.name)
+      .insert(Array.isArray(nextValues) ? nextValues : [nextValues])
 
   const nextOptions: UseMutationOptions<
     PostgrestResponse<TData>,

@@ -44,7 +44,7 @@ const DataTable = React.forwardRef<
 >((props, ref) => {
   const {
     actions,
-    frameworkComponents,
+    components,
     rowData,
     columnDefs: injectedColumnDefs,
     module,
@@ -189,9 +189,9 @@ const DataTable = React.forwardRef<
 
       {/* AgGrid */}
       <AgGrid
-        frameworkComponents={{
+        components={{
           ModelFieldEditor: AgGridModelFieldEditor,
-          ...frameworkComponents,
+          ...components,
         }}
         ref={ref}
         columnDefs={columnDefs}

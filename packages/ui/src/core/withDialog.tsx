@@ -5,7 +5,7 @@ import Dialog, { DialogProps } from './Dialog'
 const withDialog = (props: Omit<DialogProps, 'open'>) => (children) => {
   const { ...rest } = props
 
-  const [isOpen, open, close] = useOpen()
+  const [isOpen, { close }] = useOpen()
 
   return (
     <Dialog open={isOpen} onClose={close} {...rest}>

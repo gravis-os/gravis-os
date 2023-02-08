@@ -3,9 +3,9 @@ import { DateTimePicker, DatePickerProps } from '@mui/x-date-pickers'
 import { SxProps, TextField, TextFieldProps } from '@mui/material'
 
 export interface DateTimeFieldProps
-  extends Omit<DatePickerProps<unknown, Date>, 'renderInput'> {
+  extends Omit<DatePickerProps<Date>, 'renderInput'> {
   textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
-  renderInput?: DatePickerProps<unknown, Date>['renderInput']
+  renderInput?: DatePickerProps<Date>['renderInput']
   sx: SxProps
 }
 

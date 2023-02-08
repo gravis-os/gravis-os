@@ -32,6 +32,7 @@ export interface CrudTableProps {
   disableActions?: boolean
   disableServerSideRowModel?: boolean
   isListPage?: boolean
+  disableUpload?: CrudTableHeaderProps['disableUpload']
 
   previewFormSections?: FormSectionsProps['sections']
   filterFormSections?: FormSectionsProps['sections']
@@ -53,6 +54,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     addModule = module,
     columnDefs: injectedColumnDefs,
     isListPage,
+    disableUpload,
 
     // Data
     setQuery,
@@ -163,6 +165,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       {/* Search + Add Row */}
       <CrudTableHeader
         module={module}
+        disableUpload={disableUpload}
         disableAdd={disableAdd}
         addModule={addModule}
         filters={filters}

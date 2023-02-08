@@ -12,7 +12,7 @@ const withAutoHeight: KeenSliderPlugin = (slider) => {
   const updateHeight = () => {
     const currentSlideIndex = slider.track.details.rel
     const currentSlide = slider.slides[currentSlideIndex]
-    const nextHeight = (currentSlide.firstChild as any).offsetHeight
+    const nextHeight = (currentSlide.firstChild as any)?.offsetHeight
 
     // eslint-disable-next-line no-param-reassign
     slider.container.style.height = `${nextHeight}px`

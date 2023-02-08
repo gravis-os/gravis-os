@@ -4,8 +4,8 @@ import { TextField, TextFieldProps } from '@mui/material'
 
 export interface DateFieldProps
   extends Partial<Omit<TextFieldProps, 'variant' | 'onChange'>> {
-  datePickerProps?: Partial<DatePickerProps<unknown, Date>>
-  onChange: DatePickerProps<unknown, Date>['onChange']
+  datePickerProps?: Partial<DatePickerProps<Date>>
+  onChange: DatePickerProps<Date>['onChange']
 }
 
 const DateField: React.FC<DateFieldProps> = (props) => {

@@ -1,7 +1,15 @@
 import React from 'react'
 import create from 'zustand'
 import { useForm, UseFormReturn } from 'react-hook-form'
-import { Slider, SliderProps, SliderRenderItemProps } from '@gravis-os/ui'
+import {
+  Box,
+  BoxProps,
+  Slider,
+  SliderProps,
+  SliderRenderItemProps,
+  Typography,
+  TypographyProps,
+} from '@gravis-os/ui'
 
 // ==============================
 // State
@@ -36,16 +44,42 @@ export interface TypeformItemRenderProps {
 
 export interface TypeformItemProps {
   key: string
+
+  icon?: React.ReactNode
+  title?: React.ReactNode
+  titleProps?: TypographyProps
+  subtitle?: React.ReactNode
+  subtitleProps?: TypographyProps
+
+  commonProps?: {
+    titleProps?: TypographyProps
+    subtitleProps?: TypographyProps
+  }
+
   render: (renderProps: TypeformItemRenderProps) => React.ReactNode
   onSubmit?: (
     values: TypeformState['values'],
     renderProps: TypeformItemRenderProps
   ) => Promise<void> | void
+
+  containerSx?: BoxProps['sx']
 }
 
 const renderTypeformItem =
   (props: TypeformItemProps) => (sliderProps: SliderRenderItemProps) => {
-    const { render, onSubmit: injectedOnSubmit } = props
+    const {
+      icon,
+      title,
+      titleProps,
+      subtitle,
+      subtitleProps,
+
+      render,
+      onSubmit: injectedOnSubmit,
+
+      commonProps = {},
+      containerSx,
+    } = props
     const { next } = sliderProps
 
     // Form
@@ -78,12 +112,63 @@ const renderTypeformItem =
       next()
     }
 
-    return <form onSubmit={handleSubmit(onSubmit)}>{render(renderProps)}</form>
+    // TODO@Joel: Guard against React.ReactNode. Make a helper for this.
+    return (
+      <Box sx={{ '&, & > form': { width: '100%' }, ...containerSx }}>
+        {/* Icon */}
+        {icon && <Box sx={{ mb: 1 }}>{icon}</Box>}
+
+        {/* Title */}
+        {title && (
+          <Typography
+            variant="h3"
+            gutterBottom
+            {...commonProps.titleProps}
+            {...titleProps}
+          >
+            {title}
+          </Typography>
+        )}
+
+        {/* Subtitle */}
+        {subtitle && (
+          <Typography
+            variant="body1"
+            color="text.secondary"
+            {...commonProps.subtitleProps}
+            {...subtitleProps}
+          >
+            {subtitle}
+          </Typography>
+        )}
+
+        {/* Form */}
+        <Box
+          component="form"
+          onSubmit={handleSubmit(onSubmit)}
+          sx={{
+            ...((title || subtitle) && { mt: 3 }),
+          }}
+        >
+          {render(renderProps)}
+        </Box>
+      </Box>
+    )
   }
 
 export interface TypeformProps {
   items: TypeformItemProps[]
   sliderProps?: Omit<SliderProps, 'items'>
+
+  // Container
+  sx?: BoxProps['sx']
+  height?: string | number
+  minHeight?: string | number
+  center?: boolean
+
+  // Shared title props
+  titleProps?: TypographyProps
+  subtitleProps?: TypographyProps
 }
 
 /**
@@ -92,19 +177,43 @@ export interface TypeformProps {
  * @constructor
  */
 const Typeform: React.FC<TypeformProps> = (props) => {
-  const { items, sliderProps } = props
+  const {
+    items,
+    titleProps,
+    subtitleProps,
+    center,
+    minHeight,
+    height,
+    sx,
+    sliderProps,
+  } = props
 
-  const nextItems = items.map((item) => renderTypeformItem(item))
+  const nextItems = items.map((item) =>
+    renderTypeformItem({
+      ...item,
 
-  return (
-    <Slider
-      items={nextItems}
-      autoHeight
-      disableCenter
-      disableDrag
-      {...sliderProps}
-    />
+      // Common Props
+      commonProps: {
+        titleProps,
+        subtitleProps,
+      },
+
+      // Container of the box
+      containerSx: {
+        height,
+        minHeight,
+        ...(center && {
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+        }),
+        ...sx,
+      },
+    })
   )
+
+  return <Slider items={nextItems} disableDrag {...sliderProps} />
 }
 
 export default Typeform

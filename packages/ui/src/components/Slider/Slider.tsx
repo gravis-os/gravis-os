@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   KeenSliderOptions,
   KeenSliderPlugin,
@@ -34,6 +34,7 @@ export interface SliderProps extends BoxProps {
   autoHeight?: boolean
   autoplay?: boolean
   scroll?: boolean
+  lazy?: boolean
   loop?: boolean
   thumbnails?: boolean
   arrows?: boolean
@@ -55,6 +56,7 @@ const Slider: React.FC<SliderProps> = (props) => {
     disableDrag,
     disableCenter,
     autoplay,
+    lazy,
     loop,
     scroll,
     autoHeight,
@@ -67,6 +69,7 @@ const Slider: React.FC<SliderProps> = (props) => {
 
   // Main Ref
   const [currentSlide, setCurrentSlide] = useState<number>(0)
+  const [lazyLoaded, setLazyLoaded] = useState<boolean[]>([])
   const [loaded, setLoaded] = useState(false)
   const [ref, instanceRef] = useKeenSlider<HTMLDivElement>(
     // Options
@@ -78,6 +81,7 @@ const Slider: React.FC<SliderProps> = (props) => {
       created() {
         setLoaded(true)
       },
+      ...(lazy && { initial: 0 }),
       ...(disableDrag && { drag: false }),
       ...injectedOptions,
     },
@@ -89,6 +93,13 @@ const Slider: React.FC<SliderProps> = (props) => {
       ...injectedPlugins,
     ].filter(Boolean)
   )
+
+  // Lazy loaded
+  useEffect(() => {
+    const nextLazyLoaded = [...lazyLoaded]
+    nextLazyLoaded[currentSlide] = true
+    setLazyLoaded(nextLazyLoaded)
+  }, [currentSlide])
 
   // Thumbnails Ref
   const [thumbnailsRef] = useKeenSlider<HTMLDivElement>(
@@ -174,8 +185,9 @@ const Slider: React.FC<SliderProps> = (props) => {
         {/* Main Slider */}
         <Box ref={ref} className="keen-slider" sx={sx} {...rest}>
           {items.map((item, i) => {
-            return (
-              <Box key={`item-slide-${i}`} {...commonItemProps}>
+            // Render itemJsx
+            const itemJsx = (
+              <>
                 {typeof item === 'function'
                   ? item({
                       prev: instanceRef.current?.prev,
@@ -185,6 +197,12 @@ const Slider: React.FC<SliderProps> = (props) => {
                         instanceRef.current?.moveToIdx?.(index),
                     })
                   : item}
+              </>
+            )
+
+            return (
+              <Box key={`item-slide-${i}`} {...commonItemProps}>
+                {lazy ? lazyLoaded[i] && itemJsx : itemJsx}
               </Box>
             )
           })}

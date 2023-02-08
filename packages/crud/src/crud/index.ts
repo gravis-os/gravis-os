@@ -7,6 +7,9 @@ export * from './CrudTable'
 export { default as CrudTableHeader } from './CrudTableHeader'
 export * from './CrudTableHeader'
 
+export { default as CrudUploadDialog } from './CrudUploadDialog'
+export * from './CrudUploadDialog'
+
 export { default as CrudTableActionsColumnCellRenderer } from './CrudTableActionsColumnCellRenderer'
 export * from './CrudTableActionsColumnCellRenderer'
 
