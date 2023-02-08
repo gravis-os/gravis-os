@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.75
+
+### Patch Changes
+
+- [`3ab02ae`](https://github.com/gravis-os/gravis-os/commit/3ab02ae06eea3dead1e5040407578800d5fe0803) Thanks [@clodal](https://github.com/clodal)! - Add CrudUploadDialog
+
+- Updated dependencies [[`3ab02ae`](https://github.com/gravis-os/gravis-os/commit/3ab02ae06eea3dead1e5040407578800d5fe0803)]:
+  - @gravis-os/ui@0.0.85
+
 ## 0.0.74
 
 ### Patch Changes
