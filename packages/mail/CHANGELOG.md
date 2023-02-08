@@ -1,5 +1,11 @@
 # @gravis-os/mail
 
+## 0.0.3
+
+### Patch Changes
+
+- [`b9a4756`](https://github.com/gravis-os/gravis-os/commit/b9a4756061e29cfad877992dfeec916117737253) Thanks [@clodal](https://github.com/clodal)! - Fix typing in mail to make from optional
+
 ## 0.0.2
 
 ### Patch Changes
