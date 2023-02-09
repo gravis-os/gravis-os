@@ -16,14 +16,14 @@ export interface TabsCardProps extends CardProps {
   hasTabs: boolean
   items: TabsCardItem[]
   tabsProps?: TabsProps
-  tabContentProps?: Record<string, unknown> // RenderProps
+  renderProps?: Record<string, unknown> // RenderProps
 }
 
 const TabsCard: React.FC<TabsCardProps> = (props) => {
   const {
     currentTab,
     disableGutterBottom,
-    tabContentProps,
+    renderProps,
     items,
     handleTabsChange,
     tabsProps,
@@ -62,8 +62,8 @@ const TabsCard: React.FC<TabsCardProps> = (props) => {
             typeof hidden === 'function' || typeof hidden === 'boolean'
           if (hasHidden) {
             const shouldHide =
-              typeof hidden === 'function' && tabContentProps
-                ? hidden(tabContentProps)
+              typeof hidden === 'function' && renderProps
+                ? hidden(renderProps)
                 : hidden
             if (shouldHide) return
           }

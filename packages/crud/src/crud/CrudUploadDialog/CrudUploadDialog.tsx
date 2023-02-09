@@ -27,7 +27,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
   const [open, { setIsOpen, close }] = useOpen(false)
 
-  const { handleDownload, isDownloaded, tableColumnNames } =
+  const { handleDownload, isDownloaded, resetIsDownloaded, tableColumnNames } =
     useDownloadTableDefinitionCsvFile({ module })
 
   const { createMutation } = useCreateMutation({
@@ -40,6 +40,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
     <DialogButton
       open={open}
       setOpen={setIsOpen}
+      onClose={resetIsDownloaded}
       title={`Upload ${module.name.plural}`}
       variant="callout"
       startIcon={<FileUploadOutlinedIcon />}

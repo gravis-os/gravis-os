@@ -258,6 +258,7 @@ const ListItem: React.FC<ListItemProps> = (props) => {
         ...titleProps,
         sx: {
           ...(hasAdvancedStyles && { color: advancedStyles.titleColor }),
+          '&&&': { fontWeight: 'medium' },
           ...titleProps?.sx,
         },
       },

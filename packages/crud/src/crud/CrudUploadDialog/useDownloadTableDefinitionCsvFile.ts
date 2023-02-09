@@ -9,6 +9,7 @@ const useDownloadTableDefinitionCsvFile = (props: { module: CrudModule }) => {
   const { module } = props
 
   // Get table names for downloading the color
+  const [isDownloaded, setIsDownloaded] = useState(false)
   const [shouldDownload, setShouldDownload] = useState(false)
 
   // Fetch table definitions from database when handleDownload in the return is fired
@@ -27,6 +28,7 @@ const useDownloadTableDefinitionCsvFile = (props: { module: CrudModule }) => {
         `${module.table.name}_upload_template_${timestamp}.csv`
       )
       setShouldDownload(false)
+      setIsDownloaded(true)
     }
   }, [tableDefinition, shouldDownload])
 
@@ -34,7 +36,8 @@ const useDownloadTableDefinitionCsvFile = (props: { module: CrudModule }) => {
     handleDownload: () => setShouldDownload(true),
     tableDefinition,
     tableColumnNames,
-    isDownloaded: Boolean(tableDefinition),
+    isDownloaded,
+    resetIsDownloaded: () => setIsDownloaded(false),
   }
 }
 

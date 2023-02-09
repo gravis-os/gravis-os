@@ -3,36 +3,29 @@ import Card, { CardProps } from '../Card'
 import TabsBase, { TabsBaseProps } from './TabsBase'
 import Tab, { TabProps } from './Tab'
 
-export interface TabItem extends Omit<TabProps, 'children' | 'hidden'> {
-  children?: React.ReactNode
-  render?: ({ item }: any) => React.ReactElement
-  hidden?: boolean | (({ item }: any) => boolean)
-}
-
 export interface TabsProps extends TabsBaseProps {
   currentTab?: string
-  disableGutterBottom?: boolean
   disableCard?: boolean
   handleTabsChange?: (e, value: string) => void
   hasTabs?: boolean
-  items?: TabItem[]
+  items?: TabProps[]
   tabsProps?: TabsBaseProps
   cardProps?: CardProps
-  tabContentProps?: Record<string, unknown> // RenderProps
   children?: React.ReactNode
+  renderProps?: Record<string, unknown>
 }
 
 const Tabs: React.FC<TabsProps> = (props) => {
   const {
     currentTab,
-    disableGutterBottom,
     disableCard,
-    tabContentProps,
     items,
+    renderProps,
     handleTabsChange,
     tabsProps,
     cardProps,
     children,
+    sx,
     ...rest
   } = props
 
@@ -46,24 +39,20 @@ const Tabs: React.FC<TabsProps> = (props) => {
       value={currentTab}
       variant="scrollable"
       {...tabsProps}
+      sx={{
+        '& .MuiTab-root:hover': { color: 'primary.main' },
+        ...sx,
+      }}
       {...rest}
     >
       {children ||
-        items?.map((tab) => {
-          const { hidden } = tab
-
-          // Hidden
-          const hasHidden =
-            typeof hidden === 'function' || typeof hidden === 'boolean'
-          if (hasHidden) {
-            const shouldHide =
-              typeof hidden === 'function' && tabContentProps
-                ? hidden(tabContentProps)
-                : hidden
-            if (shouldHide) return
-          }
-
-          return <Tab key={tab.value} label={tab.label} value={tab.value} />
+        items?.map((item) => {
+          const { hidden } = props
+          const nextHidden =
+            typeof hidden === 'function' && renderProps
+              ? (hidden as any)(renderProps)
+              : hidden
+          return <Tab key={item.value} hidden={nextHidden} {...item} />
         })}
     </TabsBase>
   )

@@ -1,8 +1,9 @@
 import React, { useState } from 'react'
-import { TabItem, TabsProps } from './Tabs'
+import { TabsProps } from './Tabs'
+import { TabProps } from './Tab'
 
 export interface UseTabsProps {
-  tabs: TabItem[]
+  tabs: TabProps[]
 }
 export interface UseTabsReturn {
   currentTab?: TabsProps['currentTab']

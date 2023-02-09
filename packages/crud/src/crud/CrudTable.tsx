@@ -17,6 +17,9 @@ import CrudPreviewDrawer from './CrudPreviewDrawer'
 import { CrudTableColumnDef } from '../types'
 import useCrud from './useCrud'
 import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
+import CrudTableFilterTabs, {
+  CrudTableFilterTabsProps,
+} from './CrudTableFilterTabs'
 
 export interface CrudTableProps {
   module: CrudModule
@@ -33,6 +36,9 @@ export interface CrudTableProps {
   disableServerSideRowModel?: boolean
   isListPage?: boolean
   disableUpload?: CrudTableHeaderProps['disableUpload']
+
+  filterTabs?: CrudTableFilterTabsProps['items']
+  filterTabsProps?: CrudTableFilterTabsProps
 
   previewFormSections?: FormSectionsProps['sections']
   filterFormSections?: FormSectionsProps['sections']
@@ -68,6 +74,10 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     disableActions,
     disableServerSideRowModel,
 
+    // Tabs
+    filterTabs = [],
+    filterTabsProps,
+
     // Form Sections
     previewFormSections: injectedPreviewFormSections = [],
     filterFormSections = [],
@@ -75,7 +85,6 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     addFormSections = [],
 
     // Props
-    actions,
     headerProps,
     previewFormProps,
     addFormProps,
@@ -179,8 +188,11 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
           ...headerProps?.addDialogProps,
         }}
       />
-      {/* Additional actions (eg. tabs, etc. ) */}
-      {actions}
+
+      {/* Filter Tabs */}
+      {Boolean(filterTabs?.length) && (
+        <CrudTableFilterTabs items={filterTabs} {...filterTabsProps} />
+      )}
 
       {/* DataTable + Toolbar Row */}
       <DataTable

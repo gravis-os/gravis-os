@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import Button, { ButtonProps } from '../core/Button'
 import Dialog, { DialogProps } from '../core/Dialog'
 import useOpen from '../hooks/useOpen'
@@ -9,6 +9,7 @@ export interface DialogButtonProps extends Omit<ButtonProps, 'title'> {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>
   title?: ButtonProps['children']
   dialogProps?: Omit<DialogProps, 'open'>
+  onClose?: () => void
 }
 
 const DialogButton: React.FC<DialogButtonProps> = (props) => {
@@ -17,6 +18,7 @@ const DialogButton: React.FC<DialogButtonProps> = (props) => {
     title,
     open: injectedOpen = false,
     setOpen: injectedSetOpen,
+    onClose: injectedOnClose,
     dialogProps,
     ...rest
   } = props
@@ -30,7 +32,14 @@ const DialogButton: React.FC<DialogButtonProps> = (props) => {
         {title}
       </Button>
 
-      <Dialog open={injectedOpen || isOpen} onClose={close} {...dialogProps}>
+      <Dialog
+        open={injectedOpen || isOpen}
+        onClose={() => {
+          close()
+          injectedOnClose?.()
+        }}
+        {...dialogProps}
+      >
         {children}
       </Dialog>
     </>

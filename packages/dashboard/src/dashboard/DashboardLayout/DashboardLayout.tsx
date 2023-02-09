@@ -39,6 +39,7 @@ export interface DashboardLayoutProps {
   disablePadding?: boolean
   disableGutters?: boolean
   disableResponsiveCollapse?: boolean
+  disableLeftAsideToggleButton?: boolean
 
   // Minivariant
   isMiniVariant?: boolean
@@ -97,6 +98,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     miniVariantWidth: injectedMiniVariantWidth,
     disableClipUnderAppBar,
     disableResponsiveCollapse,
+    disableLeftAsideToggleButton,
 
     // Header
     showHeaderLeftMenuToggle = false,
@@ -386,7 +388,9 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
         {/* Primary Left Aside */}
         <ResponsiveDrawer
-          showToggleButton={hasPrimaryLeftAsideListItems}
+          showToggleButton={
+            !disableLeftAsideToggleButton && hasPrimaryLeftAsideListItems
+          }
           {...leftAsideDrawerProps}
           dark={darkLeftAside}
           width={

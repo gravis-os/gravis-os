@@ -4,6 +4,9 @@ export * from './CrudForm'
 export { default as CrudTable } from './CrudTable'
 export * from './CrudTable'
 
+export { default as CrudTableFilterTabs } from './CrudTableFilterTabs'
+export * from './CrudTableFilterTabs'
+
 export { default as CrudTableHeader } from './CrudTableHeader'
 export * from './CrudTableHeader'
 

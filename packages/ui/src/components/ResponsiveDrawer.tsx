@@ -1,6 +1,5 @@
 import React from 'react'
 import type { SvgIconProps, Theme } from '@mui/material'
-
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import { ThemeProvider } from '@mui/material/styles'
@@ -62,7 +61,14 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
   } = props
 
   const childrenJSX = (
-    <>
+    <Box
+      sx={{
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'space-between',
+      }}
+    >
       {children}
 
       {/* Toggle Button */}
@@ -75,7 +81,7 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
           {toggleButtonProps?.children || <ChevronLeftIcon />}
         </Button>
       )}
-    </>
+    </Box>
   )
 
   const commonDrawerProps = {

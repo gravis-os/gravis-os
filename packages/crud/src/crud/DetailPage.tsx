@@ -120,11 +120,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
               )}
 
               {/* Tabs */}
-              <Tabs
-                tabContentProps={renderProps}
-                {...onUseTabs}
-                {...tabsProps}
-              />
+              <Tabs renderProps={renderProps} {...onUseTabs} {...tabsProps} />
             </>
           )}
         </>
@@ -135,7 +131,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
         <TabContent
           currentTab={currentTab}
           items={tabs}
-          tabContentProps={renderProps}
+          renderProps={renderProps}
         />
       ) : (
         childrenJsx
