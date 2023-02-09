@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.86
+
+### Patch Changes
+
+- [`2c6bc45`](https://github.com/gravis-os/gravis-os/commit/2c6bc45131432523d056fabc5d30d7ebfb4b675f) Thanks [@clodal](https://github.com/clodal)! - Add CrudTableFilterTabs"
+
 ## 0.0.85
 
 ### Patch Changes
