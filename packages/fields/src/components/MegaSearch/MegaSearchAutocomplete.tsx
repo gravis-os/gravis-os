@@ -5,6 +5,7 @@ import {
   IconProps,
   InputAdornment,
   TextField,
+  TextFieldProps,
 } from '@mui/material'
 import React from 'react'
 import { SxProps } from '@mui/system'
@@ -22,6 +23,7 @@ export interface MegaSearchAutocompleteProps {
   Icon?: React.JSXElementConstructor<IconProps>
   sx?: SxProps
   autocompleteProps?: Partial<AutocompleteProps<any, any, any, any>>
+  textFieldProps?: Partial<TextFieldProps>
   label: string
   placeholder: string
   title?: React.ReactNode
@@ -40,6 +42,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
     Icon,
     sx,
     autocompleteProps,
+    textFieldProps,
     onChange,
     value,
     TextFieldElement = TextField,
@@ -129,6 +132,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
             ...textFieldSx,
           }}
           {...rest}
+          {...textFieldProps}
         />
       )}
       {...autocompleteProps}
