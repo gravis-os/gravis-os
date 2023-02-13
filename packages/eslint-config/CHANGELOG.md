@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.0.14
+
+### Patch Changes
+
+- [`3ad2548`](https://github.com/gravis-os/gravis-os/commit/3ad25484aa12d3992ba5ddfe2b6f7593ea66a39a) Thanks [@clodal](https://github.com/clodal)! - Update Crud and UI components to expose props
+
 ## 0.0.13
 
 ### Patch Changes

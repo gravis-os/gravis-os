@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 0.0.10
+
+### Patch Changes
+
+- [#155](https://github.com/gravis-os/gravis-os/pull/155) [`2e5862c`](https://github.com/gravis-os/gravis-os/commit/2e5862c33fbb462742a27ccee44e80fe88b1b432) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add textFieldProps to MegaSearchAutocomplete
+
 ## 0.0.9
 
 ### Patch Changes

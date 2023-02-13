@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.77
+
+### Patch Changes
+
+- [`3ad2548`](https://github.com/gravis-os/gravis-os/commit/3ad25484aa12d3992ba5ddfe2b6f7593ea66a39a) Thanks [@clodal](https://github.com/clodal)! - Update Crud and UI components to expose props
+
+- Updated dependencies [[`3ad2548`](https://github.com/gravis-os/gravis-os/commit/3ad25484aa12d3992ba5ddfe2b6f7593ea66a39a)]:
+  - @gravis-os/ui@0.0.87
+
 ## 0.0.76
 
 ### Patch Changes
