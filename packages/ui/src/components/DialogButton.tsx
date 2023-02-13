@@ -9,6 +9,7 @@ export interface DialogButtonProps extends Omit<ButtonProps, 'title'> {
   setOpen?: React.Dispatch<React.SetStateAction<boolean>>
   title?: ButtonProps['children']
   dialogProps?: Omit<DialogProps, 'open'>
+  dialogTitle?: DialogProps['title']
   onClose?: () => void
 }
 
@@ -19,12 +20,18 @@ const DialogButton: React.FC<DialogButtonProps> = (props) => {
     open: injectedOpen = false,
     setOpen: injectedSetOpen,
     onClose: injectedOnClose,
-    dialogProps,
+    dialogTitle,
+    dialogProps: injectedDialogProps,
     ...rest
   } = props
 
   // State
   const [isOpen, { open, close }] = useOpen(injectedOpen, injectedSetOpen)
+
+  const dialogProps = {
+    ...(dialogTitle && { title: dialogTitle }),
+    ...injectedDialogProps,
+  }
 
   return (
     <>

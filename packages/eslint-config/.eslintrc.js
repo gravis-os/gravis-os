@@ -38,6 +38,7 @@ module.exports = {
     'no-case-declarations': 0,
     'no-use-before-define': 0,
     'no-nested-ternary': 1,
+    'no-useless-return': 0,
     camelcase: 0,
     'consistent-return': 1,
     // prettier

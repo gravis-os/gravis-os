@@ -25,6 +25,8 @@ import CrudUploadDialog from './CrudUploadDialog/CrudUploadDialog'
 import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 
 export interface CrudTableHeaderProps {
+  actions?: React.ReactNode | React.ReactNode[]
+  actionButtons?: ButtonProps[]
   module: CrudModule
   disableAdd?: boolean
   disableChips?: boolean
@@ -44,6 +46,8 @@ export interface CrudTableHeaderProps {
 
 const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const {
+    actions,
+    actionButtons,
     filters,
     setFilters,
     module,
@@ -164,6 +168,12 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           spacing={1}
           sx={{ width: { xs: 'inherit', md: 'fit-content' } }}
         >
+          {actions}
+
+          {actionButtons?.map((actionButton) => (
+            <Button key={actionButton.key} {...actionButton} />
+          ))}
+
           {/* Filter Button */}
           {hasFilterFormSections && (
             <Stack
