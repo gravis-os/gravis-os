@@ -49,6 +49,9 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
     ...rest
   } = props
 
+  const { InputProps: TextFieldInputProps, ...textFieldPropsRest } =
+    textFieldProps ?? {}
+
   const iconSpacing = Icon ? 4 : 0
   const textFieldSx = {
     // Icon
@@ -80,7 +83,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
     // Text Input Wrapper
     '&& .MuiInput-root': {
       paddingLeft: paddingXInAutocomplete,
-      paddingRight: paddingXInAutocomplete + 4,
+      paddingRight: paddingXInAutocomplete,
       marginTop: marginTopInAutocomplete,
       // Caret
       '& .MuiAutocomplete-endAdornment': {
@@ -111,6 +114,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
         <TextFieldElement
           {...params}
           InputProps={{
+            ...TextFieldInputProps,
             ...params.InputProps,
             ...(Icon && {
               startAdornment: (
@@ -132,7 +136,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
             ...textFieldSx,
           }}
           {...rest}
-          {...textFieldProps}
+          {...textFieldPropsRest}
         />
       )}
       {...autocompleteProps}
