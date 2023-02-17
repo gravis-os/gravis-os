@@ -9,6 +9,7 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { SxProps } from '@mui/system'
+import { omit } from 'lodash'
 
 // Constants
 const marginBetweenAutocompleteIconAndText = 1
@@ -48,9 +49,6 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
     TextFieldElement = TextField,
     ...rest
   } = props
-
-  const { InputProps: TextFieldInputProps, ...textFieldPropsRest } =
-    textFieldProps ?? {}
 
   const iconSpacing = Icon ? 4 : 0
   const textFieldSx = {
@@ -114,7 +112,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
         <TextFieldElement
           {...params}
           InputProps={{
-            ...TextFieldInputProps,
+            ...textFieldProps?.InputProps,
             ...params.InputProps,
             ...(Icon && {
               startAdornment: (
@@ -136,7 +134,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
             ...textFieldSx,
           }}
           {...rest}
-          {...textFieldPropsRest}
+          {...omit(textFieldProps, ['InputProps'])}
         />
       )}
       {...autocompleteProps}
