@@ -30,8 +30,8 @@ const select_file_svg = (
   <svg
     id="72abf1fc-af5c-4a12-adab-83afeedac95e"
     xmlns="http://www.w3.org/2000/svg"
-    width="728"
-    height="796.38"
+    width="100"
+    height="100"
     viewBox="0 0 728 796.38"
   >
     <defs>
