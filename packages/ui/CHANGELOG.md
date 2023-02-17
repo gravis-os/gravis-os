@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.88
+
+### Patch Changes
+
+- [#159](https://github.com/gravis-os/gravis-os/pull/159) [`2d8565e`](https://github.com/gravis-os/gravis-os/commit/2d8565ee9dcc358ad36250fc726e07922179b249) Thanks [@ericcleeee](https://github.com/ericcleeee)! - fix/create new props field for cardprops
+
 ## 0.0.87
 
 ### Patch Changes

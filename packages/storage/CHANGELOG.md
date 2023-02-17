@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.33
+
+### Patch Changes
+
+- [#158](https://github.com/gravis-os/gravis-os/pull/158) [`03c22ca`](https://github.com/gravis-os/gravis-os/commit/03c22ca072b3f7ee4f256ead442a4c206bba822e) Thanks [@al1xt](https://github.com/al1xt)! - updat size of svg in StorageFiles
+
+- Updated dependencies [[`2d8565e`](https://github.com/gravis-os/gravis-os/commit/2d8565ee9dcc358ad36250fc726e07922179b249)]:
+  - @gravis-os/ui@0.0.88
+
 ## 0.0.32
 
 ### Patch Changes
