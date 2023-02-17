@@ -3,15 +3,16 @@ import MuiPopover, {
   PopoverProps as MuiPopoverProps,
 } from '@mui/material/Popover'
 import PopupState, { bindTrigger, bindPopover } from 'material-ui-popup-state'
-import Card from './Card'
+import Card, { CardProps } from './Card'
 
 export interface PopoverProps extends MuiPopoverProps {
   key: string // popupId
   trigger: React.ReactNode
+  cardProps?: CardProps
 }
 
 const Popover: React.FC<PopoverProps> = (props) => {
-  const { key, children, trigger } = props
+  const { key, children, trigger, cardProps } = props
 
   return (
     <PopupState variant="popover" popupId={key}>
@@ -30,7 +31,7 @@ const Popover: React.FC<PopoverProps> = (props) => {
               horizontal: 'center',
             }}
           >
-            <Card>{children}</Card>
+            <Card {...cardProps}>{children}</Card>
           </MuiPopover>
         </div>
       )}
