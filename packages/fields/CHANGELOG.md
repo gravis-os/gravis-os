@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 0.0.11
+
+### Patch Changes
+
+- [#157](https://github.com/gravis-os/gravis-os/pull/157) [`d4e6181`](https://github.com/gravis-os/gravis-os/commit/d4e61814d889b954fb2e0dc4875595a6ea2f36f0) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Fix/Modified styling of Autocorrect and spread textFieldProps correctly
+
 ## 0.0.10
 
 ### Patch Changes
