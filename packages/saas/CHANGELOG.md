@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.32
+
+### Patch Changes
+
+- [`5644ba9`](https://github.com/gravis-os/gravis-os/commit/5644ba9536b5eee01c8dde0b4922c385f8c312d0) Thanks [@clodal](https://github.com/clodal)! - Add subdomainOverride to SaaSRouterMiddleware
+
+- Updated dependencies [[`5644ba9`](https://github.com/gravis-os/gravis-os/commit/5644ba9536b5eee01c8dde0b4922c385f8c312d0)]:
+  - @gravis-os/middleware@0.0.19
+
 ## 0.0.31
 
 ### Patch Changes
