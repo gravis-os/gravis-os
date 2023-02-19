@@ -1,12 +1,19 @@
 import { NextRequest } from 'next/server'
 import fetchWorkspaceByCustomDomainFromMiddleware from '../supabase/fetchWorkspaceByCustomDomainFromMiddleware'
 
+export interface GetMiddlewareRouteBreakdownOptions {
+  subdomainOverride?: string
+}
+
 /**
  * getMiddlewareRouteBreakdown
  *
  * Breakdown routes into usable parts for consumption within a NextJS Middleware
  */
-const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
+const getMiddlewareRouteBreakdown = async (
+  req: NextRequest,
+  options: GetMiddlewareRouteBreakdownOptions = { subdomainOverride: '' }
+) => {
   const url = req.nextUrl.clone()
   const { pathname, locale } = url || {}
 
@@ -38,12 +45,15 @@ const getMiddlewareRouteBreakdown = async (req: NextRequest) => {
    * in this case, our team slug is "platformize", thus *.platformize.vercel.app works. Do note that you'll
    * still need to add "*.platformize.vercel.app" as a wildcard domain on your Vercel dashboard.
    */
-  const currentHost = isVercelProduction
-    ? customDomainWorkspace?.slug || hostname.replace(`.${nakedDomain}`, '')
-    : hostname.replace(`.localhost:3000`, '')
+  const currentHost =
+    options.subdomainOverride ||
+    (isVercelProduction
+      ? customDomainWorkspace?.slug || hostname.replace(`.${nakedDomain}`, '')
+      : hostname.replace(`.localhost:3000`, ''))
 
   const subdomain =
-    customDomainWorkspace?.slug || currentHost !== hostname ? currentHost : '' // e.g. merrymaker
+    options.subdomainOverride ||
+    (customDomainWorkspace?.slug || currentHost !== hostname ? currentHost : '') // e.g. merrymaker
   const workspacesPathnamePrefix = `/_workspaces/${currentHost}` // e.g. '/_workspaces/evfy'
 
   const isApiRoute = pathname.startsWith('/api')

@@ -58,6 +58,7 @@ export interface HeaderProps extends AppBarProps {
   center?: boolean
   disableScrollTrigger?: boolean
   disableSticky?: boolean
+  disableRightDrawer?: boolean
   announcements?: Array<{ title: string }>
   height?: number
 }
@@ -74,6 +75,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     center,
     disableScrollTrigger,
     disableSticky,
+    disableRightDrawer,
     navItems,
     announcements,
     renderProps,
@@ -371,43 +373,47 @@ const Header: React.FC<HeaderProps> = (props) => {
           </Box>
 
           {/* Hamburger menu */}
-          <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
-            <IconButton
-              edge="end"
-              color="inherit"
-              aria-label="menu"
-              onClick={openDrawer}
-            >
-              <MenuIcon />
-            </IconButton>
-          </Box>
+          {!disableRightDrawer && (
+            <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
+              <IconButton
+                edge="end"
+                color="inherit"
+                aria-label="menu"
+                onClick={openDrawer}
+              >
+                <MenuIcon />
+              </IconButton>
+            </Box>
+          )}
         </Toolbar>
       </Container>
 
       {/* Mobile navItems */}
-      <SwipeableDrawer
-        anchor="right"
-        open={isDrawerOpen}
-        onOpen={openDrawer}
-        onClose={closeDrawer}
-      >
-        <Box
-          width={320}
-          role="presentation"
-          onKeyDown={(e) => {
-            if (e.key === 'Escape') return closeDrawer()
-          }}
+      {!disableRightDrawer && (
+        <SwipeableDrawer
+          anchor="right"
+          open={isDrawerOpen}
+          onOpen={openDrawer}
+          onClose={closeDrawer}
         >
-          <Box textAlign="right">
-            <IconButton color="inherit" onClick={closeDrawer}>
-              <CloseOutlinedIcon />
-            </IconButton>
+          <Box
+            width={320}
+            role="presentation"
+            onKeyDown={(e) => {
+              if (e.key === 'Escape') return closeDrawer()
+            }}
+          >
+            <Box textAlign="right">
+              <IconButton color="inherit" onClick={closeDrawer}>
+                <CloseOutlinedIcon />
+              </IconButton>
+            </Box>
+            <List dense sx={{ py: 0 }}>
+              {renderMobileNavItems(navItems)}
+            </List>
           </Box>
-          <List dense sx={{ py: 0 }}>
-            {renderMobileNavItems(navItems)}
-          </List>
-        </Box>
-      </SwipeableDrawer>
+        </SwipeableDrawer>
+      )}
     </AppBar>
   )
 

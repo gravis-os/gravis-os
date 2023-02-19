@@ -3,6 +3,7 @@ import { withMiddlewareAuth } from '@supabase/auth-helpers-nextjs/dist/middlewar
 import {
   fetchDbUserFromMiddleware,
   getMiddlewareRouteBreakdown,
+  GetMiddlewareRouteBreakdownOptions,
 } from '@gravis-os/middleware'
 import { isPathMatch } from '@gravis-os/utils'
 import getIsPermittedInSaaSMiddleware, {
@@ -24,6 +25,7 @@ export interface SaasRouterMiddlewareProps {
   guestPaths?: GetIsPermittedInSaaSMiddlewareProps['guestPaths']
   validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
   reservedSubdomains?: string[]
+  subdomainOverride?: GetMiddlewareRouteBreakdownOptions['subdomainOverride']
 }
 
 /**
@@ -47,6 +49,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     guestPaths = [],
     validRoles = [],
     reservedSubdomains: injectedReservedSubdomains = [],
+    subdomainOverride,
   } = props
 
   return async (req: NextRequest, event: NextFetchEvent) => {
@@ -65,7 +68,10 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       return
     }
 
-    const middlewareRouteBreakdown = await getMiddlewareRouteBreakdown(req)
+    const middlewareRouteBreakdown = await getMiddlewareRouteBreakdown(req, {
+      subdomainOverride,
+    })
+
     const {
       url,
       pathname,
