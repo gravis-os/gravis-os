@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.22
+
+### Patch Changes
+
+- [`d5fd210`](https://github.com/gravis-os/gravis-os/commit/d5fd210d68b3e17baa67dce12d25b9328c73470d) Thanks [@clodal](https://github.com/clodal)! - Fix issue with useList firing unwanted calls in the count query
+
 ## 0.0.21
 
 ### Patch Changes
