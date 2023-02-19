@@ -424,9 +424,12 @@ const useList = (props: UseListProps): UseListReturn => {
       ...nextProps,
       pagination: { ...nextProps.pagination, countOnly: true },
     }),
-    { enabled: Boolean(isInfinitePagination || !disablePagination) }
+    {
+      enabled: Boolean(isInfinitePagination || !disablePagination),
+      ...queryOptions,
+    }
   )
-  const countFromCountQuery = countQuery?.data?.count
+  const countFromCountQuery = (countQuery?.data as any)?.count
 
   // Switch between useQuery and useInfiniteQuery
   const useQueryFn = isInfinitePagination ? useInfiniteQuery : useQuery
