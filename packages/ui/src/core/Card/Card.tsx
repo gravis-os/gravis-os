@@ -64,6 +64,7 @@ export interface CardProps extends Omit<MuiCardProps, 'title'> {
   stretch?: boolean
 
   // Styles
+  hover?: boolean
   border?: boolean
   borderHoverColor?: string
 
@@ -108,6 +109,7 @@ const Card: React.FC<CardProps> = (props) => {
     icon,
     header,
     href,
+    hover,
     list,
     table,
     links,
@@ -129,6 +131,7 @@ const Card: React.FC<CardProps> = (props) => {
     disableBackgroundColor,
     ...rest
   } = props
+  const { onClick } = rest
 
   // Size
   const isSmall = size === 'small'
@@ -289,6 +292,14 @@ const Card: React.FC<CardProps> = (props) => {
       // Background Color
       ...(disableBackgroundColor && {
         '&, & .MuiPaper-root': { backgroundColor: 'transparent' },
+      }),
+
+      // Hover
+      ...((onClick || hover) && {
+        '&:hover': {
+          cursor: 'pointer',
+          borderColor: getPaletteColor(borderHoverColor),
+        },
       }),
 
       ...sx,

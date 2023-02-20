@@ -251,6 +251,7 @@ export const getUseListFilters = (props: UseListProps): UseListFilters => {
       gte: null,
       lte: null,
       not: null,
+      contains: null,
       ...props,
     }),
     [
@@ -266,6 +267,7 @@ export const getUseListFilters = (props: UseListProps): UseListFilters => {
       'lte',
       'select',
       'not',
+      'contains',
     ]
   ) as UseListFilters
 }
@@ -306,6 +308,7 @@ export const getFetchListQueryFn = (props: UseListProps) => {
       lte,
       not,
       select,
+      contains,
     } = listFilters
 
     // @note: The order of the filters below matter.
@@ -339,7 +342,9 @@ export const getFetchListQueryFn = (props: UseListProps) => {
     if (lt) query.lt(lt[0], lt[1])
     if (gte) query.gte(gte[0], gte[1])
     if (lte) query.lte(lte[0], lte[1])
-    // { not: ['avatar_src', 'is', null] }
+    if (contains) query.contains(contains[0], contains[1])
+
+    // @example { not: ['avatar_src', 'is', null] }
     if (not) {
       query.not(not[0], not[1] as SupabasePostgrestFilterOperator, not[2])
     }

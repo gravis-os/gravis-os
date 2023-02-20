@@ -33,11 +33,19 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
   }, [injectedFilePath, value])
 
   const fetchStorageObject = async (path) => {
-    const { data, error } = await client.storage.from(bucketName).download(path)
-    if (error || !data) throw error
-    const objectUrl = URL.createObjectURL(data)
+    if (!path) return
+
+    // Escape the first `public/` in the path
+    const pathWithoutPublicPrefix = path.split('public/')[1]
+
+    const { publicURL: objectUrl, error } = client.storage
+      .from(bucketName)
+      .getPublicUrl(pathWithoutPublicPrefix)
+
+    if (error || !objectUrl) throw error
     if (objectUrl) setObjectUrl(objectUrl)
-    return data
+
+    return objectUrl
   }
 
   // Download image when src exists

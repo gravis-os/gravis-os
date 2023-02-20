@@ -5,7 +5,7 @@ import MegaSearchAutocomplete, {
   MegaSearchAutocompleteProps,
 } from './MegaSearchAutocomplete'
 
-export interface MegaSearchProps extends StackProps {
+export interface MegaSearchProps extends Omit<StackProps, 'onChange'> {
   buttonProps?: ButtonProps
   dropdowns?: MegaSearchAutocompleteProps[]
   disableButton?: boolean
@@ -25,37 +25,37 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
       {dropdowns.map((dropdown) => {
         const { control, onChange: injectedOnChange, ...rest } = dropdown
         const { name } = dropdown
-        const dropdownJsx = (
-          <MegaSearchAutocomplete
-            key={name}
-            onChange={injectedOnChange}
-            {...rest}
-          />
-        )
 
-        if (control) {
+        if (!control) {
           return (
-            <Controller
-              name={name}
-              control={control}
-              render={({ field }) => {
-                return (
-                  <MegaSearchAutocomplete
-                    key={name}
-                    {...rest}
-                    {...field}
-                    onChange={(value) => {
-                      if (injectedOnChange) injectedOnChange(value)
-                      field.onChange(value)
-                    }}
-                  />
-                )
-              }}
+            <MegaSearchAutocomplete
+              key={name}
+              onChange={injectedOnChange}
+              {...rest}
             />
           )
         }
 
-        return dropdownJsx
+        return (
+          <Controller
+            name={name}
+            control={control}
+            render={(renderProps) => {
+              const { field } = renderProps
+              return (
+                <MegaSearchAutocomplete
+                  key={name}
+                  {...rest}
+                  {...field}
+                  onChange={(e, value, reason) => {
+                    field.onChange(value)
+                    if (injectedOnChange) injectedOnChange(e, value, reason)
+                  }}
+                />
+              )
+            }}
+          />
+        )
       })}
 
       {/* Button */}

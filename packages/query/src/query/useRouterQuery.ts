@@ -10,6 +10,7 @@ export interface UseRouterQueryReturn {
   removeQueryString: (qsItemKey: string) => Promise<boolean>
   toggleQueryString: (newQsItem: NextRouter['query']) => Promise<boolean>
   replaceQueryString: UseRouterQueryReturn['addQueryString']
+  resetQueryString: () => void
 }
 
 const useRouterQuery = (): UseRouterQueryReturn => {
@@ -43,6 +44,11 @@ const useRouterQuery = (): UseRouterQueryReturn => {
       { pathname, query: { ...query, ...newQsItem } },
       getAsPathWithQueryString(nextQueryString)
     )
+  }
+
+  const resetQueryString = () => {
+    const nextQueryString = qs.stringify({})
+    return router.push({ pathname }, getAsPathWithQueryString(nextQueryString))
   }
 
   const removeQueryString = (qsItemKey: string) => {
@@ -110,6 +116,7 @@ const useRouterQuery = (): UseRouterQueryReturn => {
     removeQueryString,
     replaceQueryString,
     toggleQueryString,
+    resetQueryString,
   }
 }
 

@@ -83,6 +83,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
       paddingLeft: paddingXInAutocomplete,
       paddingRight: paddingXInAutocomplete,
       marginTop: marginTopInAutocomplete,
+      pb: 1.5,
       // Caret
       '& .MuiAutocomplete-endAdornment': {
         right: (theme) => theme.spacing(paddingXInAutocomplete),
@@ -93,7 +94,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
     // Text Input
     '&& .MuiInput-input': {
       marginLeft: marginBetweenAutocompleteIconAndText,
-      padding: (theme) => theme.spacing(0.5, 2, 2, 0),
+      padding: (theme) => theme.spacing(0.5, 2, 0.5, 0),
       fontWeight: 'bold',
       // Cursor
       '&:not(:focus)': { cursor: 'pointer' },
@@ -107,36 +108,41 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
       options={options}
       fullWidth
       value={value}
-      onChange={(e, newValue: any) => onChange?.(newValue?.value || newValue)}
-      renderInput={(params) => (
-        <TextFieldElement
-          {...params}
-          InputProps={{
-            ...textFieldProps?.InputProps,
-            ...params.InputProps,
-            ...(Icon && {
-              startAdornment: (
-                <InputAdornment position="start">
-                  <Icon color="secondary" />
-                </InputAdornment>
-              ),
-            }),
-          }}
-          InputLabelProps={{
-            shrink: true,
-            ...params?.InputLabelProps,
-          }}
-          fullWidth
-          variant="standard"
-          sx={{
-            // Overrides
-            ...sx,
-            ...textFieldSx,
-          }}
-          {...rest}
-          {...omit(textFieldProps, ['InputProps'])}
-        />
-      )}
+      onChange={(e, newValue: any, reason) =>
+        onChange?.(e, newValue?.value || newValue, reason)
+      }
+      renderInput={(params) => {
+        return (
+          <TextFieldElement
+            {...params}
+            value={value}
+            InputLabelProps={{
+              shrink: true,
+              ...params?.InputLabelProps,
+            }}
+            fullWidth
+            variant="standard"
+            sx={{ ...sx, ...textFieldSx }}
+            {...rest}
+            {...textFieldProps}
+            InputProps={{
+              ...params.InputProps,
+              ...textFieldProps?.InputProps,
+              ...(Icon && {
+                startAdornment: (
+                  <>
+                    <InputAdornment position="start">
+                      <Icon color="secondary" />
+                    </InputAdornment>
+                    {params.InputProps?.startAdornment}
+                    {textFieldProps?.InputProps?.startAdornment}
+                  </>
+                ),
+              }),
+            }}
+          />
+        )
+      }}
       {...autocompleteProps}
     />
   )

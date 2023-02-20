@@ -1,14 +1,17 @@
-interface PrintNumberOptions {
+export interface PrintNumberOptions {
   type?: string | 'amount'
   zeroPlaceholder?: string
   dp?: number
   currency?: string
 }
 
-type PrintNumber = (value: number, options?: PrintNumberOptions) => string
+export type PrintNumberFunction = (
+  value: number,
+  options?: PrintNumberOptions
+) => string
 
-const printNumber: PrintNumber = (value: number, options = {}) => {
-  const { currency = 'SGD', type = 'amount', zeroPlaceholder, dp = 0 } = options
+const printNumber: PrintNumberFunction = (value: number, options = {}) => {
+  const { currency = 'SGD', type = 'number', zeroPlaceholder, dp = 0 } = options
 
   const isNumber =
     ['number', 'string'].includes(typeof value) && !Number.isNaN(Number(value))
@@ -28,6 +31,8 @@ const printNumber: PrintNumber = (value: number, options = {}) => {
         currency,
         maximumFractionDigits: dp,
       }).format(value)
+    case type === 'number':
+      return value.toLocaleString()
     default:
       return String(value)
   }

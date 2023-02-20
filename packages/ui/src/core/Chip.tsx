@@ -2,6 +2,7 @@ import React from 'react'
 import { Chip as MuiChip, ChipProps as MuiChipProps } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import getPaletteColor from '../utils/getPaletteColor'
+import withHref, { WithHrefProps } from './withHref'
 
 // #nnn, #nnnnnn, rgb(), rgba(), hsl(), hsla(), color()
 const COLOR_REGEX =
@@ -18,21 +19,35 @@ export interface ChipProps
   title?: string
   children?: React.ReactNode
   color?: string
+  hoverColor?: string
   variant?: MuiChipProps['variant'] | typeof CHIP_VARIANT_CALLOUT
   square?: boolean
+  href?: string
+  hrefProps?: Omit<WithHrefProps, 'href'>
 }
 
 const Chip: React.FC<ChipProps> = (props) => {
-  const { title, children, color, variant, square, ...rest } = props
+  const {
+    href,
+    hrefProps,
+    title,
+    children,
+    color,
+    hoverColor = 'primary',
+    variant,
+    square,
+    ...rest
+  } = props
 
   const isCustomColor = color && COLOR_REGEX.test(color)
   const isCustomVariant = [CHIP_VARIANT_CALLOUT].includes(variant)
 
-  return (
+  const childrenJsx = (
     <MuiChip
       label={children || title}
       color={isCustomColor ? undefined : (color as MuiChipProps['color'])}
       variant={isCustomVariant ? 'filled' : variant}
+      {...(href && { clickable: true })}
       {...rest}
       sx={{
         // Color non-custom variants
@@ -44,7 +59,18 @@ const Chip: React.FC<ChipProps> = (props) => {
                   ? 'common.white'
                   : ({ palette }) => palette[color].contrastText,
               }
-            : { color: color && `${color}.contrastText` },
+            : {
+                color: color && `${color}.contrastText`,
+                '&:hover': {
+                  ...(typeof color === 'undefined' && {
+                    color: `${hoverColor}.main`,
+                  }),
+                  backgroundColor: ({ palette }) =>
+                    color
+                      ? alpha(palette[color].light, 0.24)
+                      : palette.action.hover,
+                },
+              },
         }),
 
         // Callout variant
@@ -70,6 +96,8 @@ const Chip: React.FC<ChipProps> = (props) => {
       }}
     />
   )
+
+  return <>{withHref({ href, ...hrefProps })(childrenJsx)}</>
 }
 
 export default Chip
