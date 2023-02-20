@@ -490,7 +490,9 @@ const useList = (props: UseListProps): UseListReturn => {
     onUseQuery: UseInfiniteQueryResult
   ) => {
     const { isFetching, fetchNextPage } = onUseQuery
-    const shouldFetchNextPage = queryOptions?.enabled && !isFetching
+    const isQueryDisabled = queryOptions?.enabled === false
+    // Fetch next page when query is not disabled and not currently fetching
+    const shouldFetchNextPage = !isQueryDisabled && !isFetching
     const nextFetchNextPage = shouldFetchNextPage ? fetchNextPage : () => null
     return { fetchNextPage: nextFetchNextPage }
   }

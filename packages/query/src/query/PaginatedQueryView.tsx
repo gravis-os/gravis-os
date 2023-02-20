@@ -128,10 +128,13 @@ const PaginatedQueryView: React.FC<PaginatedQueryViewProps> = (props) => {
     (queryResult as UseInfiniteQueryResult).fetchNextPage
   const { ref, inView } = useInView()
 
+  const shouldFetchNextPage =
+    isInfiniteScroll && inView && !isLoading && hasNextPage
+
   // Effect: Infinite scroll
   useEffect(() => {
-    if (isInfiniteScroll && inView && !isLoading && hasNextPage) fetchNextPage()
-  }, [inView, isLoading, hasNextPage])
+    if (shouldFetchNextPage) fetchNextPage()
+  }, [shouldFetchNextPage])
 
   return (
     <div ref={measureRef}>

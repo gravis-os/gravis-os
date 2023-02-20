@@ -139,6 +139,10 @@ export interface UseListProps
     countOnly?: boolean
   }
   parsedQs?: UseRouterQueryReturn['parsedQs']
+  /**
+   * Filter by query string, connected to next router
+   * @default false
+   */
   filterByQueryString?: boolean
   /**
    * Allow user to extend filters externally
