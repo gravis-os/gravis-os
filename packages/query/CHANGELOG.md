@@ -1,5 +1,13 @@
 # @gravis-os/query
 
+## 0.0.23
+
+### Patch Changes
+
+- [`8623b16`](https://github.com/gravis-os/gravis-os/commit/8623b165e03501339fe8b7cdfc536b6d60e6e735) Thanks [@clodal](https://github.com/clodal)! - Fix issue with query refetch
+
+* [`479c50c`](https://github.com/gravis-os/gravis-os/commit/479c50cd0228b10c506c777110c982b378c72c9c) Thanks [@clodal](https://github.com/clodal)! - Update useList to fix issue with pagination as well as several UI fixes
+
 ## 0.0.22
 
 ### Patch Changes

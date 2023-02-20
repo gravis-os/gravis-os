@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.34
+
+### Patch Changes
+
+- [`479c50c`](https://github.com/gravis-os/gravis-os/commit/479c50cd0228b10c506c777110c982b378c72c9c) Thanks [@clodal](https://github.com/clodal)! - Update useList to fix issue with pagination as well as several UI fixes
+
+- Updated dependencies [[`479c50c`](https://github.com/gravis-os/gravis-os/commit/479c50cd0228b10c506c777110c982b378c72c9c)]:
+  - @gravis-os/ui@0.0.90
+
 ## 0.0.33
 
 ### Patch Changes
