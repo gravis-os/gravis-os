@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.40
+
+### Patch Changes
+
+- [`dceeb59`](https://github.com/gravis-os/gravis-os/commit/dceeb59ac1c762c4815e49ad7a2f49617e95467c) Thanks [@clodal](https://github.com/clodal)! - add getMathMode to utils
+
 ## 0.0.39
 
 ### Patch Changes
