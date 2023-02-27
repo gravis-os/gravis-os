@@ -364,7 +364,10 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           (item) => String(item?.id) === String(displayValue)
         )
 
-        if (nextValue) setDisplayValue(nextValue)
+        if (nextValue) {
+          setDisplayValue(nextValue)
+          setFormValue(name, nextValue)
+        }
       }
 
       // Reset the field if the current value doesn't exist in the new options
