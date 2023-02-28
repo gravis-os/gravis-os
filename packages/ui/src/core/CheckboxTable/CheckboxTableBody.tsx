@@ -3,9 +3,10 @@ import { every, first, toPairs } from 'lodash'
 import { CheckboxTableColumnDefs, CheckboxTableRows } from './types'
 import CheckboxTableCheckboxColumn from './CheckboxTableCheckboxColumn'
 import Typography from '../Typography'
-import Stack from '../Stack'
+import Stack, { StackProps } from '../Stack'
 
-interface CheckboxTableBodyProps<T> {
+export interface CheckboxTableBodyProps<T> extends StackProps {
+  bordered?: boolean
   isReadOnly?: boolean
   onChangeRow?: (checked: boolean, row: string) => void
   columnDefs: CheckboxTableColumnDefs
@@ -13,14 +14,35 @@ interface CheckboxTableBodyProps<T> {
 }
 
 const CheckboxTableBody = <T,>(props: CheckboxTableBodyProps<T>) => {
-  const { isReadOnly, onChangeRow, columnDefs, rows } = props
+  const { bordered, isReadOnly, onChangeRow, columnDefs, rows, ...rest } = props
 
   const columnWidth = first(columnDefs)?.width
 
   return (
     <>
       {toPairs(rows).map(([row, cells]) => (
-        <Stack direction="row" key={row}>
+        <Stack
+          direction="row"
+          key={row}
+          {...rest}
+          sx={{
+            alignItems: 'center',
+            minHeight: '3rem',
+            margin: '0 -1rem',
+            padding: '0 1rem',
+            width: 'calc(100% + 2rem)',
+            ...(bordered
+              ? {
+                  borderBottom: '1px solid',
+                  borderColor: ({ palette: { mode } }) => {
+                    const isDarkMode = mode === 'dark'
+                    return isDarkMode ? 'neutral.700' : 'grey.100'
+                  },
+                }
+              : {}),
+            ...rest?.sx,
+          }}
+        >
           <Typography sx={{ flexGrow: 1, overflowWrap: 'anywhere' }}>
             {row}
           </Typography>
