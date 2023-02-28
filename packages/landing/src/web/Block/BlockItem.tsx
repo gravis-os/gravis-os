@@ -30,16 +30,16 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
 
   // Container
   containerProps?: ContainerProps
-  maxWidth?: ContainerProps['maxWidth']
+  maxWidth?: string | boolean // ContainerProps['maxWidth']
 
   // Grid
   gridProps?: GridProps
-  gridItems?: BlockItemProps[]
+  gridItems?: Array<GridProps & { items: BlockItemProps[] }>
   gridItemProps?: GridProps
 
   // Stack
   stackProps?: StackProps
-  stackItems?: BlockItemProps[]
+  stackItems?: Array<StackProps & { items: BlockItemProps[] }>
   stackItemProps?: StackProps
 
   // Card
@@ -47,15 +47,14 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
   cardProps?: CardProps
 
   // Core
-  title?: React.ReactNode
+  title?: React.ReactNode | React.ReactElement | any // Fix issue with Icon type
   titleProps?:
     | TypographyProps
-    | ImageProps
+    | Omit<ImageProps, 'src'>
     | ButtonProps
     | LinkProps
     | DividerProps
-
-  type?: BlockItemTypeEnum
+  type?: BlockItemTypeEnum | string
 }
 
 const renderBlockItem = (props) => {
@@ -361,7 +360,10 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
       })
     default:
       return (
-        <Container maxWidth={maxWidth} {...containerProps}>
+        <Container
+          maxWidth={maxWidth as ContainerProps['maxWidth']}
+          {...containerProps}
+        >
           {renderBlockItem(props as BlockItemProps)}
         </Container>
       )

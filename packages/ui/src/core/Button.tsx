@@ -32,11 +32,13 @@ const BUTTON_VARIANT_PAPER = 'paper'
 const BUTTON_VARIANT_MUTED = 'muted'
 const BUTTON_VARIANT_ACTION = 'action'
 const BUTTON_VARIANT_CALLOUT = 'callout'
+const BUTTON_VARIANT_GHOST = 'ghost'
 
 export interface ButtonProps
   extends Omit<MuiButtonProps, 'variant' | 'onClick'> {
   disableMinWidth?: boolean
   disableLineHeight?: boolean
+  disableBorderRadius?: boolean
   square?: boolean
   title?: string
   href?: string
@@ -55,6 +57,7 @@ export interface ButtonProps
     | typeof BUTTON_VARIANT_MUTED
     | typeof BUTTON_VARIANT_ACTION
     | typeof BUTTON_VARIANT_CALLOUT
+    | typeof BUTTON_VARIANT_GHOST
 }
 
 const Button: React.FC<ButtonProps> = (props) => {
@@ -63,6 +66,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     fullWidthOnMobile,
     disableMinWidth,
     disableLineHeight,
+    disableBorderRadius,
     tooltip,
     popover,
     href,
@@ -81,6 +85,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     BUTTON_VARIANT_MUTED,
     BUTTON_VARIANT_ACTION,
     BUTTON_VARIANT_CALLOUT,
+    BUTTON_VARIANT_GHOST,
   ].includes(variant)
   const buttonProps = loading ? omit(rest, ['startIcon', 'endIcon']) : rest
   const childrenJsxContent = children ?? title
@@ -90,7 +95,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       sx={{
         ...getFullWidthOnMobileSx(fullWidthOnMobile),
         ...(disableLineHeight && { lineHeight: 1 }),
-        ...(square && { borderRadius: 0 }),
+        ...((square || disableBorderRadius) && { borderRadius: 0 }),
         ...(disableMinWidth && {
           minWidth: 0,
           '& .MuiButton-startIcon': { marginRight: 0.5, marginLeft: -0.5 },
@@ -146,6 +151,7 @@ const Button: React.FC<ButtonProps> = (props) => {
             },
           },
         }),
+        // Action variant
         ...(variant === BUTTON_VARIANT_ACTION && {
           backgroundColor: 'transparent',
           color: 'text.secondary',
@@ -156,6 +162,18 @@ const Button: React.FC<ButtonProps> = (props) => {
             borderColor: 'text.secondary',
           },
         }),
+        // Ghost variant
+        ...(variant === BUTTON_VARIANT_GHOST && {
+          backgroundColor: 'transparent',
+          color: 'text.primary',
+          border: 1,
+          borderColor: 'divider',
+          '&:hover': {
+            // backgroundColor: 'action.hover',
+            borderColor: 'text.primary',
+          },
+        }),
+        // Others
         ...sx,
       }}
       {...buttonProps}

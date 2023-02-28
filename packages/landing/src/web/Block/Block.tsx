@@ -11,6 +11,7 @@ import {
   StackProps,
 } from '@gravis-os/ui'
 import flowRight from 'lodash/flowRight'
+import { useGravis } from '@gravis-os/config'
 import BlockItem, { BlockItemProps } from './BlockItem'
 import landingTheme from '../../themes/Landing/landingTheme'
 import getBlockPadding, { BlockPadding } from './getBlockPadding'
@@ -69,6 +70,10 @@ const Block: React.FC<BlockProps> = (props) => {
     ...rest
   } = props
 
+  // Source config
+  const onUseGravis = useGravis()
+  const { mui } = onUseGravis
+
   const hasBackgroundImage = Boolean(backgroundImageProps)
 
   const items = flowRight([withBlockItemShorthand()])(injectedItems)
@@ -78,6 +83,10 @@ const Block: React.FC<BlockProps> = (props) => {
     <Box
       id={id}
       sx={{
+        ...(dark && {
+          backgroundColor: 'background.default',
+          color: 'text.primary',
+        }),
         ...getBlockPadding({ pt, pb, py }),
         ...(hasBackgroundImage
           ? { position: 'relative' }
@@ -89,8 +98,9 @@ const Block: React.FC<BlockProps> = (props) => {
       {/* Background Image */}
       {hasBackgroundImage && (
         <Image
-          layout="fill"
-          objectFit="cover"
+          background
+          fadeOnLoad
+          disableResponsive
           disablePointerEvents
           {...backgroundImageProps}
         />
@@ -118,6 +128,8 @@ const Block: React.FC<BlockProps> = (props) => {
   return dark ? (
     <ThemeProvider
       theme={(outerTheme: Theme) => {
+        const darkTheme = mui.theme.dark || landingTheme.dark
+
         const innerTheme = {
           ...outerTheme,
           palette: {
@@ -128,10 +140,10 @@ const Block: React.FC<BlockProps> = (props) => {
              * @note that mode: 'dark', does nothing because we're using a custom palette
              */
             mode: 'dark',
-            text: landingTheme.dark.palette.text,
-            background: landingTheme.dark.palette.background,
-            divider: landingTheme.dark.palette.divider,
-            action: landingTheme.dark.palette.action,
+            text: darkTheme.palette?.text,
+            background: darkTheme.palette?.background,
+            divider: darkTheme.palette?.divider,
+            action: darkTheme.palette?.action,
           },
         }
 

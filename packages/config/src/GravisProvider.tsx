@@ -1,6 +1,9 @@
 import React, { createContext, useContext } from 'react'
 import merge from 'lodash/merge'
 import { GravisConfig } from '@gravis-os/types'
+import { createTheme } from '@mui/material/styles'
+
+const muiDefaultTheme = createTheme()
 
 // ==============================
 // Context
@@ -8,6 +11,12 @@ import { GravisConfig } from '@gravis-os/types'
 const gravisConfigInitialState = {
   next: {
     version: 12,
+  },
+  mui: {
+    theme: {
+      light: muiDefaultTheme,
+      dark: muiDefaultTheme,
+    },
   },
 } as GravisConfig
 

@@ -2,6 +2,7 @@ import omit from 'lodash/omit'
 import NextImage, { ImageProps as NextImageProps } from 'next/image'
 import React, { useState } from 'react'
 import Zoom from 'react-medium-image-zoom'
+import { useGravis } from '@gravis-os/config'
 import Box, { BoxProps } from './Box'
 
 export interface ImageProps extends Omit<NextImageProps, 'loading'> {
@@ -12,7 +13,6 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
    */
   ar?: string
   disablePointerEvents?: boolean
-  disableResponsive?: boolean
   disableBlur?: boolean
   sx?: BoxProps['sx']
   containerSx?: BoxProps['sx']
@@ -20,8 +20,37 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
   scaleOnHover?: boolean
   loading?: boolean
   rounded?: boolean
-  fill?: boolean
   zoom?: boolean
+  /**
+   * Disable the default responsive resizing of an image
+   * @default false
+   */
+  disableResponsive?: boolean
+  /**
+   * Use the original image dimensioms
+   * @default false
+   */
+  fixed?: boolean
+  /**
+   * Use the image as a background photo
+   * @default false
+   */
+  background?: boolean
+  /**
+   * Preserve the image size without scaling
+   * @default false
+   */
+  fixedBackground?: boolean
+  /**
+   * Allow the image to fill the container
+   * @default false
+   */
+  fill?: boolean
+  /**
+   * Fade the image in after it's loaded
+   * @default false
+   */
+  fadeOnLoad?: boolean
 }
 
 /**
@@ -41,6 +70,10 @@ const Image: React.FC<ImageProps> = (props) => {
     disableResponsive,
     disableBlur,
     rounded,
+    fixed,
+    background,
+    fixedBackground,
+    fadeOnLoad,
     fill,
     zoom,
     ...rest
@@ -67,16 +100,32 @@ const Image: React.FC<ImageProps> = (props) => {
     )
   }
 
+  const isNextImageFill = !disableResponsive || fixed || fill || background
+
   const boxProps = {
     sx: {
-      ...(disablePointerEvents && { '> span': { pointerEvents: 'none' } }),
+      ...(disablePointerEvents && {
+        '> span, > img': { pointerEvents: 'none' },
+      }),
 
       '& img': {
+        ...(isNextImageFill && { objectFit: 'cover' }),
+
         // Transitions
         ...(!disableBlur && {
           transition: ({ transitions }) =>
-            transitions.create(['opacity', 'transform']),
-          transform: loading ? 'scale(1.1)' : 'scale(1)',
+            fadeOnLoad
+              ? transitions.create(['opacity'], {
+                  easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
+                  duration: '3s',
+                  delay: '0.1s',
+                })
+              : transitions.create(['opacity', 'transform']),
+
+          ...(fadeOnLoad
+            ? { opacity: loading ? 0 : 1 }
+            : { transform: loading ? 'scale(1.1)' : 'scale(1)' }),
+
           ...(fadeOnHover && { '&:hover': { opacity: 0.87 } }),
           ...(scaleOnHover && { '&:hover': { transform: 'scale(1.1)' } }),
         }),
@@ -98,18 +147,27 @@ const Image: React.FC<ImageProps> = (props) => {
          * Fill the image
          * Need to be important to override NextJS image inline style
          */
-        ...(fill && {
-          width: 'initial !important',
-          height: 'initial !important',
-          position: 'static !important',
-        }),
+        ...(!background &&
+          (fixed || fill) && {
+            ...(!fill && {
+              width: 'initial !important',
+              height: 'initial !important',
+            }),
+            position: 'static !important',
+          }),
+
+        /**
+         * Fixed background
+         */
+        ...(fixedBackground && { position: 'static !important' }),
 
         ...sx,
       },
 
       // For blur effect
-      ...(!fill &&
-        !disableResponsive && {
+      ...(!fixed &&
+        !disableResponsive &&
+        !fill && {
           position: 'relative',
           width: '100%',
           overflow: 'hidden',
@@ -119,7 +177,12 @@ const Image: React.FC<ImageProps> = (props) => {
       /**
        * Fill the image
        */
-      ...(fill && { '& span': { position: 'static !important' } }),
+      ...((fixed || fill) && { '& span': { position: 'static !important' } }),
+
+      /**
+       * Fixed to position the image in a background
+       */
+      ...(fixedBackground && { position: 'absolute' }),
 
       ...containerSx,
     } as BoxProps['sx'],
@@ -136,24 +199,29 @@ const Image: React.FC<ImageProps> = (props) => {
       'loading',
     ]) as NextImageProps
 
+    // Source config
+    const onUseGravis = useGravis()
+    const { next } = onUseGravis
+
     switch (true) {
-      case Boolean(fill):
+      case Boolean(isNextImageFill):
         return {
-          layout: 'fill' as NextImageProps['layout'],
-          objectFit: 'cover' as NextImageProps['objectFit'],
-          ...commonProps,
-          ...nextRest,
-        }
-      case Boolean(!disableResponsive):
-        return {
-          layout: 'fill' as NextImageProps['layout'],
-          objectFit: 'cover' as NextImageProps['objectFit'],
+          ...(next.version >= 13
+            ? { fill: true }
+            : {
+                layout: 'fill' as NextImageProps['layout'],
+                objectFit: 'cover' as NextImageProps['objectFit'],
+              }),
           ...commonProps,
           ...nextRest,
         }
       default:
         return {
-          layout: 'fixed' as NextImageProps['layout'],
+          ...(next.version >= 13
+            ? {}
+            : {
+                layout: 'fixed' as NextImageProps['layout'],
+              }),
           ...commonProps,
           // Contains width and height
           ...rest,

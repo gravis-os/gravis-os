@@ -11,9 +11,13 @@ declare module '@mui/material/styles' {
     muted: React.CSSProperties
     action: React.CSSProperties
     callout: React.CSSProperties
+    ghost: React.CSSProperties
   }
   interface ChipVariants {
     callout: React.CSSProperties
+  }
+  interface TypographyVariants {
+    overline2: React.CSSProperties
   }
 
   // allow configuration using `createTheme`
@@ -22,6 +26,7 @@ declare module '@mui/material/styles' {
     muted?: React.CSSProperties
     action?: React.CSSProperties
     callout?: React.CSSProperties
+    ghost?: React.CSSProperties
   }
   // allow configuration using `createTheme`
   interface ChipVariantsOptions {
@@ -36,6 +41,7 @@ declare module '@mui/material/Button' {
     muted: true
     action: true
     callout: true
+    ghost: true
   }
 }
 
@@ -43,6 +49,12 @@ declare module '@mui/material/Button' {
 declare module '@mui/material/Chip' {
   interface ChipPropsVariantOverrides {
     callout: true
+  }
+}
+
+declare module '@mui/material/Typography' {
+  interface TypographyPropsVariantOverrides {
+    overline2: true
   }
 }
 
