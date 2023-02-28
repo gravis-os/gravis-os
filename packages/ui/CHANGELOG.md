@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.92
+
+### Patch Changes
+
+- [`1abc2cd`](https://github.com/gravis-os/gravis-os/commit/1abc2cdf5b9734b74f51568c598c9d823954a487) Thanks [@clodal](https://github.com/clodal)! - Downgrade lib to maintain cjs compat"
+
 ## 0.0.91
 
 ### Patch Changes
