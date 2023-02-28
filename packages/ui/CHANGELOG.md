@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.91
+
+### Patch Changes
+
+- [#161](https://github.com/gravis-os/gravis-os/pull/161) [`f3c3726`](https://github.com/gravis-os/gravis-os/commit/f3c3726f671963b728cd5b17bbbcc9496ca703f3) Thanks [@winter-steve](https://github.com/winter-steve)! - update checkbox table default styling and add props to make styling extensible
+
+* [`e801c37`](https://github.com/gravis-os/gravis-os/commit/e801c377ebe940ad05e1ff11f0f34e81696b62f2) Thanks [@clodal](https://github.com/clodal)! - Update Image and Block in landing
+
+* Updated dependencies [[`e801c37`](https://github.com/gravis-os/gravis-os/commit/e801c377ebe940ad05e1ff11f0f34e81696b62f2)]:
+  - @gravis-os/config@0.0.4
+  - @gravis-os/types@0.0.36
+
 ## 0.0.90
 
 ### Patch Changes

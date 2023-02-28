@@ -1,5 +1,14 @@
 # @gravis-os/config
 
+## 0.0.4
+
+### Patch Changes
+
+- [`e801c37`](https://github.com/gravis-os/gravis-os/commit/e801c377ebe940ad05e1ff11f0f34e81696b62f2) Thanks [@clodal](https://github.com/clodal)! - Update Image and Block in landing
+
+- Updated dependencies [[`e801c37`](https://github.com/gravis-os/gravis-os/commit/e801c377ebe940ad05e1ff11f0f34e81696b62f2)]:
+  - @gravis-os/types@0.0.36
+
 ## 0.0.3
 
 ### Patch Changes
