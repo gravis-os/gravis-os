@@ -18,7 +18,7 @@ export interface FormSectionRenderReadOnlyProps {
   name: string
   module: CrudModule
   label: string
-  value: Record<string, React.ReactNode>
+  value: any
   title: string
 }
 

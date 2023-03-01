@@ -16,22 +16,23 @@ import {
 import { SxProps } from '@mui/material'
 import {
   ControlledAmountField,
-  ControlledPercentageField,
-  ControlledRateField,
-  ControlledSwitchField,
-  ControlledPasswordField,
-  ControlledHtmlField,
-  ControlledTextField,
-  ControlledDateField,
-  ControlledDateTimeField,
-  ControlledChipField,
   ControlledCheckboxTable,
-  ControlledRadioGroup,
+  ControlledCheckboxTableOptions,
+  ControlledChipField,
+  ControlledChipFieldProps,
   ControlledCountryCodeField,
   ControlledCountryField,
-  ControlledChipFieldProps,
-  ControlledCheckboxTableOptions,
+  ControlledDateField,
+  ControlledDateTimeField,
+  ControlledHtmlField,
+  ControlledPasswordField,
+  ControlledPercentageField,
+  ControlledRadioGroup,
+  ControlledRateField,
+  ControlledSwitchField,
+  ControlledTextField,
 } from '@gravis-os/fields'
+import { printPercentage } from '@gravis-os/utils'
 import getFormSectionFieldWithFunctionType, {
   FormSectionFieldWithFunctionType,
 } from './getFormSectionFieldWithFunctionType'
@@ -316,6 +317,27 @@ const renderField = (props: RenderFieldProps) => {
           <FormSectionReadOnlyStack
             label={label}
             title={typeof html === 'string' ? <Html html={html} /> : '-'}
+            sx={readOnlySx}
+          />
+        )
+      case FormSectionFieldTypeEnum.PERCENTAGE:
+        const percentage = printPercentage(get(item, name), { dp: 2 })
+
+        if (hasRenderReadOnly) {
+          return renderReadOnly({
+            item,
+            name,
+            module,
+            label,
+            value: percentage,
+            title: percentage,
+          })
+        }
+
+        return (
+          <FormSectionReadOnlyStack
+            label={label}
+            title={percentage}
             sx={readOnlySx}
           />
         )
