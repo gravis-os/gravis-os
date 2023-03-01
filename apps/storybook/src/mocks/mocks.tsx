@@ -28,31 +28,6 @@ export const MOCK_NAV_ACCORDION_ITEMS = [
   { key: 'baz', title: 'Baz', href: '/' },
 ]
 
-export const MOCK_FOOTER_PROPS = {
-  logo: MOCK_LOGO_JSX,
-  companyName: 'Acme Inc.',
-  navItems: [
-    {
-      title: 'What We Do',
-      items: [
-        { title: 'Product Design', href: '#' },
-        { title: 'Pricing', href: '#' },
-      ],
-    },
-    {
-      title: 'Learn more',
-      items: [
-        { title: 'Work', href: '#' },
-        { title: 'About', href: '#' },
-      ],
-    },
-    {
-      title: 'Support',
-      items: [{ title: 'Contact', href: '#' }],
-    },
-  ],
-}
-
 export const MOCK_BLOCK_ITEM_TYPES = {
   ICON: {
     type: BlockItemTypeEnum.ICON,

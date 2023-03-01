@@ -1,6 +1,7 @@
 export enum BlockItemTypeEnum {
   // Default Typography
   OVERLINE = 'overline',
+  OVERLINE2 = 'overline2',
   H1 = 'h1',
   H2 = 'h2',
   H3 = 'h3',
@@ -11,6 +12,7 @@ export enum BlockItemTypeEnum {
   BODY2 = 'body2',
   SUBTITLE1 = 'subtitle1',
   SUBTITLE2 = 'subtitle2',
+  SUBTITLE3 = 'subtitle3',
   CAPTION = 'caption',
 
   // Layout

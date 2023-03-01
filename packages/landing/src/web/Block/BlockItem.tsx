@@ -70,10 +70,11 @@ const renderBlockItem = (props) => {
 
   switch (type) {
     case BlockItemTypeEnum.OVERLINE:
+    case BlockItemTypeEnum.OVERLINE2:
       return (
         <Box {...boxProps}>
           <Typography
-            variant="overline"
+            variant={type}
             color="text.secondary"
             gutterBottom
             {...titleProps}
@@ -132,6 +133,7 @@ const renderBlockItem = (props) => {
     case BlockItemTypeEnum.H6:
     case BlockItemTypeEnum.SUBTITLE1:
     case BlockItemTypeEnum.SUBTITLE2:
+    case BlockItemTypeEnum.SUBTITLE3:
     case BlockItemTypeEnum.BODY1:
     case BlockItemTypeEnum.BODY2:
     case BlockItemTypeEnum.CAPTION:

@@ -18,6 +18,7 @@ declare module '@mui/material/styles' {
   }
   interface TypographyVariants {
     overline2: React.CSSProperties
+    subtitle3: React.CSSProperties
   }
 
   // allow configuration using `createTheme`
@@ -54,6 +55,7 @@ declare module '@mui/material/Chip' {
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    subtitle3: true
     overline2: true
   }
 }

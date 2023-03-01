@@ -37,8 +37,8 @@ const Typography: React.FC<TypographyProps> = (props) => {
     <MuiTypography
       sx={{
         ...(maxWidth && {
+          display: 'inline-block',
           maxWidth: { md: typeof maxWidth === 'boolean' ? '80%' : maxWidth },
-          mx: 'auto',
         }),
 
         ...(gradient && {

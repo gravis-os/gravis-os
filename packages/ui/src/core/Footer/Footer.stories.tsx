@@ -1,7 +1,7 @@
 import React from 'react'
-import { MOCK_FOOTER_PROPS } from '@gravis-os/landing/src/mocks'
-import getStorybookTitle from '@gravis-os/landing/src/utils/getStorybookTitle'
+import { getStorybookTitle } from '@gravis-os/landing'
 import Footer from './Footer'
+import { MOCK_FOOTER_PROPS } from '../../mocks'
 
 export default {
   component: Footer,
