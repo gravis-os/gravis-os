@@ -19,11 +19,12 @@ import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFi
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
+  requireDownload?: boolean
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
-  const { module, ...rest } = props
+  const { module, requireDownload = true, ...rest } = props
 
   const [open, { setIsOpen, close }] = useOpen(false)
 
@@ -108,7 +109,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                       variant="contained"
                       size="large"
                       onClick={next}
-                      disabled={!isDownloaded}
+                      disabled={requireDownload && !isDownloaded}
                     >
                       Next
                     </Button>

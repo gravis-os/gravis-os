@@ -21,7 +21,9 @@ import SearchForm from './SearchForm'
 import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'
 import CrudAddDialog from './CrudAddDialog'
-import CrudUploadDialog from './CrudUploadDialog/CrudUploadDialog'
+import CrudUploadDialog, {
+  CrudUploadDialogProps,
+} from './CrudUploadDialog/CrudUploadDialog'
 import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 
 export interface CrudTableHeaderProps {
@@ -39,6 +41,7 @@ export interface CrudTableHeaderProps {
     React.SetStateAction<any[] | Record<string, unknown>>
   >
   addDialogProps?: Record<string, unknown>
+  uploadDialogProps?: Omit<CrudUploadDialogProps, 'module'>
   renderAddButton?: (buttonProps: ButtonProps) => React.ReactElement
   disableReset?: boolean
   disableUpload?: boolean
@@ -56,6 +59,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     disableChips,
     addModule = module,
     addDialogProps,
+    uploadDialogProps,
     addFormSections = [],
     searchFormSections = [],
     filterFormSections = [],
@@ -234,7 +238,9 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           )}
 
           {/* Upload Button */}
-          {!disableUpload && <CrudUploadDialog module={module} />}
+          {!disableUpload && (
+            <CrudUploadDialog module={module} {...uploadDialogProps} />
+          )}
 
           {/* Add Button */}
           {!disableAdd &&
