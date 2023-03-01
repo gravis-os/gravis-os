@@ -23,10 +23,12 @@ const AppBar = React.forwardRef<any, React.PropsWithChildren<AppBarProps>>(
       sx,
       ...rest
     } = props
+
     return (
       <MuiAppbar
         ref={ref}
         position="sticky"
+        color="inherit"
         {...((transparent || translucent) && { color: 'transparent' })}
         {...rest}
         sx={{

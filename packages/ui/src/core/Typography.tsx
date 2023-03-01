@@ -37,7 +37,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     <MuiTypography
       sx={{
         ...(maxWidth && {
-          maxWidth: typeof maxWidth === 'boolean' ? '80%' : maxWidth,
+          maxWidth: { md: typeof maxWidth === 'boolean' ? '80%' : maxWidth },
           mx: 'auto',
         }),
 

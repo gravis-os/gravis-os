@@ -153,7 +153,7 @@ const Image: React.FC<ImageProps> = (props) => {
               width: 'initial !important',
               height: 'initial !important',
             }),
-            position: 'static !important',
+            position: 'relative !important',
           }),
 
         /**

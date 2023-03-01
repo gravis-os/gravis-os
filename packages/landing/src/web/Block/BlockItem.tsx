@@ -22,6 +22,7 @@ import {
 } from '@gravis-os/ui'
 import merge from 'lodash/merge'
 import isEmpty from 'lodash/isEmpty'
+import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import { BlockItemTypeEnum } from './constants'
 
 export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
@@ -34,17 +35,24 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
 
   // Grid
   gridProps?: GridProps
-  gridItems?: Array<GridProps & { items: BlockItemProps[] }>
+  gridItems?: Array<
+    GridProps & { boxProps?: BoxProps; items: BlockItemProps[] }
+  >
   gridItemProps?: GridProps
 
   // Stack
   stackProps?: StackProps
-  stackItems?: Array<StackProps & { items: BlockItemProps[] }>
+  stackItems?: Array<
+    StackProps & { boxProps?: BoxProps; items: BlockItemProps[] }
+  >
   stackItemProps?: StackProps
 
   // Card
   cardItems?: BlockItemProps[]
   cardProps?: CardProps
+
+  // Palette
+  mode?: WithPaletteModeProps['mode']
 
   // Core
   title?: React.ReactNode | React.ReactElement | any // Fix issue with Icon type
@@ -166,6 +174,7 @@ const renderBlockItem = (props) => {
 const renderGrid = (props) => {
   const {
     type,
+    boxProps,
     sx,
     gridItems,
     gridItemProps: injectedGridItemProps,
@@ -177,61 +186,63 @@ const renderGrid = (props) => {
   return (
     <Box sx={sx}>
       <Container maxWidth={maxWidth} {...containerProps}>
-        <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
-          {gridItems.map((gridItem, i) => {
-            const { items, boxProps, ...rest } = gridItem
+        <Box {...boxProps}>
+          <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
+            {gridItems.map((gridItem, i) => {
+              const { items, boxProps, ...rest } = gridItem
 
-            // Wrapper gridItem props abstracted for common use
-            const gridItemProps = {
-              item: true,
-              xs: 12,
-              md: true,
-              ...injectedGridItemProps, // Spread to all grid items
-              ...rest,
-            }
+              // Wrapper gridItem props abstracted for common use
+              const gridItemProps = {
+                item: true,
+                xs: 12,
+                md: true,
+                ...injectedGridItemProps, // Spread to all grid items
+                ...rest,
+              }
 
-            // Manage recursive grids
-            const hasNestedGridItems = Boolean(rest?.gridItems)
-            if (hasNestedGridItems) {
+              // Manage recursive grids
+              const hasNestedGridItems = Boolean(rest?.gridItems)
+              if (hasNestedGridItems) {
+                return (
+                  <Grid key={`nested-grid-item-${i}`} {...gridItemProps}>
+                    {renderGrid({
+                      ...gridItem,
+
+                      // Disable container for nested grids to avoid extra padding
+                      containerProps: {
+                        ...gridItem.containerProps,
+                        disableGutters: true,
+                      },
+                    })}
+                  </Grid>
+                )
+              }
+
+              // Inform dev to provide Griditem.items as it is required.
+              if (!Array.isArray(items)) {
+                throw new Error(
+                  `GridItem.items need to be defined as an array for title: "${gridItem.title}".`
+                )
+              }
+
+              // Render GridItem
               return (
-                <Grid key={`nested-grid-item-${i}`} {...gridItemProps}>
-                  {renderGrid({
-                    ...gridItem,
-
-                    // Disable container for nested grids to avoid extra padding
-                    containerProps: {
-                      ...gridItem.containerProps,
-                      disableGutters: true,
-                    },
-                  })}
+                <Grid {...gridItemProps}>
+                  <Box {...boxProps}>
+                    {items.map((item) => (
+                      <React.Fragment key={`grid-${item?.type || ''}-${i}`}>
+                        {renderBlockItem({
+                          ...item,
+                          titleProps: merge({}, titleProps, item?.titleProps),
+                        })}
+                      </React.Fragment>
+                    ))}
+                  </Box>
                 </Grid>
               )
-            }
-
-            // Inform dev to provide Griditem.items as it is required.
-            if (!Array.isArray(items)) {
-              throw new Error(
-                `GridItem.items need to be defined as an array for title: "${gridItem.title}".`
-              )
-            }
-
-            // Render GridItem
-            return (
-              <Grid {...gridItemProps}>
-                <Box {...boxProps}>
-                  {items.map((item) => (
-                    <React.Fragment key={`grid-${item?.type || ''}-${i}`}>
-                      {renderBlockItem({
-                        ...item,
-                        titleProps: merge({}, titleProps, item?.titleProps),
-                      })}
-                    </React.Fragment>
-                  ))}
-                </Box>
-              </Grid>
-            )
-          })}
-        </Grid>
+            })}
+          </Grid>
+        </Box>
       </Container>
     </Box>
   )
@@ -314,6 +325,9 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
     type,
     sx,
 
+    // Palette
+    mode,
+
     // Grid
     gridProps,
     gridItems,
@@ -331,43 +345,51 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
     containerProps,
   } = props
 
-  switch (true) {
-    case Boolean(type === BlockItemTypeEnum.STACK && stackItems):
-      return renderStack(props)
-    case Boolean(type === BlockItemTypeEnum.GRID && gridItems):
-      return renderGrid(props)
-    // Extension of GridItem actually, just with presets. Apple-like cards
-    case Boolean(type === BlockItemTypeEnum.CARD && cardItems):
-      return renderGrid({
-        ...props,
-        gridProps: { spacing: { xs: 3 }, ...gridProps },
-        gridItems: cardItems.map((cardItem) => ({
-          boxProps: {
-            stretch: true,
-            ...cardItem.cardProps,
-            sx: {
-              position: 'relative',
-              backgroundColor: 'background.paper',
-              borderRadius: 5,
-              pt: 6,
-              pb: 4,
-              overflow: 'hidden',
-              ...cardItem.cardProps?.sx,
+  const renderChildren = () => {
+    switch (true) {
+      case Boolean(type === BlockItemTypeEnum.STACK && stackItems):
+        return renderStack(props)
+      case Boolean(type === BlockItemTypeEnum.GRID && gridItems):
+        return renderGrid(props)
+      // Extension of GridItem actually, just with presets. Apple-like cards
+      case Boolean(type === BlockItemTypeEnum.CARD && cardItems):
+        return renderGrid({
+          ...props,
+          gridProps: { spacing: { xs: 3 }, ...gridProps },
+          gridItems: cardItems.map((cardItem) => ({
+            boxProps: {
+              stretch: true,
+              ...cardItem.cardProps,
+              sx: {
+                position: 'relative',
+                backgroundColor: 'background.paper',
+                borderRadius: 5,
+                pt: 6,
+                pb: 4,
+                overflow: 'hidden',
+                ...cardItem.cardProps?.sx,
+              },
             },
-          },
-          ...cardItem,
-        })),
-      })
-    default:
-      return (
-        <Container
-          maxWidth={maxWidth as ContainerProps['maxWidth']}
-          {...containerProps}
-        >
-          {renderBlockItem(props as BlockItemProps)}
-        </Container>
-      )
+            ...cardItem,
+          })),
+        })
+      default:
+        return (
+          <Container
+            maxWidth={maxWidth as ContainerProps['maxWidth']}
+            {...containerProps}
+          >
+            {renderBlockItem(props as BlockItemProps)}
+          </Container>
+        )
+    }
   }
+
+  const childrenJsx = renderChildren()
+
+  return withPaletteMode({
+    mode,
+  })(childrenJsx)
 }
 
 export default BlockItem

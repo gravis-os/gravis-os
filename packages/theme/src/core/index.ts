@@ -12,3 +12,6 @@ export * from './getPalette'
 
 export { default as getPaletteColorWithAugmentation } from './getPaletteColorWithAugmentation'
 export * from './getPaletteColorWithAugmentation'
+
+export { default as withPaletteMode } from './withPaletteMode'
+export * from './withPaletteMode'

@@ -1,6 +1,4 @@
 import React from 'react'
-import { Theme } from '@mui/material'
-import { ThemeProvider } from '@mui/material/styles'
 import {
   Box,
   BoxProps,
@@ -11,9 +9,8 @@ import {
   StackProps,
 } from '@gravis-os/ui'
 import flowRight from 'lodash/flowRight'
-import { useGravis } from '@gravis-os/config'
+import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import BlockItem, { BlockItemProps } from './BlockItem'
-import landingTheme from '../../themes/Landing/landingTheme'
 import getBlockPadding, { BlockPadding } from './getBlockPadding'
 import withBlockItemShorthand from './withBlockItemShorthand'
 
@@ -43,6 +40,10 @@ export interface BlockProps
    * @link https://mui.com/system/styles/advanced/#theme-nesting
    */
   dark?: boolean
+  /**
+   * Used for forcing dark/light mode
+   */
+  mode?: WithPaletteModeProps['mode']
 
   // Padding
   pt?: BlockPadding
@@ -67,12 +68,9 @@ const Block: React.FC<BlockProps> = (props) => {
     reveal = true,
     backgroundImageProps,
     dark,
+    mode,
     ...rest
   } = props
-
-  // Source config
-  const onUseGravis = useGravis()
-  const { mui } = onUseGravis
 
   const hasBackgroundImage = Boolean(backgroundImageProps)
 
@@ -83,10 +81,10 @@ const Block: React.FC<BlockProps> = (props) => {
     <Box
       id={id}
       sx={{
-        ...(dark && {
+        ...((dark || mode === 'dark') && {
           backgroundColor: 'background.default',
-          color: 'text.primary',
         }),
+        color: 'text.primary',
         ...getBlockPadding({ pt, pb, py }),
         ...(hasBackgroundImage
           ? { position: 'relative' }
@@ -124,37 +122,9 @@ const Block: React.FC<BlockProps> = (props) => {
     </Box>
   )
 
-  // Dark mode wrapper activated by `dark` prop
-  return dark ? (
-    <ThemeProvider
-      theme={(outerTheme: Theme) => {
-        const darkTheme = mui.theme.dark || landingTheme.dark
-
-        const innerTheme = {
-          ...outerTheme,
-          palette: {
-            ...outerTheme.palette,
-            /**
-             * Set to dark mode with the default changes to dark mode palette
-             * @link https://mui.com/material-ui/customization/dark-mode/#dark-mode-by-default
-             * @note that mode: 'dark', does nothing because we're using a custom palette
-             */
-            mode: 'dark',
-            text: darkTheme.palette?.text,
-            background: darkTheme.palette?.background,
-            divider: darkTheme.palette?.divider,
-            action: darkTheme.palette?.action,
-          },
-        }
-
-        return innerTheme
-      }}
-    >
-      {childrenJsx}
-    </ThemeProvider>
-  ) : (
-    childrenJsx
-  )
+  return withPaletteMode({
+    mode: mode || ((dark && 'dark') as WithPaletteModeProps['mode']),
+  })(childrenJsx)
 }
 
 export default Block
