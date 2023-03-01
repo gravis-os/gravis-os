@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.78
+
+### Patch Changes
+
+- [#160](https://github.com/gravis-os/gravis-os/pull/160) [`734acd6`](https://github.com/gravis-os/gravis-os/commit/734acd64c311fac7d20a2e92d638c6dc821a7489) Thanks [@winter-steve](https://github.com/winter-steve)! - add requireDownload prop to control whether download is required for proceeding with the next step
+
+- Updated dependencies [[`53ba750`](https://github.com/gravis-os/gravis-os/commit/53ba7506c2b9ce983ee0b7a70158dbb7bdc90380)]:
+  - @gravis-os/form@0.0.101
+
 ## 0.0.77
 
 ### Patch Changes
