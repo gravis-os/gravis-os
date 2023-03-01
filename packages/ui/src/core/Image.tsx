@@ -108,27 +108,26 @@ const Image: React.FC<ImageProps> = (props) => {
         '> span, > img': { pointerEvents: 'none' },
       }),
 
+      // Transitions
+      ...(!disableBlur && {
+        transition: ({ transitions }) =>
+          fadeOnLoad
+            ? transitions.create(['opacity'], {
+                easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
+                duration: '3s',
+                delay: '0.1s',
+              })
+            : transitions.create(['opacity', 'transform']),
+
+        ...(fadeOnLoad
+          ? { opacity: loading ? 0 : 1 }
+          : { transform: loading ? 'scale(1.1)' : 'scale(1)' }),
+      }),
+      ...(fadeOnHover && { '&:hover': { opacity: 0.87 } }),
+      ...(scaleOnHover && { '&:hover': { transform: 'scale(1.1)' } }),
+
       '& img': {
         ...(isNextImageFill && { objectFit: 'cover' }),
-
-        // Transitions
-        ...(!disableBlur && {
-          transition: ({ transitions }) =>
-            fadeOnLoad
-              ? transitions.create(['opacity'], {
-                  easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
-                  duration: '3s',
-                  delay: '0.1s',
-                })
-              : transitions.create(['opacity', 'transform']),
-
-          ...(fadeOnLoad
-            ? { opacity: loading ? 0 : 1 }
-            : { transform: loading ? 'scale(1.1)' : 'scale(1)' }),
-
-          ...(fadeOnHover && { '&:hover': { opacity: 0.87 } }),
-          ...(scaleOnHover && { '&:hover': { transform: 'scale(1.1)' } }),
-        }),
 
         /**
          * Adds a blur effect to the image
@@ -238,7 +237,20 @@ const Image: React.FC<ImageProps> = (props) => {
   )
 
   // Render
-  return zoom ? <Zoom>{childrenJsx}</Zoom> : childrenJsx
+  return zoom ? (
+    <Box
+      sx={{
+        // Offset the default css injected display from the Zoom lib
+        '& [data-rmiz-wrap="visible"], & [data-rmiz-wrap="hidden"]': {
+          display: 'block',
+        },
+      }}
+    >
+      <Zoom>{childrenJsx}</Zoom>
+    </Box>
+  ) : (
+    childrenJsx
+  )
 }
 
 export default Image
