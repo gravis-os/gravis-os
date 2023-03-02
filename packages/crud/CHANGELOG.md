@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.79
+
+### Patch Changes
+
+- [#165](https://github.com/gravis-os/gravis-os/pull/165) [`bd62075`](https://github.com/gravis-os/gravis-os/commit/bd6207560e9d5a37122190abcc4ee8ca92b2adb2) Thanks [@winter-steve](https://github.com/winter-steve)! - handle ModelField disabling based on grid options
+
 ## 0.0.78
 
 ### Patch Changes
