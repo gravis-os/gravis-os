@@ -1,9 +1,11 @@
 import React, { forwardRef } from 'react'
 import { ModelField } from '@gravis-os/form'
 import { useController } from 'react-hook-form'
+import { GridOptions } from 'ag-grid-community'
 
 const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
   const {
+    api,
     module,
     column,
     rowIndex,
@@ -26,8 +28,12 @@ const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
     defaultValue: injectedValue,
   })
 
+  const gridOptions = api.gridOptionsWrapper.gridOptions as GridOptions
+  const disabled = gridOptions?.suppressClickEdit
+
   return (
     <ModelField
+      disabled={disabled}
       ref={ref}
       module={module}
       value={value}
