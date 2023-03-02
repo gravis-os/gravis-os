@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.102
+
+### Patch Changes
+
+- [#164](https://github.com/gravis-os/gravis-os/pull/164) [`307bc98`](https://github.com/gravis-os/gravis-os/commit/307bc9805f4ac632de1de63d14e86fcfc3231a7e) Thanks [@winter-steve](https://github.com/winter-steve)! - set formValue from resolved defaultValue when fetching
+
 ## 0.0.101
 
 ### Patch Changes
