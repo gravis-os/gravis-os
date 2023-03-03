@@ -8,7 +8,7 @@ export interface ControlledAmountFieldProps {
   name: string
 }
 
-const NumberFormatField = props => {
+const NumberFormatField = (props) => {
   const { onChange, value, ...rest } = props
   const [displayValue, setDisplayValue] = useState(value)
 
@@ -24,10 +24,10 @@ const NumberFormatField = props => {
       fullWidth
       thousandSeparator
       decimalScale={2}
-      onValueChange={target => {
+      onValueChange={(target) => {
         if (target.floatValue === displayValue) return
-        setDisplayValue(target.floatValue)
-        onChange(target.floatValue)
+        setDisplayValue(target.floatValue || null)
+        onChange(target.floatValue || null)
       }}
       isNumericString
       prefix="$ "
@@ -35,7 +35,7 @@ const NumberFormatField = props => {
   )
 }
 
-const ControlledAmountField: React.FC<ControlledAmountFieldProps> = props => {
+const ControlledAmountField: React.FC<ControlledAmountFieldProps> = (props) => {
   const { control, ...rest } = props
 
   return (

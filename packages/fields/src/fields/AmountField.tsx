@@ -6,7 +6,7 @@ export interface AmountFieldProps {
   name: string
 }
 
-const AmountField = props => {
+const AmountField = (props) => {
   const { onChange, value, ...rest } = props
   const [displayValue, setDisplayValue] = useState(value)
 
@@ -22,10 +22,10 @@ const AmountField = props => {
       fullWidth
       thousandSeparator
       decimalScale={2}
-      onValueChange={target => {
+      onValueChange={(target) => {
         if (target.floatValue === displayValue) return
-        setDisplayValue(target.floatValue)
-        onChange(target.floatValue)
+        setDisplayValue(target.floatValue || null)
+        onChange(target.floatValue || null)
       }}
       isNumericString
       prefix="$ "
