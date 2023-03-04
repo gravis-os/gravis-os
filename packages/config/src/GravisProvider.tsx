@@ -10,7 +10,9 @@ const muiDefaultTheme = createTheme()
 // ==============================
 const gravisConfigInitialState = {
   next: {
-    version: 12,
+    version: process.env.NEXT_PUBLIC_GRAVIS_NEXTJS_VERSION
+      ? Number(process.env.NEXT_PUBLIC_GRAVIS_NEXTJS_VERSION)
+      : 12,
   },
   mui: {
     theme: {

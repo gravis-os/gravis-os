@@ -169,7 +169,11 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
         placement={fullWidth ? 'bottom' : 'bottom-start'}
         sx={{
           zIndex: (theme) => theme.zIndex.appBar,
-          ...(fullWidth && { width: '100vw', pointerEvents: 'none' }),
+          ...(fullWidth && {
+            width: '100vw',
+            maxWidth: '100%',
+            pointerEvents: 'none',
+          }),
         }}
         {...popperProps}
       >

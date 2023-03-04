@@ -11,11 +11,10 @@ import {
 import flowRight from 'lodash/flowRight'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import BlockItem, { BlockItemProps } from './BlockItem'
-import getBlockPadding, { BlockPadding } from './getBlockPadding'
+import getBlockPadding from './getBlockPadding'
 import withBlockItemShorthand from './withBlockItemShorthand'
 
-export interface BlockProps
-  extends Omit<BoxProps, 'maxWidth' | 'pt' | 'pb' | 'py'> {
+export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
   items: BlockItemProps[]
   maxWidth?: BlockItemProps['maxWidth']
   containerProps?: ContainerProps
@@ -44,11 +43,6 @@ export interface BlockProps
    * Used for forcing dark/light mode
    */
   mode?: WithPaletteModeProps['mode']
-
-  // Padding
-  pt?: BlockPadding
-  pb?: BlockPadding
-  py?: BlockPadding
 
   id?: string
 }

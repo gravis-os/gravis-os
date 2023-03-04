@@ -1,6 +1,7 @@
 import isNil from 'lodash/isNil'
+import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 
-export type BlockPadding = React.CSSProperties['paddingTop']
+export type BlockPadding = ResponsiveStyleValue<any>
 
 interface BlockVerticalPadding {
   pt?: BlockPadding

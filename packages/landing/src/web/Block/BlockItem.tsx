@@ -175,6 +175,7 @@ const renderBlockItem = (props) => {
 
 const renderGrid = (props) => {
   const {
+    key,
     type,
     boxProps,
     sx,
@@ -202,24 +203,6 @@ const renderGrid = (props) => {
                 ...rest,
               }
 
-              // Manage recursive grids
-              const hasNestedGridItems = Boolean(rest?.gridItems)
-              if (hasNestedGridItems) {
-                return (
-                  <Grid key={`nested-grid-item-${i}`} {...gridItemProps}>
-                    {renderGrid({
-                      ...gridItem,
-
-                      // Disable container for nested grids to avoid extra padding
-                      containerProps: {
-                        ...gridItem.containerProps,
-                        disableGutters: true,
-                      },
-                    })}
-                  </Grid>
-                )
-              }
-
               // Inform dev to provide Griditem.items as it is required.
               if (!Array.isArray(items)) {
                 throw new Error(
@@ -231,14 +214,35 @@ const renderGrid = (props) => {
               return (
                 <Grid {...gridItemProps}>
                   <Box {...boxProps}>
-                    {items.map((item) => (
-                      <React.Fragment key={`grid-${item?.type || ''}-${i}`}>
-                        {renderBlockItem({
-                          ...item,
-                          titleProps: merge({}, titleProps, item?.titleProps),
-                        })}
-                      </React.Fragment>
-                    ))}
+                    {items.map((item) => {
+                      // Manage recursive grids
+                      const hasNestedGridItems = Boolean(item?.gridItems)
+                      if (hasNestedGridItems) {
+                        return (
+                          <React.Fragment key={`nested-grid-item-${i}`}>
+                            {renderGrid({
+                              ...item,
+                              // Disable container for nested grids to avoid extra padding
+                              containerProps: {
+                                ...item.containerProps,
+                                disableGutters: true,
+                              },
+                            })}
+                          </React.Fragment>
+                        )
+                      }
+
+                      return (
+                        <React.Fragment
+                          key={`${key}-grid-${item?.type || ''}-${i}`}
+                        >
+                          {renderBlockItem({
+                            ...item,
+                            titleProps: merge({}, titleProps, item?.titleProps),
+                          })}
+                        </React.Fragment>
+                      )
+                    })}
                   </Box>
                 </Grid>
               )
@@ -281,16 +285,6 @@ const renderStack = (props) => {
               ...rest,
             }
 
-            // Manage recursive stacks
-            const hasNestedStackItems = Boolean(rest?.stackItems)
-            if (hasNestedStackItems) {
-              return (
-                <Box key={`nested-stack-item-${i}`} {...stackItemProps}>
-                  {renderStack(stackItem)}
-                </Box>
-              )
-            }
-
             // Inform dev to provide Stackitem.items as it is required.
             if (!Array.isArray(items)) {
               throw new Error(
@@ -300,14 +294,26 @@ const renderStack = (props) => {
 
             return (
               <Box key={`stack-item-${i}`} {...stackItemProps}>
-                {items.map((item, i) => (
-                  <React.Fragment key={`stack-${item?.type || ''}-${i}`}>
-                    {renderBlockItem({
-                      ...item,
-                      titleProps: merge({}, titleProps, item?.titleProps),
-                    })}
-                  </React.Fragment>
-                ))}
+                {items.map((item, i) => {
+                  // Manage recursive stacks
+                  const hasNestedStackItems = Boolean(item?.stackItems)
+                  if (hasNestedStackItems) {
+                    return (
+                      <Box key={`nested-stack-item-${i}`} {...stackItemProps}>
+                        {renderStack(item)}
+                      </Box>
+                    )
+                  }
+
+                  return (
+                    <React.Fragment key={`stack-${item?.type || ''}-${i}`}>
+                      {renderBlockItem({
+                        ...item,
+                        titleProps: merge({}, titleProps, item?.titleProps),
+                      })}
+                    </React.Fragment>
+                  )
+                })}
               </Box>
             )
           })}
