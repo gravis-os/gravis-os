@@ -1,4 +1,4 @@
-import React from 'react'
+import { Typeform } from '@gravis-os/fields'
 import { CrudModule } from '@gravis-os/types'
 import {
   Box,
@@ -8,24 +8,14 @@ import {
   Stack,
   useOpen,
 } from '@gravis-os/ui'
-import { Typeform } from '@gravis-os/fields'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
-import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
+import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
+import React from 'react'
 import CSVReader from 'react-csv-reader'
-import {
-  assign,
-  entries,
-  findKey,
-  get,
-  isArray,
-  isEqual,
-  isNil,
-  keys,
-  map,
-} from 'lodash'
-import DataTable from '../DataTable'
 import useCreateMutation from '../../hooks/useCreateMutation'
+import DataTable from '../DataTable'
+import { getUploadedRowsFromTableHeaderRenameMapping } from './getUploadedRowsFromTableHeaderRenameMapping'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
@@ -36,7 +26,7 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
 // TODO: Clean data + handle relations + handle error + allow edits
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
   const { module, requireDownload = true, ...rest } = props
-  const { tableMapping } = module ?? {}
+  const { tableHeaderRenameMapping } = module ?? {}
 
   const [open, { setIsOpen, close }] = useOpen(false)
 
@@ -203,26 +193,17 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               }))
 
               const handleUploadClick = async () => {
-                // Used if tableMapping is provided to changed the renamed headers back
-                const reverseTableMapping = !isNil(tableMapping)
-                  ? Object.fromEntries(
-                      map(entries(tableMapping), ([key, value]) => [value, key])
-                    )
-                  : undefined
-                const mappedUploadedRows =
-                  !isNil(reverseTableMapping) && isArray(uploadedRows)
-                    ? map(uploadedRows, (row) => {
-                        return assign(
-                          {},
-                          ...map(keys(row), (key) => {
-                            const newKey = reverseTableMapping[key] || key
-                            return { [newKey]: row[key] }
-                          })
-                        )
-                      })
-                    : uploadedRows
+                /**
+                 * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
+                 * This ensures that the values provided are consistent with the header names in the database.
+                 */
+                const updatedUploadedRows =
+                  getUploadedRowsFromTableHeaderRenameMapping(
+                    uploadedRows,
+                    tableHeaderRenameMapping
+                  )
                 const onMutate = await createMutation.mutateAsync(
-                  mappedUploadedRows
+                  updatedUploadedRows
                 )
                 next()
               }

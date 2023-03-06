@@ -4,6 +4,6 @@
 "@gravis-os/ui": patch
 ---
 
-- Expose tableMapping props in CrudModule
+- Expose tableHeaderRenameMapping props in CrudModule
 - Allow renaming of headers when user downloads csv
 - Allow re-renaming of headers when user uploads csv

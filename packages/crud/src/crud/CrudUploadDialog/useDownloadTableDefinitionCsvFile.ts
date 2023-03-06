@@ -7,7 +7,7 @@ import getTableColumnNames from './getTableColumnNames'
 
 const useDownloadTableDefinitionCsvFile = (props: { module: CrudModule }) => {
   const { module } = props
-  const { tableMapping } = module ?? {}
+  const { tableHeaderRenameMapping } = module ?? {}
 
   // Get table names for downloading the color
   const [isDownloaded, setIsDownloaded] = useState(false)
@@ -18,7 +18,10 @@ const useDownloadTableDefinitionCsvFile = (props: { module: CrudModule }) => {
     enabled: shouldDownload,
   })
 
-  const tableColumnNames = getTableColumnNames(tableDefinition, tableMapping)
+  const tableColumnNames = getTableColumnNames(
+    tableDefinition,
+    tableHeaderRenameMapping
+  )
 
   // Effect: Download csv file with fetched column names
   useEffect(() => {
