@@ -21,7 +21,7 @@ const getTableColumnNames = (
     []
   )
 
-  // Map column names if tableDefinitionMapping is given
+  // Map column names if tableHeaderRenameMapping is given
   return !isNil(tableHeaderRenameMapping)
     ? map(processedColumns, (column) => {
         return has(tableHeaderRenameMapping, column)
