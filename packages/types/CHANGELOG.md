@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.37
+
+### Patch Changes
+
+- [#166](https://github.com/gravis-os/gravis-os/pull/166) [`5b8a540`](https://github.com/gravis-os/gravis-os/commit/5b8a5400b75d106fe5a50828e2ebb9e7d43d9b6b) Thanks [@winter-steve](https://github.com/winter-steve)! - add options types
+
 ## 0.0.36
 
 ### Patch Changes
