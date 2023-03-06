@@ -15,7 +15,7 @@ import React from 'react'
 import CSVReader from 'react-csv-reader'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
-import { getUploadedRowsFromTableHeaderRenameMapping } from './getUploadedRowsFromTableHeaderRenameMapping'
+import { getUploadedRows } from './getUploadedRows'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
@@ -197,11 +197,10 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                  * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
                  * This ensures that the values provided are consistent with the header names in the database.
                  */
-                const updatedUploadedRows =
-                  getUploadedRowsFromTableHeaderRenameMapping(
-                    uploadedRows,
-                    tableHeaderRenameMapping
-                  )
+                const updatedUploadedRows = getUploadedRows(
+                  uploadedRows,
+                  tableHeaderRenameMapping
+                )
                 const onMutate = await createMutation.mutateAsync(
                   updatedUploadedRows
                 )

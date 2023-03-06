@@ -1,8 +1,8 @@
 import { assign, entries, isArray, isNil, keys, map } from 'lodash'
 
-export const getUploadedRowsFromTableHeaderRenameMapping = (
+export const getUploadedRows = (
   uploadedRows: unknown,
-  tableHeaderRenameMapping: Record<string, string>
+  tableHeaderRenameMapping?: Record<string, string>
 ): unknown => {
   // Used if renameTableHeaderMap is provided to changed the renamed headers back
   const reverseTableHeaderRenameMapping = !isNil(tableHeaderRenameMapping)
