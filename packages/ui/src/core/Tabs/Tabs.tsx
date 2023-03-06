@@ -47,12 +47,12 @@ const Tabs: React.FC<TabsProps> = (props) => {
     >
       {children ||
         items?.map((item) => {
-          const { hidden } = props
+          const { hidden, ...rest } = item
           const nextHidden =
             typeof hidden === 'function' && renderProps
               ? (hidden as any)(renderProps)
               : hidden
-          return <Tab key={item.value} hidden={nextHidden} {...item} />
+          return <Tab key={item.value} hidden={nextHidden} {...rest} />
         })}
     </TabsBase>
   )
