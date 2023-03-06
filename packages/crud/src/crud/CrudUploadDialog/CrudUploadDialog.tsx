@@ -13,6 +13,17 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import CSVReader from 'react-csv-reader'
+import {
+  assign,
+  entries,
+  findKey,
+  get,
+  isArray,
+  isEqual,
+  isNil,
+  keys,
+  map,
+} from 'lodash'
 import DataTable from '../DataTable'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
@@ -25,6 +36,7 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
 // TODO: Clean data + handle relations + handle error + allow edits
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
   const { module, requireDownload = true, ...rest } = props
+  const { tableMapping } = module ?? {}
 
   const [open, { setIsOpen, close }] = useOpen(false)
 
@@ -191,7 +203,27 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               }))
 
               const handleUploadClick = async () => {
-                const onMutate = await createMutation.mutateAsync(uploadedRows)
+                // Used if tableMapping is provided to changed the renamed headers back
+                const reverseTableMapping = !isNil(tableMapping)
+                  ? Object.fromEntries(
+                      map(entries(tableMapping), ([key, value]) => [value, key])
+                    )
+                  : undefined
+                const mappedUploadedRows =
+                  !isNil(reverseTableMapping) && isArray(uploadedRows)
+                    ? map(uploadedRows, (row) => {
+                        return assign(
+                          {},
+                          ...map(keys(row), (key) => {
+                            const newKey = reverseTableMapping[key] || key
+                            return { [newKey]: row[key] }
+                          })
+                        )
+                      })
+                    : uploadedRows
+                const onMutate = await createMutation.mutateAsync(
+                  mappedUploadedRows
+                )
                 next()
               }
 
