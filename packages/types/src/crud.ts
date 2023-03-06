@@ -34,6 +34,8 @@ export interface CrudModule {
     afterUpdate?: CrudModuleAfterTriggerFunction
   }
   disableAutoSlug?: boolean // To disable autoSlug
+  /** Used to map table schemas to allow copy change without renaming database. */
+  tableMapping?: Record<string, string>
 }
 
 export interface CrudItem {
