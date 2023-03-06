@@ -2,7 +2,7 @@ import { has, isNil, map } from 'lodash'
 
 const getTableColumnNames = (
   tableDefinition,
-  tableDefinitionMapping?: Record<string, string>
+  tableHeaderRenameMapping?: Record<string, string>
 ): string[] | never[] => {
   if (!tableDefinition) return []
 
@@ -22,10 +22,10 @@ const getTableColumnNames = (
   )
 
   // Map column names if tableDefinitionMapping is given
-  return !isNil(tableDefinitionMapping)
+  return !isNil(tableHeaderRenameMapping)
     ? map(processedColumns, (column) => {
-        return has(tableDefinitionMapping, column)
-          ? tableDefinitionMapping[column]
+        return has(tableHeaderRenameMapping, column)
+          ? tableHeaderRenameMapping[column]
           : column
       })
     : processedColumns
