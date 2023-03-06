@@ -34,7 +34,7 @@ export interface CrudModule {
     afterUpdate?: CrudModuleAfterTriggerFunction
   }
   disableAutoSlug?: boolean // To disable autoSlug
-  /** Used to rename the table header names when downloading to csv file */
+  /** Mapping of database headers into other names which will be reflected when user downloads CSV file. */
   tableHeaderRenameMapping?: Record<string, string>
 }
 
