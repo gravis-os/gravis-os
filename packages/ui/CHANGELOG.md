@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.95
+
+### Patch Changes
+
+- rebuild ui
+
 ## 0.0.94
 
 ### Patch Changes
