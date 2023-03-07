@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.94
+
+### Patch Changes
+
+- [#169](https://github.com/gravis-os/gravis-os/pull/169) [`396d152`](https://github.com/gravis-os/gravis-os/commit/396d1521c5a4c1512007ef60bdfc0944663c9cd9) Thanks [@robyonextech](https://github.com/robyonextech)! - - Expose tableHeaderRenameMapping props in CrudModule
+  - Allow renaming of headers when user downloads csv
+  - Allow re-renaming of headers when user uploads csv
+
+* [#170](https://github.com/gravis-os/gravis-os/pull/170) [`103b9be`](https://github.com/gravis-os/gravis-os/commit/103b9be7f0dc8d79214298d7b87935c515ec681b) Thanks [@winter-steve](https://github.com/winter-steve)! - update popover interface
+
+* Updated dependencies [[`396d152`](https://github.com/gravis-os/gravis-os/commit/396d1521c5a4c1512007ef60bdfc0944663c9cd9)]:
+  - @gravis-os/types@0.0.38
+
 ## 0.0.93
 
 ### Patch Changes
