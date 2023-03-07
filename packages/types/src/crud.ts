@@ -34,6 +34,8 @@ export interface CrudModule {
     afterUpdate?: CrudModuleAfterTriggerFunction
   }
   disableAutoSlug?: boolean // To disable autoSlug
+  /** Mapping of database headers into other names which will be reflected when user downloads CSV file. */
+  tableHeaderRenameMapping?: Record<string, string>
 }
 
 export interface CrudItem {
