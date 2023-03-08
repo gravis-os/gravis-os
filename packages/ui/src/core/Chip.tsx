@@ -22,7 +22,7 @@ export interface ChipProps
   hoverColor?: string
   variant?: MuiChipProps['variant'] | typeof CHIP_VARIANT_CALLOUT
   square?: boolean
-  href?: string
+  href?: WithHrefProps['href']
   hrefProps?: Omit<WithHrefProps, 'href'>
 }
 

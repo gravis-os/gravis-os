@@ -8,6 +8,7 @@ export enum BlockItemTypeEnum {
   H4 = 'h4',
   H5 = 'h5',
   H6 = 'h6',
+  H7 = 'h7',
   BODY1 = 'body1',
   BODY2 = 'body2',
   SUBTITLE1 = 'subtitle1',
@@ -19,6 +20,7 @@ export enum BlockItemTypeEnum {
   GRID = 'grid',
   STACK = 'stack',
   CARD = 'card',
+  ACCORDION = 'accordion',
 
   // Card
   CARD_ABSOLUTE_BOTTOM_IMAGE = 'card_absolute_bottom_image',

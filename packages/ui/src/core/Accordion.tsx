@@ -10,7 +10,7 @@ import {
   useTheme,
 } from '@mui/material'
 import Typography, { TypographyProps } from './Typography'
-import Stack, { StackProps } from './Stack'
+import Stack from './Stack'
 import IconButton, { IconButtonProps } from './IconButton'
 
 export enum AccordionIconVariantEnum {
@@ -33,6 +33,7 @@ export interface AccordionProps {
   }>
   transparent?: boolean
   titleProps?: TypographyProps
+  subtitleProps?: TypographyProps
   defaultExpandedKeys?: string[]
   iconVariant?: AccordionIconVariantEnum
 }
@@ -57,6 +58,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
     defaultExpandAllOnDesktopOnly,
     disablePadding,
     titleProps,
+    subtitleProps,
     defaultExpandedKeys: injectedDefaultExpandedKeys = [],
     iconVariant = AccordionIconVariantEnum.Caret,
   } = props
@@ -86,13 +88,15 @@ const Accordion: React.FC<AccordionProps> = (props) => {
 
   return (
     <div>
-      {items.map((item) => {
+      {items.map((item, i) => {
         const {
-          key,
+          key: injectedKey,
           title,
           actionIconButtons = [],
           disablePadding: disableItemPadding,
         } = item
+
+        const key = injectedKey || (typeof title === 'string' ? title : i)
         const content = item.children || item.content
 
         const isExpanded = Boolean(expanded[key])
@@ -168,7 +172,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
               }}
             >
               {typeof content === 'string' ? (
-                <Typography>{content}</Typography>
+                <Typography {...subtitleProps}>{content}</Typography>
               ) : (
                 content
               )}

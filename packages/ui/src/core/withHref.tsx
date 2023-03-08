@@ -7,6 +7,7 @@ export interface WithHrefProps {
   targetBlank?: boolean
   disabled?: boolean
   linkProps?: LinkProps
+  sx?: LinkProps['sx']
 }
 
 const withHref = (props: WithHrefProps) => {
@@ -14,6 +15,7 @@ const withHref = (props: WithHrefProps) => {
     disabled,
     href,
     targetBlank = false,
+    sx,
     linkProps: injectedLinkProps,
   } = props
 
@@ -26,6 +28,7 @@ const withHref = (props: WithHrefProps) => {
     const linkProps = {
       href,
       underline: 'none' as LinkProps['underline'],
+      sx,
       ...(isTargetBlank
         ? { target: '_blank', href: nextHref }
         : { passHref: true }),

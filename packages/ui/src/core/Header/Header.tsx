@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import MenuIcon from '@mui/icons-material/Menu'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
 import {
   Box,
+  BoxProps,
   Button,
   ButtonProps,
   IconButton,
@@ -11,10 +12,13 @@ import {
   SwipeableDrawer,
   Toolbar,
   ToolbarProps,
+  useMediaQuery,
 } from '@mui/material'
 import { SxProps } from '@mui/system'
+import { useRouter } from 'next/router'
+import { useTheme } from '@mui/material/styles'
 import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
-import NavAccordion from '../NavAccordion'
+import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import HeaderButtonWithMenu, {
   HeaderButtonWithMenuProps,
   NavItemClickFunction,
@@ -47,6 +51,7 @@ export interface HeaderNavItem
 }
 
 export interface HeaderProps extends AppBarProps {
+  accordionProps?: Omit<NavAccordionProps, 'title'>
   containerProps?: ContainerProps
   toolbarProps?: ToolbarProps
   navItems: {
@@ -61,6 +66,7 @@ export interface HeaderProps extends AppBarProps {
   disableRightDrawer?: boolean
   announcements?: Array<{ title: string }>
   height?: number
+  drawerWidth?: BoxProps['width']
 }
 
 /**
@@ -76,7 +82,9 @@ const Header: React.FC<HeaderProps> = (props) => {
     disableScrollTrigger,
     disableSticky,
     disableRightDrawer,
+    drawerWidth = 320,
     navItems,
+    accordionProps,
     announcements,
     renderProps,
     toolbarProps,
@@ -84,10 +92,20 @@ const Header: React.FC<HeaderProps> = (props) => {
     ...rest
   } = props
 
+  // Router
+  const router = useRouter()
+
   // State
   const [isDrawerOpen, setIsDrawerOpen] = React.useState(false)
   const openDrawer = () => setIsDrawerOpen(true)
   const closeDrawer = () => setIsDrawerOpen(false)
+
+  // Hide drawer on desktop
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
+  useEffect(() => {
+    if (isDesktop && isDrawerOpen) closeDrawer()
+  }, [isDesktop])
 
   // Grouped navItems
   const isGroupedNavItems =
@@ -182,11 +200,15 @@ const Header: React.FC<HeaderProps> = (props) => {
             // Render nested menu if hasItems
             const hasNestedMenu = items?.length > 0 || Boolean(renderItems)
 
+            // Check if is external link to render an icon
             const isExternalLink =
               href?.includes('https://') || href?.includes('http://')
             const isOpenInNewTab = linkProps?.target === '_blank'
             const shouldShowNewTabIcon =
               !disableNewTabIcon && isExternalLink && isOpenInNewTab
+
+            // Check if isActive and show indicator
+            const isActive = href !== '/' && router?.pathname.startsWith(href)
 
             // Calculate button props
             const nextButtonProps: ButtonProps = {
@@ -198,6 +220,10 @@ const Header: React.FC<HeaderProps> = (props) => {
                 padding: (theme) => theme.spacing(1.5, 2),
                 borderRadius: 0,
                 whiteSpace: 'nowrap',
+                ...(isActive && {
+                  boxShadow: ({ palette }) =>
+                    `inset 0 -1px 0 0px ${palette.secondary.main}`,
+                }),
               },
               ...(injectedOnClick && {
                 onClick: (e) => injectedOnClick(e, navItem),
@@ -239,6 +265,7 @@ const Header: React.FC<HeaderProps> = (props) => {
 
             return navItemButtonJsx
           }
+
           return (
             <Box {...navItemWrapperProps}>
               {renderHeaderNavItemButton(navItem)}
@@ -292,6 +319,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             closeDrawer()
             if (injectedOnClick) injectedOnClick(e, navItem)
           }}
+          {...accordionProps}
           {...accordionLinksNavItem}
         />
       )
@@ -397,7 +425,7 @@ const Header: React.FC<HeaderProps> = (props) => {
           onClose={closeDrawer}
         >
           <Box
-            width={320}
+            width={drawerWidth || 320}
             role="presentation"
             onKeyDown={(e) => {
               if (e.key === 'Escape') return closeDrawer()

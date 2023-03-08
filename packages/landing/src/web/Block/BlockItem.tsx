@@ -19,6 +19,8 @@ import {
   CardProps,
   Divider,
   DividerProps,
+  Accordion,
+  AccordionProps,
 } from '@gravis-os/ui'
 import merge from 'lodash/merge'
 import isEmpty from 'lodash/isEmpty'
@@ -30,6 +32,7 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
   boxProps?: BoxProps
 
   // Container
+  disableContainer?: boolean
   containerProps?: ContainerProps
   maxWidth?: string | boolean // ContainerProps['maxWidth']
 
@@ -62,6 +65,7 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
     | ButtonProps
     | LinkProps
     | DividerProps
+    | AccordionProps
   type?: BlockItemTypeEnum | string
 }
 
@@ -131,6 +135,7 @@ const renderBlockItem = (props) => {
     case BlockItemTypeEnum.H4:
     case BlockItemTypeEnum.H5:
     case BlockItemTypeEnum.H6:
+    case BlockItemTypeEnum.H7:
     case BlockItemTypeEnum.SUBTITLE1:
     case BlockItemTypeEnum.SUBTITLE2:
     case BlockItemTypeEnum.SUBTITLE3:
@@ -144,6 +149,9 @@ const renderBlockItem = (props) => {
           </Typography>
         </Box>
       )
+    // Accordion
+    case BlockItemTypeEnum.ACCORDION:
+      return <Accordion transparent items={title} {...titleProps} />
     // Card
     case BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE:
       return (
@@ -214,12 +222,15 @@ const renderGrid = (props) => {
               return (
                 <Grid {...gridItemProps}>
                   <Box {...boxProps}>
-                    {items.map((item) => {
+                    {items.map((item, j) => {
+                      // Generate unique keys
+                      const gridItemKey = `grid-${item?.type || ''}-${i}-${j}`
+
                       // Manage recursive grids
                       const hasNestedGridItems = Boolean(item?.gridItems)
                       if (hasNestedGridItems) {
                         return (
-                          <React.Fragment key={`nested-grid-item-${i}`}>
+                          <React.Fragment key={`nested-${gridItemKey}`}>
                             {renderGrid({
                               ...item,
                               // Disable container for nested grids to avoid extra padding
@@ -233,9 +244,7 @@ const renderGrid = (props) => {
                       }
 
                       return (
-                        <React.Fragment
-                          key={`${key}-grid-${item?.type || ''}-${i}`}
-                        >
+                        <React.Fragment key={gridItemKey}>
                           {renderBlockItem({
                             ...item,
                             titleProps: merge({}, titleProps, item?.titleProps),
@@ -294,19 +303,24 @@ const renderStack = (props) => {
 
             return (
               <Box key={`stack-item-${i}`} {...stackItemProps}>
-                {items.map((item, i) => {
+                {items.map((item, j) => {
+                  // Generate unique keys
+                  const stackItemKey = `stack-item-${
+                    item?.type || ''
+                  }-${i}-${j}`
+
                   // Manage recursive stacks
                   const hasNestedStackItems = Boolean(item?.stackItems)
                   if (hasNestedStackItems) {
                     return (
-                      <Box key={`nested-stack-item-${i}`} {...stackItemProps}>
+                      <Box key={`nested-${stackItemKey}`} {...stackItemProps}>
                         {renderStack(item)}
                       </Box>
                     )
                   }
 
                   return (
-                    <React.Fragment key={`stack-${item?.type || ''}-${i}`}>
+                    <React.Fragment key={stackItemKey}>
                       {renderBlockItem({
                         ...item,
                         titleProps: merge({}, titleProps, item?.titleProps),
@@ -351,6 +365,7 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
 
     maxWidth,
     containerProps,
+    disableContainer,
   } = props
 
   const renderChildren = () => {
@@ -382,12 +397,15 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
           })),
         })
       default:
-        return (
+        const childrenJsx = renderBlockItem(props as BlockItemProps)
+        return disableContainer ? (
+          childrenJsx
+        ) : (
           <Container
             maxWidth={maxWidth as ContainerProps['maxWidth']}
             {...containerProps}
           >
-            {renderBlockItem(props as BlockItemProps)}
+            {childrenJsx}
           </Container>
         )
     }

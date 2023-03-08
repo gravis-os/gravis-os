@@ -101,6 +101,7 @@ const Image: React.FC<ImageProps> = (props) => {
   }
 
   const isNextImageFill = !disableResponsive || fixed || fill || background
+  const isNotBackgroundImage = !background && (fixed || fill)
 
   const boxProps = {
     sx: {
@@ -121,7 +122,10 @@ const Image: React.FC<ImageProps> = (props) => {
 
         ...(fadeOnLoad
           ? { opacity: loading ? 0 : 1 }
-          : { transform: loading ? 'scale(1.1)' : 'scale(1)' }),
+          : {
+              transform:
+                loading && !isNotBackgroundImage ? 'scale(1.1)' : 'scale(1)',
+            }),
       }),
       ...(fadeOnHover && { '&:hover': { opacity: 0.87 } }),
       ...(scaleOnHover && { '&:hover': { transform: 'scale(1.1)' } }),
@@ -146,14 +150,12 @@ const Image: React.FC<ImageProps> = (props) => {
          * Fill the image
          * Need to be important to override NextJS image inline style
          */
-        ...(!background &&
-          (fixed || fill) && {
-            ...(!fill && {
-              width: 'initial !important',
-              height: 'initial !important',
-            }),
-            position: 'relative !important',
-          }),
+        ...(isNotBackgroundImage && { position: 'relative !important' }),
+
+        ...(fixed && {
+          width: 'initial !important',
+          height: 'initial !important',
+        }),
 
         /**
          * Fixed background

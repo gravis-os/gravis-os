@@ -4,7 +4,7 @@ import TwitterIcon from '@mui/icons-material/Twitter'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import YouTubeIcon from '@mui/icons-material/YouTube'
-import NavAccordion from '../NavAccordion'
+import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import Box from '../Box'
 import Container from '../Container'
 import Divider from '../Divider'
@@ -26,10 +26,18 @@ export interface FooterProps {
   logo?: React.ReactElement
   socialMediaUrls?: { [key: string]: string }
   legalItems?: Array<{ key: string; title: string; href: string }>
+  accordionProps?: Omit<NavAccordionProps, 'title'>
 }
 
 const Footer: React.FC<FooterProps> = (props) => {
-  const { logo, companyName, socialMediaUrls, legalItems, navItems } = props
+  const {
+    accordionProps,
+    logo,
+    companyName,
+    socialMediaUrls,
+    legalItems,
+    navItems,
+  } = props
 
   return (
     <Box
@@ -38,9 +46,9 @@ const Footer: React.FC<FooterProps> = (props) => {
       py={2}
       bgcolor="background.paper"
     >
-      <Container>
+      <Container disableGuttersOnMobile>
         <Box sx={{ py: { xs: 0, md: 4 } }}>
-          <Grid container spacing={{ xs: 1, md: 5 }}>
+          <Grid container spacing={{ xs: 0, md: 5 }}>
             {logo && (
               <Grid item xs={12} md={4}>
                 <Box
@@ -53,10 +61,14 @@ const Footer: React.FC<FooterProps> = (props) => {
                 </Box>
               </Grid>
             )}
-            {navItems.map((navGroup) => {
+            {navItems?.map((navGroup) => {
               return (
                 <Grid key={navGroup.title} item xs={12} md>
-                  <NavAccordion disablePadding {...navGroup} />
+                  <NavAccordion
+                    px={{ xs: 2, sm: 3, md: 2 }}
+                    {...accordionProps}
+                    {...navGroup}
+                  />
                 </Grid>
               )
             })}

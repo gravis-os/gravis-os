@@ -17,7 +17,8 @@ import withBlockItemShorthand from './withBlockItemShorthand'
 export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
   items: BlockItemProps[]
   maxWidth?: BlockItemProps['maxWidth']
-  containerProps?: ContainerProps
+  containerProps?: BlockItemProps['containerProps']
+  disableContainer?: BlockItemProps['disableContainer']
 
   // Stack
   spacing?: StackProps['spacing']
@@ -59,6 +60,7 @@ const Block: React.FC<BlockProps> = (props) => {
     sx,
     maxWidth,
     containerProps,
+    disableContainer,
     reveal = true,
     backgroundImageProps,
     dark,
@@ -107,6 +109,7 @@ const Block: React.FC<BlockProps> = (props) => {
                 key={`block-item-${i}`}
                 maxWidth={maxWidth}
                 containerProps={containerProps}
+                disableContainer={disableContainer}
                 {...item}
               />
             )

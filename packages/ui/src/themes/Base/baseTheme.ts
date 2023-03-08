@@ -17,6 +17,7 @@ declare module '@mui/material/styles' {
     callout: React.CSSProperties
   }
   interface TypographyVariants {
+    h7: React.CSSProperties
     overline2: React.CSSProperties
     subtitle3: React.CSSProperties
   }
@@ -55,6 +56,7 @@ declare module '@mui/material/Chip' {
 
 declare module '@mui/material/Typography' {
   interface TypographyPropsVariantOverrides {
+    h7: true
     subtitle3: true
     overline2: true
   }

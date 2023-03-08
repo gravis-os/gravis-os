@@ -4,9 +4,11 @@ import {
   TypographyProps as MuiTypographyProps,
 } from '@mui/material'
 import get from 'lodash/get'
+import flowRight from 'lodash/flowRight'
 import Stack, { StackProps } from './Stack'
 import { RevealProps } from './Reveal'
 import withReveal from './withReveal'
+import withHref, { WithHrefProps } from './withHref'
 
 export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   startIcon?: React.ReactElement
@@ -17,6 +19,8 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   maxLines?: number
   component?: string
   reveal?: boolean | RevealProps
+  href?: WithHrefProps['href']
+  hrefProps?: Omit<WithHrefProps, 'href'>
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
@@ -29,6 +33,8 @@ const Typography: React.FC<TypographyProps> = (props) => {
     spacing = 0.5,
     maxLines,
     sx,
+    href,
+    hrefProps,
     ...rest
   } = props
   const { color } = rest
@@ -86,7 +92,9 @@ const Typography: React.FC<TypographyProps> = (props) => {
     )
   }
 
-  return withReveal({ reveal })(childrenJsx)
+  return flowRight([withHref({ href, ...hrefProps }), withReveal({ reveal })])(
+    childrenJsx
+  )
 }
 
 export default Typography

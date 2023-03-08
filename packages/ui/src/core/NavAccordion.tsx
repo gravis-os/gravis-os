@@ -7,44 +7,55 @@ import {
   List,
   ListItem,
   ListItemText,
-  Typography,
   useMediaQuery,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import Link from './Link'
+import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import Link, { LinkProps } from './Link'
+import Typography, { TypographyProps } from './Typography'
 
 interface NavAccordionStyleProps {
   disablePadding?: boolean
 }
 
 export interface NavAccordionProps
-  extends Omit<AccordionProps, 'children'>,
+  extends Omit<AccordionProps, 'children' | 'title'>,
     NavAccordionStyleProps {
-  title: string
+  key?: string
+  title: React.ReactNode
   href?: string
   items?: Array<{
-    title: string | React.ReactElement
+    title: React.ReactNode
     href?: string
     onClick?: (e: React.SyntheticEvent, item: Record<string, unknown>) => void
   }>
   onClick?: (e: React.MouseEvent) => void
-  children?: any
+  children?: React.ReactNode
   accordionProps?: Omit<AccordionProps, 'children'>
+  titleProps?: TypographyProps | LinkProps
+  itemTitleProps?: TypographyProps
+  py?: ResponsiveStyleValue<React.CSSProperties['padding']>
+  px?: ResponsiveStyleValue<React.CSSProperties['padding']>
 }
 
 const EXPAND_ALL = 'EXPAND_ALL'
 
 const NavAccordion: React.FC<NavAccordionProps> = (props) => {
   const {
+    key,
     disablePadding,
     onClick = null,
     title,
+    titleProps,
+    itemTitleProps,
     href,
     items,
     children,
     accordionProps,
+    py = 1.5,
+    px = 3,
   } = props
 
   // Handle expanded state onScreenResize
@@ -59,19 +70,32 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
     e.stopPropagation()
     setExpanded({ ...expanded, [panel]: isExpanded })
   }
-  const isExpanded = Boolean(expanded[EXPAND_ALL] || expanded[title])
+  const isExpanded = Boolean(
+    expanded[EXPAND_ALL] || expanded[typeof title === 'string' ? title : key]
+  )
 
   // Icon
   const ExpansionIcon = isExpanded ? CloseOutlinedIcon : AddOutlinedIcon
 
-  // Children
-  const renderAccordionSummaryContent = () => {
-    const hasLink = Boolean(href)
+  // Allow onClick on single string nodes
+  const hasItems = items?.length
+  const hasLink = Boolean(href)
+  const shouldAllowOnClick = !children && !hasItems && !hasLink
+  // Only render link if desktop, if no items
+  const shouldRenderLink = hasLink && (isDesktop || !hasItems)
 
+  // This is for the title
+  const renderAccordionSummaryTitle = () => {
     switch (true) {
-      case hasLink:
+      case shouldRenderLink:
         return (
-          <Link color="inherit" variant="button" href={href} onClick={onClick}>
+          <Link
+            color="inherit"
+            variant="button"
+            href={href}
+            onClick={onClick}
+            {...(titleProps as LinkProps)}
+          >
             {title}
           </Link>
         )
@@ -80,12 +104,13 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
         return title
       // Title is a string
       default:
-        return <Typography variant="button">{title}</Typography>
+        return (
+          <Typography variant="button" {...(titleProps as TypographyProps)}>
+            {title}
+          </Typography>
+        )
     }
   }
-
-  // Allow onClick on single string nodes
-  const shouldAllowOnClick = !children && !items && !href
 
   return (
     <Accordion
@@ -94,61 +119,54 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
       square
       disableGutters
       {...accordionProps}
+      {...(shouldAllowOnClick && { onClick })}
       sx={{
         ...accordionProps?.sx,
 
-        boxShadow: 'none',
-        borderBottom: (theme) => ({
-          xs: `1px solid ${theme.palette.divider}`,
-          md: 'none',
-        }),
-        '&:before': { backgroundColor: 'transparent' },
+        // Border
+        borderBottom: { xs: 1, md: 0 },
+        '&': { borderColor: 'divider' },
 
-        ...(children && {
-          '& .MuiAccordionSummary-root': {
-            padding: 0,
-            '& .MuiAccordionSummary-content': {
-              margin: 0,
-              '& > .MuiButton-root': {
-                width: '100%',
-                padding: (theme) => theme.spacing(1.5, 2),
-              },
-            },
-          },
-        }),
+        // Colors
+        boxShadow: 'none',
+        '&:before': { backgroundColor: 'transparent' },
       }}
     >
+      {/* Title */}
       <AccordionSummary
         expandIcon={items && !isDesktop && <ExpansionIcon fontSize="small" />}
         sx={{
-          ...(items && {
-            padding: disablePadding && 0,
-            '& > *:first-of-type': { marginY: 1 },
-          }),
-          ...(href && {
-            padding: 0,
-            '& .MuiAccordionSummary-content': { margin: 0 },
-            '& a': {
+          // Padding
+          px,
+          py,
+
+          '& .MuiAccordionSummary-content': { m: 0 },
+
+          ...((hasLink || children || shouldAllowOnClick) && {
+            '& .MuiAccordionSummary-root': {
+              py: 0,
+              px,
+            },
+            '& .MuiAccordionSummary-content > .MuiButton-root': {
               width: '100%',
-              padding: (theme) => theme.spacing(1.5, 2),
+              py,
+              px,
             },
           }),
-          ...((children || shouldAllowOnClick) && {
-            padding: 0,
-            '& .MuiAccordionSummary-content': { margin: 0 },
-            '& > *': {
-              width: '100%',
-              padding: theme.spacing(1.5, 2),
-            },
-          }),
+
+          ...(hasItems &&
+            !isDesktop && {
+              '&:hover': { backgroundColor: 'action.hover' },
+              p: disablePadding && 0,
+            }),
         }}
-        {...(shouldAllowOnClick && { onClick })}
       >
-        {children || renderAccordionSummaryContent()}
+        {children || renderAccordionSummaryTitle()}
       </AccordionSummary>
 
+      {/* Content */}
       {items && (
-        <AccordionDetails sx={{ padding: (theme) => theme.spacing(0, 0, 1.5) }}>
+        <AccordionDetails sx={{ p: (theme) => theme.spacing(0, 0, 1.5) }}>
           <List dense disablePadding>
             {items.map((item, i) => {
               const { onClick: injectedOnClick } = item
@@ -163,26 +181,30 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
                   sx={{
                     lineHeight: disablePadding ? 1.2 : 1,
                     padding: disablePadding && 0,
+                    px,
                   }}
                   color="inherit"
                   {...listItemProps}
                 >
                   <ListItemText disableTypography>
-                    <Typography variant="button" sx={{ textTransform: 'none' }}>
+                    <Typography
+                      variant="button"
+                      sx={{ textTransform: 'none' }}
+                      {...itemTitleProps}
+                    >
                       {item.title}
                     </Typography>
                   </ListItemText>
                 </ListItem>
               )
 
-              if (!item.href) {
-                return <React.Fragment key={key}>{listItemJsx}</React.Fragment>
-              }
-
-              return (
+              const hasItemHref = Boolean(item.href)
+              return hasItemHref ? (
                 <Link key={key} href={item.href}>
                   {listItemJsx}
                 </Link>
+              ) : (
+                <React.Fragment key={key}>{listItemJsx}</React.Fragment>
               )
             })}
           </List>
