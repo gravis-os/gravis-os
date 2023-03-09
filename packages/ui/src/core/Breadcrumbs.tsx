@@ -1,44 +1,95 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   Breadcrumbs as MuiBreadcrumbs,
   BreadcrumbsProps as MuiBreadcrumbsProps,
-  Typography,
 } from '@mui/material'
+import startCase from 'lodash/startCase'
+import { useRouter } from 'next/router'
 import Link from './Link'
+import Typography, { TypographyProps } from './Typography'
+import withContainer, { WithContainerProps } from './withContainer'
 
 export interface BreadcrumbsProps extends MuiBreadcrumbsProps {
   items: Array<{ key: string; title: string; href: string }>
+  disableHomeBreadcrumb?: boolean
+  typographyProps?: TypographyProps
+
+  // Container
+  containerProps?: WithContainerProps['containerProps']
+  container?: WithContainerProps['container']
+
+  autoBreadcrumbs?: boolean
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
-  const { items = [], sx, ...rest } = props
+  const {
+    typographyProps,
+    disableHomeBreadcrumb,
+    items: injectedItems = [],
+    sx,
+    container,
+    containerProps,
+    autoBreadcrumbs,
+    ...rest
+  } = props
 
+  // Calculate autoBreadcrumbItems
+  const router = useRouter()
+  const [autoBreadcrumbItems, setAutoBreadcrumbItems] = useState([])
+  const hasAutoBreadcrumbItems = autoBreadcrumbs && autoBreadcrumbItems?.length
+  useEffect(() => {
+    if (router && autoBreadcrumbs) {
+      const asPaths = router.asPath.split('/')
+      const subPaths = asPaths.slice(1)
+      const nextAutoBreadcrumbItems = subPaths.map((subPath: string, i) => {
+        const href = `/${subPaths.slice(0, i + 1).join('/')}`
+        return {
+          key: subPath,
+          title: startCase(subPath),
+          href,
+        }
+      })
+      setAutoBreadcrumbItems(nextAutoBreadcrumbItems)
+    }
+  }, [router, autoBreadcrumbs])
+
+  const defaultItems = !disableHomeBreadcrumb
+    ? [{ key: 'home', title: 'Home', href: '/' }]
+    : []
+
+  // Data to render
+  const items = [
+    ...(hasAutoBreadcrumbItems ? autoBreadcrumbItems : injectedItems),
+  ].filter(Boolean)
+
+  // Escape if no items
   if (!items?.length) return null
 
-  const nextItems = [{ key: 'home', title: 'Home', href: '/' }, ...items]
+  // Combined items
+  const nextItems = [...defaultItems, ...items]
 
-  return (
-    <MuiBreadcrumbs separator="/" sx={{ ...sx }} {...rest}>
+  const childrenJsx = (
+    <MuiBreadcrumbs separator="›" sx={sx} {...rest}>
       {nextItems.map((item, i) => {
         const { key, title, href } = item
         const isLast = i === nextItems.length - 1
 
-        if (isLast) {
-          return (
-            <Typography key={key} color="text.secondary" variant="subtitle2">
-              {title}
-            </Typography>
-          )
-        }
+        const childrenJsx = (
+          <Typography variant="overline" {...typographyProps}>
+            {title}
+          </Typography>
+        )
 
         return (
-          <Link key={key} href={href} variant="subtitle2">
-            {title}
-          </Link>
+          <React.Fragment key={key}>
+            {isLast ? childrenJsx : <Link href={href}>{childrenJsx}</Link>}
+          </React.Fragment>
         )
       })}
     </MuiBreadcrumbs>
   )
+
+  return withContainer({ container, containerProps })(childrenJsx)
 }
 
 export default Breadcrumbs

@@ -10,6 +10,8 @@ import {
   HeaderProps,
   Footer,
   FooterProps,
+  Breadcrumbs,
+  BreadcrumbsProps,
 } from '@gravis-os/ui'
 
 export interface LandingLayoutProps extends StackProps {
@@ -17,6 +19,11 @@ export interface LandingLayoutProps extends StackProps {
   footerProps?: FooterProps
   bodyProps?: BoxProps
   backgroundColor?: string
+
+  // Breadcrumbs
+  breadcrumbs?: BreadcrumbsProps['items']
+  breadcrumbsProps?: BreadcrumbsProps
+  autoBreadcrumbs?: boolean
 
   // Gutters (vertical)
   disableGutters?: boolean
@@ -41,11 +48,24 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
     disableGutterBottom,
     gutterSize = 2,
 
+    // Breadcrumbs
+    autoBreadcrumbs,
+    breadcrumbs,
+    breadcrumbsProps: injectedBreadcrumbsProps,
+
     // seo
     seo,
 
     ...rest
   } = props
+
+  const breadcrumbsProps = {
+    disableHomeBreadcrumb: true,
+    container: true,
+    autoBreadcrumbs,
+    ...injectedBreadcrumbsProps,
+    sx: { my: 0.5, ...injectedBreadcrumbsProps?.sx },
+  }
 
   return (
     <Stack sx={{ minHeight: '100vh', backgroundColor, ...sx }} {...rest}>
@@ -74,6 +94,11 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
           ...bodyProps?.sx,
         }}
       >
+        {/* Breadcrumbs */}
+        {(autoBreadcrumbs || breadcrumbs) && (
+          <Breadcrumbs items={breadcrumbs} {...breadcrumbsProps} />
+        )}
+
         {children}
       </Box>
 
