@@ -17,6 +17,7 @@ export interface LinkProps extends MuiLinkProps {
   hoverColor?: string
   disableHoverColor?: boolean
   passHref?: boolean
+  targetBlank?: boolean
 }
 
 const Link: React.FC<LinkProps> = (props) => {
@@ -31,6 +32,7 @@ const Link: React.FC<LinkProps> = (props) => {
     pointer,
     sx,
     passHref,
+    targetBlank,
     ...rest
   } = props
 
@@ -84,6 +86,9 @@ const Link: React.FC<LinkProps> = (props) => {
         )}
       </>
     ),
+
+    ...(targetBlank && { target: '_blank' }),
+
     ...rest,
   }
 

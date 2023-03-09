@@ -14,7 +14,17 @@ import Typography from '../Typography'
 import Link from '../Link'
 import IconButton from '../IconButton'
 
-interface FooterNavItem {
+export type SocialItemType =
+  | 'github'
+  | 'medium'
+  | 'behance'
+  | 'twitter'
+  | 'dribbble'
+  | 'facebook'
+  | 'linkedin'
+  | 'instagram'
+
+export interface FooterNavItem {
   title: string
   items: Array<{ title: string; href: string }>
 }
@@ -22,9 +32,8 @@ interface FooterNavItem {
 export interface FooterProps {
   companyName: string
   navItems: FooterNavItem[]
-  socialMediaLinks?: Record<string, string>
   logo?: React.ReactElement
-  socialMediaUrls?: { [key: string]: string }
+  socialMediaItems?: { [type in SocialItemType]: string }
   legalItems?: Array<{ key: string; title: string; href: string }>
   accordionProps?: Omit<NavAccordionProps, 'title'>
 }
@@ -34,7 +43,7 @@ const Footer: React.FC<FooterProps> = (props) => {
     accordionProps,
     logo,
     companyName,
-    socialMediaUrls,
+    socialMediaItems,
     legalItems,
     navItems,
   } = props
@@ -91,8 +100,13 @@ const Footer: React.FC<FooterProps> = (props) => {
             >
               {legalItems?.map((legalItem) => {
                 return (
-                  <Link key={legalItem.key} href={legalItem.href}>
-                    <Typography variant="caption" color="text.secondary">
+                  <Link
+                    key={legalItem.key}
+                    href={legalItem.href}
+                    sx={{ color: 'text.secondary' }}
+                    targetBlank
+                  >
+                    <Typography variant="caption" sx={{ display: 'block' }}>
                       {legalItem.title}
                     </Typography>
                   </Link>
@@ -107,29 +121,29 @@ const Footer: React.FC<FooterProps> = (props) => {
               justifyContent={{ xs: 'center', md: 'flex-end' }}
               spacing={1}
             >
-              {socialMediaUrls &&
-                Object.entries(socialMediaUrls)?.map(
-                  ([socialMediaKey, url]) => {
-                    if (!url) return null
+              {socialMediaItems &&
+                Object.entries(socialMediaItems)?.map(([type, href]) => {
+                  if (!type || !href) return null
 
-                    const keyIconMap = {
-                      facebook: FacebookOutlinedIcon,
-                      twitter: TwitterIcon,
-                      instagram: InstagramIcon,
-                      linkedin: LinkedInIcon,
-                      youtube: YouTubeIcon,
-                    }
-                    const Icon = keyIconMap[socialMediaKey]
-
-                    return (
-                      <Link key={socialMediaKey} href={url} target="_blank">
-                        <IconButton size="small">
-                          <Icon fontSize="inherit" />
-                        </IconButton>
-                      </Link>
-                    )
+                  const keyIconMap = {
+                    facebook: FacebookOutlinedIcon,
+                    twitter: TwitterIcon,
+                    instagram: InstagramIcon,
+                    linkedin: LinkedInIcon,
+                    youtube: YouTubeIcon,
                   }
-                )}
+                  const Icon = keyIconMap[type]
+
+                  if (!Icon) return null
+
+                  return (
+                    <Link key={type} href={href} target="_blank">
+                      <IconButton size="small">
+                        <Icon fontSize="inherit" />
+                      </IconButton>
+                    </Link>
+                  )
+                })}
             </Stack>
           </Stack>
         </Box>
@@ -143,7 +157,7 @@ const Footer: React.FC<FooterProps> = (props) => {
             justifyContent="space-between"
           >
             <Typography variant="caption" color="text.secondary">
-              Copyright © {new Date().getFullYear()} {companyName}. All rights
+              Copyright ©{new Date().getFullYear()} {companyName}. All rights
               reserved.
             </Typography>
           </Stack>
