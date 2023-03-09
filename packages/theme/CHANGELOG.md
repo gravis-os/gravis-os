@@ -1,5 +1,13 @@
 # @gravis-os/theme
 
+## 0.0.7
+
+### Patch Changes
+
+- [`6aeb15e`](https://github.com/gravis-os/gravis-os/commit/6aeb15e8b82bbe90a675ec2375c24863e52d84a6) Thanks [@clodal](https://github.com/clodal)! - Add withPaletteMode to Header and Footer
+
+* [`702787f`](https://github.com/gravis-os/gravis-os/commit/702787f9d4b56744b79d33c57a088e7eb8f7242d) Thanks [@clodal](https://github.com/clodal)! - Update Block for landing page
+
 ## 0.0.6
 
 ### Patch Changes

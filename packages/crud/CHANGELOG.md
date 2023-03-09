@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.81
+
+### Patch Changes
+
+- [#171](https://github.com/gravis-os/gravis-os/pull/171) [`411ddc8`](https://github.com/gravis-os/gravis-os/commit/411ddc8b8109001bc585e30e014cd9514927ac32) Thanks [@winter-steve](https://github.com/winter-steve)! - control column visibility by columnDef hide state
+
+- Updated dependencies [[`3cfb344`](https://github.com/gravis-os/gravis-os/commit/3cfb344ba36d7bef940652a45ff27e8866b9d6bd), [`b57f662`](https://github.com/gravis-os/gravis-os/commit/b57f66281154a42aef8bb6f37b6d4f12c80fbb9f), [`6aeb15e`](https://github.com/gravis-os/gravis-os/commit/6aeb15e8b82bbe90a675ec2375c24863e52d84a6), [`702787f`](https://github.com/gravis-os/gravis-os/commit/702787f9d4b56744b79d33c57a088e7eb8f7242d), [`de6c539`](https://github.com/gravis-os/gravis-os/commit/de6c53934c46900ba12f5a2557ec7673471f2db9), [`e2f6403`](https://github.com/gravis-os/gravis-os/commit/e2f6403076730379bd738f1bd1d5f78129351f82), [`e95f003`](https://github.com/gravis-os/gravis-os/commit/e95f003a3ea70eed78136d6b5ee792b933f0e49d), [`74be4c1`](https://github.com/gravis-os/gravis-os/commit/74be4c17d1cb8a61d682ed71856865f2eb0fa630)]:
+  - @gravis-os/ui@0.0.96
+
 ## 0.0.80
 
 ### Patch Changes

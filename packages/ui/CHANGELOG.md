@@ -1,5 +1,29 @@
 # Changelog
 
+## 0.0.96
+
+### Patch Changes
+
+- [`3cfb344`](https://github.com/gravis-os/gravis-os/commit/3cfb344ba36d7bef940652a45ff27e8866b9d6bd) Thanks [@clodal](https://github.com/clodal)! - Update image ui
+
+* [`b57f662`](https://github.com/gravis-os/gravis-os/commit/b57f66281154a42aef8bb6f37b6d4f12c80fbb9f) Thanks [@clodal](https://github.com/clodal)! - Update Footer
+
+- [`6aeb15e`](https://github.com/gravis-os/gravis-os/commit/6aeb15e8b82bbe90a675ec2375c24863e52d84a6) Thanks [@clodal](https://github.com/clodal)! - Add withPaletteMode to Header and Footer
+
+* [`702787f`](https://github.com/gravis-os/gravis-os/commit/702787f9d4b56744b79d33c57a088e7eb8f7242d) Thanks [@clodal](https://github.com/clodal)! - Update Block for landing page
+
+- [`de6c539`](https://github.com/gravis-os/gravis-os/commit/de6c53934c46900ba12f5a2557ec7673471f2db9) Thanks [@clodal](https://github.com/clodal)! - Enhance blocks and ui for landing pages
+
+* [`e2f6403`](https://github.com/gravis-os/gravis-os/commit/e2f6403076730379bd738f1bd1d5f78129351f82) Thanks [@clodal](https://github.com/clodal)! - Update ui, landing and config for landing page
+
+- [`e95f003`](https://github.com/gravis-os/gravis-os/commit/e95f003a3ea70eed78136d6b5ee792b933f0e49d) Thanks [@clodal](https://github.com/clodal)! - Fix issue with image zoom
+
+* [`74be4c1`](https://github.com/gravis-os/gravis-os/commit/74be4c17d1cb8a61d682ed71856865f2eb0fa630) Thanks [@clodal](https://github.com/clodal)! - Add autoBreadcrumbs
+
+* Updated dependencies [[`6aeb15e`](https://github.com/gravis-os/gravis-os/commit/6aeb15e8b82bbe90a675ec2375c24863e52d84a6), [`702787f`](https://github.com/gravis-os/gravis-os/commit/702787f9d4b56744b79d33c57a088e7eb8f7242d), [`e2f6403`](https://github.com/gravis-os/gravis-os/commit/e2f6403076730379bd738f1bd1d5f78129351f82)]:
+  - @gravis-os/config@0.0.5
+  - @gravis-os/theme@0.0.7
+
 ## 0.0.95
 
 ### Patch Changes
