@@ -4,6 +4,7 @@ import TwitterIcon from '@mui/icons-material/Twitter'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import YouTubeIcon from '@mui/icons-material/YouTube'
+import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import Box from '../Box'
 import Container from '../Container'
@@ -29,7 +30,7 @@ export interface FooterNavItem {
   items: Array<{ title: string; href: string }>
 }
 
-export interface FooterProps {
+export interface FooterProps extends WithPaletteModeProps {
   companyName: string
   navItems: FooterNavItem[]
   logo?: React.ReactElement
@@ -46,9 +47,11 @@ const Footer: React.FC<FooterProps> = (props) => {
     socialMediaItems,
     legalItems,
     navItems,
+    mode,
+    dark,
   } = props
 
-  return (
+  const childrenJsx = (
     <Box
       component="footer"
       textAlign={{ xs: 'center', md: 'left' }}
@@ -165,6 +168,11 @@ const Footer: React.FC<FooterProps> = (props) => {
       </Container>
     </Box>
   )
+
+  return withPaletteMode({
+    mode,
+    dark,
+  })(childrenJsx)
 }
 
 export default Footer

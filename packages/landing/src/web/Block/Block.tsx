@@ -2,7 +2,6 @@ import React from 'react'
 import {
   Box,
   BoxProps,
-  ContainerProps,
   Image,
   ImageProps,
   Stack,
@@ -120,7 +119,8 @@ const Block: React.FC<BlockProps> = (props) => {
   )
 
   return withPaletteMode({
-    mode: mode || ((dark && 'dark') as WithPaletteModeProps['mode']),
+    mode,
+    dark,
   })(childrenJsx)
 }
 

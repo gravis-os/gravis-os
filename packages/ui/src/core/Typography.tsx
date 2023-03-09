@@ -21,6 +21,7 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   reveal?: boolean | RevealProps
   href?: WithHrefProps['href']
   hrefProps?: Omit<WithHrefProps, 'href'>
+  hoverColor?: MuiTypographyProps['color']
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
@@ -35,6 +36,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     sx,
     href,
     hrefProps,
+    hoverColor,
     ...rest
   } = props
   const { color } = rest
@@ -66,6 +68,9 @@ const Typography: React.FC<TypographyProps> = (props) => {
           WebkitLineClamp: maxLines,
           overflowY: 'hidden',
         }),
+
+        // Hover color
+        ...(hoverColor && { '&:hover': { color: hoverColor } }),
 
         ...sx,
       }}

@@ -35,6 +35,7 @@
     "@dnd-kit/utilities": "^3.2.0",
     "@gravis-os/config": "*",
     "@gravis-os/rtl": "*",
+    "@gravis-os/theme": "*",
     "@gravis-os/types": "*",
     "@gravis-os/utils": "*",
     "clsx": "^1.1.1",

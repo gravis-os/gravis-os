@@ -17,6 +17,7 @@ import {
 import { SxProps } from '@mui/system'
 import { useRouter } from 'next/router'
 import { useTheme } from '@mui/material/styles'
+import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
 import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import HeaderButtonWithMenu, {
@@ -50,7 +51,7 @@ export interface HeaderNavItem
   render?: (renderProps: any) => React.ReactNode
 }
 
-export interface HeaderProps extends AppBarProps {
+export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   accordionProps?: Omit<NavAccordionProps, 'title'>
   containerProps?: ContainerProps
   toolbarProps?: ToolbarProps
@@ -89,6 +90,9 @@ const Header: React.FC<HeaderProps> = (props) => {
     renderProps,
     toolbarProps,
     height,
+    mode,
+    dark,
+    sx,
     ...rest
   } = props
 
@@ -333,6 +337,10 @@ const Header: React.FC<HeaderProps> = (props) => {
   const childrenJsx = (
     <AppBar
       {...{
+        sx: {
+          color: 'text.primary',
+          ...sx,
+        },
         ...rest,
         ...(disableSticky && { position: 'static' }),
       }}
@@ -445,7 +453,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     </AppBar>
   )
 
-  return (
+  const childrenWithLayoutJsx = (
     <>
       {Boolean(announcements?.length) && (
         <Box
@@ -473,6 +481,11 @@ const Header: React.FC<HeaderProps> = (props) => {
       )}
     </>
   )
+
+  return withPaletteMode({
+    mode,
+    dark,
+  })(childrenWithLayoutJsx)
 }
 
 export default Header

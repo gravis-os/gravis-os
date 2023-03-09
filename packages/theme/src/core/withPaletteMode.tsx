@@ -5,6 +5,7 @@ import { useGravis } from '@gravis-os/config'
 
 const defaultLightTheme = createTheme({ palette: { mode: 'light' } })
 const defaultDarkTheme = createTheme({ palette: { mode: 'dark' } })
+
 export interface WithPaletteModeProps {
   /**
    * Force a palette mode. Otherwise use the global mode
@@ -12,11 +13,17 @@ export interface WithPaletteModeProps {
    *
    */
   mode?: 'light' | 'dark'
+  /**
+   * Shorthand method for mode
+   */
+  dark?: boolean
 }
 
 const withPaletteMode = (props: WithPaletteModeProps) => {
-  const { mode } = props
+  const { dark: injectedDark, mode: injectedMode } = props
 
+  // Calculate vars
+  const mode = injectedMode || (injectedDark && 'dark')
   const dark = mode === 'dark'
 
   // Source config

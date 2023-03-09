@@ -1,8 +1,8 @@
 import React, { createContext, useEffect, useState } from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery'
+import { IconButton } from '@mui/material'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
-import { IconButton } from '@gravis-os/ui'
 
 export interface UserPreferences {
   direction?: 'ltr' | 'rtl'

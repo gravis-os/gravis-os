@@ -30,7 +30,6 @@
   },
   "dependencies": {
     "@gravis-os/types": "*",
-    "@gravis-os/ui": "*",
     "lodash": "^4.17.21",
     "qs": "^6.11.0",
     "tslib": "^2.4.0",

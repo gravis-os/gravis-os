@@ -3,7 +3,8 @@ import merge from 'lodash/merge'
 import { GravisConfig } from '@gravis-os/types'
 import { createTheme } from '@mui/material/styles'
 
-const muiDefaultTheme = createTheme()
+const defaultLightTheme = createTheme({ palette: { mode: 'light' } })
+const defaultDarkTheme = createTheme({ palette: { mode: 'dark' } })
 
 // ==============================
 // Context
@@ -16,8 +17,8 @@ const gravisConfigInitialState = {
   },
   mui: {
     theme: {
-      light: muiDefaultTheme,
-      dark: muiDefaultTheme,
+      light: defaultLightTheme,
+      dark: defaultDarkTheme,
     },
   },
 } as GravisConfig
