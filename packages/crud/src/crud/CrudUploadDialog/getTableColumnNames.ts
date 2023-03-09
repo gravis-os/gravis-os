@@ -1,8 +1,13 @@
-const getTableColumnNames = (tableDefinition): string[] | never[] => {
+import { has, isNil, map } from 'lodash'
+
+const getTableColumnNames = (
+  tableDefinition,
+  tableHeaderRenameMapping?: Record<string, string>
+): string[] | never[] => {
   if (!tableDefinition) return []
 
   // Remove unwanted columns
-  return Object.entries(tableDefinition.properties).reduce(
+  const processedColumns = Object.entries(tableDefinition.properties).reduce(
     (acc, [key, value]) => {
       const isPrimaryKey = key === 'id'
       const isForeignKey = key.endsWith('id')
@@ -15,6 +20,15 @@ const getTableColumnNames = (tableDefinition): string[] | never[] => {
     },
     []
   )
+
+  // Map column names if tableHeaderRenameMapping is given
+  return !isNil(tableHeaderRenameMapping)
+    ? map(processedColumns, (column) => {
+        return has(tableHeaderRenameMapping, column)
+          ? tableHeaderRenameMapping[column]
+          : column
+      })
+    : processedColumns
 }
 
 export default getTableColumnNames

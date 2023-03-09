@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.102
+
+### Patch Changes
+
+- [#164](https://github.com/gravis-os/gravis-os/pull/164) [`307bc98`](https://github.com/gravis-os/gravis-os/commit/307bc9805f4ac632de1de63d14e86fcfc3231a7e) Thanks [@winter-steve](https://github.com/winter-steve)! - set formValue from resolved defaultValue when fetching
+
+## 0.0.101
+
+### Patch Changes
+
+- [#162](https://github.com/gravis-os/gravis-os/pull/162) [`53ba750`](https://github.com/gravis-os/gravis-os/commit/53ba7506c2b9ce983ee0b7a70158dbb7bdc90380) Thanks [@winter-steve](https://github.com/winter-steve)! - add readonly component for percentage field
+
+- Updated dependencies [[`3a89382`](https://github.com/gravis-os/gravis-os/commit/3a893826485eea9c17b467322cb5f1e001e7c284)]:
+  - @gravis-os/fields@0.0.13
+
 ## 0.0.100
 
 ### Patch Changes

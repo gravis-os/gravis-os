@@ -14,3 +14,10 @@ export interface NavConfigItem {
   key: string
   items?: NavConfigItem[]
 }
+
+export interface Option<T = string> {
+  label: string
+  value: T
+}
+
+export type Options<T = string> = Array<Option<T>>

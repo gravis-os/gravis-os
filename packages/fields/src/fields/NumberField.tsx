@@ -9,10 +9,10 @@ const NumberField = (props) => {
     <NumberFormat
       customInput={TextField}
       decimalScale={0}
-      {...rest}
       isNumericString
       fullWidth
       thousandSeparator
+      {...rest}
       value={value}
       onValueChange={(target) => onChange(target.floatValue)}
     />

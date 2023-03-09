@@ -1,5 +1,31 @@
 # Changelog
 
+## 0.0.80
+
+### Patch Changes
+
+- [#169](https://github.com/gravis-os/gravis-os/pull/169) [`396d152`](https://github.com/gravis-os/gravis-os/commit/396d1521c5a4c1512007ef60bdfc0944663c9cd9) Thanks [@robyonextech](https://github.com/robyonextech)! - - Expose tableHeaderRenameMapping props in CrudModule
+  - Allow renaming of headers when user downloads csv
+  - Allow re-renaming of headers when user uploads csv
+- Updated dependencies [[`396d152`](https://github.com/gravis-os/gravis-os/commit/396d1521c5a4c1512007ef60bdfc0944663c9cd9), [`103b9be`](https://github.com/gravis-os/gravis-os/commit/103b9be7f0dc8d79214298d7b87935c515ec681b)]:
+  - @gravis-os/types@0.0.38
+  - @gravis-os/ui@0.0.94
+
+## 0.0.79
+
+### Patch Changes
+
+- [#165](https://github.com/gravis-os/gravis-os/pull/165) [`bd62075`](https://github.com/gravis-os/gravis-os/commit/bd6207560e9d5a37122190abcc4ee8ca92b2adb2) Thanks [@winter-steve](https://github.com/winter-steve)! - handle ModelField disabling based on grid options
+
+## 0.0.78
+
+### Patch Changes
+
+- [#160](https://github.com/gravis-os/gravis-os/pull/160) [`734acd6`](https://github.com/gravis-os/gravis-os/commit/734acd64c311fac7d20a2e92d638c6dc821a7489) Thanks [@winter-steve](https://github.com/winter-steve)! - add requireDownload prop to control whether download is required for proceeding with the next step
+
+- Updated dependencies [[`53ba750`](https://github.com/gravis-os/gravis-os/commit/53ba7506c2b9ce983ee0b7a70158dbb7bdc90380)]:
+  - @gravis-os/form@0.0.101
+
 ## 0.0.77
 
 ### Patch Changes

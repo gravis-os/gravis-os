@@ -1,5 +1,17 @@
 # @gravis-os/fields
 
+## 0.0.14
+
+### Patch Changes
+
+- [#168](https://github.com/gravis-os/gravis-os/pull/168) [`c72e800`](https://github.com/gravis-os/gravis-os/commit/c72e8009866fdb43736a33312880b2c18f124f16) Thanks [@jovanchan1](https://github.com/jovanchan1)! - Fixed amount fields displaying original values when null.
+
+## 0.0.13
+
+### Patch Changes
+
+- [#163](https://github.com/gravis-os/gravis-os/pull/163) [`3a89382`](https://github.com/gravis-os/gravis-os/commit/3a893826485eea9c17b467322cb5f1e001e7c284) Thanks [@jovanchan1](https://github.com/jovanchan1)! - Allow override of default props in NumberField. Overriding of thousandSeparator prop was needed.
+
 ## 0.0.12
 
 ### Patch Changes
