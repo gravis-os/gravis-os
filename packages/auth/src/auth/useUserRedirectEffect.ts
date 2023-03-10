@@ -20,6 +20,10 @@ const useUserRedirectEffect = () => {
     // Important to use dbUserFetching instead of dbUserLoading
     if (dbUserFetching) return
 
+    // Prevent useEffect call during the brief moments of logging out
+    // when authUser is absent but dbUser is present
+    if (!authUser) return
+
     // Outcome: No db user
     if (authUser && !dbUser && !dbUserFetching) {
       return toast.error('User not found')
