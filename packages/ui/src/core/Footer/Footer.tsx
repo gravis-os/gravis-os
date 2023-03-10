@@ -5,6 +5,7 @@ import InstagramIcon from '@mui/icons-material/Instagram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
 import YouTubeIcon from '@mui/icons-material/YouTube'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
+import startCase from 'lodash/startCase'
 import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import Box from '../Box'
 import Container from '../Container'
@@ -25,6 +26,8 @@ export type SocialItemType =
   | 'linkedin'
   | 'instagram'
 
+export type LegalItemType = 'terms' | 'privacy' | 'cookies'
+
 export interface FooterNavItem {
   title: string
   items: Array<{ title: string; href: string }>
@@ -35,7 +38,7 @@ export interface FooterProps extends WithPaletteModeProps {
   navItems: FooterNavItem[]
   logo?: React.ReactElement
   socialMediaItems?: { [type in SocialItemType]: string }
-  legalItems?: Array<{ key: string; title: string; href: string }>
+  legalItems?: { [type in LegalItemType]: string }
   accordionProps?: Omit<NavAccordionProps, 'title'>
 }
 
@@ -101,20 +104,23 @@ const Footer: React.FC<FooterProps> = (props) => {
               justifyContent={{ xs: 'center', md: 'flex-start' }}
               spacing={1}
             >
-              {legalItems?.map((legalItem) => {
-                return (
-                  <Link
-                    key={legalItem.key}
-                    href={legalItem.href}
-                    sx={{ color: 'text.secondary' }}
-                    targetBlank
-                  >
-                    <Typography variant="caption" sx={{ display: 'block' }}>
-                      {legalItem.title}
-                    </Typography>
-                  </Link>
-                )
-              })}
+              {legalItems &&
+                Object.entries(legalItems)?.map(([key, href]) => {
+                  if (!key || !href) return null
+
+                  return (
+                    <Link
+                      key={key}
+                      href={href}
+                      sx={{ color: 'text.secondary' }}
+                      targetBlank
+                    >
+                      <Typography variant="caption" sx={{ display: 'block' }}>
+                        {startCase(key)}
+                      </Typography>
+                    </Link>
+                  )
+                })}
             </Stack>
 
             {/* Social media urls */}
