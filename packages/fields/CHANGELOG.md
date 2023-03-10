@@ -1,5 +1,13 @@
 # @gravis-os/fields
 
+## 0.0.15
+
+### Patch Changes
+
+- [#173](https://github.com/gravis-os/gravis-os/pull/173) [`52bbbd2`](https://github.com/gravis-os/gravis-os/commit/52bbbd20d532edc93ca0e636e33c93aab873af55) Thanks [@jovanchan1](https://github.com/jovanchan1)! - added label prop to ControlledAmountField
+
+* [#172](https://github.com/gravis-os/gravis-os/pull/172) [`75cbc9a`](https://github.com/gravis-os/gravis-os/commit/75cbc9aadf8c9e399edf652578b2f8d1835b6c46) Thanks [@jovanchan1](https://github.com/jovanchan1)! - fixed number field displaying original value when null.
+
 ## 0.0.14
 
 ### Patch Changes
