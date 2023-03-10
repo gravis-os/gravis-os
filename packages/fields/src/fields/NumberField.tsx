@@ -14,7 +14,7 @@ const NumberField = (props) => {
       thousandSeparator
       {...rest}
       value={value}
-      onValueChange={(target) => onChange(target.floatValue)}
+      onValueChange={(target) => onChange(target.floatValue || null)}
     />
   )
 }
