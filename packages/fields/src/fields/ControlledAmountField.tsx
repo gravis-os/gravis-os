@@ -6,7 +6,7 @@ import TextField from './TextField'
 export interface ControlledAmountFieldProps {
   control: Control
   name: string
-  label: string
+  label?: string
 }
 
 const NumberFormatField = (props) => {
