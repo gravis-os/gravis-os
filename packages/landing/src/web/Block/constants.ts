@@ -29,6 +29,7 @@ export enum BlockItemTypeEnum {
   IMAGE = 'image',
   SVG = 'svg',
   ICON = 'icon',
+  FA_ICON = 'fa-icon',
   BUTTON = 'button',
   LINK = 'link',
   DIVIDER = 'divider',

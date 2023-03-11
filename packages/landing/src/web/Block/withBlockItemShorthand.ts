@@ -16,6 +16,7 @@ const withBlockItemShorthand = () => (items: BlockItemProps[]) => {
    * @param items
    */
   const getBlockItemsWithoutShorthand = (items) => {
+    if (!items?.length) return []
     return items.reduce((acc, item) => {
       const { type } = item
       if (!type) return acc

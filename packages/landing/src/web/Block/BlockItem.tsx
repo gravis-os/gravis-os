@@ -94,6 +94,12 @@ const renderBlockItem = (props) => {
           <Icon {...titleProps} />
         </Box>
       )
+    case BlockItemTypeEnum.FA_ICON:
+      return (
+        <Box {...boxProps}>
+          <Box component="i" className={title} {...titleProps} />
+        </Box>
+      )
     case BlockItemTypeEnum.DIVIDER:
       return (
         <Box {...boxProps}>

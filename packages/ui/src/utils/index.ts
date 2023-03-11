@@ -27,3 +27,6 @@ export * from './withStates'
 
 export { default as hideScrollbarSx } from './hideScrollbarSx'
 export * from './hideScrollbarSx'
+
+export { default as renderFontAwesomeKitScriptTag } from './renderFontAwesomeKitScriptTag'
+export * from './renderFontAwesomeKitScriptTag'
