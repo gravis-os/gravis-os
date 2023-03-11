@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.52
+
+### Patch Changes
+
+- [#174](https://github.com/gravis-os/gravis-os/pull/174) [`36cd25c`](https://github.com/gravis-os/gravis-os/commit/36cd25c4d92f6eb686e211dd56864bb4d6be05d1) Thanks [@al1xt](https://github.com/al1xt)! - fix login success toast message showing during logout
+
 ## 0.0.51
 
 ### Patch Changes
