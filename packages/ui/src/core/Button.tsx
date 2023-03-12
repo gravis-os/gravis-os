@@ -7,7 +7,7 @@ import {
 } from '@mui/material'
 import { alpha } from '@mui/material/styles'
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
-import withHref from './withHref'
+import withHref, { WithHrefProps } from './withHref'
 import withTooltip from './withTooltip'
 import withPopover from './withPopover'
 import withSetLoadingInOnClick, {
@@ -41,7 +41,8 @@ export interface ButtonProps
   disableBorderRadius?: boolean
   square?: boolean
   title?: string
-  href?: string
+  href?: WithHrefProps['href']
+  hrefProps?: WithHrefProps
   component?: React.JSXElementConstructor<any> | string
   fullWidthOnMobile?: boolean
   tooltip?: string
@@ -70,6 +71,7 @@ const Button: React.FC<ButtonProps> = (props) => {
     tooltip,
     popover,
     href,
+    hrefProps,
     title,
     children,
     sx,
@@ -191,6 +193,7 @@ const Button: React.FC<ButtonProps> = (props) => {
       ...(fullWidthOnMobile && {
         linkProps: { sx: { ...getFullWidthOnMobileSx(fullWidthOnMobile) } },
       }),
+      ...hrefProps,
     }),
     withTooltip({ tooltip }),
     withPopover({ popover }),

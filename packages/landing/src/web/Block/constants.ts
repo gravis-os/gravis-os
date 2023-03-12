@@ -21,6 +21,7 @@ export enum BlockItemTypeEnum {
   STACK = 'stack',
   CARD = 'card',
   ACCORDION = 'accordion',
+  HTML = 'html',
 
   // Card
   CARD_ABSOLUTE_BOTTOM_IMAGE = 'card_absolute_bottom_image',

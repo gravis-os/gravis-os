@@ -22,14 +22,19 @@ export const getResponsiveMaxWidth =
 
 export interface ContainerProps extends Omit<MuiContainerProps, 'maxWidth'> {
   disableGuttersOnMobile?: boolean
+  disableContainer?: boolean
   maxWidth?: MuiContainerProps['maxWidth'] | ResponsiveMaxWidth
 }
 
 const Container: React.FC<ContainerProps> = (props) => {
-  const { maxWidth, disableGuttersOnMobile, sx, ...rest } = props
+  const { maxWidth, disableGuttersOnMobile, disableContainer, sx, ...rest } =
+    props
+  const { children } = rest
 
   const theme = useTheme()
   const isResponsiveMaxWidth = typeof maxWidth === 'object'
+
+  if (disableContainer) return <>{children}</>
 
   return (
     <MuiContainer

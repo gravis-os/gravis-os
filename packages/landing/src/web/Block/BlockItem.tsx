@@ -8,6 +8,8 @@ import {
   BoxProps,
   Container,
   ContainerProps,
+  Dialog,
+  DialogProps,
   Image,
   ImageProps,
   Button,
@@ -21,6 +23,8 @@ import {
   DividerProps,
   Accordion,
   AccordionProps,
+  useOpen,
+  Html,
 } from '@gravis-os/ui'
 import merge from 'lodash/merge'
 import isEmpty from 'lodash/isEmpty'
@@ -30,6 +34,9 @@ import { BlockItemTypeEnum } from './constants'
 export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
   // BoxProps - Wrapper of a BlockItem
   boxProps?: BoxProps
+
+  // DialogProps
+  dialogProps?: DialogProps
 
   // Container
   disableContainer?: boolean
@@ -70,121 +77,155 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
 }
 
 const renderBlockItem = (props) => {
-  const { boxProps, type, title, titleProps } = props
+  const {
+    dialogProps,
+    boxProps: injectedBoxProps,
+    type,
+    title,
+    titleProps,
+  } = props
 
-  switch (type) {
-    case BlockItemTypeEnum.OVERLINE:
-    case BlockItemTypeEnum.OVERLINE2:
-      return (
-        <Box {...boxProps}>
-          <Typography
-            variant={type}
-            color="text.secondary"
-            gutterBottom
-            {...titleProps}
-          >
-            {title}
-          </Typography>
-        </Box>
-      )
-    case BlockItemTypeEnum.ICON:
-      const Icon = title
-      return (
-        <Box {...boxProps}>
-          <Icon {...titleProps} />
-        </Box>
-      )
-    case BlockItemTypeEnum.FA_ICON:
-      return (
-        <Box {...boxProps}>
-          <Box component="i" className={title} {...titleProps} />
-        </Box>
-      )
-    case BlockItemTypeEnum.DIVIDER:
-      return (
-        <Box {...boxProps}>
-          <Divider {...titleProps} />
-        </Box>
-      )
-    case BlockItemTypeEnum.BUTTON:
-      return (
-        <Box {...boxProps}>
-          <Button {...titleProps}>{title}</Button>
-        </Box>
-      )
-    case BlockItemTypeEnum.LINK:
-      return (
-        <Box {...boxProps}>
-          <Link displayBlock {...titleProps}>
-            {title}
-          </Link>
-        </Box>
-      )
-    case BlockItemTypeEnum.IMAGE:
-      return (
-        <Box {...boxProps}>
-          <Image src={title} {...titleProps} />
-        </Box>
-      )
-    case BlockItemTypeEnum.SVG:
-      const InlineSvgComponent = title
-      return (
-        <Box {...boxProps}>
-          <Box {...titleProps}>
-            <InlineSvgComponent />
-          </Box>
-        </Box>
-      )
-    case BlockItemTypeEnum.H1:
-    case BlockItemTypeEnum.H2:
-    case BlockItemTypeEnum.H3:
-    case BlockItemTypeEnum.H4:
-    case BlockItemTypeEnum.H5:
-    case BlockItemTypeEnum.H6:
-    case BlockItemTypeEnum.H7:
-    case BlockItemTypeEnum.SUBTITLE1:
-    case BlockItemTypeEnum.SUBTITLE2:
-    case BlockItemTypeEnum.SUBTITLE3:
-    case BlockItemTypeEnum.BODY1:
-    case BlockItemTypeEnum.BODY2:
-    case BlockItemTypeEnum.CAPTION:
-      return (
-        <Box {...boxProps}>
-          <Typography variant={type} {...titleProps}>
-            {title}
-          </Typography>
-        </Box>
-      )
-    // Accordion
-    case BlockItemTypeEnum.ACCORDION:
-      return <Accordion transparent items={title} {...titleProps} />
-    // Card
-    case BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE:
-      return (
-        <Box
-          {...boxProps}
-          sx={{
-            width: '100%',
-            position: { xs: 'static', md: 'absolute' },
-            bottom: 0,
-            ...boxProps?.sx,
-          }}
-        >
-          {!isEmpty(title) && (
-            <Image
-              src={title}
-              layout="responsive"
-              width={300}
-              height={200}
+  const [isOpen, { open, close }] = useOpen()
+
+  const boxProps = dialogProps
+    ? {
+        ...injectedBoxProps,
+        onClick: open,
+      }
+    : injectedBoxProps
+
+  const renderChildrenJsx = () => {
+    switch (type) {
+      case BlockItemTypeEnum.OVERLINE:
+      case BlockItemTypeEnum.OVERLINE2:
+        return (
+          <Box {...boxProps}>
+            <Typography
+              variant={type}
+              color="text.secondary"
+              gutterBottom
               {...titleProps}
-              sx={{ mt: 5, ...titleProps?.sx }}
-            />
-          )}
-        </Box>
-      )
-    default:
-      return null
+            >
+              {title}
+            </Typography>
+          </Box>
+        )
+      case BlockItemTypeEnum.ICON:
+        const Icon = title
+        return (
+          <Box {...boxProps}>
+            <Icon {...titleProps} />
+          </Box>
+        )
+      case BlockItemTypeEnum.FA_ICON:
+        return (
+          <Box {...boxProps}>
+            <Box component="i" className={title} {...titleProps} />
+          </Box>
+        )
+      case BlockItemTypeEnum.DIVIDER:
+        return (
+          <Box {...boxProps}>
+            <Divider {...titleProps} />
+          </Box>
+        )
+      case BlockItemTypeEnum.BUTTON:
+        return (
+          <Box {...boxProps}>
+            <Button {...titleProps}>{title}</Button>
+          </Box>
+        )
+      case BlockItemTypeEnum.LINK:
+        return (
+          <Box {...boxProps}>
+            <Link displayBlock {...titleProps}>
+              {title}
+            </Link>
+          </Box>
+        )
+      case BlockItemTypeEnum.IMAGE:
+        return (
+          <Box {...boxProps}>
+            <Image src={title} {...titleProps} />
+          </Box>
+        )
+      case BlockItemTypeEnum.SVG:
+        const InlineSvgComponent = title
+        return (
+          <Box {...boxProps}>
+            <Box {...titleProps}>
+              <InlineSvgComponent />
+            </Box>
+          </Box>
+        )
+      case BlockItemTypeEnum.H1:
+      case BlockItemTypeEnum.H2:
+      case BlockItemTypeEnum.H3:
+      case BlockItemTypeEnum.H4:
+      case BlockItemTypeEnum.H5:
+      case BlockItemTypeEnum.H6:
+      case BlockItemTypeEnum.H7:
+      case BlockItemTypeEnum.SUBTITLE1:
+      case BlockItemTypeEnum.SUBTITLE2:
+      case BlockItemTypeEnum.SUBTITLE3:
+      case BlockItemTypeEnum.BODY1:
+      case BlockItemTypeEnum.BODY2:
+      case BlockItemTypeEnum.CAPTION:
+        return (
+          <Box {...boxProps}>
+            <Typography variant={type} {...titleProps}>
+              {title}
+            </Typography>
+          </Box>
+        )
+      case BlockItemTypeEnum.HTML:
+        return (
+          <Box {...boxProps}>
+            {title && <Html html={title} {...titleProps} />}
+          </Box>
+        )
+      // Accordion
+      case BlockItemTypeEnum.ACCORDION:
+        return <Accordion transparent items={title} {...titleProps} />
+      // Card
+      case BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE:
+        return (
+          <Box
+            {...boxProps}
+            sx={{
+              width: '100%',
+              position: { xs: 'static', md: 'absolute' },
+              bottom: 0,
+              ...boxProps?.sx,
+            }}
+          >
+            {!isEmpty(title) && (
+              <Image
+                src={title}
+                layout="responsive"
+                width={300}
+                height={200}
+                {...titleProps}
+                sx={{ mt: 5, ...titleProps?.sx }}
+              />
+            )}
+          </Box>
+        )
+      default:
+        return null
+    }
   }
+
+  const childrenJsx = renderChildrenJsx()
+
+  return dialogProps ? (
+    <>
+      {childrenJsx}
+      <Dialog open={isOpen} onClose={close} {...dialogProps} />
+    </>
+  ) : (
+    childrenJsx
+  )
 }
 
 const renderGrid = (props) => {
@@ -198,15 +239,20 @@ const renderGrid = (props) => {
     gridProps,
     maxWidth,
     containerProps,
+    disableContainer,
     titleProps, // Common title props
   } = props
   return (
     <Box sx={sx}>
-      <Container maxWidth={maxWidth} {...containerProps}>
+      <Container
+        maxWidth={maxWidth}
+        disableContainer={disableContainer}
+        {...containerProps}
+      >
         <Box {...boxProps}>
           <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
             {gridItems.map((gridItem, i) => {
-              const { items, boxProps, ...rest } = gridItem
+              const { items, dialogProps, boxProps, ...rest } = gridItem
 
               // Wrapper gridItem props abstracted for common use
               const gridItemProps = {
@@ -254,6 +300,7 @@ const renderGrid = (props) => {
                           {renderBlockItem({
                             ...item,
                             titleProps: merge({}, titleProps, item?.titleProps),
+                            dialogProps,
                           })}
                         </React.Fragment>
                       )
