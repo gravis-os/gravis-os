@@ -1,16 +1,24 @@
 import React from 'react'
-import useOpen from '../hooks/useOpen'
+import Box from './Box'
 import Dialog, { DialogProps } from './Dialog'
+import useOpen from '../hooks/useOpen'
 
-const withDialog = (props: Omit<DialogProps, 'open'>) => (children) => {
+export interface WithDialogProps extends Omit<DialogProps, 'open'> {}
+
+const withDialog = (props: WithDialogProps) => (children) => {
   const { ...rest } = props
 
-  const [isOpen, { close }] = useOpen()
+  const [isOpen, { open, close }] = useOpen()
+
+  // Escape if no dialogProps
+  const hasDialogProps = rest.title || rest.children
+  if (!hasDialogProps) return children
 
   return (
-    <Dialog open={isOpen} onClose={close} {...rest}>
-      {children}
-    </Dialog>
+    <>
+      <Box onClick={open}>{children}</Box>
+      <Dialog open={isOpen} onClose={close} {...rest} />
+    </>
   )
 }
 

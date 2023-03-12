@@ -211,6 +211,8 @@ const renderBlockItem = (props) => {
             )}
           </Box>
         )
+      case BlockItemTypeEnum.JSX:
+        return <Box {...boxProps}>{title}</Box>
       default:
         return null
     }

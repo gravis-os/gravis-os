@@ -40,6 +40,7 @@ export interface FooterProps extends WithPaletteModeProps {
   socialMediaItems?: { [type in SocialItemType]: string }
   legalItems?: { [type in LegalItemType]: string }
   accordionProps?: Omit<NavAccordionProps, 'title'>
+  callout?: React.ReactNode
 }
 
 const Footer: React.FC<FooterProps> = (props) => {
@@ -52,127 +53,135 @@ const Footer: React.FC<FooterProps> = (props) => {
     navItems,
     mode,
     dark,
+    callout,
   } = props
 
   const childrenJsx = (
-    <Box
-      component="footer"
-      textAlign={{ xs: 'center', md: 'left' }}
-      py={2}
-      bgcolor="background.paper"
-    >
-      <Container disableGuttersOnMobile>
-        <Box sx={{ py: { xs: 0, md: 4 } }}>
-          <Grid container spacing={{ xs: 0, md: 5 }}>
-            {logo && (
-              <Grid item xs={12} md={4}>
-                <Box
-                  pt={2}
-                  sx={{ mb: { xs: 2, md: 0 } }}
-                  display="flex"
-                  justifyContent={{ xs: 'center', md: 'flex-start' }}
-                >
-                  {logo}
-                </Box>
-              </Grid>
-            )}
-            {navItems?.map((navGroup) => {
-              return (
-                <Grid key={navGroup.title} item xs={12} md>
-                  <NavAccordion
-                    px={{ xs: 2, sm: 3, md: 2 }}
-                    {...accordionProps}
-                    {...navGroup}
-                  />
+    <>
+      {callout}
+
+      {/* Footer */}
+      <Box
+        component="footer"
+        textAlign={{ xs: 'center', md: 'left' }}
+        py={2}
+        bgcolor="background.paper"
+      >
+        <Container disableGuttersOnMobile>
+          <Box sx={{ py: { xs: 0, md: 4 } }}>
+            <Grid container spacing={{ xs: 0, md: 5 }}>
+              {logo && (
+                <Grid item xs={12} md={4}>
+                  <Box
+                    pt={2}
+                    sx={{ mb: { xs: 2, md: 0 } }}
+                    display="flex"
+                    justifyContent={{ xs: 'center', md: 'flex-start' }}
+                  >
+                    {logo}
+                  </Box>
                 </Grid>
-              )
-            })}
-          </Grid>
-        </Box>
+              )}
+              {navItems?.map((navGroup) => {
+                return (
+                  <Grid key={navGroup.title} item xs={12} md>
+                    <NavAccordion
+                      px={{ xs: 2, sm: 3, md: 2 }}
+                      {...accordionProps}
+                      {...navGroup}
+                    />
+                  </Grid>
+                )
+              })}
+            </Grid>
+          </Box>
 
-        <Box mt={2}>
-          <Stack
-            direction={{ xs: 'column-reverse', md: 'row' }}
-            alignItems="center"
-            justifyContent="space-between"
-            spacing={2}
-          >
-            {/* Legal items */}
+          <Box mt={2}>
             <Stack
-              direction="row"
+              direction={{ xs: 'column-reverse', md: 'row' }}
               alignItems="center"
-              justifyContent={{ xs: 'center', md: 'flex-start' }}
-              spacing={1}
+              justifyContent="space-between"
+              spacing={2}
             >
-              {legalItems &&
-                Object.entries(legalItems)?.map(([key, href]) => {
-                  if (!key || !href) return null
+              {/* Legal items */}
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent={{ xs: 'center', md: 'flex-start' }}
+                spacing={1}
+              >
+                {legalItems &&
+                  Object.entries(legalItems)?.map(([key, href]) => {
+                    if (!key || !href) return null
 
-                  return (
-                    <Link
-                      key={key}
-                      href={href}
-                      sx={{ color: 'text.secondary' }}
-                      targetBlank
-                    >
-                      <Typography variant="caption" sx={{ display: 'block' }}>
-                        {startCase(key)}
-                      </Typography>
-                    </Link>
-                  )
-                })}
+                    return (
+                      <Link
+                        key={key}
+                        href={href}
+                        sx={{ color: 'text.secondary' }}
+                        targetBlank
+                      >
+                        <Typography variant="caption" sx={{ display: 'block' }}>
+                          {startCase(key)}
+                        </Typography>
+                      </Link>
+                    )
+                  })}
+              </Stack>
+
+              {/* Social media urls */}
+              <Stack
+                direction="row"
+                alignItems="center"
+                justifyContent={{ xs: 'center', md: 'flex-end' }}
+                spacing={1}
+              >
+                {socialMediaItems &&
+                  Object.entries(socialMediaItems)?.map(([type, href]) => {
+                    if (!type || !href) return null
+
+                    const keyIconMap = {
+                      facebook: FacebookOutlinedIcon,
+                      twitter: TwitterIcon,
+                      instagram: InstagramIcon,
+                      linkedin: LinkedInIcon,
+                      youtube: YouTubeIcon,
+                    }
+                    const Icon = keyIconMap[type]
+
+                    if (!Icon) return null
+
+                    return (
+                      <Link key={type} href={href} target="_blank">
+                        <IconButton size="small">
+                          <Icon fontSize="inherit" />
+                        </IconButton>
+                      </Link>
+                    )
+                  })}
+              </Stack>
             </Stack>
+          </Box>
 
-            {/* Social media urls */}
+          <Divider
+            sx={{ mt: 1, mb: 2, display: { xs: 'none', md: 'block' } }}
+          />
+
+          <Box mt={2}>
             <Stack
-              direction="row"
+              direction={{ xs: 'column-reverse', md: 'row' }}
               alignItems="center"
-              justifyContent={{ xs: 'center', md: 'flex-end' }}
-              spacing={1}
+              justifyContent="space-between"
             >
-              {socialMediaItems &&
-                Object.entries(socialMediaItems)?.map(([type, href]) => {
-                  if (!type || !href) return null
-
-                  const keyIconMap = {
-                    facebook: FacebookOutlinedIcon,
-                    twitter: TwitterIcon,
-                    instagram: InstagramIcon,
-                    linkedin: LinkedInIcon,
-                    youtube: YouTubeIcon,
-                  }
-                  const Icon = keyIconMap[type]
-
-                  if (!Icon) return null
-
-                  return (
-                    <Link key={type} href={href} target="_blank">
-                      <IconButton size="small">
-                        <Icon fontSize="inherit" />
-                      </IconButton>
-                    </Link>
-                  )
-                })}
+              <Typography variant="caption" color="text.secondary">
+                Copyright ©{new Date().getFullYear()} {companyName}. All rights
+                reserved.
+              </Typography>
             </Stack>
-          </Stack>
-        </Box>
-
-        <Divider sx={{ mt: 1, mb: 2, display: { xs: 'none', md: 'block' } }} />
-
-        <Box mt={2}>
-          <Stack
-            direction={{ xs: 'column-reverse', md: 'row' }}
-            alignItems="center"
-            justifyContent="space-between"
-          >
-            <Typography variant="caption" color="text.secondary">
-              Copyright ©{new Date().getFullYear()} {companyName}. All rights
-              reserved.
-            </Typography>
-          </Stack>
-        </Box>
-      </Container>
-    </Box>
+          </Box>
+        </Container>
+      </Box>
+    </>
   )
 
   return withPaletteMode({

@@ -6,9 +6,8 @@ import {
   UseFormProps,
   UseFormReturn,
 } from 'react-hook-form'
-import { ButtonProps } from '@gravis-os/ui'
+import { Box, BoxProps, Button, ButtonProps } from '@gravis-os/ui'
 import { RenderPropsFunction } from '@gravis-os/types'
-import { Box, SxProps } from '@mui/material'
 import getFormRenderProps, {
   FormRenderPropsInterface,
 } from './getFormRenderProps'
@@ -32,7 +31,7 @@ export interface FormProps<TFormValues>
   cancelButtonProps?: ButtonProps
   editButtonProps?: ButtonProps
   buttonProps?: ButtonProps // Shared button props
-  sx?: SxProps
+  sx?: BoxProps['sx']
 }
 
 const Form: React.FC<FormProps<any>> = (props) => {
@@ -44,6 +43,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
     children,
     formRenderProps: injectedFormRenderProps,
     sx,
+    submitButtonProps,
     ...rest
   } = props
 
@@ -79,10 +79,11 @@ const Form: React.FC<FormProps<any>> = (props) => {
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
-        {...rest}
+        {...(rest as any)}
         sx={{ width: '100%', ...sx }}
       >
         {renderChildren()}
+        {submitButtonProps && <Button type="submit" {...submitButtonProps} />}
       </Box>
     </FormProvider>
   )

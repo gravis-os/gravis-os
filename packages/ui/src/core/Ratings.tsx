@@ -3,24 +3,25 @@ import StarOutlinedIcon from '@mui/icons-material/StarOutlined'
 import StarHalfOutlinedIcon from '@mui/icons-material/StarHalfOutlined'
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined'
 import { SvgIconProps } from '@mui/material'
-import Stack from './Stack'
+import Stack, { StackProps } from './Stack'
 import Typography from './Typography'
 
-export interface RatingsProps {
+export interface RatingsProps extends StackProps {
   value: number
   max?: number
   reviewCount?: number
+  disableText?: boolean
 }
 
 const Ratings: React.FC<RatingsProps> = (props) => {
-  const { value, max = 5, reviewCount } = props
+  const { disableText, value, max = 5, reviewCount, ...rest } = props
 
   const commonProps = {
     color: 'warning',
   } as SvgIconProps
 
   return (
-    <Stack direction="row" alignItems="center">
+    <Stack direction="row" alignItems="center" {...rest}>
       {[...new Array(Math.floor(value))].map((_, i) => {
         return <StarOutlinedIcon key={`star-${i}`} {...commonProps} />
       })}
@@ -30,7 +31,7 @@ const Ratings: React.FC<RatingsProps> = (props) => {
           <StarOutlineOutlinedIcon key={`star-empty-${i}`} {...commonProps} />
         )
       })}
-      {value && (
+      {!disableText && value && (
         <Typography
           variant="subtitle1"
           color="text.primary"
@@ -40,7 +41,7 @@ const Ratings: React.FC<RatingsProps> = (props) => {
           {value}
         </Typography>
       )}
-      {reviewCount && (
+      {!disableText && reviewCount && (
         <Typography
           variant="body2"
           color="text.primary"

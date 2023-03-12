@@ -14,6 +14,8 @@ import withSetLoadingInOnClick, {
   WithSetLoadingInOnClick,
 } from './withSetLoadingInOnClick'
 import CircularProgress from './CircularProgress'
+import withDialog, { WithDialogProps } from './withDialog'
+import withBox, { WithBoxProps } from './withBox'
 
 // Methods
 const getFullWidthOnMobileSx = (fullWidthOnMobile) => {
@@ -43,6 +45,8 @@ export interface ButtonProps
   title?: string
   href?: WithHrefProps['href']
   hrefProps?: WithHrefProps
+  dialogProps?: WithDialogProps
+  boxProps?: WithBoxProps
   component?: React.JSXElementConstructor<any> | string
   fullWidthOnMobile?: boolean
   tooltip?: string
@@ -72,6 +76,8 @@ const Button: React.FC<ButtonProps> = (props) => {
     popover,
     href,
     hrefProps,
+    dialogProps,
+    boxProps,
     title,
     children,
     sx,
@@ -198,6 +204,8 @@ const Button: React.FC<ButtonProps> = (props) => {
     withTooltip({ tooltip }),
     withPopover({ popover }),
     withSetLoadingInOnClick({ onClick: rest?.onClick }),
+    withDialog(dialogProps),
+    withBox(boxProps),
   ])(childrenJsx)
 }
 

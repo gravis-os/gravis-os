@@ -92,6 +92,7 @@ export interface FormSectionFieldProps {
   key: string
   name: string
   label?: string
+  placeholder?: string
   type?: FormSectionFieldTypeEnum | string // Should not have string type but adding so as to prevent having to TS casting downstream
   module?: CrudModule
   multiple?: boolean
