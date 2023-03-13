@@ -2,4 +2,4 @@
 "@gravis-os/storage": patch
 ---
 
-feat: add a fallback avatar src
+Add a fallback avatar src to StorageAvatarWithUpload
