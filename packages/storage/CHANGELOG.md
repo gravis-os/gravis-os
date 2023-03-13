@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.35
+
+### Patch Changes
+
+- [#177](https://github.com/gravis-os/gravis-os/pull/177) [`09cb482`](https://github.com/gravis-os/gravis-os/commit/09cb4825b52d7e30e9002d283913ce574d240a34) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Add a fallback avatar src to StorageAvatarWithUpload
+
+- Updated dependencies [[`c16ab58`](https://github.com/gravis-os/gravis-os/commit/c16ab58704fdd9610866ffc018ace768ed6601e4), [`684daa0`](https://github.com/gravis-os/gravis-os/commit/684daa0d93066b5cd60b565bee4a6f1e79f77dfe), [`9f386fe`](https://github.com/gravis-os/gravis-os/commit/9f386fe3e65561dc4bf350aef754927613df704b)]:
+  - @gravis-os/ui@0.0.97
+
 ## 0.0.34
 
 ### Patch Changes

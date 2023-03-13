@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.41
+
+### Patch Changes
+
+- [`9021ec5`](https://github.com/gravis-os/gravis-os/commit/9021ec5b2d65aa1d5b62d304a5aa8d222e93f695) Thanks [@clodal](https://github.com/clodal)! - Fix issue with absolute urls being distorted in the cleanHref util
+
 ## 0.0.40
 
 ### Patch Changes

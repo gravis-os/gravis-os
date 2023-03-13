@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.41
+
+### Patch Changes
+
+- [`c16ab58`](https://github.com/gravis-os/gravis-os/commit/c16ab58704fdd9610866ffc018ace768ed6601e4) Thanks [@clodal](https://github.com/clodal)! - Add dialogProps and html to BlockItem"
+
+* [`9f386fe`](https://github.com/gravis-os/gravis-os/commit/9f386fe3e65561dc4bf350aef754927613df704b) Thanks [@clodal](https://github.com/clodal)! - Add fa-icon to blockitem
+
+* Updated dependencies [[`c16ab58`](https://github.com/gravis-os/gravis-os/commit/c16ab58704fdd9610866ffc018ace768ed6601e4), [`684daa0`](https://github.com/gravis-os/gravis-os/commit/684daa0d93066b5cd60b565bee4a6f1e79f77dfe), [`9f386fe`](https://github.com/gravis-os/gravis-os/commit/9f386fe3e65561dc4bf350aef754927613df704b)]:
+  - @gravis-os/ui@0.0.97
+
 ## 0.0.40
 
 ### Patch Changes
