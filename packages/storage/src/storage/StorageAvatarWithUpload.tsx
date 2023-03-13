@@ -14,6 +14,7 @@ export interface StorageAvatarWithUploadProps extends AvatarProps {
   client?: SupabaseClient
   onUpload?: (savedFilePath: string) => void
   src?: string // defaultValue to render the image. Storage filepath where image is currently stored
+  fallbackSrc?: string // fallback image src
   size?: number // Image size
   value?: string // Typically the form value
   name?: string // The database key to save this src to
@@ -32,6 +33,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
   const {
     name = 'avatar_src',
     src: injectedFilePath,
+    fallbackSrc,
     size = 64,
     inputProps,
     onUpload,
@@ -152,7 +154,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
       {hasLabel && <FieldLabel>{label}</FieldLabel>}
 
       <Avatar
-        src={avatarUrl}
+        src={avatarUrl || fallbackSrc}
         alt={alt || (avatarUrl ? 'Avatar' : 'No image')}
         onClick={() => {
           if (!fileInputRef.current || !editable) return
