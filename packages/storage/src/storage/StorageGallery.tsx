@@ -75,6 +75,7 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
     item, // product
     module, // e.g. The primary table that stores these files e.g. `product`
     storageModule, // The foreign table where we save the images e.g. `product_gallery_images`
+    storageRecords,
     dropzoneProps,
     label,
     setValue,
@@ -84,6 +85,7 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
   const { files, onRemove, dropzone, dropzoneOptions } =
     useMultiStorageDropzone({
       item,
+      storageRecords,
       module,
       storageModule,
       setFormValue: (value) => setValue(name, value),
