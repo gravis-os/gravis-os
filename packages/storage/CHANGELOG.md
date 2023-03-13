@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.36
+
+### Patch Changes
+
+- [#178](https://github.com/gravis-os/gravis-os/pull/178) [`2116cab`](https://github.com/gravis-os/gravis-os/commit/2116cab62e5db413e6a619779044737c4d7650f7) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Add StorageGallery missing prop
+
 ## 0.0.35
 
 ### Patch Changes
