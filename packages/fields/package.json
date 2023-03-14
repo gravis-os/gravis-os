@@ -34,7 +34,7 @@
     "qs": "^6.11.0",
     "tslib": "^2.4.0",
     "typescript": "^4.6.3",
-    "zustand": "^4.1.5",
+    "zustand": "^4.3.6",
     "react-number-format": "^4.9.3"
   },
   "peerDependencies": {

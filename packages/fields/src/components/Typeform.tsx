@@ -1,5 +1,5 @@
 import React from 'react'
-import create from 'zustand'
+import { create } from 'zustand'
 import { useForm, UseFormReturn } from 'react-hook-form'
 import {
   Box,
