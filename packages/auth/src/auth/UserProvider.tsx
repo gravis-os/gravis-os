@@ -148,7 +148,10 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
        * Need to fire the API signOut as well to get authUser from useAuthUser
        * to reset properly, else it will still linger on and cause side-effects.
        */
-      supabaseClient.auth.signOut(),
+      new Promise((resolve) => {
+        // Delay until after the auth cookies have been removed
+        setTimeout(() => resolve(supabaseClient.auth.signOut()), 500)
+      }),
       /**
        * Trigger supabase auth logout instead of js package logout to ensure that
        * cookies are removed as well because the previous method: supabaseClient.auth.signOut()
