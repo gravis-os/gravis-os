@@ -12,7 +12,7 @@ export interface WithPaletteModeProps {
    * This allows us to get certain wrapped children to ignore the global palette
    *
    */
-  mode?: 'light' | 'dark'
+  mode?: 'light' | 'dark' | string
   /**
    * Shorthand method for mode
    */
