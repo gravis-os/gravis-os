@@ -12,6 +12,7 @@ import {
 import Typography, { TypographyProps } from './Typography'
 import Stack from './Stack'
 import IconButton, { IconButtonProps } from './IconButton'
+import Box, { BoxProps } from './Box'
 
 export enum AccordionIconVariantEnum {
   Plus = 'plus',
@@ -36,6 +37,7 @@ export interface AccordionProps {
   subtitleProps?: TypographyProps
   defaultExpandedKeys?: string[]
   iconVariant?: AccordionIconVariantEnum
+  sx?: BoxProps['sx']
 }
 
 export const ACCORDION_ICON_VARIANTS = {
@@ -61,6 +63,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
     subtitleProps,
     defaultExpandedKeys: injectedDefaultExpandedKeys = [],
     iconVariant = AccordionIconVariantEnum.Caret,
+    sx,
   } = props
 
   // Icon
@@ -87,7 +90,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
   if (!items?.length) return null
 
   return (
-    <div>
+    <Box sx={sx}>
       {items.map((item, i) => {
         const {
           key: injectedKey,
@@ -180,7 +183,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
           </MuiAccordion>
         )
       })}
-    </div>
+    </Box>
   )
 }
 

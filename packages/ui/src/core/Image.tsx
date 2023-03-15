@@ -3,6 +3,7 @@ import NextImage, { ImageProps as NextImageProps } from 'next/image'
 import React, { useState } from 'react'
 import Zoom from 'react-medium-image-zoom'
 import { useGravis } from '@gravis-os/config'
+import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 import Box, { BoxProps } from './Box'
 
 export interface ImageProps extends Omit<NextImageProps, 'loading'> {
@@ -12,7 +13,6 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
    * @example '16:9'
    */
   ar?: string
-  disablePointerEvents?: boolean
   disableBlur?: boolean
   sx?: BoxProps['sx']
   containerSx?: BoxProps['sx']
@@ -21,11 +21,6 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
   loading?: boolean
   rounded?: boolean
   zoom?: boolean
-  /**
-   * Disable the default responsive resizing of an image
-   * @default false
-   */
-  disableResponsive?: boolean
   /**
    * Use the original image dimensioms
    * @default false
@@ -36,6 +31,8 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
    * @default false
    */
   background?: boolean
+  backgroundSx?: BoxProps['sx']
+  backgroundHeight?: ResponsiveStyleValue<React.CSSProperties['height']>
   /**
    * Preserve the image size without scaling
    * @default false
@@ -66,14 +63,17 @@ const Image: React.FC<ImageProps> = (props) => {
     fadeOnHover,
     sx,
     containerSx,
-    disablePointerEvents,
-    disableResponsive,
     disableBlur,
     rounded,
     fixed,
+
+    // Background
     background,
+    backgroundHeight,
+    backgroundSx,
     fixedBackground,
-    fadeOnLoad,
+
+    fadeOnLoad: injectedFadeOnLoad,
     fill,
     zoom,
     ...rest
@@ -84,11 +84,13 @@ const Image: React.FC<ImageProps> = (props) => {
   const [loading, setLoading] = useState(injectedLoading ?? true)
   const [aspectWidth, aspectHeight] = ar?.split(':') || [1, 1]
 
+  const fadeOnLoad = Boolean(injectedFadeOnLoad || background)
+
   if (empty) {
     return (
       <Box
         sx={{
-          ...(!disableResponsive
+          ...(ar
             ? { position: 'relative', overflow: 'hidden', pb: '100%' }
             : { width: rest?.width, height: rest?.height }),
           backgroundColor: ({ palette: { mode } }) => {
@@ -100,32 +102,40 @@ const Image: React.FC<ImageProps> = (props) => {
     )
   }
 
-  const isNextImageFill = !disableResponsive || fixed || fill || background
+  const isNextImageFill = ar || fixed || fill || background
   const isNotBackgroundImage = !background && (fixed || fill)
 
   const boxProps = {
     sx: {
-      ...(disablePointerEvents && {
+      ...(isNextImageFill && {
         '> span, > img': { pointerEvents: 'none' },
       }),
 
       // Transitions
       ...(!disableBlur && {
-        transition: ({ transitions }) =>
-          fadeOnLoad
-            ? transitions.create(['opacity'], {
-                easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
-                duration: '3s',
-                delay: '0.1s',
-              })
-            : transitions.create(['opacity', 'transform']),
+        transition: ({ transitions }) => {
+          const opacityTransition = transitions.create(['opacity'], {
+            easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
+            duration: '3s',
+            delay: '0.1s',
+          })
 
-        ...(fadeOnLoad
-          ? { opacity: loading ? 0 : 1 }
-          : {
-              transform:
-                loading && !isNotBackgroundImage ? 'scale(1.1)' : 'scale(1)',
-            }),
+          const transformTransition = transitions.create(['transform'])
+
+          const nextTransitions: string[] = [
+            opacityTransition,
+            ...(scaleOnHover ? [transformTransition] : []),
+          ]
+
+          return nextTransitions.join(',')
+        },
+
+        ...(scaleOnHover && {
+          transform:
+            loading && !isNotBackgroundImage ? 'scale(1.1)' : 'scale(1)',
+        }),
+
+        ...(fadeOnLoad && { opacity: loading ? 0 : 1 }),
       }),
       ...(fadeOnHover && { '&:hover': { opacity: 0.87 } }),
       ...(scaleOnHover && { '&:hover': { transform: 'scale(1.1)' } }),
@@ -167,7 +177,7 @@ const Image: React.FC<ImageProps> = (props) => {
 
       // For blur effect
       ...(!fixed &&
-        !disableResponsive &&
+        ar &&
         !fill && {
           position: 'relative',
           width: '100%',
@@ -238,8 +248,7 @@ const Image: React.FC<ImageProps> = (props) => {
     </Box>
   )
 
-  // Render
-  return zoom ? (
+  const childrenJsxWithZoom = zoom ? (
     <Box
       sx={{
         // Offset the default css injected display from the Zoom lib
@@ -252,6 +261,16 @@ const Image: React.FC<ImageProps> = (props) => {
     </Box>
   ) : (
     childrenJsx
+  )
+
+  return backgroundHeight ? (
+    <Box
+      sx={{ position: 'relative', height: backgroundHeight, ...backgroundSx }}
+    >
+      {childrenJsxWithZoom}
+    </Box>
+  ) : (
+    childrenJsxWithZoom
   )
 }
 

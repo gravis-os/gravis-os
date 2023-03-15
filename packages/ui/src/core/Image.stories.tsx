@@ -27,7 +27,6 @@ Basic.args = {}
 
 export const FixedSize = Template.bind({})
 FixedSize.args = {
-  disableResponsive: true,
   height: 100,
   width: 100,
   loading: false,

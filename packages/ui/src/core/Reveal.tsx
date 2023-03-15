@@ -23,6 +23,7 @@ export interface RevealProps extends ReactAwesomeRevealProps {}
 const Reveal: React.FC<RevealProps> = (props) => {
   return (
     <ReactAwesomeReveal
+      triggerOnce
       keyframes={customAnimation}
       duration={1500}
       {...props}

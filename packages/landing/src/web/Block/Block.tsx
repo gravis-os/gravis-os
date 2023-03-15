@@ -14,7 +14,7 @@ import getBlockPadding from './getBlockPadding'
 import withBlockItemShorthand from './withBlockItemShorthand'
 
 export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
-  items: BlockItemProps[]
+  items?: BlockItemProps[]
   maxWidth?: BlockItemProps['maxWidth']
   containerProps?: BlockItemProps['containerProps']
   disableContainer?: BlockItemProps['disableContainer']
@@ -55,7 +55,7 @@ const Block: React.FC<BlockProps> = (props) => {
     pt,
     pb,
     py,
-    items: injectedItems,
+    items: injectedItems = [],
     sx,
     maxWidth,
     containerProps,
@@ -89,15 +89,7 @@ const Block: React.FC<BlockProps> = (props) => {
       {...rest}
     >
       {/* Background Image */}
-      {hasBackgroundImage && (
-        <Image
-          background
-          fadeOnLoad
-          disableResponsive
-          disablePointerEvents
-          {...backgroundImageProps}
-        />
-      )}
+      {hasBackgroundImage && <Image background {...backgroundImageProps} />}
 
       {/* Content */}
       <Box sx={{ width: '100%' }} reveal={reveal}>

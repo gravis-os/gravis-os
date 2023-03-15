@@ -9,6 +9,7 @@ import { useGravis } from '@gravis-os/config'
 export interface LinkProps extends MuiLinkProps {
   pointer?: boolean
   rightCaret?: boolean
+  rightCaretFullWidth?: boolean
   displayBlock?: boolean
   fadeOnHover?: boolean
   /**
@@ -27,6 +28,7 @@ const Link: React.FC<LinkProps> = (props) => {
     disableHoverColor,
     displayBlock,
     rightCaret,
+    rightCaretFullWidth,
     href,
     children,
     pointer,
@@ -69,13 +71,20 @@ const Link: React.FC<LinkProps> = (props) => {
       // Fade hover effect
       ...(fadeOnHover && { '&:hover': { opacity: 0.87 } }),
 
+      // Right caret full width
+      ...(rightCaretFullWidth && {
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+      }),
+
       // Overrides
       ...sx,
     },
     children: (
       <>
         {children}
-        {rightCaret && (
+        {(rightCaret || rightCaretFullWidth) && (
           <KeyboardArrowRightOutlinedIcon
             sx={{
               width: '0.75em',
