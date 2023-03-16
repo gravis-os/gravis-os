@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.53
+
+### Patch Changes
+
+- [#179](https://github.com/gravis-os/gravis-os/pull/179) [`9a074ef`](https://github.com/gravis-os/gravis-os/commit/9a074efd99695b3d53f3e4597bf5474451aa5926) Thanks [@al1xt](https://github.com/al1xt)! - Fix logout not working intermittently due to auth cookies not updating in time
+
 ## 0.0.52
 
 ### Patch Changes
