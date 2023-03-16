@@ -8,6 +8,7 @@ import { useRouter } from 'next/router'
 import Link from './Link'
 import Typography, { TypographyProps } from './Typography'
 import withContainer, { WithContainerProps } from './withContainer'
+import Box from './Box'
 
 export interface BreadcrumbsProps extends MuiBreadcrumbsProps {
   items: Array<{ key: string; title: string; href: string }>
@@ -89,7 +90,16 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
     </MuiBreadcrumbs>
   )
 
-  return withContainer({ container, containerProps })(childrenJsx)
+  return (
+    <Box
+      sx={{
+        backgroundColor: 'background.paper',
+        '& .MuiBreadcrumbs-root': { my: 0, py: 0.5 },
+      }}
+    >
+      {withContainer({ container, containerProps })(childrenJsx)}
+    </Box>
+  )
 }
 
 export default Breadcrumbs

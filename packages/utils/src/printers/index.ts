@@ -27,3 +27,6 @@ export * from './printShortDateTime'
 
 export { default as printDate } from './printDate'
 export * from './printDate'
+
+export { default as printPaddedNumber } from './printPaddedNumber'
+export * from './printPaddedNumber'
