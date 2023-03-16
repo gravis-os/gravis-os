@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.82
+
+### Patch Changes
+
+- Rebuild crud
+
 ## 0.0.81
 
 ### Patch Changes
