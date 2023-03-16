@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.54
+
+### Patch Changes
+
+- [#180](https://github.com/gravis-os/gravis-os/pull/180) [`b74de33`](https://github.com/gravis-os/gravis-os/commit/b74de33c521e85996ff089e31e50bc6aafcfb820) Thanks [@al1xt](https://github.com/al1xt)! - Ensure auth cookies are cleared before invalidating db user query
+
 ## 0.0.53
 
 ### Patch Changes
