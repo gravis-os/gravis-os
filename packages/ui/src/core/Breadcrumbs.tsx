@@ -19,11 +19,15 @@ export interface BreadcrumbsProps extends MuiBreadcrumbsProps {
   containerProps?: WithContainerProps['containerProps']
   container?: WithContainerProps['container']
 
+  // Background
+  backgroundColor?: React.CSSProperties['backgroundColor']
+
   autoBreadcrumbs?: boolean
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   const {
+    backgroundColor,
     typographyProps,
     disableHomeBreadcrumb,
     items: injectedItems = [],
@@ -93,7 +97,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   return (
     <Box
       sx={{
-        backgroundColor: 'background.paper',
+        backgroundColor,
         '& .MuiBreadcrumbs-root': { my: 0, py: 0.5 },
       }}
     >

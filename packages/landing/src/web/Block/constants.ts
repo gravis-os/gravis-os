@@ -21,6 +21,7 @@ export enum BlockItemTypeEnum {
   STACK = 'stack',
   CARD = 'card',
   ACCORDION = 'accordion',
+  LIST = 'list',
   HTML = 'html',
   JSX = 'jsx',
 

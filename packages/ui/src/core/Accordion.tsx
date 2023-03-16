@@ -34,7 +34,7 @@ export interface AccordionProps {
   }>
   transparent?: boolean
   titleProps?: TypographyProps
-  subtitleProps?: TypographyProps
+  contentProps?: TypographyProps
   defaultExpandedKeys?: string[]
   iconVariant?: AccordionIconVariantEnum
   sx?: BoxProps['sx']
@@ -60,7 +60,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
     defaultExpandAllOnDesktopOnly,
     disablePadding,
     titleProps,
-    subtitleProps,
+    contentProps,
     defaultExpandedKeys: injectedDefaultExpandedKeys = [],
     iconVariant = AccordionIconVariantEnum.Caret,
     sx,
@@ -175,7 +175,7 @@ const Accordion: React.FC<AccordionProps> = (props) => {
               }}
             >
               {typeof content === 'string' ? (
-                <Typography {...subtitleProps}>{content}</Typography>
+                <Typography {...contentProps}>{content}</Typography>
               ) : (
                 content
               )}

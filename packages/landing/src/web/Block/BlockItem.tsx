@@ -25,6 +25,7 @@ import {
   AccordionProps,
   useOpen,
   Html,
+  List,
 } from '@gravis-os/ui'
 import merge from 'lodash/merge'
 import isEmpty from 'lodash/isEmpty'
@@ -187,6 +188,9 @@ const renderBlockItem = (props) => {
       // Accordion
       case BlockItemTypeEnum.ACCORDION:
         return <Accordion transparent items={title} {...titleProps} />
+      // List
+      case BlockItemTypeEnum.LIST:
+        return <List items={title} {...titleProps} />
       // Card
       case BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE:
         return (
