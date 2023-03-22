@@ -2,7 +2,7 @@ import { CrudItem } from '@gravis-os/types'
 import intersectionBy from 'lodash/intersectionBy'
 
 const getRelatedCrudItemsByTagTitles = (
-  items: Array<CrudItem & { tags: CrudItem[] }>,
+  items: CrudItem[],
   tagTitles: string[]
 ): CrudItem[] | [] => {
   if (!tagTitles?.length) return items || []
