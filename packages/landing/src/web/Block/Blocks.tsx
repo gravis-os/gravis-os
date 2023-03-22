@@ -12,7 +12,7 @@ const Blocks: React.FC<BlocksProps> = (props) => {
 
   return (
     <>
-      {items.map((item) => {
+      {items.filter(Boolean).map((item) => {
         return <Block id={String(item.key)} {...item} />
       })}
     </>

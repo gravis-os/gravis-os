@@ -34,9 +34,6 @@ export * from './CircularProgress'
 export { default as Container } from './Container'
 export * from './Container'
 
-export { default as CheckboxGroup } from './CheckboxGroup'
-export * from './CheckboxGroup'
-
 export { default as CheckboxTable } from './CheckboxTable'
 export * from './CheckboxTable'
 

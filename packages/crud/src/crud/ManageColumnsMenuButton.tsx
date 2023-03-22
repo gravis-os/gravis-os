@@ -1,5 +1,6 @@
 import React from 'react'
-import { CheckboxGroup, MenuButton, ButtonProps } from '@gravis-os/ui'
+import { MenuButton, ButtonProps } from '@gravis-os/ui'
+import { CheckboxGroup } from '@gravis-os/fields'
 import { ColDef } from 'ag-grid-community/dist/lib/entities/colDef'
 
 export interface ManageColumnDef extends ColDef {

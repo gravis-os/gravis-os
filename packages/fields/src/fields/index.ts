@@ -16,6 +16,12 @@ export * from './PercentageField'
 export { default as ControlledPercentageField } from './ControlledPercentageField'
 export * from './ControlledPercentageField'
 
+export { default as ControlledCheckboxGroup } from './ControlledCheckboxGroup'
+export * from './ControlledCheckboxGroup'
+
+export { default as CheckboxGroup } from './CheckboxGroup'
+export * from './CheckboxGroup'
+
 export { default as NumberField } from './NumberField'
 export * from './NumberField'
 

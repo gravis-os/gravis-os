@@ -15,7 +15,8 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
   ar?: string
   disableBlur?: boolean
   sx?: BoxProps['sx']
-  containerSx?: BoxProps['sx']
+  boxSx?: BoxProps['sx']
+  boxProps?: BoxProps
   fadeOnHover?: boolean
   scaleOnHover?: boolean
   loading?: boolean
@@ -62,7 +63,8 @@ const Image: React.FC<ImageProps> = (props) => {
     scaleOnHover,
     fadeOnHover,
     sx,
-    containerSx,
+    boxSx,
+    boxProps: injectedBoxProps,
     disableBlur,
     rounded,
     fixed,
@@ -106,6 +108,7 @@ const Image: React.FC<ImageProps> = (props) => {
   const isNotBackgroundImage = !background && (fixed || fill)
 
   const boxProps = {
+    ...injectedBoxProps,
     sx: {
       ...(isNextImageFill && {
         '> span, > img': { pointerEvents: 'none' },
@@ -195,7 +198,8 @@ const Image: React.FC<ImageProps> = (props) => {
        */
       ...(fixedBackground && { position: 'absolute' }),
 
-      ...containerSx,
+      ...boxSx,
+      ...injectedBoxProps?.sx,
     } as BoxProps['sx'],
   }
 

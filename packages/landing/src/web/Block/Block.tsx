@@ -69,7 +69,8 @@ const Block: React.FC<BlockProps> = (props) => {
 
   const hasBackgroundImage = Boolean(backgroundImageProps)
 
-  const items = flowRight([withBlockItemShorthand()])(injectedItems)
+  const cleanedItems = injectedItems.filter(Boolean)
+  const items = flowRight([withBlockItemShorthand()])(cleanedItems)
 
   const childrenJsx = (
     // Section layer

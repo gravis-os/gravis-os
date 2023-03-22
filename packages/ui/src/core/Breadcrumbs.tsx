@@ -23,6 +23,8 @@ export interface BreadcrumbsProps extends MuiBreadcrumbsProps {
   backgroundColor?: React.CSSProperties['backgroundColor']
 
   autoBreadcrumbs?: boolean
+
+  scrollOnOverflow?: boolean
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
@@ -30,6 +32,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
     backgroundColor,
     typographyProps,
     disableHomeBreadcrumb,
+    scrollOnOverflow,
     items: injectedItems = [],
     sx,
     container,
@@ -74,7 +77,23 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   const nextItems = [...defaultItems, ...items]
 
   const childrenJsx = (
-    <MuiBreadcrumbs separator="›" sx={sx} {...rest}>
+    <MuiBreadcrumbs
+      separator="›"
+      sx={{
+        // Scroll on overflow
+        ...(scrollOnOverflow && {
+          '& .MuiBreadcrumbs-ol': {
+            overflowX: 'scroll',
+            whiteSpace: 'nowrap',
+            flexWrap: 'nowrap',
+            '&::-webkit-scrollbar': { display: 'none' },
+          },
+        }),
+
+        ...sx,
+      }}
+      {...rest}
+    >
       {nextItems.map((item, i) => {
         const { key, title, href } = item
         const isLast = i === nextItems.length - 1

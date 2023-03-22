@@ -24,7 +24,7 @@ const CategorysAppBar: React.FC<CategorysAppBarProps> = (props) => {
       alignItems="center"
       sx={{
         overflowX: 'scroll',
-        '&::-webkit-scrollbar': { width: 0, height: 0 },
+        '&::-webkit-scrollbar': { display: 'none' },
       }}
     >
       {title}

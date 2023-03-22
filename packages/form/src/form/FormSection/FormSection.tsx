@@ -62,7 +62,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     isNew,
     isPreview,
     gridProps,
-    fields,
+    fields: injectedFields,
 
     // isReadOnly
     isReadOnly,
@@ -77,6 +77,9 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     ...rest
   } = props
   const { title } = rest
+
+  // Clean up fields
+  const fields = injectedFields.filter(Boolean)
 
   // Form
   const formContext = useFormContext()

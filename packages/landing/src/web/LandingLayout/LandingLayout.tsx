@@ -96,7 +96,12 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
       >
         {/* Breadcrumbs */}
         {(autoBreadcrumbs || breadcrumbs) && (
-          <Breadcrumbs items={breadcrumbs} {...breadcrumbsProps} />
+          <Breadcrumbs
+            items={breadcrumbs}
+            maxItems={3}
+            scrollOnOverflow
+            {...breadcrumbsProps}
+          />
         )}
 
         {children}

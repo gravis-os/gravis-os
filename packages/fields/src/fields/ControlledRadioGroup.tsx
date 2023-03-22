@@ -14,7 +14,6 @@ const ControlledRadioGroup: React.FC<ControlledRadioGroupProps> = (props) => {
     <Controller
       name={name}
       render={({ field }) => <RadioGroup {...field} {...rest} />}
-      defaultValue={new Date()}
       {...controllerProps}
     />
   )

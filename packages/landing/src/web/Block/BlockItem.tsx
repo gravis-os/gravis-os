@@ -23,7 +23,6 @@ import {
   DividerProps,
   Accordion,
   AccordionProps,
-  useOpen,
   Html,
   List,
 } from '@gravis-os/ui'
@@ -36,7 +35,7 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
   // BoxProps - Wrapper of a BlockItem
   boxProps?: BoxProps
 
-  // DialogProps
+  // DialogProps (only applicable in gridItems)
   dialogProps?: DialogProps
 
   // Container
@@ -78,22 +77,7 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
 }
 
 const renderBlockItem = (props) => {
-  const {
-    dialogProps,
-    boxProps: injectedBoxProps,
-    type,
-    title,
-    titleProps,
-  } = props
-
-  const [isOpen, { open, close }] = useOpen()
-
-  const boxProps = dialogProps
-    ? {
-        ...injectedBoxProps,
-        onClick: open,
-      }
-    : injectedBoxProps
+  const { boxProps, type, title, titleProps } = props
 
   const renderChildrenJsx = () => {
     switch (type) {
@@ -224,19 +208,11 @@ const renderBlockItem = (props) => {
 
   const childrenJsx = renderChildrenJsx()
 
-  return dialogProps ? (
-    <>
-      {childrenJsx}
-      <Dialog open={isOpen} onClose={close} {...dialogProps} />
-    </>
-  ) : (
-    childrenJsx
-  )
+  return childrenJsx
 }
 
 const renderGrid = (props) => {
   const {
-    key,
     type,
     boxProps,
     sx,
@@ -262,6 +238,7 @@ const renderGrid = (props) => {
 
               // Wrapper gridItem props abstracted for common use
               const gridItemProps = {
+                key: `grid-item-${i}`,
                 item: true,
                 xs: 12,
                 md: true,
@@ -277,7 +254,7 @@ const renderGrid = (props) => {
               }
 
               // Render GridItem
-              return (
+              const childrenJsx = (
                 <Grid {...gridItemProps}>
                   <Box {...boxProps}>
                     {items.map((item, j) => {
@@ -306,13 +283,21 @@ const renderGrid = (props) => {
                           {renderBlockItem({
                             ...item,
                             titleProps: merge({}, titleProps, item?.titleProps),
-                            dialogProps,
                           })}
                         </React.Fragment>
                       )
                     })}
                   </Box>
                 </Grid>
+              )
+
+              return dialogProps ? (
+                <>
+                  {childrenJsx}
+                  <Dialog {...dialogProps} />
+                </>
+              ) : (
+                childrenJsx
               )
             })}
           </Grid>

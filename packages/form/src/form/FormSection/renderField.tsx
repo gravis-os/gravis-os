@@ -28,6 +28,7 @@ import {
   ControlledPasswordField,
   ControlledPercentageField,
   ControlledRadioGroup,
+  ControlledCheckboxGroup,
   ControlledRateField,
   ControlledSwitchField,
   ControlledTextField,
@@ -57,7 +58,8 @@ export enum FormSectionFieldTypeEnum {
   PASSWORD = 'password',
   TEXTAREA = 'textarea',
   TEXT = 'text', // alias for input
-  RADIO_GROUP = 'radio_group',
+  RADIO = 'radio',
+  CHECKBOX = 'checkbox',
 
   // Dropdown
   COUNTRY_CODE = 'country_code',
@@ -379,9 +381,17 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.RADIO_GROUP:
+      case FormSectionFieldTypeEnum.RADIO:
         return (
           <ControlledRadioGroup
+            control={control}
+            {...commonProps}
+            options={commonProps.options || []}
+          />
+        )
+      case FormSectionFieldTypeEnum.CHECKBOX:
+        return (
+          <ControlledCheckboxGroup
             control={control}
             {...commonProps}
             options={commonProps.options || []}
