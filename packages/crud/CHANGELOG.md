@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.83
+
+### Patch Changes
+
+- [#182](https://github.com/gravis-os/gravis-os/pull/182) [`5b6d2c7`](https://github.com/gravis-os/gravis-os/commit/5b6d2c7195fef6d274a1e3bdea7d53805df21bbf) Thanks [@jovanchan1](https://github.com/jovanchan1)! - exposed injectedGetItemHref prop in crudTable manage button
+
 ## 0.0.82
 
 ### Patch Changes
