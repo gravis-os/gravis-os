@@ -34,6 +34,7 @@ export interface CrudTableActionsColumnCellRendererProps
   renderMoreItems?: RenderMoreItemsFunction<CrudItem>
   children?: React.ReactNode
   afterDelete?: ({ data }: { data: CrudItem | any }) => Promise<void>
+  appendedHref?: string
 }
 
 const CrudTableActionsColumnCellRenderer: React.FC<
@@ -50,6 +51,7 @@ const CrudTableActionsColumnCellRenderer: React.FC<
     renderMoreItems,
     children,
     afterDelete,
+    appendedHref,
   } = props
 
   // Delete Dialog
@@ -95,7 +97,7 @@ const CrudTableActionsColumnCellRenderer: React.FC<
       {!disableManage && (
         <IconButton
           size="small"
-          href={getCrudItemHref({ module, item })}
+          href={getCrudItemHref({ module, item, appendedHref })}
           sx={{ '&:hover': { color: 'primary.main' } }}
           tooltip="Manage"
         >
