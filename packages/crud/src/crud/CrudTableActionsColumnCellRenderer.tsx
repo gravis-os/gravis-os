@@ -11,7 +11,7 @@ import {
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import { FormSectionsProps } from '@gravis-os/form'
 import { ICellRendererParams } from 'ag-grid-community'
-import getCrudItemHref from './getCrudItemHref'
+import getCrudItemHref, { GetCrudItemHrefParams } from './getCrudItemHref'
 import useCrud from './useCrud'
 import { UsePreviewDrawerReturn } from './usePreviewDrawer'
 import { handlePreview } from './useGetCrudTableColumnDefs/hocs/withPreview'
@@ -34,7 +34,7 @@ export interface CrudTableActionsColumnCellRendererProps
   renderMoreItems?: RenderMoreItemsFunction<CrudItem>
   children?: React.ReactNode
   afterDelete?: ({ data }: { data: CrudItem | any }) => Promise<void>
-  getCrudItemHref?: ({ module, item }) => string
+  getCrudItemHref?: ({ module, item }: GetCrudItemHrefParams) => string
 }
 
 const CrudTableActionsColumnCellRenderer: React.FC<
