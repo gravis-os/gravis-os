@@ -19,10 +19,12 @@ export interface LinkProps extends MuiLinkProps {
   disableHoverColor?: boolean
   passHref?: boolean
   targetBlank?: boolean
+  startIcon?: React.ReactElement
 }
 
 const Link: React.FC<LinkProps> = (props) => {
   const {
+    startIcon,
     fadeOnHover,
     hoverColor,
     disableHoverColor,
@@ -59,9 +61,11 @@ const Link: React.FC<LinkProps> = (props) => {
         '&:hover': {
           color: ({ palette }) => {
             const getKey =
-              typeof rest?.color === 'string'
-                ? `${rest.color.split('.')[0]}.dark`
-                : hoverColor || 'secondary.main'
+              hoverColor ||
+              (typeof rest?.color === 'string' &&
+                !rest?.color.startsWith('text.') &&
+                `${rest.color.split('.')[0]}.dark`) ||
+              'secondary.main'
 
             return get(palette, getKey)
           },
@@ -83,6 +87,15 @@ const Link: React.FC<LinkProps> = (props) => {
     },
     children: (
       <>
+        {startIcon &&
+          React.cloneElement(startIcon, {
+            sx: {
+              fontSize: '1.25rem',
+              mr: 0.5,
+              position: 'relative',
+              top: 4,
+            },
+          })}
         {children}
         {(rightCaret || rightCaretFullWidth) && (
           <KeyboardArrowRightOutlinedIcon
