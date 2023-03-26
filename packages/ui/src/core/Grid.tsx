@@ -19,18 +19,19 @@ const Grid: React.FC<GridProps> = forwardRef((props, ref) => {
     sx: {
       ...(reverse &&
         getResponsiveSxProp({
-          targetCssKey: 'flexWrap',
+          targetCssKey: 'flexDirection',
           cssValue: reverse,
           setCssValue: (cssValue) => {
             switch (true) {
               case cssValue === true:
-                return 'wrap-reverse'
+                return 'row-reverse'
               case cssValue === false:
               default:
-                return 'wrap'
+                return 'row'
             }
           },
         })),
+
       ...sx,
     },
     ...rest,

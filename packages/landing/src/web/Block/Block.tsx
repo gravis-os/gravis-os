@@ -18,6 +18,7 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
   maxWidth?: BlockItemProps['maxWidth']
   containerProps?: BlockItemProps['containerProps']
   disableContainer?: BlockItemProps['disableContainer']
+  disableContainerOnMobile?: BlockItemProps['disableContainerOnMobile']
 
   // Stack
   spacing?: StackProps['spacing']
@@ -60,6 +61,7 @@ const Block: React.FC<BlockProps> = (props) => {
     maxWidth,
     containerProps,
     disableContainer,
+    disableContainerOnMobile,
     reveal = true,
     backgroundImageProps,
     dark,
@@ -102,6 +104,7 @@ const Block: React.FC<BlockProps> = (props) => {
                 maxWidth={maxWidth}
                 containerProps={containerProps}
                 disableContainer={disableContainer}
+                disableContainerOnMobile={disableContainerOnMobile}
                 {...item}
               />
             )

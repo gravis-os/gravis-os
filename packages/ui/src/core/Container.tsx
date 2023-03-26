@@ -2,6 +2,7 @@ import React from 'react'
 import {
   Container as MuiContainer,
   ContainerProps as MuiContainerProps,
+  useMediaQuery,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
@@ -23,16 +24,27 @@ export const getResponsiveMaxWidth =
 export interface ContainerProps extends Omit<MuiContainerProps, 'maxWidth'> {
   disableGuttersOnMobile?: boolean
   disableContainer?: boolean
+  disableContainerOnMobile?: boolean
   maxWidth?: MuiContainerProps['maxWidth'] | ResponsiveMaxWidth
 }
 
 const Container: React.FC<ContainerProps> = (props) => {
-  const { maxWidth, disableGuttersOnMobile, disableContainer, sx, ...rest } =
-    props
+  const {
+    maxWidth,
+    disableGuttersOnMobile,
+    disableContainer: injectedDisableContainer,
+    disableContainerOnMobile,
+    sx,
+    ...rest
+  } = props
   const { children } = rest
 
   const theme = useTheme()
   const isResponsiveMaxWidth = typeof maxWidth === 'object'
+  const isMobile = useMediaQuery(theme.breakpoints.down('md'))
+
+  const disableContainer =
+    injectedDisableContainer ?? (isMobile && disableContainerOnMobile)
 
   if (disableContainer) return <>{children}</>
 

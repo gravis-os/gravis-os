@@ -40,6 +40,7 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
 
   // Container
   disableContainer?: boolean
+  disableContainerOnMobile?: boolean
   containerProps?: ContainerProps
   maxWidth?: string | boolean // ContainerProps['maxWidth']
 
@@ -213,7 +214,6 @@ const renderBlockItem = (props) => {
 
 const renderGrid = (props) => {
   const {
-    type,
     boxProps,
     sx,
     gridItems,
@@ -222,6 +222,7 @@ const renderGrid = (props) => {
     maxWidth,
     containerProps,
     disableContainer,
+    disableContainerOnMobile,
     titleProps, // Common title props
   } = props
   return (
@@ -229,6 +230,7 @@ const renderGrid = (props) => {
       <Container
         maxWidth={maxWidth}
         disableContainer={disableContainer}
+        disableContainerOnMobile={disableContainerOnMobile}
         {...containerProps}
       >
         <Box {...boxProps}>
@@ -244,6 +246,10 @@ const renderGrid = (props) => {
                 md: true,
                 ...injectedGridItemProps, // Spread to all grid items
                 ...rest,
+                sx: {
+                  ...injectedGridItemProps?.sx,
+                  ...rest?.sx,
+                },
               }
 
               // Inform dev to provide Griditem.items as it is required.
@@ -410,6 +416,7 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
     maxWidth,
     containerProps,
     disableContainer,
+    disableContainerOnMobile,
   } = props
 
   const renderChildren = () => {
@@ -442,11 +449,11 @@ const BlockItem: React.FC<BlockItemProps> = (props) => {
         })
       default:
         const childrenJsx = renderBlockItem(props as BlockItemProps)
-        return disableContainer ? (
-          childrenJsx
-        ) : (
+        return (
           <Container
             maxWidth={maxWidth as ContainerProps['maxWidth']}
+            disableContainer={disableContainer}
+            disableContainerOnMobile={disableContainerOnMobile}
             {...containerProps}
           >
             {childrenJsx}

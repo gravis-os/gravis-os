@@ -9,6 +9,7 @@ import withHref, { WithHrefProps } from './withHref'
 export interface BoxProps extends Omit<MuiBoxProps, 'pt' | 'py' | 'px' | 'pb'> {
   fullWidthOnMobile?: boolean
   center?: boolean
+  centerOnMobile?: boolean
   stretch?: boolean
   reveal?: boolean | RevealProps
   href?: WithHrefProps['href']
@@ -29,6 +30,7 @@ const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
     fullWidthOnMobile,
     reveal,
     center,
+    centerOnMobile,
     sx,
     children,
 
@@ -57,11 +59,17 @@ const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
         alignItems: 'center',
         textAlign: 'center',
       }),
+      // centerOnMobile
+      ...(centerOnMobile && {
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: { xs: 'center', md: 'flex-start' },
+        alignItems: { xs: 'center', md: 'flex-start' },
+        textAlign: { xs: 'center', md: 'left' },
+      }),
 
       // Stretch
-      ...(stretch && {
-        height: '100%',
-      }),
+      ...(stretch && { height: '100%' }),
 
       // Responsive padding
       pt,
