@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.24
+
+### Patch Changes
+
+- [#183](https://github.com/gravis-os/gravis-os/pull/183) [`5a4ff12`](https://github.com/gravis-os/gravis-os/commit/5a4ff126f1b48fa838ec0b3ef225a315d9e1df81) Thanks [@al1xt](https://github.com/al1xt)! - Optimise count query
+
 ## 0.0.23
 
 ### Patch Changes
