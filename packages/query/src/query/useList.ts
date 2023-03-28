@@ -138,7 +138,7 @@ const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
     limit: pageSize,
     // Set the location of the next cursor with this where clause
     [isAscending ? 'gte' : 'lte']: [sortKey, nextPageParam],
-    order: [sortKey, { ascending: isAscending }],
+    order: [sortKey, { ascending: isAscending, nullsFirst: true }],
   }
 }
 const withSort = () => (props: UseListProps & UseListFilters) => {
@@ -149,7 +149,7 @@ const withSort = () => (props: UseListProps & UseListFilters) => {
 
   return {
     ...props,
-    order: [sortKey, { ascending: sortDirection === 'asc' }],
+    order: [sortKey, { ascending: sortDirection === 'asc', nullsFirst: true }],
   }
 }
 
@@ -315,7 +315,7 @@ export const getFetchListQueryFn = (props: UseListProps) => {
     // Setup query
     const query = supabaseClient
       .from(module.table.name)
-      .select(select || module?.select?.list || '*', {
+      .select(countOnly ? '*' : select || module?.select?.list || '*', {
         // This is both the HEAD and GET query as this count gets overriden from above.
         count: 'exact',
         ...countProps,
