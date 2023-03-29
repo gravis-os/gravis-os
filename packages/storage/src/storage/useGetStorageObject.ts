@@ -8,7 +8,7 @@ type UseGetStorageObject = (props: {
   bucketName?: string
   client?: SupabaseClient
   skip?: boolean
-  queryOptions?: QueryObserverOptions
+  queryOptions?: QueryObserverOptions<string>
 }) => { src: string }
 
 const useGetStorageObject: UseGetStorageObject = (props) => {
@@ -33,7 +33,7 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
   }, [injectedFilePath, value])
 
   const fetchStorageObject = async (path) => {
-    if (!path) return
+    if (!path) return ''
 
     // Escape the first `public/` in the path
     const pathWithoutPublicPrefix = path.split('public/')[1]
@@ -49,7 +49,7 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
   }
 
   // Download image when src exists
-  const onUseQuery = useQuery(
+  const { data: cachedUrl } = useQuery<string>(
     ['use-get-storage-object', savedFilePath],
     () => fetchStorageObject(savedFilePath),
     {
@@ -58,7 +58,7 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
     }
   )
 
-  return { src: objectUrl }
+  return { src: objectUrl || cachedUrl }
 }
 
 export default useGetStorageObject
