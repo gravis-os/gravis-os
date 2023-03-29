@@ -84,6 +84,10 @@ const Image: React.FC<ImageProps> = (props) => {
   const [loading, setLoading] = useState(injectedLoading ?? true)
   const [aspectWidth, aspectHeight] = ar?.split(':') || [1, 1]
 
+  // Source config
+  const onUseGravis = useGravis()
+  const { next } = onUseGravis
+
   if (empty) {
     return (
       <Box
@@ -199,10 +203,6 @@ const Image: React.FC<ImageProps> = (props) => {
       'height',
       'loading',
     ]) as NextImageProps
-
-    // Source config
-    const onUseGravis = useGravis()
-    const { next } = onUseGravis
 
     switch (true) {
       case Boolean(isNextImageFill):
