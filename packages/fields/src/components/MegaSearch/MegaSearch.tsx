@@ -38,13 +38,13 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
 
         return (
           <Controller
+            key={name}
             name={name}
             control={control}
             render={(renderProps) => {
               const { field } = renderProps
               return (
                 <MegaSearchAutocomplete
-                  key={name}
                   {...rest}
                   {...field}
                   onChange={(e, value, reason) => {
