@@ -1,3 +1,4 @@
+import { MailDataRequired } from '@sendgrid/mail'
 import Mailgen from 'mailgen'
 import Sendgrid from './services/Sendgrid'
 
@@ -44,11 +45,13 @@ const makeMail = (props: MakeMailProps) => {
       from = injectedFrom,
       subject,
       email,
+      attachments,
     }: {
       to: string
       from?: string
       subject: string
       email: Mailgen.Content
+      attachments?: MailDataRequired['attachments']
     }) => {
       return Sendgrid.send({
         to,
@@ -56,6 +59,7 @@ const makeMail = (props: MakeMailProps) => {
         subject,
         html: mailgen.generate(email),
         text: mailgen.generatePlaintext(email),
+        attachments,
       })
     },
   }
