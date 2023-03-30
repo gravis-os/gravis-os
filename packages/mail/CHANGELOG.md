@@ -1,5 +1,11 @@
 # @gravis-os/mail
 
+## 0.0.5
+
+### Patch Changes
+
+- [#187](https://github.com/gravis-os/gravis-os/pull/187) [`a746c30`](https://github.com/gravis-os/gravis-os/commit/a746c304dac9313128946bf65d2cf0f565df1887) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Add attachment option to Sendgrid
+
 ## 0.0.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.98
+
+### Patch Changes
+
+- [#184](https://github.com/gravis-os/gravis-os/pull/184) [`166b292`](https://github.com/gravis-os/gravis-os/commit/166b292b0d98030998a5f5bf7b72fa3756e5a484) Thanks [@al1xt](https://github.com/al1xt)! - Fix Image using hook conditionally
+
 ## 0.0.97
 
 ### Patch Changes

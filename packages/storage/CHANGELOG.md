@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.37
+
+### Patch Changes
+
+- [#186](https://github.com/gravis-os/gravis-os/pull/186) [`0467215`](https://github.com/gravis-os/gravis-os/commit/046721548b24dbc95401c8145c7cd6223bcc1453) Thanks [@al1xt](https://github.com/al1xt)! - Fix useGetStorageObject not returning cached value
+
+- Updated dependencies [[`166b292`](https://github.com/gravis-os/gravis-os/commit/166b292b0d98030998a5f5bf7b72fa3756e5a484)]:
+  - @gravis-os/ui@0.0.98
+
 ## 0.0.36
 
 ### Patch Changes
