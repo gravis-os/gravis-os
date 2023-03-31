@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.99
+
+### Patch Changes
+
+- [#188](https://github.com/gravis-os/gravis-os/pull/188) [`4256a38`](https://github.com/gravis-os/gravis-os/commit/4256a386b1d33c855b43bc73919190a669042b72) Thanks [@al1xt](https://github.com/al1xt)! - Fix container not passing sx along
+
 ## 0.0.98
 
 ### Patch Changes
