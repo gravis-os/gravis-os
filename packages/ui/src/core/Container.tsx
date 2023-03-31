@@ -5,6 +5,7 @@ import {
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
 import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import merge from 'lodash/merge'
 
 export type ResponsiveMaxWidth = ResponsiveStyleValue<
   MuiContainerProps['maxWidth']
@@ -39,7 +40,7 @@ const Container: React.FC<ContainerProps> = (props) => {
   return (
     <MuiContainer
       {...(!isResponsiveMaxWidth && { maxWidth })}
-      sx={{
+      sx={merge({}, sx, {
         ...(isResponsiveMaxWidth && {
           maxWidth: getResponsiveMaxWidth(maxWidth),
         }),
@@ -49,7 +50,7 @@ const Container: React.FC<ContainerProps> = (props) => {
             '&&': { px: 0 },
           },
         }),
-      }}
+      })}
       {...rest}
     />
   )
