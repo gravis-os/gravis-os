@@ -74,6 +74,11 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const hasSearchFormSections = Boolean(searchFormSections?.length)
   const hasAddFormSections = Boolean(addFormSections?.length)
 
+  const filterAndSearchFormFieldDefs = {
+    ...getFieldDefsFromSections(filterFormSections),
+    ...getFieldDefsFromSections(searchFormSections),
+  }
+
   // Filter Drawer
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false)
 
@@ -90,18 +95,12 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     // Submit the search + filter form here
     const appliedFilters = { ...filters, ...values }
 
-    // Apply op to the filters by scanning through the defs
-    const filterAndSearchFormFieldDefs = {
-      ...getFieldDefsFromSections(filterFormSections),
-      ...getFieldDefsFromSections(searchFormSections),
-    }
-
     // Scan through the appliedFilters to apply any operator to the value
     const nextFilters = Object.entries(appliedFilters).reduce(
       (acc, [key, value]) => {
         if (typeof value === 'object') return acc
 
-        // Get the operator
+        // Get the operator and apply op to the filters by scanning through the defs
         const op = get(filterAndSearchFormFieldDefs, key)?.op
         const hasOp = Boolean(op)
 
@@ -136,6 +135,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const chips = getChipsFromFilters({
     filters,
     setFilters,
+    fieldDefs: filterAndSearchFormFieldDefs,
   }) as ChipStackProps['items']
   const hasChips = chips && chips?.length > 0
 
@@ -223,6 +223,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
                         filterFormSections as FormSectionsProps['sections']
                       }
                       onSubmit={handleSubmit}
+                      fieldDefs={filterAndSearchFormFieldDefs}
                       {...filterFormProps}
                     />
                     <Box sx={{ mx: 2, mt: 1 }}>
