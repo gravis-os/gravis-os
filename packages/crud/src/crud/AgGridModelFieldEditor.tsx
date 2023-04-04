@@ -15,10 +15,11 @@ const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
     fieldArray,
     filters,
     control,
+    name: injectedName,
     ...rest
   } = props
   const { field } = column.userProvidedColDef
-  const name = `lines.${rowIndex}.${field}`
+  const name = `${injectedName || 'lines'}.${rowIndex}.${field}`
 
   const {
     field: { onChange, onBlur, value },
