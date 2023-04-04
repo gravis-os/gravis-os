@@ -131,15 +131,14 @@ const Button: React.FC<ButtonProps> = (props) => {
         }),
         // Paper variant
         ...(variant === BUTTON_VARIANT_PAPER && {
-          backgroundColor: 'background.paper',
-          color: color ? `${color}.main` : 'text.primary',
+          backgroundColor: 'common.white',
+          color: color ? `${color}.main` : 'grey.900',
           border: 1,
           borderColor: 'transparent',
-          '&:hover': {
-            backgroundColor: (theme) =>
-              alpha(theme.palette.background.paper, 0.8),
-            color: color ? `${color}.dark` : 'primary.main',
-            borderColor: color ? `${color}.dark` : 'primary.main',
+          '&:hover, &:focus': {
+            backgroundColor: (theme) => alpha(theme.palette.common.white, 0.8),
+            color: color ? `${color}.dark` : 'common.black',
+            borderColor: color ? `${color}.dark` : 'grey.200',
           },
         }),
         // Muted variant

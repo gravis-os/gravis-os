@@ -55,6 +55,7 @@ export enum FormSectionFieldTypeEnum {
   HTML = 'html',
   INPUT = 'input',
   EMAIL = 'email',
+  MOBILE = 'mobile',
   PASSWORD = 'password',
   TEXTAREA = 'textarea',
   TEXT = 'text', // alias for input
@@ -483,6 +484,18 @@ const renderField = (props: RenderFieldProps) => {
             control={control}
             {...commonProps}
             type="email"
+          />
+        )
+      case FormSectionFieldTypeEnum.MOBILE:
+        return (
+          <ControlledTextField
+            control={control}
+            {...commonProps}
+            type="tel"
+            inputProps={{
+              pattern: '^[0-9]*$',
+              title: 'Please enter numbers only.',
+            }}
           />
         )
       case FormSectionFieldTypeEnum.PASSWORD:

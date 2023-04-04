@@ -26,6 +26,8 @@ export interface FormProps<TFormValues>
 
   formRenderProps?: any
   isReadOnly?: boolean
+  resetOnSubmitSuccess?: boolean
+  defaultValues?: Record<string, any>
   setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>
   submitButtonProps?: ButtonProps
   cancelButtonProps?: ButtonProps
@@ -42,6 +44,8 @@ const Form: React.FC<FormProps<any>> = (props) => {
     formJsx,
     children,
     formRenderProps: injectedFormRenderProps,
+    resetOnSubmitSuccess,
+    defaultValues: injectedDefaultValues,
     sx,
     submitButtonProps,
     ...rest
@@ -49,11 +53,19 @@ const Form: React.FC<FormProps<any>> = (props) => {
 
   const defaultForm = useForm(useFormProps)
   const formContext = injectedFormContext || defaultForm
-  const { handleSubmit, reset } = formContext
+  const { watch, handleSubmit, reset, formState } = formContext
+  const defaultValues = injectedDefaultValues || useFormProps?.defaultValues
+  const { isSubmitSuccessful } = formState
 
+  // Reset form values when defaultValues change
   useEffect(() => {
     if (useFormProps?.defaultValues) reset(useFormProps.defaultValues)
   }, [useFormProps])
+
+  // Reset form values on submit success
+  useEffect(() => {
+    if (resetOnSubmitSuccess) reset(defaultValues)
+  }, [isSubmitSuccessful])
 
   const isChildrenRenderProp = typeof children === 'function'
   const renderChildren = (): React.ReactNode => {

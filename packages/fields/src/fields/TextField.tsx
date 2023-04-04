@@ -2,6 +2,7 @@ import React, { useEffect, useRef } from 'react'
 import startCase from 'lodash/startCase'
 import isNil from 'lodash/isNil'
 import {
+  FormControl,
   InputAdornment,
   TextField as MuiTextField,
   StandardTextFieldProps as MuiTextFieldProps,
@@ -9,7 +10,7 @@ import {
 import type { UseFormReturn } from 'react-hook-form'
 import { Box, Typography, TypographyProps } from '@gravis-os/ui'
 
-interface OptionItem {
+export interface TextFieldOptionItem {
   key: string
   value: any
   label: string
@@ -17,9 +18,10 @@ interface OptionItem {
 
 export interface TextFieldProps extends Omit<MuiTextFieldProps, 'title'> {
   focus?: boolean
-  options?: string[] | OptionItem[]
+  options?: Array<string | TextFieldOptionItem>
   disableLabel?: boolean
   disableBorders?: boolean
+  disableFirstOptionAsDefaultValue?: boolean
   setValue?: UseFormReturn['setValue']
   title?: React.ReactNode
   start?: React.ReactNode
@@ -30,6 +32,7 @@ export interface TextFieldProps extends Omit<MuiTextFieldProps, 'title'> {
 
 const TextField: React.FC<TextFieldProps> = (props) => {
   const {
+    disableFirstOptionAsDefaultValue,
     disableBorders,
     disableLabel,
     options,
@@ -46,7 +49,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     backgroundColor,
     ...rest
   } = props
-  const { name, value, setValue, required } = rest
+  const { placeholder, name, value, setValue, required, error } = rest
 
   // Autofocus
   // @link https://github.com/mui/material-ui/issues/7247#issuecomment-576032102
@@ -110,14 +113,14 @@ const TextField: React.FC<TextFieldProps> = (props) => {
   // To set defaultValue of options in the formState on load
   useEffect(() => {
     const hasDefaultValue = Boolean(value)
-    if (!options || hasDefaultValue) return
+    if (disableFirstOptionAsDefaultValue || !options || hasDefaultValue) return
 
     // Set defaultValue of options
     const isObjectOption = typeof options[0] === 'object'
 
     // Get the first value of the options to set as the defaultValue
     const defaultOption = isObjectOption
-      ? (options[0] as OptionItem).value
+      ? (options[0] as TextFieldOptionItem).value
       : options[0]
 
     // Set the formState upstream with the defaultOption
@@ -129,31 +132,43 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     switch (true) {
       case Boolean(options):
         return (
-          <MuiTextField
-            {...textFieldProps}
-            select
-            SelectProps={{ native: true }}
+          <FormControl
+            required={required}
+            error={error}
+            component="fieldset"
+            sx={{ width: '100%' }}
           >
-            {(options as any[]).map((option) => {
-              const isObjectOption = typeof option === 'object'
-              const pk = Object.keys(option).includes('title')
-                ? 'title'
-                : 'label'
+            <MuiTextField
+              {...textFieldProps}
+              select
+              SelectProps={{ native: true }}
+            >
+              {disableFirstOptionAsDefaultValue && (
+                <option key="placeholder" disabled value="" />
+              )}
 
-              const key = isObjectOption ? option[pk] : option
-              const value = isObjectOption ? option.value : option
-              const label = isObjectOption ? option[pk] : startCase(option)
+              {(options as any[]).map((option) => {
+                const isObjectOption = typeof option === 'object'
+                const pk = Object.keys(option).includes('title')
+                  ? 'title'
+                  : 'label'
 
-              const optionProps = isObjectOption ? option : {}
+                const key = isObjectOption ? option[pk] : option
+                const value = isObjectOption ? option.value : option
+                const label = isObjectOption ? option[pk] : startCase(option)
 
-              return (
-                <option key={key} value={value} {...optionProps}>
-                  {label}
-                </option>
-              )
-            })}
-          </MuiTextField>
+                const optionProps = isObjectOption ? option : {}
+
+                return (
+                  <option key={key} value={value} {...optionProps}>
+                    {label}
+                  </option>
+                )
+              })}
+            </MuiTextField>
+          </FormControl>
         )
+
       default:
         return <MuiTextField {...textFieldProps} />
     }

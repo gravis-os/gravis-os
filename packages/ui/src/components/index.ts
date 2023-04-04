@@ -22,6 +22,9 @@ export * from './InfoCard'
 export { default as ImageList } from './ImageList'
 export * from './ImageList'
 
+export { default as ImageMarquee } from './ImageMarquee'
+export * from './ImageMarquee'
+
 export { default as ListCard } from './ListCard'
 export * from './ListCard'
 
