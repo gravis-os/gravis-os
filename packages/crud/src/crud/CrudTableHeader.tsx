@@ -16,7 +16,7 @@ import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { ButtonProps } from '@mui/material'
 import styleConfig from '../config/styleConfig'
-import FilterForm from './FilterForm'
+import FilterForm, { FilterFormProps } from './FilterForm'
 import SearchForm from './SearchForm'
 import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'
@@ -45,6 +45,7 @@ export interface CrudTableHeaderProps {
   renderAddButton?: (buttonProps: ButtonProps) => React.ReactElement
   disableReset?: boolean
   disableUpload?: boolean
+  filterFormProps?: Partial<FilterFormProps>
 }
 
 const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
@@ -65,6 +66,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     filterFormSections = [],
     renderAddButton,
     disableReset,
+    filterFormProps,
   } = props
   const { route, name } = module
 
@@ -221,6 +223,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
                         filterFormSections as FormSectionsProps['sections']
                       }
                       onSubmit={handleSubmit}
+                      {...filterFormProps}
                     />
                     <Box sx={{ mx: 2, mt: 1 }}>
                       <Button

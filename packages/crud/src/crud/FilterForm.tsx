@@ -14,7 +14,7 @@ export interface FilterFormProps {
   formSectionsProps?: FormSectionsProps
   sections: FormSectionsProps['sections']
   module: CrudModule
-  useFilterFormProps?: UseFilterFormArgs
+  useFilterFormProps?: Partial<UseFilterFormArgs>
   onSubmit?: UseFilterFormArgs['onSubmit']
   children?: FormProps<any>['children']
 }
