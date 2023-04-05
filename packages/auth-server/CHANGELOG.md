@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.16
+
+### Patch Changes
+
+- [#191](https://github.com/gravis-os/gravis-os/pull/191) [`b038aa4`](https://github.com/gravis-os/gravis-os/commit/b038aa4fddbd4883f71de97e43746496c76e35c3) Thanks [@al1xt](https://github.com/al1xt)! - Fix AuthServerRouterMiddleware missing options
+
 ## 0.0.15
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.84
+
+### Patch Changes
+
+- [#190](https://github.com/gravis-os/gravis-os/pull/190) [`2a119e6`](https://github.com/gravis-os/gravis-os/commit/2a119e69e16871d58560e587324302ae25ab313c) Thanks [@jovanchan1](https://github.com/jovanchan1)! - added name prop in AgGridModelFieldEditor to allow injected name
+
+* [#189](https://github.com/gravis-os/gravis-os/pull/189) [`267def0`](https://github.com/gravis-os/gravis-os/commit/267def0c35454373ae158e7691c0b265edf2f038) Thanks [@yyhernest](https://github.com/yyhernest)! - - Expose filterFormProps from crudTable and crudTableHeaders
+  - Remove op from display value for FilterForm and chips from filters
+
 ## 0.0.83
 
 ### Patch Changes
