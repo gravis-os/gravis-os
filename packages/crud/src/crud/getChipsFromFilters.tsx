@@ -1,11 +1,12 @@
-import React from 'react'
-import { useRouter } from 'next/router'
+import { getRelationalObjectKey } from '@gravis-os/form'
 import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
 import startCase from 'lodash/startCase'
-import { getRelationalObjectKey } from '@gravis-os/form'
+import { useRouter } from 'next/router'
+import React from 'react'
+import getValueWithoutOp from './getValueWithoutOp'
 
-const getChipsFromFilters = ({ filters, setFilters }) => {
+const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
   const router = useRouter()
   const { query: routerQuery } = router
 
@@ -15,7 +16,7 @@ const getChipsFromFilters = ({ filters, setFilters }) => {
     setFilters(omit(filters, chipKeyToDelete))
 
   return Object.entries(filters)
-    .map(filter => {
+    .map((filter) => {
       const [key, value] = filter
 
       if (
@@ -25,6 +26,8 @@ const getChipsFromFilters = ({ filters, setFilters }) => {
       )
         return
 
+      const nextValue = getValueWithoutOp({ key, value, fieldDefs })
+
       if (key.endsWith('_id')) {
         const relationalObjectKey = getRelationalObjectKey(key)
         return {
@@ -32,7 +35,7 @@ const getChipsFromFilters = ({ filters, setFilters }) => {
           label: (
             <>
               <b>{startCase(relationalObjectKey)}</b>:{' '}
-              {routerQuery[relationalObjectKey] || value}
+              {routerQuery[relationalObjectKey] || nextValue}
             </>
           ),
           onDelete: handleDelete(key),
@@ -43,7 +46,7 @@ const getChipsFromFilters = ({ filters, setFilters }) => {
         key,
         label: (
           <>
-            <b>{startCase(key)}</b>: {value}
+            <b>{startCase(key)}</b>: {nextValue}
           </>
         ),
         onDelete: handleDelete(key),

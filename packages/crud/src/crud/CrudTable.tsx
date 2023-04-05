@@ -20,6 +20,7 @@ import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
 import CrudTableFilterTabs, {
   CrudTableFilterTabsProps,
 } from './CrudTableFilterTabs'
+import { FilterFormProps } from './FilterForm'
 
 export interface CrudTableProps {
   module: CrudModule
@@ -50,6 +51,7 @@ export interface CrudTableProps {
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
   crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
   useListProps?: Partial<UseListProps>
+  filterFormProps?: Partial<FilterFormProps>
 
   actions?: React.ReactNode
 }
@@ -92,6 +94,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     useGetCrudTableColumnDefsProps,
     crudDeleteDialogProps,
     useListProps,
+    filterFormProps,
   } = props
   // Contexts
   const { user } = useUser()
@@ -187,6 +190,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
           crudFormProps: addFormProps,
           ...headerProps?.addDialogProps,
         }}
+        filterFormProps={filterFormProps}
       />
 
       {/* Filter Tabs */}
