@@ -81,6 +81,8 @@ const renderBlockItem = (props) => {
   const { boxProps, type, title, titleProps } = props
 
   const renderChildrenJsx = () => {
+    if (!title) return null
+
     switch (type) {
       case BlockItemTypeEnum.OVERLINE:
       case BlockItemTypeEnum.OVERLINE2:

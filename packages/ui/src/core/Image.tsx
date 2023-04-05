@@ -21,6 +21,7 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
   scaleOnHover?: boolean
   loading?: boolean
   rounded?: boolean
+  center?: boolean
   zoom?: boolean
   /**
    * Use the original image dimensioms
@@ -49,6 +50,7 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
    * @default false
    */
   fadeOnLoad?: boolean
+  invertImageOnMode?: 'dark' | 'light'
 }
 
 /**
@@ -78,6 +80,10 @@ const Image: React.FC<ImageProps> = (props) => {
     fadeOnLoad: injectedFadeOnLoad,
     fill,
     zoom,
+
+    center,
+    invertImageOnMode,
+
     ...rest
   } = props
   const { src } = rest
@@ -175,6 +181,14 @@ const Image: React.FC<ImageProps> = (props) => {
          */
         ...(fixedBackground && { position: 'static !important' }),
 
+        /**
+         *  Invert the image color based on palette mode
+         */
+        ...(invertImageOnMode && {
+          filter: ({ palette: { mode } }) =>
+            `invert(${mode === invertImageOnMode ? '1' : '0'})`,
+        }),
+
         ...sx,
       },
 
@@ -197,6 +211,13 @@ const Image: React.FC<ImageProps> = (props) => {
        * Fixed to position the image in a background
        */
       ...(fixedBackground && { position: 'absolute' }),
+
+      // Center the image
+      ...(center && {
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }),
 
       ...boxSx,
       ...injectedBoxProps?.sx,

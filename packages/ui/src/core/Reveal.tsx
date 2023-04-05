@@ -1,5 +1,7 @@
 import React from 'react'
 import {
+  Fade,
+  Slide,
   Reveal as ReactAwesomeReveal,
   RevealProps as ReactAwesomeRevealProps,
 } from 'react-awesome-reveal'
@@ -18,17 +20,35 @@ const customAnimation = keyframes`
   }
 `
 
-export interface RevealProps extends ReactAwesomeRevealProps {}
+export enum RevealVariantEnum {
+  Fade = 'fade',
+  Slide = 'slide',
+}
+
+export interface RevealProps extends ReactAwesomeRevealProps {
+  variant?: RevealVariantEnum
+}
 
 const Reveal: React.FC<RevealProps> = (props) => {
-  return (
-    <ReactAwesomeReveal
-      triggerOnce
-      keyframes={customAnimation}
-      duration={1500}
-      {...props}
-    />
-  )
+  const { variant, ...rest } = props
+
+  const commonProps = { triggerOnce: true, ...rest }
+
+  // Render
+  switch (variant) {
+    case RevealVariantEnum.Fade:
+      return <Fade {...commonProps} />
+    case RevealVariantEnum.Slide:
+      return <Slide {...commonProps} />
+    default:
+      return (
+        <ReactAwesomeReveal
+          keyframes={customAnimation}
+          duration={1500}
+          {...commonProps}
+        />
+      )
+  }
 }
 
 export default Reveal
