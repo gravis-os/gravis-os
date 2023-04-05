@@ -62,6 +62,9 @@ const AuthServerRouterMiddleware = (
   }
 }
 
-export default (config: AuthServerMiddlewareProps = {}) => {
-  return withApiAuthAndAuthz(AuthServerRouterMiddleware(config))
+export default (
+  config: AuthServerMiddlewareProps = {},
+  options?: Parameters<typeof withApiAuthAndAuthz>[1]
+) => {
+  return withApiAuthAndAuthz(AuthServerRouterMiddleware(config), options)
 }
