@@ -32,6 +32,9 @@ import {
   ControlledRateField,
   ControlledSwitchField,
   ControlledTextField,
+  TextFieldProps,
+  RadioGroupProps,
+  CheckboxGroupProps,
 } from '@gravis-os/fields'
 import { printPercentage } from '@gravis-os/utils'
 import getFormSectionFieldWithFunctionType, {
@@ -99,8 +102,16 @@ export interface FormSectionFieldProps {
   type?: FormSectionFieldTypeEnum | string // Should not have string type but adding so as to prevent having to TS casting downstream
   module?: CrudModule
   multiple?: boolean
-  options?: string[] | Array<{ key: string; value: string; label: string }>
+  options?:
+    | TextFieldProps['options']
+    | CheckboxGroupProps['options']
+    | RadioGroupProps['options']
   select?: any // Can either be MUI textfield select or react-query selector
+
+  // Generic name to pass props to the underlying component field.
+  // Not to be confused with `fieldProps` as that is from RHF.
+  // This is for passing props to the underlying component field.
+  props?: Record<string, any>
 
   modelFieldProps?: Partial<ModelFieldProps>
   chipFieldProps?: Partial<ControlledChipFieldProps>
@@ -113,6 +124,7 @@ export interface FormSectionFieldProps {
   hidden?: boolean | FormSectionFieldBooleanFunction
   disabled?: boolean | FormSectionFieldBooleanFunction
   required?: boolean
+  compact?: boolean
   helperText?: React.ReactNode
   defaultValue?:
     | string
@@ -180,10 +192,15 @@ const renderField = (props: RenderFieldProps) => {
     key,
     gridProps,
     fieldEffect,
-    checkboxTableProps,
     render,
+
+    // These props should be deprecated in favor of `props`
+    checkboxTableProps,
     modelFieldProps,
     chipFieldProps,
+
+    props: componentProps,
+
     ...rest
   } = fieldProps
   const {
@@ -223,6 +240,7 @@ const renderField = (props: RenderFieldProps) => {
     disabled: isDisabled,
     hidden: isHidden,
     defaultValue: nextDefaultValue,
+    ...componentProps,
   }
 
   // ==============================
@@ -387,7 +405,7 @@ const renderField = (props: RenderFieldProps) => {
           <ControlledRadioGroup
             control={control}
             {...commonProps}
-            options={commonProps.options || []}
+            options={(commonProps.options || []) as RadioGroupProps['options']}
           />
         )
       case FormSectionFieldTypeEnum.CHECKBOX:
@@ -395,7 +413,9 @@ const renderField = (props: RenderFieldProps) => {
           <ControlledCheckboxGroup
             control={control}
             {...commonProps}
-            options={commonProps.options || []}
+            options={
+              (commonProps.options || []) as CheckboxGroupProps['options']
+            }
           />
         )
       case FormSectionFieldTypeEnum.DATE:

@@ -121,9 +121,8 @@ const getGutterMultiplier = (size: ImageMarqueeProps['size']) => {
 }
 
 export interface ImageMarqueeProps extends MarqueeProps {
-  items: Array<{ key?: string | number } & ImageProps>
-
-  imageProps?: ImageProps
+  items: Array<{ key?: React.Key } & ImageProps>
+  imageProps?: Omit<ImageProps, 'src' | 'alt'>
   size?: 'sm' | 'md' | 'lg' | string
   aspectRatio?: number
   reverse?: boolean
@@ -155,7 +154,7 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = (props) => {
   const width = getWidth(size)
   const gutterMultiplier = getGutterMultiplier(size)
 
-  const imageProps: ImageProps = {
+  const imageProps = {
     // defaultImageProps
     width,
     height: width / aspectRatio,
