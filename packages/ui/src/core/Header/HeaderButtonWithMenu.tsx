@@ -117,7 +117,9 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
                     pb: 1,
                     borderBottom: (theme) =>
                       `1px solid ${theme.palette.divider}`,
-                    '&:hover': { color: (theme) => theme.palette.primary.main },
+                    '&:hover': {
+                      backgroundColor: 'action.hover',
+                    },
                   }}
                 >
                   <Typography variant="button">
