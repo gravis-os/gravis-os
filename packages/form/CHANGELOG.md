@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.103
+
+### Patch Changes
+
+- [#192](https://github.com/gravis-os/gravis-os/pull/192) [`1c9a144`](https://github.com/gravis-os/gravis-os/commit/1c9a144b6c02c3685292094dec56339007af6b99) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - save image without trigger other form fields.
+
 ## 0.0.102
 
 ### Patch Changes
