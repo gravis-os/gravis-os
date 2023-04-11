@@ -1,5 +1,7 @@
 import omit from 'lodash/omit'
 import omitBy from 'lodash/omitBy'
+import pickBy from 'lodash/pickBy'
+import isEmpty from 'lodash/isEmpty'
 import partition from 'lodash/partition'
 import differenceBy from 'lodash/differenceBy'
 
@@ -8,16 +10,23 @@ const saveOneToManyValues = async (props) => {
 
   // `product`
   const primaryTableName = module.table.name
+  const tableColumns = module.table.columns
+  const hasTableColumns = Array.isArray(tableColumns) && !isEmpty(tableColumns)
 
   const upsertPromises = Object.entries(oneToManyPairs).map(([key, rows]) => {
     if (!Array.isArray(rows)) return null
 
     const [insertRowsWithIds, updateRows] = partition(
-      rows.map((row) => ({
+      rows.map((row) => {
         // Filter away relations data
-        ...omitBy(row, (value) => typeof value === 'object' && value !== null),
-        [`${primaryTableName}_id`]: data.id, // product_id = 1
-      })),
+        const nextRow = hasTableColumns
+          ? pickBy(row, tableColumns)
+          : omitBy(row, (value) => typeof value === 'object' && value !== null)
+        return {
+          ...nextRow,
+          [`${primaryTableName}_id`]: data.id, // product_id = 1
+        }
+      }),
       ({ id }) => !id || typeof id === 'string'
     )
     const insertRows = insertRowsWithIds.map((row) => omit(row, 'id'))
