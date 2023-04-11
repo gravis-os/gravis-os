@@ -10,17 +10,22 @@ const saveOneToManyValues = async (props) => {
 
   // `product`
   const primaryTableName = module.table.name
-  const tableColumns = module.table.columns
-  const hasTableColumns = Array.isArray(tableColumns) && !isEmpty(tableColumns)
 
   const upsertPromises = Object.entries(oneToManyPairs).map(([key, rows]) => {
     if (!Array.isArray(rows)) return null
 
+    const foreignTableName = module.relations?.[key]?.table?.name
+    if (!foreignTableName) return null
+
+    const foreignTableColumns = module.relations[key].table.columns
+    const hasForeignTableColumns =
+      Array.isArray(foreignTableColumns) && !isEmpty(foreignTableColumns)
+
     const [insertRowsWithIds, updateRows] = partition(
       rows.map((row) => {
         // Filter away relations data
-        const nextRow = hasTableColumns
-          ? pickBy(row, tableColumns)
+        const nextRow = hasForeignTableColumns
+          ? pickBy(row, foreignTableColumns)
           : omitBy(row, (value) => typeof value === 'object' && value !== null)
         return {
           ...nextRow,
@@ -33,9 +38,6 @@ const saveOneToManyValues = async (props) => {
     const deleteIds = differenceBy(item?.[key], rows, 'id').map(
       ({ id }: any) => id
     )
-
-    if (!module.relations?.[key]?.table?.name) return null
-    const foreignTableName = module.relations[key].table.name
 
     const promises = [
       updateRows.length > 0 && client.from(foreignTableName).upsert(updateRows),

@@ -18,15 +18,14 @@ export interface CrudModule {
   sk: string // slug key - used for route e.g. slug
   name: { singular: string; plural: string }
   route?: { plural: string }
-  table: {
-    name: string
-    isJoinTable?: boolean
-    columns?: string[]
-  }
+  table: { name: string; isJoinTable?: boolean }
   select?: { detail?: string; list?: string }
   Icon?: React.ElementType
   relations?: {
-    [key: string]: { table: { name: string }; joinTable?: { name: string } }
+    [key: string]: {
+      table: { name: string; columns?: string[] }
+      joinTable?: { name: string }
+    }
   }
   // For modules with `exclusive_locales` and `blocked_locales` columns
   hasLocales?: boolean
