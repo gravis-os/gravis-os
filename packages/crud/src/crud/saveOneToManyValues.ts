@@ -1,6 +1,6 @@
 import omit from 'lodash/omit'
 import omitBy from 'lodash/omitBy'
-import pickBy from 'lodash/pickBy'
+import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 import partition from 'lodash/partition'
 import differenceBy from 'lodash/differenceBy'
@@ -25,7 +25,7 @@ const saveOneToManyValues = async (props) => {
       rows.map((row) => {
         // Filter away relations data
         const nextRow = hasForeignTableColumns
-          ? pickBy(row, foreignTableColumns)
+          ? pick(row, foreignTableColumns)
           : omitBy(row, (value) => typeof value === 'object' && value !== null)
         return {
           ...nextRow,
