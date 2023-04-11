@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.85
+
+### Patch Changes
+
+- [#193](https://github.com/gravis-os/gravis-os/pull/193) [`d524394`](https://github.com/gravis-os/gravis-os/commit/d5243948fb795f073193c8320bc86cd1d549dc99) Thanks [@al1xt](https://github.com/al1xt)! - Allow column picking in saveOneToManyValues
+
+- Updated dependencies [[`d524394`](https://github.com/gravis-os/gravis-os/commit/d5243948fb795f073193c8320bc86cd1d549dc99)]:
+  - @gravis-os/types@0.0.39
+
 ## 0.0.84
 
 ### Patch Changes
