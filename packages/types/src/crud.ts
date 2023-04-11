@@ -48,6 +48,8 @@ export interface CrudItem {
   avatar_src?: string | null
   avatar_alt?: string
   workspace_id?: number
+  exclusive_locales?: string[]
+  blocked_locales?: string[]
 }
 
 // ==============================

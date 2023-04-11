@@ -26,6 +26,3 @@ export * from './useDetail'
 
 export { default as getStaticPathsByParams } from './getStaticPathsByParams'
 export * from './getStaticPathsByParams'
-
-export { default as getStaticPathsWithLocales } from './getStaticPathsWithLocales'
-export * from './getStaticPathsWithLocales'
