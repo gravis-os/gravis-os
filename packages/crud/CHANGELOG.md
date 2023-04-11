@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.87
+
+### Patch Changes
+
+- [#195](https://github.com/gravis-os/gravis-os/pull/195) [`523d3bf`](https://github.com/gravis-os/gravis-os/commit/523d3bf7a91189bad47011625bc7cfd66c3faff7) Thanks [@al1xt](https://github.com/al1xt)! - Fix pick in saveOneToManyValues
+
 ## 0.0.86
 
 ### Patch Changes
