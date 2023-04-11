@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.86
+
+### Patch Changes
+
+- [#194](https://github.com/gravis-os/gravis-os/pull/194) [`c0a256f`](https://github.com/gravis-os/gravis-os/commit/c0a256f2a61b8ec09ad21eac6c90e123bcf2620f) Thanks [@al1xt](https://github.com/al1xt)! - Move columns declaration to relations in CrudModule
+
+- Updated dependencies [[`c0a256f`](https://github.com/gravis-os/gravis-os/commit/c0a256f2a61b8ec09ad21eac6c90e123bcf2620f)]:
+  - @gravis-os/types@0.0.40
+
 ## 0.0.85
 
 ### Patch Changes

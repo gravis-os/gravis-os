@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/crud",
-  "version": "0.0.85",
+  "version": "0.0.86",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
