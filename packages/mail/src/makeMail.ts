@@ -46,13 +46,20 @@ const makeMail = (props: MakeMailProps) => {
       subject,
       email,
       attachments,
+      blacklist,
     }: {
       to: string
       from?: string
       subject: string
       email: Mailgen.Content
       attachments?: MailDataRequired['attachments']
+      blacklist?: string[]
     }) => {
+      const shouldSkip = Boolean(
+        blacklist?.some((email) => email === to?.toLowerCase())
+      )
+      if (shouldSkip) return
+
       return Sendgrid.send({
         to,
         from,
