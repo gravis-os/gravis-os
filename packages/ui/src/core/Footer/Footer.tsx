@@ -50,11 +50,13 @@ const Footer: React.FC<FooterProps> = (props) => {
     companyName,
     socialMediaItems,
     legalItems,
-    navItems,
+    navItems: injectedNavItems,
     mode,
     dark,
     callout,
   } = props
+
+  const navItems = injectedNavItems?.filter(Boolean)
 
   const childrenJsx = (
     <>

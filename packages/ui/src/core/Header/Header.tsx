@@ -140,7 +140,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     )
       return null
 
-    return navItems.map((navItem: HeaderNavItem, i) => {
+    return navItems.filter(Boolean).map((navItem: HeaderNavItem, i) => {
       const {
         linkProps,
         key: injectedKey,
