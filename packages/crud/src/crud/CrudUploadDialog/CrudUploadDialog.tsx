@@ -216,10 +216,10 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                   uploadedRows,
                   tableHeaderRenameMapping
                 )
-                const { status, error } = await createMutation.mutateAsync(
+                const { data, error } = await createMutation.mutateAsync(
                   updatedUploadedRows
                 )
-                if (status === 200) {
+                if (data) {
                   next()
                 }
                 if (error) {
