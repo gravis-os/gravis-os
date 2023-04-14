@@ -13,6 +13,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import React from 'react'
 import CSVReader from 'react-csv-reader'
+import { useUser } from '@gravis-os/auth'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
@@ -27,6 +28,8 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
   const { module, requireDownload = true, ...rest } = props
   const { tableHeaderRenameMapping } = module ?? {}
+
+  const user = useUser()
 
   const [open, { setIsOpen, close }] = useOpen(false)
 
@@ -193,6 +196,15 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               }))
 
               const handleUploadClick = async () => {
+                // insert client_user_id when clients upload missions.
+                if (
+                  module.table.name === 'mission' &&
+                  // @ts-ignore
+                  user?.dbUser?.role?.title === 'Client' &&
+                  Array.isArray(uploadedRows)
+                ) {
+                  uploadedRows[0].client_user_id = user.dbUser.id
+                }
                 /**
                  * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
                  * This ensures that the values provided are consistent with the header names in the database.
