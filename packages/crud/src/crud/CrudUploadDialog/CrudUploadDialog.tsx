@@ -14,6 +14,7 @@ import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import React from 'react'
 import CSVReader from 'react-csv-reader'
 import { useUser, ROLE_CLIENT } from '@gravis-os/auth'
+import toast from 'react-hot-toast'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
@@ -22,11 +23,12 @@ import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFi
 export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
   requireDownload?: boolean
+  uploadFields?: string[]
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
-  const { module, requireDownload = true, ...rest } = props
+  const { module, requireDownload = true, uploadFields, ...rest } = props
   const { tableHeaderRenameMapping } = module ?? {}
 
   const user = useUser()
@@ -34,7 +36,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
   const [open, { setIsOpen, close }] = useOpen(false)
 
   const { handleDownload, isDownloaded, resetIsDownloaded, tableColumnNames } =
-    useDownloadTableDefinitionCsvFile({ module })
+    useDownloadTableDefinitionCsvFile({ module, uploadFields })
 
   const { createMutation } = useCreateMutation({
     module,
@@ -191,6 +193,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
               const { uploadedRows } = store.values
               const items = uploadedRows as any
+
               const columnDefs = tableColumnNames.map((tableColumnName) => ({
                 field: tableColumnName,
               }))
@@ -213,10 +216,17 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                   uploadedRows,
                   tableHeaderRenameMapping
                 )
-                const onMutate = await createMutation.mutateAsync(
+                const { status, error } = await createMutation.mutateAsync(
                   updatedUploadedRows
                 )
-                next()
+                if (status === 200) {
+                  next()
+                }
+                if (error) {
+                  toast.error(
+                    `Something fields wrong in your csv file: \n${error.message}`
+                  )
+                }
               }
 
               return (

@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useUser } from '@gravis-os/auth'
-import { FormSectionsProps } from '@gravis-os/form'
+import type { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { useList, UseListProps } from '@gravis-os/query'
@@ -37,6 +37,7 @@ export interface CrudTableProps {
   disableServerSideRowModel?: boolean
   isListPage?: boolean
   disableUpload?: CrudTableHeaderProps['disableUpload']
+  uploadFields?: string[]
 
   filterTabs?: CrudTableFilterTabsProps['items']
   filterTabsProps?: CrudTableFilterTabsProps
@@ -85,6 +86,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     filterFormSections = [],
     searchFormSections = [],
     addFormSections = [],
+    uploadFields,
 
     // Props
     headerProps,
@@ -178,6 +180,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       <CrudTableHeader
         module={module}
         disableUpload={disableUpload}
+        uploadFields={uploadFields}
         disableAdd={disableAdd}
         addModule={addModule}
         filters={filters}

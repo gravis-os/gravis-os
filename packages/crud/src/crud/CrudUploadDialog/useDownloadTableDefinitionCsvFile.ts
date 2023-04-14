@@ -5,8 +5,11 @@ import useGetTableDefinitionByTableName from './useGetTableDefinitionByTableName
 import getCsvUri from './getCsvUri'
 import getTableColumnNames from './getTableColumnNames'
 
-const useDownloadTableDefinitionCsvFile = (props: { module: CrudModule }) => {
-  const { module } = props
+const useDownloadTableDefinitionCsvFile = (props: {
+  module: CrudModule
+  uploadFields?: string[]
+}) => {
+  const { module, uploadFields } = props
   const { tableHeaderRenameMapping } = module ?? {}
 
   // Get table names for downloading the color
@@ -20,7 +23,8 @@ const useDownloadTableDefinitionCsvFile = (props: { module: CrudModule }) => {
 
   const tableColumnNames = getTableColumnNames(
     tableDefinition,
-    tableHeaderRenameMapping
+    tableHeaderRenameMapping,
+    uploadFields
   )
 
   // Effect: Download csv file with fetched column names
