@@ -13,7 +13,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import React from 'react'
 import CSVReader from 'react-csv-reader'
-import { useUser } from '@gravis-os/auth'
+import { useUser, ROLE_CLIENT } from '@gravis-os/auth'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
@@ -200,7 +200,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 if (
                   module.table.name === 'mission' &&
                   // @ts-ignore
-                  user?.dbUser?.role?.title === 'Client' &&
+                  user?.dbUser?.role?.title === ROLE_CLIENT &&
                   Array.isArray(uploadedRows)
                 ) {
                   uploadedRows[0].client_user_id = user.dbUser.id
