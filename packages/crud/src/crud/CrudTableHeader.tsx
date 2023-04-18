@@ -45,7 +45,6 @@ export interface CrudTableHeaderProps {
   renderAddButton?: (buttonProps: ButtonProps) => React.ReactElement
   disableReset?: boolean
   disableUpload?: boolean
-  // can pass in if `disableUpload` is `false`.
   uploadFields?: string[]
   uploadFieldsOptions?: Record<string, unknown>[]
   filterFormProps?: Partial<FilterFormProps>
