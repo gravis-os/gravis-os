@@ -19,7 +19,15 @@ import useMultiStorageDropzone, {
 import FieldLabel from './FieldLabel'
 
 const StorageGalleryAvatar = (props) => {
-  const { active, onRemove, item, dragProps, size = 60, ...rest } = props
+  const {
+    active,
+    onRemove,
+    hidden = false,
+    item,
+    dragProps,
+    size = 60,
+    ...rest
+  } = props
   const { title, src, url } = item || {}
 
   return (
@@ -41,7 +49,7 @@ const StorageGalleryAvatar = (props) => {
         {...rest}
       />
 
-      {!active && onRemove && (
+      {!active && onRemove && !hidden && (
         <ConfirmationDialog
           onConfirm={() => onRemove(item)}
           icon={<CancelOutlinedIcon fontSize="small" />}
@@ -134,6 +142,7 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
               renderItem={({ onRemove: onRemoveSortableItem, ...rest }) => (
                 <StorageGalleryAvatar
                   size={avatarSize}
+                  hidden={hidden}
                   onRemove={async (item) => {
                     // Remove from db
                     if (item) await onRemove(item)
