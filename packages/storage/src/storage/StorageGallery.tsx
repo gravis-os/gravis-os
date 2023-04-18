@@ -156,6 +156,12 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
           </Box>
         )}
 
+        {!hasFiles && hidden && (
+          <Box>
+            <Typography>No images</Typography>
+          </Box>
+        )}
+
         {/* Dropzone Upload */}
         {!hidden && (
           <Avatar
