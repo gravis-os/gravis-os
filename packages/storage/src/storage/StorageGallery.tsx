@@ -67,6 +67,7 @@ export interface StorageGalleryProps
   dropzoneProps?: DropzoneOptions
   label?: string // The field label
   setValue?: (name: string, value: unknown) => void
+  hidden?: boolean
 }
 
 const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
@@ -79,6 +80,7 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
     dropzoneProps,
     label,
     setValue,
+    hidden = false,
     ...rest
   } = props
 
@@ -146,36 +148,38 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
         )}
 
         {/* Dropzone Upload */}
-        <Avatar
-          size={avatarSize}
-          variant="rounded"
-          sx={{
-            border: '1px dashed',
-            borderColor: 'divider',
-            backgroundColor: 'transparent',
-            color: 'primary.main',
-            '&:hover': {
-              cursor: 'pointer',
-              borderColor: 'primary.main',
-              borderStyle: 'solid',
-            },
-            '&:active': { backgroundColor: 'background.default' },
-            ...(isDragActive && {
-              borderColor: 'primary.main',
-              borderStyle: 'solid',
-            }),
-          }}
-          {...getRootProps()}
-        >
-          <Box sx={{ textAlign: 'center' }}>
-            <AddCircleOutlineOutlinedIcon />
-            <Typography variant="subtitle2" color="primary.main">
-              {isDragActive ? 'Upload Photo' : 'Add Photo'}
-              {maxFiles && maxFiles === 1 ? '' : 's'}
-            </Typography>
-          </Box>
-          <input {...getInputProps()} />
-        </Avatar>
+        {!hidden && (
+          <Avatar
+            size={avatarSize}
+            variant="rounded"
+            sx={{
+              border: '1px dashed',
+              borderColor: 'divider',
+              backgroundColor: 'transparent',
+              color: 'primary.main',
+              '&:hover': {
+                cursor: 'pointer',
+                borderColor: 'primary.main',
+                borderStyle: 'solid',
+              },
+              '&:active': { backgroundColor: 'background.default' },
+              ...(isDragActive && {
+                borderColor: 'primary.main',
+                borderStyle: 'solid',
+              }),
+            }}
+            {...getRootProps()}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <AddCircleOutlineOutlinedIcon />
+              <Typography variant="subtitle2" color="primary.main">
+                {isDragActive ? 'Upload Photo' : 'Add Photo'}
+                {maxFiles && maxFiles === 1 ? '' : 's'}
+              </Typography>
+            </Box>
+            <input {...getInputProps()} />
+          </Avatar>
+        )}
       </Stack>
     </Box>
   )
