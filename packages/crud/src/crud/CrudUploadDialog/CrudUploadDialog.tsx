@@ -13,6 +13,7 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import React from 'react'
 import CSVReader from 'react-csv-reader'
+import toast from 'react-hot-toast'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
@@ -21,17 +22,25 @@ import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFi
 export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
   requireDownload?: boolean
+  uploadFields?: string[]
+  getUploadValues?: (rows: unknown) => unknown
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
-  const { module, requireDownload = true, ...rest } = props
+  const {
+    module,
+    requireDownload = true,
+    uploadFields,
+    getUploadValues: injectedGetUploadedValues,
+    ...rest
+  } = props
   const { tableHeaderRenameMapping } = module ?? {}
 
   const [open, { setIsOpen, close }] = useOpen(false)
 
   const { handleDownload, isDownloaded, resetIsDownloaded, tableColumnNames } =
-    useDownloadTableDefinitionCsvFile({ module })
+    useDownloadTableDefinitionCsvFile({ module, uploadFields })
 
   const { createMutation } = useCreateMutation({
     module,
@@ -188,6 +197,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
               const { uploadedRows } = store.values
               const items = uploadedRows as any
+
               const columnDefs = tableColumnNames.map((tableColumnName) => ({
                 field: tableColumnName,
               }))
@@ -197,14 +207,20 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                  * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
                  * This ensures that the values provided are consistent with the header names in the database.
                  */
-                const updatedUploadedRows = getUploadedRows(
-                  uploadedRows,
-                  tableHeaderRenameMapping
+                const updatedUploadedRows = injectedGetUploadedValues(
+                  getUploadedRows(uploadedRows, tableHeaderRenameMapping)
                 )
-                const onMutate = await createMutation.mutateAsync(
+                const { data, error } = await createMutation.mutateAsync(
                   updatedUploadedRows
                 )
-                next()
+                if (data) {
+                  next()
+                }
+                if (error) {
+                  toast.error(
+                    `Some fields are wrong in your csv file: \n${error.message}`
+                  )
+                }
               }
 
               return (

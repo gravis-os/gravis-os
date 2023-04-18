@@ -2,7 +2,8 @@ import { has, isNil, map } from 'lodash'
 
 const getTableColumnNames = (
   tableDefinition,
-  tableHeaderRenameMapping?: Record<string, string>
+  tableHeaderRenameMapping?: Record<string, string>,
+  uploadFields?: string[]
 ): string[] | never[] => {
   if (!tableDefinition) return []
 
@@ -13,8 +14,10 @@ const getTableColumnNames = (
       const isForeignKey = key.endsWith('id')
       const isCreatedOrUpdatedKey =
         key.startsWith('created_') || key.startsWith('updated_')
+      const isRequiredKey = uploadFields ? uploadFields.includes(key) : false
 
-      const shouldSkipKey = isPrimaryKey || isCreatedOrUpdatedKey
+      const shouldSkipKey =
+        isPrimaryKey || isCreatedOrUpdatedKey || !isRequiredKey
 
       return shouldSkipKey ? acc : acc.concat(key)
     },
