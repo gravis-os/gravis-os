@@ -46,7 +46,7 @@ export interface CrudTableHeaderProps {
   disableReset?: boolean
   disableUpload?: boolean
   uploadFields?: string[]
-  uploadFieldsOptions?: Record<string, unknown>[]
+  getUploadValues?: (rows: unknown) => unknown
   filterFormProps?: Partial<FilterFormProps>
 }
 
@@ -59,7 +59,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     module,
     disableUpload,
     uploadFields,
-    uploadFieldsOptions,
+    getUploadValues,
     disableAdd,
     disableChips,
     addModule = module,
@@ -250,7 +250,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
             <CrudUploadDialog
               module={module}
               uploadFields={uploadFields}
-              uploadFieldsOptions={uploadFieldsOptions}
+              getUploadValues={getUploadValues}
               {...uploadDialogProps}
             />
           )}

@@ -23,7 +23,7 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
   requireDownload?: boolean
   uploadFields?: string[]
-  uploadFieldsOptions?: Record<string, unknown>[]
+  getUploadValues?: (rows: unknown) => unknown
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
@@ -32,7 +32,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
     module,
     requireDownload = true,
     uploadFields,
-    uploadFieldsOptions,
+    getUploadValues: injectedGetUploadedValues,
     ...rest
   } = props
   const { tableHeaderRenameMapping } = module ?? {}
@@ -203,24 +203,12 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               }))
 
               const handleUploadClick = async () => {
-                // updated uploadedRows using passed fields options.
-                if (uploadFieldsOptions && Array.isArray(uploadedRows)) {
-                  uploadFieldsOptions.reduce(
-                    (_, option) => {
-                      const key = Object.keys(option)[0]
-                      uploadedRows[0][key] = option[key]
-                      return []
-                    },
-                    [{}]
-                  )
-                }
                 /**
                  * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
                  * This ensures that the values provided are consistent with the header names in the database.
                  */
-                const updatedUploadedRows = getUploadedRows(
-                  uploadedRows,
-                  tableHeaderRenameMapping
+                const updatedUploadedRows = injectedGetUploadedValues(
+                  getUploadedRows(uploadedRows, tableHeaderRenameMapping)
                 )
                 const { data, error } = await createMutation.mutateAsync(
                   updatedUploadedRows
