@@ -204,8 +204,6 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
               const handleUploadClick = async () => {
                 // updated uploadedRows using passed fields options.
-                console.log('uploadField: ', uploadFields)
-                console.log('uploadFieldsOptions: ', uploadFieldsOptions)
                 if (uploadFieldsOptions && Array.isArray(uploadedRows)) {
                   uploadFieldsOptions.reduce(
                     (_, option) => {
