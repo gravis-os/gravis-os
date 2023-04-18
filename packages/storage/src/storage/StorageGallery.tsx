@@ -19,7 +19,15 @@ import useMultiStorageDropzone, {
 import FieldLabel from './FieldLabel'
 
 const StorageGalleryAvatar = (props) => {
-  const { active, onRemove, item, dragProps, size = 60, ...rest } = props
+  const {
+    active,
+    onRemove,
+    hidden = false,
+    item,
+    dragProps,
+    size = 60,
+    ...rest
+  } = props
   const { title, src, url } = item || {}
 
   return (
@@ -41,7 +49,7 @@ const StorageGalleryAvatar = (props) => {
         {...rest}
       />
 
-      {!active && onRemove && (
+      {!active && onRemove && !hidden && (
         <ConfirmationDialog
           onConfirm={() => onRemove(item)}
           icon={<CancelOutlinedIcon fontSize="small" />}
@@ -67,6 +75,7 @@ export interface StorageGalleryProps
   dropzoneProps?: DropzoneOptions
   label?: string // The field label
   setValue?: (name: string, value: unknown) => void
+  hidden?: boolean
 }
 
 const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
@@ -79,6 +88,7 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
     dropzoneProps,
     label,
     setValue,
+    hidden = false,
     ...rest
   } = props
 
@@ -132,6 +142,7 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
               renderItem={({ onRemove: onRemoveSortableItem, ...rest }) => (
                 <StorageGalleryAvatar
                   size={avatarSize}
+                  hidden={hidden}
                   onRemove={async (item) => {
                     // Remove from db
                     if (item) await onRemove(item)
@@ -145,37 +156,45 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
           </Box>
         )}
 
-        {/* Dropzone Upload */}
-        <Avatar
-          size={avatarSize}
-          variant="rounded"
-          sx={{
-            border: '1px dashed',
-            borderColor: 'divider',
-            backgroundColor: 'transparent',
-            color: 'primary.main',
-            '&:hover': {
-              cursor: 'pointer',
-              borderColor: 'primary.main',
-              borderStyle: 'solid',
-            },
-            '&:active': { backgroundColor: 'background.default' },
-            ...(isDragActive && {
-              borderColor: 'primary.main',
-              borderStyle: 'solid',
-            }),
-          }}
-          {...getRootProps()}
-        >
-          <Box sx={{ textAlign: 'center' }}>
-            <AddCircleOutlineOutlinedIcon />
-            <Typography variant="subtitle2" color="primary.main">
-              {isDragActive ? 'Upload Photo' : 'Add Photo'}
-              {maxFiles && maxFiles === 1 ? '' : 's'}
-            </Typography>
+        {!hasFiles && hidden && (
+          <Box>
+            <Typography>No images</Typography>
           </Box>
-          <input {...getInputProps()} />
-        </Avatar>
+        )}
+
+        {/* Dropzone Upload */}
+        {!hidden && (
+          <Avatar
+            size={avatarSize}
+            variant="rounded"
+            sx={{
+              border: '1px dashed',
+              borderColor: 'divider',
+              backgroundColor: 'transparent',
+              color: 'primary.main',
+              '&:hover': {
+                cursor: 'pointer',
+                borderColor: 'primary.main',
+                borderStyle: 'solid',
+              },
+              '&:active': { backgroundColor: 'background.default' },
+              ...(isDragActive && {
+                borderColor: 'primary.main',
+                borderStyle: 'solid',
+              }),
+            }}
+            {...getRootProps()}
+          >
+            <Box sx={{ textAlign: 'center' }}>
+              <AddCircleOutlineOutlinedIcon />
+              <Typography variant="subtitle2" color="primary.main">
+                {isDragActive ? 'Upload Photo' : 'Add Photo'}
+                {maxFiles && maxFiles === 1 ? '' : 's'}
+              </Typography>
+            </Box>
+            <input {...getInputProps()} />
+          </Avatar>
+        )}
       </Stack>
     </Box>
   )
