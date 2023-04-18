@@ -19,7 +19,7 @@ export interface ContactLeafletProps extends CardProps {
 const ContactLeaflet: React.FC<ContactLeafletProps> = (props) => {
   const { item, ...rest } = props
 
-  const { title, mobile, email } = item
+  const { full_name, mobile, email } = item
 
   return (
     <Card disablePadding {...rest}>
@@ -42,7 +42,7 @@ const ContactLeaflet: React.FC<ContactLeafletProps> = (props) => {
               children: (
                 <DescriptionList
                   items={[
-                    { key: 'name', value: title, label: 'Name' },
+                    { key: 'name', value: full_name, label: 'Name' },
                     { key: 'mobile', value: mobile, label: 'Mobile' },
                     { key: 'email', value: email, label: 'Email' },
                     {
