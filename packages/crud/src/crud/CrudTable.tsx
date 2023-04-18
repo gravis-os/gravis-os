@@ -38,6 +38,7 @@ export interface CrudTableProps {
   isListPage?: boolean
   disableUpload?: CrudTableHeaderProps['disableUpload']
   uploadFields?: string[]
+  uploadFieldsOptions?: Record<string, unknown>[]
 
   filterTabs?: CrudTableFilterTabsProps['items']
   filterTabsProps?: CrudTableFilterTabsProps
@@ -87,6 +88,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     searchFormSections = [],
     addFormSections = [],
     uploadFields,
+    uploadFieldsOptions,
 
     // Props
     headerProps,
@@ -181,6 +183,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
         module={module}
         disableUpload={disableUpload}
         uploadFields={uploadFields}
+        uploadFieldsOptions={uploadFieldsOptions}
         disableAdd={disableAdd}
         addModule={addModule}
         filters={filters}

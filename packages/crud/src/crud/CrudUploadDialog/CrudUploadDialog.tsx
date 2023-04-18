@@ -13,7 +13,6 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import React from 'react'
 import CSVReader from 'react-csv-reader'
-import { useUser, ROLE_CLIENT } from '@gravis-os/auth'
 import toast from 'react-hot-toast'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
@@ -24,14 +23,19 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
   requireDownload?: boolean
   uploadFields?: string[]
+  uploadFieldsOptions?: Record<string, unknown>[]
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
-  const { module, requireDownload = true, uploadFields, ...rest } = props
+  const {
+    module,
+    requireDownload = true,
+    uploadFields,
+    uploadFieldsOptions,
+    ...rest
+  } = props
   const { tableHeaderRenameMapping } = module ?? {}
-
-  const user = useUser()
 
   const [open, { setIsOpen, close }] = useOpen(false)
 
@@ -199,14 +203,18 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               }))
 
               const handleUploadClick = async () => {
-                // insert client_user_id when clients upload missions.
-                if (
-                  module.table.name === 'mission' &&
-                  // @ts-ignore
-                  user?.dbUser?.role?.title === ROLE_CLIENT &&
-                  Array.isArray(uploadedRows)
-                ) {
-                  uploadedRows[0].client_user_id = user.dbUser.id
+                // updated uploadedRows using passed fields options.
+                console.log('uploadField: ', uploadFields)
+                console.log('uploadFieldsOptions: ', uploadFieldsOptions)
+                if (uploadFieldsOptions && Array.isArray(uploadedRows)) {
+                  uploadFieldsOptions.reduce(
+                    (_, option) => {
+                      const key = Object.keys(option)[0]
+                      uploadedRows[0][key] = option[key]
+                      return []
+                    },
+                    [{}]
+                  )
                 }
                 /**
                  * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
@@ -224,7 +232,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 }
                 if (error) {
                   toast.error(
-                    `Something fields wrong in your csv file: \n${error.message}`
+                    `Some fields are wrong in your csv file: \n${error.message}`
                   )
                 }
               }
