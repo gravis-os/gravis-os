@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.38
+
+### Patch Changes
+
+- [#198](https://github.com/gravis-os/gravis-os/pull/198) [`20d5ac2`](https://github.com/gravis-os/gravis-os/commit/20d5ac2ecd0a40aa57d104b0dfefc7649f46c420) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(storage): can hide upload image button.
+
 ## 0.0.37
 
 ### Patch Changes

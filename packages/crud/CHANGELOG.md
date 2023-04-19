@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.88
+
+### Patch Changes
+
+- [#197](https://github.com/gravis-os/gravis-os/pull/197) [`0544a75`](https://github.com/gravis-os/gravis-os/commit/0544a7528d5553c9b4e1bc16384c3d57c0e17f7a) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(crud): can pass upload fields and its options.
+
+- Updated dependencies [[`20d5ac2`](https://github.com/gravis-os/gravis-os/commit/20d5ac2ecd0a40aa57d104b0dfefc7649f46c420)]:
+  - @gravis-os/storage@0.0.38
+
 ## 0.0.87
 
 ### Patch Changes
