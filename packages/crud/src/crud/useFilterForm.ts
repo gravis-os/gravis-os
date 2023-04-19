@@ -6,6 +6,7 @@ import { CrudModule } from '@gravis-os/types'
 
 interface UseFilterFormValues {
   values: Record<string, any>
+  rawValues: Record<string, any>
 }
 
 export interface UseFilterFormArgs {
@@ -13,7 +14,7 @@ export interface UseFilterFormArgs {
   item?: Record<string, unknown>
   client?: SupabaseClient
   setFormValues?: ({ values }: UseFilterFormValues) => Record<string, any>
-  onSubmit?: (obj: UseFilterFormValues) => void
+  onSubmit?: (obj: Omit<UseFilterFormValues, 'rawValues'>) => void
 }
 
 const useFilterForm = (args: UseFilterFormArgs) => {
@@ -35,7 +36,7 @@ const useFilterForm = (args: UseFilterFormArgs) => {
     try {
       const filterFormValues = getFilterFormValues({ values })
       const nextValues = setFormValues
-        ? setFormValues({ values: filterFormValues })
+        ? setFormValues({ values: filterFormValues, rawValues: values })
         : filterFormValues
       if (onSubmit) onSubmit({ values: nextValues })
     } catch (err) {

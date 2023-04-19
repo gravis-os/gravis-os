@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.40
+
+### Patch Changes
+
+- [#194](https://github.com/gravis-os/gravis-os/pull/194) [`c0a256f`](https://github.com/gravis-os/gravis-os/commit/c0a256f2a61b8ec09ad21eac6c90e123bcf2620f) Thanks [@al1xt](https://github.com/al1xt)! - Move columns declaration to relations in CrudModule
+
+## 0.0.39
+
+### Patch Changes
+
+- [#193](https://github.com/gravis-os/gravis-os/pull/193) [`d524394`](https://github.com/gravis-os/gravis-os/commit/d5243948fb795f073193c8320bc86cd1d549dc99) Thanks [@al1xt](https://github.com/al1xt)! - Allow column picking in saveOneToManyValues
+
 ## 0.0.38
 
 ### Patch Changes

@@ -1,5 +1,35 @@
 # Changelog
 
+## 0.0.38
+
+### Patch Changes
+
+- [#198](https://github.com/gravis-os/gravis-os/pull/198) [`20d5ac2`](https://github.com/gravis-os/gravis-os/commit/20d5ac2ecd0a40aa57d104b0dfefc7649f46c420) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(storage): can hide upload image button.
+
+## 0.0.37
+
+### Patch Changes
+
+- [#186](https://github.com/gravis-os/gravis-os/pull/186) [`0467215`](https://github.com/gravis-os/gravis-os/commit/046721548b24dbc95401c8145c7cd6223bcc1453) Thanks [@al1xt](https://github.com/al1xt)! - Fix useGetStorageObject not returning cached value
+
+- Updated dependencies [[`166b292`](https://github.com/gravis-os/gravis-os/commit/166b292b0d98030998a5f5bf7b72fa3756e5a484)]:
+  - @gravis-os/ui@0.0.98
+
+## 0.0.36
+
+### Patch Changes
+
+- [#178](https://github.com/gravis-os/gravis-os/pull/178) [`2116cab`](https://github.com/gravis-os/gravis-os/commit/2116cab62e5db413e6a619779044737c4d7650f7) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Add StorageGallery missing prop
+
+## 0.0.35
+
+### Patch Changes
+
+- [#177](https://github.com/gravis-os/gravis-os/pull/177) [`09cb482`](https://github.com/gravis-os/gravis-os/commit/09cb4825b52d7e30e9002d283913ce574d240a34) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Add a fallback avatar src to StorageAvatarWithUpload
+
+- Updated dependencies [[`c16ab58`](https://github.com/gravis-os/gravis-os/commit/c16ab58704fdd9610866ffc018ace768ed6601e4), [`684daa0`](https://github.com/gravis-os/gravis-os/commit/684daa0d93066b5cd60b565bee4a6f1e79f77dfe), [`9f386fe`](https://github.com/gravis-os/gravis-os/commit/9f386fe3e65561dc4bf350aef754927613df704b)]:
+  - @gravis-os/ui@0.0.97
+
 ## 0.0.34
 
 ### Patch Changes

@@ -22,7 +22,10 @@ export interface CrudModule {
   select?: { detail?: string; list?: string }
   Icon?: React.ElementType
   relations?: {
-    [key: string]: { table: { name: string }; joinTable?: { name: string } }
+    [key: string]: {
+      table: { name: string; columns?: string[] }
+      joinTable?: { name: string }
+    }
   }
   // For modules with `exclusive_locales` and `blocked_locales` columns
   hasLocales?: boolean

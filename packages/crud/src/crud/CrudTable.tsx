@@ -1,6 +1,6 @@
 import React, { useRef } from 'react'
 import { useUser } from '@gravis-os/auth'
-import { FormSectionsProps } from '@gravis-os/form'
+import type { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { useList, UseListProps } from '@gravis-os/query'
@@ -20,6 +20,7 @@ import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
 import CrudTableFilterTabs, {
   CrudTableFilterTabsProps,
 } from './CrudTableFilterTabs'
+import { FilterFormProps } from './FilterForm'
 
 export interface CrudTableProps {
   module: CrudModule
@@ -36,6 +37,8 @@ export interface CrudTableProps {
   disableServerSideRowModel?: boolean
   isListPage?: boolean
   disableUpload?: CrudTableHeaderProps['disableUpload']
+  uploadFields?: string[]
+  getUploadValues?: (rows: unknown) => unknown
 
   filterTabs?: CrudTableFilterTabsProps['items']
   filterTabsProps?: CrudTableFilterTabsProps
@@ -50,6 +53,7 @@ export interface CrudTableProps {
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
   crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
   useListProps?: Partial<UseListProps>
+  filterFormProps?: Partial<FilterFormProps>
 
   actions?: React.ReactNode
 }
@@ -83,6 +87,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     filterFormSections = [],
     searchFormSections = [],
     addFormSections = [],
+    uploadFields,
+    getUploadValues,
 
     // Props
     headerProps,
@@ -92,6 +98,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     useGetCrudTableColumnDefsProps,
     crudDeleteDialogProps,
     useListProps,
+    filterFormProps,
   } = props
   // Contexts
   const { user } = useUser()
@@ -175,6 +182,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       <CrudTableHeader
         module={module}
         disableUpload={disableUpload}
+        uploadFields={uploadFields}
+        getUploadValues={getUploadValues}
         disableAdd={disableAdd}
         addModule={addModule}
         filters={filters}
@@ -187,6 +196,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
           crudFormProps: addFormProps,
           ...headerProps?.addDialogProps,
         }}
+        filterFormProps={filterFormProps}
       />
 
       {/* Filter Tabs */}

@@ -1,3 +1,4 @@
+import { MailDataRequired } from '@sendgrid/mail'
 import Mailgen from 'mailgen'
 import Sendgrid from './services/Sendgrid'
 
@@ -44,18 +45,28 @@ const makeMail = (props: MakeMailProps) => {
       from = injectedFrom,
       subject,
       email,
+      attachments,
+      blacklist,
     }: {
       to: string
       from?: string
       subject: string
       email: Mailgen.Content
+      attachments?: MailDataRequired['attachments']
+      blacklist?: string[]
     }) => {
+      const shouldSkip = Boolean(
+        blacklist?.some((email) => email === to?.toLowerCase())
+      )
+      if (shouldSkip) return
+
       return Sendgrid.send({
         to,
         from,
         subject,
         html: mailgen.generate(email),
         text: mailgen.generatePlaintext(email),
+        attachments,
       })
     },
   }

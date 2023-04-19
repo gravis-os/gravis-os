@@ -1,5 +1,59 @@
 # Changelog
 
+## 0.0.88
+
+### Patch Changes
+
+- [#197](https://github.com/gravis-os/gravis-os/pull/197) [`0544a75`](https://github.com/gravis-os/gravis-os/commit/0544a7528d5553c9b4e1bc16384c3d57c0e17f7a) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(crud): can pass upload fields and its options.
+
+- Updated dependencies [[`20d5ac2`](https://github.com/gravis-os/gravis-os/commit/20d5ac2ecd0a40aa57d104b0dfefc7649f46c420)]:
+  - @gravis-os/storage@0.0.38
+
+## 0.0.87
+
+### Patch Changes
+
+- [#195](https://github.com/gravis-os/gravis-os/pull/195) [`523d3bf`](https://github.com/gravis-os/gravis-os/commit/523d3bf7a91189bad47011625bc7cfd66c3faff7) Thanks [@al1xt](https://github.com/al1xt)! - Fix pick in saveOneToManyValues
+
+## 0.0.86
+
+### Patch Changes
+
+- [#194](https://github.com/gravis-os/gravis-os/pull/194) [`c0a256f`](https://github.com/gravis-os/gravis-os/commit/c0a256f2a61b8ec09ad21eac6c90e123bcf2620f) Thanks [@al1xt](https://github.com/al1xt)! - Move columns declaration to relations in CrudModule
+
+- Updated dependencies [[`c0a256f`](https://github.com/gravis-os/gravis-os/commit/c0a256f2a61b8ec09ad21eac6c90e123bcf2620f)]:
+  - @gravis-os/types@0.0.40
+
+## 0.0.85
+
+### Patch Changes
+
+- [#193](https://github.com/gravis-os/gravis-os/pull/193) [`d524394`](https://github.com/gravis-os/gravis-os/commit/d5243948fb795f073193c8320bc86cd1d549dc99) Thanks [@al1xt](https://github.com/al1xt)! - Allow column picking in saveOneToManyValues
+
+- Updated dependencies [[`d524394`](https://github.com/gravis-os/gravis-os/commit/d5243948fb795f073193c8320bc86cd1d549dc99)]:
+  - @gravis-os/types@0.0.39
+
+## 0.0.84
+
+### Patch Changes
+
+- [#190](https://github.com/gravis-os/gravis-os/pull/190) [`2a119e6`](https://github.com/gravis-os/gravis-os/commit/2a119e69e16871d58560e587324302ae25ab313c) Thanks [@jovanchan1](https://github.com/jovanchan1)! - added name prop in AgGridModelFieldEditor to allow injected name
+
+* [#189](https://github.com/gravis-os/gravis-os/pull/189) [`267def0`](https://github.com/gravis-os/gravis-os/commit/267def0c35454373ae158e7691c0b265edf2f038) Thanks [@yyhernest](https://github.com/yyhernest)! - - Expose filterFormProps from crudTable and crudTableHeaders
+  - Remove op from display value for FilterForm and chips from filters
+
+## 0.0.83
+
+### Patch Changes
+
+- [#182](https://github.com/gravis-os/gravis-os/pull/182) [`5b6d2c7`](https://github.com/gravis-os/gravis-os/commit/5b6d2c7195fef6d274a1e3bdea7d53805df21bbf) Thanks [@jovanchan1](https://github.com/jovanchan1)! - exposed injectedGetItemHref prop in crudTable manage button
+
+## 0.0.82
+
+### Patch Changes
+
+- Rebuild crud
+
 ## 0.0.81
 
 ### Patch Changes

@@ -473,7 +473,7 @@ const renderField = (props: RenderFieldProps) => {
                 item={item}
                 module={injectedModule as CrudModule}
                 onUpload={(savedFilePath) =>
-                  setValue(field.name, savedFilePath)
+                  setValue(field.name, savedFilePath, { shouldDirty: true })
                 }
                 {...commonProps}
               />

@@ -143,18 +143,18 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
 
   // Auth Context methods
   const logout = async () => {
+    /**
+     * Trigger supabase auth logout instead of js package logout to ensure that
+     * cookies are removed as well because the method: supabaseClient.auth.signOut()
+     * doesn't seem to clear the cookies.
+     */
+    await fetch('/api/auth/logout')
     await Promise.all([
       /**
        * Need to fire the API signOut as well to get authUser from useAuthUser
        * to reset properly, else it will still linger on and cause side-effects.
        */
       supabaseClient.auth.signOut(),
-      /**
-       * Trigger supabase auth logout instead of js package logout to ensure that
-       * cookies are removed as well because the previous method: supabaseClient.auth.signOut()
-       * didn't seem to clear the cookies.
-       */
-      fetch('/api/auth/logout'),
       // Unset dbUser by refetching again but this time without the authUser
       queryClient.invalidateQueries(getDbUserFromAuthUserQueryKey),
     ])

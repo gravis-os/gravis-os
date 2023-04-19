@@ -1,5 +1,17 @@
 # @gravis-os/mail
 
+## 0.0.6
+
+### Patch Changes
+
+- [#196](https://github.com/gravis-os/gravis-os/pull/196) [`a1bd277f`](https://github.com/gravis-os/gravis-os/commit/a1bd277f2e147848edb12ecc64e7b6b7eb938a79) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - Add blacklist when sending email
+
+## 0.0.5
+
+### Patch Changes
+
+- [#187](https://github.com/gravis-os/gravis-os/pull/187) [`a746c30`](https://github.com/gravis-os/gravis-os/commit/a746c304dac9313128946bf65d2cf0f565df1887) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Add attachment option to Sendgrid
+
 ## 0.0.4
 
 ### Patch Changes

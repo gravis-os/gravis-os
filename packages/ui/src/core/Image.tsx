@@ -94,6 +94,10 @@ const Image: React.FC<ImageProps> = (props) => {
 
   const fadeOnLoad = Boolean(injectedFadeOnLoad || background)
 
+  // Source config
+  const onUseGravis = useGravis()
+  const { next } = onUseGravis
+
   if (empty) {
     return (
       <Box
@@ -234,10 +238,6 @@ const Image: React.FC<ImageProps> = (props) => {
       'height',
       'loading',
     ]) as NextImageProps
-
-    // Source config
-    const onUseGravis = useGravis()
-    const { next } = onUseGravis
 
     switch (true) {
       case Boolean(isNextImageFill):

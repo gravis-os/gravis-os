@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 0.0.16
+
+### Patch Changes
+
+- [#185](https://github.com/gravis-os/gravis-os/pull/185) [`1f9edbf`](https://github.com/gravis-os/gravis-os/commit/1f9edbff727e9c18b98428bb2127d13fb3b74310) Thanks [@al1xt](https://github.com/al1xt)! - Fix MegaSearch not adding react key correctly
+
 ## 0.0.15
 
 ### Patch Changes

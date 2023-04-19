@@ -1,5 +1,30 @@
 # Changelog
 
+## 0.0.99
+
+### Patch Changes
+
+- [#188](https://github.com/gravis-os/gravis-os/pull/188) [`4256a38`](https://github.com/gravis-os/gravis-os/commit/4256a386b1d33c855b43bc73919190a669042b72) Thanks [@al1xt](https://github.com/al1xt)! - Fix container not passing sx along
+
+## 0.0.98
+
+### Patch Changes
+
+- [#184](https://github.com/gravis-os/gravis-os/pull/184) [`166b292`](https://github.com/gravis-os/gravis-os/commit/166b292b0d98030998a5f5bf7b72fa3756e5a484) Thanks [@al1xt](https://github.com/al1xt)! - Fix Image using hook conditionally
+
+## 0.0.97
+
+### Patch Changes
+
+- [`c16ab58`](https://github.com/gravis-os/gravis-os/commit/c16ab58704fdd9610866ffc018ace768ed6601e4) Thanks [@clodal](https://github.com/clodal)! - Add dialogProps and html to BlockItem"
+
+* [`684daa0`](https://github.com/gravis-os/gravis-os/commit/684daa0d93066b5cd60b565bee4a6f1e79f77dfe) Thanks [@clodal](https://github.com/clodal)! - Update footer legalItems prop shape
+
+- [`9f386fe`](https://github.com/gravis-os/gravis-os/commit/9f386fe3e65561dc4bf350aef754927613df704b) Thanks [@clodal](https://github.com/clodal)! - Add fa-icon to blockitem
+
+- Updated dependencies [[`9021ec5`](https://github.com/gravis-os/gravis-os/commit/9021ec5b2d65aa1d5b62d304a5aa8d222e93f695)]:
+  - @gravis-os/utils@0.0.41
+
 ## 0.0.96
 
 ### Patch Changes
