@@ -1,5 +1,16 @@
 # @gravis-os/query
 
+## 0.0.25
+
+### Patch Changes
+
+- [`57ab009`](https://github.com/gravis-os/gravis-os/commit/57ab009cd783a059897ccc19764a97b98961f240) Thanks [@clodal](https://github.com/clodal)! - Add utils/i18n to handle staticProps and staticPaths easily
+
+* [`516bd70`](https://github.com/gravis-os/gravis-os/commit/516bd70689f33497270a718dcbd226187e407f89) Thanks [@clodal](https://github.com/clodal)! - Add getStaticPathsWithLocales.ts"
+
+* Updated dependencies [[`57ab009`](https://github.com/gravis-os/gravis-os/commit/57ab009cd783a059897ccc19764a97b98961f240)]:
+  - @gravis-os/types@0.0.41
+
 ## 0.0.24
 
 ### Patch Changes

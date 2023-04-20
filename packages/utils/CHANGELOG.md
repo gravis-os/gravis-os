@@ -1,5 +1,28 @@
 # Changelog
 
+## 0.0.42
+
+### Patch Changes
+
+- [`44635cc`](https://github.com/gravis-os/gravis-os/commit/44635cc0c14f313a5986e659f2e049c8e7e1d0d7) Thanks [@clodal](https://github.com/clodal)! - Update types to pass build
+
+* [`95babcf`](https://github.com/gravis-os/gravis-os/commit/95babcf0e6c74b6fe27338fb3f79285423b8a6a8) Thanks [@clodal](https://github.com/clodal)! - Add CheckboxGroup. Fix issue with Block dialogProps and hooks. UI fixes for landing page
+
+- [`57ab009`](https://github.com/gravis-os/gravis-os/commit/57ab009cd783a059897ccc19764a97b98961f240) Thanks [@clodal](https://github.com/clodal)! - Add utils/i18n to handle staticProps and staticPaths easily
+
+* [`e2cf2db`](https://github.com/gravis-os/gravis-os/commit/e2cf2dbe618c8a482bcc9ed3024e4fe437115f9b) Thanks [@clodal](https://github.com/clodal)! - Add getCrudItemsByCategory to utils to group items into categorys"
+
+- [`ae4c691`](https://github.com/gravis-os/gravis-os/commit/ae4c6912a5c6f6db2ca5b6ca7fe9e4cc0eb0fe83) Thanks [@clodal](https://github.com/clodal)! - Add getObjectWithGroupedKeyFromPrefix to utils"
+
+* [`67a2945`](https://github.com/gravis-os/gravis-os/commit/67a2945f8c2051176400b15fe3ddf120bf8715dc) Thanks [@clodal](https://github.com/clodal)! - Update typings
+
+- [`8fea06a`](https://github.com/gravis-os/gravis-os/commit/8fea06a0b9e6c578df1ccd9ecc6c3a85428866ce) Thanks [@clodal](https://github.com/clodal)! - Add utils.getObjectWithReplacedValues
+
+* [`c48c96a`](https://github.com/gravis-os/gravis-os/commit/c48c96ad998df2a0ddc1142dcc628eeec3a05a60) Thanks [@clodal](https://github.com/clodal)! - Fix breadcrumbs color and add printPaddedNumber
+
+* Updated dependencies [[`57ab009`](https://github.com/gravis-os/gravis-os/commit/57ab009cd783a059897ccc19764a97b98961f240)]:
+  - @gravis-os/types@0.0.41
+
 ## 0.0.41
 
 ### Patch Changes

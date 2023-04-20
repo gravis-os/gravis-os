@@ -1,5 +1,22 @@
 # @gravis-os/fields
 
+## 0.0.17
+
+### Patch Changes
+
+- [`95babcf`](https://github.com/gravis-os/gravis-os/commit/95babcf0e6c74b6fe27338fb3f79285423b8a6a8) Thanks [@clodal](https://github.com/clodal)! - Add CheckboxGroup. Fix issue with Block dialogProps and hooks. UI fixes for landing page
+
+* [`bf204be`](https://github.com/gravis-os/gravis-os/commit/bf204be187d61adfdff1225303a8addc2786d516) Thanks [@clodal](https://github.com/clodal)! - Fix build errors from merge
+
+- [`fd3a100`](https://github.com/gravis-os/gravis-os/commit/fd3a100d32dd0ad929eba50c6ee7685365c53fcd) Thanks [@clodal](https://github.com/clodal)! - Update gravis-os form package deps. Update UI"
+
+* [`1867d52`](https://github.com/gravis-os/gravis-os/commit/1867d52da90bd6d40c833e3e49fe121149fd0eee) Thanks [@clodal](https://github.com/clodal)! - Update zustand import in fields
+
+- [`cea4564`](https://github.com/gravis-os/gravis-os/commit/cea4564d961a2631ba07a837fbe4defb0eee1a9d) Thanks [@clodal](https://github.com/clodal)! - Update fields and add CheckboxGroup field
+
+- Updated dependencies [[`57ab009`](https://github.com/gravis-os/gravis-os/commit/57ab009cd783a059897ccc19764a97b98961f240)]:
+  - @gravis-os/types@0.0.41
+
 ## 0.0.16
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.0.15
+
+### Patch Changes
+
+- [#200](https://github.com/gravis-os/gravis-os/pull/200) [`c28b5c5`](https://github.com/gravis-os/gravis-os/commit/c28b5c549e8e68ba2d190b087d0094724f2cd0dd) Thanks [@sean-onextech](https://github.com/sean-onextech)! - Added unused imports eslint plugin
+
 ## 0.0.14
 
 ### Patch Changes

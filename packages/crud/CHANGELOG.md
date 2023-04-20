@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.0.89
+
+### Patch Changes
+
+- [`95babcf`](https://github.com/gravis-os/gravis-os/commit/95babcf0e6c74b6fe27338fb3f79285423b8a6a8) Thanks [@clodal](https://github.com/clodal)! - Add CheckboxGroup. Fix issue with Block dialogProps and hooks. UI fixes for landing page
+
+* [`bf204be`](https://github.com/gravis-os/gravis-os/commit/bf204be187d61adfdff1225303a8addc2786d516) Thanks [@clodal](https://github.com/clodal)! - Fix build errors from merge
+
+* Updated dependencies [[`44635cc`](https://github.com/gravis-os/gravis-os/commit/44635cc0c14f313a5986e659f2e049c8e7e1d0d7), [`f13fa6f`](https://github.com/gravis-os/gravis-os/commit/f13fa6f44ce3a9f6d31f3c260755f65d77378b55), [`bf279f3`](https://github.com/gravis-os/gravis-os/commit/bf279f3a2b9009ba3f4e391310f808770d7e6a15), [`95babcf`](https://github.com/gravis-os/gravis-os/commit/95babcf0e6c74b6fe27338fb3f79285423b8a6a8), [`57ab009`](https://github.com/gravis-os/gravis-os/commit/57ab009cd783a059897ccc19764a97b98961f240), [`0263ccd`](https://github.com/gravis-os/gravis-os/commit/0263ccdf80cfb59ef8ffc65b91dc3177de0937c1), [`e2cf2db`](https://github.com/gravis-os/gravis-os/commit/e2cf2dbe618c8a482bcc9ed3024e4fe437115f9b), [`bf204be`](https://github.com/gravis-os/gravis-os/commit/bf204be187d61adfdff1225303a8addc2786d516), [`dcf3a69`](https://github.com/gravis-os/gravis-os/commit/dcf3a696cfd5285f00ab97466bb82fc5946d918e), [`ae4c691`](https://github.com/gravis-os/gravis-os/commit/ae4c6912a5c6f6db2ca5b6ca7fe9e4cc0eb0fe83), [`1fe3a12`](https://github.com/gravis-os/gravis-os/commit/1fe3a120d21061d3f6eb1ed9ab41bdf3f32c2f5b), [`fd3a100`](https://github.com/gravis-os/gravis-os/commit/fd3a100d32dd0ad929eba50c6ee7685365c53fcd), [`67a2945`](https://github.com/gravis-os/gravis-os/commit/67a2945f8c2051176400b15fe3ddf120bf8715dc), [`8fea06a`](https://github.com/gravis-os/gravis-os/commit/8fea06a0b9e6c578df1ccd9ecc6c3a85428866ce), [`c48c96a`](https://github.com/gravis-os/gravis-os/commit/c48c96ad998df2a0ddc1142dcc628eeec3a05a60), [`2a58839`](https://github.com/gravis-os/gravis-os/commit/2a588397c9b14d24167d534d4d74e53798eb8bb0), [`d4c351d`](https://github.com/gravis-os/gravis-os/commit/d4c351d2bf08935b0729231f6090ba1e0116711f), [`4b1b214`](https://github.com/gravis-os/gravis-os/commit/4b1b21451ebab64f1ac65ac66b8eee848d09f157), [`cea4564`](https://github.com/gravis-os/gravis-os/commit/cea4564d961a2631ba07a837fbe4defb0eee1a9d)]:
+  - @gravis-os/form@0.0.104
+  - @gravis-os/ui@0.0.100
+  - @gravis-os/utils@0.0.42
+  - @gravis-os/types@0.0.41
+  - @gravis-os/auth@0.0.55
+
 ## 0.0.88
 
 ### Patch Changes

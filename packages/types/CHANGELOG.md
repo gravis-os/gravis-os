@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.41
+
+### Patch Changes
+
+- [`57ab009`](https://github.com/gravis-os/gravis-os/commit/57ab009cd783a059897ccc19764a97b98961f240) Thanks [@clodal](https://github.com/clodal)! - Add utils/i18n to handle staticProps and staticPaths easily
+
 ## 0.0.40
 
 ### Patch Changes

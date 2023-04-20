@@ -1,5 +1,14 @@
 # @gravis-os/theme
 
+## 0.0.8
+
+### Patch Changes
+
+- [`d1cd519`](https://github.com/gravis-os/gravis-os/commit/d1cd5192b6af38d6eb2ccfdb870f8f61c32dc4bb) Thanks [@clodal](https://github.com/clodal)! - Fix typing
+
+- Updated dependencies [[`57ab009`](https://github.com/gravis-os/gravis-os/commit/57ab009cd783a059897ccc19764a97b98961f240)]:
+  - @gravis-os/types@0.0.41
+
 ## 0.0.7
 
 ### Patch Changes
