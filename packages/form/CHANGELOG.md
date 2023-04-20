@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.105
+
+### Patch Changes
+
+- [`7c780c7`](https://github.com/gravis-os/gravis-os/commit/7c780c7d7f71dc94dc9498ac9a88cd7543931a77) Thanks [@clodal](https://github.com/clodal)! - Fix bad build
+
+- Updated dependencies [[`7c780c7`](https://github.com/gravis-os/gravis-os/commit/7c780c7d7f71dc94dc9498ac9a88cd7543931a77)]:
+  - @gravis-os/fields@0.0.18
+
 ## 0.0.104
 
 ### Patch Changes
