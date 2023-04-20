@@ -22,14 +22,15 @@ export interface CheckboxGroupProps {
   error?: boolean
   label?: string
   name: string
-  options: string[] | Array<{ key: string; value: string; label: string }>
-  onChange?: (params: any) => void
+  options: Array<{ key: string; value: any; label: string } | string>
+  onChange?: (option, { e, params, isChecked }: any) => void
   value?: any[]
   sx?: SxProps
   typographyProps?: TypographyProps
   titleProps?: TypographyProps
   labelProps?: Omit<FormLabelProps, 'ref'>
-  formState: FormState<any>
+  // Required when using in Controller
+  formState?: FormState<any>
 }
 
 const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
@@ -51,7 +52,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
     sx,
   } = props
 
-  const { errors } = formState
+  const { errors } = formState || {}
   const label = injectedLabel || startCase(name)
 
   return (
@@ -82,6 +83,10 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
               : injectedOption
           const { key, value, label: injectedLabel } = option
 
+          const isChecked = injectedValue
+            .map(({ value }) => value)
+            .includes(value)
+
           return (
             <FormControlLabel
               key={key}
@@ -92,10 +97,8 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
               }
               control={
                 <Checkbox
-                  checked={injectedValue
-                    .map(({ value }) => value)
-                    .includes(value)}
-                  onChange={() => {
+                  checked={isChecked}
+                  onChange={(e, params) => {
                     const injectedValues = injectedValue.map(
                       ({ value }) => value
                     )
@@ -107,7 +110,9 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
                         )
                       : [...injectedValue, option]
 
-                    return injectedOnChange(nextValue)
+                    // By default we assume this onChange will be used with a Controller.
+                    // If this is not the case, we will pass the event and params along in the second argument.
+                    return injectedOnChange(nextValue, { e, params, isChecked })
                   }}
                   {...checkboxProps}
                   sx={{

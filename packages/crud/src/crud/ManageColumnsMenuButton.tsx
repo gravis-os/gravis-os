@@ -37,7 +37,7 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
             name="columns"
             checkboxProps={{ size: 'small' }}
             disableLabel
-            onChange={(e, params) => {
+            onChange={(_, { params }) => {
               const nextColumnDefs = columnDefs.map((columnDef) =>
                 columnDef.field === params.key
                   ? { ...columnDef, hide: !params.checked }
@@ -46,7 +46,7 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
 
               setColumnDefs(nextColumnDefs)
             }}
-            items={initialColumnDefs
+            options={initialColumnDefs
               .map(({ field, headerName }) => {
                 // Exclude certain columns from showing up in the checkbox
                 if (getIsExcludedColumn(field)) return

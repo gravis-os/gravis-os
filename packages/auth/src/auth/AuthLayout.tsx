@@ -101,11 +101,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
           {/* Right Background */}
           {Boolean(backgroundImgSrc) && (
             <Grid item xs={false} md={5} sx={{ height: '100%' }}>
-              <Image
-                src={backgroundImgSrc}
-                // objectFit="cover"
-                containerSx={{ height: '100%', pb: 0 }}
-              />
+              <Image src={backgroundImgSrc} boxSx={{ height: '100%', pb: 0 }} />
             </Grid>
           )}
         </Grid>
