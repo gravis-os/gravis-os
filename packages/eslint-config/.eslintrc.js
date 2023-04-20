@@ -30,6 +30,7 @@ module.exports = {
     '@typescript-eslint',
     'jest',
     'testing-library',
+    'unused-imports',
   ],
   rules: {
     // Javascript
@@ -94,6 +95,18 @@ module.exports = {
           '^@gravis-os/stripe/*',
           '^@gravis-os/auth-server/*',
         ],
+      },
+    ],
+    // Unused imports
+    'no-unused-vars': 'off',
+    'unused-imports/no-unused-imports': 'error',
+    'unused-imports/no-unused-vars': [
+      'warn',
+      {
+        vars: 'all',
+        varsIgnorePattern: '^_',
+        args: 'after-used',
+        argsIgnorePattern: '^_',
       },
     ],
   },
