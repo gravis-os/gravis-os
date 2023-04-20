@@ -1,5 +1,6 @@
-import React from 'react'
 import { Autocomplete } from '@mui/material'
+import { isEmpty, isNil } from 'lodash'
+import React from 'react'
 import TextField, { TextFieldProps } from './TextField'
 
 export interface ChipFieldProps extends TextFieldProps {
@@ -10,9 +11,19 @@ export interface ChipFieldProps extends TextFieldProps {
 }
 
 const ChipField: React.FC<ChipFieldProps> = (props) => {
-  const { options, onChange, value, disableCloseOnSelect, ...rest } = props
+  const {
+    options,
+    onChange,
+    value,
+    disableCloseOnSelect,
+    defaultValue,
+    ...rest
+  } = props
 
   const nextValue = value || []
+  const hasValue = !isNil(value)
+  const hasDefaultValue = !isEmpty(defaultValue)
+  const displayValue = hasValue || !hasDefaultValue ? nextValue : defaultValue
 
   return (
     <Autocomplete
@@ -27,7 +38,7 @@ const ChipField: React.FC<ChipFieldProps> = (props) => {
         />
       )}
       onChange={(e, data) => onChange?.(data)}
-      value={nextValue}
+      value={displayValue}
       disableCloseOnSelect={disableCloseOnSelect}
     />
   )
