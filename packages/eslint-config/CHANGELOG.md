@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.0.16
+
+### Patch Changes
+
+- [`8322fe1`](https://github.com/gravis-os/gravis-os/commit/8322fe18a82996e01769113620003ff146a575c3) Thanks [@clodal](https://github.com/clodal)! - Update eslint config devDeps to deps
+
 ## 0.0.15
 
 ### Patch Changes
