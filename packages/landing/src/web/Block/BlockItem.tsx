@@ -320,7 +320,7 @@ const renderStack = (props) => {
     type,
     sx,
 
-    stackItems,
+    stackItems: injectedStackItems,
     stackItemProps: injectedStackItemProps,
     stackProps,
 
@@ -330,6 +330,8 @@ const renderStack = (props) => {
 
     titleProps,
   } = props
+
+  const stackItems = injectedStackItems.filter(Boolean) || []
 
   return (
     <Box sx={sx}>

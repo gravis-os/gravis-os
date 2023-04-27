@@ -44,7 +44,7 @@ const Reveal: React.FC<RevealProps> = (props) => {
       return (
         <ReactAwesomeReveal
           keyframes={customAnimation}
-          duration={1500}
+          duration={1000}
           {...commonProps}
         />
       )
