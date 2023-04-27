@@ -25,6 +25,8 @@ export interface BreadcrumbsProps extends MuiBreadcrumbsProps {
   autoBreadcrumbs?: boolean
 
   scrollOnOverflow?: boolean
+
+  hideLastItem?: boolean
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
@@ -38,6 +40,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
     container,
     containerProps,
     autoBreadcrumbs,
+    hideLastItem,
     ...rest
   } = props
 
@@ -49,14 +52,20 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
     if (router && autoBreadcrumbs) {
       const asPaths = router.asPath.split('/')
       const subPaths = asPaths.slice(1)
-      const nextAutoBreadcrumbItems = subPaths.map((subPath: string, i) => {
-        const href = `/${subPaths.slice(0, i + 1).join('/')}`
-        return {
-          key: subPath,
-          title: startCase(subPath),
-          href,
-        }
-      })
+
+      const nextAutoBreadcrumbItems = subPaths
+        .map((subPath: string, i) => {
+          const isLast = i === subPaths.length - 1
+          if (isLast && hideLastItem) return null
+          const href = `/${subPaths.slice(0, i + 1).join('/')}`
+          return {
+            key: subPath,
+            title: startCase(subPath),
+            href,
+          }
+        })
+        .filter(Boolean)
+
       setAutoBreadcrumbItems(nextAutoBreadcrumbItems)
     }
   }, [router, autoBreadcrumbs])
@@ -106,7 +115,11 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
 
         return (
           <React.Fragment key={key}>
-            {isLast ? childrenJsx : <Link href={href}>{childrenJsx}</Link>}
+            {isLast && !hideLastItem ? (
+              childrenJsx
+            ) : (
+              <Link href={href}>{childrenJsx}</Link>
+            )}
           </React.Fragment>
         )
       })}
