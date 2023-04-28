@@ -2,6 +2,7 @@ import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import {
   Button,
   ButtonGroup,
+  ButtonGroupProps,
   ButtonProps,
   ClickAwayListener,
   Grow,
@@ -24,10 +25,12 @@ export interface SplitButtonProps
   options: SplitButtonOption[]
   onClick?: (option: SplitButtonOption, event: SyntheticEvent) => void
   onChange?: (option: SplitButtonOption) => void
+  buttonGroupProps?: Partial<ButtonGroupProps>
 }
 
 const SplitButton: React.FC<SplitButtonProps> = (props) => {
-  const { options, disabled, onClick, onChange, ...rest } = props
+  const { options, disabled, onClick, onChange, buttonGroupProps, ...rest } =
+    props
   const [open, setOpen] = useState(false)
   const anchorRef = useRef(null)
   const [selectedIndex, setSelectedIndex] = useState(0)
@@ -56,7 +59,7 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
 
   return (
     <>
-      <ButtonGroup variant="contained" ref={anchorRef}>
+      <ButtonGroup variant="contained" {...buttonGroupProps} ref={anchorRef}>
         {typeof render === 'function' ? (
           render()
         ) : (
