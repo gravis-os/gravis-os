@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.106
+
+### Patch Changes
+
+- [#202](https://github.com/gravis-os/gravis-os/pull/202) [`bff9ff3`](https://github.com/gravis-os/gravis-os/commit/bff9ff39b8597e9f0e45931f13b4eb09d3ced6e1) Thanks [@al1xt](https://github.com/al1xt)! - Fix ModelField having duplicate react items for options
+
+- Updated dependencies [[`6acbea5`](https://github.com/gravis-os/gravis-os/commit/6acbea51181483cde422009d10e7cea58efa1d53), [`6acbea5`](https://github.com/gravis-os/gravis-os/commit/6acbea51181483cde422009d10e7cea58efa1d53)]:
+  - @gravis-os/ui@0.0.101
+
 ## 0.0.105
 
 ### Patch Changes
