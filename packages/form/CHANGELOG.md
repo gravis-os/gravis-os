@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.107
+
+### Patch Changes
+
+- [`bcdddb8`](https://github.com/gravis-os/gravis-os/commit/bcdddb8ffc9eaa42b1f171b0cb489ae6bd7d64d3) Thanks [@clodal](https://github.com/clodal)! - Fix build error and republish form and ui package
+
+- Updated dependencies [[`bcdddb8`](https://github.com/gravis-os/gravis-os/commit/bcdddb8ffc9eaa42b1f171b0cb489ae6bd7d64d3)]:
+  - @gravis-os/ui@0.0.103
+
 ## 0.0.106
 
 ### Patch Changes
