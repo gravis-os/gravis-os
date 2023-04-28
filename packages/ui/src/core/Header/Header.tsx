@@ -68,6 +68,7 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   announcements?: Array<{ title: string }>
   height?: number
   drawerWidth?: BoxProps['width']
+  textColor?: string
 }
 
 /**
@@ -93,6 +94,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     mode,
     dark,
     sx,
+    textColor,
     ...rest
   } = props
 
@@ -338,7 +340,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     <AppBar
       {...{
         sx: {
-          color: 'text.primary',
+          color: textColor || 'text.primary',
           ...sx,
         },
         ...rest,

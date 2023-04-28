@@ -51,6 +51,7 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
    */
   fadeOnLoad?: boolean
   invertImageOnMode?: 'dark' | 'light'
+  invertImage?: boolean
 }
 
 /**
@@ -82,7 +83,10 @@ const Image: React.FC<ImageProps> = (props) => {
     zoom,
 
     center,
+
+    // Invert Filter
     invertImageOnMode,
+    invertImage,
 
     ...rest
   } = props
@@ -192,6 +196,7 @@ const Image: React.FC<ImageProps> = (props) => {
           filter: ({ palette: { mode } }) =>
             `invert(${mode === invertImageOnMode ? '1' : '0'})`,
         }),
+        ...(invertImage && { filter: 'invert(1)' }),
 
         ...sx,
       },

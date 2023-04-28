@@ -69,7 +69,7 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
   title?: React.ReactNode | React.ReactElement | any // Fix issue with Icon type
   titleProps?:
     | TypographyProps
-    | Omit<ImageProps, 'src'>
+    | Omit<ImageProps, 'src' | 'alt'>
     | ButtonProps
     | LinkProps
     | DividerProps
