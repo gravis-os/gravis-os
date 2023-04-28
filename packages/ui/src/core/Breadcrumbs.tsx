@@ -114,13 +114,13 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
         )
 
         return (
-          <React.Fragment key={key}>
+          <span key={key}>
             {isLast && !hideLastItem ? (
               childrenJsx
             ) : (
               <Link href={href}>{childrenJsx}</Link>
             )}
-          </React.Fragment>
+          </span>
         )
       })}
     </MuiBreadcrumbs>

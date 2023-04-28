@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.101
+
+### Patch Changes
+
+- [#202](https://github.com/gravis-os/gravis-os/pull/202) [`6acbea5`](https://github.com/gravis-os/gravis-os/commit/6acbea51181483cde422009d10e7cea58efa1d53) Thanks [@al1xt](https://github.com/al1xt)! - Expose buttonGroupProps in SplitButton
+
+* [#202](https://github.com/gravis-os/gravis-os/pull/202) [`6acbea5`](https://github.com/gravis-os/gravis-os/commit/6acbea51181483cde422009d10e7cea58efa1d53) Thanks [@al1xt](https://github.com/al1xt)! - Fix Breadcrumbs having unacceptable fragment as child
+
 ## 0.0.100
 
 ### Patch Changes

@@ -346,7 +346,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
       const nextOptions = (injectedOrderBy ? orderBy : identity).apply(null, [
         filter(
-          dbItems ? [...newOptions, ...dbItems] : newOptions,
+          dbItems ? uniqBy([...dbItems, ...newOptions], pk) : newOptions,
           negate(isNil)
         ),
         ...(injectedOrderBy || []),
