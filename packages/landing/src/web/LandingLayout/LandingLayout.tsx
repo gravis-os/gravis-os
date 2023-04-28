@@ -22,7 +22,7 @@ export interface LandingLayoutProps extends StackProps {
 
   // Breadcrumbs
   breadcrumbs?: BreadcrumbsProps['items']
-  breadcrumbsProps?: BreadcrumbsProps
+  breadcrumbsProps?: Omit<BreadcrumbsProps, 'items'>
   autoBreadcrumbs?: boolean
 
   // Gutters (vertical)
