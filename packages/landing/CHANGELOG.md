@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.43
+
+### Patch Changes
+
+- [`5bd7c3e`](https://github.com/gravis-os/gravis-os/commit/5bd7c3e2e616e8b366012156f1b7f611ddc95434) Thanks [@clodal](https://github.com/clodal)! - Update ui for landing block and header
+
+* [`223b84b`](https://github.com/gravis-os/gravis-os/commit/223b84b356ebeeb1306a37d388524ea9c2536c87) Thanks [@clodal](https://github.com/clodal)! - Add guard to Block and update reveal speed
+
+* Updated dependencies [[`3542758`](https://github.com/gravis-os/gravis-os/commit/35427580f9a9751dfb88641d6cb1a43207f37bab), [`5bd7c3e`](https://github.com/gravis-os/gravis-os/commit/5bd7c3e2e616e8b366012156f1b7f611ddc95434), [`223b84b`](https://github.com/gravis-os/gravis-os/commit/223b84b356ebeeb1306a37d388524ea9c2536c87)]:
+  - @gravis-os/ui@0.0.102
+
 ## 0.0.42
 
 ### Patch Changes
