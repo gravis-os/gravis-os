@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.45
+
+### Patch Changes
+
+- [`34e185d`](https://github.com/gravis-os/gravis-os/commit/34e185d310eb6eb5a5dda30fd7af9ed76c0dbd7f) Thanks [@clodal](https://github.com/clodal)! - Fix ts build error
+
 ## 0.0.44
 
 ### Patch Changes
