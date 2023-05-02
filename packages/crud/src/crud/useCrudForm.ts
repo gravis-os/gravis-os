@@ -55,7 +55,7 @@ export interface UseCrudFormArgs extends UseFormProps {
   }: UseCrudFormValuesInterface & {
     toast: any
     afterSubmit: UseCrudFormArgs['afterSubmit']
-    rawValues: UseCrudFormArgs
+    rawValues: UseCrudFormValues
   }) => unknown // Override submit action
   afterSubmit?: ({
     rawValues, // Values before clean
