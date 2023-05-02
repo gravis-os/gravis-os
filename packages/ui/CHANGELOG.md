@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.104
+
+### Patch Changes
+
+- [`8c57e42`](https://github.com/gravis-os/gravis-os/commit/8c57e42f63677e087809cea7ca01bde287430e72) Thanks [@clodal](https://github.com/clodal)! - Update baseTheme typing to include button2
+
 ## 0.0.103
 
 ### Patch Changes
