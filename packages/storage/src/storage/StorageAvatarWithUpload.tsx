@@ -60,9 +60,16 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
   const [avatarUrl, setAvatarUrl] = useState('')
   const [uploading, setUploading] = useState(false)
 
-  // Private Buckets have a different prefix from public buckets
-  const removePrivateFromString = (path) => {
-    return path.replace('private/', '')
+  /**
+   * As Public Buckets have a Public prefix, Private Buckets do not have it
+   * Hence we need to remove the initial Private Prefix from the path
+   * Private: private/fileName
+   * Public: public/public/fileName
+   * @param path
+   * @returns
+   */
+  const removePrivateFromPath = (path: string): string => {
+    return path.replace(`${bucketName}`, '')
   }
 
   // Update state when defaultValue changes
@@ -74,7 +81,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     try {
       const { data, error } = await client.storage
         .from(bucketName)
-        .download(disablePublic ? removePrivateFromString(path) : path)
+        .download(disablePublic ? removePrivateFromPath(path) : path)
       if (error || !data) throw error
       const url = URL.createObjectURL(data)
       if (url) setAvatarUrl(url)
