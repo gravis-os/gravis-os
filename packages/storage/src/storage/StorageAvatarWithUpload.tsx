@@ -25,6 +25,7 @@ export interface StorageAvatarWithUploadProps extends AvatarProps {
   label?: string
   disableLabel?: boolean
   altKey?: string
+  disablePublic?: boolean
 }
 
 const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
@@ -38,7 +39,8 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     inputProps,
     onUpload,
     client = supabaseClient,
-    bucketName = 'public',
+    disablePublic = false,
+    bucketName = disablePublic ? 'private ' : 'public',
     module,
     value,
     item,
@@ -58,6 +60,11 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
   const [avatarUrl, setAvatarUrl] = useState('')
   const [uploading, setUploading] = useState(false)
 
+  // Private Buckets have a different prefix from public buckets
+  const removePrivateFromString = (path) => {
+    return path.replace('private/', '')
+  }
+
   // Update state when defaultValue changes
   useEffect(() => {
     setSavedFilePath(injectedFilePath || value)
@@ -67,7 +74,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     try {
       const { data, error } = await client.storage
         .from(bucketName)
-        .download(path)
+        .download(disablePublic ? removePrivateFromString(path) : path)
       if (error || !data) throw error
       const url = URL.createObjectURL(data)
       if (url) setAvatarUrl(url)
