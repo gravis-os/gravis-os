@@ -47,6 +47,7 @@ export interface UseCrudFormArgs extends UseFormProps {
     rawValues: UseCrudFormValues
   }) => Record<string, unknown>
   onSubmit?: ({
+    rawValues,
     values,
     isNew,
     toast,
@@ -54,6 +55,7 @@ export interface UseCrudFormArgs extends UseFormProps {
   }: UseCrudFormValuesInterface & {
     toast: any
     afterSubmit: UseCrudFormArgs['afterSubmit']
+    rawValues: UseCrudFormArgs
   }) => unknown // Override submit action
   afterSubmit?: ({
     rawValues, // Values before clean
@@ -222,6 +224,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       case typeof injectedOnSubmit === 'function':
         const injectedOnSubmitArgs = {
           isNew,
+          rawValues: values,
           values: nextValues,
           toast,
           afterSubmit,
