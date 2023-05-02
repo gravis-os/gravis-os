@@ -9,13 +9,11 @@ export interface AppBarProps extends MuiAppbarProps {
   disableBorderBottom?: boolean
   transparent?: boolean
   translucent?: boolean
-  dark?: boolean
 }
 
 const AppBar = React.forwardRef<any, React.PropsWithChildren<AppBarProps>>(
   (props, ref) => {
     const {
-      dark,
       transparent,
       translucent,
       disableBoxShadow,
