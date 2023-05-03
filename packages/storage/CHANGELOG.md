@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.39
+
+### Patch Changes
+
+- [#204](https://github.com/gravis-os/gravis-os/pull/204) [`6e3451c9`](https://github.com/gravis-os/gravis-os/commit/6e3451c92499c1596f118a6009c86e686ac01775) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Remove private from pathname if user chooses a private bucket
+
 ## 0.0.38
 
 ### Patch Changes
