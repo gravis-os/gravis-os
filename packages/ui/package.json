@@ -38,6 +38,7 @@
     "@gravis-os/theme": "*",
     "@gravis-os/types": "*",
     "@gravis-os/utils": "*",
+    "@react-hook/window-scroll": "^1.3.0",
     "clsx": "^1.1.1",
     "keen-slider": "^6.8.5",
     "lodash": "^4.17.21",
