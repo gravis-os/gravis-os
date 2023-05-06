@@ -145,7 +145,7 @@ const renderNavItemPreset = (props: {
           ...(preset.logoProps as ImageProps)?.sx,
           // Fix visual alignment
           position: 'relative',
-          top: 1,
+          top: 1.5,
         },
       } as ImageProps
       const logoChildrenJsx = <Image {...logoImageProps} />
@@ -158,7 +158,11 @@ const renderNavItemPreset = (props: {
             // Ensure that the box is stretched out vertically
             height: '100%',
             // Adds a gutter between the logo and other navItems
-            mr: { md: 2 },
+            px: 2,
+            // Offset margin left against the px
+            ml: -2,
+            // Hover effects
+            '&:hover': { backgroundColor: 'action.hover' },
             // Mobile props
             ...(isMobile && { py: 1, px: 3 }),
             // Rest
