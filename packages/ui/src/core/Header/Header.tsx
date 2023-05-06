@@ -158,9 +158,9 @@ const renderNavItemPreset = (props: {
             // Ensure that the box is stretched out vertically
             height: '100%',
             // Adds a gutter between the logo and other navItems
-            px: 2,
+            px: { md: 2 },
             // Offset margin left against the px
-            ml: -2,
+            ml: { md: -2 },
             // Hover effects
             '&:hover': { backgroundColor: 'action.hover' },
             // Mobile props
