@@ -164,7 +164,7 @@ const renderNavItemPreset = (props: {
             // Hover effects
             '&:hover': { backgroundColor: 'action.hover' },
             // Mobile props
-            ...(isMobile && { py: 2, px: 3, ml: 0 }),
+            ...(isMobile && { py: 1.5, px: 3, ml: 0 }),
             // Rest
             ...boxProps?.sx,
             // Overwrite to ensure that logo is always shown
