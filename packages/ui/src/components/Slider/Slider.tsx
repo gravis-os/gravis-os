@@ -7,6 +7,7 @@ import {
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import { LinearProgress } from '@mui/material'
 import Box, { BoxProps } from '../../core/Box'
 import Stack from '../../core/Stack'
 import Tabs, { TabsProps } from '../../core/Tabs'
@@ -54,6 +55,14 @@ export interface SliderProps extends BoxProps {
   disableDrag?: boolean
   height?: ResponsiveStyleValue<React.CSSProperties['height']>
   speed?: number
+  // Autoplay props
+  disablePauseOnHover?: boolean
+  durationPerSlide?: number
+  /**
+   * The higher, the smoother the progress bar gets
+   */
+  progressStepPerSlide?: number
+  progress?: boolean
 }
 
 /**
@@ -86,8 +95,29 @@ const Slider: React.FC<SliderProps> = (props) => {
     middle,
     disableLeftArrow,
     viewAll,
+    disablePauseOnHover,
+    progress,
+    durationPerSlide = 8000,
+    progressStepPerSlide = 20,
     ...rest
   } = props
+
+  // Progress
+  const [progressValue, setProgressValue] = React.useState(0)
+  useEffect(() => {
+    if (progress) {
+      const timer = setInterval(() => {
+        setProgressValue((prevProgress) => {
+          if (prevProgress >= 100) return 0
+          return prevProgress + 100 / progressStepPerSlide
+        })
+      }, durationPerSlide / progressStepPerSlide)
+      return () => {
+        clearInterval(timer)
+      }
+    }
+  }, [])
+  const shouldShowProgress = autoplay && progress
 
   // Main Ref
   const [currentSlide, setCurrentSlide] = useState<number>(0)
@@ -100,6 +130,7 @@ const Slider: React.FC<SliderProps> = (props) => {
       loop,
       slideChanged(slider) {
         setCurrentSlide(slider.track.details.rel)
+        if (shouldShowProgress) setProgressValue(0)
       },
       ...(fade && {
         slides: items.length,
@@ -124,7 +155,17 @@ const Slider: React.FC<SliderProps> = (props) => {
     },
     // Plugins
     [
-      ...(autoplay ? [withAutoplayPlugin] : []),
+      ...(autoplay
+        ? [
+            withAutoplayPlugin({
+              durationPerSlide,
+              disablePauseOnHover:
+                typeof disablePauseOnHover === 'boolean'
+                  ? disablePauseOnHover
+                  : Boolean(progress),
+            }),
+          ]
+        : []),
       ...(scroll ? [withScrollPlugin] : []),
       ...(autoHeight ? [withAutoHeight] : []),
       ...injectedPlugins,
@@ -182,10 +223,8 @@ const Slider: React.FC<SliderProps> = (props) => {
       transform: 'translate(0, -50%)',
     },
   }
-
   // Dots
   const shouldShowDots = dots && loaded && instanceRef.current
-
   // Tabs
   const shouldShowTabs = tabs && loaded && instanceRef.current
 
@@ -291,9 +330,14 @@ const Slider: React.FC<SliderProps> = (props) => {
             }))}
             centered={!disableCenter}
             disableCard
-            indicatorPosition="top"
-            // TODO@Joel: Add support for timing here
-            TabIndicatorProps={{}}
+            indicatorPosition="bottom"
+            TabIndicatorProps={{
+              ...(shouldShowProgress && {
+                children: (
+                  <LinearProgress variant="determinate" value={progressValue} />
+                ),
+              }),
+            }}
             {...tabsProps}
             sx={{
               width: '100%',
