@@ -1,4 +1,6 @@
 import React from 'react'
+import { useTheme } from '@mui/material/styles'
+import { useMediaQuery } from '@mui/material'
 import Card, { CardProps } from '../Card'
 import TabsBase, { TabsBaseProps } from './TabsBase'
 import Tab, { TabProps } from './Tab'
@@ -13,6 +15,8 @@ export interface TabsProps extends TabsBaseProps {
   cardProps?: CardProps
   children?: React.ReactNode
   renderProps?: Record<string, unknown>
+  indicatorPosition?: 'top' | 'bottom'
+  fullWidthOnDesktop?: boolean
 }
 
 const Tabs: React.FC<TabsProps> = (props) => {
@@ -26,8 +30,14 @@ const Tabs: React.FC<TabsProps> = (props) => {
     cardProps,
     children,
     sx,
+    TabIndicatorProps,
+    indicatorPosition,
+    fullWidthOnDesktop,
     ...rest
   } = props
+
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
 
   // Terminate if no tabs
   if (!items?.length && !children) return null
@@ -35,10 +45,23 @@ const Tabs: React.FC<TabsProps> = (props) => {
   const childrenJsx = (
     <TabsBase
       onChange={handleTabsChange}
-      scrollButtons="auto"
       value={currentTab}
-      variant="scrollable"
+      scrollButtons="auto"
+      variant={
+        fullWidthOnDesktop
+          ? isDesktop
+            ? 'fullWidth'
+            : 'scrollable'
+          : 'scrollable'
+      }
       {...tabsProps}
+      TabIndicatorProps={{
+        ...TabIndicatorProps,
+        sx: {
+          ...(indicatorPosition && { [indicatorPosition]: 0 }),
+          ...TabIndicatorProps?.sx,
+        },
+      }}
       sx={{
         '& .MuiTab-root:hover': { color: 'primary.main' },
         ...sx,

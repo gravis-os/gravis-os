@@ -55,7 +55,8 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
 
 const Block: React.FC<BlockProps> = (props) => {
   const {
-    id,
+    key,
+    id: injectedId,
     spacing,
     stackProps,
     pt,
@@ -76,6 +77,8 @@ const Block: React.FC<BlockProps> = (props) => {
     mode,
     ...rest
   } = props
+
+  const id = injectedId || String(key)
 
   const hasBackgroundImage = Boolean(backgroundImageProps)
   const hasBackgroundVideo = Boolean(backgroundVideoProps)
