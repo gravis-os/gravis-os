@@ -7,10 +7,11 @@ import MemoCard from './MemoCard'
 export interface MemoTimelineProps {
   items?: Memo[]
   queryResult: UseQueryResult
+  showContact?: boolean
 }
 
 const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
-  const { items, queryResult } = props
+  const { items, queryResult, showContact } = props
 
   const { isLoading, isError } = queryResult
 
@@ -20,7 +21,12 @@ const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
         if (!item) return null
         return {
           key: String(item.id),
-          children: <MemoCard item={{ ...item, title: 'Note' }} />,
+          children: (
+            <MemoCard
+              item={{ ...item, title: 'Note' }}
+              showContact={showContact}
+            />
+          ),
           dotColor: 'primary',
           connectorColor: 'primary',
         }
