@@ -83,11 +83,15 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
               }
             />
           )}
-          {priority && !showContact && (
+          {priority && (
             <Chip
-              icon={<FormatListNumberedOutlinedIcon fontSize="small" />}
+              icon={
+                !showContact && (
+                  <FormatListNumberedOutlinedIcon fontSize="small" />
+                )
+              }
               color="primary"
-              label={priority}
+              label={showContact ? `Priority: ${priority}` : priority}
             />
           )}
           {showContact && (
