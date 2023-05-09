@@ -107,6 +107,7 @@ export interface DocumentFormSectionsProps extends CrudFormJsxProps {
   onPrint?: () => void
   printMode?: boolean
   printModeOptions?: { pageBreak?: boolean }
+  disableEdit?: boolean
 }
 
 const DocumentFormSections: React.FC<any> = (props) => {
@@ -122,6 +123,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
     onPrint,
     printMode,
     printModeOptions,
+    disableEdit = false,
     ...rest
   } = props
 
@@ -186,6 +188,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
         })()
       },
       color: 'primary',
+      disabled: disableEdit,
     },
     {
       key: 'print',

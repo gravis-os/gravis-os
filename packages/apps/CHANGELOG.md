@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.54
+
+### Patch Changes
+
+- [#205](https://github.com/gravis-os/gravis-os/pull/205) [`f655a2f`](https://github.com/gravis-os/gravis-os/commit/f655a2fc354d6a061cd5a80f048ee227b88268cc) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(apps): support disable edit button.
+
 ## 0.0.53
 
 ### Patch Changes
