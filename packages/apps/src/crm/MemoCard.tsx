@@ -59,6 +59,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                 aria-label="Save item"
                 onClick={async () => {
                   await onSave?.(item)
+                  setIsEditing(false)
                   handleClose()
                 }}
               >
