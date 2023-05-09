@@ -22,8 +22,8 @@ export interface MemoCardProps {
   actions?: React.ReactNode
   isMutable?: boolean
   editComponent?: React.ReactElement
-  onSave?: () => Promise<void>
-  onDelete?: () => Promise<void>
+  onSave?: (item) => Promise<void>
+  onDelete?: (item) => Promise<void>
 }
 
 const MemoCard: React.FC<MemoCardProps> = (props) => {
@@ -69,7 +69,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                 <Stack>
                   <Button
                     aria-label="Edit item"
-                    onClick={async () => {
+                    onClick={() => {
                       setIsEditing(true)
                       handleClose()
                     }}
@@ -79,7 +79,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                   <Button
                     aria-label="Delete item"
                     onClick={async () => {
-                      await onDelete?.()
+                      await onDelete?.(item)
                       handleClose()
                     }}
                     color="error"
@@ -109,7 +109,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
               <Button
                 aria-label="Save item"
                 onClick={async () => {
-                  await onSave?.()
+                  await onSave?.(item)
                   handleClose()
                 }}
               >
