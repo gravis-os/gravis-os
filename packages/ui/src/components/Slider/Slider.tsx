@@ -330,7 +330,7 @@ const Slider: React.FC<SliderProps> = (props) => {
             }))}
             centered={!disableCenter}
             disableCard
-            indicatorPosition="bottom"
+            indicatorPosition="top"
             TabIndicatorProps={{
               ...(shouldShowProgress && {
                 children: (
