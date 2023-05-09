@@ -33,6 +33,9 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
     setAnchorEl(null)
   }
 
+  // only posts can be edited.
+  const shouldEdit = title === 'Note'
+
   return (
     <Card
       overline={
@@ -127,15 +130,17 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                   }}
                 >
                   <Stack>
-                    <Button
-                      aria-label="Edit item"
-                      onClick={() => {
-                        setIsEditing(true)
-                        handleClose()
-                      }}
-                    >
-                      Edit
-                    </Button>
+                    {shouldEdit && (
+                      <Button
+                        aria-label="Edit item"
+                        onClick={() => {
+                          setIsEditing(true)
+                          handleClose()
+                        }}
+                      >
+                        Edit
+                      </Button>
+                    )}
                     <Button
                       aria-label="Delete item"
                       onClick={async () => {
