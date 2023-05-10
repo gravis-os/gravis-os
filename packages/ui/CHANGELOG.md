@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.106
+
+### Patch Changes
+
+- [`8e54140`](https://github.com/gravis-os/gravis-os/commit/8e541405ff70763621fd14a18b99af94aa8f0c88) Thanks [@clodal](https://github.com/clodal)! - Update color in Slider
+
 ## 0.0.105
 
 ### Patch Changes

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.55
+
+### Patch Changes
+
+- [#207](https://github.com/gravis-os/gravis-os/pull/207) [`8867907`](https://github.com/gravis-os/gravis-os/commit/886790742d3a85156d13345ab623e4bd8454f500) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(apps): support memo card crud operation.
+
+* [#206](https://github.com/gravis-os/gravis-os/pull/206) [`d994966`](https://github.com/gravis-os/gravis-os/commit/d99496671018237cf0cddcc2aa39b5d8901db698) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(apps): added project, priority and contact fields on MemoTimeline.
+
+* Updated dependencies [[`8e54140`](https://github.com/gravis-os/gravis-os/commit/8e541405ff70763621fd14a18b99af94aa8f0c88)]:
+  - @gravis-os/ui@0.0.106
+
 ## 0.0.54
 
 ### Patch Changes
