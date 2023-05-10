@@ -1,6 +1,8 @@
 import React from 'react'
-import { Box, Card, Stack, Typography } from '@gravis-os/ui'
+import { Box, Card, Chip, Stack, Typography } from '@gravis-os/ui'
 import { printDateTime, printHtml } from '@gravis-os/utils'
+import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined'
+import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
 
 export interface MemoCardProps {
   item: {
@@ -8,13 +10,25 @@ export interface MemoCardProps {
     content?: string
     user?: { full_name?: string; title?: string }
     created_at?: string | Date
+    project?: Record<string, string>
+    priority?: string
+    contact?: Record<string, string>
   }
   actions?: React.ReactNode
+  showContact?: boolean
 }
 
 const MemoCard: React.FC<MemoCardProps> = (props) => {
-  const { item, actions } = props
-  const { title, content, user, created_at } = item
+  const { item, actions, showContact = false } = props
+  const {
+    title,
+    content,
+    user,
+    created_at,
+    project = {},
+    priority = '',
+    contact = null,
+  } = item
 
   return (
     <Card
@@ -54,6 +68,50 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
 
           {/* Right */}
           {actions && <Box sx={{ textAlign: 'right' }}>{actions}</Box>}
+        </Stack>
+
+        {/* Chips */}
+        <Stack flexDirection="row" gap={1}>
+          {project?.title && (
+            <Chip
+              icon={
+                !showContact && <LibraryBooksOutlinedIcon fontSize="small" />
+              }
+              color="primary"
+              label={
+                showContact ? `Project: ${project?.title}` : project?.title
+              }
+            />
+          )}
+          {priority && (
+            <Chip
+              icon={
+                !showContact && (
+                  <FormatListNumberedOutlinedIcon fontSize="small" />
+                )
+              }
+              color="primary"
+              label={showContact ? `Priority: ${priority}` : priority}
+            />
+          )}
+          {showContact && (
+            <>
+              {/* @ts-ignore */}
+              {contact?.company?.title && (
+                // @ts-ignore
+                <Chip color="primary" label={`Company: ${contact?.title}`} />
+              )}
+
+              {/* @ts-ignore */}
+              {contact?.full_name && (
+                <Chip
+                  color="primary"
+                  // @ts-ignore
+                  label={`Contact: ${contact?.full_name}`}
+                />
+              )}
+            </>
+          )}
         </Stack>
 
         {content && (
