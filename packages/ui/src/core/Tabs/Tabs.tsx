@@ -62,10 +62,8 @@ const Tabs: React.FC<TabsProps> = (props) => {
           ...TabIndicatorProps?.sx,
         },
       }}
-      sx={{
-        '& .MuiTab-root:hover': { color: 'primary.main' },
-        ...sx,
-      }}
+      hoverColor="primary.main"
+      sx={sx}
       {...rest}
     >
       {children ||

@@ -7,7 +7,7 @@ import {
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
 import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
-import { LinearProgress } from '@mui/material'
+import { LinearProgress, LinearProgressProps } from '@mui/material'
 import Box, { BoxProps } from '../../core/Box'
 import Stack from '../../core/Stack'
 import Tabs, { TabsProps } from '../../core/Tabs'
@@ -48,7 +48,8 @@ export interface SliderProps extends BoxProps {
   fade?: boolean
   tabs?: TabProps['label'][]
   tabsProps?: TabsProps
-  tabProps?: TabProps[]
+  tabProps?: TabProps
+  tabsColor?: 'primary' | 'secondary'
   viewAll?: boolean
   disableLeftArrow?: boolean
   disableCenter?: boolean
@@ -91,6 +92,7 @@ const Slider: React.FC<SliderProps> = (props) => {
     tabs,
     tabsProps,
     tabProps,
+    tabsColor = 'inherit',
     speed,
     middle,
     disableLeftArrow,
@@ -334,10 +336,17 @@ const Slider: React.FC<SliderProps> = (props) => {
             TabIndicatorProps={{
               ...(shouldShowProgress && {
                 children: (
-                  <LinearProgress variant="determinate" value={progressValue} />
+                  <LinearProgress
+                    variant="determinate"
+                    value={progressValue}
+                    color={tabsColor as LinearProgressProps['color']}
+                  />
                 ),
               }),
             }}
+            hoverColor={tabsColor as TabsProps['hoverColor']}
+            textColor={tabsColor as TabsProps['textColor']}
+            indicatorColor={tabsColor as TabsProps['indicatorColor']}
             {...tabsProps}
             sx={{
               width: '100%',

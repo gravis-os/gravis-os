@@ -10,6 +10,7 @@ export interface TabsBaseProps extends MuiTabsProps {
 
 const TabsBase: React.FC<TabsBaseProps> = (props) => {
   const { borderBottom, hoverColor, disableMinHeight, sx, ...rest } = props
+
   return (
     <MuiTabs
       sx={{
