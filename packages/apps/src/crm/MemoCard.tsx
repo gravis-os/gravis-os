@@ -28,7 +28,11 @@ export interface MemoCardProps {
   actions?: React.ReactNode
   showContact?: boolean
   isMutable?: boolean
-  renderEditComponent?: RenderPropsFunction<{ item }>
+  renderEditComponent?: RenderPropsFunction<{
+    item
+    finishEdit
+    handleClose
+  }>
   onSave?: (item) => Promise<void>
   onDelete?: (item) => Promise<void>
 }
@@ -65,6 +69,14 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
     setAnchorEl(null)
   }
 
+  const startEdit = () => {
+    setIsEditing(true)
+  }
+
+  const finishEdit = () => {
+    setIsEditing(false)
+  }
+
   // only posts can be edited.
   const shouldEdit = title === 'Note'
 
@@ -78,38 +90,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
     >
       <Stack spacing={1}>
         {isEditing ? (
-          <>
-            {renderEditComponent({ item })}
-            <Stack
-              flexDirection="row"
-              justifyContent="flex-end"
-              spacing={1}
-              gap={1}
-              sx={{ '&>:not(style)+:not(style)': { m: 0 } }}
-            >
-              <Button
-                aria-label="Save item"
-                variant="contained"
-                onClick={async () => {
-                  await onSave?.(item)
-                  setIsEditing(false)
-                  handleClose()
-                }}
-              >
-                Save
-              </Button>
-              <Button
-                aria-label="Cancel edit"
-                variant="outlined"
-                onClick={() => {
-                  setIsEditing(false)
-                  handleClose()
-                }}
-              >
-                Cancel
-              </Button>
-            </Stack>
-          </>
+          <>{renderEditComponent({ item, handleClose, finishEdit })}</>
         ) : (
           <Stack flexDirection="row">
             <Stack spacing={1}>
@@ -220,7 +201,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                       <Button
                         aria-label="Edit item"
                         onClick={() => {
-                          setIsEditing(true)
+                          startEdit()
                           handleClose()
                         }}
                       >
