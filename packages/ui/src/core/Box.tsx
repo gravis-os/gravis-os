@@ -11,6 +11,8 @@ export interface BoxProps extends Omit<MuiBoxProps, 'pt' | 'py' | 'px' | 'pb'> {
   center?: boolean
   centerOnMobile?: boolean
   stretch?: boolean
+  fill?: boolean
+  middle?: boolean
   reveal?: boolean | RevealProps
   href?: WithHrefProps['href']
   hrefProps?: Omit<WithHrefProps, 'href'>
@@ -27,10 +29,12 @@ const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
     href,
     hrefProps,
     stretch,
+    fill,
     fullWidthOnMobile,
     reveal,
     center,
     centerOnMobile,
+    middle,
     sx,
     children,
 
@@ -51,6 +55,11 @@ const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
         width: { xs: '100%', md: 'initial' },
       }),
 
+      // Middle
+      ...(middle && {
+        display: 'flex',
+        alignItems: 'center',
+      }),
       // Center
       ...(center && {
         display: 'flex',
@@ -70,6 +79,7 @@ const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
 
       // Stretch
       ...(stretch && { height: '100%' }),
+      ...(fill && { width: '100%', height: '100%' }),
 
       // Responsive padding
       pt,

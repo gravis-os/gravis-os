@@ -20,6 +20,10 @@ export interface LandingLayoutProps extends StackProps {
   bodyProps?: BoxProps
   backgroundColor?: string
 
+  // Header styles
+  darkHeader?: boolean
+  transparentHeader?: boolean
+
   // Breadcrumbs
   breadcrumbs?: BreadcrumbsProps['items']
   breadcrumbsProps?: Omit<BreadcrumbsProps, 'items'>
@@ -37,7 +41,7 @@ export interface LandingLayoutProps extends StackProps {
 
 const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
   const {
-    headerProps,
+    headerProps: injectedHeaderProps,
     footerProps,
     children,
     sx,
@@ -47,6 +51,10 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
     disableGutterTop,
     disableGutterBottom,
     gutterSize = 2,
+
+    // Header styles
+    darkHeader,
+    transparentHeader,
 
     // Breadcrumbs
     autoBreadcrumbs,
@@ -58,6 +66,20 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
 
     ...rest
   } = props
+
+  const headerProps = {
+    ...injectedHeaderProps,
+    ...(darkHeader && {
+      dark: true,
+      translucent: true,
+      position: 'fixed' as const,
+    }),
+    ...(transparentHeader && {
+      transparent: true,
+      position: 'fixed' as const,
+      textColor: 'common.white',
+    }),
+  }
 
   const breadcrumbsProps = {
     disableHomeBreadcrumb: true,

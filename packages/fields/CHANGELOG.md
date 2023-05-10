@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 0.0.19
+
+### Patch Changes
+
+- [`2e69e8e`](https://github.com/gravis-os/gravis-os/commit/2e69e8eeac03eca6d3791adfb040095ef392314e) Thanks [@clodal](https://github.com/clodal)! - Add tabs, fade, and dots to Slider
+
 ## 0.0.18
 
 ### Patch Changes

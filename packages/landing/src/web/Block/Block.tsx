@@ -6,6 +6,8 @@ import {
   ImageProps,
   Stack,
   StackProps,
+  Video,
+  VideoProps,
 } from '@gravis-os/ui'
 import flowRight from 'lodash/flowRight'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
@@ -32,6 +34,9 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
    * @link https://github.com/vercel/next.js/discussions/18357
    */
   backgroundImageProps?: ImageProps
+  backgroundVideoProps?: VideoProps
+  backgroundOverlayProps?: BoxProps
+  backgroundOverlayOpacity?: number
 
   /**
    * Dark mode
@@ -50,7 +55,8 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
 
 const Block: React.FC<BlockProps> = (props) => {
   const {
-    id,
+    key,
+    id: injectedId,
     spacing,
     stackProps,
     pt,
@@ -64,12 +70,23 @@ const Block: React.FC<BlockProps> = (props) => {
     disableContainerOnMobile,
     reveal = true,
     backgroundImageProps,
+    backgroundVideoProps,
+    backgroundOverlayOpacity,
+    backgroundOverlayProps,
     dark,
     mode,
     ...rest
   } = props
 
+  const id = injectedId || String(key)
+
   const hasBackgroundImage = Boolean(backgroundImageProps)
+  const hasBackgroundVideo = Boolean(backgroundVideoProps)
+  const hasBackgroundOverlay =
+    backgroundOverlayOpacity || Boolean(backgroundOverlayProps)
+  const defaultBackgroundColor = hasBackgroundVideo
+    ? 'transparent'
+    : 'background.default'
 
   const cleanedItems = injectedItems.filter(Boolean)
   const items = flowRight([withBlockItemShorthand()])(cleanedItems)
@@ -80,19 +97,50 @@ const Block: React.FC<BlockProps> = (props) => {
       id={id}
       sx={{
         ...((dark || mode === 'dark') && {
-          backgroundColor: 'background.default',
+          backgroundColor: defaultBackgroundColor,
         }),
         color: 'text.primary',
         ...getBlockPadding({ pt, pb, py }),
-        ...(hasBackgroundImage
+        ...(hasBackgroundImage || hasBackgroundVideo
           ? { position: 'relative' }
-          : { backgroundColor: 'background.default' }),
+          : { backgroundColor: defaultBackgroundColor }),
         ...sx,
       }}
       {...rest}
     >
+      {/* Background Overlay */}
+      {hasBackgroundOverlay && (
+        <Box
+          sx={{
+            backgroundColor: 'black',
+            position: 'absolute',
+            top: 0,
+            bottom: 0,
+            left: 0,
+            right: 0,
+            zIndex: 0,
+            opacity: backgroundOverlayOpacity || 0.25,
+            ...backgroundOverlayProps?.sx,
+          }}
+        />
+      )}
+
       {/* Background Image */}
       {hasBackgroundImage && <Image background {...backgroundImageProps} />}
+
+      {/* Background video */}
+      {hasBackgroundVideo && (
+        <Video
+          src={backgroundVideoProps.src}
+          poster={backgroundVideoProps.poster}
+          sx={{
+            height: '100%',
+            position: 'absolute',
+            top: 0,
+            zIndex: -1,
+          }}
+        />
+      )}
 
       {/* Content */}
       <Box sx={{ width: '100%' }} reveal={reveal}>

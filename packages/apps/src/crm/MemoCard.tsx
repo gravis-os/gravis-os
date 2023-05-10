@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
-import { Box, Card, IconButton, Stack, Typography, Button } from '@gravis-os/ui'
+import { Box, Card, Chip, IconButton, Stack, Typography, Button } from '@gravis-os/ui'
 import Popover from '@mui/material/Popover'
 import { printDateTime, printHtml } from '@gravis-os/utils'
 import { MoreHorizOutlined } from '@mui/icons-material'
 import type { RenderPropsFunction } from '@gravis-os/types'
+import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined'
+import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
 
 export interface MemoCardProps {
   item: {
@@ -11,8 +13,12 @@ export interface MemoCardProps {
     content?: string
     user?: { full_name?: string; title?: string }
     created_at?: string | Date
+    project?: Record<string, string>
+    priority?: string
+    contact?: Record<string, string>
   }
   actions?: React.ReactNode
+  showContact?: boolean
   isMutable?: boolean
   renderEditComponent?: RenderPropsFunction<{ item }>
   onSave?: (item) => Promise<void>
@@ -20,9 +26,18 @@ export interface MemoCardProps {
 }
 
 const MemoCard: React.FC<MemoCardProps> = (props) => {
-  const { item, actions, isMutable, renderEditComponent, onSave, onDelete } =
+  const { item, actions, showContact = false, isMutable, renderEditComponent, onSave, onDelete } =
     props
-  const { title, content, user, created_at } = item
+ 
+  const {
+    title,
+    content,
+    user,
+    created_at,
+    project = {},
+    priority = '',
+    contact = null,
+  } = item
 
   const [isEditing, setIsEditing] = useState<boolean>(false)
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)
@@ -105,17 +120,50 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                 {/* Right */}
                 {actions && <Box sx={{ textAlign: 'right' }}>{actions}</Box>}
               </Stack>
-
-              {content && (
-                <Typography variant="body1">
-                  <div
-                    dangerouslySetInnerHTML={{
-                      __html: printHtml(content.replaceAll('\n', '<br />')),
-                    }}
-                  />
-                </Typography>
+              
+              {/* Chips */}
+        <Stack flexDirection="row" gap={1}>
+          {project?.title && (
+            <Chip
+              icon={
+                !showContact && <LibraryBooksOutlinedIcon fontSize="small" />
+              }
+              color="primary"
+              label={
+                showContact ? `Project: ${project?.title}` : project?.title
+              }
+            />
+          )}
+          {priority && (
+            <Chip
+              icon={
+                !showContact && (
+                  <FormatListNumberedOutlinedIcon fontSize="small" />
+                )
+              }
+              color="primary"
+              label={showContact ? `Priority: ${priority}` : priority}
+            />
+          )}
+          {showContact && (
+            <>
+              {/* @ts-ignore */}
+              {contact?.company?.title && (
+                // @ts-ignore
+                <Chip color="primary" label={`Company: ${contact?.title}`} />
               )}
-            </Stack>
+
+              {/* @ts-ignore */}
+              {contact?.full_name && (
+                <Chip
+                  color="primary"
+                  // @ts-ignore
+                  label={`Contact: ${contact?.full_name}`}
+                />
+              )}
+            </>
+          )}
+        </Stack>
             {isMutable && (
               <Box>
                 <IconButton aria-label="settings" onClick={handleClick}>
@@ -158,6 +206,15 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
               </Box>
             )}
           </Stack>
+
+        {content && (
+          <Typography variant="body1">
+            <div
+              dangerouslySetInnerHTML={{
+                __html: printHtml(content.replaceAll('\n', '<br />')),
+              }}
+            />
+          </Typography>
         )}
       </Stack>
     </Card>

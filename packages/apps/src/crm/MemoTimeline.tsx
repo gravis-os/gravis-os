@@ -8,10 +8,11 @@ export interface MemoTimelineProps
   extends Omit<MemoCardProps, 'item' | 'actions'> {
   items?: Memo[]
   queryResult: UseQueryResult
+  showContact?: boolean
 }
 
 const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
-  const { items, queryResult, ...rest } = props
+  const { items, queryResult, showContact, ...rest } = props
 
   const { isLoading, isError } = queryResult
 
@@ -21,7 +22,13 @@ const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
         if (!item) return null
         return {
           key: String(item.id),
-          children: <MemoCard {...rest} item={{ title: 'Note', ...item }} />,
+          children: (
+            <MemoCard
+              { ...rest }
+              item={{ title: 'Note', ...item }}
+              showContact={showContact}
+            />
+          ),
           dotColor: 'primary',
           connectorColor: 'primary',
         }

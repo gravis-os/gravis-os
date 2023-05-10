@@ -152,14 +152,14 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
         ref={anchorRef}
         {...bindAction(popupState)}
         color="inherit"
-        endIcon={<ArrowDropDownOutlinedIcon />}
+        endIcon={<ArrowDropDownOutlinedIcon sx={{ ml: -1 }} />}
+        {...buttonProps}
         sx={
           {
             ...sx,
             ...buttonProps?.sx,
           } as ButtonProps['sx']
         }
-        {...buttonProps}
       >
         {title}
       </Button>

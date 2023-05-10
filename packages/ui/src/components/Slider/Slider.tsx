@@ -6,7 +6,12 @@ import {
 } from 'keen-slider/react'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
+import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import { LinearProgress } from '@mui/material'
 import Box, { BoxProps } from '../../core/Box'
+import Stack from '../../core/Stack'
+import Tabs, { TabsProps } from '../../core/Tabs'
+import { TabProps } from '../../core/Tabs/Tab'
 import IconButton from '../../core/IconButton'
 import ViewAllDialogButton from './ViewAllDialogButton'
 import withAutoplayPlugin from './withAutoplayPlugin'
@@ -30,7 +35,7 @@ export interface SliderProps extends BoxProps {
   items: Array<React.ReactNode | SliderRenderItem>
   options?: KeenSliderOptions
   plugins?: KeenSliderPlugin[]
-
+  itemProps?: BoxProps
   autoHeight?: boolean
   autoplay?: boolean
   scroll?: boolean
@@ -38,10 +43,26 @@ export interface SliderProps extends BoxProps {
   loop?: boolean
   thumbnails?: boolean
   arrows?: boolean
+  dots?: boolean
+  dotProps?: { color?: string; sx?: BoxProps['sx'] }
+  fade?: boolean
+  tabs?: TabProps['label'][]
+  tabsProps?: TabsProps
+  tabProps?: TabProps[]
   viewAll?: boolean
   disableLeftArrow?: boolean
   disableCenter?: boolean
   disableDrag?: boolean
+  height?: ResponsiveStyleValue<React.CSSProperties['height']>
+  speed?: number
+  // Autoplay props
+  disablePauseOnHover?: boolean
+  durationPerSlide?: number
+  /**
+   * The higher, the smoother the progress bar gets
+   */
+  progressStepPerSlide?: number
+  progress?: boolean
 }
 
 /**
@@ -51,6 +72,8 @@ const Slider: React.FC<SliderProps> = (props) => {
   const {
     sx,
     items,
+    height,
+    itemProps,
     options: injectedOptions = {},
     plugins: injectedPlugins = [],
     disableDrag,
@@ -62,21 +85,66 @@ const Slider: React.FC<SliderProps> = (props) => {
     autoHeight,
     thumbnails,
     arrows,
+    dots,
+    dotProps,
+    fade,
+    tabs,
+    tabsProps,
+    tabProps,
+    speed,
+    middle,
     disableLeftArrow,
     viewAll,
+    disablePauseOnHover,
+    progress,
+    durationPerSlide = 8000,
+    progressStepPerSlide = 20,
     ...rest
   } = props
+
+  // Progress
+  const [progressValue, setProgressValue] = React.useState(0)
+  useEffect(() => {
+    if (progress) {
+      const timer = setInterval(() => {
+        setProgressValue((prevProgress) => {
+          if (prevProgress >= 100) return 0
+          return prevProgress + 100 / progressStepPerSlide
+        })
+      }, durationPerSlide / progressStepPerSlide)
+      return () => {
+        clearInterval(timer)
+      }
+    }
+  }, [])
+  const shouldShowProgress = autoplay && progress
 
   // Main Ref
   const [currentSlide, setCurrentSlide] = useState<number>(0)
   const [lazyLoaded, setLazyLoaded] = useState<boolean[]>([])
   const [loaded, setLoaded] = useState(false)
-  const [ref, instanceRef] = useKeenSlider<HTMLDivElement>(
+  const [opacities, setOpacities] = React.useState<number[]>([])
+  const [sliderRef, instanceRef] = useKeenSlider<HTMLDivElement>(
     // Options
     {
       loop,
       slideChanged(slider) {
         setCurrentSlide(slider.track.details.rel)
+        if (shouldShowProgress) setProgressValue(0)
+      },
+      ...(fade && {
+        slides: items.length,
+      }),
+      defaultAnimation: {
+        duration: speed || fade ? 2000 : 500,
+      },
+      detailsChanged(slider) {
+        if (fade) {
+          const new_opacities = slider.track.details.slides.map(
+            (slide) => slide.portion
+          )
+          setOpacities(new_opacities)
+        }
       },
       created() {
         setLoaded(true)
@@ -87,7 +155,17 @@ const Slider: React.FC<SliderProps> = (props) => {
     },
     // Plugins
     [
-      ...(autoplay ? [withAutoplayPlugin] : []),
+      ...(autoplay
+        ? [
+            withAutoplayPlugin({
+              durationPerSlide,
+              disablePauseOnHover:
+                typeof disablePauseOnHover === 'boolean'
+                  ? disablePauseOnHover
+                  : Boolean(progress),
+            }),
+          ]
+        : []),
       ...(scroll ? [withScrollPlugin] : []),
       ...(autoHeight ? [withAutoHeight] : []),
       ...injectedPlugins,
@@ -116,14 +194,26 @@ const Slider: React.FC<SliderProps> = (props) => {
   // Item Props
   const commonItemProps = {
     center: !disableCenter,
-    className: 'keen-slider__slide',
+    middle,
+    // Remove the keen-slider__slide selector if we're using fade to prevent transform
+    className: fade ? '' : 'keen-slider__slide',
+    ...itemProps,
     sx: {
       '&:hover': { cursor: 'ew-resize' },
       '&:active': { cursor: 'grabbing' },
+      height,
+      // If `fade`, get items to stack on top of each other instead of side by side
+      ...(fade && {
+        width: '100%',
+        height: '100%',
+        position: 'absolute' as const,
+        top: 0,
+      }),
+      ...itemProps?.sx,
     },
   }
 
-  // Common Arrow Icon Button props
+  // Arrows
   const shouldShowArrows = arrows && loaded && instanceRef.current
   const commonArrowIconButtonProps = {
     sx: {
@@ -133,6 +223,10 @@ const Slider: React.FC<SliderProps> = (props) => {
       transform: 'translate(0, -50%)',
     },
   }
+  // Dots
+  const shouldShowDots = dots && loaded && instanceRef.current
+  // Tabs
+  const shouldShowTabs = tabs && loaded && instanceRef.current
 
   // Degenerate case
   if (!items?.length) return null
@@ -183,7 +277,15 @@ const Slider: React.FC<SliderProps> = (props) => {
         {viewAll && <ViewAllDialogButton items={items as React.ReactNode[]} />}
 
         {/* Main Slider */}
-        <Box ref={ref} className="keen-slider" sx={sx} {...rest}>
+        <Box
+          ref={sliderRef}
+          className={fade ? '' : 'keen-slider'}
+          sx={{
+            ...(fade && { position: 'relative', height }),
+            ...sx,
+          }}
+          {...rest}
+        >
           {items.map((item, i) => {
             // Render itemJsx
             const itemJsx = (
@@ -201,12 +303,90 @@ const Slider: React.FC<SliderProps> = (props) => {
             )
 
             return (
-              <Box key={`item-slide-${i}`} {...commonItemProps}>
+              <Box
+                key={`item-slide-${i}`}
+                {...commonItemProps}
+                // Fade effect must be applied via `style` prop instead of sx
+                {...(fade && { style: { opacity: opacities[i] } })}
+              >
                 {lazy ? lazyLoaded[i] && itemJsx : itemJsx}
               </Box>
             )
           })}
         </Box>
+
+        {/* Tabs */}
+        {shouldShowTabs && (
+          <Tabs
+            value={currentSlide}
+            onChange={(e, newValue) => instanceRef.current?.moveToIdx(newValue)}
+            items={[
+              ...new Array(instanceRef.current.track.details.slides.length),
+            ].map((_, i) => ({
+              key: i,
+              value: i,
+              label: tabs[i],
+              ...tabProps,
+            }))}
+            centered={!disableCenter}
+            disableCard
+            indicatorPosition="top"
+            TabIndicatorProps={{
+              ...(shouldShowProgress && {
+                children: (
+                  <LinearProgress variant="determinate" value={progressValue} />
+                ),
+              }),
+            }}
+            {...tabsProps}
+            sx={{
+              width: '100%',
+              position: 'absolute',
+              left: 0,
+              right: 0,
+              bottom: -8,
+              display: 'block',
+              textAlign: disableCenter ? 'left' : 'center',
+              ...tabsProps?.sx,
+            }}
+          />
+        )}
+
+        {/* Dots */}
+        {shouldShowDots && (
+          <Stack
+            direction="row"
+            justifyContent="center"
+            spacing={0.5}
+            sx={{
+              position: 'absolute',
+              bottom: 24,
+            }}
+          >
+            {[
+              ...new Array(instanceRef.current.track.details.slides.length),
+            ].map((_, i) => {
+              const { color: dotColor = 'primary.main', sx: dotSx } =
+                dotProps || {}
+              const isActiveDot = currentSlide === i
+              return (
+                <Box
+                  key={i}
+                  component="button"
+                  onClick={() => instanceRef.current?.moveToIdx(i)}
+                  sx={{
+                    width: 16,
+                    border: 0,
+                    boxShadow: 'none',
+                    cursor: 'pointer',
+                    backgroundColor: isActiveDot && dotColor,
+                    ...dotSx,
+                  }}
+                />
+              )
+            })}
+          </Stack>
+        )}
       </Box>
 
       {/* Thumbnails */}

@@ -159,6 +159,9 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
               '&:hover': { backgroundColor: 'action.hover' },
               p: disablePadding && 0,
             }),
+
+          // Offset extra padding on IconButtons
+          '& .MuiIconButton-root': { m: -1 },
         }}
       >
         {children || renderAccordionSummaryTitle()}

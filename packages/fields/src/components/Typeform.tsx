@@ -112,7 +112,6 @@ const renderTypeformItem =
       next()
     }
 
-    // TODO@Joel: Guard against React.ReactNode. Make a helper for this.
     return (
       <Box sx={{ '&, & > form': { width: '100%' }, ...containerSx }}>
         {/* Icon */}

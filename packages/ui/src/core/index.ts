@@ -148,5 +148,8 @@ export * from './Tooltip'
 export { default as Typography } from './Typography'
 export * from './Typography'
 
+export { default as Video } from './Video'
+export * from './Video'
+
 export { default as withDialog } from './withDialog'
 export * from './withDialog'

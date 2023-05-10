@@ -1,5 +1,27 @@
 # Changelog
 
+## 0.0.105
+
+### Patch Changes
+
+- [`d4a95e1`](https://github.com/gravis-os/gravis-os/commit/d4a95e1d08d1736b21d3e8fae995763280852528) Thanks [@clodal](https://github.com/clodal)! - Update header props. Refactor to clean up styles
+
+* [`c93f7dc`](https://github.com/gravis-os/gravis-os/commit/c93f7dcb5f5f3e93d13d29539aced785324575cf) Thanks [@clodal](https://github.com/clodal)! - fix logo position in mobile header again
+
+- [`2e69e8e`](https://github.com/gravis-os/gravis-os/commit/2e69e8eeac03eca6d3791adfb040095ef392314e) Thanks [@clodal](https://github.com/clodal)! - Add tabs, fade, and dots to Slider
+
+* [`6a0a276`](https://github.com/gravis-os/gravis-os/commit/6a0a2765b9d3c318cdff9baf3cc1110ad6f1c52b) Thanks [@clodal](https://github.com/clodal)! - Add video component
+
+- [`58e18b9`](https://github.com/gravis-os/gravis-os/commit/58e18b9866ecfb1bf3cc5b9adcb336eca172e8cf) Thanks [@clodal](https://github.com/clodal)! - fix logo position in mobile header
+
+* [`f89c9c7`](https://github.com/gravis-os/gravis-os/commit/f89c9c7a16957a47d5f48ec14231b58455f703b3) Thanks [@clodal](https://github.com/clodal)! - fix logo header style"
+
+- [`2ba7fc1`](https://github.com/gravis-os/gravis-os/commit/2ba7fc142bca5a5529d38207db148cde8b96c46a) Thanks [@clodal](https://github.com/clodal)! - fix logo hover effect in header
+
+* [`3adfaff`](https://github.com/gravis-os/gravis-os/commit/3adfaff3e6994808bd4edb54bd12b35af05ed8ca) Thanks [@clodal](https://github.com/clodal)! - Minor update Slider default tab position
+
+- [`e11fb12`](https://github.com/gravis-os/gravis-os/commit/e11fb12a2c37da17156ad890f27c57d9a4f3eb59) Thanks [@clodal](https://github.com/clodal)! - Add progress to Slider
+
 ## 0.0.104
 
 ### Patch Changes
