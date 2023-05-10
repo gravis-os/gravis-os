@@ -3,6 +3,7 @@ import { Box, Card, IconButton, Stack, Typography, Button } from '@gravis-os/ui'
 import Popover from '@mui/material/Popover'
 import { printDateTime, printHtml } from '@gravis-os/utils'
 import { MoreHorizOutlined } from '@mui/icons-material'
+import type { RenderPropsFunction } from '@gravis-os/types'
 
 export interface MemoCardProps {
   item: {
@@ -13,13 +14,14 @@ export interface MemoCardProps {
   }
   actions?: React.ReactNode
   isMutable?: boolean
-  editComponent?: React.ReactElement
+  renderEditComponent?: RenderPropsFunction<{ item }>
   onSave?: (item) => Promise<void>
   onDelete?: (item) => Promise<void>
 }
 
 const MemoCard: React.FC<MemoCardProps> = (props) => {
-  const { item, actions, isMutable, editComponent, onSave, onDelete } = props
+  const { item, actions, isMutable, renderEditComponent, onSave, onDelete } =
+    props
   const { title, content, user, created_at } = item
 
   const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -47,7 +49,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
       <Stack spacing={1}>
         {isEditing ? (
           <>
-            {React.cloneElement(editComponent, { item })}
+            {renderEditComponent({ item })}
             <Stack direction="row" justifyContent="flex-end" spacing={1}>
               <Button
                 aria-label="Cancel edit"
