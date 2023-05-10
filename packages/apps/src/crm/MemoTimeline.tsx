@@ -12,7 +12,7 @@ export interface MemoTimelineProps
 }
 
 const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
-  const { items, queryResult, showContact, ...rest } = props
+  const { items, queryResult, ...rest } = props
 
   const { isLoading, isError } = queryResult
 
@@ -22,13 +22,7 @@ const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
         if (!item) return null
         return {
           key: String(item.id),
-          children: (
-            <MemoCard
-              { ...rest }
-              item={{ title: 'Note', ...item }}
-              showContact={showContact}
-            />
-          ),
+          children: <MemoCard {...rest} item={{ ...item, title: 'Note' }} />,
           dotColor: 'primary',
           connectorColor: 'primary',
         }

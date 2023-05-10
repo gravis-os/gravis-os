@@ -1,11 +1,19 @@
 import React, { useState } from 'react'
-import { Box, Card, Chip, IconButton, Stack, Typography, Button } from '@gravis-os/ui'
+import {
+  Box,
+  Card,
+  Chip,
+  IconButton,
+  Stack,
+  Typography,
+  Button,
+} from '@gravis-os/ui'
 import Popover from '@mui/material/Popover'
 import { printDateTime, printHtml } from '@gravis-os/utils'
-import { MoreHorizOutlined } from '@mui/icons-material'
 import type { RenderPropsFunction } from '@gravis-os/types'
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined'
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
 
 export interface MemoCardProps {
   item: {
@@ -26,9 +34,16 @@ export interface MemoCardProps {
 }
 
 const MemoCard: React.FC<MemoCardProps> = (props) => {
-  const { item, actions, showContact = false, isMutable, renderEditComponent, onSave, onDelete } =
-    props
- 
+  const {
+    item,
+    actions,
+    showContact = false,
+    isMutable,
+    renderEditComponent,
+    onSave,
+    onDelete,
+  } = props
+
   const {
     title,
     content,
@@ -65,18 +80,16 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
         {isEditing ? (
           <>
             {renderEditComponent({ item })}
-            <Stack direction="row" justifyContent="flex-end" spacing={1}>
-              <Button
-                aria-label="Cancel edit"
-                onClick={() => {
-                  setIsEditing(false)
-                  handleClose()
-                }}
-              >
-                Cancel
-              </Button>
+            <Stack
+              flexDirection="row"
+              justifyContent="flex-end"
+              spacing={1}
+              gap={1}
+              sx={{ '&>:not(style)+:not(style)': { m: 0 } }}
+            >
               <Button
                 aria-label="Save item"
+                variant="contained"
                 onClick={async () => {
                   await onSave?.(item)
                   setIsEditing(false)
@@ -85,18 +98,23 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
               >
                 Save
               </Button>
+              <Button
+                aria-label="Cancel edit"
+                variant="outlined"
+                onClick={() => {
+                  setIsEditing(false)
+                  handleClose()
+                }}
+              >
+                Cancel
+              </Button>
             </Stack>
           </>
         ) : (
-          <Stack direction="row" justifyContent="space-between">
+          <Stack flexDirection="row">
             <Stack spacing={1}>
               {/* Header */}
-              <Stack
-                direction="row"
-                alignItems="center"
-                justifyContent="space-between"
-                spacing={1}
-              >
+              <Stack justifyContent="space-between" spacing={1}>
                 {/* Title */}
                 <div>
                   <Typography display="inline-block" variant="subtitle1">
@@ -119,55 +137,73 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
 
                 {/* Right */}
                 {actions && <Box sx={{ textAlign: 'right' }}>{actions}</Box>}
-              </Stack>
-              
-              {/* Chips */}
-        <Stack flexDirection="row" gap={1}>
-          {project?.title && (
-            <Chip
-              icon={
-                !showContact && <LibraryBooksOutlinedIcon fontSize="small" />
-              }
-              color="primary"
-              label={
-                showContact ? `Project: ${project?.title}` : project?.title
-              }
-            />
-          )}
-          {priority && (
-            <Chip
-              icon={
-                !showContact && (
-                  <FormatListNumberedOutlinedIcon fontSize="small" />
-                )
-              }
-              color="primary"
-              label={showContact ? `Priority: ${priority}` : priority}
-            />
-          )}
-          {showContact && (
-            <>
-              {/* @ts-ignore */}
-              {contact?.company?.title && (
-                // @ts-ignore
-                <Chip color="primary" label={`Company: ${contact?.title}`} />
-              )}
 
-              {/* @ts-ignore */}
-              {contact?.full_name && (
-                <Chip
-                  color="primary"
-                  // @ts-ignore
-                  label={`Contact: ${contact?.full_name}`}
-                />
-              )}
-            </>
-          )}
-        </Stack>
+                {/* Chips */}
+                <Stack flexDirection="row" gap={1}>
+                  {project?.title && (
+                    <Chip
+                      icon={
+                        !showContact && (
+                          <LibraryBooksOutlinedIcon fontSize="small" />
+                        )
+                      }
+                      color="primary"
+                      label={
+                        showContact
+                          ? `Project: ${project?.title}`
+                          : project?.title
+                      }
+                    />
+                  )}
+                  {priority && (
+                    <Chip
+                      icon={
+                        !showContact && (
+                          <FormatListNumberedOutlinedIcon fontSize="small" />
+                        )
+                      }
+                      color="primary"
+                      label={showContact ? `Priority: ${priority}` : priority}
+                    />
+                  )}
+                  {showContact && (
+                    <>
+                      {/* @ts-ignore */}
+                      {contact?.company?.title && (
+                        // @ts-ignore
+                        <Chip
+                          color="primary"
+                          label={`Company: ${contact?.title}`}
+                        />
+                      )}
+
+                      {/* @ts-ignore */}
+                      {contact?.full_name && (
+                        <Chip
+                          color="primary"
+                          // @ts-ignore
+                          label={`Contact: ${contact?.full_name}`}
+                        />
+                      )}
+                    </>
+                  )}
+                </Stack>
+
+                {content && (
+                  <Typography variant="body1">
+                    <div
+                      dangerouslySetInnerHTML={{
+                        __html: printHtml(content.replaceAll('\n', '<br />')),
+                      }}
+                    />
+                  </Typography>
+                )}
+              </Stack>
+            </Stack>
             {isMutable && (
               <Box>
                 <IconButton aria-label="settings" onClick={handleClick}>
-                  <MoreHorizOutlined />
+                  <MoreHorizOutlinedIcon />
                 </IconButton>
                 <Popover
                   id="memo-card-popover"
@@ -206,15 +242,6 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
               </Box>
             )}
           </Stack>
-
-        {content && (
-          <Typography variant="body1">
-            <div
-              dangerouslySetInnerHTML={{
-                __html: printHtml(content.replaceAll('\n', '<br />')),
-              }}
-            />
-          </Typography>
         )}
       </Stack>
     </Card>
