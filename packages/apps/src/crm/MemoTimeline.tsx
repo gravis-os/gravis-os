@@ -21,12 +21,7 @@ const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
         if (!item) return null
         return {
           key: String(item.id),
-          children: (
-            <MemoCard
-              {...rest}
-              item={{ ...item, title: item?.title ?? 'Note' }}
-            />
-          ),
+          children: <MemoCard {...rest} item={{ title: 'Note', ...item }} />,
           dotColor: 'primary',
           connectorColor: 'primary',
         }
