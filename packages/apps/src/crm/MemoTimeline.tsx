@@ -2,15 +2,17 @@ import React from 'react'
 import { renderStatefulChildren, Timeline } from '@gravis-os/ui'
 import { UseQueryResult } from 'react-query'
 import { Memo } from './types'
-import MemoCard from './MemoCard'
+import MemoCard, { MemoCardProps } from './MemoCard'
 
-export interface MemoTimelineProps {
+export interface MemoTimelineProps
+  extends Omit<MemoCardProps, 'item' | 'actions'> {
   items?: Memo[]
   queryResult: UseQueryResult
+  showContact?: boolean
 }
 
 const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
-  const { items, queryResult } = props
+  const { items, queryResult, ...rest } = props
 
   const { isLoading, isError } = queryResult
 
@@ -20,7 +22,12 @@ const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
         if (!item) return null
         return {
           key: String(item.id),
-          children: <MemoCard item={{ ...item, title: 'Note' }} />,
+          children: (
+            <MemoCard
+              {...rest}
+              item={{ ...item, title: item?.title ?? 'Note' }}
+            />
+          ),
           dotColor: 'primary',
           connectorColor: 'primary',
         }
