@@ -14,10 +14,11 @@ import ContactBio from './ContactBio'
 
 export interface ContactLeafletProps extends CardProps {
   item: Contact
+  showLeadStatus?: boolean
 }
 
 const ContactLeaflet: React.FC<ContactLeafletProps> = (props) => {
-  const { item, ...rest } = props
+  const { item, showLeadStatus = false, ...rest } = props
 
   const { title, mobile, email } = item
 
@@ -54,6 +55,11 @@ const ContactLeaflet: React.FC<ContactLeafletProps> = (props) => {
                       key: 'address',
                       value: printAddress(item),
                       label: 'Address',
+                    },
+                    showLeadStatus && {
+                      key: 'lead_status',
+                      value: item?.lead_status,
+                      label: 'Lead Status',
                     },
                   ]}
                 />

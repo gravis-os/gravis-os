@@ -9,6 +9,7 @@ export interface Contact extends CrudItem {
   mobile?: string
   avatar_src?: string
   avatar_alt?: string
+  lead_status: string
 }
 
 export interface Memo extends CrudItem {}
