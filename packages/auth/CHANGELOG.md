@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.56
+
+### Patch Changes
+
+- [#210](https://github.com/gravis-os/gravis-os/pull/210) [`0b311bb`](https://github.com/gravis-os/gravis-os/commit/0b311bbe6c7061d1962999a57e649e02b5da505e) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - Remove duplicate login button in getFormRenderProps for LoginForm
+
+- Updated dependencies [[`0b311bb`](https://github.com/gravis-os/gravis-os/commit/0b311bbe6c7061d1962999a57e649e02b5da505e), [`e9c3f1a`](https://github.com/gravis-os/gravis-os/commit/e9c3f1a04aa3b31af54f6f35bc616c79f02a024a)]:
+  - @gravis-os/form@0.0.109
+  - @gravis-os/ui@0.0.107
+
 ## 0.0.55
 
 ### Patch Changes

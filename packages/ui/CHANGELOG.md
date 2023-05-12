@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.107
+
+### Patch Changes
+
+- [`e9c3f1a`](https://github.com/gravis-os/gravis-os/commit/e9c3f1a04aa3b31af54f6f35bc616c79f02a024a) Thanks [@clodal](https://github.com/clodal)! - Minor update Html component style
+
 ## 0.0.106
 
 ### Patch Changes
