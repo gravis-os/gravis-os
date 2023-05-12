@@ -109,7 +109,6 @@ const getFormRenderProps = (
     formJsx,
     formControlJsx,
     editOrSubmitButtonJsx,
-    submitButtonJsx,
     cancelButtonJsx,
     formContext,
     ...formRenderProps,

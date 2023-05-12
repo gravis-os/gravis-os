@@ -24,7 +24,13 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
       <AuthForm
         onSubmit={(values) => handleSignIn(values, authOptions)}
         {...rest}
-        submitButtonProps={{ title: 'Login', ...rest?.submitButtonProps }}
+        submitButtonProps={{
+          title: 'Login',
+          variant: 'contained',
+          color: 'primary',
+          fullWidth: true,
+          ...rest?.submitButtonProps,
+        }}
       />
     </AuthBox>
   )
