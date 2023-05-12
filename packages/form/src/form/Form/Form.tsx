@@ -47,6 +47,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
     resetOnSubmitSuccess,
     defaultValues: injectedDefaultValues,
     sx,
+    buttonProps,
     submitButtonProps,
     ...rest
   } = props
@@ -95,7 +96,14 @@ const Form: React.FC<FormProps<any>> = (props) => {
         sx={{ width: '100%', ...sx }}
       >
         {renderChildren()}
-        {submitButtonProps && <Button type="submit" {...submitButtonProps} />}
+        {submitButtonProps && (
+          <Button
+            type="submit"
+            disabled={formState.isSubmitting}
+            {...buttonProps}
+            {...submitButtonProps}
+          />
+        )}
       </Box>
     </FormProvider>
   )
