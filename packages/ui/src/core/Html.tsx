@@ -13,6 +13,7 @@ const Html: React.FC<HtmlProps> = (props) => {
     <Box
       sx={{
         '& p': { mt: 0, mb: 0 },
+        '& p + p': { mt: 2 },
         '& img': {
           maxWidth: '100%',
         },
