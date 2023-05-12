@@ -270,6 +270,10 @@ const renderField = (props: RenderFieldProps) => {
 
         if (!item) return null
 
+        // In partitionManyToManyValues.ts, the formValues's keys are checked
+        // based on the subfix `ids` e.g for warehouses of a product, the key
+        // has to be `warehouse_ids`, but `getRelationalObjectKey` will remove
+        // the subfix, so we need to check both the raw and processed `name`
         const modelValue = get(item, modelName) || get(item, name)
 
         // Escape if no value found
