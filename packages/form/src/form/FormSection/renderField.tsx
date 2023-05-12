@@ -211,6 +211,7 @@ const renderField = (props: RenderFieldProps) => {
     defaultValue,
     label: injectedLabel,
     withCreate,
+    multiple,
   } = rest
 
   // ==============================
@@ -274,12 +275,21 @@ const renderField = (props: RenderFieldProps) => {
         // Escape if no value found
         if (!isReadOnly && !modelValue) return null
 
-        const modelTitle = get(
-          modelValue,
-          (fieldProps as Partial<ControlledModelFieldProps>).pk ||
-            module.pk ||
-            'title'
-        )
+        const modelTitle = multiple
+          ? modelValue.map((value) =>
+              get(
+                value,
+                (fieldProps as Partial<ControlledModelFieldProps>).pk ||
+                  module.pk ||
+                  'title'
+              )
+            )
+          : get(
+              modelValue,
+              (fieldProps as Partial<ControlledModelFieldProps>).pk ||
+                module.pk ||
+                'title'
+            )
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
@@ -291,7 +301,6 @@ const renderField = (props: RenderFieldProps) => {
             title: modelTitle,
           })
         }
-
         return (
           <FormSectionReadOnlyStack
             label={modelLabel}

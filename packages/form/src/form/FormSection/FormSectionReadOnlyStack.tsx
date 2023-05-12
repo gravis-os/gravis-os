@@ -36,6 +36,11 @@ const getDisplayTitle = (title) => {
   }
 }
 
+const getDisplayTitles = (titles) =>
+  Array.isArray(titles)
+    ? titles.map((title) => getDisplayTitle(title))
+    : [getDisplayTitle(titles)]
+
 const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
   props
 ) => {
@@ -43,7 +48,7 @@ const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
   const hasFiles = isFiles && Array.isArray(title) && title.length > 0
   const { files } = useFiles({ items: hasFiles ? (title as File[]) : [] })
 
-  const displayTitle = getDisplayTitle(title)
+  const displayTitles = getDisplayTitles(title)
 
   return (
     <Stack spacing={1}>
@@ -93,7 +98,9 @@ const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
               })}
             </List>
           ) : (
-            <Typography variant="subtitle1">{displayTitle}</Typography>
+            displayTitles.map((title) => (
+              <Typography variant="subtitle1">{title}</Typography>
+            ))
           ))}
       </Stack>
 
