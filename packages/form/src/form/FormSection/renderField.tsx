@@ -270,26 +270,21 @@ const renderField = (props: RenderFieldProps) => {
 
         if (!item) return null
 
-        const modelValue = get(item, getRelationalObjectKey(name))
+        const modelValue = get(item, modelName) || get(item, name)
 
         // Escape if no value found
         if (!isReadOnly && !modelValue) return null
-
-        const modelTitle = multiple
-          ? modelValue.map((value) =>
-              get(
-                value,
-                (fieldProps as Partial<ControlledModelFieldProps>).pk ||
-                  module.pk ||
-                  'title'
-              )
-            )
-          : get(
-              modelValue,
-              (fieldProps as Partial<ControlledModelFieldProps>).pk ||
-                module.pk ||
-                'title'
-            )
+        const getModelTitle = (value) =>
+          get(
+            value,
+            (fieldProps as Partial<ControlledModelFieldProps>).pk ||
+              module.pk ||
+              'title'
+          )
+        const modelTitle =
+          multiple && Array.isArray(modelValue)
+            ? modelValue.map(getModelTitle)
+            : getModelTitle(modelValue)
 
         if (hasRenderReadOnly) {
           return renderReadOnly({

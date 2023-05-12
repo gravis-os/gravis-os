@@ -98,8 +98,10 @@ const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
               })}
             </List>
           ) : (
-            displayTitles.map((title) => (
-              <Typography variant="subtitle1">{title}</Typography>
+            displayTitles.map((title, index) => (
+              <Typography key={`${title}-${index}`} variant="subtitle1">
+                {title}
+              </Typography>
             ))
           ))}
       </Stack>
