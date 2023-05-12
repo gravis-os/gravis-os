@@ -211,6 +211,7 @@ const renderField = (props: RenderFieldProps) => {
     defaultValue,
     label: injectedLabel,
     withCreate,
+    multiple,
   } = rest
 
   // ==============================
@@ -269,17 +270,25 @@ const renderField = (props: RenderFieldProps) => {
 
         if (!item) return null
 
-        const modelValue = get(item, getRelationalObjectKey(name))
+        // In partitionManyToManyValues.ts, the formValues's keys are checked
+        // based on the subfix `ids` e.g for warehouses of a product, the key
+        // has to be `warehouse_ids`, but `getRelationalObjectKey` will remove
+        // the subfix, so we need to check both the raw and processed `name`
+        const modelValue = get(item, modelName) || get(item, name)
 
         // Escape if no value found
         if (!isReadOnly && !modelValue) return null
-
-        const modelTitle = get(
-          modelValue,
-          (fieldProps as Partial<ControlledModelFieldProps>).pk ||
-            module.pk ||
-            'title'
-        )
+        const getModelTitle = (value) =>
+          get(
+            value,
+            (fieldProps as Partial<ControlledModelFieldProps>).pk ||
+              module.pk ||
+              'title'
+          )
+        const modelTitle =
+          multiple && Array.isArray(modelValue)
+            ? modelValue.map(getModelTitle)
+            : getModelTitle(modelValue)
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
@@ -291,7 +300,6 @@ const renderField = (props: RenderFieldProps) => {
             title: modelTitle,
           })
         }
-
         return (
           <FormSectionReadOnlyStack
             label={modelLabel}

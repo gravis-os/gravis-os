@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.108
+
+### Patch Changes
+
+- [#209](https://github.com/gravis-os/gravis-os/pull/209) [`432f4d6`](https://github.com/gravis-os/gravis-os/commit/432f4d6c07bc6f32d1f680d4abadeab1887e7699) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - Add component rendering for readonly model fields with multiple flag
+
+* [#209](https://github.com/gravis-os/gravis-os/pull/209) [`28f2ad5`](https://github.com/gravis-os/gravis-os/commit/28f2ad52d5a88e01c3eef2cce272c80c69707c1e) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - Add comment for modelValue extraction
+
 ## 0.0.107
 
 ### Patch Changes

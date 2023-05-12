@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.56
+
+### Patch Changes
+
+- [#208](https://github.com/gravis-os/gravis-os/pull/208) [`cd2331c`](https://github.com/gravis-os/gravis-os/commit/cd2331c34ebf70a33f7c855dbe56849602f1f833) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(apps): show lead status (optional) in CRM ContactLeaflet.
+
 ## 0.0.55
 
 ### Patch Changes
