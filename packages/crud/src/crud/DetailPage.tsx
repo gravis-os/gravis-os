@@ -39,6 +39,7 @@ export interface DetailPageProps {
   useTabsProps?: UseTabsProps
 
   disableBanner?: boolean
+  disableHeader?: boolean
 }
 
 const DetailPage: React.FC<DetailPageProps> = (props) => {
@@ -57,6 +58,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
     useTabsProps,
 
     disableBanner,
+    disableHeader,
   } = props
 
   // Get Item
@@ -100,12 +102,14 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
       {hasTabs && (
         <>
           {/* Breadcrumbs */}
-          <DetailPageHeader
-            item={item}
-            module={module}
-            disableTitle={!isNew}
-            {...headerProps}
-          />
+          {!disableHeader && (
+            <DetailPageHeader
+              item={item}
+              module={module}
+              disableTitle={!isNew}
+              {...headerProps}
+            />
+          )}
 
           {/* Tabs */}
           {!isNew && (
