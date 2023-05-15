@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.91
+
+### Patch Changes
+
+- [#211](https://github.com/gravis-os/gravis-os/pull/211) [`92f4186`](https://github.com/gravis-os/gravis-os/commit/92f4186f85251272097289904cbee2e60d614afc) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - Add option `disableHeader` to hide DetailPage's header
+
 ## 0.0.90
 
 ### Patch Changes
