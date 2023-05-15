@@ -71,7 +71,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   }, [router, autoBreadcrumbs])
 
   const defaultItems = !disableHomeBreadcrumb
-    ? [{ key: 'home', title: 'Home', href: '/dashboard' }]
+    ? [{ key: 'home', title: 'Home', href: '/' }]
     : []
 
   // Data to render
