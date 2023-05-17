@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.26
+
+### Patch Changes
+
+- [#212](https://github.com/gravis-os/gravis-os/pull/212) [`bf344d0`](https://github.com/gravis-os/gravis-os/commit/bf344d0a2ffe8e35253ba97439681cc7f238498a) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(query): overrided gte or lte by props.
+
 ## 0.0.25
 
 ### Patch Changes
