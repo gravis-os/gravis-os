@@ -29,6 +29,7 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
           variant: 'contained',
           color: 'primary',
           fullWidth: true,
+          sx: { mt: 3 },
           ...rest?.submitButtonProps,
         }}
       />
