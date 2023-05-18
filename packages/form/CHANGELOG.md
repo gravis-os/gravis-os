@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.110
+
+### Patch Changes
+
+- [#217](https://github.com/gravis-os/gravis-os/pull/217) [`77d64b4`](https://github.com/gravis-os/gravis-os/commit/77d64b4c98f704be193a0b3d84419974e1b9b82b) Thanks [@jovanchan1](https://github.com/jovanchan1)! - expose getOptionLabel in ModelField
+
 ## 0.0.109
 
 ### Patch Changes
