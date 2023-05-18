@@ -28,6 +28,7 @@ export interface DataTableProps extends AgGridProps {
    * To display the total row count
    */
   serverSideRowCount?: number
+  tableTitle?: React.ReactNode
 }
 
 /**
@@ -54,6 +55,8 @@ const DataTable = React.forwardRef<
     rowModelType,
     serverSideRowModelProps,
     serverSideRowCount,
+
+    tableTitle,
 
     ...rest
   } = props
@@ -126,8 +129,12 @@ const DataTable = React.forwardRef<
             {/* Left */}
             <Stack direction="row" spacing={1} alignItems="center" width="100%">
               {/* Title */}
-              {TitleIcon && <TitleIcon sx={{ color: 'primary.main' }} />}
-              <Typography variant="h5">{module?.name?.plural}</Typography>
+              {tableTitle ?? (
+                <>
+                  {TitleIcon && <TitleIcon sx={{ color: 'primary.main' }} />}
+                  <Typography variant="h5">{module?.name?.plural}</Typography>
+                </>
+              )}
 
               {/* Server-side Row Count */}
               {Boolean(serverSideRowCount) && (
