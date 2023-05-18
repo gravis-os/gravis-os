@@ -8,21 +8,25 @@ import {
   Stack,
   useOpen,
 } from '@gravis-os/ui'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import React from 'react'
 import CSVReader from 'react-csv-reader'
+import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
+import getManyToManyUploadedRows from './getManyToManyUploadedRows'
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
   requireDownload?: boolean
   uploadFields?: string[]
+  manyToManyKeys?: string[]
   getUploadValues?: (rows: unknown) => unknown
 }
 
@@ -32,6 +36,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
     module,
     requireDownload = true,
     uploadFields,
+    manyToManyKeys,
     getUploadValues: injectedGetUploadedValues,
     ...rest
   } = props
@@ -40,7 +45,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
   const [open, { setIsOpen, close }] = useOpen(false)
 
   const { handleDownload, isDownloaded, resetIsDownloaded, tableColumnNames } =
-    useDownloadTableDefinitionCsvFile({ module, uploadFields })
+    useDownloadTableDefinitionCsvFile({ module, uploadFields, manyToManyKeys })
 
   const { createMutation } = useCreateMutation({
     module,
@@ -207,19 +212,67 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                  * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
                  * This ensures that the values provided are consistent with the header names in the database.
                  */
-                const updatedUploadedRows = injectedGetUploadedValues(
+                const rowsAfterReverseTableHeaderRenameMapping =
                   getUploadedRows(uploadedRows, tableHeaderRenameMapping)
-                )
+
+                const mainTableRows = (
+                  rowsAfterReverseTableHeaderRenameMapping as Record<
+                    string,
+                    unknown
+                  >[]
+                )?.map((row) => omit(row, manyToManyKeys))
+
+                const updatedUploadedRows =
+                  injectedGetUploadedValues(mainTableRows)
+
                 const { data, error } = await createMutation.mutateAsync(
                   updatedUploadedRows
                 )
-                if (data) {
-                  next()
-                }
+
                 if (error) {
                   toast.error(
                     `Some fields are wrong in your csv file: \n${error.message}`
                   )
+                  return
+                }
+
+                if (data) {
+                  if (manyToManyKeys?.length) {
+                    const manyToManyTables = getManyToManyUploadedRows(
+                      module.table.name,
+                      manyToManyKeys,
+                      rowsAfterReverseTableHeaderRenameMapping as Record<
+                        string,
+                        unknown
+                      >[],
+                      data as Record<string, unknown>[]
+                    )
+
+                    const manyToManyTablesResponse = await Promise.allSettled(
+                      manyToManyTables.map(async ({ tableName, rows }) =>
+                        supabaseClient.from(tableName).insert(rows)
+                      )
+                    )
+
+                    const rejectedManyToManyTablesResponse =
+                      manyToManyTablesResponse.filter(
+                        ({ status }) => status === 'rejected'
+                      )
+
+                    if (rejectedManyToManyTablesResponse.length) {
+                      toast.error(
+                        `Some relations fail to upload: \n${rejectedManyToManyTablesResponse
+                          .map(
+                            (response) =>
+                              (response as PromiseRejectedResult).reason.message
+                          )
+                          .filter(Boolean)
+                          .join('\n')}`
+                      )
+                    }
+                  }
+
+                  next()
                 }
               }
 
