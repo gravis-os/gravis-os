@@ -8,8 +8,9 @@ import getTableColumnNames from './getTableColumnNames'
 const useDownloadTableDefinitionCsvFile = (props: {
   module: CrudModule
   uploadFields?: string[]
+  manyToManyKeys?: string[]
 }) => {
-  const { module, uploadFields } = props
+  const { module, uploadFields, manyToManyKeys } = props
   const { tableHeaderRenameMapping } = module ?? {}
 
   // Get table names for downloading the color
@@ -24,7 +25,8 @@ const useDownloadTableDefinitionCsvFile = (props: {
   const tableColumnNames = getTableColumnNames(
     tableDefinition,
     tableHeaderRenameMapping,
-    uploadFields
+    uploadFields,
+    manyToManyKeys
   )
 
   // Effect: Download csv file with fetched column names
