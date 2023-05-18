@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.92
+
+### Patch Changes
+
+- [#215](https://github.com/gravis-os/gravis-os/pull/215) [`3d09edb7`](https://github.com/gravis-os/gravis-os/commit/3d09edb701d2c0974b3cc49a6f8d90d0b83f478d) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - add many to many relations to crud upload dialog
+
+- Updated dependencies [[`2945ec24`](https://github.com/gravis-os/gravis-os/commit/2945ec24c9e0a2f1a6f9edc0af88cacfdc82de01)]:
+  - @gravis-os/auth@0.0.57
+
 ## 0.0.91
 
 ### Patch Changes

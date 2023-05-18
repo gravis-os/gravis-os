@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.57
+
+### Patch Changes
+
+- [#213](https://github.com/gravis-os/gravis-os/pull/213) [`2945ec24`](https://github.com/gravis-os/gravis-os/commit/2945ec24c9e0a2f1a6f9edc0af88cacfdc82de01) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add margin to login button
+
 ## 0.0.56
 
 ### Patch Changes
