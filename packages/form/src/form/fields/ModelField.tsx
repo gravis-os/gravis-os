@@ -118,6 +118,11 @@ export interface ModelFieldProps {
     | [Parameters<typeof orderBy>[1]]
     | [Parameters<typeof orderBy>[1], Parameters<typeof orderBy>[2]]
   /**
+   * getOptionLabel
+   * Expose option label to downstream
+   */
+  getOptionLabel?: ModelAutocompleteProps['getOptionLabel']
+  /**
    * renderOption
    * Expose option item rendering to downstream
    */
