@@ -168,8 +168,27 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
 
   // Init Dropzone
   const dropzoneOptions = {
-    accept:
-      'image/*,application/pdf,.doc,.docx,.xls,.xlsx,.csv,.tsv,.ppt,.pptx,.pages,.odt,.rtf' as unknown as DropzoneOptions['accept'],
+    accept: {
+      'image/jpeg': ['.jpeg', '.jpg'],
+      'image/png': ['.png'],
+      'image/svg+xml': ['.svg'],
+      'image/avif': ['.avif'],
+      'image/webp': ['.webp'],
+      'application/pdf': ['.pdf'],
+      'application/msword': ['.doc'],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        ['.docx'],
+      'application/vnd.ms-excel': ['.xls'],
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
+        '.xlsx',
+      ],
+      'text/csv': ['.csv'],
+      'application/vnd.ms-powerpoint': ['.ppt'],
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+        ['.pptx'],
+      'application/vnd.oasis.opendocument.text': ['.odt'],
+      'application/rtf': ['.rtf'],
+    } as DropzoneOptions['accept'],
     onDrop: handleDrop,
     ...dropzoneProps,
   }
