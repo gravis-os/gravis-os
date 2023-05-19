@@ -4,19 +4,14 @@ import sortBy from 'lodash/sortBy'
 import isEqual from 'lodash/isEqual'
 import startCase from 'lodash/startCase'
 import uniqBy from 'lodash/uniqBy'
+import codes from 'country-calling-code'
 import { Autocomplete, AutocompleteProps } from '@mui/material'
 import TextField, { TextFieldProps } from './TextField'
 
-const countries = require('i18n-iso-countries')
-countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
-
-export const COUNTRY_OPTIONS = sortBy(
-  Object.entries(countries.getNames('en')).map(
-    ([countryCode, countryName]) => ({
-      countryName,
-      countryCode,
-    })
-  ),
+export const COUNTRY_OPTIONS = sortBy(codes.map(code => ({
+    countryName: code.country,
+    countryCode: code.isoCode2,
+  })), 
   'countryName'
 )
 
