@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React, { ReactNode, useEffect, useState } from 'react'
-import PhoneUtil from 'google-libphonenumber'
+import codes from 'country-calling-code'
 import sortBy from 'lodash/sortBy'
 import isEqual from 'lodash/isEqual'
 import startCase from 'lodash/startCase'
@@ -8,21 +8,11 @@ import uniqBy from 'lodash/uniqBy'
 import { Autocomplete, AutocompleteProps } from '@mui/material'
 import TextField, { TextFieldProps } from './TextField'
 
-const phoneUtil = PhoneUtil.PhoneNumberUtil.getInstance()
-
-const countries = require('i18n-iso-countries')
-countries.registerLocale(require('i18n-iso-countries/langs/en.json'))
-
-export const PHONE_EXT_CODE_OPTIONS = sortBy(
-  Object.entries(countries.getNames('en')).map(([countryCode, countryName]) => {
-    const phoneExtCode = phoneUtil.getCountryCodeForRegion(countryCode)
-
-    return {
-      countryName,
-      countryCode,
-      phoneExtCode,
-    }
-  }),
+export const PHONE_EXT_CODE_OPTIONS = sortBy(codes.map(code => ({
+    countryName: code.country,
+    countryCode: code.isoCode2,
+    phoneExtCode: parseInt(code.countryCodes[0]).toString()
+  })),
   'phoneExtCode'
 )
 
