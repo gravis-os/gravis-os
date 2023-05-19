@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.93
+
+### Patch Changes
+
+- [#216](https://github.com/gravis-os/gravis-os/pull/216) [`6744fdf`](https://github.com/gravis-os/gravis-os/commit/6744fdf0970d582ff4ddb9c7603d575b70fe758c) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): allow pass customized data table title.
+
+* [#218](https://github.com/gravis-os/gravis-os/pull/218) [`d616a4f`](https://github.com/gravis-os/gravis-os/commit/d616a4f9bc93b42b78d58f09b72e5fad4d1a95ca) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): support to add right title in page header.
+
+* Updated dependencies [[`3a9a5af`](https://github.com/gravis-os/gravis-os/commit/3a9a5afeba017249b28782601a16c30742282aa0)]:
+  - @gravis-os/utils@0.1.0
+
 ## 0.0.92
 
 ### Patch Changes

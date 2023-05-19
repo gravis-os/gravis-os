@@ -1,6 +1,6 @@
 {
   "name": "web",
-  "version": "0.0.18",
+  "version": "0.0.19",
   "private": true,
   "sideEffects": false,
   "scripts": {
@@ -40,7 +40,7 @@
   },
   "devDependencies": {
     "@gravis-os/eslint-config": "^0.0.16",
-    "@gravis-os/tsconfig": "^0.0.6",
+    "@gravis-os/tsconfig": "^0.0.7",
     "@next/bundle-analyzer": "^12.1.5",
     "@svgr/webpack": "^6.3.1",
     "@types/lodash": "^4.14.185",

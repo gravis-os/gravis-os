@@ -1,5 +1,11 @@
 # @gravis-os/docs
 
+## 0.0.4
+
+### Patch Changes
+
+- [`6c9a847`](https://github.com/gravis-os/gravis-os/commit/6c9a847c5355df0d7cf408c3771fe3f92d39008f) Thanks [@clodal](https://github.com/clodal)! - Ensure that sideEffects: false on all packages
+
 ## 0.0.3
 
 ### Patch Changes

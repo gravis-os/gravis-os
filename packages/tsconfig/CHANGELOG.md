@@ -1,5 +1,11 @@
 # @gravis-os/tsconfig
 
+## 0.0.7
+
+### Patch Changes
+
+- [`6c9a847`](https://github.com/gravis-os/gravis-os/commit/6c9a847c5355df0d7cf408c3771fe3f92d39008f) Thanks [@clodal](https://github.com/clodal)! - Ensure that sideEffects: false on all packages
+
 ## 0.0.6
 
 ### Patch Changes

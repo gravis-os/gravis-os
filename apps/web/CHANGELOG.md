@@ -1,5 +1,14 @@
 # web
 
+## 0.0.19
+
+### Patch Changes
+
+- [`6c9a847`](https://github.com/gravis-os/gravis-os/commit/6c9a847c5355df0d7cf408c3771fe3f92d39008f) Thanks [@clodal](https://github.com/clodal)! - Ensure that sideEffects: false on all packages
+
+- Updated dependencies [[`3a9a5af`](https://github.com/gravis-os/gravis-os/commit/3a9a5afeba017249b28782601a16c30742282aa0)]:
+  - @gravis-os/utils@0.1.0
+
 ## 0.0.18
 
 ### Patch Changes

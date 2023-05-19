@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0
+
+### Minor Changes
+
+- [#214](https://github.com/gravis-os/gravis-os/pull/214) [`3a9a5af`](https://github.com/gravis-os/gravis-os/commit/3a9a5afeba017249b28782601a16c30742282aa0) Thanks [@shank1xt](https://github.com/shank1xt)! - Add function to get related items by category_id attribute
+
 ## 0.0.42
 
 ### Patch Changes
