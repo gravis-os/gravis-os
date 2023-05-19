@@ -1,6 +1,6 @@
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined'
 import { TextField } from '@mui/material'
-import { isString } from 'lodash'
+import isString from 'lodash/isString'
 import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react'
 import Card, { CardProps } from '../core/Card'
 import Grid from '../core/Grid'

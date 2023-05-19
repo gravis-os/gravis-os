@@ -1,5 +1,5 @@
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
-import { map } from 'lodash'
+import map from 'lodash/map'
 import React from 'react'
 import { getComponentStorybookTitle } from '../utils/getStorybookTitle'
 import ListCard from './ListCard'

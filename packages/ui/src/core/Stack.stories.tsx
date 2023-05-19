@@ -1,4 +1,4 @@
-import { map } from 'lodash'
+import map from 'lodash/map'
 import React from 'react'
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Stack from './Stack'

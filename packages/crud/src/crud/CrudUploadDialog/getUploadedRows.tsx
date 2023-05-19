@@ -1,4 +1,9 @@
-import { assign, entries, isArray, isNil, keys, map } from 'lodash'
+import assign from 'lodash/assign'
+import entries from 'lodash/entries'
+import isArray from 'lodash/isArray'
+import isNil from 'lodash/isNil'
+import keys from 'lodash/keys'
+import map from 'lodash/map'
 
 export const getUploadedRows = (
   uploadedRows: unknown,

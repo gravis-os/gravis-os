@@ -1,7 +1,7 @@
 /* @typescript-eslint/no-empty-function */
 import React from 'react'
 import { Controller, UseControllerProps } from 'react-hook-form'
-import { groupBy } from 'lodash'
+import groupBy from 'lodash/groupBy'
 import { CheckboxTable, CheckboxTableProps } from '@gravis-os/ui'
 
 export interface ControlledCheckboxTableOptions<T = { id: string | number }>

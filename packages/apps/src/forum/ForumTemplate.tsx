@@ -9,7 +9,7 @@ import {
 import { useCreateMutation } from '@gravis-os/crud'
 import { withSlugFromTitle, withResolvedIdValue } from '@gravis-os/form'
 import { useUser } from '@gravis-os/auth'
-import { flowRight } from 'lodash'
+import flowRight from 'lodash/flowRight'
 import { useListParentCategorys, CategorysSideBar } from '../categories'
 import PaginatedThreads from './PaginatedThreads'
 import { ThreadFormProps } from './ThreadForm'

@@ -13,7 +13,8 @@ import {
   RadioGroupProps as MuiRadioGroupProps,
   RadioProps,
 } from '@mui/material'
-import { pick, startCase } from 'lodash'
+import pick from 'lodash/pick'
+import startCase from 'lodash/startCase'
 
 export interface RadioGroupProps extends MuiRadioGroupProps {
   name: string
