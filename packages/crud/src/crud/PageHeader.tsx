@@ -31,6 +31,7 @@ export interface PageHeaderProps
   size?: 'small' | 'medium' | 'large'
   title?: ReactNode
   subtitle?: ReactNode
+  rightTitle?: ReactNode
   onClose?: () => void
 }
 
@@ -43,6 +44,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
     buttonProps,
     title,
     subtitle,
+    rightTitle,
     breadcrumbs,
     breadcrumbsProps,
     borderBottom,
@@ -72,10 +74,22 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
       }}
       {...rest}
     >
-      {/* Breadcrumbs */}
-      {!disableBreadcrumbs && (
-        <Breadcrumbs items={breadcrumbs} {...breadcrumbsProps} />
-      )}
+      <Stack
+        flexDirection="row"
+        alignItems="center"
+        justifyContent="space-between"
+      >
+        {/* Breadcrumbs */}
+        {!disableBreadcrumbs && (
+          <Breadcrumbs items={breadcrumbs} {...breadcrumbsProps} />
+        )}
+        {rightTitle &&
+          (typeof rightTitle === 'string' ? (
+            <Typography variant="overline">{rightTitle}</Typography>
+          ) : (
+            rightTitle
+          ))}
+      </Stack>
 
       {/* Title + Actions */}
       <Stack
