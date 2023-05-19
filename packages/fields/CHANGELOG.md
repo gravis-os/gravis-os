@@ -1,5 +1,15 @@
 # @gravis-os/fields
 
+## 0.1.0
+
+### Minor Changes
+
+- [#219](https://github.com/gravis-os/gravis-os/pull/219) [`04d5e9b`](https://github.com/gravis-os/gravis-os/commit/04d5e9b5a964a1cd7d879d19af6b13bfa3eeabfa) Thanks [@shank1xt](https://github.com/shank1xt)! - Change library to retrieve country phone extensions.
+
+### Patch Changes
+
+- [#221](https://github.com/gravis-os/gravis-os/pull/221) [`336592e`](https://github.com/gravis-os/gravis-os/commit/336592e0fa8edf5ad6d0e830104ed1a5c3bde24f) Thanks [@shank1xt](https://github.com/shank1xt)! - Change to lodash subtype imports
+
 ## 0.0.19
 
 ### Patch Changes
