@@ -1,4 +1,5 @@
-import { kebabCase, map } from 'lodash'
+import kebabCase from 'lodash/kebabCase'
+import map from 'lodash/map'
 import React from 'react'
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Card from './Card'

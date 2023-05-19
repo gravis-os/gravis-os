@@ -1,4 +1,6 @@
-import { kebabCase, map, startCase } from 'lodash'
+import kebabCase from 'lodash/kebabCase'
+import map from 'lodash/map'
+import startCase from 'lodash/startCase'
 import React from 'react'
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import StatStack from './StatStack'

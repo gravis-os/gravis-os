@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react'
-import { pick, toUpper } from 'lodash'
+import pick from 'lodash/pick'
+import toUpper from 'lodash/toUpper'
 import CheckboxTableHeader from './CheckboxTableHeader'
 import CheckboxTableBody, { CheckboxTableBodyProps } from './CheckboxTableBody'
 import { CheckboxTableColumns, CheckboxTableRows } from './types'

@@ -7,7 +7,7 @@ import {
 } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { Box, Divider, Stack, Typography } from '@gravis-os/ui'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import React from 'react'
 import getValueWithoutOp from './getValueWithoutOp'
 import useFilterForm, { UseFilterFormArgs } from './useFilterForm'

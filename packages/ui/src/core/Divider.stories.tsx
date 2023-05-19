@@ -1,4 +1,4 @@
-import { isEqual } from 'lodash'
+import isEqual from 'lodash/isEqual'
 import React from 'react'
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Divider from './Divider'

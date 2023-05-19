@@ -1,5 +1,7 @@
 import React from 'react'
-import { every, first, toPairs } from 'lodash'
+import every from 'lodash/every'
+import first from 'lodash/first'
+import toPairs from 'lodash/toPairs'
 import { CheckboxTableColumnDefs, CheckboxTableRows } from './types'
 import CheckboxTableCheckboxColumn from './CheckboxTableCheckboxColumn'
 import Typography from '../Typography'

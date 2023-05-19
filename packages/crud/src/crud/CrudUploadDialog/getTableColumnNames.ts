@@ -1,4 +1,6 @@
-import { has, isNil, map } from 'lodash'
+import has from 'lodash/has'
+import isNil from 'lodash/isNil'
+import map from 'lodash/map'
 
 const getTableColumnNames = (
   tableDefinition,

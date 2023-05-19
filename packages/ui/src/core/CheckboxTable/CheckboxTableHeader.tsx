@@ -1,5 +1,5 @@
 import React from 'react'
-import { first } from 'lodash'
+import first from 'lodash/first'
 import CheckboxTableColumn from './CheckboxTableColumn'
 import { CheckboxTableColumnDefs } from './types'
 import Stack from '../Stack'

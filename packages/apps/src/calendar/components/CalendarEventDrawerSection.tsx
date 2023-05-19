@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { Box, BoxProps, Typography } from '@gravis-os/ui'
-import { get } from 'lodash'
+import get from 'lodash/get'
 import type { CalendarEventApi, CalendarEventDrawerDef } from '../types'
 
 interface CalendarEventDrawerSectionProps extends BoxProps {

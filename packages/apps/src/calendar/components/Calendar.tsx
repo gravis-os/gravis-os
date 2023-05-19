@@ -11,7 +11,7 @@ import { useMediaQuery } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { Box, Stack } from '@gravis-os/ui'
 import { CalendarOptions } from '@fullcalendar/common'
-import { isEmpty } from 'lodash'
+import isEmpty from 'lodash/isEmpty'
 import {
   createCalendarTheme,
   DEFAULT_DRAWER_WIDTH,
