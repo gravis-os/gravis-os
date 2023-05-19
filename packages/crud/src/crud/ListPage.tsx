@@ -15,6 +15,7 @@ export interface ListPageProps {
   crudTableProps?: Partial<CrudTableProps>
   containerProps?: ContainerProps
   disableHeader?: boolean
+  rightTitle?: React.ReactNode
 }
 
 const ListPage: React.FC<ListPageProps> = (props) => {
@@ -28,6 +29,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     module,
     containerProps,
     disableHeader,
+    rightTitle,
   } = props
   const { name, route } = module
 
@@ -35,6 +37,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
   const pageHeaderProps = {
     title: name.plural,
     breadcrumbs: [{ key: name.plural, title: name.plural, href: route.plural }],
+    rightTitle,
   }
 
   // Search
