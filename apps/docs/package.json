@@ -2,6 +2,7 @@
   "name": "@gravis-os/docs",
   "version": "0.0.3",
   "private": false,
+  "sideEffects": false,
   "scripts": {
     "docusaurus": "docusaurus",
     "start": "docusaurus start",
