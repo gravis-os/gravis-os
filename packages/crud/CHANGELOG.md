@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.94
+
+### Patch Changes
+
+- [`e0a7523`](https://github.com/gravis-os/gravis-os/commit/e0a7523a2ee380d23b1a4163614c93b55ca8c7c0) Thanks [@clodal](https://github.com/clodal)! - Republish updated builds for crud and utils since the previous version was not built
+
+- Updated dependencies [[`e0a7523`](https://github.com/gravis-os/gravis-os/commit/e0a7523a2ee380d23b1a4163614c93b55ca8c7c0)]:
+  - @gravis-os/utils@0.1.1
+
 ## 0.0.93
 
 ### Patch Changes
