@@ -1,5 +1,5 @@
 import React from 'react'
-import Script from 'next/script';
+import Script from 'next/script'
 
 const kitName = process.env.NEXT_PUBLIC_FONT_AWESOME_KIT_NAME
 
