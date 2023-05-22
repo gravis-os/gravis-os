@@ -311,9 +311,12 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
              * @example .or('name.ilike.London,name.eq.Paris', { foreignTable:'cities' })
              * @link https://supabase.com/docs/reference/javascript/or#use-or-on-foreign-tables
              */
-            query = query.or(`${pk}.${op}.${value || fuzzyInputValue}`, {
-              foreignTable,
-            })
+            query = query.or(
+              `${pk}.${op}.${isNil(value) ? fuzzyInputValue : value}`,
+              {
+                foreignTable,
+              }
+            )
           })
         }
 
@@ -584,7 +587,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             Array.isArray(option) ||
             typeof option !== 'object' ||
             (Array.isArray(displayValue) &&
-              displayValue.find((value) => value.id === option.id))
+              displayValue.find((value) => value?.id === option?.id))
           const isCreateOption = getIsCreateOption({ option, pk })
 
           // Handle degenerate case where option is an empty object
