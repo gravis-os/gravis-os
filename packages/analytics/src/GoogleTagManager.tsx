@@ -44,7 +44,8 @@ export const useGtmPageViewOnRouteChange = (
 export const renderGtmScriptTag = () => {
   if (!GTM_ID) return null
   return (
-    <script defer
+    <script
+      defer
       id="gtag-base"
       dangerouslySetInnerHTML={{
         __html: `
