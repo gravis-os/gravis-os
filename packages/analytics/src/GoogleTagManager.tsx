@@ -1,5 +1,6 @@
 import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
+import Script from 'next/script';
 
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
 
@@ -44,7 +45,7 @@ export const useGtmPageViewOnRouteChange = (
 export const renderGtmScriptTag = () => {
   if (!GTM_ID) return null
   return (
-    <script
+    <Script
       id="gtag-base"
       dangerouslySetInnerHTML={{
         __html: `
