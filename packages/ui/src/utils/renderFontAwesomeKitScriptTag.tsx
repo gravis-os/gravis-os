@@ -6,6 +6,7 @@ const renderFontAwesomeKitScriptTag = () => {
   if (!kitName) return null
   return (
     <script
+      defer
       src={`https://kit.fontawesome.com/${kitName}.js`}
       crossOrigin="anonymous"
     />
