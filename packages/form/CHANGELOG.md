@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.112
+
+### Patch Changes
+
+- [#220](https://github.com/gravis-os/gravis-os/pull/220) [`318d09a`](https://github.com/gravis-os/gravis-os/commit/318d09aeec9cc7a76993a757c5fb0c6aa1c62658) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - generate filters for foreign tables with value + remove options if already selected
+
+- Updated dependencies [[`bacbc8a`](https://github.com/gravis-os/gravis-os/commit/bacbc8a4ed199f3768795863cf354f52711e7f42)]:
+  - @gravis-os/storage@0.0.40
+
 ## 0.0.111
 
 ### Patch Changes

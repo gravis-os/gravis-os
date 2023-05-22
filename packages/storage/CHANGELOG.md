@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.40
+
+### Patch Changes
+
+- [#222](https://github.com/gravis-os/gravis-os/pull/222) [`bacbc8a`](https://github.com/gravis-os/gravis-os/commit/bacbc8a4ed199f3768795863cf354f52711e7f42) Thanks [@al1xt](https://github.com/al1xt)! - Fix accept option in useMultiStorageDropzone
+
 ## 0.0.39
 
 ### Patch Changes
