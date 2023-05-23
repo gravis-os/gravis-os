@@ -45,7 +45,7 @@ export const renderGtmScriptTag = () => {
   if (!GTM_ID) return null
   return (
     <script
-      defer
+      async
       id="gtag-base"
       dangerouslySetInnerHTML={{
         __html: `
