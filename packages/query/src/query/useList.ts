@@ -438,12 +438,15 @@ const useList = (props: UseListProps): UseListReturn => {
 
   // Switch between useQuery and useInfiniteQuery
   const useQueryFn = isInfinitePagination ? useInfiniteQuery : useQuery
-  const onUseQuery = useQueryFn(listQueryKey, listQueryFn, {
+  const onUseQuery = useQueryFn({
+    queryKey: listQueryKey,
+    queryFn: listQueryFn,
     keepPreviousData: isRegularPagination,
     ...(isInfinitePagination && {
       // Calculate nextToken. Only applicable for infinite pagination
       getNextPageParam: (lastPage, pages) => {
         const [sortKey] = getSort(nextProps)
+        // @ts-ignore
         const lastPageData = (lastPage?.data as CrudItem[] | null) || []
         const nextIndex = lastPageData.length - 1
         const nextToken = lastPageData[nextIndex]?.[sortKey]
