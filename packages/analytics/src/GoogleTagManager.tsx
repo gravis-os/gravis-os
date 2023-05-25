@@ -60,12 +60,12 @@ export const renderGtmScriptTag = () => {
   )
 }
 
-export const renderGtmLinkTags = () => {
+export const renderGtmPreconnectLinkTags = () => {
   if (!GTM_ID) return null
   return (
     <>
-    <link rel="preconnect" href="https://www.googletagmanager.com" />
-    <link rel="preconnect" href="https://www.google-analytics.com" />
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+      <link rel="preconnect" href="https://www.google-analytics.com" />
     </>
   )
 }
