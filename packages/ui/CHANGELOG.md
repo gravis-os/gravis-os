@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.0.112
+
+### Patch Changes
+
+- [`ba13867`](https://github.com/gravis-os/gravis-os/commit/ba13867ea27da5ee5087f4530fe91a57bacc84ea) Thanks [@clodal](https://github.com/clodal)! - Compile to target es6 instead of es5 to attempt to get tree-shake gains
+
+- Updated dependencies [[`ba13867`](https://github.com/gravis-os/gravis-os/commit/ba13867ea27da5ee5087f4530fe91a57bacc84ea)]:
+  - @gravis-os/config@0.0.6
+  - @gravis-os/rtl@0.0.3
+  - @gravis-os/theme@0.0.10
+  - @gravis-os/types@0.0.42
+  - @gravis-os/utils@0.1.2
+
 ## 0.0.111
 
 ### Patch Changes
