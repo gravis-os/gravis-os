@@ -191,7 +191,7 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
                 </ListItemText>
               )
 
-              const makeListItemJsx = (child: JSX.Element) => (
+              const renderListItem = (children: JSX.Element) => (
                 <ListItem
                   sx={{
                     lineHeight: disablePadding ? 1.2 : 1,
@@ -201,18 +201,22 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
                   color="inherit"
                   {...listItemProps}
                 >
-                  {child}
+                  {children}
                 </ListItem>
               )
 
-              const hasItemHref = Boolean(item.href)
-              return hasItemHref ? makeListItemJsx(
+              const renderListLinkItem = (children: JSX.Element) => (
                 <Link key={key} href={item.href} aria-label={key}>
-                  {listItemContentJsx}
+                  {renderListItem(children)}
                 </Link>
-              ) : (
-                <React.Fragment key={key}>{makeListItemJsx(listItemContentJsx)}</React.Fragment>
               )
+
+              const hasItemHref = Boolean(item.href)
+
+              if (hasItemHref) {
+                return renderListLinkItem(listItemContentJsx)
+              }
+              return <React.Fragment key={key}>{renderListItem(listItemContentJsx)}</React.Fragment>
             })}
           </List>
         </AccordionDetails>

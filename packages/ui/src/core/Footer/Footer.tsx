@@ -150,13 +150,13 @@ const Footer: React.FC<FooterProps> = (props) => {
                       youtube: YouTubeIcon,
                     }
                     const Icon = keyIconMap[type]
-                    const label = `${type} button`
+                    const ariaLabel = `${type} button`
 
                     if (!Icon) return null
 
                     return (
-                      <Link key={type} href={href} target="_blank" aria-label={label}>
-                        <IconButton size="small" aria-label={label}>
+                      <Link key={type} href={href} target="_blank" aria-label={ariaLabel}>
+                        <IconButton size="small" aria-label={ariaLabel}>
                           <Icon fontSize="inherit" />
                         </IconButton>
                       </Link>
