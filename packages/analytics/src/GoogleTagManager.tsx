@@ -60,6 +60,16 @@ export const renderGtmScriptTag = () => {
   )
 }
 
+export const renderGtmPreconnectLinkTags = () => {
+  if (!GTM_ID) return null
+  return (
+    <>
+      <link rel="preconnect" href="https://www.googletagmanager.com" />
+      <link rel="preconnect" href="https://www.google-analytics.com" />
+    </>
+  )
+}
+
 /**
  * For SSR purposes
  * Place as sibling between <Head /> and <body> tags in _document.tsx and
