@@ -16,6 +16,7 @@ export const initialCart: Cart = {
   paid: 0,
   receipt_id: null,
   customer: null,
+  note: '',
 }
 
 export const initialPosContext = {

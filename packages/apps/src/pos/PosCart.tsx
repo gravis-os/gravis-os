@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import { UseListReturn } from '@gravis-os/query'
 import {
   Box,
   Button,
@@ -35,6 +36,7 @@ export interface PosCartProps {
   setMoreActionsOpen?: React.Dispatch<React.SetStateAction<boolean>>
   moreActionsProps?: any
 
+  productSpecImagesQueryResult?: UseListReturn
   sx?: SxProps
 }
 

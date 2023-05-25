@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {
   Dialog,
   DialogTitle,
@@ -15,6 +15,7 @@ import { DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import { Stack } from '@mui/system'
 import PosAddCustomerDialog from './PosAddCustomerDialog'
+import PosAddNoteDialog from './PosAddNoteDialog'
 
 export interface PosCartMoreActionsDialogProps {
   open: boolean
@@ -31,9 +32,13 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
     onClose()
   }
 
-  const [isAddCustomerDialogOpen, setIsAddCustomerDialogOpen] =
-    React.useState(false)
+  // Add Customer States
+  const [isAddCustomerDialogOpen, setIsAddCustomerDialogOpen] = useState(false)
   const handleOnClickAddCustomer = () => setIsAddCustomerDialogOpen(true)
+
+  // Add Note States
+  const [isAddNoteDialogOpen, setIsAddNoteDialogOpen] = useState(false)
+  const handleOnClickAddNote = () => setIsAddNoteDialogOpen(true)
 
   const cartModifierOptions = [
     {
@@ -52,7 +57,7 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
       key: 'add-note',
       label: 'Add Note',
       icon: <MessageOutlinedIcon sx={{ color: 'gray' }} />,
-      action: () => console.log('add-note'),
+      action: handleOnClickAddNote,
     },
     {
       key: 'add-staff',
@@ -110,10 +115,16 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
             </React.Fragment>
           ))}
         </Stack>
+
+        {/* Action dialogs */}
         <PosAddCustomerDialog
           open={isAddCustomerDialogOpen}
           onClose={() => setIsAddCustomerDialogOpen(false)}
           {...addCustomerProps}
+        />
+        <PosAddNoteDialog
+          open={isAddNoteDialogOpen}
+          onClose={() => setIsAddNoteDialogOpen(false)}
         />
       </DialogContent>
     </Dialog>

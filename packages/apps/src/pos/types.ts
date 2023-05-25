@@ -35,6 +35,7 @@ export interface Cart {
   paid: number
   receipt_id: number | null
   customer: Customer | null
+  note: string | null
 }
 
 export type Receipt = {

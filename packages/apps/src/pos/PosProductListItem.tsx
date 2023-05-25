@@ -35,7 +35,11 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
 
   const listItemProps = {
     avatar: (
-      <Badge badgeContent={quantity} color="primary" invisible={quantity <= 1}>
+      <Badge
+        badgeContent={quantity}
+        color="secondary"
+        invisible={quantity <= 1}
+      >
         <StorageAvatar src={src} alt={alt} sx={{ borderRadius: 0 }} />
       </Badge>
     ),
