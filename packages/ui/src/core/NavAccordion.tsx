@@ -179,7 +179,19 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
 
               const key = `accordion-link-item-${i}`
 
-              const listItemJsx = (
+              const listItemContentJsx = (
+                <ListItemText disableTypography>
+                  <Typography
+                    variant="button"
+                    sx={{ textTransform: 'none' }}
+                    {...itemTitleProps}
+                  >
+                    {item.title}
+                  </Typography>
+                </ListItemText>
+              )
+
+              const renderListItem = (children: JSX.Element) => (
                 <ListItem
                   sx={{
                     lineHeight: disablePadding ? 1.2 : 1,
@@ -189,26 +201,22 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
                   color="inherit"
                   {...listItemProps}
                 >
-                  <ListItemText disableTypography>
-                    <Typography
-                      variant="button"
-                      sx={{ textTransform: 'none' }}
-                      {...itemTitleProps}
-                    >
-                      {item.title}
-                    </Typography>
-                  </ListItemText>
+                  {children}
                 </ListItem>
               )
 
-              const hasItemHref = Boolean(item.href)
-              return hasItemHref ? (
-                <Link key={key} href={item.href}>
-                  {listItemJsx}
+              const renderListLinkItem = (children: JSX.Element) => (
+                <Link key={key} href={item.href} aria-label={key}>
+                  {renderListItem(children)}
                 </Link>
-              ) : (
-                <React.Fragment key={key}>{listItemJsx}</React.Fragment>
               )
+
+              const hasItemHref = Boolean(item.href)
+
+              if (hasItemHref) {
+                return renderListLinkItem(listItemContentJsx)
+              }
+              return <React.Fragment key={key}>{renderListItem(listItemContentJsx)}</React.Fragment>
             })}
           </List>
         </AccordionDetails>
