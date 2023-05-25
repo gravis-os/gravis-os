@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.111
+
+### Patch Changes
+
+- [#227](https://github.com/gravis-os/gravis-os/pull/227) [`6dbebfa`](https://github.com/gravis-os/gravis-os/commit/6dbebfac1ce804c3c306d2a92bbbcbb5542f4b9b) Thanks [@shank1xt](https://github.com/shank1xt)! - Improve PageSpeed accessibility
+
+* [#228](https://github.com/gravis-os/gravis-os/pull/228) [`02c826d`](https://github.com/gravis-os/gravis-os/commit/02c826da780a9a9170c3a850839b9e7d1037346f) Thanks [@shank1xt](https://github.com/shank1xt)! - Add link tag renderers
+
+* Updated dependencies [[`6dbebfa`](https://github.com/gravis-os/gravis-os/commit/6dbebfac1ce804c3c306d2a92bbbcbb5542f4b9b)]:
+  - @gravis-os/theme@0.0.9
+
 ## 0.0.110
 
 ### Patch Changes

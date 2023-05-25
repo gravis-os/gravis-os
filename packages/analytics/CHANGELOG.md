@@ -1,5 +1,11 @@
 # @gravis-os/analytics
 
+## 0.0.3
+
+### Patch Changes
+
+- [#228](https://github.com/gravis-os/gravis-os/pull/228) [`02c826d`](https://github.com/gravis-os/gravis-os/commit/02c826da780a9a9170c3a850839b9e7d1037346f) Thanks [@shank1xt](https://github.com/shank1xt)! - Add link tag renderers
+
 ## 0.0.2
 
 ### Patch Changes

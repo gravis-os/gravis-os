@@ -1,5 +1,11 @@
 # @gravis-os/theme
 
+## 0.0.9
+
+### Patch Changes
+
+- [#227](https://github.com/gravis-os/gravis-os/pull/227) [`6dbebfa`](https://github.com/gravis-os/gravis-os/commit/6dbebfac1ce804c3c306d2a92bbbcbb5542f4b9b) Thanks [@shank1xt](https://github.com/shank1xt)! - Improve PageSpeed accessibility
+
 ## 0.0.8
 
 ### Patch Changes
