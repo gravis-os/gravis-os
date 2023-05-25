@@ -30,3 +30,6 @@ export * from './hideScrollbarSx'
 
 export { default as renderFontAwesomeKitScriptTag } from './renderFontAwesomeKitScriptTag'
 export * from './renderFontAwesomeKitScriptTag'
+
+export { default as renderFontAwesomeKitLinkTags } from './renderFontAwesomeKitLinkTags'
+export * from './renderFontAwesomeKitLinkTags'
