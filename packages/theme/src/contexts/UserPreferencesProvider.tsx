@@ -135,7 +135,7 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
     })
   }
   const toggleDarkModeIconButtonJsx = (
-    <IconButton onClick={handleToggleDarkMode} color="inherit">
+    <IconButton onClick={handleToggleDarkMode} color="inherit" aria-label='toggle color mode'>
       {isDarkMode ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
     </IconButton>
   )
