@@ -1,25 +1,31 @@
-/* eslint-disable @typescript-eslint/no-empty-function */
 import React, { createContext, useState } from 'react'
-import { Cart, CartItem } from './types'
+import { useCreateMutation } from '@gravis-os/crud'
+import { CrudModule } from '@gravis-os/types'
+import noop from 'lodash/noop'
+import omit from 'lodash/omit'
+import getDiscountedPriceFromItem from '../utils/getDiscountedPriceFromItem'
 import posConfig from './posConfig'
+import { Cart, CartItem, Receipt } from './types'
 
-export const initialCart = {
-  items: [],
+export const initialCart: Cart = {
+  items: [] as CartItem[],
   subtotal: 0,
   tax: 0,
   total: 0,
   paymentMethod: '',
   paid: 0,
+  receipt_id: null,
+  customer: null,
 }
 
 export const initialPosContext = {
   cart: initialCart,
-  setCart: () => {},
-  addToCart: () => {},
-  removeFromCart: () => {},
-  resetCart: () => {},
+  setCart: noop,
+  addToCart: noop,
+  removeFromCart: noop,
+  resetCart: noop,
   hasCartItems: false,
-  setPaymentMethodAndPaidAmount: () => {},
+  setPaymentMethodAndPaidAmount: noop,
 }
 
 export type PosContext = {
@@ -39,10 +45,11 @@ export const PosContext = createContext<PosContext>(initialPosContext)
 
 export interface PosProviderProps {
   children?: React.ReactNode
+  receiptModule?: CrudModule
 }
 
 const PosProvider: React.FC<PosProviderProps> = (props) => {
-  const { children } = props
+  const { children, receiptModule } = props || {}
 
   // Cart state
   const [cart, setCart] = useState(initialCart)
@@ -59,16 +66,43 @@ const PosProvider: React.FC<PosProviderProps> = (props) => {
         .concat(cart.items.slice(removeIndex + 1)),
     })
   const resetCart = () => setCart(initialCart)
-  const setPaymentMethodAndPaidAmount = (paymentMethod: string, paid: number) =>
-    setCart({ ...cart, paymentMethod, paid })
 
   // Cart variables
-  const subtotal = cart.items.reduce((acc, { price }) => acc + price, 0)
+  const subtotal = cart.items.reduce(
+    (acc, item) => acc + getDiscountedPriceFromItem(item),
+    0
+  )
   const nextCart = {
     ...cart,
     subtotal,
     tax: subtotal * posConfig.tax_rate,
     total: subtotal * 1.07,
+  }
+
+  // Create Receipt
+  const { createMutation: createReceiptMutation } = useCreateMutation<Receipt>({
+    module: receiptModule,
+  })
+
+  const createReceipt = async (cart: Cart) => {
+    const { data, error } = await createReceiptMutation.mutateAsync({
+      ...omit(cart, ['items', 'paymentMethod', 'receipt_id']),
+      cart_items: cart.items,
+      payment_method: cart.paymentMethod,
+    })
+    if (error) console.error(error)
+    const [receipt] = data as Receipt[]
+    setCart({ ...cart, receipt_id: receipt?.id })
+  }
+
+  // Create Receipt on Payment
+  const setPaymentMethodAndPaidAmount = (
+    paymentMethod: string,
+    paid: number
+  ) => {
+    const paidCart = { ...nextCart, paymentMethod, paid }
+    setCart(paidCart)
+    if (receiptModule) createReceipt(paidCart)
   }
 
   const value = {

@@ -33,3 +33,6 @@ export * from './PosPaymentCreditCard'
 
 export { default as PosPaymentSuccess } from './PosPaymentSuccess'
 export * from './PosPaymentSuccess'
+
+export { default as getDiscountedPriceFromItem } from '../utils/getDiscountedPriceFromItem'
+export * from '../utils/getDiscountedPriceFromItem'

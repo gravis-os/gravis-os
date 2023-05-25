@@ -1,22 +1,30 @@
 import React from 'react'
+import { UseListReturn } from '@gravis-os/query'
+import { CrudModule } from '@gravis-os/types'
 import { Stack } from '@gravis-os/ui'
 import PosProductListItem from './PosProductListItem'
 
 export interface PosProductListProps {
-  queryResult?: any
+  queryResult?: UseListReturn
   items?: any[]
   onClick?: (e: React.SyntheticEvent, item: any, i: number) => void
   disableEndIcon?: boolean
+  disableRight?: boolean
   disableImage?: boolean
+  productSpecImagesQueryResult?: UseListReturn
+  productSpecImageModule?: CrudModule
 }
 
 const PosProductList: React.FC<PosProductListProps> = (props) => {
   const {
     disableImage,
     disableEndIcon,
+    disableRight,
     onClick,
     items: injectedItems,
     queryResult,
+    productSpecImagesQueryResult,
+    ...rest
   } = props
 
   const items = injectedItems || queryResult?.items || []
@@ -32,7 +40,10 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
           itemProps={{
             ...(disableEndIcon && { endIcon: null }),
             ...(disableImage && { avatar: null }),
+            ...(disableRight && { right: null }),
           }}
+          productSpecImagesQueryResult={productSpecImagesQueryResult}
+          {...rest}
         />
       ))}
     </Stack>

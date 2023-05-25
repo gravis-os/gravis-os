@@ -1,19 +1,25 @@
 import React, { useState } from 'react'
 import { DashboardLayout, DashboardLayoutProps } from '@gravis-os/dashboard'
 import { Typography } from '@gravis-os/ui'
-import PosCart from './PosCart'
+import PosCart, { PosCartProps } from './PosCart'
 import posConfig from './posConfig'
 
 export interface PosLayoutProps extends DashboardLayoutProps {
   navItemLeftTitle?: string
   navItemCenterTitle?: string
   navItemRightTitle?: string
+  cartProps?: PosCartProps
 }
 
 const PosLayout: React.FC<PosLayoutProps> = (props) => {
-  const { navItemLeftTitle, navItemCenterTitle, navItemRightTitle } = props
+  const {
+    navItemLeftTitle,
+    navItemCenterTitle,
+    navItemRightTitle,
+    cartProps,
+    ...rest
+  } = props
   const [isPosCartDrawerOpen, setIsPosCartDrawerOpen] = useState(true)
-
   return (
     <DashboardLayout
       disablePadding
@@ -64,11 +70,11 @@ const PosLayout: React.FC<PosLayoutProps> = (props) => {
         },
       }}
       // Right Aside
-      rightAside={<PosCart />}
+      rightAside={<PosCart {...cartProps} />}
       rightAsideOpen={isPosCartDrawerOpen}
       setRightAsideOpen={setIsPosCartDrawerOpen}
       rightAsideWidth={posConfig.cartDrawerMaxWidth}
-      {...props}
+      {...rest}
     />
   )
 }
