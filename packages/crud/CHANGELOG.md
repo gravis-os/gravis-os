@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.97
+
+### Patch Changes
+
+- [#229](https://github.com/gravis-os/gravis-os/pull/229) [`ecefa845`](https://github.com/gravis-os/gravis-os/commit/ecefa845d6f526a992697974dc2f6f96000e4e29) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix null spread error in CrudForm
+
 ## 0.0.96
 
 ### Patch Changes
