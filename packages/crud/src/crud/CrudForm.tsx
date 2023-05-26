@@ -205,19 +205,20 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
                 {...headerProps}
                 actionButtons={[
                   ...(headerProps?.actionButtons || []),
-                  ...(!disableReadOnlyButton &&
-                    !isNew && [
-                      {
-                        key: 'edit',
-                        type: 'button' as ButtonProps['type'],
-                        title: isReadOnly ? 'Edit' : 'Cancel',
-                        disabled: isSubmitting,
-                        onClick: () => {
-                          reset()
-                          setIsReadOnly(!isReadOnly)
+                  ...(!disableReadOnlyButton && !isNew
+                    ? [
+                        {
+                          key: 'edit',
+                          type: 'button' as ButtonProps['type'],
+                          title: isReadOnly ? 'Edit' : 'Cancel',
+                          disabled: isSubmitting,
+                          onClick: () => {
+                            reset()
+                            setIsReadOnly(!isReadOnly)
+                          },
                         },
-                      },
-                    ]),
+                      ]
+                    : []),
                 ]}
                 buttonProps={{
                   key: 'save',
