@@ -15,7 +15,7 @@ import { Salesperson } from './types'
 
 export interface PosAddStaffDialogProps {
   open: boolean
-  onClose: () => void
+  onClose: VoidFunction
   cartIndex: number
   salespersonModule?: CrudModule
   setQuery?: UseListProps['setQuery']

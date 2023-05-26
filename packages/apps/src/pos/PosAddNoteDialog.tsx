@@ -8,7 +8,7 @@ import { usePos } from './PosProvider'
 
 export interface PosAddNoteDialogProps {
   open: boolean
-  onClose: () => void
+  onClose: VoidFunction
   addNoteFields?: React.ReactNode
 }
 

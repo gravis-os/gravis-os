@@ -51,7 +51,6 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
       key: 'apply-discount',
       label: 'Apply Discount',
       icon: <PercentOutlinedIcon sx={{ color: 'gray' }} />,
-      action: () => console.log('apply-discount'),
     },
     {
       key: 'add-note',
@@ -63,7 +62,6 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
       key: 'add-staff',
       label: 'Add Staff',
       icon: <PersonIcon sx={{ color: 'gray' }} />,
-      action: () => console.log('add-staff'),
     },
   ]
 
@@ -107,7 +105,7 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
                     {field.label}
                   </Typography>
                 </Stack>
-                <IconButton onClick={field.action}>
+                <IconButton onClick={field?.action}>
                   <KeyboardArrowRightOutlinedIcon sx={{ fontSize: 36 }} />
                 </IconButton>
               </Stack>

@@ -12,7 +12,7 @@ import QuantityButtonGroup from './QuantityButtonGroup'
 
 export interface PosCartEditCartItemDialogProps {
   open: boolean
-  onClose: () => void
+  onClose: VoidFunction
   cartIndex: number
   productSpecImagesQueryResult?: UseListReturn
 }

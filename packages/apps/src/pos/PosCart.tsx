@@ -27,14 +27,14 @@ export interface PosCartProps {
   editCartItemOpen?: boolean
   disableEditCartItem?: boolean
   setEditCartItemOpen?: React.Dispatch<React.SetStateAction<boolean>>
-  editCartItemProps?: any
+  editCartItemProps?: Record<string, any>
 
   // More actions
   moreActions?: React.ReactNode
   moreActionsOpen?: boolean
   disableMoreActions?: boolean
   setMoreActionsOpen?: React.Dispatch<React.SetStateAction<boolean>>
-  moreActionsProps?: any
+  moreActionsProps?: Record<string, any>
 
   productSpecImagesQueryResult?: UseListReturn
   sx?: SxProps

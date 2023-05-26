@@ -11,7 +11,7 @@ import { Customer } from './types'
 
 export interface PosAddCustomerDialogProps {
   open: boolean
-  onClose: () => void
+  onClose: VoidFunction
   customerModule?: CrudModule
   addCustomerFields?: React.ReactNode
 }

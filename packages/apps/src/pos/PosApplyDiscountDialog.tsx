@@ -18,7 +18,7 @@ import { usePos } from './PosProvider'
 
 export interface PosApplyDiscountDialogProps {
   open: boolean
-  onClose: () => void
+  onClose: VoidFunction
   cartIndex: number
 }
 

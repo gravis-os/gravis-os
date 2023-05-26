@@ -17,7 +17,7 @@ const posConfig = {
   // ==============================
   // Constants
   // ==============================
-  tax_rate: 0.07,
+  tax_rate: 0.08,
   prefix: 'POS',
   receipt_bucket: 'POS_receipt',
   default_currency: 'SGD',
