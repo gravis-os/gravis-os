@@ -1,4 +1,4 @@
-import React, { SVGProps, useState } from 'react'
+import React, { ElementType, useState } from 'react'
 import { useGetItem } from '@gravis-os/crud'
 import { CrudModule } from '@gravis-os/types'
 import {
@@ -27,7 +27,7 @@ export interface PosPaymentSuccessProps {
   receiptModule?: CrudModule
   emailReceiptDialog?: React.ReactNode
   contactModule?: CrudModule
-  receiptLogo?: SVGProps<SVGSVGElement>
+  receiptLogo?: ElementType<any>
 }
 
 const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {

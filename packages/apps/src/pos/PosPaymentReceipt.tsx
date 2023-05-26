@@ -1,4 +1,4 @@
-import React, { SVGProps } from 'react'
+import React, { ElementType } from 'react'
 import { DataTable } from '@gravis-os/crud'
 import { Box, Card, Divider, Grid, Stack, Typography } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
@@ -12,7 +12,7 @@ export const PRINT_PDF_A4_WIDTH = '755px'
 
 export interface PosPaymentReceiptProps {
   item: Receipt
-  receiptLogo?: SVGProps<SVGSVGElement>
+  receiptLogo?: ElementType<any>
 }
 
 const PosPaymentReceipt: React.FC<PosPaymentReceiptProps> = (props) => {
