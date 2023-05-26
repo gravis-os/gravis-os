@@ -86,9 +86,7 @@ const CrudTableActionsColumnCellRenderer: React.FC<
     },
   ].filter(Boolean)
 
-  if (node?.footer) {
-    return <></>
-  }
+  if (node?.footer) return null
 
   return (
     <Stack
