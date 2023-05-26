@@ -31,4 +31,18 @@ export const getDiscountedPrice = (
   }
 }
 
+export const getDiscountAmount = (item: CartItem) => {
+  const { discount, discountType, quantity } = item || {}
+  switch (discountType) {
+    case 'amount':
+      return `- $${discount * (quantity || 1)}`
+    case 'percentage':
+      return `- ${discount}%`
+    case 'override':
+      return 'Special price'
+    default:
+      return ''
+  }
+}
+
 export default getDiscountedPriceFromItem

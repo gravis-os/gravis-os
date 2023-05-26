@@ -5,12 +5,15 @@ import {
   Badge,
   ListItem,
   ListItemProps,
+  Stack,
   Typography,
   withStates,
 } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
-import getDiscountedPriceFromItem from '../utils/getDiscountedPriceFromItem'
+import getDiscountedPriceFromItem, {
+  getDiscountAmount,
+} from '../utils/getDiscountedPriceFromItem'
 import { CartItem } from './types'
 
 export interface PosProductListItemProps extends ListItemProps {
@@ -21,7 +24,7 @@ export interface PosProductListItemProps extends ListItemProps {
 
 const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
   const { item, itemProps, productSpecImagesQueryResult, ...rest } = props
-  const { id: product_id, quantity } = item || {}
+  const { id: product_id, quantity, price, discount, discountType } = item || {}
 
   const { items: productSpecImages } =
     (productSpecImagesQueryResult as any) || {}
@@ -54,9 +57,21 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
       </Typography>
     ),
     right: (
-      <Typography variant="subtitle1">
-        {printAmount(getDiscountedPriceFromItem(item))}
-      </Typography>
+      <Stack>
+        {discount && discountType && (
+          <>
+            <Typography variant="subtitle2" color="red">
+              {printAmount(price * quantity)}
+            </Typography>
+            <Typography variant="subtitle2" color="red">
+              {getDiscountAmount(item)}
+            </Typography>
+          </>
+        )}
+        <Typography variant="subtitle1">
+          {printAmount(getDiscountedPriceFromItem(item))}
+        </Typography>
+      </Stack>
     ),
     endIcon: (
       <KeyboardArrowRightOutlinedIcon sx={{ color: 'text.secondary' }} />
