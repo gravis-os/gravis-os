@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.59
+
+### Patch Changes
+
+- [#226](https://github.com/gravis-os/gravis-os/pull/226) [`2a934902`](https://github.com/gravis-os/gravis-os/commit/2a93490202b8b1c921d90126a33ef9af7e24d249) Thanks [@jovanchan1](https://github.com/jovanchan1)! - updates files in apps/pos
+
 ## 0.0.58
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.98
+
+### Patch Changes
+
+- [#231](https://github.com/gravis-os/gravis-os/pull/231) [`1a6da33b`](https://github.com/gravis-os/gravis-os/commit/1a6da33b927057875defeea98b4078d9a300fc5c) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(crud): hide CrudTableActionsColumnCell if the cell is footer.
+
 ## 0.0.97
 
 ### Patch Changes
