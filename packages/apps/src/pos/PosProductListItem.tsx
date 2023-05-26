@@ -26,12 +26,12 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
   const { item, itemProps, productSpecImagesQueryResult, ...rest } = props
   const { id: product_id, quantity, price, discount, discountType } = item || {}
 
-  const { items: productSpecImages } =
-    (productSpecImagesQueryResult as any) || {}
+  const { items: productSpecImages } = productSpecImagesQueryResult || {}
 
   const productSpecImage =
     productSpecImages?.filter(
-      ({ product_id: image_product_id }) => image_product_id === product_id
+      ({ product_id: image_product_id }: { product_id: any }) =>
+        image_product_id === product_id
     ) || {}
 
   const { src, alt } = (productSpecImage?.[0] as any) || {}
