@@ -77,7 +77,7 @@ const PosProvider: React.FC<PosProviderProps> = (props) => {
     ...cart,
     subtotal,
     tax: subtotal * posConfig.tax_rate,
-    total: subtotal * 1.07,
+    total: subtotal * (posConfig.tax_rate + 1),
   }
 
   // Create Receipt
@@ -87,7 +87,7 @@ const PosProvider: React.FC<PosProviderProps> = (props) => {
 
   const createReceipt = async (cart: Cart) => {
     const { data, error } = await createReceiptMutation.mutateAsync({
-      ...omit(cart, ['items', 'paymentMethod', 'receipt_id']),
+      ...omit(cart, ['items', 'paymentMethod', 'receipt_id', 'note']),
       cart_items: cart.items,
       payment_method: cart.paymentMethod,
     })

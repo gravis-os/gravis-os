@@ -1,7 +1,7 @@
 import React from 'react'
 import { UseListReturn } from '@gravis-os/query'
 import { CrudModule } from '@gravis-os/types'
-import { Stack } from '@gravis-os/ui'
+import { Box, CircularProgress, Stack } from '@gravis-os/ui'
 import PosProductListItem from './PosProductListItem'
 
 export interface PosProductListProps {
@@ -27,26 +27,41 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
     ...rest
   } = props
 
+  const { isLoading } = queryResult || {}
   const items = injectedItems || queryResult?.items || []
 
   return (
-    <Stack horizontalDividers>
-      {items?.map((item, i) => (
-        <PosProductListItem
-          key={item?.id}
-          item={item}
-          {...queryResult}
-          {...(onClick && { onClick: (e) => onClick(e, item, i) })}
-          itemProps={{
-            ...(disableEndIcon && { endIcon: null }),
-            ...(disableImage && { avatar: null }),
-            ...(disableRight && { right: null }),
-          }}
-          productSpecImagesQueryResult={productSpecImagesQueryResult}
-          {...rest}
-        />
-      ))}
-    </Stack>
+    <>
+      {isLoading ? (
+        <Box
+          minHeight="50vh"
+          justifyContent="center"
+          alignItems="center"
+          textAlign="center"
+          display="flex"
+        >
+          <CircularProgress />
+        </Box>
+      ) : (
+        <Stack horizontalDividers>
+          {items?.map((item, i) => (
+            <PosProductListItem
+              key={item?.id}
+              item={item}
+              {...queryResult}
+              {...(onClick && { onClick: (e) => onClick(e, item, i) })}
+              itemProps={{
+                ...(disableEndIcon && { endIcon: null }),
+                ...(disableImage && { avatar: null }),
+                ...(disableRight && { right: null }),
+              }}
+              productSpecImagesQueryResult={productSpecImagesQueryResult}
+              {...rest}
+            />
+          ))}
+        </Stack>
+      )}
+    </>
   )
 }
 
