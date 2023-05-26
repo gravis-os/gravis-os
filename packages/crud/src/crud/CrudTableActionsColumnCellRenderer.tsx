@@ -41,6 +41,7 @@ const CrudTableActionsColumnCellRenderer: React.FC<
   CrudTableActionsColumnCellRendererProps
 > = (props) => {
   const {
+    node,
     module,
     data: item,
     disableDelete,
@@ -84,6 +85,10 @@ const CrudTableActionsColumnCellRenderer: React.FC<
       },
     },
   ].filter(Boolean)
+
+  if (node?.footer) {
+    return <></>
+  }
 
   return (
     <Stack
