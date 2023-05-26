@@ -34,7 +34,7 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
         image_product_id === product_id
     ) || {}
 
-  const { src, alt } = (productSpecImage?.[0] as any) || {}
+  const { src, alt } = productSpecImage?.[0] || {}
 
   const listItemProps = {
     avatar: (
