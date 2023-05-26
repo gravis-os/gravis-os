@@ -109,7 +109,6 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
       title: 'Email Receipt',
       onClick: handleOpenEmailDialog,
     },
-    { key: 'sms-receipt', title: 'SMS Receipt' },
   ]
 
   if (isPrintMode) return <PosPaymentReceipt item={receipt} {...rest} />
@@ -152,7 +151,12 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
               <Grid container spacing={2}>
                 {receiptOptionItems.map((receiptOptionItem) => {
                   return (
-                    <Grid item xs={12} md={4} key={receiptOptionItem.key}>
+                    <Grid
+                      item
+                      xs={12}
+                      md={12 / (receiptOptionItems?.length || 1)}
+                      key={receiptOptionItem.key}
+                    >
                       <Button
                         fullWidth
                         color="inherit"
