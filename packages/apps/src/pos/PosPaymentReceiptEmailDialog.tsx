@@ -24,7 +24,7 @@ import posConfig from './posConfig'
 
 interface PosPaymentReceiptEmailDialogProps {
   open: boolean
-  onClose: () => void
+  onClose: VoidFunction
   generatePdf?: (params: any) => Promise<Blob>
   contactModule?: CrudModule
 }

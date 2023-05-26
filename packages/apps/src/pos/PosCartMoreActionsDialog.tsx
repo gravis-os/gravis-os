@@ -19,8 +19,8 @@ import PosAddNoteDialog from './PosAddNoteDialog'
 
 export interface PosCartMoreActionsDialogProps {
   open: boolean
-  onClose: () => void
-  addCustomerProps?: any
+  onClose: VoidFunction
+  addCustomerProps?: Record<string, any>
 }
 
 const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
