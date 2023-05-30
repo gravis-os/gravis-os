@@ -1,8 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import { SxProps } from '@mui/material'
-import { Button, Card, Stack, Typography } from '@gravis-os/ui'
-import { CrudModule } from '@gravis-os/types'
+import ButtonGroup from '@mui/material/ButtonGroup'
+import { Button, Card, IconButton, Stack, Typography } from '@gravis-os/ui'
+import type { CrudModule, RenderPropsFunction } from '@gravis-os/types'
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined'
+import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined'
 import { printSingularOrPluralText } from '@gravis-os/utils'
 import type { BodyScrollEvent } from 'ag-grid-community'
 import type { UseListReturn } from '@gravis-os/query'
@@ -29,6 +32,12 @@ export interface DataTableProps extends AgGridProps {
    */
   serverSideRowCount?: number
   tableTitle?: React.ReactNode
+
+  disableManageColumnMenu?: boolean
+  disableViewSwitch?: boolean
+  renderEditComponent?: RenderPropsFunction<{
+    items
+  }>
 }
 
 /**
@@ -58,8 +67,14 @@ const DataTable = React.forwardRef<
 
     tableTitle,
 
+    disableManageColumnMenu = false,
+    disableViewSwitch = true,
+    renderEditComponent,
+
     ...rest
   } = props
+
+  const [viewStyle, setViewStyle] = useState<'list' | 'grid'>('list')
 
   const [columnDefs, setColumnDefs] = useState(injectedColumnDefs)
   useEffect(() => {
@@ -183,36 +198,70 @@ const DataTable = React.forwardRef<
                 </Button>
               )}
 
+              {/* View Switch */}
+              {!disableViewSwitch && (
+                <ButtonGroup variant="outlined">
+                  <IconButton
+                    aria-label="list"
+                    onClick={() => setViewStyle('list')}
+                    sx={{
+                      ...(viewStyle === 'list' && { bgcolor: '#EEEEEE' }),
+                      borderRadius: 0,
+                    }}
+                  >
+                    <FormatListBulletedOutlinedIcon />
+                  </IconButton>
+
+                  <IconButton
+                    aria-label="grid"
+                    onClick={() => setViewStyle('grid')}
+                    sx={{
+                      ...(viewStyle === 'grid' && { bgcolor: '#EEEEEE' }),
+                      borderRadius: 0,
+                    }}
+                  >
+                    <GridViewOutlinedIcon />
+                  </IconButton>
+                </ButtonGroup>
+              )}
+
               {/* ManageColumnsMenuButton */}
-              <ManageColumnsMenuButton
-                initialColumnDefs={injectedColumnDefs}
-                columnDefs={columnDefs}
-                setColumnDefs={setColumnDefs}
-              />
+              {!disableManageColumnMenu && (
+                <ManageColumnsMenuButton
+                  initialColumnDefs={injectedColumnDefs}
+                  columnDefs={columnDefs}
+                  setColumnDefs={setColumnDefs}
+                />
+              )}
             </Stack>
           </Stack>
         </Card>
       )}
 
-      {/* AgGrid */}
-      <AgGrid
-        components={{
-          ModelFieldEditor: AgGridModelFieldEditor,
-          ...components,
-        }}
-        ref={ref}
-        columnDefs={columnDefs}
-        // Ag Grid Props
-        animateRows
-        disableResizeGrid
-        enableCellChangeFlash
-        rowSelection="multiple"
-        rowDragManaged
-        rowDragMultiRow
-        suppressRowClickSelection
-        suppressMoveWhenRowDragging
-        {...agGridProps}
-      />
+      {viewStyle === 'list' ? (
+        // AgGrid
+        <AgGrid
+          components={{
+            ModelFieldEditor: AgGridModelFieldEditor,
+            ...components,
+          }}
+          ref={ref}
+          columnDefs={columnDefs}
+          // Ag Grid Props
+          animateRows
+          disableResizeGrid
+          enableCellChangeFlash
+          rowSelection="multiple"
+          rowDragManaged
+          rowDragMultiRow
+          suppressRowClickSelection
+          suppressMoveWhenRowDragging
+          {...agGridProps}
+        />
+      ) : (
+        // Grid
+        renderEditComponent({ items: rowData })
+      )}
     </>
   )
 })
