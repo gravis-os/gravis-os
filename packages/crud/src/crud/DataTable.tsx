@@ -35,7 +35,7 @@ export interface DataTableProps extends AgGridProps {
 
   disableManageColumnMenu?: boolean
   disableViewSwitch?: boolean
-  renderEditComponent?: RenderPropsFunction<{
+  renderGridComponent?: RenderPropsFunction<{
     items
   }>
 }
@@ -69,7 +69,7 @@ const DataTable = React.forwardRef<
 
     disableManageColumnMenu = false,
     disableViewSwitch = true,
-    renderEditComponent,
+    renderGridComponent,
 
     ...rest
   } = props
@@ -260,7 +260,7 @@ const DataTable = React.forwardRef<
         />
       ) : (
         // Grid
-        renderEditComponent({ items: rowData })
+        renderGridComponent({ items: rowData })
       )}
     </>
   )
