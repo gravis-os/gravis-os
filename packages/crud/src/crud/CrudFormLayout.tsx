@@ -9,9 +9,11 @@ const CrudFormLayout: React.FC<CrudFormLayoutProps> = (props) => {
   return (
     <Layout
       rightAside={
-        <Card title="Actions" padding={2}>
-          {rightAside}
-        </Card>
+        rightAside && (
+          <Card title="Actions" padding={2}>
+            {rightAside}
+          </Card>
+        )
       }
       rightAsideSticky
     >
