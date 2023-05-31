@@ -19,7 +19,7 @@ export interface CrudModule {
   name: { singular: string; plural: string }
   route?: { plural: string }
   table: { name: string; isJoinTable?: boolean }
-  select?: { detail?: string; list?: string }
+  select?: { detail?: string; list?: string; count?: string }
   Icon?: React.ElementType
   relations?: {
     [key: string]: {
