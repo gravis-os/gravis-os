@@ -22,13 +22,13 @@ import posConfig from './posConfig'
 import { Customer, Receipt } from './types'
 import { getReceiptFileName } from '.'
 
-export interface TCreatedPdf {
+export interface pdfMakeGeneratorResult {
   download(cb?: () => void, options?: any): void
   download(defaultFileName: string, cb?: () => void, options?: any): void
   getBlob(cb: (result: Blob) => void, options?: any): void
 }
 export interface PosPaymentSuccessProps {
-  pdfMakeGenerator?: (reportType: string, item) => TCreatedPdf
+  pdfMakeGenerator?: (reportType: string, item) => pdfMakeGeneratorResult
   receiptModule?: CrudModule
   emailReceiptDialog?: React.ReactNode
   contactModule?: CrudModule
@@ -118,7 +118,7 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
     <Stack spacing={2}>
       <Box sx={{ textAlign: 'center', p: 2 }}>
         <Typography variant="h1">
-          Change Due 2: {printAmount((paid || 0) - (total || 0))}
+          Change Due: {printAmount((paid || 0) - (total || 0))}
         </Typography>
       </Box>
 

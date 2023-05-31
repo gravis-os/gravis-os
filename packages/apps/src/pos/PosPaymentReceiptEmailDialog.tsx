@@ -22,12 +22,12 @@ import getReceiptFileName from '../utils/getReceiptFileName'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 import { Receipt } from './types'
-import { TCreatedPdf } from './PosPaymentSuccess'
+import { pdfMakeGeneratorResult } from './PosPaymentSuccess'
 
 interface PosPaymentReceiptEmailDialogProps {
   open: boolean
   onClose: VoidFunction
-  pdfMakeGenerator?: (reportType: string, item) => TCreatedPdf // pdfDocGenerator from pdfMake
+  pdfMakeGenerator?: (reportType: string, item) => pdfMakeGeneratorResult // pdfDocGenerator from pdfMake
   contactModule?: CrudModule
   receipt?: Receipt
 }
@@ -41,7 +41,7 @@ const PosPaymentReceiptEmailDialog: React.FC<
   const [contactEmail, setContactEmail] = useState<string>(
     cart?.customer?.email ?? ''
   )
-  const fileName = getReceiptFileName(toString(cart?.receipt_id))
+  const receiptFileName = getReceiptFileName(toString(cart?.receipt_id))
 
   const handleOnChangeContact = (selectedContact) => {
     setContact(selectedContact)
@@ -50,7 +50,7 @@ const PosPaymentReceiptEmailDialog: React.FC<
 
   const getNewPdfUrl = async (blob) => {
     // generate new pdf
-    const filepath = `${posConfig.receipt_bucket}/${fileName}`
+    const filepath = `${posConfig.receipt_bucket}/${receiptFileName}`
 
     const { data, error: uploadError } = await supabaseClient.storage
       .from('public')
@@ -63,16 +63,15 @@ const PosPaymentReceiptEmailDialog: React.FC<
   }
 
   const sendEmail = async (pdfUrl: string) => {
-    await fetch(posConfig.routes.SEND_PAYMENT_RECEIPT, {
+    const res = await fetch(posConfig.routes.SEND_PAYMENT_RECEIPT, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: contactEmail,
         link: pdfUrl,
       }),
-    }).then((res) => {
-      if (!res.ok) throw new Error('Something went wrong')
     })
+    if (!res.ok) throw new Error('Something went wrong')
     await toast.success('Your payment receipt email has been sent!')
   }
 
@@ -82,7 +81,7 @@ const PosPaymentReceiptEmailDialog: React.FC<
         const { data: paymentReceiptPdf, error } = await supabaseClient.storage
           .from('public')
           .list(posConfig.receipt_bucket, {
-            search: fileName,
+            search: receiptFileName,
           })
         if (error) {
           throw error
