@@ -250,6 +250,7 @@ const Slider: React.FC<SliderProps> = (props) => {
               instanceRef.current?.prev()
             }}
             disabled={!loop && currentSlide === 0}
+            aria-label="Slider navigate previous"
           >
             <NavigateBeforeOutlinedIcon />
           </IconButton>
@@ -271,6 +272,7 @@ const Slider: React.FC<SliderProps> = (props) => {
               currentSlide ===
                 instanceRef.current.track.details.slides.length - 1
             }
+            aria-label="Slider navigate previous"
           >
             <NavigateNextOutlinedIcon />
           </IconButton>
