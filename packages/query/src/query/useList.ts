@@ -315,11 +315,16 @@ export const getFetchListQueryFn = (props: UseListProps) => {
     // Setup query
     const query = supabaseClient
       .from(module.table.name)
-      .select(countOnly ? '*' : select || module?.select?.list || '*', {
-        // This is both the HEAD and GET query as this count gets overriden from above.
-        count: 'exact',
-        ...countProps,
-      })
+      .select(
+        countOnly
+          ? module?.select?.count || '*'
+          : select || module?.select?.list || '*',
+        {
+          // This is both the HEAD and GET query as this count gets overriden from above.
+          count: 'exact',
+          ...countProps,
+        }
+      )
 
     // Apply filters
     if (match) query.match(match)
