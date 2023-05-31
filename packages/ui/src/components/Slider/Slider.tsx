@@ -272,7 +272,7 @@ const Slider: React.FC<SliderProps> = (props) => {
               currentSlide ===
                 instanceRef.current.track.details.slides.length - 1
             }
-            aria-label="Slider navigate previous"
+            aria-label="Slider navigate next"
           >
             <NavigateNextOutlinedIcon />
           </IconButton>
