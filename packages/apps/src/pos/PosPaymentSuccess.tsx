@@ -15,15 +15,20 @@ import {
 import { printAmount } from '@gravis-os/utils'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
 import { useRouter } from 'next/router'
-import getReceiptFileName from '../utils/getReceiptFileName'
-import PosPaymentReceipt from './PosPaymentReceipt'
+import toString from 'lodash/toString'
 import PosPaymentReceiptEmailDialog from './PosPaymentReceiptEmailDialog'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 import { Customer, Receipt } from './types'
+import { getReceiptFileName } from '.'
 
+export interface GetPdfMakeGeneratorResult {
+  download(cb?: () => void, options?: any): void
+  download(defaultFileName: string, cb?: () => void, options?: any): void
+  getBlob(cb: (result: Blob) => void, options?: any): void
+}
 export interface PosPaymentSuccessProps {
-  printFunction?: any // usePdfPrint hook
+  getPdfMakeGenerator?: (reportType: string, item) => GetPdfMakeGeneratorResult
   receiptModule?: CrudModule
   emailReceiptDialog?: React.ReactNode
   contactModule?: CrudModule
@@ -33,16 +38,15 @@ export interface PosPaymentSuccessProps {
 const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
   const {
     receiptModule,
-    printFunction,
     emailReceiptDialog: injectedEmailReceiptDialog,
+    getPdfMakeGenerator,
     ...rest
   } = props
   const { resetCart } = usePos()
-  const { isPrintMode, downloadPdf, generatePdf } = printFunction()
   const router = useRouter()
   const onUseGetItem = useGetItem({ module: receiptModule })
   const { item: receipt }: { item: Receipt } = onUseGetItem
-  const { payment_method, total, id, paid, customer } = receipt || {}
+  const { payment_method, total, paid, customer } = receipt || {}
   const { full_name, email } = (customer as any as Customer) || {}
 
   const handleDone = () => {
@@ -78,10 +82,8 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
   } as TypographyProps
 
   const handleOnClickPrintReceipt = async () => {
-    downloadPdf({
-      url: `${window.location.href}`,
-      filename: getReceiptFileName(`${id}`),
-    })
+    const fileName = getReceiptFileName(toString(receipt?.id))
+    getPdfMakeGenerator('Receipt', receipt).download(fileName)
   }
 
   // Email Receipt
@@ -93,7 +95,8 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
     <PosPaymentReceiptEmailDialog
       open={isEmailDialogOpen}
       onClose={handleCloseEmailDialog}
-      generatePdf={generatePdf}
+      getPdfMakeGenerator={getPdfMakeGenerator}
+      receipt={receipt}
       {...rest}
     />
   )
@@ -110,8 +113,6 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
       onClick: handleOpenEmailDialog,
     },
   ]
-
-  if (isPrintMode) return <PosPaymentReceipt item={receipt} {...rest} />
 
   return (
     <Stack spacing={2}>

@@ -41,7 +41,7 @@ const PosCartEditCartItemDialog: React.FC<PosCartEditCartItemDialogProps> = (
 
   const { src, alt } = (productSpecImage?.[0] as any) || {}
 
-  const [quantity, setQuantity] = useState(1)
+  const [quantity, setQuantity] = useState(item?.quantity || 1)
 
   useEffect(() => {
     setQuantity(item?.quantity || 1)
