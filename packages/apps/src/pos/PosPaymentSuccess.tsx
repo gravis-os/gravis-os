@@ -22,13 +22,13 @@ import posConfig from './posConfig'
 import { Customer, Receipt } from './types'
 import { getReceiptFileName } from '.'
 
-export interface pdfMakeGeneratorResult {
+export interface GetPdfMakeGeneratorResult {
   download(cb?: () => void, options?: any): void
   download(defaultFileName: string, cb?: () => void, options?: any): void
   getBlob(cb: (result: Blob) => void, options?: any): void
 }
 export interface PosPaymentSuccessProps {
-  pdfMakeGenerator?: (reportType: string, item) => pdfMakeGeneratorResult
+  getPdfMakeGenerator?: (reportType: string, item) => GetPdfMakeGeneratorResult
   receiptModule?: CrudModule
   emailReceiptDialog?: React.ReactNode
   contactModule?: CrudModule
@@ -39,7 +39,7 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
   const {
     receiptModule,
     emailReceiptDialog: injectedEmailReceiptDialog,
-    pdfMakeGenerator,
+    getPdfMakeGenerator,
     ...rest
   } = props
   const { resetCart } = usePos()
@@ -83,7 +83,7 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
 
   const handleOnClickPrintReceipt = async () => {
     const fileName = getReceiptFileName(toString(receipt?.id))
-    pdfMakeGenerator('Receipt', receipt).download(fileName)
+    getPdfMakeGenerator('Receipt', receipt).download(fileName)
   }
 
   // Email Receipt
@@ -95,7 +95,7 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
     <PosPaymentReceiptEmailDialog
       open={isEmailDialogOpen}
       onClose={handleCloseEmailDialog}
-      pdfMakeGenerator={pdfMakeGenerator}
+      getPdfMakeGenerator={getPdfMakeGenerator}
       receipt={receipt}
       {...rest}
     />

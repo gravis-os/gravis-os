@@ -22,12 +22,12 @@ import getReceiptFileName from '../utils/getReceiptFileName'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 import { Receipt } from './types'
-import { pdfMakeGeneratorResult } from './PosPaymentSuccess'
+import { GetPdfMakeGeneratorResult } from './PosPaymentSuccess'
 
 interface PosPaymentReceiptEmailDialogProps {
   open: boolean
   onClose: VoidFunction
-  pdfMakeGenerator?: (reportType: string, item) => pdfMakeGeneratorResult // pdfDocGenerator from pdfMake
+  getPdfMakeGenerator?: (reportType: string, item) => GetPdfMakeGeneratorResult // pdfDocGenerator from pdfMake
   contactModule?: CrudModule
   receipt?: Receipt
 }
@@ -35,7 +35,7 @@ interface PosPaymentReceiptEmailDialogProps {
 const PosPaymentReceiptEmailDialog: React.FC<
   PosPaymentReceiptEmailDialogProps
 > = (props) => {
-  const { open, onClose, contactModule, pdfMakeGenerator, receipt } = props
+  const { open, onClose, contactModule, getPdfMakeGenerator, receipt } = props
   const { cart } = usePos()
   const [contact, setContact] = useState(cart?.customer)
   const [contactEmail, setContactEmail] = useState<string>(
@@ -77,7 +77,7 @@ const PosPaymentReceiptEmailDialog: React.FC<
 
   const handleSendEmailReceipt = async () => {
     try {
-      pdfMakeGenerator('Receipt', receipt).getBlob(async (blob) => {
+      getPdfMakeGenerator('Receipt', receipt).getBlob(async (blob) => {
         const { data: paymentReceiptPdf, error } = await supabaseClient.storage
           .from('public')
           .list(posConfig.receipt_bucket, {
