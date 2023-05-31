@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.0
+
+### Minor Changes
+
+- [#237](https://github.com/gravis-os/gravis-os/pull/237) [`5e4b736`](https://github.com/gravis-os/gravis-os/commit/5e4b7361404f9085bf5a234fed56481cce4429b1) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - add fullScreenOnMobile prop to dialog
+
 ## 0.0.113
 
 ### Patch Changes
