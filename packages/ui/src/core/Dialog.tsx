@@ -2,6 +2,8 @@ import React from 'react'
 import {
   Dialog as MuiDialog,
   DialogProps as MuiDialogProps,
+  useMediaQuery,
+  useTheme
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
 import Slide from '@mui/material/Slide'
@@ -43,6 +45,7 @@ export interface DialogProps extends MuiDialogProps {
   disableTransition?: boolean
   transitionVariant?: DialogTransitionVariantEnum | string
   disableTitle?: boolean
+  fullScreenOnMobile?: boolean
 }
 
 const getTransitionComponentByTransitionVariant = (
@@ -65,12 +68,17 @@ const Dialog: React.FC<DialogProps> = (props) => {
     title,
     titleProps,
     children,
+    fullScreenOnMobile,
     ...rest
   } = props
   const { onClose } = rest
 
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
+
   const dialogProps = {
     fullWidth: true,
+    fullScreen: fullScreenOnMobile && !isDesktop,
     ...(!disableTransition && {
       TransitionComponent:
         getTransitionComponentByTransitionVariant(transitionVariant),
