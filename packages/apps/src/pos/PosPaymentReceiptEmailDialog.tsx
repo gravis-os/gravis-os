@@ -22,11 +22,12 @@ import getReceiptFileName from '../utils/getReceiptFileName'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 import { Receipt } from './types'
+import { TCreatedPdf } from './PosPaymentSuccess'
 
 interface PosPaymentReceiptEmailDialogProps {
   open: boolean
   onClose: VoidFunction
-  getPdfGenerator?: any // pdfDocGenerator from pdfMake
+  pdfMakeGenerator?: (reportType: string, item) => TCreatedPdf // pdfDocGenerator from pdfMake
   contactModule?: CrudModule
   receipt?: Receipt
 }
@@ -34,12 +35,13 @@ interface PosPaymentReceiptEmailDialogProps {
 const PosPaymentReceiptEmailDialog: React.FC<
   PosPaymentReceiptEmailDialogProps
 > = (props) => {
-  const { open, onClose, contactModule, getPdfGenerator, receipt } = props
+  const { open, onClose, contactModule, pdfMakeGenerator, receipt } = props
   const { cart } = usePos()
   const [contact, setContact] = useState(cart?.customer)
   const [contactEmail, setContactEmail] = useState<string>(
     cart?.customer?.email ?? ''
   )
+  const fileName = getReceiptFileName(toString(cart?.receipt_id))
 
   const handleOnChangeContact = (selectedContact) => {
     setContact(selectedContact)
@@ -48,7 +50,6 @@ const PosPaymentReceiptEmailDialog: React.FC<
 
   const getNewPdfUrl = async (blob) => {
     // generate new pdf
-    const fileName = getReceiptFileName(toString(cart?.receipt_id))
     const filepath = `${posConfig.receipt_bucket}/${fileName}`
 
     const { data, error: uploadError } = await supabaseClient.storage
@@ -77,8 +78,7 @@ const PosPaymentReceiptEmailDialog: React.FC<
 
   const handleSendEmailReceipt = async () => {
     try {
-      getPdfGenerator('Receipt', receipt, []).getBlob(async (blob) => {
-        const fileName = getReceiptFileName(toString(cart?.receipt_id))
+      pdfMakeGenerator('Receipt', receipt).getBlob(async (blob) => {
         const { data: paymentReceiptPdf, error } = await supabaseClient.storage
           .from('public')
           .list(posConfig.receipt_bucket, {

@@ -15,13 +15,20 @@ import {
 import { printAmount } from '@gravis-os/utils'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
 import { useRouter } from 'next/router'
+import toString from 'lodash/toString'
 import PosPaymentReceiptEmailDialog from './PosPaymentReceiptEmailDialog'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 import { Customer, Receipt } from './types'
+import { getReceiptFileName } from '.'
 
+export interface TCreatedPdf {
+  download(cb?: () => void, options?: any): void
+  download(defaultFileName: string, cb?: () => void, options?: any): void
+  getBlob(cb: (result: Blob) => void, options?: any): void
+}
 export interface PosPaymentSuccessProps {
-  pdfMakePrintFunction?: any
+  pdfMakeGenerator?: (reportType: string, item) => TCreatedPdf
   receiptModule?: CrudModule
   emailReceiptDialog?: React.ReactNode
   contactModule?: CrudModule
@@ -32,11 +39,10 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
   const {
     receiptModule,
     emailReceiptDialog: injectedEmailReceiptDialog,
-    pdfMakePrintFunction,
+    pdfMakeGenerator,
     ...rest
   } = props
   const { resetCart } = usePos()
-  const { print, getPdfGenerator } = pdfMakePrintFunction()
   const router = useRouter()
   const onUseGetItem = useGetItem({ module: receiptModule })
   const { item: receipt }: { item: Receipt } = onUseGetItem
@@ -76,7 +82,8 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
   } as TypographyProps
 
   const handleOnClickPrintReceipt = async () => {
-    print('Receipt', receipt)
+    const fileName = getReceiptFileName(toString(receipt?.id))
+    pdfMakeGenerator('Receipt', receipt).download(fileName)
   }
 
   // Email Receipt
@@ -88,7 +95,7 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
     <PosPaymentReceiptEmailDialog
       open={isEmailDialogOpen}
       onClose={handleCloseEmailDialog}
-      getPdfGenerator={getPdfGenerator}
+      pdfMakeGenerator={pdfMakeGenerator}
       receipt={receipt}
       {...rest}
     />
@@ -111,7 +118,7 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
     <Stack spacing={2}>
       <Box sx={{ textAlign: 'center', p: 2 }}>
         <Typography variant="h1">
-          Change Due: {printAmount((paid || 0) - (total || 0))}
+          Change Due 2: {printAmount((paid || 0) - (total || 0))}
         </Typography>
       </Box>
 
