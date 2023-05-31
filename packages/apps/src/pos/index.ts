@@ -36,3 +36,5 @@ export * from './PosPaymentSuccess'
 
 export { default as getDiscountedPriceFromItem } from '../utils/getDiscountedPriceFromItem'
 export * from '../utils/getDiscountedPriceFromItem'
+
+export { default as getReceiptFileName } from '../utils/getReceiptFileName'

@@ -15,15 +15,13 @@ import {
 import { printAmount } from '@gravis-os/utils'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
 import { useRouter } from 'next/router'
-import getReceiptFileName from '../utils/getReceiptFileName'
-import PosPaymentReceipt from './PosPaymentReceipt'
 import PosPaymentReceiptEmailDialog from './PosPaymentReceiptEmailDialog'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 import { Customer, Receipt } from './types'
 
 export interface PosPaymentSuccessProps {
-  printFunction?: any // usePdfPrint hook
+  pdfMakePrintFunction?: any
   receiptModule?: CrudModule
   emailReceiptDialog?: React.ReactNode
   contactModule?: CrudModule
@@ -33,16 +31,16 @@ export interface PosPaymentSuccessProps {
 const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
   const {
     receiptModule,
-    printFunction,
     emailReceiptDialog: injectedEmailReceiptDialog,
+    pdfMakePrintFunction,
     ...rest
   } = props
   const { resetCart } = usePos()
-  const { isPrintMode, downloadPdf, generatePdf } = printFunction()
+  const { print, getPdfGenerator } = pdfMakePrintFunction()
   const router = useRouter()
   const onUseGetItem = useGetItem({ module: receiptModule })
   const { item: receipt }: { item: Receipt } = onUseGetItem
-  const { payment_method, total, id, paid, customer } = receipt || {}
+  const { payment_method, total, paid, customer } = receipt || {}
   const { full_name, email } = (customer as any as Customer) || {}
 
   const handleDone = () => {
@@ -78,10 +76,7 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
   } as TypographyProps
 
   const handleOnClickPrintReceipt = async () => {
-    downloadPdf({
-      url: `${window.location.href}`,
-      filename: getReceiptFileName(`${id}`),
-    })
+    print('Receipt', receipt)
   }
 
   // Email Receipt
@@ -93,7 +88,8 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
     <PosPaymentReceiptEmailDialog
       open={isEmailDialogOpen}
       onClose={handleCloseEmailDialog}
-      generatePdf={generatePdf}
+      getPdfGenerator={getPdfGenerator}
+      receipt={receipt}
       {...rest}
     />
   )
@@ -110,8 +106,6 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
       onClick: handleOpenEmailDialog,
     },
   ]
-
-  if (isPrintMode) return <PosPaymentReceipt item={receipt} {...rest} />
 
   return (
     <Stack spacing={2}>

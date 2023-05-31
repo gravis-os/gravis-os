@@ -14,25 +14,27 @@ import {
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import noop from 'lodash/noop'
 import toString from 'lodash/toString'
 import toast from 'react-hot-toast'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import getReceiptFileName from '../utils/getReceiptFileName'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
+import { Receipt } from './types'
 
 interface PosPaymentReceiptEmailDialogProps {
   open: boolean
   onClose: VoidFunction
-  generatePdf?: (params: any) => Promise<Blob>
+  getPdfGenerator?: any // pdfDocGenerator from pdfMake
   contactModule?: CrudModule
+  receipt?: Receipt
 }
 
 const PosPaymentReceiptEmailDialog: React.FC<
   PosPaymentReceiptEmailDialogProps
 > = (props) => {
-  const { open, onClose, generatePdf, contactModule } = props
+  const { open, onClose, contactModule, getPdfGenerator, receipt } = props
   const { cart } = usePos()
   const [contact, setContact] = useState(cart?.customer)
   const [contactEmail, setContactEmail] = useState<string>(
@@ -44,40 +46,14 @@ const PosPaymentReceiptEmailDialog: React.FC<
     if (selectedContact?.email) setContactEmail(selectedContact.email)
   }
 
-  const generatePdfUrl = async () => {
-    const fileName = getReceiptFileName(toString(cart?.receipt_id))
-
-    if (!process.env.NEXT_PUBLIC_SUPABASE_URL)
-      throw new Error('NEXT_PUBLIC_SUPABASE_URL env variable is required!')
-
-    // check if file exists
-    const { data: paymentReceiptPdf, error } = await supabaseClient.storage
-      .from('public')
-      .list(posConfig.receipt_bucket, {
-        search: fileName,
-      })
-    if (error) {
-      throw error
-    }
-    if (paymentReceiptPdf?.length)
-      return process.env.NEXT_PUBLIC_SUPABASE_URL.concat(
-        `/storage/v1/object/public/public/${posConfig.receipt_bucket}/${paymentReceiptPdf[0].name}`
-      )
-
+  const getNewPdfUrl = async (blob) => {
     // generate new pdf
-    const promise = generatePdf({ filename: fileName })
-    const pdfBlob = await toast.promise(promise, {
-      loading: 'Kindly wait while we generate your payment receipt...',
-      success: 'Your payment receipt has been generated!',
-      error: 'There was an error generating your receipt!',
-    })
-
+    const fileName = getReceiptFileName(toString(cart?.receipt_id))
     const filepath = `${posConfig.receipt_bucket}/${fileName}`
 
-    // write to DB
     const { data, error: uploadError } = await supabaseClient.storage
       .from('public')
-      .upload(filepath, pdfBlob)
+      .upload(filepath, blob)
     if (uploadError) throw uploadError
 
     return process.env.NEXT_PUBLIC_SUPABASE_URL.concat(
@@ -85,20 +61,43 @@ const PosPaymentReceiptEmailDialog: React.FC<
     )
   }
 
+  const sendEmail = async (pdfUrl: string) => {
+    await fetch(posConfig.routes.SEND_PAYMENT_RECEIPT, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: contactEmail,
+        link: pdfUrl,
+      }),
+    }).then((res) => {
+      if (!res.ok) throw new Error('Something went wrong')
+    })
+    await toast.success('Your payment receipt email has been sent!')
+  }
+
   const handleSendEmailReceipt = async () => {
     try {
-      const pdfUrl = await generatePdfUrl()
-      await fetch(posConfig.routes.SEND_PAYMENT_RECEIPT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: contactEmail,
-          link: pdfUrl,
-        }),
-      }).then((res) => {
-        if (!res.ok) throw new Error('Something went wrong')
+      getPdfGenerator('Receipt', receipt, []).getBlob(async (blob) => {
+        const fileName = getReceiptFileName(toString(cart?.receipt_id))
+        const { data: paymentReceiptPdf, error } = await supabaseClient.storage
+          .from('public')
+          .list(posConfig.receipt_bucket, {
+            search: fileName,
+          })
+        if (error) {
+          throw error
+        }
+        if (paymentReceiptPdf?.length && cart?.receipt_id) {
+          const pdfUrl = process.env.NEXT_PUBLIC_SUPABASE_URL.concat(
+            `/storage/v1/object/public/public/${posConfig.receipt_bucket}/${paymentReceiptPdf[0].name}`
+          )
+          sendEmail(pdfUrl)
+        } else {
+          getNewPdfUrl(blob).then(async (pdfUrl) => {
+            sendEmail(pdfUrl)
+          })
+        }
       })
-      await toast.success('Your payment receipt email has been sent!')
     } catch (error) {
       console.error(error)
       toast.error('Something went wrong')
