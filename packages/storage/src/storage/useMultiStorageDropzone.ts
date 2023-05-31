@@ -122,9 +122,12 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       // Set UI after upload success
       setFiles((prevFiles) => {
         // We need to assign instead of spread because we need to mount on the File class
-        const newFilesWithId = newFiles.map((newFile, i) =>
-          Object.assign(newFile, { id: uploaded.data[i].id })
-        )
+        const newFilesWithId = newFiles.map((newFile, i) => {
+          if (!primaryRecord && setFormValue) {
+            return Object.assign(newFile, { id: i })
+          }
+          return Object.assign(newFile, { id: uploaded.data[i].id })
+        })
         return [...prevFiles, ...newFilesWithId].map((file) => {
           // Already existing file (this wasn't just uploaded)
           if (file.url) return file
