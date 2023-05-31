@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.42
+
+### Patch Changes
+
+- [#238](https://github.com/gravis-os/gravis-os/pull/238) [`9acc0c14`](https://github.com/gravis-os/gravis-os/commit/9acc0c1409d015ece7a50f9fbe553fa9af80d334) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Fix StorageGallery on new item upload. Fix form knowing that StorageGallery has changed and that the data is dirty.
+
 ## 0.0.41
 
 ### Patch Changes
