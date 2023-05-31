@@ -1,5 +1,19 @@
 # Changelog
 
+## 0.0.99
+
+### Patch Changes
+
+- [#233](https://github.com/gravis-os/gravis-os/pull/233) [`ba76e9a`](https://github.com/gravis-os/gravis-os/commit/ba76e9aff3444556873243a6871811bdffaf4a4a) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - allow hiding of rightAside in CrudFormLayout
+
+* [#232](https://github.com/gravis-os/gravis-os/pull/232) [`9e5f0b4`](https://github.com/gravis-os/gravis-os/commit/9e5f0b4c0bcee5ad43687d3831f2f91fcc244e9f) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): supported change DataTable view.
+
+  - feat(crud): supported disable column manage button.
+
+* Updated dependencies [[`dad4c8d`](https://github.com/gravis-os/gravis-os/commit/dad4c8dc25916e90c8c5426de98efb2fb53ad4df), [`b4e34fb`](https://github.com/gravis-os/gravis-os/commit/b4e34fb1890a464ea7515c84b889759223e175f5), [`921b2f9`](https://github.com/gravis-os/gravis-os/commit/921b2f959d9d4c79cd8437fbb60621dabaaa7774)]:
+  - @gravis-os/types@0.0.43
+  - @gravis-os/ui@0.0.113
+
 ## 0.0.98
 
 ### Patch Changes

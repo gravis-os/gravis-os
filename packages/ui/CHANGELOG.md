@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.113
+
+### Patch Changes
+
+- [#230](https://github.com/gravis-os/gravis-os/pull/230) [`b4e34fb`](https://github.com/gravis-os/gravis-os/commit/b4e34fb1890a464ea7515c84b889759223e175f5) Thanks [@shank1xt](https://github.com/shank1xt)! - Fix footer DOM order for links
+
+* [#234](https://github.com/gravis-os/gravis-os/pull/234) [`921b2f9`](https://github.com/gravis-os/gravis-os/commit/921b2f959d9d4c79cd8437fbb60621dabaaa7774) Thanks [@shank1xt](https://github.com/shank1xt)! - Add aria label to Slider element
+
+* Updated dependencies [[`dad4c8d`](https://github.com/gravis-os/gravis-os/commit/dad4c8dc25916e90c8c5426de98efb2fb53ad4df)]:
+  - @gravis-os/types@0.0.43
+
 ## 0.0.112
 
 ### Patch Changes

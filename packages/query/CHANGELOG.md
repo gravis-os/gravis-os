@@ -1,5 +1,14 @@
 # @gravis-os/query
 
+## 0.0.28
+
+### Patch Changes
+
+- [#235](https://github.com/gravis-os/gravis-os/pull/235) [`dad4c8d`](https://github.com/gravis-os/gravis-os/commit/dad4c8dc25916e90c8c5426de98efb2fb53ad4df) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add count select for filter with foreign table
+
+- Updated dependencies [[`dad4c8d`](https://github.com/gravis-os/gravis-os/commit/dad4c8dc25916e90c8c5426de98efb2fb53ad4df)]:
+  - @gravis-os/types@0.0.43
+
 ## 0.0.27
 
 ### Patch Changes
