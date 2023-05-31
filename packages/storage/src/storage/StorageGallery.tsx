@@ -13,6 +13,7 @@ import {
 } from '@gravis-os/ui'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import { UseFormReturn } from 'react-hook-form'
 import useMultiStorageDropzone, {
   UseMultiStorageDropzoneProps,
 } from './useMultiStorageDropzone'
@@ -74,7 +75,7 @@ export interface StorageGalleryProps
   name: string // The field name
   dropzoneProps?: DropzoneOptions
   label?: string // The field label
-  setValue?: (name: string, value: unknown) => void
+  setValue?: UseFormReturn['setValue']
   hidden?: boolean
 }
 
@@ -98,7 +99,7 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
       storageRecords,
       module,
       storageModule,
-      setFormValue: (value) => setValue(name, value),
+      setFormValue: (value) => setValue(name, value, { shouldDirty: true }),
       dropzoneProps,
     })
   const { getRootProps, getInputProps, isDragActive } = dropzone
