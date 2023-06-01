@@ -177,8 +177,8 @@ const Footer: React.FC<FooterProps> = (props) => {
               justifyContent="space-between"
             >
               <Typography variant="caption" color="text.secondary">
-                Copyright ©{new Date().getFullYear()} {companyName}. All rights
-                reserved.
+                {/* The following line replaces only the last period at the end of the company name. */}
+                Copyright ©{new Date().getFullYear()} {companyName.replace(/\.$/, '')}. All rights reserved.
               </Typography>
             </Stack>
           </Box>
