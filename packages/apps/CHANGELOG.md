@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.60
+
+### Patch Changes
+
+- [#236](https://github.com/gravis-os/gravis-os/pull/236) [`1ff90f11`](https://github.com/gravis-os/gravis-os/commit/1ff90f11acc002f6375f59498a486816ac02acb9) Thanks [@jovanchan1](https://github.com/jovanchan1)! - Update POS print functions to use pdfMake functions instead of playwright
+
 ## 0.0.59
 
 ### Patch Changes
