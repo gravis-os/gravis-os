@@ -49,6 +49,7 @@ export interface UseCrudFormArgs extends UseFormProps {
   onSubmit?: ({
     rawValues,
     values,
+    item,
     isNew,
     toast,
     afterSubmit,
@@ -227,6 +228,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
           rawValues: values,
           values: nextValues,
           toast,
+          item,
           afterSubmit,
         }
         // Trigger injectedOnSubmit
