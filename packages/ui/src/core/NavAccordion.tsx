@@ -205,9 +205,9 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
                 </ListItem>
               )
 
-              const renderListLinkItem = (children: JSX.Element) => (
+              const renderLinkItem = (children: JSX.Element) => (
                 <Link href={item.href} aria-label={key}>
-                  {renderListItem(children)}
+                  {children}
                 </Link>
               )
 
@@ -215,7 +215,7 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
               
               return (
                 <React.Fragment key={key}>
-                  {renderListItem(hasItemHref ? renderListLinkItem(listItemContentJsx) : listItemContentJsx)}
+                  {renderListItem(hasItemHref ? renderLinkItem(listItemContentJsx) : listItemContentJsx)}
                 </React.Fragment>
               )
             })}
