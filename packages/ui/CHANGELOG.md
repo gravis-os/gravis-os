@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- [#239](https://github.com/gravis-os/gravis-os/pull/239) [`f3f988b`](https://github.com/gravis-os/gravis-os/commit/f3f988b1ac9e2a1a0409442bcbf0318c549ba256) Thanks [@shank1xt](https://github.com/shank1xt)! - Fix order of dom for list link
+
+* [#240](https://github.com/gravis-os/gravis-os/pull/240) [`e729831`](https://github.com/gravis-os/gravis-os/commit/e72983161ac5ded8e8cf654eff122a93f5201b3b) Thanks [@shank1xt](https://github.com/shank1xt)! - Fix double period in footer
+
 ## 0.1.0
 
 ### Minor Changes
