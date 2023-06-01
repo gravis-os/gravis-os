@@ -49,6 +49,9 @@ export * from './ModelFieldWithCrud'
 export { default as CrudFormGroup } from './CrudFormGroup'
 export * from './CrudFormGroup'
 
+export { default as SearchForm } from './SearchForm'
+export * from './SearchForm'
+
 // ==============================
 // Provider
 // ==============================
