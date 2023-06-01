@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.100
+
+### Patch Changes
+
+- [#241](https://github.com/gravis-os/gravis-os/pull/241) [`8027e2ed`](https://github.com/gravis-os/gravis-os/commit/8027e2edf2312a4995851f62e97b08186a98fcff) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): exported SearchForm as standalone component.
+
+* [#242](https://github.com/gravis-os/gravis-os/pull/242) [`1bd08d14`](https://github.com/gravis-os/gravis-os/commit/1bd08d14dd2ba3242da4ba9d2c76f937cedf0fb9) Thanks [@ericcleeee](https://github.com/ericcleeee)! - Pass item into onSubmitArgs
+
 ## 0.0.99
 
 ### Patch Changes
