@@ -30,7 +30,7 @@ export interface AuthFormProps
 }
 
 const AuthForm: React.FC<AuthFormProps> = (props) => {
-  const { fields = ['email', 'password'], ...rest } = props
+  const { fields = ['email', 'password'], submitButtonProps, ...rest } = props
   const form = useForm()
 
   return (
@@ -51,12 +51,13 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           ]}
         />
       }
+      submitButtonProps={submitButtonProps}
       {...rest}
     >
       {({ formJsx, submitButtonJsx }) => (
         <Stack spacing={3}>
           {formJsx}
-          {submitButtonJsx}
+          {!submitButtonProps && submitButtonJsx}
         </Stack>
       )}
     </Form>
