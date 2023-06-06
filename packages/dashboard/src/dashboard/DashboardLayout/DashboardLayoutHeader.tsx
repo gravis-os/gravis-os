@@ -23,26 +23,32 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
   const leftNavItems = injectedLeftNavItems.length
     ? [
         ...(Boolean(injectedLeftNavItems.length) && [
-          ...(showLeftMenuToggle && [
-            {
-              key: 'left-aside-menu-toggle',
-              render: (props) => {
-                const { setLeftAsideOpen, leftAsideOpen, isLeftAsideOpen } =
-                  props
-                return (
-                  <IconButton
-                    color="inherit"
-                    edge="start"
-                    onClick={() => setLeftAsideOpen(!leftAsideOpen)}
-                    sx={{ mr: 1 }}
-                  >
-                    {isLeftAsideOpen ? <MenuOpenOutlinedIcon /> : <MenuIcon />}
-                  </IconButton>
-                )
-              },
-              showOnMobileBar: true,
-            },
-          ]),
+          ...(showLeftMenuToggle
+            ? [
+                {
+                  key: 'left-aside-menu-toggle',
+                  render: (props) => {
+                    const { setLeftAsideOpen, leftAsideOpen, isLeftAsideOpen } =
+                      props
+                    return (
+                      <IconButton
+                        color="inherit"
+                        edge="start"
+                        onClick={() => setLeftAsideOpen(!leftAsideOpen)}
+                        sx={{ mr: 1 }}
+                      >
+                        {isLeftAsideOpen ? (
+                          <MenuOpenOutlinedIcon />
+                        ) : (
+                          <MenuIcon />
+                        )}
+                      </IconButton>
+                    )
+                  },
+                  showOnMobileBar: true,
+                },
+              ]
+            : []),
         ]),
         ...injectedLeftNavItems,
       ]
