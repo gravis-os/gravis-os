@@ -6,7 +6,7 @@ import {
   FormSectionsProps,
 } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import { Box, Divider, Stack, Typography } from '@gravis-os/ui'
+import { Box, Divider, Typography } from '@gravis-os/ui'
 import isEmpty from 'lodash/isEmpty'
 import React from 'react'
 import getValueWithoutOp from './getValueWithoutOp'
@@ -67,26 +67,31 @@ const FilterForm: React.FC<FilterFormProps> = (props) => {
     <Form
       formContext={form}
       onSubmit={handleSubmit}
+      submitButtonProps={{
+        variant: 'outlined',
+        title: 'Apply',
+        fullWidth: true,
+        sx: { mt: 1 },
+      }}
+      sx={{ px: 2 }}
       formJsx={
         <FormSections disableCard sections={sections} {...formSectionsProps} />
       }
     >
       {(renderProps) => {
-        const { submitButtonJsx } = renderProps
         return (
           <>
-            <Box sx={{ mt: 2, px: 2 }}>
+            <Box sx={{ mt: 2 }}>
               <Typography variant="h4">Apply Filters</Typography>
             </Box>
 
             <Divider sx={{ my: 2 }} />
 
-            <Stack spacing={2} sx={{ px: 2 }}>
+            <Box>
               {typeof children === 'function'
                 ? children(renderProps)
                 : renderProps.formJsx}
-              {submitButtonJsx}
-            </Stack>
+            </Box>
           </>
         )
       }}
