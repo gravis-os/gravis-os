@@ -2,10 +2,31 @@ import type { Csv } from 'exceljs'
 import ExcelJS from 'exceljs'
 import { ReadableWebToNodeStream } from 'readable-web-to-node-stream'
 
+const getDataFromWorksheet = (worksheet: ExcelJS.Worksheet) => {
+  const data = []
+
+  worksheet.eachRow((row) => {
+    const currentRowData = []
+    row.eachCell((cell) => currentRowData.push(cell.value))
+    data.push(currentRowData)
+  })
+
+  return data
+}
+
 export const extractDataFromExcelFile = async (buffer: ArrayBuffer) => {
   const workbook = new ExcelJS.Workbook()
+  const wb = await workbook.xlsx.load(Buffer.from(buffer))
+  const sheets = []
 
-  return workbook.xlsx.load(Buffer.from(buffer))
+  wb.eachSheet((worksheet, id) => {
+    sheets.push({
+      id,
+      data: getDataFromWorksheet(worksheet),
+    })
+  })
+
+  return sheets
 }
 
 export const extractDataFromCsvFile = async (file: File) => {
@@ -15,16 +36,27 @@ export const extractDataFromCsvFile = async (file: File) => {
   ) as unknown as Parameters<Csv['read']>[0]
 
   const wb = await workbook.csv.read(stream)
-  console.log('news')
+  const itemArray = []
+  const headers = []
+
   wb.eachRow((row, rowNumber) => {
-    // Print the values of each cell in the row
-    console.log(`Row ${rowNumber}:`)
-    row.eachCell((cell, colNumber) => {
-      console.log(`  Column ${colNumber}: ${cell.value}`)
+    if (rowNumber === 1) {
+      row.eachCell((cell) => {
+        headers.push(cell.value)
+      })
+
+      return
+    }
+
+    const currentItem = {}
+    row.eachCell((cell, cellNumber) => {
+      currentItem[headers[cellNumber - 1]] = cell.value
     })
+
+    itemArray.push(currentItem)
   })
 
-  return wb
+  return itemArray
 }
 
 export const SHEET_FORMATS = ['xlsx', 'csv']
