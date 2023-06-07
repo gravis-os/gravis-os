@@ -1,4 +1,4 @@
-import { Typeform } from '@gravis-os/fields'
+import { Typeform, TypeformState } from '@gravis-os/fields'
 import { CrudModule } from '@gravis-os/types'
 import {
   Box,
@@ -13,14 +13,19 @@ import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import React from 'react'
-import CSVReader from 'react-csv-reader'
 import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
+import isNil from 'lodash/isNil'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
 import getManyToManyUploadedRows from './getManyToManyUploadedRows'
+import {
+  SHEET_FORMATS,
+  extractDataFromCsvFile,
+  extractDataFromExcelFile,
+} from './utils'
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
@@ -28,6 +33,8 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
   uploadFields?: string[]
   manyToManyKeys?: string[]
   getUploadValues?: (rows: unknown) => unknown
+  useCustomUploadTemplate?: boolean
+  onCustomUpload?: (store: TypeformState, fileData: any) => void
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
@@ -38,6 +45,8 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
     uploadFields,
     manyToManyKeys,
     getUploadValues: injectedGetUploadedValues,
+    useCustomUploadTemplate,
+    onCustomUpload,
     ...rest
   } = props
   const { tableHeaderRenameMapping } = module ?? {}
@@ -87,58 +96,65 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               )
             },
           },
-          {
-            key: 'download-template',
-            title: `Download ${module.name.singular} Template`,
-            subtitle:
-              'Fill in your data into this excel template before continuing.',
-            render: (props) => {
-              const {
-                slider: { prev, next },
-              } = props
+          ...(useCustomUploadTemplate
+            ? []
+            : [
+                {
+                  key: 'download-template',
+                  title: `Download ${module.name.singular} Template`,
+                  subtitle:
+                    'Fill in your data into this excel template before continuing.',
+                  render: (props) => {
+                    const {
+                      slider: { prev, next },
+                    } = props
 
-              return (
-                <>
-                  <Button
-                    size="large"
-                    disabled={isDownloaded}
-                    variant="contained"
-                    fullWidth
-                    startIcon={<FileDownloadOutlinedIcon />}
-                    onClick={() => handleDownload()}
-                  >
-                    {isDownloaded ? 'Downloaded' : 'Download'}
-                  </Button>
+                    return (
+                      <>
+                        <Button
+                          size="large"
+                          disabled={isDownloaded}
+                          variant="contained"
+                          fullWidth
+                          startIcon={<FileDownloadOutlinedIcon />}
+                          onClick={() => handleDownload()}
+                        >
+                          {isDownloaded ? 'Downloaded' : 'Download'}
+                        </Button>
 
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    justifyContent="space-between"
-                    spacing={1}
-                    sx={{ width: '100%', mt: 2 }}
-                  >
-                    <Button size="large" onClick={prev}>
-                      Previous
-                    </Button>
+                        <Stack
+                          direction="row"
+                          alignItems="center"
+                          justifyContent="space-between"
+                          spacing={1}
+                          sx={{ width: '100%', mt: 2 }}
+                        >
+                          <Button size="large" onClick={prev}>
+                            Previous
+                          </Button>
 
-                    <Button
-                      variant="contained"
-                      size="large"
-                      onClick={next}
-                      disabled={requireDownload && !isDownloaded}
-                    >
-                      Next
-                    </Button>
-                  </Stack>
-                </>
-              )
-            },
-          },
+                          <Button
+                            variant="contained"
+                            size="large"
+                            onClick={next}
+                            disabled={requireDownload && !isDownloaded}
+                          >
+                            Next
+                          </Button>
+                        </Stack>
+                      </>
+                    )
+                  },
+                },
+              ]),
           {
             key: 'upload-file',
             title: `Upload ${module.name.singular} Data`,
-            subtitle:
-              "Select the file that you've downloaded in the previous step with your data populated to continue.",
+            subtitle: `Select the file ${
+              useCustomUploadTemplate
+                ? ''
+                : "that you've downloaded in the previous step"
+            } with your data populated to continue.`,
             render: (props) => {
               const {
                 slider: { prev, next },
@@ -150,20 +166,40 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 (values?.uploadedRows as unknown[])?.length
               )
 
-              const handleFileUpload = (fileData) => {
-                if (!fileData) return
-                store.add({ uploadedRows: fileData })
+              const handleFileUpload = (file: File) => {
+                const reader = new FileReader()
+                const isExcel = file.name.endsWith('.xlsx')
+
+                reader.onload = async () => {
+                  const buffer = reader.result as ArrayBuffer
+                  const data = isExcel
+                    ? await extractDataFromExcelFile(buffer)
+                    : await extractDataFromCsvFile(file)
+
+                  if (!isNil(onCustomUpload)) {
+                    onCustomUpload(store, data)
+                    return
+                  }
+
+                  store.add({ uploadedRows: data })
+                }
+
+                reader.readAsArrayBuffer(file)
+              }
+
+              const handleChange = (e) => {
+                const { files } = e.target
+                if (files && files[0]) handleFileUpload(files[0])
               }
 
               return (
                 <>
-                  <CSVReader
-                    onFileLoaded={handleFileUpload}
-                    parserOptions={{
-                      header: true,
-                      dynamicTyping: true,
-                      skipEmptyLines: true,
-                    }}
+                  <input
+                    type="file"
+                    className="form-control"
+                    id="file"
+                    accept={SHEET_FORMATS}
+                    onChange={handleChange}
                   />
 
                   <Stack
@@ -224,7 +260,6 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
                 const updatedUploadedRows =
                   injectedGetUploadedValues(mainTableRows)
-
                 const { data, error } = await createMutation.mutateAsync(
                   updatedUploadedRows
                 )

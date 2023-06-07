@@ -41,7 +41,7 @@ const useDownloadTableDefinitionCsvFile = (props: {
       setShouldDownload(false)
       setIsDownloaded(true)
     }
-  }, [tableDefinition, shouldDownload])
+  }, [tableDefinition, shouldDownload, tableColumnNames, module.table.name])
 
   return {
     handleDownload: () => setShouldDownload(true),
