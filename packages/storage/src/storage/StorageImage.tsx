@@ -18,7 +18,7 @@ interface StorageImageProps extends Omit<ImageProps, 'alt' | 'src'> {
 const StorageImage: React.FC<StorageImageProps> = (props) => {
   const { src: injectedSrc = '', value, alt, ...rest } = props
 
-  const isAbsolutePath = (injectedSrc || '').startsWith('http')
+  const isAbsolutePath = injectedSrc?.startsWith('http')
 
   const { src } = useGetStorageObject({
     filePath: injectedSrc,
