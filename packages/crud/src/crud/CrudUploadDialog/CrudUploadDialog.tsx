@@ -17,6 +17,7 @@ import React, { useState } from 'react'
 import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
 import isNil from 'lodash/isNil'
+import map from 'lodash/map'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
@@ -31,16 +32,19 @@ import {
 interface DataTableWithNestedTableProps {
   module: CrudModule
   items?: any[]
-  columnDefs: any
-  nestedTableProps: DataTableWithNestedTableProps
+  columns: string[]
+  nestedTableProps: Partial<DataTableWithNestedTableProps>
 }
 
 const DataTableWithNestedTable = ({
   module,
   items,
-  columnDefs,
+  columns,
   nestedTableProps,
-}: DataTableWithNestedTableProps) => {
+}: Partial<DataTableWithNestedTableProps>) => {
+  const columnDefs = columns.map((tableColumnName) => ({
+    field: tableColumnName,
+  }))
   const [isOpen, setIsOpen] = useState(false)
   const [childItems, setChildItems] = useState([])
 
@@ -286,13 +290,71 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               } = props
 
               const { uploadedRows, nestedStructure } = store.values
+              const {
+                module: childModule,
+                columns: childColumns,
+                nextStructure,
+              } = (nestedStructure ??
+                {}) as Partial<DataTableWithNestedTableProps> & {
+                nextStructure: Partial<DataTableWithNestedTableProps>
+              }
               const items = uploadedRows as any
 
-              const columnDefs = tableColumnNames.map((tableColumnName) => ({
-                field: tableColumnName,
-              }))
+              const uploadNestedTables = async (
+                items,
+                module,
+                nestedStructure
+              ) => {
+                const { module: nextModule, nextStructure } = nestedStructure
+                const { data, error } = await supabaseClient
+                  .from(module.table.name)
+                  .insert(
+                    map(items, (item) => omit(item, nextModule.table.name))
+                  )
+
+                if (error) {
+                  toast.error(
+                    `Some fields are wrong in your csv file: \n${error.message}`
+                  )
+                  return
+                }
+
+                if (nextStructure && data) {
+                  const response = await Promise.allSettled(
+                    map(
+                      data,
+                      uploadNestedTables(
+                        data[nextModule.table.name],
+                        nextModule,
+                        nextStructure
+                      )
+                    )
+                  )
+
+                  const rejectedResponses = response.filter(
+                    ({ status }) => status === 'rejected'
+                  )
+
+                  if (rejectedResponses.length) {
+                    toast.error(
+                      `Some relations fail to upload: \n${rejectedResponses
+                        .map(
+                          (response) =>
+                            (response as PromiseRejectedResult).reason.message
+                        )
+                        .filter(Boolean)
+                        .join('\n')}`
+                    )
+                  }
+                }
+              }
 
               const handleUploadClick = async () => {
+                if (nestedStructure) {
+                  await uploadNestedTables(items, module, nestedStructure)
+                  next()
+                  return
+                }
                 /**
                  * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
                  * This ensures that the values provided are consistent with the header names in the database.
@@ -365,12 +427,14 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                   <DataTableWithNestedTable
                     module={module}
                     items={items}
-                    columnDefs={columnDefs}
-                    nestedTableProps={{
-                      module,
-                      items,
-                      columnDefs,
-                    }}
+                    columns={tableColumnNames}
+                    nestedTableProps={
+                      nestedStructure && {
+                        module: childModule,
+                        columns: childColumns,
+                        nestedTableProps: nextStructure,
+                      }
+                    }
                   />
 
                   <Stack
