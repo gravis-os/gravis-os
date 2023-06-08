@@ -22,11 +22,13 @@ const getWorkspaceStaticPathsByRoute = async ({
     .from(workspaceModule.table.name)
     .select(`id, ${workspaceModuleSk}`)
 
+  const nextLocales = process.env.DISABLE_LOCALES ? [] : locales
+
   return {
-    paths: locales
+    paths: nextLocales
       ? workspaces
           ?.map((workspace) =>
-            locales.map((locale) => ({
+            nextLocales.map((locale) => ({
               params: {
                 workspace: `${workspace[workspaceModuleSk]}`,
                 ...injectedParams,
