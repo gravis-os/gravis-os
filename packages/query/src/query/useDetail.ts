@@ -125,7 +125,7 @@ export const prefetchDetailQuery = async (
 }
 
 // Hook
-const useDetail = <T = never>(props: UseDetailProps): UseDetailReturn<T> => {
+const useDetail = <T = any>(props: UseDetailProps): UseDetailReturn<T> => {
   const { module, params: injectedParams } = props
 
   const router = useRouter()
