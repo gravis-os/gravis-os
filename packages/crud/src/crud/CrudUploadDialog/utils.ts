@@ -1,6 +1,7 @@
 import type { Csv } from 'exceljs'
 import ExcelJS from 'exceljs'
-import { forEach, isNil, map } from 'lodash'
+import forEach from 'lodash/forEach'
+import isNil from 'lodash/isNil'
 import { ReadableWebToNodeStream } from 'readable-web-to-node-stream'
 
 const getDataFromWorksheet = (worksheet: ExcelJS.Worksheet) => {
@@ -8,30 +9,13 @@ const getDataFromWorksheet = (worksheet: ExcelJS.Worksheet) => {
 
   worksheet.eachRow((row) => {
     const currentRowData = []
-    row.eachCell((cell) =>
+    row.eachCell({ includeEmpty: true }, (cell) =>
       currentRowData.push(isNil(cell.value) ? '' : cell.text)
     )
     data.push(currentRowData)
   })
 
   return data
-}
-
-const getImagesFromWorksheet = (
-  worksheet: ExcelJS.Worksheet,
-  wbMediaMappings: Map<string, ExcelJS.Media>
-) => {
-  const images = []
-  map(worksheet.getImages(), (image) => {
-    const img = wbMediaMappings[image.imageId]
-
-    images.push({
-      name: `${image.range.tl.nativeRow}.${image.range.tl.nativeCol}.${img.name}.${img.extension}`,
-      data: img.buffer,
-    })
-  })
-
-  return images
 }
 
 export const extractDataFromExcelFile = async (buffer: ArrayBuffer) => {
@@ -48,7 +32,6 @@ export const extractDataFromExcelFile = async (buffer: ArrayBuffer) => {
     sheets.push({
       id,
       name: worksheet.name,
-      images: getImagesFromWorksheet(worksheet, wbMediaMappings),
       data: getDataFromWorksheet(worksheet),
     })
   })

@@ -6,13 +6,14 @@ import {
   DialogButton,
   DialogButtonProps,
   Stack,
+  Dialog,
   useOpen,
 } from '@gravis-os/ui'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
-import React from 'react'
+import React, { useState } from 'react'
 import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
 import isNil from 'lodash/isNil'
@@ -26,6 +27,49 @@ import {
   extractDataFromCsvFile,
   extractDataFromExcelFile,
 } from './utils'
+
+interface DataTableWithNestedTableProps {
+  module: CrudModule
+  items?: any[]
+  columnDefs: any
+  nestedTableProps: DataTableWithNestedTableProps
+}
+
+const DataTableWithNestedTable = ({
+  module,
+  items,
+  columnDefs,
+  nestedTableProps,
+}: DataTableWithNestedTableProps) => {
+  const [isOpen, setIsOpen] = useState(false)
+  const [childItems, setChildItems] = useState([])
+
+  return (
+    <Box sx={{ textAlign: 'left' }}>
+      <DataTable
+        height={400}
+        disableSizeColumnsToFit
+        disableResizeGrid={false}
+        defaultColDef={{ autoHeight: false }}
+        module={module}
+        rowData={items ?? []}
+        columnDefs={columnDefs}
+        onCellClicked={(e) => {
+          setIsOpen(true)
+          setChildItems(
+            items[e.node.rowIndex][nestedTableProps.module.table.name]
+          )
+        }}
+      />
+
+      {nestedTableProps && (
+        <Dialog open={isOpen} onClose={() => setIsOpen(false)} maxWidth="md">
+          <DataTableWithNestedTable {...nestedTableProps} items={childItems} />
+        </Dialog>
+      )}
+    </Box>
+  )
+}
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
@@ -54,7 +98,12 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
   const [open, { setIsOpen, close }] = useOpen(false)
 
   const { handleDownload, isDownloaded, resetIsDownloaded, tableColumnNames } =
-    useDownloadTableDefinitionCsvFile({ module, uploadFields, manyToManyKeys })
+    useDownloadTableDefinitionCsvFile({
+      module,
+      uploadFields,
+      manyToManyKeys,
+      useCustomUploadTemplate,
+    })
 
   const { createMutation } = useCreateMutation({
     module,
@@ -236,7 +285,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 slider: { prev, next },
               } = props
 
-              const { uploadedRows } = store.values
+              const { uploadedRows, nestedStructure } = store.values
               const items = uploadedRows as any
 
               const columnDefs = tableColumnNames.map((tableColumnName) => ({
@@ -313,17 +362,16 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
               return (
                 <>
-                  <Box sx={{ textAlign: 'left' }}>
-                    <DataTable
-                      height={400}
-                      disableSizeColumnsToFit
-                      disableResizeGrid={false}
-                      defaultColDef={{ autoHeight: false }}
-                      module={module}
-                      rowData={items}
-                      columnDefs={columnDefs}
-                    />
-                  </Box>
+                  <DataTableWithNestedTable
+                    module={module}
+                    items={items}
+                    columnDefs={columnDefs}
+                    nestedTableProps={{
+                      module,
+                      items,
+                      columnDefs,
+                    }}
+                  />
 
                   <Stack
                     direction="row"
