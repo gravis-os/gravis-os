@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- [#246](https://github.com/gravis-os/gravis-os/pull/246) [`29d9f9b`](https://github.com/gravis-os/gravis-os/commit/29d9f9b61d4898acff773dc6d44ce70719f167e3) Thanks [@shank1xt](https://github.com/shank1xt)! - add fallback values
+
 ## 0.1.1
 
 ### Patch Changes

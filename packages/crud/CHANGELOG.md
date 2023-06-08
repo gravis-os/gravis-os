@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.101
+
+### Patch Changes
+
+- [#243](https://github.com/gravis-os/gravis-os/pull/243) [`9dfe659`](https://github.com/gravis-os/gravis-os/commit/9dfe65922bdb15dd5d5a14cd0acca7f8012678b7) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - enable submit button for filter form
+
+- Updated dependencies [[`29d9f9b`](https://github.com/gravis-os/gravis-os/commit/29d9f9b61d4898acff773dc6d44ce70719f167e3)]:
+  - @gravis-os/storage@0.0.43
+  - @gravis-os/ui@0.1.2
+
 ## 0.0.100
 
 ### Patch Changes
