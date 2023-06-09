@@ -316,7 +316,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                   .insert(
                     nextModule
                       ? map(items, (item) => omit(item, nextModule.table.name))
-                      : items
+                      : items // no need to clean the items of the last table
                   )
 
                 if (error) {
@@ -336,7 +336,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                           ...getItemWithParentData(parentItem, childItem),
                         })),
                         nextModule,
-                        nextStructure ?? {}
+                        nextStructure ?? {} // the last table has nextStructure = null
                       )
                     )
                   )
