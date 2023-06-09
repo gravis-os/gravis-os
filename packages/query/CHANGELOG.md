@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.31
+
+### Patch Changes
+
+- [#248](https://github.com/gravis-os/gravis-os/pull/248) [`16da2ea`](https://github.com/gravis-os/gravis-os/commit/16da2ead462419ebe413f4ac5d59c426cd47fc4b) Thanks [@shank1xt](https://github.com/shank1xt)! - Fix empty locales in conditional localisation
+
 ## 0.0.30
 
 ### Patch Changes
