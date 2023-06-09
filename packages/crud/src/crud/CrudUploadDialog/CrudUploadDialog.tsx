@@ -309,11 +309,14 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                   module: nextModule,
                   nextStructure,
                   fkToParent,
+                  getItemWithParentData = () => ({}),
                 } = nestedStructure
                 const { data, error } = await supabaseClient
                   .from(module.table.name)
                   .insert(
-                    map(items, (item) => omit(item, nextModule.table.name))
+                    nextModule
+                      ? map(items, (item) => omit(item, nextModule.table.name))
+                      : items
                   )
 
                 if (error) {
@@ -323,16 +326,17 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                   return
                 }
 
-                if (nextStructure && data) {
+                if (nextModule && data) {
                   const response = await Promise.allSettled(
                     map(items, (parentItem, index) =>
                       uploadNestedTables(
                         map(parentItem[nextModule.table.name], (childItem) => ({
                           ...childItem,
                           [fkToParent]: data[index].id,
+                          ...getItemWithParentData(parentItem, childItem),
                         })),
                         nextModule,
-                        nextStructure
+                        nextStructure ?? {}
                       )
                     )
                   )
