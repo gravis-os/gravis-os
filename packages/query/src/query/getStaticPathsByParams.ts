@@ -13,10 +13,12 @@ const getStaticPathsByParams = (props: GetStaticPathsByParamsProps) => {
   // A generic util for generating static paths with multiple params
   const { locales, setParams, items, fallback = false } = props
 
-  const paths = locales
+  const nextLocales = process.env.DISABLE_LOCALES ? [] : locales
+
+  const paths = nextLocales
     ? items
         ?.map((item) => {
-          return locales.map((locale) => ({
+          return nextLocales.map((locale) => ({
             params: typeof setParams === 'function' ? setParams(item) : item,
             locale,
           }))
