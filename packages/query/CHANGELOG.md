@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.30
+
+### Patch Changes
+
+- [#247](https://github.com/gravis-os/gravis-os/pull/247) [`53efe42`](https://github.com/gravis-os/gravis-os/commit/53efe428baf61e8a06ed7f264621d49b46d8de02) Thanks [@shank1xt](https://github.com/shank1xt)! - Add conditional localisation for build task
+
 ## 0.0.29
 
 ### Patch Changes
