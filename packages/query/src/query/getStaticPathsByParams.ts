@@ -13,7 +13,7 @@ const getStaticPathsByParams = (props: GetStaticPathsByParamsProps) => {
   // A generic util for generating static paths with multiple params
   const { locales, setParams, items, fallback = false } = props
 
-  const nextLocales = process.env.DISABLE_LOCALES ? undefined : locales
+  const nextLocales = !process.env.DISABLE_LOCALES && locales
 
   const paths = nextLocales
     ? items
