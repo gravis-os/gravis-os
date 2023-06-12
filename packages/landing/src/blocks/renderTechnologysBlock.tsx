@@ -1,6 +1,5 @@
-import { useLayout } from 'src/providers'
+import { useLayout, BlockProps } from '@gravis-os/landing'
 import { Technology } from '@gravis-os/types'
-import { BlockProps } from 'src/web'
 import renderTechnologyBlockItem from './renderTechnologyBlockItem'
 
 export interface RenderTechnologysBlockProps extends Omit<BlockProps, 'items'> {
@@ -47,7 +46,7 @@ const renderTechnologysBlock = (props: RenderTechnologysBlockProps) => {
           renderTechnologyBlockItem({
             item: {
               ...item,
-              href: `${routeConfig.TECHNOLOGYS}/${item.slug}`,
+              href: `${routeConfig?.TECHNOLOGYS}/${item.slug}`,
             },
           })
         ),

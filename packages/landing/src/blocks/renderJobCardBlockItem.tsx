@@ -1,9 +1,8 @@
 import React from 'react'
 import { Box, useOpen } from '@gravis-os/ui'
-import { Block } from 'src/web'
+import { Block, useLayout } from '@gravis-os/landing'
 import { printPaddedNumber } from '@gravis-os/utils'
 import { Job } from '@gravis-os/types'
-import { useLayout } from 'src/providers'
 
 export interface RenderJobCardBlockItemProps {
   index: number
@@ -81,7 +80,7 @@ const renderJobCardBlockItem = (props: RenderJobCardBlockItemProps) => {
                         type: 'button',
                         title: 'Apply',
                         titleProps: {
-                          href: routeConfig.CONTACT,
+                          href: routeConfig?.CONTACT,
                           hrefProps: { targetBlank: true },
                           variant: 'contained',
                           color: 'primary',

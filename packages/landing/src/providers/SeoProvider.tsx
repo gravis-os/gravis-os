@@ -16,18 +16,18 @@ const SeoProvider: React.FC<SeoProviderProps> = (props) => {
         openGraph={{
           type: 'website',
           locale: 'en_SG',
-          url: site.absolute_url,
-          siteName: site.title,
+          url: site?.absolute_url,
+          siteName: site?.title,
           images: [
             {
               url: `${site?.absolute_url || ''}/images/meta_image.png`,
             },
           ],
         }}
-        {...(site.social_media_twitter_url && {
+        {...(site?.social_media_twitter_url && {
           twitter: {
-            handle: `@${site.social_media_twitter_url.split('/').pop()}`,
-            site: `@${site.social_media_twitter_url.split('/').pop()}`,
+            handle: `@${site?.social_media_twitter_url.split('/').pop()}`,
+            site: `@${site?.social_media_twitter_url.split('/').pop()}`,
             cardType: 'summary_large_image',
           },
         })}

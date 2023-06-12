@@ -1,7 +1,6 @@
-import { BlockProps } from 'src/web'
+import { BlockProps, useLayout } from '@gravis-os/landing'
 import orderBy from 'lodash/orderBy'
 import { PressRelease } from '@gravis-os/types'
-import { useLayout } from 'src/providers'
 import renderPostBlockItem, {
   RenderPostBlockItemProps,
 } from './renderPostBlockItem'
@@ -30,7 +29,7 @@ const renderOtherPressReleasesBlock = (
         gridItems: orderBy(items, 'published_at', 'desc').map((item) => {
           return renderPostBlockItem({
             item: {
-              href: `${routeConfig.PRESS_RELEASES}/${item.slug}`,
+              href: `${routeConfig?.PRESS_RELEASES}/${item.slug}`,
               ...(item as RenderPostBlockItemProps['item']),
             },
           })

@@ -1,5 +1,4 @@
-import { useLayout } from 'src/providers'
-import { BlockProps } from 'src/web'
+import { useLayout, BlockProps } from '@gravis-os/landing'
 import renderGhostButtonBlockItem from './renderGhostButtonBlockItem'
 
 export interface RenderCtaBlockProps extends BlockProps {
@@ -39,7 +38,7 @@ const renderCtaBlock = (props: RenderCtaBlockProps) => {
         boxProps: { mt: 3 },
         overline: 'Contact Us',
         title: 'Get in Touch',
-        href: `/${routeConfig.CONTACT}`,
+        href: `/${routeConfig?.CONTACT}`,
       }),
       {
         type: 'image',

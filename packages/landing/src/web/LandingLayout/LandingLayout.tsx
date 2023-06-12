@@ -14,7 +14,7 @@ import {
   BreadcrumbsProps,
 } from '@gravis-os/ui'
 import { useRouter } from 'next/router'
-import { useLayout } from 'src/providers'
+import { useLayout } from '@gravis-os/landing'
 
 export interface LandingLayoutProps extends StackProps {
   headerProps?: HeaderProps
@@ -94,7 +94,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
   const { site, routeConfig } = useLayout()
 
   const router = useRouter()
-  const isHomeRoute = router.pathname === routeConfig.HOME
+  const isHomeRoute = router.pathname === routeConfig?.HOME
 
   return (
     <Stack sx={{ minHeight: '100vh', backgroundColor, ...sx }} {...rest}>
@@ -104,13 +104,13 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
       {seo && (
         <NextSeo
           {...{
-            ...(isHomeRoute ? {} : { titleTemplate: `%s | ${site.title}` }),
+            ...(isHomeRoute ? {} : { titleTemplate: `%s | ${site?.title}` }),
             ...seo,
             openGraph: {
               ...seo.openGraph,
-              url: `${site.absolute_url}${router.asPath}`,
+              url: `${site?.absolute_url}${router.asPath}`,
             },
-            canonical: `${site.absolute_url}${router.asPath.split('?')[0]}`,
+            canonical: `${site?.absolute_url}${router.asPath.split('?')[0]}`,
           }}
         />
       )}
@@ -162,7 +162,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
         <Footer
           {...{
             ...footerProps,
-            companyName: site.company_title,
+            companyName: site?.company_title,
             accordionProps: {
               titleProps: { variant: 'h7' },
               itemTitleProps: {

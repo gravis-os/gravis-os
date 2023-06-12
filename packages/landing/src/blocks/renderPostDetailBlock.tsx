@@ -1,4 +1,4 @@
-import { BlockProps } from 'src/web'
+import { BlockProps } from '@gravis-os/landing'
 import dayjs from 'dayjs'
 import { Post, PressRelease } from '@gravis-os/types'
 import renderHtmlBlockItem from './renderHtmlBlockItem'

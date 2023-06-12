@@ -1,4 +1,4 @@
-import { BlockItemProps } from 'src/web'
+import { BlockItemProps } from '@gravis-os/landing'
 
 export interface RenderShowcaseStickyGridBlockItemProps {
   mode?: 'light' | 'dark'

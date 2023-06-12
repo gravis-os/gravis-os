@@ -1,5 +1,5 @@
 import { Post } from '@gravis-os/types'
-import { BlockProps } from 'src/web'
+import { BlockProps } from '@gravis-os/landing'
 import { renderPostsBlockItem } from './index'
 
 export interface RenderFeaturedPostsBlockProps

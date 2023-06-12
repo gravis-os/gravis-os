@@ -1,6 +1,5 @@
 import { Service } from '@gravis-os/types'
-import { useLayout } from 'src/providers'
-import { BlockItemProps } from 'src/web'
+import { useLayout, BlockItemProps } from '@gravis-os/landing'
 import renderServiceBlockItem, {
   RenderServiceBlockItemProps,
 } from './renderServiceBlockItem'
@@ -18,7 +17,7 @@ const renderServicesBlockItem = (props: RenderServicesBlockItemProps) => {
     gridItems: items.map((item) => {
       return renderServiceBlockItem({
         item: {
-          href: `${routeConfig.SERVICES}/${item.category.slug}/${item.slug}`,
+          href: `${routeConfig?.SERVICES}/${item.category.slug}/${item.slug}`,
           ...(item as RenderServiceBlockItemProps['item']),
         },
       })

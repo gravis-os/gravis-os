@@ -1,5 +1,5 @@
 import React from 'react'
-import { BlockProps } from 'src/web'
+import { BlockProps } from '@gravis-os/landing'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
 
 export interface RenderRightChecklistBlockProps

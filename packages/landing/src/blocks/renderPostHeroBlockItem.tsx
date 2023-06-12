@@ -1,4 +1,4 @@
-import { BlockItemProps, BlockProps } from 'src/web'
+import { BlockItemProps, BlockProps } from '@gravis-os/landing'
 
 export interface RenderPostHeroBlockItemProps extends BlockProps {
   overline?: string

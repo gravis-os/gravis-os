@@ -3,8 +3,7 @@ import { Form, FormSections } from '@gravis-os/form'
 import { Alert } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
-import { useLayout } from 'src/providers'
-import { EnquiryTypeEnum, postEnquiry } from 'src/enquiries'
+import { useLayout, EnquiryTypeEnum, postEnquiry } from '@gravis-os/landing'
 import { FormCategoryEnum } from '@gravis-os/types'
 
 export interface ContactFormProps {
@@ -31,7 +30,7 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
     setIsSubmitSuccess(true)
     toast.success('Successfully sent')
     router.push(
-      `/${routeConfig.CONTACT_SUCCESS}?name=${values.name}&email=${values.email}`
+      `/${routeConfig?.CONTACT_SUCCESS}?name=${values.name}&email=${values.email}`
     )
   }
 

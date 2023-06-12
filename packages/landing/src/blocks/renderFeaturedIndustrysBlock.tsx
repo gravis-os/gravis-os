@@ -1,6 +1,5 @@
-import { BlockProps } from 'src/web'
+import { BlockProps, useLayout } from '@gravis-os/landing'
 import { ClientTestimonial } from '@gravis-os/types'
-import { useLayout } from 'src/providers'
 import renderFeaturedIndustryBlockItem from './renderFeaturedIndustryBlockItem'
 
 export interface RenderFeaturedIndustrysBlockProps
@@ -42,7 +41,7 @@ const renderFeaturedIndustrysBlock = (
             md: 4,
             items: renderFeaturedIndustryBlockItem({
               item: {
-                href: `${routeConfig.INDUSTRYS}/${item.slug}`,
+                href: `${routeConfig?.INDUSTRYS}/${item.slug}`,
                 ...item,
               },
             }),

@@ -1,9 +1,8 @@
 import { Slider } from '@gravis-os/ui'
 import React from 'react'
 import { useMediaQuery, useTheme } from '@mui/material'
-import { Block, BlockProps } from 'src/web'
+import { Block, BlockProps } from '@gravis-os/landing'
 import { ClientTestimonial } from '@gravis-os/types'
-import 'keen-slider/keen-slider.min.css'
 import renderClientTestimonialSliderBlockItem from './renderClientTestimonialSliderBlockItem'
 
 export interface RenderClientTestimonialSliderBlockProps

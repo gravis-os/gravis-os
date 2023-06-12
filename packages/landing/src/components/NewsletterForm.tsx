@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Form, FormSections } from '@gravis-os/form'
 import toast from 'react-hot-toast'
 import { Alert } from '@gravis-os/ui'
-import { EnquiryTypeEnum, postEnquiry } from 'src/enquiries'
+import { EnquiryTypeEnum, postEnquiry } from '@gravis-os/landing'
 import { FormCategoryEnum } from '@gravis-os/types'
 
 export interface NewsletterFormProps {

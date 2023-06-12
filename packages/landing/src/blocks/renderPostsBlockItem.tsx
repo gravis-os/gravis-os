@@ -1,6 +1,6 @@
 import { Post } from '@gravis-os/types'
 import orderBy from 'lodash/orderBy'
-import { useLayout } from 'src/providers'
+import { useLayout } from '@gravis-os/landing'
 import renderPostBlockItem, {
   RenderPostBlockItemProps,
 } from './renderPostBlockItem'
@@ -17,7 +17,7 @@ const renderPostsBlockItem = (props: RenderPostsBlockItemProps) => {
     gridItems: orderBy(items, 'published_at', 'desc').map((item) => {
       return renderPostBlockItem({
         item: {
-          href: `${routeConfig.POSTS}/${item.category.slug}/${item.slug}`,
+          href: `${routeConfig?.POSTS}/${item.category.slug}/${item.slug}`,
           ...(item as RenderPostBlockItemProps['item']),
         },
       })

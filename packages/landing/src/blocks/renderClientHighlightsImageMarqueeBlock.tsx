@@ -2,7 +2,7 @@ import React from 'react'
 import { ImageMarquee, Stack } from '@gravis-os/ui'
 import { getSplitArrayIntoTwo } from '@gravis-os/utils'
 import { ClientHighlight } from '@gravis-os/types'
-import { BlockProps } from 'src/web'
+import { BlockProps } from '@gravis-os/landing'
 
 export interface RenderClientHighlightsImageMarqueeBlockProps
   extends Omit<BlockProps, 'items'> {

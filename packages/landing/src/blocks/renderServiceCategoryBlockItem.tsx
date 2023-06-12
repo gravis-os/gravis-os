@@ -1,4 +1,4 @@
-import { BlockItemProps } from 'src/web'
+import { BlockItemProps } from '@gravis-os/landing'
 import { Service, ServiceCategory } from '@gravis-os/types'
 
 export interface RenderServiceCategoryBlockItemProps {

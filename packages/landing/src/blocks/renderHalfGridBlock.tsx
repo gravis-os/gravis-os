@@ -1,5 +1,4 @@
-import { BlockProps } from 'src/web'
-import { useLayout } from 'src/providers'
+import { BlockProps, useLayout } from '@gravis-os/landing'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'
@@ -74,7 +73,7 @@ const renderHalfGridBlock = (props: RenderHalfGridBlockProps) => {
                 renderGhostButtonBlockItem({
                   overline: 'Our Mission',
                   title: 'Enabling Smarter Businesses',
-                  href: routeConfig.MISSION,
+                  href: routeConfig?.MISSION,
                   boxProps: { mt: 3 },
                   ...buttonProps,
                 }),

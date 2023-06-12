@@ -1,4 +1,4 @@
-import { BlockProps } from 'src/web'
+import { BlockProps } from '@gravis-os/landing'
 
 export interface RenderFaqsAccordionBlockProps
   extends Omit<BlockProps, 'items'> {

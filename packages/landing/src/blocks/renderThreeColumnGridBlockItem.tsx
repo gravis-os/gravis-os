@@ -1,4 +1,4 @@
-import { BlockItemProps } from 'src/web'
+import { BlockItemProps } from '@gravis-os/landing'
 
 export interface RenderThreeColumnGridBlockItemProps extends BlockItemProps {
   items: Array<{ fa_icon: string; title: string; subtitle: string }>

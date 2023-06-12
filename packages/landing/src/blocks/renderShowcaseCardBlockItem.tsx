@@ -1,4 +1,4 @@
-import { Showcase, useLayout } from 'src/providers'
+import { Showcase, useLayout } from '@gravis-os/landing'
 import renderGhostButtonBlockItem from './renderGhostButtonBlockItem'
 
 export interface RenderShowcaseCardBlockItemProps {
@@ -91,7 +91,7 @@ const renderShowcaseCardBlockItem = (
             overline: 'Showcase',
             title: 'Read more',
             boxProps: { mt: 5, mb: { xs: 5, md: 0 } },
-            href: `${routeConfig.SHOWCASES}/${slug || ''}`,
+            href: `${routeConfig?.SHOWCASES}/${slug || ''}`,
           }),
       ],
     },

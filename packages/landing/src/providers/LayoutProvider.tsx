@@ -14,7 +14,7 @@ import {
   Workspace,
 } from '@gravis-os/types'
 import { FooterProps, ImageProps } from '@gravis-os/ui'
-import { BlockItemProps } from 'src/web'
+import { BlockItemProps } from '@gravis-os/landing'
 
 // ==============================
 // Types
@@ -101,17 +101,17 @@ const LayoutProvider: React.FC<LayoutProviderProps> = (props) => {
   const { site, routeConfig } = injectedValue
   const calculatedValues = {
     logoProps: {
-      src: site.logo_src,
-      alt: site.logo_alt,
-      width: site.logo_width,
-      height: site.logo_height,
+      src: site?.logo_src,
+      alt: site?.logo_alt,
+      width: site?.logo_width,
+      height: site?.logo_height,
       invertImageOnMode: 'dark' as const,
     },
     legalItems: {
-      terms: routeConfig.TERMS,
-      privacy: routeConfig.PRIVACY,
-      cookies: routeConfig.COOKIES,
-      PDPA: routeConfig.PDPA,
+      terms: routeConfig?.TERMS,
+      privacy: routeConfig?.PRIVACY,
+      cookies: routeConfig?.COOKIES,
+      PDPA: routeConfig?.PDPA,
     },
     socialMediaItems: Object.entries(site).reduce((acc, [key, value]) => {
       if (!key.startsWith('social_media_')) return acc

@@ -1,5 +1,5 @@
-import localFont from 'next/font/local'
-import { Roboto, IBM_Plex_Mono } from 'next/font/google'
+import localFont from '@next/font/local'
+import { Roboto, IBM_Plex_Mono } from '@next/font/google'
 
 export const headerFont = localFont({
   src: [
