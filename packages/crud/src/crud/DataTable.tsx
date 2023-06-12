@@ -7,8 +7,8 @@ import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined'
 import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined'
 import { printSingularOrPluralText } from '@gravis-os/utils'
-import type { BodyScrollEvent } from 'ag-grid-community'
-import type { UseListReturn } from '@gravis-os/query'
+import type { BodyScrollEvent, PaginationChangedEvent } from 'ag-grid-community'
+import { UseListPaginationType, UseListReturn } from '@gravis-os/query'
 import useCrud from './useCrud'
 import AgGrid, { AgGridProps } from './AgGrid'
 // Framework Components
@@ -26,6 +26,7 @@ export interface DataTableProps extends AgGridProps {
   serverSideRowModelProps?: {
     pagination: UseListReturn['pagination']
     fetchNextPage: () => void | Promise<any>
+    paginationType: UseListPaginationType
   }
   /**
    * To display the total row count
@@ -96,19 +97,31 @@ const DataTable = React.forwardRef<
     switch (rowModelType) {
       // This is our own custom serverSide function
       case 'externalServerSide':
-        const { pagination, fetchNextPage } = serverSideRowModelProps
+        const { pagination, fetchNextPage, paginationType } =
+          serverSideRowModelProps
         const { pageSize, hasNextPage, nextPage } = pagination
         return {
           // Load the full data by default
           rowData,
           // To fetch the next page when we reach the end of the grid
-          onBodyScroll: (e: BodyScrollEvent) => {
-            const { api: gridApi } = e
-            const lastDisplayedRow = gridApi.getLastDisplayedRow() + 1
-            const isEndOfScroll = lastDisplayedRow === rowData.length
-            const shouldFetchNextPage = isEndOfScroll && hasNextPage
-            if (shouldFetchNextPage) fetchNextPage()
-          },
+          ...(paginationType === UseListPaginationType.Infinite
+            ? {
+                onBodyScroll: (e: BodyScrollEvent) => {
+                  const { api: gridApi } = e
+                  const lastDisplayedRow = gridApi.getLastDisplayedRow() + 1
+                  const isEndOfScroll = lastDisplayedRow === rowData.length
+                  const shouldFetchNextPage = isEndOfScroll && hasNextPage
+                  if (shouldFetchNextPage) fetchNextPage()
+                },
+              }
+            : {
+                onPaginationChanged: (event: PaginationChangedEvent) => {
+                  console.log(event)
+                },
+                pagination: true,
+                paginationPageSize: 10,
+                cacheBlockSize: 10,
+              }),
           // To prevent scroll from flickering back to top
           getRowId: (params) => params.data.id,
         }

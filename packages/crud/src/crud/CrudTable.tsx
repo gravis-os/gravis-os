@@ -3,7 +3,7 @@ import { useUser } from '@gravis-os/auth'
 import type { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
-import { useList, UseListProps } from '@gravis-os/query'
+import { useList, UseListPaginationType, UseListProps } from '@gravis-os/query'
 import DataTable, { DataTableProps } from './DataTable'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
@@ -154,7 +154,13 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     ...(!disableServerSideRowModel && {
       rowModelType: 'externalServerSide',
       height: '60vh',
-      serverSideRowModelProps: { pagination, fetchNextPage },
+      serverSideRowModelProps: {
+        pagination,
+        fetchNextPage,
+        paginationType:
+          useListProps?.pagination?.paginationType ??
+          UseListPaginationType.Infinite,
+      },
       serverSideRowCount: onUseList?.count,
     }),
 
