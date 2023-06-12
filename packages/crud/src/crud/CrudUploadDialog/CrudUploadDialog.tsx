@@ -16,6 +16,7 @@ import React from 'react'
 import CSVReader from 'react-csv-reader'
 import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
+import { GridOptions } from 'ag-grid-community'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
@@ -29,9 +30,10 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
   manyToManyKeys?: string[]
   getUploadValues?: (rows: unknown) => unknown
   hasUploadTemplate?: boolean
-  onUpload?: (store: TypeformState, fileData: any) => Promise<any>
-  submitData?: (data) => Promise<any>
-  detailCellRendererParams?: any
+  onUpload?: (store: TypeformState, fileData: any) => Promise<void>
+  submitData?: (data) => Promise<{ error: { message: string } | null }>
+  masterDetail?: boolean
+  detailCellRendererParams?: GridOptions
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
@@ -46,6 +48,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
     onUpload,
     submitData,
     detailCellRendererParams = {},
+    masterDetail = false,
     ...rest
   } = props
   const { tableHeaderRenameMapping } = module ?? {}
@@ -236,6 +239,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
             render: (props) => {
               const {
                 store,
+                // prev and next return void
                 slider: { prev, next },
               } = props
 
@@ -247,19 +251,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 cellRenderer: 'agGroupCellRenderer',
               }))
 
-              const handleUploadClick = async () => {
-                if (submitData) {
-                  const { error } = await submitData(uploadedRows)
-                  if (error) {
-                    toast.error(
-                      `Some fields are wrong in your file: \n${error.message}`
-                    )
-                    return
-                  }
-
-                  next()
-                  return
-                }
+              const uploadDataWithDefaultTemplate = async () => {
                 /**
                  * Used if tableHeaderRenameMapping is provided to change the renamed headers back when uploading the csv file.
                  * This ensures that the values provided are consistent with the header names in the database.
@@ -328,6 +320,25 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 }
               }
 
+              const handleUploadClick = async () => {
+                switch (true) {
+                  case !!submitData:
+                    const { error } = await submitData(uploadedRows)
+                    if (error) {
+                      toast.error(
+                        `Some fields are wrong in your file: \n${error.message}`
+                      )
+                      return
+                    }
+
+                    next()
+                    return
+                  default:
+                    await uploadDataWithDefaultTemplate()
+                    return
+                }
+              }
+
               return (
                 <>
                   <Box sx={{ textAlign: 'left' }}>
@@ -340,6 +351,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                       rowData={items}
                       columnDefs={columnDefs}
                       detailCellRendererParams={detailCellRendererParams}
+                      masterDetail={masterDetail}
                     />
                   </Box>
 

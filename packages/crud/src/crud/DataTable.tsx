@@ -33,7 +33,6 @@ export interface DataTableProps extends AgGridProps {
   serverSideRowCount?: number
   tableTitle?: React.ReactNode
 
-  detailCellRendererParams?: any
   disableManageColumnMenu?: boolean
   disableViewSwitch?: boolean
   renderGridComponent?: RenderPropsFunction<{
@@ -68,7 +67,6 @@ const DataTable = React.forwardRef<
 
     tableTitle,
 
-    detailCellRendererParams = {},
     disableManageColumnMenu = false,
     disableViewSwitch = true,
     renderGridComponent,
@@ -255,11 +253,9 @@ const DataTable = React.forwardRef<
           enableCellChangeFlash
           rowSelection="multiple"
           rowDragManaged
-          masterDetail
           rowDragMultiRow
           suppressRowClickSelection
           suppressMoveWhenRowDragging
-          detailCellRendererParams={detailCellRendererParams}
           {...agGridProps}
         />
       ) : (

@@ -15,7 +15,6 @@ import {
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { ButtonProps } from '@mui/material'
-import { TypeformState } from '@gravis-os/fields'
 import styleConfig from '../config/styleConfig'
 import FilterForm, { FilterFormProps } from './FilterForm'
 import SearchForm from './SearchForm'
@@ -49,10 +48,6 @@ export interface CrudTableHeaderProps {
   uploadFields?: string[]
   manyToManyKeys?: string[]
   getUploadValues?: (rows: unknown) => unknown
-  hasUploadTemplate?: boolean
-  onUpload?: (store: TypeformState, fileData: any) => Promise<any>
-  submitData?: (data) => Promise<any>
-  detailCellRendererParams?: any
   filterFormProps?: Partial<FilterFormProps>
 }
 
@@ -75,11 +70,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     addFormSections = [],
     searchFormSections = [],
     filterFormSections = [],
-    detailCellRendererParams = {},
     renderAddButton,
-    hasUploadTemplate,
-    onUpload,
-    submitData,
     disableReset,
     filterFormProps,
   } = props
@@ -263,10 +254,6 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
               uploadFields={uploadFields}
               manyToManyKeys={manyToManyKeys}
               getUploadValues={getUploadValues}
-              hasUploadTemplate={hasUploadTemplate}
-              onUpload={onUpload}
-              submitData={submitData}
-              detailCellRendererParams={detailCellRendererParams}
               {...uploadDialogProps}
             />
           )}
