@@ -72,6 +72,7 @@ export interface SortableProps {
   renderItem?: ItemProps['renderItem']
   sortKeys?: UniqueIdentifier[]
   setSortKeys?: React.Dispatch<React.SetStateAction<any>>
+  disabled?: boolean
 }
 
 const Sortable = (props: SortableProps) => {
@@ -82,6 +83,7 @@ const Sortable = (props: SortableProps) => {
     spacing = 2,
     sortKeys: injectedSortKeys,
     setSortKeys: injectedSetSortKeys,
+    disabled,
   } = props
 
   const getSortKeysFromItems = (items) => items.map(({ id }) => String(id))
@@ -165,6 +167,7 @@ const Sortable = (props: SortableProps) => {
                 id={id}
                 index={index + 1}
                 key={id}
+                disabled={disabled}
                 layout={layout}
                 activeIndex={activeIndex}
                 renderItem={renderItem}

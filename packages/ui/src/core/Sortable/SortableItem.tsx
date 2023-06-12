@@ -8,14 +8,16 @@ import { ItemInterface } from './Sortable'
 export type SortableItemProps = ItemProps & {
   activeIndex: number
   item: ItemInterface
+  disabled?: boolean
 }
 
 const SortableItem = (props: SortableItemProps) => {
-  const { id, activeIndex, ...rest } = props
+  const { id, activeIndex, disabled = false, ...rest } = props
 
   // Init sortable
   const sortable = useSortable({
     id,
+    disabled,
     animateLayoutChanges: () => true,
   })
   const {
