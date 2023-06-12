@@ -2,4 +2,4 @@
 "@gravis-os/crud": patch
 ---
 
-add xlsx reader
+allow custom upload method
