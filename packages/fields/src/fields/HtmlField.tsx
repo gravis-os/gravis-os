@@ -17,6 +17,8 @@ export interface HtmlFieldProps {
   value: string
   quillProps?: Record<string, unknown>
   basic?: boolean
+  // https://github.com/zenoamaro/react-quill/issues/317#issuecomment-877155420
+  shouldQuillAutofocus?: boolean
 }
 
 const HtmlField: React.FC<HtmlFieldProps> = (props) => {
@@ -28,6 +30,7 @@ const HtmlField: React.FC<HtmlFieldProps> = (props) => {
     onChange,
     quillProps,
     basic,
+    shouldQuillAutofocus = true,
     ...rest
   } = props
   const { value } = rest
@@ -45,7 +48,11 @@ const HtmlField: React.FC<HtmlFieldProps> = (props) => {
   useEffect(() => {
     if (quillRef) {
       // Load with initialValue
-      quillRef.clipboard.dangerouslyPasteHTML(value)
+      if (shouldQuillAutofocus) {
+        quillRef.clipboard.dangerouslyPasteHTML(value)
+      } else {
+        quillRef.root.innerHTML = value
+      }
 
       // Set value on keyboard change
       quillRef.on('text-change', (delta, oldDelta, source) => {
@@ -53,14 +60,20 @@ const HtmlField: React.FC<HtmlFieldProps> = (props) => {
         onChange(value)
       })
     }
-  }, [quillRef])
+  }, [quillRef, shouldQuillAutofocus])
 
   // Reset value
   useEffect(() => {
     if (quillRef) {
-      if (value === '') quillRef.clipboard.dangerouslyPasteHTML(value)
+      if (value === '') {
+        if (shouldQuillAutofocus) {
+          quillRef.clipboard.dangerouslyPasteHTML(value)
+        } else {
+          quillRef.root.innerHTML = value
+        }
+      }
     }
-  }, [quillRef, value])
+  }, [quillRef, value, shouldQuillAutofocus])
 
   // Gotta useTheme because shorthand methods don't work on fill and stroke
   const theme = useTheme()
