@@ -6,74 +6,21 @@ import {
   DialogButton,
   DialogButtonProps,
   Stack,
-  Dialog,
   useOpen,
 } from '@gravis-os/ui'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
-import React, { useState } from 'react'
+import React from 'react'
+import CSVReader from 'react-csv-reader'
 import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
-import isNil from 'lodash/isNil'
-import map from 'lodash/map'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
 import getManyToManyUploadedRows from './getManyToManyUploadedRows'
-import {
-  SHEET_FORMATS,
-  extractDataFromCsvFile,
-  extractDataFromExcelFile,
-} from './utils'
-
-interface DataTableWithNestedTableProps {
-  module: CrudModule
-  items?: any[]
-  columns: string[]
-  nestedTableProps: Partial<DataTableWithNestedTableProps>
-}
-
-const DataTableWithNestedTable = ({
-  module,
-  items,
-  columns,
-  nestedTableProps,
-}: Partial<DataTableWithNestedTableProps>) => {
-  const columnDefs = columns.map((tableColumnName) => ({
-    field: tableColumnName,
-  }))
-  const [isOpen, setIsOpen] = useState(false)
-  const [childItems, setChildItems] = useState([])
-
-  return (
-    <Box sx={{ textAlign: 'left' }}>
-      <DataTable
-        height={400}
-        disableSizeColumnsToFit
-        disableResizeGrid={false}
-        defaultColDef={{ autoHeight: false }}
-        module={module}
-        rowData={items ?? []}
-        columnDefs={columnDefs}
-        onCellClicked={(e) => {
-          setIsOpen(true)
-          setChildItems(
-            items[e.node.rowIndex][nestedTableProps.module.table.name]
-          )
-        }}
-      />
-
-      {nestedTableProps && (
-        <Dialog open={isOpen} onClose={() => setIsOpen(false)} maxWidth="md">
-          <DataTableWithNestedTable {...nestedTableProps} items={childItems} />
-        </Dialog>
-      )}
-    </Box>
-  )
-}
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
   module: CrudModule
@@ -81,8 +28,10 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
   uploadFields?: string[]
   manyToManyKeys?: string[]
   getUploadValues?: (rows: unknown) => unknown
-  useCustomUploadTemplate?: boolean
-  onCustomUpload?: (store: TypeformState, fileData: any) => void
+  hasUploadTemplate?: boolean
+  onUpload?: (store: TypeformState, fileData: any) => Promise<any>
+  submitData?: (data) => Promise<any>
+  detailCellRendererParams?: any
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
@@ -93,8 +42,10 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
     uploadFields,
     manyToManyKeys,
     getUploadValues: injectedGetUploadedValues,
-    useCustomUploadTemplate,
-    onCustomUpload,
+    hasUploadTemplate,
+    onUpload,
+    submitData,
+    detailCellRendererParams = {},
     ...rest
   } = props
   const { tableHeaderRenameMapping } = module ?? {}
@@ -106,7 +57,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
       module,
       uploadFields,
       manyToManyKeys,
-      useCustomUploadTemplate,
+      hasUploadTemplate,
     })
 
   const { createMutation } = useCreateMutation({
@@ -149,7 +100,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               )
             },
           },
-          ...(useCustomUploadTemplate
+          ...(hasUploadTemplate
             ? []
             : [
                 {
@@ -204,7 +155,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
             key: 'upload-file',
             title: `Upload ${module.name.singular} Data`,
             subtitle: `Select the file ${
-              useCustomUploadTemplate
+              hasUploadTemplate
                 ? ''
                 : "that you've downloaded in the previous step"
             } with your data populated to continue.`,
@@ -219,41 +170,40 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 (values?.uploadedRows as unknown[])?.length
               )
 
-              const handleFileUpload = (file: File) => {
-                const reader = new FileReader()
-                const isExcel = file.name.endsWith('.xlsx')
-
-                reader.onload = async () => {
-                  const buffer = reader.result as ArrayBuffer
-                  const data = isExcel
-                    ? await extractDataFromExcelFile(buffer)
-                    : await extractDataFromCsvFile(file)
-
-                  if (!isNil(onCustomUpload)) {
-                    onCustomUpload(store, data)
-                    return
-                  }
-
-                  store.add({ uploadedRows: data })
-                }
-
-                reader.readAsArrayBuffer(file)
-              }
-
-              const handleChange = (e) => {
-                const { files } = e.target
-                if (files && files[0]) handleFileUpload(files[0])
+              const handleCsvFileUpload = (fileData) => {
+                if (!fileData) return
+                store.add({ uploadedRows: fileData })
               }
 
               return (
                 <>
-                  <input
-                    type="file"
-                    className="form-control"
-                    id="file"
-                    accept={SHEET_FORMATS}
-                    onChange={handleChange}
-                  />
+                  {hasUploadTemplate ? (
+                    <input
+                      type="file"
+                      onChange={(e) => {
+                        const { files } = e.target
+                        if (files && files[0]) {
+                          const reader = new FileReader()
+
+                          reader.onload = async () => {
+                            const buffer = reader.result as ArrayBuffer
+                            await onUpload(store, buffer)
+                          }
+
+                          reader.readAsArrayBuffer(files[0])
+                        }
+                      }}
+                    />
+                  ) : (
+                    <CSVReader
+                      onFileLoaded={handleCsvFileUpload}
+                      parserOptions={{
+                        header: true,
+                        dynamicTyping: true,
+                        skipEmptyLines: true,
+                      }}
+                    />
+                  )}
 
                   <Stack
                     direction="row"
@@ -289,79 +239,24 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 slider: { prev, next },
               } = props
 
-              const { uploadedRows, nestedStructure } = store.values
-              const {
-                module: childModule,
-                columns: childColumns,
-                nextStructure,
-              } = (nestedStructure ??
-                {}) as Partial<DataTableWithNestedTableProps> & {
-                nextStructure: Partial<DataTableWithNestedTableProps>
-              }
+              const { uploadedRows } = store.values
               const items = uploadedRows as any
 
-              const uploadNestedTables = async (
-                items,
-                module,
-                nestedStructure
-              ) => {
-                const {
-                  module: nextModule,
-                  nextStructure,
-                  fkToParent,
-                  getItemWithParentData = () => ({}),
-                } = nestedStructure
-                const { data, error } = await supabaseClient
-                  .from(module.table.name)
-                  .insert(
-                    nextModule
-                      ? map(items, (item) => omit(item, nextModule.table.name))
-                      : items // no need to clean the items of the last table
-                  )
-
-                if (error) {
-                  toast.error(
-                    `Some fields are wrong in your csv file: \n${error.message}`
-                  )
-                  return
-                }
-
-                if (nextModule && data) {
-                  const response = await Promise.allSettled(
-                    map(items, (parentItem, index) =>
-                      uploadNestedTables(
-                        map(parentItem[nextModule.table.name], (childItem) => ({
-                          ...childItem,
-                          [fkToParent]: data[index].id,
-                          ...getItemWithParentData(parentItem, childItem),
-                        })),
-                        nextModule,
-                        nextStructure ?? {} // the last table has nextStructure = null
-                      )
-                    )
-                  )
-
-                  const rejectedResponses = response.filter(
-                    ({ status }) => status === 'rejected'
-                  )
-
-                  if (rejectedResponses.length) {
-                    toast.error(
-                      `Some relations fail to upload: \n${rejectedResponses
-                        .map(
-                          (response) =>
-                            (response as PromiseRejectedResult).reason.message
-                        )
-                        .filter(Boolean)
-                        .join('\n')}`
-                    )
-                  }
-                }
-              }
+              const columnDefs = tableColumnNames.map((tableColumnName) => ({
+                field: tableColumnName,
+                cellRenderer: 'agGroupCellRenderer',
+              }))
 
               const handleUploadClick = async () => {
-                if (nestedStructure) {
-                  await uploadNestedTables(items, module, nestedStructure)
+                if (submitData) {
+                  const { error } = await submitData(uploadedRows)
+                  if (error) {
+                    toast.error(
+                      `Some fields are wrong in your file: \n${error.message}`
+                    )
+                    return
+                  }
+
                   next()
                   return
                 }
@@ -381,6 +276,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
                 const updatedUploadedRows =
                   injectedGetUploadedValues(mainTableRows)
+
                 const { data, error } = await createMutation.mutateAsync(
                   updatedUploadedRows
                 )
@@ -434,18 +330,18 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
               return (
                 <>
-                  <DataTableWithNestedTable
-                    module={module}
-                    items={items}
-                    columns={tableColumnNames}
-                    nestedTableProps={
-                      nestedStructure && {
-                        module: childModule,
-                        columns: childColumns,
-                        nestedTableProps: nextStructure,
-                      }
-                    }
-                  />
+                  <Box sx={{ textAlign: 'left' }}>
+                    <DataTable
+                      height={400}
+                      disableSizeColumnsToFit
+                      disableResizeGrid={false}
+                      defaultColDef={{ autoHeight: false }}
+                      module={module}
+                      rowData={items}
+                      columnDefs={columnDefs}
+                      detailCellRendererParams={detailCellRendererParams}
+                    />
+                  </Box>
 
                   <Stack
                     direction="row"

@@ -49,8 +49,10 @@ export interface CrudTableHeaderProps {
   uploadFields?: string[]
   manyToManyKeys?: string[]
   getUploadValues?: (rows: unknown) => unknown
-  useCustomUploadTemplate?: boolean
-  onCustomUpload?: (store: TypeformState, fileData: any) => void
+  hasUploadTemplate?: boolean
+  onUpload?: (store: TypeformState, fileData: any) => Promise<any>
+  submitData?: (data) => Promise<any>
+  detailCellRendererParams?: any
   filterFormProps?: Partial<FilterFormProps>
 }
 
@@ -73,9 +75,11 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     addFormSections = [],
     searchFormSections = [],
     filterFormSections = [],
+    detailCellRendererParams = {},
     renderAddButton,
-    useCustomUploadTemplate,
-    onCustomUpload,
+    hasUploadTemplate,
+    onUpload,
+    submitData,
     disableReset,
     filterFormProps,
   } = props
@@ -259,8 +263,10 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
               uploadFields={uploadFields}
               manyToManyKeys={manyToManyKeys}
               getUploadValues={getUploadValues}
-              useCustomUploadTemplate={useCustomUploadTemplate}
-              onCustomUpload={onCustomUpload}
+              hasUploadTemplate={hasUploadTemplate}
+              onUpload={onUpload}
+              submitData={submitData}
+              detailCellRendererParams={detailCellRendererParams}
               {...uploadDialogProps}
             />
           )}
