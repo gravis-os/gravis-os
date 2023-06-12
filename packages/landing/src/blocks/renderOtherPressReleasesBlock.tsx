@@ -1,6 +1,7 @@
-import { BlockProps, useLayout } from '@gravis-os/landing'
 import orderBy from 'lodash/orderBy'
 import { PressRelease } from '@gravis-os/types'
+import { useLayout } from '../providers'
+import { BlockProps } from '../web'
 import renderPostBlockItem, {
   RenderPostBlockItemProps,
 } from './renderPostBlockItem'

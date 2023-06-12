@@ -1,5 +1,6 @@
-import { useLayout, BlockProps } from '@gravis-os/landing'
 import { Technology } from '@gravis-os/types'
+import { useLayout } from '../providers'
+import { BlockProps } from '../web'
 import renderTechnologyBlockItem from './renderTechnologyBlockItem'
 
 export interface RenderTechnologysBlockProps extends Omit<BlockProps, 'items'> {

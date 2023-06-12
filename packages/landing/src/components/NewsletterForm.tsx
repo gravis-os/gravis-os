@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Form, FormSections } from '@gravis-os/form'
 import toast from 'react-hot-toast'
 import { Alert } from '@gravis-os/ui'
-import { EnquiryTypeEnum, postEnquiry } from '@gravis-os/landing'
 import { FormCategoryEnum } from '@gravis-os/types'
+import { EnquiryTypeEnum, postEnquiry } from '../enquiries'
 
 export interface NewsletterFormProps {
   onSubmit?: (values: any) => void

@@ -1,5 +1,5 @@
 import React from 'react'
-import { BlockItemProps, BlockProps } from '@gravis-os/landing'
+import { BlockItemProps, BlockProps } from '../web'
 
 export interface RenderBaseColumnGridBlockProps
   extends Omit<BlockProps, 'items' | 'title'> {

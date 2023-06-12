@@ -1,4 +1,5 @@
-import { BlockProps, useLayout } from '@gravis-os/landing'
+import { useLayout } from '../providers'
+import { BlockProps } from '../web'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'

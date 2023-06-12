@@ -2,7 +2,7 @@ import React from 'react'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
-import { useLayout } from '@gravis-os/landing'
+import { useLayout } from '../providers'
 
 export interface RenderContactLinksBlockItemsProps {}
 

@@ -2,8 +2,8 @@ import React, { useState } from 'react'
 import { Form, FormSections } from '@gravis-os/form'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
-import { EnquiryTypeEnum, postEnquiry } from '@gravis-os/landing'
 import { FormCategoryEnum } from '@gravis-os/types'
+import { EnquiryTypeEnum, postEnquiry } from '../enquiries'
 
 export interface ResourceFormProps {
   onSubmit?: (values: any) => void

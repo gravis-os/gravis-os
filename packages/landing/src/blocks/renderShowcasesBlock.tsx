@@ -1,4 +1,5 @@
-import { BlockProps, Showcase } from '@gravis-os/landing'
+import { Showcase } from '../providers'
+import { BlockProps } from '../web'
 import renderShowcaseCardBlockItem from './renderShowcaseCardBlockItem'
 
 export interface RenderShowcasesBlockProps

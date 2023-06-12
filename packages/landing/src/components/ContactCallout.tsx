@@ -1,9 +1,7 @@
 import React from 'react'
-import {
-  Block,
-  useLayout,
-  renderContactCalloutButtonBlockItem,
-} from '@gravis-os/landing'
+import { useLayout } from '../providers'
+import { renderContactCalloutButtonBlockItem } from '../blocks'
+import { Block } from '../web'
 
 export interface ContactCalloutProps {
   size?: 'medium' | 'large'

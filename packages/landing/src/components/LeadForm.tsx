@@ -4,7 +4,8 @@ import { Alert } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum, ServiceCategory } from '@gravis-os/types'
-import { useLayout, EnquiryTypeEnum, postEnquiry } from '@gravis-os/landing'
+import { EnquiryTypeEnum, postEnquiry } from '../enquiries'
+import { useLayout } from '../providers'
 
 export interface LeadFormProps {
   serviceCategorys: ServiceCategory[]

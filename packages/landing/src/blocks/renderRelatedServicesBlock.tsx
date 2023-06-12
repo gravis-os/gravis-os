@@ -1,6 +1,6 @@
 import { Service } from '@gravis-os/types'
-import { BlockProps } from '@gravis-os/landing'
 import renderServicesBlockItem from './renderServicesBlockItem'
+import { BlockProps } from '../web'
 
 export interface RenderRelatedServicesBlockProps
   extends Omit<BlockProps, 'items'> {

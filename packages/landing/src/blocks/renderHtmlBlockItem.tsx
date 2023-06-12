@@ -1,4 +1,4 @@
-import { BlockProps } from '@gravis-os/landing'
+import { BlockProps } from '../web'
 
 export interface RenderHtmlBlockItemProps extends Omit<BlockProps, 'items'> {
   html: string
