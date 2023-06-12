@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.0
+
+### Minor Changes
+
+- [#244](https://github.com/gravis-os/gravis-os/pull/244) [`dc976b0`](https://github.com/gravis-os/gravis-os/commit/dc976b095eae89e5eea2431e4aea7ec0300e2b44) Thanks [@benzlui](https://github.com/benzlui)! - Fix bug where `showLeftMenuToggle` is `false` in `DashboardLayoutHeader`
+
+### Patch Changes
+
+- Updated dependencies [[`cc9f3ca`](https://github.com/gravis-os/gravis-os/commit/cc9f3cae9d40617a652dee1ff296c6458a125503)]:
+  - @gravis-os/ui@0.1.3
+
 ## 0.0.30
 
 ### Patch Changes

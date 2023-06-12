@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.114
+
+### Patch Changes
+
+- [#249](https://github.com/gravis-os/gravis-os/pull/249) [`5bc744a`](https://github.com/gravis-os/gravis-os/commit/5bc744a834e5ff864daa1936ae1b2f1a59e38fa3) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(fields, form): can disable quilljs edtor autofocus if needed.
+
+- Updated dependencies [[`5bc744a`](https://github.com/gravis-os/gravis-os/commit/5bc744a834e5ff864daa1936ae1b2f1a59e38fa3), [`cc9f3ca`](https://github.com/gravis-os/gravis-os/commit/cc9f3cae9d40617a652dee1ff296c6458a125503)]:
+  - @gravis-os/fields@0.1.2
+  - @gravis-os/ui@0.1.3
+
 ## 0.0.113
 
 ### Patch Changes

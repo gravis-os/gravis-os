@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+### Patch Changes
+
+- [#250](https://github.com/gravis-os/gravis-os/pull/250) [`cc9f3ca`](https://github.com/gravis-os/gravis-os/commit/cc9f3cae9d40617a652dee1ff296c6458a125503) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - allow sortable items to be disabled
+
 ## 0.1.2
 
 ### Patch Changes
