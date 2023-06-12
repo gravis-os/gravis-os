@@ -117,6 +117,8 @@ export interface FormSectionFieldProps {
   chipFieldProps?: Partial<ControlledChipFieldProps>
   checkboxTableProps?: ControlledCheckboxTableOptions
 
+  shouldQuillAutofocus?: boolean
+
   // Manage layout
   gridProps?: GridProps
 
