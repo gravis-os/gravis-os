@@ -13,6 +13,8 @@ import {
   Breadcrumbs,
   BreadcrumbsProps,
 } from '@gravis-os/ui'
+import { useRouter } from 'next/router'
+import { useLayout } from '@gravis-os/landing'
 
 export interface LandingLayoutProps extends StackProps {
   headerProps?: HeaderProps
@@ -89,15 +91,41 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
     sx: { my: 0.5, ...injectedBreadcrumbsProps?.sx },
   }
 
+  const { site, routeConfig } = useLayout()
+
+  const router = useRouter()
+  const isHomeRoute = router.pathname === routeConfig?.HOME
+
   return (
     <Stack sx={{ minHeight: '100vh', backgroundColor, ...sx }} {...rest}>
       <NextNProgress />
 
       {/* SEO */}
-      {seo && <NextSeo {...seo} />}
+      {seo && (
+        <NextSeo
+          {...{
+            ...(isHomeRoute ? {} : { titleTemplate: `%s | ${site?.title}` }),
+            ...seo,
+            openGraph: {
+              ...seo.openGraph,
+              url: `${site?.absolute_url}${router.asPath}`,
+            },
+            canonical: `${site?.absolute_url}${router.asPath.split('?')[0]}`,
+          }}
+        />
+      )}
 
       {/* Header */}
-      {headerProps && <Header {...headerProps} />}
+      {headerProps && (
+        <Header
+          {...{
+            accordionProps: { titleProps: { variant: 'h5' } },
+            drawerWidth: '100vw',
+            disableBoxShadow: true,
+            ...headerProps,
+          }}
+        />
+      )}
 
       <Box
         {...bodyProps}
@@ -130,7 +158,22 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
       </Box>
 
       {/* Footer */}
-      {footerProps && <Footer {...footerProps} />}
+      {footerProps && (
+        <Footer
+          {...{
+            ...footerProps,
+            companyName: site?.company_title,
+            accordionProps: {
+              titleProps: { variant: 'h7' },
+              itemTitleProps: {
+                variant: 'body2',
+                color: 'text.secondary',
+                hoverColor: 'inherit',
+              },
+            },
+          }}
+        />
+      )}
     </Stack>
   )
 }
