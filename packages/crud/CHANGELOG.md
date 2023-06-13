@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.102
+
+### Patch Changes
+
+- [#245](https://github.com/gravis-os/gravis-os/pull/245) [`e76e3ee5`](https://github.com/gravis-os/gravis-os/commit/e76e3ee5f10e110f1a5613f7b9ea1ed2b4387e75) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - allow custom upload method
+
 ## 0.0.101
 
 ### Patch Changes
