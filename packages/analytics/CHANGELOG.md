@@ -1,5 +1,16 @@
 # @gravis-os/analytics
 
+## 0.1.0
+
+### Minor Changes
+
+- [#251](https://github.com/gravis-os/gravis-os/pull/251) [`c24062b`](https://github.com/gravis-os/gravis-os/commit/c24062bf7d035db53eb9d14c9cd8ae0974c88610) Thanks [@shank1xt](https://github.com/shank1xt)! - Migrate packages from @onex
+
+### Patch Changes
+
+- Updated dependencies [[`c24062b`](https://github.com/gravis-os/gravis-os/commit/c24062bf7d035db53eb9d14c9cd8ae0974c88610)]:
+  - @gravis-os/types@0.1.0
+
 ## 0.0.4
 
 ### Patch Changes
