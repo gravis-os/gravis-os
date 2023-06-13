@@ -1,4 +1,4 @@
-import { BlockProps } from '../web'
+import { BlockProps } from '../web/Block/Block'
 
 export interface RenderParagraphBlockItemProps
   extends Omit<BlockProps, 'items'> {

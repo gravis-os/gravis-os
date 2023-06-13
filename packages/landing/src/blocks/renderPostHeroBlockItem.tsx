@@ -1,4 +1,5 @@
-import { BlockItemProps, BlockProps } from '../web'
+import { BlockProps } from '../web/Block/Block'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderPostHeroBlockItemProps extends BlockProps {
   overline?: string

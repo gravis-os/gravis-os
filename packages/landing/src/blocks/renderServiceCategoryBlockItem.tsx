@@ -1,5 +1,5 @@
 import { Service, ServiceCategory } from '@gravis-os/types'
-import { BlockItemProps } from '../web'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderServiceCategoryBlockItemProps {
   item: ServiceCategory & { items: Array<Service & { href: string }> } & {

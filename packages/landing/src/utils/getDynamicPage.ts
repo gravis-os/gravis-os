@@ -3,7 +3,7 @@ import {
   getObjectWithReplacedValues,
 } from '@gravis-os/utils'
 import flowRight from 'lodash/flowRight'
-import { useLayout } from '../providers'
+import { useLayout } from '../providers/LayoutProvider'
 
 // ==============================
 // Plugins

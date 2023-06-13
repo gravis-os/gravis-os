@@ -1,4 +1,4 @@
-import { Showcase, useLayout } from '../providers'
+import { Showcase, useLayout } from '../providers/LayoutProvider'
 import renderGhostButtonBlockItem from './renderGhostButtonBlockItem'
 
 export interface RenderShowcaseCardBlockItemProps {

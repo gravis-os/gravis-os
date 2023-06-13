@@ -2,7 +2,7 @@ import { Slider } from '@gravis-os/ui'
 import React from 'react'
 import { useMediaQuery, useTheme } from '@mui/material'
 import { ClientTestimonial } from '@gravis-os/types'
-import { Block, BlockProps } from '../web'
+import Block, { BlockProps } from '../web/Block/Block'
 import renderClientTestimonialSliderBlockItem from './renderClientTestimonialSliderBlockItem'
 
 export interface RenderClientTestimonialSliderBlockProps

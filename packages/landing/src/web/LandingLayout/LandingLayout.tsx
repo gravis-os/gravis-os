@@ -14,7 +14,7 @@ import {
   BreadcrumbsProps,
 } from '@gravis-os/ui'
 import { useRouter } from 'next/router'
-import { useLayout } from '../../providers'
+import { useLayout } from '../../providers/LayoutProvider'
 
 export interface LandingLayoutProps extends StackProps {
   headerProps?: HeaderProps

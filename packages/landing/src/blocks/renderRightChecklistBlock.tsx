@@ -1,6 +1,6 @@
 import React from 'react'
 import CheckCircleIcon from '@mui/icons-material/CheckCircle'
-import { BlockProps } from '../web'
+import { BlockProps } from '../web/Block/Block'
 
 export interface RenderRightChecklistBlockProps
   extends Omit<BlockProps, 'items'> {

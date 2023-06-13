@@ -2,7 +2,7 @@ import React from 'react'
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
-import { useLayout } from '../providers'
+import { useLayout } from '../providers/LayoutProvider'
 
 export interface RenderContactLinksBlockItemsProps {}
 

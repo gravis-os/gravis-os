@@ -3,7 +3,7 @@ import { Box, Typography, ButtonProps } from '@gravis-os/ui'
 import TrendingFlatOutlinedIcon from '@mui/icons-material/TrendingFlatOutlined'
 import { withPaletteMode } from '@gravis-os/theme'
 import { useTheme } from '@mui/material'
-import { BlockItemProps } from '../web'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderGhostButtonBlockItemProps
   extends Omit<ButtonProps, 'size'> {

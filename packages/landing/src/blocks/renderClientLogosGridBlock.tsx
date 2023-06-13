@@ -1,5 +1,5 @@
 import { ClientLogo } from '@gravis-os/types'
-import { BlockProps } from '../web'
+import { BlockProps } from '../web/Block/Block'
 
 export interface RenderClientLogosGridBlockProps
   extends Omit<BlockProps, 'items'> {

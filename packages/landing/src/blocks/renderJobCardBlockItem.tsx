@@ -2,8 +2,8 @@ import React from 'react'
 import { Box, useOpen } from '@gravis-os/ui'
 import { printPaddedNumber } from '@gravis-os/utils'
 import { Job } from '@gravis-os/types'
-import { useLayout } from '../providers'
-import { Block } from '../web'
+import { useLayout } from '../providers/LayoutProvider'
+import Block from '../web/Block/Block'
 
 export interface RenderJobCardBlockItemProps {
   index: number

@@ -3,7 +3,8 @@ import { Form, FormSections } from '@gravis-os/form'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
-import { EnquiryTypeEnum, postEnquiry } from '../enquiries'
+import { postEnquiry } from '../enquiries/common/postEnquiry'
+import { EnquiryTypeEnum } from '../enquiries/common/constants'
 
 export interface ResourceFormProps {
   onSubmit?: (values: any) => void

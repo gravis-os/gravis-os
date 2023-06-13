@@ -1,4 +1,4 @@
-import { BlockItemProps } from '../web'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderThreeColumnGridBlockItemProps extends BlockItemProps {
   items: Array<{ fa_icon: string; title: string; subtitle: string }>

@@ -1,5 +1,5 @@
-import { Showcase } from '../providers'
-import { BlockProps } from '../web'
+import { Showcase } from '../providers/LayoutProvider'
+import { BlockProps } from '../web/Block/Block'
 import renderShowcaseCardBlockItem from './renderShowcaseCardBlockItem'
 
 export interface RenderShowcasesBlockProps

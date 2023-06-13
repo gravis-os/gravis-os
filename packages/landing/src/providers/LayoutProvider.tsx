@@ -14,7 +14,7 @@ import {
   Workspace,
 } from '@gravis-os/types'
 import { FooterProps, ImageProps } from '@gravis-os/ui'
-import { BlockItemProps } from '../web'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 // ==============================
 // Types

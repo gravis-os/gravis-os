@@ -1,6 +1,6 @@
 import { ClientTestimonial } from '@gravis-os/types'
-import { useLayout } from '../providers'
-import { BlockProps } from '../web'
+import { useLayout } from '../providers/LayoutProvider'
+import { BlockProps } from '../web/Block/Block'
 import renderFeaturedIndustryBlockItem from './renderFeaturedIndustryBlockItem'
 
 export interface RenderFeaturedIndustrysBlockProps

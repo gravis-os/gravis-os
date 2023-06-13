@@ -1,6 +1,6 @@
 import { Post } from '@gravis-os/types'
 import { renderPostsBlockItem } from './index'
-import { BlockProps } from '../web'
+import { BlockProps } from '../web/Block/Block'
 
 export interface RenderRelatedPostsBlockProps
   extends Omit<BlockProps, 'items'> {

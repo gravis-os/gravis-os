@@ -1,7 +1,7 @@
 import React from 'react'
-import { useLayout } from '../providers'
-import { renderContactCalloutButtonBlockItem } from '../blocks'
-import { Block } from '../web'
+import { useLayout } from '../providers/LayoutProvider'
+import renderContactCalloutButtonBlockItem from '../blocks/renderContactCalloutButtonBlockItem'
+import Block from '../web/Block/Block'
 
 export interface ContactCalloutProps {
   size?: 'medium' | 'large'

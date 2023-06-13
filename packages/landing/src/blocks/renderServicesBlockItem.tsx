@@ -1,6 +1,6 @@
 import { Service } from '@gravis-os/types'
-import { useLayout } from '../providers'
-import { BlockItemProps } from '../web'
+import { useLayout } from '../providers/LayoutProvider'
+import { BlockItemProps } from '../web/Block/BlockItem'
 import renderServiceBlockItem, {
   RenderServiceBlockItemProps,
 } from './renderServiceBlockItem'

@@ -1,5 +1,5 @@
-import { useLayout } from '../providers'
-import { BlockProps } from '../web'
+import { useLayout } from '../providers/LayoutProvider'
+import { BlockProps } from '../web/Block/Block'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'

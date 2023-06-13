@@ -1,6 +1,6 @@
 import React from 'react'
-import { useLayout } from '../providers'
-import { BlockItemProps } from '../web'
+import { useLayout } from '../providers/LayoutProvider'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderContactCalloutButtonBlockItemProps
   extends BlockItemProps {

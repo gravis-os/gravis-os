@@ -1,4 +1,4 @@
-import { BlockItemProps } from '../web'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderShowcaseStickyGridBlockItemProps {
   mode?: 'light' | 'dark'

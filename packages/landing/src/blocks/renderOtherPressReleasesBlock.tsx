@@ -1,7 +1,7 @@
 import orderBy from 'lodash/orderBy'
 import { PressRelease } from '@gravis-os/types'
-import { useLayout } from '../providers'
-import { BlockProps } from '../web'
+import { useLayout } from '../providers/LayoutProvider'
+import { BlockProps } from '../web/Block/Block'
 import renderPostBlockItem, {
   RenderPostBlockItemProps,
 } from './renderPostBlockItem'
