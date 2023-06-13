@@ -1,3 +1,4 @@
+import concat from 'lodash/concat'
 import has from 'lodash/has'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
@@ -14,6 +15,7 @@ const getTableColumnNames = (
   const columns = Object.keys(tableDefinition.properties).concat(
     manyToManyKeys || []
   )
+
   const processedColumns = columns.reduce((acc, key) => {
     const isPrimaryKey = key === 'id'
     const isCreatedOrUpdatedKey =
@@ -23,7 +25,7 @@ const getTableColumnNames = (
     const shouldSkipKey =
       isPrimaryKey || isCreatedOrUpdatedKey || !isRequiredKey
 
-    return shouldSkipKey ? acc : acc.concat(key)
+    return shouldSkipKey ? acc : concat(acc, key)
   }, [])
 
   // Map column names if tableHeaderRenameMapping is given

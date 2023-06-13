@@ -9,8 +9,9 @@ const useDownloadTableDefinitionCsvFile = (props: {
   module: CrudModule
   uploadFields?: string[]
   manyToManyKeys?: string[]
+  hasUploadTemplate?: boolean
 }) => {
-  const { module, uploadFields, manyToManyKeys } = props
+  const { module, uploadFields, manyToManyKeys, hasUploadTemplate } = props
   const { tableHeaderRenameMapping } = module ?? {}
 
   // Get table names for downloading the color
@@ -19,7 +20,7 @@ const useDownloadTableDefinitionCsvFile = (props: {
 
   // Fetch table definitions from database when handleDownload in the return is fired
   const tableDefinition = useGetTableDefinitionByTableName(module.table.name, {
-    enabled: shouldDownload,
+    enabled: shouldDownload || hasUploadTemplate,
   })
 
   const tableColumnNames = getTableColumnNames(
@@ -41,7 +42,7 @@ const useDownloadTableDefinitionCsvFile = (props: {
       setShouldDownload(false)
       setIsDownloaded(true)
     }
-  }, [tableDefinition, shouldDownload])
+  }, [tableDefinition, shouldDownload, tableColumnNames, module.table.name])
 
   return {
     handleDownload: () => setShouldDownload(true),
