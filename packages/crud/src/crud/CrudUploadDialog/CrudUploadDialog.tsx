@@ -16,9 +16,8 @@ import React from 'react'
 import CSVReader from 'react-csv-reader'
 import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
-import { GridOptions } from 'ag-grid-community'
 import useCreateMutation from '../../hooks/useCreateMutation'
-import DataTable from '../DataTable'
+import DataTable, { DataTableProps } from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
 import getManyToManyUploadedRows from './getManyToManyUploadedRows'
@@ -32,8 +31,7 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
   hasUploadTemplate?: boolean
   onUpload?: (store: TypeformState, fileData: any) => Promise<void>
   submitData?: (data) => Promise<{ error: { message: string } | null }>
-  masterDetail?: boolean
-  detailCellRendererParams?: GridOptions
+  dataTableProps?: Partial<DataTableProps>
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
@@ -47,8 +45,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
     hasUploadTemplate,
     onUpload,
     submitData,
-    detailCellRendererParams = {},
-    masterDetail = false,
+    dataTableProps = {},
     ...rest
   } = props
   const { tableHeaderRenameMapping } = module ?? {}
@@ -160,8 +157,8 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
             subtitle: `Select the file ${
               hasUploadTemplate
                 ? ''
-                : "that you've downloaded in the previous step"
-            } with your data populated to continue.`,
+                : "that you've downloaded in the previous step "
+            }with your data populated to continue.`,
             render: (props) => {
               const {
                 slider: { prev, next },
@@ -350,8 +347,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                       module={module}
                       rowData={items}
                       columnDefs={columnDefs}
-                      detailCellRendererParams={detailCellRendererParams}
-                      masterDetail={masterDetail}
+                      {...dataTableProps}
                     />
                   </Box>
 
