@@ -1,4 +1,4 @@
-import { BlockItemProps } from '@gravis-os/landing'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderHeaderMenuBlockItemProps {
   title: BlockItemProps['title']

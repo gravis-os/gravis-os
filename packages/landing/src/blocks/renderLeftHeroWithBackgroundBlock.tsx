@@ -1,4 +1,5 @@
-import { BlockItemProps, BlockProps } from '@gravis-os/landing'
+import { BlockItemProps } from '../web/Block/BlockItem'
+import { BlockProps } from '../web/Block/Block'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'

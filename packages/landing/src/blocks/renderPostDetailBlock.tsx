@@ -1,7 +1,7 @@
-import { BlockProps } from '@gravis-os/landing'
 import dayjs from 'dayjs'
 import { Post, PressRelease } from '@gravis-os/types'
 import renderHtmlBlockItem from './renderHtmlBlockItem'
+import { BlockProps } from '../web/Block/Block'
 
 export interface RenderPostDetailBlockItemProps
   extends Omit<BlockProps, 'items'> {

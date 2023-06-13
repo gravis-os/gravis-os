@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { EnquiryTypeEnum } from './constants'
-import { getSlackFormats } from '../slack'
+import getSlackFormats from '../slack/getSlackFormats'
 
 const getAudienceByType = (type: EnquiryTypeEnum) => {
   switch (type) {

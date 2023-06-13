@@ -1,5 +1,6 @@
 import React from 'react'
-import { useLayout, BlockItemProps } from '@gravis-os/landing'
+import { useLayout } from '../providers/LayoutProvider'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderContactCalloutButtonBlockItemProps
   extends BlockItemProps {

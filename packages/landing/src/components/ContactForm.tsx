@@ -3,8 +3,10 @@ import { Form, FormSections } from '@gravis-os/form'
 import { Alert } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
-import { useLayout, EnquiryTypeEnum, postEnquiry } from '@gravis-os/landing'
 import { FormCategoryEnum } from '@gravis-os/types'
+import { postEnquiry } from '../enquiries/common/postEnquiry'
+import { EnquiryTypeEnum } from '../enquiries/common/constants'
+import { useLayout } from '../providers/LayoutProvider'
 
 export interface ContactFormProps {
   onSubmit?: (values: any) => void

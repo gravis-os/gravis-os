@@ -1,6 +1,6 @@
-import { BlockProps } from '@gravis-os/landing'
 import { ClientTestimonial } from '@gravis-os/types'
 import renderClientTestimonialCardBlockItem from './renderClientTestimonialCardBlockItem'
+import { BlockProps } from '../web/Block/Block'
 
 export interface RenderClientTestimonialCardsBlockProps
   extends Omit<BlockProps, 'items' | 'title'> {

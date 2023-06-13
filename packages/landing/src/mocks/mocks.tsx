@@ -1,7 +1,7 @@
 import React from 'react'
 import { Typography } from '@gravis-os/ui'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
-import { BlockItemTypeEnum } from '../web/Block'
+import { BlockItemTypeEnum } from '../web/Block/constants'
 
 export const MOCK_LOGO_JSX = (
   <Typography

@@ -1,7 +1,7 @@
 import React from 'react'
 import { ImageMarquee } from '@gravis-os/ui'
 import { ClientLogo } from '@gravis-os/types'
-import { BlockProps } from '@gravis-os/landing'
+import { BlockProps } from '../web/Block/Block'
 
 export interface RenderClientLogosImageMarqueeBlockProps
   extends Omit<BlockProps, 'items'> {

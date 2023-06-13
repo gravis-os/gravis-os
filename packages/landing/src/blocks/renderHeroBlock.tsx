@@ -1,4 +1,4 @@
-import { BlockProps } from '@gravis-os/landing'
+import { BlockProps } from '../web/Block/Block'
 
 export interface RenderHeroBlockProps extends BlockProps {
   item: {
