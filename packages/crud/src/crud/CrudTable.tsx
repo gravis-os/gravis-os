@@ -1,4 +1,4 @@
-import React, { useRef } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { useUser } from '@gravis-os/auth'
 import type { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
@@ -125,7 +125,21 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     queryOptions: { enabled: Boolean(user), ...useListProps?.queryOptions },
     setQuery,
   })
-  const { items: fetchedItems, refetch, pagination, fetchNextPage } = onUseList
+  const {
+    items: fetchedItems,
+    refetch,
+    pagination,
+    fetchNextPage,
+    isFetching,
+  } = onUseList
+
+  useEffect(() => {
+    if (isFetching) {
+      gridRef.current?.api?.showLoadingOverlay()
+    } else {
+      gridRef.current?.api?.hideOverlay()
+    }
+  }, [isFetching])
 
   // Add virtuals
   const items =
@@ -157,7 +171,6 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       serverSideRowModelProps: { pagination, fetchNextPage },
       serverSideRowCount: onUseList?.count,
     }),
-
     ...injectedDataTableProps,
   }
 
