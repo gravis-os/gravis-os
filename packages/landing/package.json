@@ -29,6 +29,7 @@
     "tslint": "tsc --noEmit --incremental"
   },
   "dependencies": {
+    "@gravis-os/form": "*",
     "@gravis-os/theme": "*",
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
