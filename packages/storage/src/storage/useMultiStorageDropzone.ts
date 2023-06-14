@@ -3,6 +3,7 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
 import { DropzoneOptions, DropzoneState, useDropzone } from 'react-dropzone'
 import { CrudItem } from '@gravis-os/types'
+import isEmpty from 'lodash/isEmpty'
 import getFileMetaFromFile from './getFileMetaFromFile'
 import useFiles from './useFiles'
 import { File } from './types'
@@ -88,7 +89,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           : defaultForeignTableRows
 
       // This is a new item, defer db saving action instead by storing in the form value
-      if (!primaryRecord && setFormValue) {
+      if (isEmpty(primaryRecord) && setFormValue) {
         setFormValue(foreignTableRows)
         return foreignTableRows
       }
@@ -130,7 +131,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       setFiles((prevFiles) => {
         // We need to assign instead of spread because we need to mount on the File class
         const newFilesWithId = newFiles.map((newFile, i) => {
-          if (!primaryRecord && setFormValue) {
+          if (isEmpty(primaryRecord) && setFormValue) {
             return Object.assign(newFile, { id: i })
           }
           return Object.assign(newFile, { id: uploaded.data[i].id })
