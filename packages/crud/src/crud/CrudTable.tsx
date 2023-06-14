@@ -4,6 +4,7 @@ import type { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { useList, UseListProps } from '@gravis-os/query'
+import size from 'lodash/size'
 import DataTable, { DataTableProps } from './DataTable'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
@@ -133,14 +134,6 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     isFetching,
   } = onUseList
 
-  useEffect(() => {
-    if (isFetching) {
-      gridRef.current?.api?.showLoadingOverlay()
-    } else {
-      gridRef.current?.api?.hideOverlay()
-    }
-  }, [isFetching])
-
   // Add virtuals
   const items =
     module &&
@@ -155,6 +148,22 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
   // AgGrid Ref
   const gridRef = useRef(null)
+
+  useEffect(() => {
+    const gridApi = gridRef.current?.api
+
+    if (isFetching) {
+      gridApi?.showLoadingOverlay()
+      return
+    }
+
+    if (size(items) === 0) {
+      gridApi?.showNoRowsOverlay()
+      return
+    }
+
+    gridApi?.hideOverlay()
+  }, [isFetching, items])
 
   // DataTable props
   const dataTableProps = {
