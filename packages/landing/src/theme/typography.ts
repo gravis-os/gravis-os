@@ -1,8 +1,10 @@
 import { createTheme } from '@mui/material/styles'
 
-const headerFontFamily = 'sans-serif'
-const bodyFontFamily = 'sans-serif'
-const overlineFontFamily = 'sans-serif'
+const defaultFontFamily = '"Roboto", "Helvetica", "Arial", sans-serif'
+
+const headerFontFamily = defaultFontFamily
+const bodyFontFamily = defaultFontFamily
+const overlineFontFamily = defaultFontFamily
 
 const defaultTheme = createTheme()
 const { pxToRem } = defaultTheme.typography
