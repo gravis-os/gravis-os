@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.32
+
+### Patch Changes
+
+- [#254](https://github.com/gravis-os/gravis-os/pull/254) [`84589b4e`](https://github.com/gravis-os/gravis-os/commit/84589b4e28272aeea0f2afbd400d0af2358cc9f8) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix props spread bug in useList
+
 ## 0.0.31
 
 ### Patch Changes
