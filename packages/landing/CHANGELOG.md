@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- [#256](https://github.com/gravis-os/gravis-os/pull/256) [`ca8a508`](https://github.com/gravis-os/gravis-os/commit/ca8a50801e61608a10e134b062ab711b84226441) Thanks [@shank1xt](https://github.com/shank1xt)! - Fix dependencies
+
+- Updated dependencies [[`1e5a088`](https://github.com/gravis-os/gravis-os/commit/1e5a088de219dc5f82e425401181359b31e3ae08)]:
+  - @gravis-os/ui@0.1.4
+
 ## 0.1.0
 
 ### Minor Changes

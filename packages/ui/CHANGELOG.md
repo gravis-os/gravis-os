@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4
+
+### Patch Changes
+
+- [#255](https://github.com/gravis-os/gravis-os/pull/255) [`1e5a088`](https://github.com/gravis-os/gravis-os/commit/1e5a088de219dc5f82e425401181359b31e3ae08) Thanks [@shank1xt](https://github.com/shank1xt)! - add disable callout to footer props
+
 ## 0.1.3
 
 ### Patch Changes
