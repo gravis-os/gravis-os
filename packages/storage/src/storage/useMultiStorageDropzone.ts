@@ -58,10 +58,6 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.url))
   }, [])
 
-  useEffect(() => {
-    console.log(files.length)
-  }, [files])
-
   // Methods
   const handleUpload = async (files: File[]) => {
     try {
