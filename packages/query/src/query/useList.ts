@@ -14,6 +14,7 @@ import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { CrudItem } from '@gravis-os/types'
+import replace from 'lodash/replace'
 import usePagination from './usePagination'
 import useRouterQuery from './useRouterQuery'
 import {
@@ -29,6 +30,7 @@ import {
 // Constants
 // ==============================
 const DEFAULT_PAGE_SIZE = 12
+const BRACKET_REGEX = /[()]/
 
 // ==============================
 // Plugins
@@ -154,7 +156,7 @@ const withSort = () => (props: UseListProps & UseListFilters) => {
 }
 
 const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
-  const { filterByQueryString, filters, parsedQs } = props
+  const { filterByQueryString, filters, ors = [], parsedQs } = props
 
   if (!filterByQueryString || isEmpty(parsedQs)) return props
 
@@ -167,10 +169,9 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
    */
   const nextFilters = Object.entries(parsedQs).reduce(
     (acc, [key, injectedParsedQsValue]) => {
-      if (key === 'order') return acc
+      if (key === 'order' || key === 'or') return acc
 
       const parsedQsValue = String(injectedParsedQsValue)
-
       const getOpAndFilterValue = (parsedQsValue: string): string[] => {
         // Check if we have an op
         const isOpInParsedQsValue = parsedQsValue.includes('.')
@@ -214,9 +215,29 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
     filters as SupabasePostgrestBuilderFiltersType[]
   )
 
+  const nextOrs = Object.entries(parsedQs).reduce(
+    (acc, [key, injectedParsedQsValue]) => {
+      const parsedQsValue = String(injectedParsedQsValue)
+
+      if (key === 'or') {
+        const filterString = replace(
+          parsedQsValue,
+          new RegExp(BRACKET_REGEX, 'g'),
+          ''
+        )
+
+        return [...acc, filterString]
+      }
+
+      return acc
+    },
+    ors
+  )
+
   return {
     ...props,
     filters: nextFilters,
+    ors: nextOrs,
   }
 }
 
@@ -394,6 +415,7 @@ const useList = (props: UseListProps): UseListReturn => {
     disablePagination,
     module,
   } = props
+
   const {
     pageSize = DEFAULT_PAGE_SIZE,
     paginationType = UseListPaginationType.Infinite,

@@ -26,6 +26,8 @@ const useRouterQueryFilters = (args) => {
 
       const defaultReturn = { ...acc, [key]: value }
 
+      if (key === 'or') return defaultReturn
+
       /**
        * Get relation title/name string based on the id e.g. id === 2
        * This attempts to retrieve the title of the relation object based on its id
@@ -66,7 +68,8 @@ const useRouterQueryFilters = (args) => {
     return (
       Object.entries(filters).reduce((acc, filter) => {
         const [key, value] = filter
-        const isFilterKeyFoundInFilterFields = filterFieldKeys.includes(key)
+        const isFilterKeyFoundInFilterFields =
+          filterFieldKeys.includes(key) || key === 'or'
         if (!isFilterKeyFoundInFilterFields) return acc
         return { ...acc, [key]: value }
       }, {}) || {}

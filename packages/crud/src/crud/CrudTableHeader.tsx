@@ -15,6 +15,7 @@ import {
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { ButtonProps } from '@mui/material'
+import filter from 'lodash/filter'
 import styleConfig from '../config/styleConfig'
 import FilterForm, { FilterFormProps } from './FilterForm'
 import SearchForm from './SearchForm'
@@ -80,9 +81,11 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const hasSearchFormSections = Boolean(searchFormSections?.length)
   const hasAddFormSections = Boolean(addFormSections?.length)
 
+  const filterFormFieldDefs = getFieldDefsFromSections(filterFormSections)
+  const searchFormFieldDefs = getFieldDefsFromSections(searchFormSections)
   const filterAndSearchFormFieldDefs = {
-    ...getFieldDefsFromSections(filterFormSections),
-    ...getFieldDefsFromSections(searchFormSections),
+    ...filterFormFieldDefs,
+    ...searchFormFieldDefs,
   }
 
   // Filter Drawer
@@ -131,8 +134,21 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
       {}
     )
 
+    const nextOrs = Object.entries(nextFilters).reduce((acc, [key, value]) => {
+      const op = get(searchFormFieldDefs, key)?.op
+      const hasOp = Boolean(op)
+      if (!hasOp) return acc
+      return { ...acc, [key]: `${key}.${value}` }
+    }, {})
+
     // Set state
-    setFilters(nextFilters)
+    setFilters({
+      ...filter(
+        Object.entries(nextFilters),
+        ([key]) => !Object.keys(nextOrs).includes(key)
+      ),
+      or: `${Object.values(nextOrs).join(',')}`,
+    })
     setOpenFilterDrawer(false)
   }
   const handleReset = () => setFilters({})

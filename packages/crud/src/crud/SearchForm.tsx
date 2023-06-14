@@ -10,6 +10,7 @@ import {
   FormSectionsProps,
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
+import forEach from 'lodash/forEach'
 import useSearchForm, { UseSearchFormArgs } from './useSearchForm'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 
@@ -50,6 +51,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     defaultValues,
     ...useSearchFormProps,
   })
+  const { setValue } = form
 
   return (
     <Form
@@ -74,6 +76,9 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                         <SearchOutlinedIcon fontSize="small" />
                       </InputAdornment>
                     ),
+                  },
+                  onChange: (e) => {
+                    forEach(fields, ({ key }) => setValue(key, e.target.value))
                   },
                   size: 'small',
                   ...field,
