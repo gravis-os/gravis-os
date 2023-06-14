@@ -15,6 +15,8 @@ import isEmpty from 'lodash/isEmpty'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { CrudItem } from '@gravis-os/types'
 import replace from 'lodash/replace'
+import map from 'lodash/map'
+import split from 'lodash/split'
 import usePagination from './usePagination'
 import useRouterQuery from './useRouterQuery'
 import {
@@ -160,6 +162,21 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 
   if (!filterByQueryString || isEmpty(parsedQs)) return props
 
+  const getOpAndFilterValue = (parsedQsValue: string): string[] => {
+    // Check if we have an op
+    const isOpInParsedQsValue = parsedQsValue.includes('.')
+
+    // Return eq as op by default
+    if (!isOpInParsedQsValue) return ['eq', parsedQsValue]
+
+    const [op, filterValue] = parsedQsValue.split('.')
+
+    // If op is ilike, add `%`
+    if (op === 'ilike') return [op, `%${filterValue}%`]
+
+    return [op, filterValue]
+  }
+
   /**
    * Let everything in the parsedQs go into the filters.
    * Just spread out the parsedQs into the filters.
@@ -172,20 +189,6 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       if (key === 'order' || key === 'or') return acc
 
       const parsedQsValue = String(injectedParsedQsValue)
-      const getOpAndFilterValue = (parsedQsValue: string): string[] => {
-        // Check if we have an op
-        const isOpInParsedQsValue = parsedQsValue.includes('.')
-
-        // Return eq as op by default
-        if (!isOpInParsedQsValue) return ['eq', parsedQsValue]
-
-        const [op, filterValue] = parsedQsValue.split('.')
-
-        // If op is ilike, add `%`
-        if (op === 'ilike') return [op, `%${filterValue}%`]
-
-        return [op, filterValue]
-      }
 
       // Early terminate on multiple filters
       const isMultipleFilterOnTheSameColumn = Array.isArray(parsedQsValue)
@@ -220,13 +223,20 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       const parsedQsValue = String(injectedParsedQsValue)
 
       if (key === 'or') {
-        const filterString = replace(
-          parsedQsValue,
-          new RegExp(BRACKET_REGEX, 'g'),
-          ''
+        const filterStrings = map(
+          split(
+            replace(parsedQsValue, new RegExp(BRACKET_REGEX, 'g'), ''),
+            ','
+          ),
+          (filterStr) => {
+            const [key, rawOp, rawValue] = split(filterStr, '.')
+            const [op, value] = getOpAndFilterValue(`${rawOp}.${rawValue}`)
+
+            return `${key}.${op}.${value}`
+          }
         )
 
-        return [...acc, filterString]
+        return [...acc, filterStrings.join(',')]
       }
 
       return acc
