@@ -41,6 +41,7 @@ export interface FooterProps extends WithPaletteModeProps {
   legalItems?: { [type in LegalItemType]: string }
   accordionProps?: Omit<NavAccordionProps, 'title'>
   callout?: React.ReactNode
+  disableCallout?: boolean
 }
 
 const Footer: React.FC<FooterProps> = (props) => {
@@ -54,13 +55,14 @@ const Footer: React.FC<FooterProps> = (props) => {
     mode,
     dark,
     callout,
+    disableCallout,
   } = props
 
   const navItems = injectedNavItems?.filter(Boolean)
 
   const childrenJsx = (
     <>
-      {callout}
+      {!disableCallout && callout}
 
       {/* Footer */}
       <Box
@@ -155,7 +157,12 @@ const Footer: React.FC<FooterProps> = (props) => {
                     if (!Icon) return null
 
                     return (
-                      <Link key={type} href={href} target="_blank" aria-label={ariaLabel}>
+                      <Link
+                        key={type}
+                        href={href}
+                        target="_blank"
+                        aria-label={ariaLabel}
+                      >
                         <IconButton size="small" aria-label={ariaLabel}>
                           <Icon fontSize="inherit" />
                         </IconButton>
@@ -178,7 +185,8 @@ const Footer: React.FC<FooterProps> = (props) => {
             >
               <Typography variant="caption" color="text.secondary">
                 {/* The following line replaces only the last period at the end of the company name. */}
-                Copyright ©{new Date().getFullYear()} {companyName?.replace(/\.$/, '')}. All rights reserved.
+                Copyright ©{new Date().getFullYear()}{' '}
+                {companyName?.replace(/\.$/, '')}. All rights reserved.
               </Typography>
             </Stack>
           </Box>
