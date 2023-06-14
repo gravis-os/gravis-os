@@ -58,6 +58,10 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     return () => files.forEach((file) => URL.revokeObjectURL(file.url))
   }, [])
 
+  useEffect(() => {
+    console.log(files.length)
+  }, [files])
+
   // Methods
   const handleUpload = async (files: File[]) => {
     try {
@@ -174,6 +178,9 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       setFiles((prevFiles) =>
         prevFiles.filter((prevFile) => prevFile.url !== file.url)
       )
+
+      // Update form values
+      setFormValue(files)
 
       // Don't toast here because we let confirmation dialog handle toast for us
     } catch (err) {
