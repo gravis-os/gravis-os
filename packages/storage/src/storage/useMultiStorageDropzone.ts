@@ -119,6 +119,13 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       // Handle degenerate case
       if (!uploaded) return
 
+      // Handle upload error
+      if (uploaded?.error) {
+        toast.error('Error')
+        console.error('Error caught:', uploaded?.error)
+        return
+      }
+
       // Set UI after upload success
       setFiles((prevFiles) => {
         // We need to assign instead of spread because we need to mount on the File class
