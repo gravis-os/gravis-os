@@ -9,6 +9,7 @@ import useFiles from './useFiles'
 import { File } from './types'
 
 export interface UseMultiStorageDropzoneProps {
+  name?: string
   item?: CrudItem // The primary module instance (e.g. Product) instance, possibly undefined for a new product
   storageRecords?: Record<string, unknown>[]
   module: { table: { name } } // Product module
@@ -29,6 +30,7 @@ export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
 
 const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const {
+    name = '',
     item,
     storageRecords,
     module,
@@ -42,7 +44,10 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const primaryTableName = module.table.name // Base model e.g. `product`
   const foreignTableName = storageModule.table.name // Has Many e.g. `product_image`
   const primaryRecord = item // `product` instance
-  const foreignRecords = storageRecords ?? item?.[foreignTableName] // `product_image` instances
+  const foreignRecords =
+    storageRecords ??
+    item?.[foreignTableName] ?? // `product_image` instances
+    item?.[name] // `attachment_files` instance instead of `quotation_attachment_file` foreignTableName
 
   // State
   const { files, setFiles } = useFiles({ items: foreignRecords })
@@ -84,7 +89,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
 
       // Allow modify foreignTableRows
       const foreignTableRows =
-        primaryRecord && setUpsertRowsValue
+        !isEmpty(primaryRecord) && setUpsertRowsValue
           ? setUpsertRowsValue(defaultForeignTableRows)
           : defaultForeignTableRows
 
