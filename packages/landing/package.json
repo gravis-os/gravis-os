@@ -29,10 +29,10 @@
     "tslint": "tsc --noEmit --incremental"
   },
   "dependencies": {
+    "@gravis-os/form": "*",
     "@gravis-os/theme": "*",
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
-    "@next/font": "^13.4.5",
     "clsx": "^1.1.1",
     "lodash": "^4.17.21",
     "material-ui-popup-state": "^3.1.1",
