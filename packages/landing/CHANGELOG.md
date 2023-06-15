@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- [#263](https://github.com/gravis-os/gravis-os/pull/263) [`c610d82`](https://github.com/gravis-os/gravis-os/commit/c610d82a3b0351bb2b2ffa336fad94c0c9ada48f) Thanks [@shank1xt](https://github.com/shank1xt)! - add theme to barrel file
+
 ## 0.1.1
 
 ### Patch Changes
