@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.115
+
+### Patch Changes
+
+- [#265](https://github.com/gravis-os/gravis-os/pull/265) [`5136444e`](https://github.com/gravis-os/gravis-os/commit/5136444ec88c1a8774ad053819bb1feae5a7c7c8) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - Add submit button back for form
+
+- Updated dependencies [[`f5df76e7`](https://github.com/gravis-os/gravis-os/commit/f5df76e79c048ce49635ac1b02a22756bff1dd6c)]:
+  - @gravis-os/storage@0.1.0
+
 ## 0.0.114
 
 ### Patch Changes

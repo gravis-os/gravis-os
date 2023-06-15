@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.0
+
+### Minor Changes
+
+- [#262](https://github.com/gravis-os/gravis-os/pull/262) [`f5df76e7`](https://github.com/gravis-os/gravis-os/commit/f5df76e79c048ce49635ac1b02a22756bff1dd6c) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(storage): used lodash `isEmpty` method to determine if `primaryRecord` object is empty.
+  - fix(storage): supported get `foreignRecords` from form name if the name is different from `foreignTableName`.
+  - fix(storage): handled upload error.
+  - fix(storage): set form value after delete files.
+
 ## 0.0.43
 
 ### Patch Changes
