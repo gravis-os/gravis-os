@@ -40,11 +40,7 @@ const restoreUserPreferences = (): UserPreferences | null => {
 
     userPreferences = {
       ...initialUserPreferences,
-      ...JSON.parse(storedData),
-      // Allow to overriding of the mode with the system preference
-      mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light',
+      ...(storedData && JSON.parse(storedData)),
     }
   } catch (err) {
     console.error(err)
@@ -110,32 +106,38 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
 
     if (restoredUserPreferences) {
       setUserPreferences(restoredUserPreferences)
+    } else {
+      setUserPreferences({
+        ...initialUserPreferences,
+        mode: prefersDarkMode ? 'dark' : 'light',
+      })
     }
   }, [prefersDarkMode])
 
-  const saveUserPreferences = (
-    updatedUserPreferences: UserPreferences
-  ): void => {
-    setUserPreferences(updatedUserPreferences)
-    storeUserPreferences(updatedUserPreferences)
-  }
+  useEffect(() => {
+    storeUserPreferences(userPreferences)
+  }, [userPreferences])
 
   const isDarkMode = userPreferences.mode === 'dark'
 
   const handleToggleDarkMode = () => {
-    return saveUserPreferences({
-      ...userPreferences,
+    return setUserPreferences((prevUserPreferences) => ({
+      ...prevUserPreferences,
       mode: isDarkMode ? 'light' : 'dark',
-    })
+    }))
   }
   const handleToggleDarkSidebar = () => {
-    return saveUserPreferences({
-      ...userPreferences,
-      isDarkSidebar: !userPreferences.isDarkSidebar,
-    })
+    return setUserPreferences((prevUserPreferences) => ({
+      ...prevUserPreferences,
+      isDarkSidebar: !prevUserPreferences.isDarkSidebar,
+    }))
   }
   const toggleDarkModeIconButtonJsx = (
-    <IconButton onClick={handleToggleDarkMode} color="inherit" aria-label='toggle color mode'>
+    <IconButton
+      onClick={handleToggleDarkMode}
+      color="inherit"
+      aria-label="toggle color mode"
+    >
       {isDarkMode ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
     </IconButton>
   )
@@ -144,7 +146,7 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
     <UserPreferencesContext.Provider
       value={{
         userPreferences,
-        saveUserPreferences,
+        saveUserPreferences: setUserPreferences,
         isDarkMode,
         handleToggleDarkMode,
         handleToggleDarkSidebar,
