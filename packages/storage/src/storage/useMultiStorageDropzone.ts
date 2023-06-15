@@ -3,11 +3,13 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
 import { DropzoneOptions, DropzoneState, useDropzone } from 'react-dropzone'
 import { CrudItem } from '@gravis-os/types'
+import isEmpty from 'lodash/isEmpty'
 import getFileMetaFromFile from './getFileMetaFromFile'
 import useFiles from './useFiles'
 import { File } from './types'
 
 export interface UseMultiStorageDropzoneProps {
+  name?: string
   item?: CrudItem // The primary module instance (e.g. Product) instance, possibly undefined for a new product
   storageRecords?: Record<string, unknown>[]
   module: { table: { name } } // Product module
@@ -28,6 +30,7 @@ export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
 
 const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const {
+    name = '',
     item,
     storageRecords,
     module,
@@ -41,7 +44,10 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const primaryTableName = module.table.name // Base model e.g. `product`
   const foreignTableName = storageModule.table.name // Has Many e.g. `product_image`
   const primaryRecord = item // `product` instance
-  const foreignRecords = storageRecords ?? item?.[foreignTableName] // `product_image` instances
+  const foreignRecords =
+    storageRecords ??
+    item?.[foreignTableName] ?? // `product_image` instances
+    item?.[name] // `attachment_files` instance instead of `quotation_attachment_file` foreignTableName
 
   // State
   const { files, setFiles } = useFiles({ items: foreignRecords })
@@ -83,12 +89,12 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
 
       // Allow modify foreignTableRows
       const foreignTableRows =
-        primaryRecord && setUpsertRowsValue
+        !isEmpty(primaryRecord) && setUpsertRowsValue
           ? setUpsertRowsValue(defaultForeignTableRows)
           : defaultForeignTableRows
 
       // This is a new item, defer db saving action instead by storing in the form value
-      if (!primaryRecord && setFormValue) {
+      if (isEmpty(primaryRecord) && setFormValue) {
         setFormValue(foreignTableRows)
         return foreignTableRows
       }
@@ -119,11 +125,18 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       // Handle degenerate case
       if (!uploaded) return
 
+      // Handle upload error
+      if (uploaded?.error) {
+        toast.error('Error')
+        console.error('Error caught:', uploaded?.error)
+        return
+      }
+
       // Set UI after upload success
       setFiles((prevFiles) => {
         // We need to assign instead of spread because we need to mount on the File class
         const newFilesWithId = newFiles.map((newFile, i) => {
-          if (!primaryRecord && setFormValue) {
+          if (isEmpty(primaryRecord) && setFormValue) {
             return Object.assign(newFile, { id: i })
           }
           return Object.assign(newFile, { id: uploaded.data[i].id })
@@ -161,6 +174,9 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       setFiles((prevFiles) =>
         prevFiles.filter((prevFile) => prevFile.url !== file.url)
       )
+
+      // Update form values
+      setFormValue(files)
 
       // Don't toast here because we let confirmation dialog handle toast for us
     } catch (err) {
