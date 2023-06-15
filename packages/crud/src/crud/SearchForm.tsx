@@ -65,7 +65,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
             {
               ...sections[0],
               fields: sections[0].fields.map((field, i) => {
-                if (i !== 0) return null
+                if (i !== 0) return
                 return {
                   disableBorders: true,
                   disableLabel: true,
@@ -90,7 +90,6 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                 }
               }),
             },
-            ...sections.slice(1, sections.length - 1),
           ]}
           {...formSectionsProps}
         />

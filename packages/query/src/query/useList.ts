@@ -14,7 +14,6 @@ import pick from 'lodash/pick'
 import isEmpty from 'lodash/isEmpty'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { CrudItem } from '@gravis-os/types'
-import replace from 'lodash/replace'
 import map from 'lodash/map'
 import split from 'lodash/split'
 import usePagination from './usePagination'
@@ -32,7 +31,6 @@ import {
 // Constants
 // ==============================
 const DEFAULT_PAGE_SIZE = 12
-const BRACKET_REGEX = /[()]/
 
 // ==============================
 // Plugins
@@ -223,18 +221,12 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       const parsedQsValue = String(injectedParsedQsValue)
 
       if (key === 'or') {
-        const filterStrings = map(
-          split(
-            replace(parsedQsValue, new RegExp(BRACKET_REGEX, 'g'), ''),
-            ','
-          ),
-          (filterStr) => {
-            const [key, rawOp, rawValue] = split(filterStr, '.')
-            const [op, value] = getOpAndFilterValue(`${rawOp}.${rawValue}`)
+        const filterStrings = map(split(parsedQsValue, ','), (filterStr) => {
+          const [key, rawOp, rawValue] = split(filterStr, '.')
+          const [op, value] = getOpAndFilterValue(`${rawOp}.${rawValue}`)
 
-            return `${key}.${op}.${value}`
-          }
-        )
+          return `${key}.${op}.${value}`
+        })
 
         return [...acc, filterStrings.join(',')]
       }

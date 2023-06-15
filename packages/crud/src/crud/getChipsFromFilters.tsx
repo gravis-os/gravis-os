@@ -13,7 +13,7 @@ const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
   const router = useRouter()
   const { query: routerQuery } = router
 
-  if (!filters) return []
+  if (!filters) return
 
   const getOrsDisplayLabels = (value) => {
     const filterStrings = split(value, ',')
@@ -39,7 +39,7 @@ const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
         value === '' ||
         (typeof value === 'object' && !Array.isArray(value))
       )
-        return null
+        return
 
       const nextValue = getValueWithoutOp({ key, value, fieldDefs })
 
