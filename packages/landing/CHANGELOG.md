@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.3
+
+### Patch Changes
+
+- [#266](https://github.com/gravis-os/gravis-os/pull/266) [`5bc83f03`](https://github.com/gravis-os/gravis-os/commit/5bc83f03a5275d66b9d53d2f4b377590ca2d227d) Thanks [@shank1xt](https://github.com/shank1xt)! - add render blocks for showcase slider and update props
+
 ## 0.1.2
 
 ### Patch Changes
