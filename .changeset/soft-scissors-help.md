@@ -2,4 +2,4 @@
 "@gravis-os/landing": patch
 ---
 
-add showcase slider block
+add render blocks for showcase slider and update props
