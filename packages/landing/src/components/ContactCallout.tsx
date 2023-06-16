@@ -5,12 +5,13 @@ import Block from '../web/Block/Block'
 
 export interface ContactCalloutProps {
   size?: 'medium' | 'large'
+  page?: JSX.Element
 }
 
 const ContactCallout: React.FC<ContactCalloutProps> = (props) => {
   const { site } = useLayout()
   const { cta_title, cta_button_title } = site
-  const { size = 'large' } = props
+  const { size = 'large', page = <></> } = props
 
   const footerCalloutBlockProps = {
     py: size === 'medium' ? 3 : 8,
@@ -64,7 +65,10 @@ const ContactCallout: React.FC<ContactCalloutProps> = (props) => {
               },
             },
             items: [
-              renderContactCalloutButtonBlockItem({ title: cta_button_title }),
+              renderContactCalloutButtonBlockItem({
+                title: cta_button_title,
+                children: page,
+              }),
             ],
           },
         ],

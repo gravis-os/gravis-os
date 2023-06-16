@@ -7,6 +7,9 @@ export * from './renderGhostButtonBlockItem'
 export { default as renderHeaderMenuBlockItem } from './renderHeaderMenuBlockItem'
 export * from './renderHeaderMenuBlockItem'
 
+export { default as renderShowcaseSlider } from './renderShowcaseSlider'
+export * from './renderShowcaseSlider'
+
 export { default as renderHeaderMenuListBlockItem } from './renderHeaderMenuListBlockItem'
 export * from './renderHeaderMenuListBlockItem'
 

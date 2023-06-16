@@ -1,5 +1,4 @@
 import React from 'react'
-import { useLayout } from '../providers/LayoutProvider'
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderContactCalloutButtonBlockItemProps
@@ -11,7 +10,6 @@ export interface RenderContactCalloutButtonBlockItemProps
 const renderContactCalloutButtonBlockItem = (
   props: RenderContactCalloutButtonBlockItemProps = {}
 ) => {
-  const { site } = useLayout()
   const { title = 'Get Started', children = <></> } = props
   return {
     type: 'button',
