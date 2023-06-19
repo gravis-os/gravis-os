@@ -17,7 +17,7 @@ const renderPostsBlockItem = (props: RenderPostsBlockItemProps) => {
     gridItems: orderBy(items, 'published_at', 'desc').map((item) => {
       return renderPostBlockItem({
         item: {
-          href: `${routeConfig?.POSTS}/${item.category.slug}/${item.slug}`,
+          href: `${routeConfig?.POSTS}/${item?.category?.slug}/${item?.slug}`,
           ...(item as RenderPostBlockItemProps['item']),
         },
       })
