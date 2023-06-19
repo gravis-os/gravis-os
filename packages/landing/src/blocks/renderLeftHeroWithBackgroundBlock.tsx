@@ -15,6 +15,7 @@ export interface RenderLeftHeroWithBackgroundBlockProps
   image_alt?: string
   imageProps?: BlockItemProps['titleProps']
   buttonProps?: RenderGhostButtonBlockItemProps
+  overlineProps?: BlockItemProps['titleProps']
 }
 
 const renderLeftHeroWithBackgroundBlock = (
@@ -30,6 +31,7 @@ const renderLeftHeroWithBackgroundBlock = (
     image_alt,
     imageProps,
     buttonProps,
+    overlineProps,
     center = false,
     pb,
     ...rest
@@ -56,7 +58,7 @@ const renderLeftHeroWithBackgroundBlock = (
             md: 6,
             sx: { pb },
             items: [
-              { type: 'overline', title: overline },
+              { type: 'overline', title: overline, titleProps: overlineProps },
               {
                 type: 'h1',
                 title,
