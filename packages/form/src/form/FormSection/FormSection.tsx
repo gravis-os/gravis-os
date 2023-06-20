@@ -43,6 +43,7 @@ export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
     item?: CrudItem
   }>
 
+  disableEdit?: boolean
   actionButtons?: ButtonProps[]
 
   disableCard?: boolean
@@ -74,6 +75,7 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     crudContext,
     userContext,
 
+    disableEdit,
     ...rest
   } = props
   const { title } = rest
@@ -86,7 +88,8 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
   if (!formContext) return null
 
   // All FormSection fields are wrapped in a Grid container
-  const shouldRenderReadOnlySection = isReadOnly && renderReadOnlySection
+  const shouldRenderReadOnlySection =
+    (isReadOnly || disableEdit) && renderReadOnlySection
   const childrenJsx = shouldRenderReadOnlySection ? (
     renderReadOnlySection({ item, label: title })
   ) : (

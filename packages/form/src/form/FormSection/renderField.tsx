@@ -182,6 +182,7 @@ const renderField = (props: RenderFieldProps) => {
     isNew,
     isPreview,
     isReadOnly,
+    disableEdit,
     item,
     disabledFields,
     renderReadOnly,
@@ -248,8 +249,11 @@ const renderField = (props: RenderFieldProps) => {
 
   // ==============================
   // Read Only Render
+  // In edit mode, isReadOnly is false, so for an immutable field,
+  // it will still stay uneditable with disableEdit flag
+  // If disableEdit is not specified, it has no effects
   // ==============================
-  if (isReadOnly) {
+  if (isReadOnly || disableEdit) {
     const label = injectedLabel || startCase(name)
 
     // Handle custom render
@@ -279,7 +283,7 @@ const renderField = (props: RenderFieldProps) => {
         const modelValue = get(item, modelName) || get(item, name)
 
         // Escape if no value found
-        if (!isReadOnly && !modelValue) return null
+        if (!disableEdit && !isReadOnly && !modelValue) return null
         const getModelTitle = (value) =>
           get(
             value,
