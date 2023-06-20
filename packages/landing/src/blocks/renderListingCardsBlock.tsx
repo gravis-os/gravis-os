@@ -45,7 +45,7 @@ const renderListingCardsBlock = (props: RenderListingCardsBlockProps) => {
               sx: {
                 py: 4,
                 px: 3,
-                backgroundColor: 'background.paper',
+                backgroundColor: 'background.muted',
                 borderRadius: 1,
               },
             },

@@ -7,10 +7,11 @@ import renderPostBlockItem, {
 
 export interface RenderPostsBlockItemProps {
   items: Post[]
+  fromStorage?: boolean
 }
 
 const renderPostsBlockItem = (props: RenderPostsBlockItemProps) => {
-  const { items } = props
+  const { items, fromStorage } = props
   const { routeConfig } = useLayout()
   return {
     type: 'grid',
@@ -20,6 +21,7 @@ const renderPostsBlockItem = (props: RenderPostsBlockItemProps) => {
           href: `${routeConfig?.POSTS}/${item?.category?.slug}/${item?.slug}`,
           ...(item as RenderPostBlockItemProps['item']),
         },
+        fromStorage,
       })
     }),
   }

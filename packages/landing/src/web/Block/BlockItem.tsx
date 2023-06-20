@@ -29,6 +29,7 @@ import {
 import merge from 'lodash/merge'
 import isEmpty from 'lodash/isEmpty'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
+import { StorageImage } from '@gravis-os/storage'
 import { BlockItemTypeEnum } from './constants'
 
 export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
@@ -135,6 +136,12 @@ const renderBlockItem = (props) => {
         return (
           <Box {...boxProps}>
             <Image src={title} {...titleProps} />
+          </Box>
+        )
+      case BlockItemTypeEnum.STORAGE_IMAGE:
+        return (
+          <Box {...boxProps}>
+            <StorageImage src={title} {...titleProps} />
           </Box>
         )
       case BlockItemTypeEnum.SVG:

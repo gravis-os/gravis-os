@@ -12,11 +12,15 @@ const renderListingCardsBlockItem = (
 
   return [
     {
-      type: 'image',
+      type: 'storage_image',
       title: avatar_src,
     },
-    { type: 'body1', title },
-    { type: 'body2', title: `Starting from ${price}` },
+    { type: 'body1', title, titleProps: { fontWeight: 'bold', mt: 2 } },
+    {
+      type: 'body2',
+      title: `Starting from $${parseInt(price, 10).toLocaleString()}`,
+      titleProps: { mt: 1 },
+    },
   ]
 }
 
