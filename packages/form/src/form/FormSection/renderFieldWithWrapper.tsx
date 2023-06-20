@@ -35,9 +35,8 @@ export interface RenderFieldWithWrapperProps
 }
 
 const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
-  const { userContext, crudContext, formContext, sectionProps, fieldProps } =
-    props
-  const { isNew, isPreview, item, isReadOnly } = sectionProps
+  const { formContext, sectionProps, fieldProps } = props
+  const { isNew, isPreview, item, isReadOnly, isImmutable } = sectionProps
 
   /**
    * Handle Recursion case
@@ -81,7 +80,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
             formContext,
             item,
             isNew,
-            isReadOnly,
+            isReadOnly: isReadOnly || isImmutable,
             isPreview,
           }
         )}
@@ -120,7 +119,11 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
     fieldEffect,
     // Manage hidden fields with fieldEffect
     // TODO: Refactor to compose the wrappers with plugins instead
-    children: isHidden ? (isReadOnly ? null : fieldJsx) : fieldJsxWithGrid,
+    children: isHidden
+      ? isReadOnly || isImmutable
+        ? null
+        : fieldJsx
+      : fieldJsxWithGrid,
     formContext,
   }
 
@@ -130,7 +133,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   switch (true) {
     case hasFieldEffect:
       return <FieldEffectProvider {...fieldEffectProviderProps} />
-    case isReadOnly && isHidden:
+    case (isReadOnly || isImmutable) && isHidden:
       return null
     case isHidden:
       return fieldJsx

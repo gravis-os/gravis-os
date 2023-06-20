@@ -182,6 +182,7 @@ const renderField = (props: RenderFieldProps) => {
     isNew,
     isPreview,
     isReadOnly,
+    isImmutable,
     item,
     disabledFields,
     renderReadOnly,
@@ -249,7 +250,7 @@ const renderField = (props: RenderFieldProps) => {
   // ==============================
   // Read Only Render
   // ==============================
-  if (isReadOnly) {
+  if (isReadOnly || isImmutable) {
     const label = injectedLabel || startCase(name)
 
     // Handle custom render
@@ -279,7 +280,7 @@ const renderField = (props: RenderFieldProps) => {
         const modelValue = get(item, modelName) || get(item, name)
 
         // Escape if no value found
-        if (!isReadOnly && !modelValue) return null
+        if (!isImmutable && !isReadOnly && !modelValue) return null
         const getModelTitle = (value) =>
           get(
             value,
