@@ -16,6 +16,7 @@ import React from 'react'
 import CSVReader from 'react-csv-reader'
 import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
+import { Typography } from '@mui/material'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable, { DataTableProps } from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
@@ -178,22 +179,28 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               return (
                 <>
                   {hasUploadTemplate ? (
-                    <input
-                      type="file"
-                      onChange={(e) => {
-                        const { files } = e.target
-                        if (files && files[0]) {
-                          const reader = new FileReader()
+                    <>
+                      <Typography fontSize={14} mb={1}>
+                        XLSX files only
+                      </Typography>
+                      <input
+                        id="xlsx-upload"
+                        type="file"
+                        onChange={(e) => {
+                          const { files } = e.target
+                          if (files && files[0]) {
+                            const reader = new FileReader()
 
-                          reader.onload = async () => {
-                            const buffer = reader.result as ArrayBuffer
-                            await onUpload(store, buffer)
+                            reader.onload = async () => {
+                              const buffer = reader.result as ArrayBuffer
+                              await onUpload(store, buffer)
+                            }
+
+                            reader.readAsArrayBuffer(files[0])
                           }
-
-                          reader.readAsArrayBuffer(files[0])
-                        }
-                      }}
-                    />
+                        }}
+                      />
+                    </>
                   ) : (
                     <CSVReader
                       onFileLoaded={handleCsvFileUpload}
