@@ -5,6 +5,7 @@ import {
   Button,
   DialogButton,
   DialogButtonProps,
+  Typography,
   Stack,
   useOpen,
 } from '@gravis-os/ui'
@@ -178,22 +179,28 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               return (
                 <>
                   {hasUploadTemplate ? (
-                    <input
-                      type="file"
-                      onChange={(e) => {
-                        const { files } = e.target
-                        if (files && files[0]) {
-                          const reader = new FileReader()
+                    <>
+                      <Typography variant="body2" mb={1}>
+                        XLSX files only
+                      </Typography>
+                      <input
+                        id="xlsx-upload"
+                        type="file"
+                        onChange={(e) => {
+                          const { files } = e.target
+                          if (files && files[0]) {
+                            const reader = new FileReader()
 
-                          reader.onload = async () => {
-                            const buffer = reader.result as ArrayBuffer
-                            await onUpload(store, buffer)
+                            reader.onload = async () => {
+                              const buffer = reader.result as ArrayBuffer
+                              await onUpload(store, buffer)
+                            }
+
+                            reader.readAsArrayBuffer(files[0])
                           }
-
-                          reader.readAsArrayBuffer(files[0])
-                        }
-                      }}
-                    />
+                        }}
+                      />
+                    </>
                   ) : (
                     <CSVReader
                       onFileLoaded={handleCsvFileUpload}
