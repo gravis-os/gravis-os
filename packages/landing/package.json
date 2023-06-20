@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/landing",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
@@ -31,7 +31,7 @@
   "dependencies": {
     "@gravis-os/apps": "*",
     "@gravis-os/form": "*",
-    "@gravis-os/storage": "^0.1.0",
+    "@gravis-os/storage": "^0.1.1",
     "@gravis-os/theme": "*",
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",

@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.0
+
+### Minor Changes
+
+- [#267](https://github.com/gravis-os/gravis-os/pull/267) [`540d391`](https://github.com/gravis-os/gravis-os/commit/540d391c0c65e007a7cbc29d33e8aa9d70d6765c) Thanks [@shank1xt](https://github.com/shank1xt)! - add new blocks and missing props
+
+### Patch Changes
+
+- Updated dependencies [[`540d391`](https://github.com/gravis-os/gravis-os/commit/540d391c0c65e007a7cbc29d33e8aa9d70d6765c)]:
+  - @gravis-os/storage@0.1.1
+
 ## 0.1.3
 
 ### Patch Changes
