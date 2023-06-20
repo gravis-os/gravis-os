@@ -2,10 +2,11 @@ import { Post } from '@gravis-os/types'
 
 export interface RenderPostBlockItemProps {
   item: Post & { href: string }
+  fromStorage?: boolean
 }
 
 const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
-  const { item } = props
+  const { item, fromStorage } = props
   const { title, subtitle, href, avatar_src, avatar_alt, hero_src, hero_alt } =
     item || {}
 
@@ -15,7 +16,7 @@ const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
     md: 4,
     items: [
       {
-        type: 'image',
+        type: fromStorage ? 'storage_image' : 'image',
         title: hero_src || avatar_src,
         titleProps: {
           alt: hero_alt || avatar_alt,

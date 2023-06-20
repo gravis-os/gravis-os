@@ -10,6 +10,12 @@ export * from './renderHeaderMenuBlockItem'
 export { default as renderShowcaseSlider } from './renderShowcaseSlider'
 export * from './renderShowcaseSlider'
 
+export { default as renderListingCardsBlock } from './renderListingCardsBlock'
+export * from './renderListingCardsBlock'
+
+export { default as renderBrandsBlock } from './renderBrandsBlock'
+export * from './renderBrandsBlock'
+
 export { default as renderHeaderMenuListBlockItem } from './renderHeaderMenuListBlockItem'
 export * from './renderHeaderMenuListBlockItem'
 

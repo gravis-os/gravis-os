@@ -7,6 +7,8 @@ export interface RenderBaseColumnGridBlockProps
   overline?: string
   title: React.ReactNode
   titleProps?: BlockItemProps['titleProps']
+  imageProps?: BlockItemProps['titleProps']
+  subtitleHref?: string
   subtitle?: string
   items?: Array<{
     avatar_src?: string
@@ -27,6 +29,8 @@ const renderBaseColumnGridBlock = (props: RenderBaseColumnGridBlockProps) => {
     title,
     titleProps,
     subtitle,
+    subtitleHref,
+    imageProps,
     items,
     columns,
     textAlign = 'center',
@@ -37,7 +41,6 @@ const renderBaseColumnGridBlock = (props: RenderBaseColumnGridBlockProps) => {
   const isTextAlignCenter = textAlign === 'center'
 
   return {
-    center: isTextAlignCenter,
     items: [
       { type: 'overline', title: overline },
       {
@@ -51,9 +54,10 @@ const renderBaseColumnGridBlock = (props: RenderBaseColumnGridBlockProps) => {
         ...(isTextAlignCenter && { maxWidth: 'md' }),
       },
       {
-        type: 'body1',
+        type: subtitleHref ? 'link' : 'body1',
         title: subtitle,
         titleProps: {
+          href: subtitleHref,
           color: 'text.secondary',
           maxWidth: isTextAlignCenter ? true : '40%',
         },
@@ -88,6 +92,7 @@ const renderBaseColumnGridBlock = (props: RenderBaseColumnGridBlockProps) => {
                   width: 100,
                   height: 100,
                   sx: { mb: 4 },
+                  ...imageProps,
                 },
               },
               fa_icon && {
@@ -98,7 +103,7 @@ const renderBaseColumnGridBlock = (props: RenderBaseColumnGridBlockProps) => {
               overline && {
                 type: 'overline',
                 title: overline,
-                titleProps: { gutterBottom: true },
+                titleProps: { gutterBottom: true, marginTop: 2 },
               },
               {
                 type: href ? 'link' : 'subtitle2',
@@ -126,6 +131,7 @@ const renderBaseColumnGridBlock = (props: RenderBaseColumnGridBlockProps) => {
       },
     ],
     ...rest,
+    center: isTextAlignCenter,
   }
 }
 

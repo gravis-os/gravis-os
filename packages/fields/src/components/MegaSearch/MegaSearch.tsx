@@ -22,7 +22,7 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
       sx={{ background: 'white', borderRadius: 2, ...sx }}
       {...rest}
     >
-      {dropdowns.map((dropdown) => {
+      {dropdowns?.map((dropdown) => {
         const { control, onChange: injectedOnChange, ...rest } = dropdown
         const { name } = dropdown
 
