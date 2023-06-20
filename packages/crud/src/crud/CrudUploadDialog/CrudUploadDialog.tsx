@@ -5,6 +5,7 @@ import {
   Button,
   DialogButton,
   DialogButtonProps,
+  Typography,
   Stack,
   useOpen,
 } from '@gravis-os/ui'
@@ -16,7 +17,6 @@ import React from 'react'
 import CSVReader from 'react-csv-reader'
 import omit from 'lodash/omit'
 import toast from 'react-hot-toast'
-import { Typography } from '@mui/material'
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable, { DataTableProps } from '../DataTable'
 import { getUploadedRows } from './getUploadedRows'
@@ -180,7 +180,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 <>
                   {hasUploadTemplate ? (
                     <>
-                      <Typography fontSize={14} mb={1}>
+                      <Typography variant="body2" mb={1}>
                         XLSX files only
                       </Typography>
                       <input
