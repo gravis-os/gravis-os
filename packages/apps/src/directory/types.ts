@@ -22,15 +22,15 @@ export interface Variant extends CrudItem {
 }
 
 export interface Brand extends CrudItem {
-  description: any
-  code: any
-  company_id: any
-  is_active: boolean
-  created_by: number | string
-  updated_by: number | string
-  sales_email: string
-  sales_mobile: string
-  sales_whatsapp: string
+  description?: string
+  code?: string
+  company_id?: number
+  is_active?: boolean
+  created_by?: number | string
+  updated_by?: number | string
+  sales_email?: string
+  sales_mobile?: string
+  sales_whatsapp?: string
 }
 
 export interface Listing extends CrudItem {
