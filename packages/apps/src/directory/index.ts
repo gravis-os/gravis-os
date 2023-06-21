@@ -15,6 +15,9 @@ export * from './PaginatedListings'
 export { default as ListingCard } from './ListingCard'
 export * from './ListingCard'
 
+export { default as BrandCard } from './BrandCard'
+export * from './BrandCard'
+
 export { default as ListingListItem } from './ListingListItem'
 export * from './ListingListItem'
 

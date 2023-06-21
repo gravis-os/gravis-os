@@ -21,6 +21,18 @@ export interface Variant extends CrudItem {
   price?: number
 }
 
+export interface Brand extends CrudItem {
+  description?: string
+  code?: string
+  company_id?: number
+  is_active?: boolean
+  created_by?: number | string
+  updated_by?: number | string
+  sales_email?: string
+  sales_mobile?: string
+  sales_whatsapp?: string
+}
+
 export interface Listing extends CrudItem {
   id: number
   attribute_value?: AttributeValue[]
