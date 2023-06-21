@@ -34,7 +34,6 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     enableMap,
     items,
     variant: injectedVariant = PaginatedQueryViewVariantEnum.Grid,
-    renderItem,
     itemProps,
     pagination,
     paginationType = PaginatedQueryViewPaginationTypeEnum.Pagination,
@@ -77,7 +76,6 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
       paginationType={paginationType}
       pagination={pagination}
       queryResult={queryResult}
-      renderItem={renderItem}
       variant={variant}
     />
   )
