@@ -8,7 +8,7 @@ export interface renderBrandBlockItemProps {
 
 const renderBrandBlockItem = (props: renderBrandBlockItemProps) => {
   const { item } = props
-  const { slug, title, avatar_src } = item
+  const { slug, title, avatar_src, href } = item
 
   const image = {
     type: 'storage_image',
@@ -33,7 +33,8 @@ const renderBrandBlockItem = (props: renderBrandBlockItemProps) => {
 
   return [
     {
-      type: 'jsx',
+      type: 'link',
+      titleProps: { href: href || `/brands/${slug}` },
       title: (
         <div style={{ display: 'flex', width: '100%', alignItems: 'center' }}>
           <BlockItem {...image} />
