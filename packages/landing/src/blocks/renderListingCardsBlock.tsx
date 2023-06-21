@@ -1,11 +1,14 @@
-import { CrudItem } from '@gravis-os/types'
+import { CrudModule } from '@gravis-os/types'
+import { Listing } from '@gravis-os/apps/directory'
 import { BlockProps } from '../web/Block/Block'
-import renderListingCardsBlockItem from './renderListingCardsBlockItem'
 import { BlockItemProps } from '../web/Block/BlockItem'
+import renderListingCardsBlockItem from './renderListingCardsBlockItem'
 
 export interface RenderListingCardsBlockProps
   extends Omit<BlockProps, 'items'> {
-  items: (CrudItem & { [key: string]: string })[]
+  items: Listing[]
+  brandModule: CrudModule | any
+  listingModule: CrudModule | any
   overline?: string
   title?: string
   titleProps?: BlockItemProps['titleProps']
@@ -13,7 +16,16 @@ export interface RenderListingCardsBlockProps
 }
 
 const renderListingCardsBlock = (props: RenderListingCardsBlockProps) => {
-  const { overline, title, titleProps, subtitle = '', items, ...rest } = props
+  const {
+    overline,
+    title,
+    titleProps,
+    subtitle = '',
+    items,
+    brandModule,
+    listingModule,
+    ...rest
+  } = props
 
   return {
     key: 'listing-cards',
@@ -41,15 +53,11 @@ const renderListingCardsBlock = (props: RenderListingCardsBlockProps) => {
             xs: 12,
             sm: 6,
             md: 4,
-            boxProps: {
-              sx: {
-                py: 4,
-                px: 3,
-                backgroundColor: 'background.muted',
-                borderRadius: 1,
-              },
-            },
-            items: renderListingCardsBlockItem({ item }),
+            items: renderListingCardsBlockItem({
+              item,
+              brandModule,
+              listingModule,
+            }),
           }
         }),
       },

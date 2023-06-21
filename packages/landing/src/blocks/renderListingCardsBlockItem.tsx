@@ -1,25 +1,29 @@
-import { CrudItem } from '@gravis-os/types'
+import React from 'react'
+import { Listing, ListingCard } from '@gravis-os/apps/directory'
+import { CrudModule } from '@gravis-os/types'
 
 export interface RenderListingCardsBlockItemProps {
-  item: CrudItem & { [key: string]: string }
+  item: Listing
+  brandModule: CrudModule | any
+  listingModule: CrudModule | any
 }
 
 const renderListingCardsBlockItem = (
   props: RenderListingCardsBlockItemProps
 ) => {
-  const { item } = props
-  const { title, avatar_src, price } = item
+  const { item, brandModule, listingModule } = props
 
   return [
     {
-      type: 'storage_image',
-      title: avatar_src,
-    },
-    { type: 'body1', title, titleProps: { fontWeight: 'bold', mt: 2 } },
-    {
-      type: 'body2',
-      title: `Starting from $${parseInt(price, 10).toLocaleString()}`,
-      titleProps: { mt: 1 },
+      type: 'jsx',
+      title: (
+        <ListingCard
+          stretch
+          item={item}
+          brandModule={brandModule}
+          listingModule={listingModule}
+        />
+      ),
     },
   ]
 }

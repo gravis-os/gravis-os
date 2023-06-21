@@ -2,7 +2,6 @@ import React from 'react'
 import { Card, CardContent, CardProps, Link, Typography } from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
 import { StorageImage } from '@gravis-os/storage'
-import { printAmount } from '@gravis-os/utils'
 import { Listing } from './types'
 
 export interface ListingCardProps extends CardProps {

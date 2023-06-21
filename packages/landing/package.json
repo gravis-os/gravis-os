@@ -31,7 +31,7 @@
   "dependencies": {
     "@gravis-os/apps": "*",
     "@gravis-os/form": "*",
-    "@gravis-os/storage": "^0.1.1",
+    "@gravis-os/storage": "*",
     "@gravis-os/theme": "*",
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
