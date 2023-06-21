@@ -6,8 +6,8 @@ import { Listing } from './types'
 
 export interface ListingCardProps extends CardProps {
   item: Listing
-  brandModule: CrudModule | any
-  listingModule: CrudModule | any
+  brandModule: CrudModule
+  listingModule: CrudModule
 }
 
 const ListingCard: React.FC<ListingCardProps> = (props) => {

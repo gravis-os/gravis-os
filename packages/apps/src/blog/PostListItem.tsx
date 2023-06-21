@@ -14,8 +14,8 @@ import { Post } from './types'
 
 export interface PostListItemProps extends CardProps {
   item: Post
-  postModule: CrudModule | any
-  blogCategoryModule: CrudModule | any
+  postModule: CrudModule
+  blogCategoryModule: CrudModule
   size?: 'small' | 'medium' | 'large'
   cardContentProps?: BoxProps
 }
