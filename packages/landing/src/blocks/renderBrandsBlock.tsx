@@ -1,10 +1,12 @@
 import { CrudItem } from '@gravis-os/types'
+import { Brand } from '@gravis-os/apps/directory'
 import { BlockProps } from '../web/Block/Block'
 import renderBrandBlockItem from './renderBrandBlockItem'
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderBrandsBlockProps extends Omit<BlockProps, 'items'> {
-  items: (CrudItem & { [key: string]: string })[]
+  items: Brand[]
+  brandModule: CrudItem | any
   overline?: string
   title?: string
   titleProps?: BlockItemProps['titleProps']
@@ -12,7 +14,15 @@ export interface RenderBrandsBlockProps extends Omit<BlockProps, 'items'> {
 }
 
 const renderBrandsBlocks = (props: RenderBrandsBlockProps) => {
-  const { overline, title, titleProps, subtitle = '', items, ...rest } = props
+  const {
+    overline,
+    title,
+    titleProps,
+    subtitle = '',
+    items,
+    brandModule,
+    ...rest
+  } = props
 
   return {
     key: 'listing-cards',
@@ -40,15 +50,7 @@ const renderBrandsBlocks = (props: RenderBrandsBlockProps) => {
             xs: 12,
             sm: 6,
             md: 4,
-            boxProps: {
-              sx: {
-                py: 4,
-                px: 3,
-                backgroundColor: 'background.paper',
-                borderRadius: 1,
-              },
-            },
-            items: renderBrandBlockItem({ item }),
+            items: renderBrandBlockItem({ item, brandModule }),
           }
         }),
       },
