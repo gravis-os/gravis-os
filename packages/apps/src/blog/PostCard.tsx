@@ -13,8 +13,8 @@ import { Post } from './types'
 
 export interface PostCardProps extends CardProps {
   item: Post
-  postModule: CrudModule
-  blogCategoryModule: CrudModule
+  postModule: CrudModule | any
+  blogCategoryModule: CrudModule | any
   size?: 'small' | 'medium' | 'large'
   reverse?: boolean
   disableSubtitle?: boolean
