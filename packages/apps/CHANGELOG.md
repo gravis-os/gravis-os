@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.1.0
+
+### Minor Changes
+
+- [#271](https://github.com/gravis-os/gravis-os/pull/271) [`14aa24a`](https://github.com/gravis-os/gravis-os/commit/14aa24a758cfbd0b92d4c2013f9c0a2846c19de6) Thanks [@shank1xt](https://github.com/shank1xt)! - Fix the UI for brand and listing cards
+
+### Patch Changes
+
+- [#272](https://github.com/gravis-os/gravis-os/pull/272) [`356a1e4`](https://github.com/gravis-os/gravis-os/commit/356a1e4237050f4038f33466aca3ece7a5a17d4a) Thanks [@shank1xt](https://github.com/shank1xt)! - fix prop order
+
+* [#273](https://github.com/gravis-os/gravis-os/pull/273) [`f0df9c3`](https://github.com/gravis-os/gravis-os/commit/f0df9c30e3db76bebd860feb4cf80b337232ffc0) Thanks [@shank1xt](https://github.com/shank1xt)! - add any to pass build
+
+* Updated dependencies [[`5819483`](https://github.com/gravis-os/gravis-os/commit/5819483fc99aef0c234711f342e49a26291ffd26), [`b7a57cd`](https://github.com/gravis-os/gravis-os/commit/b7a57cd1de28349506f2909a1cadd6fea9a2dba8)]:
+  - @gravis-os/crud@0.0.104
+  - @gravis-os/form@0.0.116
+
 ## 0.0.60
 
 ### Patch Changes

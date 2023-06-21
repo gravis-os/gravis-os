@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.104
+
+### Patch Changes
+
+- [#268](https://github.com/gravis-os/gravis-os/pull/268) [`5819483`](https://github.com/gravis-os/gravis-os/commit/5819483fc99aef0c234711f342e49a26291ffd26) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add file format guide text for xlsx upload
+
+- Updated dependencies [[`b7a57cd`](https://github.com/gravis-os/gravis-os/commit/b7a57cd1de28349506f2909a1cadd6fea9a2dba8)]:
+  - @gravis-os/form@0.0.116
+
 ## 0.0.103
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.1
+
+### Patch Changes
+
+- [#271](https://github.com/gravis-os/gravis-os/pull/271) [`14aa24a`](https://github.com/gravis-os/gravis-os/commit/14aa24a758cfbd0b92d4c2013f9c0a2846c19de6) Thanks [@shank1xt](https://github.com/shank1xt)! - Fix the UI for brand and listing cards
+
+- Updated dependencies [[`b7a57cd`](https://github.com/gravis-os/gravis-os/commit/b7a57cd1de28349506f2909a1cadd6fea9a2dba8)]:
+  - @gravis-os/form@0.0.116
+
 ## 0.2.0
 
 ### Minor Changes

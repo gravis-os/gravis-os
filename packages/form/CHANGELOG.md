@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.116
+
+### Patch Changes
+
+- [#269](https://github.com/gravis-os/gravis-os/pull/269) [`b7a57cd`](https://github.com/gravis-os/gravis-os/commit/b7a57cd1de28349506f2909a1cadd6fea9a2dba8) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add disableEdit flag to disable fields in edit mode
+
 ## 0.0.115
 
 ### Patch Changes
