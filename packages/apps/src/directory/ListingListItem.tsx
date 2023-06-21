@@ -14,8 +14,8 @@ import { Listing } from './types'
 
 export interface ListingListItemProps extends CardProps {
   item: Listing
-  brandModule: CrudModule
-  listingModule: CrudModule
+  brandModule: CrudModule | any
+  listingModule: CrudModule | any
   size?: 'small' | 'medium' | 'large'
   cardContentProps?: BoxProps
 }
