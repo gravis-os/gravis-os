@@ -10,7 +10,7 @@ const getStorageImageUrl = async (url: string): Promise<string> => {
     if (error || !data) throw error
     return URL.createObjectURL(data)
   } catch (error) {
-    console.error('Error downloadingimage: ', error.message)
+    console.error('Error downloading image: ', error.message)
     return null
   }
 }

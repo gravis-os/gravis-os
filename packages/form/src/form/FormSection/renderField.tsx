@@ -157,6 +157,8 @@ export interface FormSectionFieldProps {
   // Submission
   skipOnSubmit?: boolean
 
+  bucketName?: string
+
   // Styling
   sx?: SxProps
   backgroundColor?: string
@@ -317,11 +319,13 @@ const renderField = (props: RenderFieldProps) => {
       case FormSectionFieldTypeEnum.IMAGES:
       case FormSectionFieldTypeEnum.FILES:
         const files = get(item, name)
+        const { bucketName } = fieldProps
         return (
           <FormSectionReadOnlyStack
             label={label}
             sx={readOnlySx}
             title={files}
+            bucketName={bucketName}
             isFiles
           />
         )

@@ -287,12 +287,14 @@ const StorageFiles: React.FC<StorageFilesProps> = (props) => {
     dropzoneProps,
     label,
     setValue,
+    bucketName,
     ...rest
   } = props
 
   const { files, onRemove, dropzone, dropzoneOptions } =
     useMultiStorageDropzone({
       name,
+      bucketName,
       item,
       module,
       storageModule,

@@ -10,6 +10,7 @@ import { File } from './types'
 
 export interface UseMultiStorageDropzoneProps {
   name?: string
+  bucketName?: string
   item?: CrudItem // The primary module instance (e.g. Product) instance, possibly undefined for a new product
   storageRecords?: Record<string, unknown>[]
   module: { table: { name } } // Product module
@@ -31,6 +32,7 @@ export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
 const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const {
     name = '',
+    bucketName = 'public',
     item,
     storageRecords,
     module,
@@ -50,7 +52,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     item?.[name] // `attachment_files` instance instead of `quotation_attachment_file` foreignTableName
 
   // State
-  const { files, setFiles } = useFiles({ items: foreignRecords })
+  const { files, setFiles } = useFiles({ items: foreignRecords, bucketName })
 
   // Effects
   useEffect(() => {
@@ -64,7 +66,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       const fileUploadPromises = files.map(async (file) => {
         const fileMeta = getFileMetaFromFile(file, storageModule.table.name)
         const { filePath } = fileMeta
-        return supabaseClient.storage.from('public').upload(filePath, file)
+        return supabaseClient.storage.from(bucketName).upload(filePath, file)
       })
 
       const uploadedFileMetas = await Promise.all(fileUploadPromises)
@@ -159,7 +161,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     try {
       // Remove from storage
       const { data, error } = await supabaseClient.storage
-        .from('public')
+        .from(bucketName)
         .remove([file.src])
 
       if (error) throw new Error('Error removing image')

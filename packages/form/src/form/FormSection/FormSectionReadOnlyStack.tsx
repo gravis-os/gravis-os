@@ -13,6 +13,7 @@ export interface FormSectionReadOnlyStackProps
   disableTitle?: boolean
   // TODO: Refactor isFiles variant out to another component
   isFiles?: boolean
+  bucketName?: string
 }
 
 // TODO: export from storage package
@@ -44,9 +45,13 @@ const getDisplayTitles = (titles) =>
 const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
   props
 ) => {
-  const { disableTitle, title, label, isFiles, children, ...rest } = props
+  const { disableTitle, title, label, isFiles, children, bucketName, ...rest } =
+    props
   const hasFiles = isFiles && Array.isArray(title) && title.length > 0
-  const { files } = useFiles({ items: hasFiles ? (title as File[]) : [] })
+  const { files } = useFiles({
+    items: hasFiles ? (title as File[]) : [],
+    bucketName,
+  })
 
   const displayTitles = getDisplayTitles(title)
 
