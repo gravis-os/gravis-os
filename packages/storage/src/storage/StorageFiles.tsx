@@ -280,7 +280,7 @@ export interface StorageFilesProps
 
 const StorageFiles: React.FC<StorageFilesProps> = (props) => {
   const {
-    name, // 'gallery_images
+    name, // 'gallery_images'
     item, // product
     module, // e.g. The primary table that stores these files e.g. `product`
     storageModule, // The foreign table where we save the images e.g. `product_gallery_images`
@@ -300,6 +300,7 @@ const StorageFiles: React.FC<StorageFilesProps> = (props) => {
       storageModule,
       setFormValue: (value) => setValue(name, value),
       dropzoneProps,
+      ...rest,
     })
   const { getRootProps, getInputProps, isDragActive } = dropzone
   const { maxFiles } = dropzoneOptions

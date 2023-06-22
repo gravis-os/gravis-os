@@ -20,6 +20,7 @@ export interface UseMultiStorageDropzoneProps {
     rows: Record<string, unknown>[]
   ) => Record<string, unknown>[]
   dropzoneProps?: DropzoneOptions
+  attachToNewRecord?: boolean
 }
 
 export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
@@ -40,6 +41,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     setFormValue,
     setUpsertRowsValue,
     dropzoneProps,
+    attachToNewRecord = false,
   } = props
 
   // Vars
@@ -96,8 +98,9 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           : defaultForeignTableRows
 
       // This is a new item, defer db saving action instead by storing in the form value
-      if (isEmpty(primaryRecord) && setFormValue) {
-        setFormValue(foreignTableRows)
+      // for Quotation and SO, always defer
+      if ((attachToNewRecord || isEmpty(primaryRecord)) && setFormValue) {
+        setFormValue([...foreignTableRows, ...foreignRecords])
         return foreignTableRows
       }
 
@@ -138,7 +141,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       setFiles((prevFiles) => {
         // We need to assign instead of spread because we need to mount on the File class
         const newFilesWithId = newFiles.map((newFile, i) => {
-          if (isEmpty(primaryRecord) && setFormValue) {
+          if ((attachToNewRecord || isEmpty(primaryRecord)) && setFormValue) {
             return Object.assign(newFile, { id: i })
           }
           return Object.assign(newFile, { id: uploaded.data[i].id })

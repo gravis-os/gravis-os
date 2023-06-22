@@ -11,7 +11,11 @@ const fetchStorageUrls = async ({
 }) => {
   try {
     const downloadPromises = srcs.map(async (src) =>
-      supabaseClient.storage.from(bucketName).download(src)
+      supabaseClient.storage
+        .from(bucketName)
+        .download(
+          bucketName === 'private' ? src.substring('private/'.length) : src
+        )
     )
     const downloadedItems = await Promise.all(downloadPromises)
 
