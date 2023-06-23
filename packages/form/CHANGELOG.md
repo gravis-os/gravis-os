@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.117
+
+### Patch Changes
+
+- [#274](https://github.com/gravis-os/gravis-os/pull/274) [`ceb3e6c5`](https://github.com/gravis-os/gravis-os/commit/ceb3e6c544bf33ca8b838e5ba33b3be701c3a2c8) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add bucketName param
+
+- Updated dependencies [[`ceb3e6c5`](https://github.com/gravis-os/gravis-os/commit/ceb3e6c544bf33ca8b838e5ba33b3be701c3a2c8)]:
+  - @gravis-os/storage@0.1.2
+
 ## 0.0.116
 
 ### Patch Changes
