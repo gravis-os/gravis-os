@@ -1,3 +1,5 @@
+export const DEFAULT_BUCKET_NAME = 'public'
+
 /**
  * As Public Buckets have a Public prefix, Private Buckets do not have it
  * Hence we need to remove the initial Private Prefix from the path
@@ -6,6 +8,8 @@
  * @param path
  * @returns
  */
-export const removePrivateFromPath = (path: string): string => {
-  return path.substring('private/'.length)
+export const cleanPath = (path: string, bucketName: string): string => {
+  return path.startsWith(DEFAULT_BUCKET_NAME)
+    ? path
+    : path.substring(bucketName.length + 1)
 }

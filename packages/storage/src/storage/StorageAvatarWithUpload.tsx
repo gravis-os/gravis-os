@@ -7,7 +7,7 @@ import download from 'downloadjs'
 import startCase from 'lodash/startCase'
 import getFileMetaFromFile from './getFileMetaFromFile'
 import FieldLabel from './FieldLabel'
-import { removePrivateFromPath } from './utils'
+import { cleanPath } from './utils'
 
 export interface StorageAvatarWithUploadProps extends AvatarProps {
   module?: any
@@ -70,7 +70,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     try {
       const { data, error } = await client.storage
         .from(bucketName)
-        .download(disablePublic ? removePrivateFromPath(path) : path)
+        .download(cleanPath(path, bucketName))
       if (error || !data) throw error
       const url = URL.createObjectURL(data)
       if (url) setAvatarUrl(url)
