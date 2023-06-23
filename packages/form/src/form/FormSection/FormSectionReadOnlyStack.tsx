@@ -8,6 +8,9 @@ import { useFiles } from '@gravis-os/storage'
 
 export interface FormSectionFileProps {
   isFiles?: boolean
+  /**
+   * @default 'public'
+   */
   bucketName?: string
 }
 

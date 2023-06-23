@@ -70,9 +70,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     try {
       const { data, error } = await client.storage
         .from(bucketName)
-        .download(
-          disablePublic ? removePrivateFromPath(path, bucketName) : path
-        )
+        .download(disablePublic ? removePrivateFromPath(path) : path)
       if (error || !data) throw error
       const url = URL.createObjectURL(data)
       if (url) setAvatarUrl(url)

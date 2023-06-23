@@ -6,9 +6,6 @@
  * @param path
  * @returns
  */
-export const removePrivateFromPath = (
-  path: string,
-  bucketName: string
-): string => {
-  return path.substring(bucketName.length)
+export const removePrivateFromPath = (path: string): string => {
+  return path.substring('private/'.length)
 }

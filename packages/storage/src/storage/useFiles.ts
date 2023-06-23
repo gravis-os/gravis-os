@@ -3,9 +3,11 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { File } from './types'
 import { removePrivateFromPath } from './utils'
 
+const DEFAULT_BUCKET_NAME = 'public'
+
 const fetchStorageUrls = async ({
   srcs,
-  bucketName = 'public',
+  bucketName = DEFAULT_BUCKET_NAME,
 }: {
   srcs: string[]
   bucketName?: string
@@ -14,11 +16,7 @@ const fetchStorageUrls = async ({
     const downloadPromises = srcs.map(async (src) =>
       supabaseClient.storage
         .from(bucketName)
-        .download(
-          bucketName === 'private'
-            ? removePrivateFromPath(src, bucketName)
-            : src
-        )
+        .download(bucketName === 'private' ? removePrivateFromPath(src) : src)
     )
     const downloadedItems = await Promise.all(downloadPromises)
 
