@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { File } from './types'
+import { removePrivateFromPath } from './utils'
 
 const fetchStorageUrls = async ({
   srcs,
@@ -14,7 +15,9 @@ const fetchStorageUrls = async ({
       supabaseClient.storage
         .from(bucketName)
         .download(
-          bucketName === 'private' ? src.substring('private/'.length) : src
+          bucketName === 'private'
+            ? removePrivateFromPath(src, bucketName)
+            : src
         )
     )
     const downloadedItems = await Promise.all(downloadPromises)

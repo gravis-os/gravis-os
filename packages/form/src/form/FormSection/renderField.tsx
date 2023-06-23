@@ -325,8 +325,10 @@ const renderField = (props: RenderFieldProps) => {
             label={label}
             sx={readOnlySx}
             title={files}
-            bucketName={bucketName}
-            isFiles
+            fileProps={{
+              bucketName,
+              isFiles: true,
+            }}
           />
         )
       case FormSectionFieldTypeEnum.CHIP:
