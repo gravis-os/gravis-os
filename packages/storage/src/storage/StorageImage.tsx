@@ -30,8 +30,6 @@ const StorageImage: React.FC<StorageImageProps> = (props) => {
     <Image
       src={isAbsolutePath ? injectedSrc : src}
       alt={alt || (src ? 'Image' : 'No image')}
-      width={300}
-      height={300}
       {...rest}
     />
   )
