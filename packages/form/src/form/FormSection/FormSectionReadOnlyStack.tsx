@@ -6,13 +6,20 @@ import download from 'downloadjs'
 import type { File } from '@gravis-os/storage/src/storage/types'
 import { useFiles } from '@gravis-os/storage'
 
+export interface FormSectionFileProps {
+  isFiles?: boolean
+  /**
+   * @default 'public'
+   */
+  bucketName?: string
+}
+
 export interface FormSectionReadOnlyStackProps
   extends Omit<StackProps, 'title'> {
   title?: React.ReactNode
   label: React.ReactNode
   disableTitle?: boolean
-  // TODO: Refactor isFiles variant out to another component
-  isFiles?: boolean
+  fileProps?: FormSectionFileProps
 }
 
 // TODO: export from storage package
@@ -44,9 +51,21 @@ const getDisplayTitles = (titles) =>
 const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
   props
 ) => {
-  const { disableTitle, title, label, isFiles, children, ...rest } = props
+  const {
+    disableTitle,
+    title,
+    label,
+    children,
+    fileProps = {},
+    ...rest
+  } = props
+
+  const { isFiles, bucketName } = fileProps
   const hasFiles = isFiles && Array.isArray(title) && title.length > 0
-  const { files } = useFiles({ items: hasFiles ? (title as File[]) : [] })
+  const { files } = useFiles({
+    items: hasFiles ? (title as File[]) : [],
+    bucketName,
+  })
 
   const displayTitles = getDisplayTitles(title)
 

@@ -10,6 +10,7 @@ import { File } from './types'
 
 export interface UseMultiStorageDropzoneProps {
   name?: string
+  bucketName?: string
   item?: CrudItem // The primary module instance (e.g. Product) instance, possibly undefined for a new product
   storageRecords?: Record<string, unknown>[]
   module: { table: { name } } // Product module
@@ -19,6 +20,7 @@ export interface UseMultiStorageDropzoneProps {
     rows: Record<string, unknown>[]
   ) => Record<string, unknown>[]
   dropzoneProps?: DropzoneOptions
+  attachToNewRecord?: boolean
 }
 
 export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
@@ -31,6 +33,7 @@ export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
 const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const {
     name = '',
+    bucketName = 'public',
     item,
     storageRecords,
     module,
@@ -38,6 +41,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     setFormValue,
     setUpsertRowsValue,
     dropzoneProps,
+    attachToNewRecord = false,
   } = props
 
   // Vars
@@ -50,7 +54,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     item?.[name] // `attachment_files` instance instead of `quotation_attachment_file` foreignTableName
 
   // State
-  const { files, setFiles } = useFiles({ items: foreignRecords })
+  const { files, setFiles } = useFiles({ items: foreignRecords, bucketName })
 
   // Effects
   useEffect(() => {
@@ -64,7 +68,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       const fileUploadPromises = files.map(async (file) => {
         const fileMeta = getFileMetaFromFile(file, storageModule.table.name)
         const { filePath } = fileMeta
-        return supabaseClient.storage.from('public').upload(filePath, file)
+        return supabaseClient.storage.from(bucketName).upload(filePath, file)
       })
 
       const uploadedFileMetas = await Promise.all(fileUploadPromises)
@@ -94,8 +98,9 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           : defaultForeignTableRows
 
       // This is a new item, defer db saving action instead by storing in the form value
-      if (isEmpty(primaryRecord) && setFormValue) {
-        setFormValue(foreignTableRows)
+      // for Quotation and SO, always defer
+      if ((attachToNewRecord || isEmpty(primaryRecord)) && setFormValue) {
+        setFormValue([...foreignTableRows, ...foreignRecords])
         return foreignTableRows
       }
 
@@ -136,7 +141,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       setFiles((prevFiles) => {
         // We need to assign instead of spread because we need to mount on the File class
         const newFilesWithId = newFiles.map((newFile, i) => {
-          if (isEmpty(primaryRecord) && setFormValue) {
+          if ((attachToNewRecord || isEmpty(primaryRecord)) && setFormValue) {
             return Object.assign(newFile, { id: i })
           }
           return Object.assign(newFile, { id: uploaded.data[i].id })
@@ -159,7 +164,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     try {
       // Remove from storage
       const { data, error } = await supabaseClient.storage
-        .from('public')
+        .from(bucketName)
         .remove([file.src])
 
       if (error) throw new Error('Error removing image')
