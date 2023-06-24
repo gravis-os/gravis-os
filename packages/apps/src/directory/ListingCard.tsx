@@ -43,6 +43,8 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
       {is_listing_image_enabled && (
         <Link href={listingHref}>
           <StorageImage
+            fill
+            fixed
             src={avatar_src}
             alt={avatar_alt || title}
             scaleOnHover
