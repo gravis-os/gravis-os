@@ -20,6 +20,11 @@ export interface SettingsContextValue {
 
 export interface SettingsProviderProps {
   children?: React.ReactNode
+  shouldSetThemeFromLocalStorage?: boolean
+}
+
+export interface RestoreSettingsOptions {
+  shouldSetThemeFromLocalStorage?: SettingsProviderProps['shouldSetThemeFromLocalStorage']
 }
 
 const initialSettings: Settings = {
@@ -28,21 +33,28 @@ const initialSettings: Settings = {
   theme: 'light',
 }
 
-const restoreSettings = (): Settings | null => {
+const restoreSettings = (
+  options: RestoreSettingsOptions = {}
+): Settings | null => {
   let settings: any = null
-
+  const { shouldSetThemeFromLocalStorage } = options
   try {
     const storedData: string | null =
       globalThis.localStorage.getItem('settings')
+
+    const systemThemeSetting = shouldSetThemeFromLocalStorage
+      ? {}
+      : {
+          theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light',
+        }
 
     settings = {
       direction: 'ltr',
       responsiveFontSizes: true,
       ...JSON.parse(storedData),
-      // Allow to overriding of the theme with the system preference
-      theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light',
+      ...systemThemeSetting,
     }
   } catch (err) {
     console.error(err)
@@ -88,14 +100,14 @@ export const useSettings = () => {
  * </SettingsProvider>
  */
 const SettingsProvider: React.FC<SettingsProviderProps> = (props) => {
-  const { children } = props
+  const { children, shouldSetThemeFromLocalStorage } = props
   const [settings, setSettings] = useState<Settings>(initialSettings)
 
   // @link: https://mui.com/material-ui/customization/dark-mode/#system-preference
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
   useEffect(() => {
-    const restoredSettings = restoreSettings()
+    const restoredSettings = restoreSettings({ shouldSetThemeFromLocalStorage })
 
     if (restoredSettings) {
       setSettings(restoredSettings)
