@@ -10,7 +10,7 @@ export interface ContactCalloutProps {
 
 const ContactCallout: React.FC<ContactCalloutProps> = (props) => {
   const { site } = useLayout()
-  const { cta_title, cta_button_title } = site
+  const { cta_title, cta_button_title } = site || {}
   const { size = 'large', page = <></> } = props
 
   const footerCalloutBlockProps = {
