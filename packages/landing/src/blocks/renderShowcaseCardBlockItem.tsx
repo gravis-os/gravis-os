@@ -45,6 +45,7 @@ const renderShowcaseCardBlockItem = (
             scaleOnHover: true,
             boxSx: {
               height: '100%',
+              width: '100%',
               bottom: -8,
             },
           },
@@ -108,7 +109,7 @@ const renderShowcaseCardBlockItem = (
     gridProps: {
       reverse: { xs: !reverse, md: reverse },
       spacing: 3,
-      sx: { textAlign: { xs: 'center', md: 'left' } },
+      sx: { textAlign: { xs: 'center', md: 'left' }, px: 5 },
     },
     gridItems: nextGridItems,
   }
