@@ -23,6 +23,10 @@ export interface SettingsProviderProps {
   shouldSetThemeFromLocalStorage?: boolean
 }
 
+export interface RestoreSettingsOptions {
+  shouldSetThemeFromLocalStorage?: SettingsProviderProps['shouldSetThemeFromLocalStorage']
+}
+
 const initialSettings: Settings = {
   direction: 'ltr',
   responsiveFontSizes: true,
@@ -30,10 +34,10 @@ const initialSettings: Settings = {
 }
 
 const restoreSettings = (
-  shouldSetThemeFromLocalStorage?: boolean
+  options: RestoreSettingsOptions = {}
 ): Settings | null => {
   let settings: any = null
-
+  const { shouldSetThemeFromLocalStorage } = options
   try {
     const storedData: string | null =
       globalThis.localStorage.getItem('settings')
@@ -103,7 +107,7 @@ const SettingsProvider: React.FC<SettingsProviderProps> = (props) => {
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
   useEffect(() => {
-    const restoredSettings = restoreSettings(shouldSetThemeFromLocalStorage)
+    const restoredSettings = restoreSettings({ shouldSetThemeFromLocalStorage })
 
     if (restoredSettings) {
       setSettings(restoredSettings)
