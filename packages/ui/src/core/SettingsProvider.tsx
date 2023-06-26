@@ -20,6 +20,7 @@ export interface SettingsContextValue {
 
 export interface SettingsProviderProps {
   children?: React.ReactNode
+  useLocalSettings?: boolean
 }
 
 const initialSettings: Settings = {
@@ -28,20 +29,26 @@ const initialSettings: Settings = {
   theme: 'light',
 }
 
-const restoreSettings = (): Settings | null => {
+const restoreSettings = (useLocalSettings?: boolean): Settings | null => {
   let settings: any = null
 
   try {
     const storedData: string | null =
       globalThis.localStorage.getItem('settings')
 
+    const systemThemeSetting = useLocalSettings
+      ? {}
+      : {
+          theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light',
+        }
+
     settings = {
       direction: 'ltr',
       responsiveFontSizes: true,
-      theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light',
       ...JSON.parse(storedData),
+      ...systemThemeSetting,
     }
   } catch (err) {
     console.error(err)
@@ -87,14 +94,14 @@ export const useSettings = () => {
  * </SettingsProvider>
  */
 const SettingsProvider: React.FC<SettingsProviderProps> = (props) => {
-  const { children } = props
+  const { children, useLocalSettings } = props
   const [settings, setSettings] = useState<Settings>(initialSettings)
 
   // @link: https://mui.com/material-ui/customization/dark-mode/#system-preference
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
   useEffect(() => {
-    const restoredSettings = restoreSettings()
+    const restoredSettings = restoreSettings(useLocalSettings)
 
     if (restoredSettings) {
       setSettings(restoredSettings)
