@@ -19,6 +19,7 @@ const DateField: React.FC<DateFieldProps> = (props) => {
       }}
       format="dd MMM yyyy"
       onChange={onChange}
+      // v6 does not allow value to be string anymore
       value={typeof value === 'string' ? new Date(value) : value}
       {...datePickerProps}
     />

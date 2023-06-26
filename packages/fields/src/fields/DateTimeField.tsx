@@ -8,7 +8,7 @@ export interface DateTimeFieldProps extends DateTimePickerProps<Date> {
 }
 
 const DateTimeField: React.FC<DateTimeFieldProps> = (props) => {
-  const { textFieldProps, ...rest } = props
+  const { textFieldProps, value, ...rest } = props
 
   return (
     <DateTimePicker
@@ -19,6 +19,8 @@ const DateTimeField: React.FC<DateTimeFieldProps> = (props) => {
           ...textFieldProps,
         },
       }}
+      // v6 does not allow value to be string anymore
+      value={typeof value === 'string' ? new Date(value) : value}
       {...rest}
     />
   )
