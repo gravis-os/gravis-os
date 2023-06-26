@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- [#275](https://github.com/gravis-os/gravis-os/pull/275) [`fb7253e`](https://github.com/gravis-os/gravis-os/commit/fb7253e5b12467a71d429e44b9a0c351cb1d6782) Thanks [@shank1xt](https://github.com/shank1xt)! - make listing card image full width
+
+- Updated dependencies [[`5cddd62`](https://github.com/gravis-os/gravis-os/commit/5cddd6251bb5fce5481bb59efec8940c8132835a)]:
+  - @gravis-os/ui@0.1.5
+
 ## 0.1.0
 
 ### Minor Changes

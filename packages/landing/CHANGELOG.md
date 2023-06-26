@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- [`5cddd62`](https://github.com/gravis-os/gravis-os/commit/5cddd6251bb5fce5481bb59efec8940c8132835a) Thanks [@clodal](https://github.com/clodal)! - Add defensive guards to ui and landing to ensure layout gets rendered correctly with the useLayout hook
+
+- Updated dependencies [[`5cddd62`](https://github.com/gravis-os/gravis-os/commit/5cddd6251bb5fce5481bb59efec8940c8132835a), [`fb7253e`](https://github.com/gravis-os/gravis-os/commit/fb7253e5b12467a71d429e44b9a0c351cb1d6782)]:
+  - @gravis-os/ui@0.1.5
+  - @gravis-os/storage@0.1.3
+
 ## 0.2.1
 
 ### Patch Changes
