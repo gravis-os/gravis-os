@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- [#277](https://github.com/gravis-os/gravis-os/pull/277) [`548b901`](https://github.com/gravis-os/gravis-os/commit/548b9011c5a845135db7e9890024d829cc4be781) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Updated the showcase slider to expand until the navigation arrows
+
 ## 0.2.2
 
 ### Patch Changes
