@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6
+
+### Patch Changes
+
+- [#278](https://github.com/gravis-os/gravis-os/pull/278) [`cdef1516`](https://github.com/gravis-os/gravis-os/commit/cdef151622c04002534eb4e2da42c21d0916f60e) Thanks [@shank1xt](https://github.com/shank1xt)! - use localstorage instead of system dark mode
+
 ## 0.1.5
 
 ### Patch Changes

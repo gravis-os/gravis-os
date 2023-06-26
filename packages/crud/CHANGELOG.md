@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.0.105
+
+### Patch Changes
+
+- [#276](https://github.com/gravis-os/gravis-os/pull/276) [`2b09d16d`](https://github.com/gravis-os/gravis-os/commit/2b09d16d523434bd7affb23aac2afc23b0146b26) Thanks [@shank1xt](https://github.com/shank1xt)! - add condition to keep button disabled on successful submit
+
+- Updated dependencies [[`cdef1516`](https://github.com/gravis-os/gravis-os/commit/cdef151622c04002534eb4e2da42c21d0916f60e), [`7d6acc82`](https://github.com/gravis-os/gravis-os/commit/7d6acc82d99801a41ee4be5b6acd43eb6d4ed426)]:
+  - @gravis-os/ui@0.1.6
+  - @gravis-os/form@1.0.0
+
 ## 0.0.104
 
 ### Patch Changes

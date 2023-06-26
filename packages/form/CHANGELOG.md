@@ -1,5 +1,17 @@
 # Changelog
 
+## 1.0.0
+
+### Major Changes
+
+- [#279](https://github.com/gravis-os/gravis-os/pull/279) [`7d6acc82`](https://github.com/gravis-os/gravis-os/commit/7d6acc82d99801a41ee4be5b6acd43eb6d4ed426) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - migrate mui datepickers from v5 to v6
+
+### Patch Changes
+
+- Updated dependencies [[`cdef1516`](https://github.com/gravis-os/gravis-os/commit/cdef151622c04002534eb4e2da42c21d0916f60e), [`7d6acc82`](https://github.com/gravis-os/gravis-os/commit/7d6acc82d99801a41ee4be5b6acd43eb6d4ed426)]:
+  - @gravis-os/ui@0.1.6
+  - @gravis-os/fields@1.0.0
+
 ## 0.0.117
 
 ### Patch Changes
