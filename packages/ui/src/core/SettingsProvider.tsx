@@ -20,7 +20,7 @@ export interface SettingsContextValue {
 
 export interface SettingsProviderProps {
   children?: React.ReactNode
-  useLocalSettings?: boolean
+  shouldSetThemeFromLocalStorage?: boolean
 }
 
 const initialSettings: Settings = {
@@ -29,14 +29,16 @@ const initialSettings: Settings = {
   theme: 'light',
 }
 
-const restoreSettings = (useLocalSettings?: boolean): Settings | null => {
+const restoreSettings = (
+  shouldSetThemeFromLocalStorage?: boolean
+): Settings | null => {
   let settings: any = null
 
   try {
     const storedData: string | null =
       globalThis.localStorage.getItem('settings')
 
-    const systemThemeSetting = useLocalSettings
+    const systemThemeSetting = shouldSetThemeFromLocalStorage
       ? {}
       : {
           theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
@@ -94,14 +96,14 @@ export const useSettings = () => {
  * </SettingsProvider>
  */
 const SettingsProvider: React.FC<SettingsProviderProps> = (props) => {
-  const { children, useLocalSettings } = props
+  const { children, shouldSetThemeFromLocalStorage } = props
   const [settings, setSettings] = useState<Settings>(initialSettings)
 
   // @link: https://mui.com/material-ui/customization/dark-mode/#system-preference
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
   useEffect(() => {
-    const restoredSettings = restoreSettings(useLocalSettings)
+    const restoredSettings = restoreSettings(shouldSetThemeFromLocalStorage)
 
     if (restoredSettings) {
       setSettings(restoredSettings)
