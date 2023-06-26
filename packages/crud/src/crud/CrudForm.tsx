@@ -140,7 +140,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   }, [isSubmitSuccessful])
 
   // Keep track whether to disable button while redirecting after submitting form
-  const didSubmitWithRedirect = isSubmitSuccessful && !disableRedirectOnSuccess
+  const isLoadingRedirectOnSuccess =
+    isSubmitSuccessful && !disableRedirectOnSuccess
 
   // Duck type to test if form is loaded in preview drawer
   const isPreview = Boolean(headerProps)
@@ -227,7 +228,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
                   key: 'save',
                   type: 'submit' as ButtonProps['type'],
                   title: 'Save',
-                  disabled: isSubmitting || !isDirty || didSubmitWithRedirect,
+                  disabled:
+                    isSubmitting || !isDirty || isLoadingRedirectOnSuccess,
                   ...headerProps?.buttonProps,
                 }}
               />
