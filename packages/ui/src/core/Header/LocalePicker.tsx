@@ -30,6 +30,8 @@ export interface LocalePickerProps
 const LocalePicker: React.FC<LocalePickerProps> = (props) => {
   const { locales, ...rest } = props
 
+  if (!locales?.length) return null
+
   // Router
   const router = useRouter()
   const { locale, asPath } = router

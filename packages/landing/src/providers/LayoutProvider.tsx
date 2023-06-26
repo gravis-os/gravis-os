@@ -1,6 +1,6 @@
 import React, { createContext, useContext } from 'react'
 import merge from 'lodash/merge'
-import {
+import type {
   ClientHighlight,
   ClientLogo,
   ClientTestimonial,
@@ -14,7 +14,7 @@ import {
   Workspace,
 } from '@gravis-os/types'
 import { FooterProps, ImageProps } from '@gravis-os/ui'
-import { BlockItemProps } from '../web/Block/BlockItem'
+import type { BlockItemProps } from '../web/Block/BlockItem'
 
 // ==============================
 // Types
@@ -54,6 +54,17 @@ export interface LayoutContextValue {
 // Initial State
 // ==============================
 export const layoutContextInitialState = {
+  site: {},
+  routeConfig: {},
+  logoProps: {
+    src: '',
+    alt: '',
+    width: '',
+    height: '',
+  },
+  socialMediaItems: {},
+  legalItems: {},
+
   services: [],
   industrys: [],
   postCategorys: [],

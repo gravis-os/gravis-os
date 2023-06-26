@@ -27,13 +27,13 @@ const renderContactLinksBlockItems = () => {
         startIcon: <LocalPhoneOutlinedIcon color="action" />,
         overline: 'General hotline',
         title: general_phone,
-        href: `tel:${general_phone.replaceAll(' ', '')}`,
+        href: `tel:${general_phone?.replaceAll(' ', '')}`,
       },
       {
         startIcon: <WhatsAppIcon style={{ fill: 'green' }} />,
         overline: 'WhatsApp',
         title: general_whatsapp,
-        href: `https://wa.me/${general_whatsapp.replaceAll(' ', '')}`,
+        href: `https://wa.me/${general_whatsapp?.replaceAll(' ', '')}`,
         titleProps: { targetBlank: true },
       },
     ]

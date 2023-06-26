@@ -37,8 +37,8 @@ export interface FooterProps extends WithPaletteModeProps {
   companyName: string
   navItems: FooterNavItem[]
   logo?: React.ReactElement
-  socialMediaItems?: { [type in SocialItemType]: string }
-  legalItems?: { [type in LegalItemType]: string }
+  socialMediaItems?: { [type in SocialItemType]?: string }
+  legalItems?: { [type in LegalItemType]?: string }
   accordionProps?: Omit<NavAccordionProps, 'title'>
   callout?: React.ReactNode
   disableCallout?: boolean

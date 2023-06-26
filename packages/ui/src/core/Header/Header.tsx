@@ -424,14 +424,20 @@ const Header: React.FC<HeaderProps> = (props) => {
   const isTranslucentAtScrollY = scrollY >= translucentAtScrollY
 
   // Process navItems (desktop) and mobileNavItems
+  const cleanedNavItems = Object.entries(injectedNavItems).reduce(
+    (acc, [key, value]) => {
+      return { ...acc, [key]: value?.filter(Boolean) }
+    },
+    {}
+  )
   const navItems = flowRight(
     withInvertLogoInNavItems({
       invertLogo,
       translucentAtScrollY,
       isTranslucentAtScrollY,
     })
-  )(injectedNavItems)
-  const mobileNavItems = injectedNavItems
+  )(cleanedNavItems)
+  const mobileNavItems = cleanedNavItems
 
   // Grouped navItems
   const isGroupedNavItems =
