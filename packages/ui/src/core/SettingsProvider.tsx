@@ -38,11 +38,10 @@ const restoreSettings = (): Settings | null => {
     settings = {
       direction: 'ltr',
       responsiveFontSizes: true,
-      ...JSON.parse(storedData),
-      // Allow to overriding of the theme with the system preference
       theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
         ? 'dark'
         : 'light',
+      ...JSON.parse(storedData),
     }
   } catch (err) {
     console.error(err)
