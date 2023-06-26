@@ -224,7 +224,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
                   key: 'save',
                   type: 'submit' as ButtonProps['type'],
                   title: 'Save',
-                  disabled: isSubmitting || !isDirty,
+                  disabled: isSubmitting || !isDirty || isSubmitSuccessful,
                   ...headerProps?.buttonProps,
                 }}
               />
