@@ -186,7 +186,7 @@ export interface Site {
   disable_testimonials?: boolean
 
   // Hide faqs
-  disable_faqs?: boolean
+  disable_faqs_on_home_page?: boolean
 
   // Company
   company_title?: string
