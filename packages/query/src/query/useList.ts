@@ -178,7 +178,11 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
         // Return eq as op by default
         if (!isOpInParsedQsValue) return ['eq', parsedQsValue]
 
-        const [op, filterValue] = parsedQsValue.split('.')
+        const separatedByPeriod = parsedQsValue.split('.')
+        const [op, filterValue] = [
+          separatedByPeriod.slice(0, -1).join('.'),
+          separatedByPeriod[separatedByPeriod.length - 1],
+        ]
 
         // If op is ilike, add `%`
         if (op === 'ilike') return [op, `%${filterValue}%`]
@@ -187,18 +191,31 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       }
 
       // Early terminate on multiple filters
-      const isMultipleFilterOnTheSameColumn = Array.isArray(parsedQsValue)
+      const isMultipleFilterOnTheSameColumn =
+        Array.isArray(injectedParsedQsValue) && injectedParsedQsValue.length > 1
       if (isMultipleFilterOnTheSameColumn) {
         // @example qs = price=lt.300&price=gt.100; parsedQsValue = ['lt.300', 'gt.100']
-        const nextFilters = (parsedQsValue as Record<string, any>).reduce(
-          (acc, parsedQsValueItem) => {
-            const [op, filterValue] = getOpAndFilterValue(parsedQsValueItem)
-            const newFilter = { key, op, value: filterValue }
-            return acc.concat(newFilter)
-          },
-          []
+        const nextFilters = (
+          injectedParsedQsValue as Record<string, any>
+        ).reduce((acc, parsedQsValueItem) => {
+          const [op, filterValue] = getOpAndFilterValue(parsedQsValueItem)
+          const newFilter = { key, op, value: filterValue }
+          return acc.concat(newFilter)
+        }, [])
+        const withoutInFilters = nextFilters.filter(
+          (nextFilter) => nextFilter.op !== 'in'
         )
-        return [...acc, ...nextFilters]
+        const withInFilters = nextFilters.filter(
+          (nextFilter) => nextFilter.op === 'in'
+        )
+        const inFilter = {
+          key,
+          op: 'in',
+          value: `(${withInFilters
+            .map((inFilter) => inFilter.value)
+            .join(',')})`,
+        }
+        return [...acc, ...withoutInFilters, inFilter]
       }
 
       // Single filter
@@ -206,7 +223,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       const newFilter = {
         key,
         op,
-        value: filterValue,
+        value: op === 'in' ? `(${filterValue})` : filterValue,
       } as unknown as SupabasePostgrestBuilderFiltersType
 
       return acc.concat(newFilter)
