@@ -11,6 +11,7 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import flowRight from 'lodash/flowRight'
 import uniqBy from 'lodash/uniqBy'
 import pick from 'lodash/pick'
+import partition from 'lodash/partition'
 import isEmpty from 'lodash/isEmpty'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { CrudItem } from '@gravis-os/types'
@@ -178,10 +179,12 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
         // Return eq as op by default
         if (!isOpInParsedQsValue) return ['eq', parsedQsValue]
 
-        const separatedByPeriod = parsedQsValue.split('.')
+        // Split the query into two parts by the last period
+        // @example qs = brand=not.in.1; [op, filterValue] = ['not.in', '1']
+        const parsedQsValueArr = parsedQsValue.split('.')
         const [op, filterValue] = [
-          separatedByPeriod.slice(0, -1).join('.'),
-          separatedByPeriod[separatedByPeriod.length - 1],
+          parsedQsValueArr.slice(0, -1).join('.'),
+          parsedQsValueArr[parsedQsValueArr.length - 1],
         ]
 
         // If op is ilike, add `%`
@@ -193,6 +196,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       // Early terminate on multiple filters
       const isMultipleFilterOnTheSameColumn =
         Array.isArray(injectedParsedQsValue) && injectedParsedQsValue.length > 1
+
       if (isMultipleFilterOnTheSameColumn) {
         // @example qs = price=lt.300&price=gt.100; parsedQsValue = ['lt.300', 'gt.100']
         const nextFilters = (
@@ -202,12 +206,14 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
           const newFilter = { key, op, value: filterValue }
           return acc.concat(newFilter)
         }, [])
-        const withoutInFilters = nextFilters.filter(
-          (nextFilter) => nextFilter.op !== 'in'
+
+        // @example qs = brand=in.1&price=lt.500&brand=in.5;
+        // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
+        const [withInFilters, withoutInFilters] = partition(
+          nextFilters,
+          (filter) => filter.op === 'in'
         )
-        const withInFilters = nextFilters.filter(
-          (nextFilter) => nextFilter.op === 'in'
-        )
+
         const inFilter = {
           key,
           op: 'in',
@@ -215,6 +221,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
             .map((inFilter) => inFilter.value)
             .join(',')})`,
         }
+
         return [...acc, ...withoutInFilters, inFilter]
       }
 
