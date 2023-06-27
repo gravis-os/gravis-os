@@ -1,4 +1,4 @@
-import { CrudItem } from "./crud"
+import { CrudItem } from './crud'
 
 export interface ClientHighlight extends Omit<CrudItem, 'title'> {
   src?: string
@@ -27,7 +27,7 @@ export enum FormCategoryEnum {
   LEAD = 'lead-form',
   CONTACT = 'contact-form',
   NEWSLETTER = 'newsletter-form',
-  HONEYPOT = 'honeypot-form'
+  HONEYPOT = 'honeypot-form',
 }
 
 export interface Industry extends Page {
@@ -184,6 +184,9 @@ export interface Site {
 
   // Hide testimonials
   disable_testimonials?: boolean
+
+  // Hide faqs
+  disable_faqs?: boolean
 
   // Company
   company_title?: string
