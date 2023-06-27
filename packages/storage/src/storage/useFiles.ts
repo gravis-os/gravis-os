@@ -19,7 +19,10 @@ const fetchStorageUrls = async ({
     const downloadedItems = await Promise.all(downloadPromises)
 
     const storageUrls = downloadedItems.map((downloadedItem) => {
-      const { data } = downloadedItem
+      const { data, error } = downloadedItem
+
+      if (error) return null
+
       return URL.createObjectURL(data)
     })
 
