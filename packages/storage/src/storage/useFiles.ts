@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { size } from 'lodash'
 import { File } from './types'
 import { DEFAULT_BUCKET_NAME, cleanPath } from './utils'
 
@@ -51,7 +52,7 @@ const useFiles: UseFiles = ({ items, bucketName }) => {
       const fetchedStorageUrls = await fetchStorageUrls({ srcs, bucketName })
       const fetchedFiles = items.map((file, i) => ({
         ...file,
-        url: fetchedStorageUrls[i],
+        url: i < size(fetchedStorageUrls) ? fetchedStorageUrls[i] : '/',
       }))
       setFiles(fetchedFiles)
     }
