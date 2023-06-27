@@ -54,6 +54,16 @@ const delayFunction = debounce
  */
 const getClientSideFilterOptions = createFilterOptions<DataItem>()
 
+const getWithCreateOptions =
+  ({ pk, inputValue }: { pk: string; inputValue: string }) =>
+  (options: DataItem[]) => {
+    const isExisting = options.some((option) => inputValue === get(option, pk))
+    if (inputValue !== '' && !isExisting) {
+      return options.concat({ [pk]: `Add "${inputValue}"` })
+    }
+    return options
+  }
+
 export type SetModelFieldQuery = ({
   inputValue,
   select,
@@ -460,28 +470,22 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         filterOptions={(options: DataItem[], params) => {
           const { inputValue } = params
 
+          // Suggest the creation of a new value
+          const withCreateOptions = withCreate
+            ? getWithCreateOptions({ pk, inputValue })
+            : identity
+
           /**
            * Disable client-side filter by escaping here when using server-side filters.
            * Always show all options since they would already be filtered
            * in the search query.
            */
-          if (filters) return options
+          if (filters) return withCreateOptions(options)
 
           // Client-side filter options
-          const clientSideFilteredOptions = getClientSideFilterOptions(
-            options,
-            params
+          const clientSideFilteredOptions = withCreateOptions(
+            getClientSideFilterOptions(options, params)
           )
-
-          // Suggest the creation of a new value
-          if (withCreate) {
-            const isExisting = options.some(
-              (option) => inputValue === get(option, pk)
-            )
-            if (inputValue !== '' && !isExisting) {
-              clientSideFilteredOptions.push({ [pk]: `Add "${inputValue}"` })
-            }
-          }
 
           // filterSelectedOptions: Remove selected options from the options list
           const nextClientSideFilteredOptions = uniqBy(
