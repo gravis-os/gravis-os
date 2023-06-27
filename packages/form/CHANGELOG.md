@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.1
+
+### Patch Changes
+
+- [#283](https://github.com/gravis-os/gravis-os/pull/283) [`42123f83`](https://github.com/gravis-os/gravis-os/commit/42123f8355073c7b8e059464a0a468e50a8b4dc3) Thanks [@al1xt](https://github.com/al1xt)! - Fix compatibility for server side filter options with create in ModelField
+
 ## 1.0.0
 
 ### Major Changes
