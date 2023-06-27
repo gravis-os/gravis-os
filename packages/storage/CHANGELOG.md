@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4
+
+### Patch Changes
+
+- [#281](https://github.com/gravis-os/gravis-os/pull/281) [`ea414f5b`](https://github.com/gravis-os/gravis-os/commit/ea414f5b45093d456d322fb74cc38b47e29efd3b) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - handle no file url returned
+
 ## 0.1.3
 
 ### Patch Changes
