@@ -1,5 +1,5 @@
 import { getCrudItemsByCategory, withLocales } from '@gravis-os/utils'
-import { LayoutConfig } from './layoutConfig'
+import { LayoutConfig } from './types'
 
 const makeGetLayoutProviderProps =
   (layoutConfig: LayoutConfig) =>

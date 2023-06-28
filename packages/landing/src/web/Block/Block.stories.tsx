@@ -2,7 +2,7 @@ import React from 'react'
 import MOCK_DARK_BLUE_GRADIENT_1_IMAGE from '../../../public/images/mock_dark_blue_gradient_1.jpg'
 import MOCK_RAINBOW_GRADIENT_1_IMAGE from '../../../public/images/mock_rainbow_gradient_1.jpg'
 import { MOCK_BLOCK, MOCK_BLOCK_ITEM_TYPES } from '../../mocks'
-import getStorybookTitle from '../../server/getStorybookTitle'
+import getStorybookTitle from '../../utils/getStorybookTitle'
 import Block from './Block'
 import { BlockItemTypeEnum } from './constants'
 

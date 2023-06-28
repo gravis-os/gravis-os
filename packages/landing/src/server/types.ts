@@ -10,8 +10,8 @@ import {
   Service,
   Technology,
   Workspace,
+  Showcase,
 } from '@gravis-os/types'
-import { Showcase } from '../providers/LayoutProvider'
 
 export interface LayoutConfig {
   routeConfig?: Record<string, string>

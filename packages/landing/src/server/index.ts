@@ -6,10 +6,7 @@ export * from './getDynamicPage'
 export { default as getStaticPathsWithLayout } from './getStaticPathsWithLayout'
 export * from './getStaticPathsWithLayout'
 
-export { default as getStorybookTitle } from './getStorybookTitle'
-export * from './getStorybookTitle'
-
-export * from './layoutConfig'
+export * from './types'
 
 export { default as makeGetLayoutProviderProps } from './makeGetLayoutProviderProps'
 export * from './makeGetLayoutProviderProps'

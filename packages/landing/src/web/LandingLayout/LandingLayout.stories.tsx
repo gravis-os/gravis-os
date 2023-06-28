@@ -47,7 +47,7 @@ import PartnerVisaIcon from '../../../public/Landing/gravisLanding/partner_visa.
 
 import InterBold from '../../../public/fonts/Inter/Inter-Bold.ttf'
 import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
-import getStorybookTitle from '../../server/getStorybookTitle'
+import getStorybookTitle from '../../utils/getStorybookTitle'
 
 export default {
   title: getStorybookTitle(LandingLayout.name),

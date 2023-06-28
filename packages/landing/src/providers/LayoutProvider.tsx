@@ -9,23 +9,16 @@ import type {
   PostCategory,
   Service,
   ServiceCategory,
+  Showcase,
   Site,
   Technology,
   Workspace,
 } from '@gravis-os/types'
 import { FooterProps, ImageProps } from '@gravis-os/ui'
-import type { BlockItemProps } from '../web/Block/BlockItem'
 
 // ==============================
 // Types
 // ==============================
-
-export interface Showcase extends Page {
-  hero_src: string
-  mode?: BlockItemProps['mode']
-  backgroundColor?: string
-  reverse?: boolean
-}
 
 export interface LayoutContextValue {
   site?: Site
