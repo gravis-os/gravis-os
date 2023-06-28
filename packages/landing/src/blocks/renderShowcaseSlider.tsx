@@ -44,7 +44,7 @@ const renderShowcaseSlider = (props: RenderShowcaseSliderProps) => {
             loop
             arrows
             sx={{ mt: { xs: 0, md: 4 } }}
-            options={{ slides: { perView: 1, spacing: 24 } }}
+            options={{ slides: { perView: 1, spacing: 12 } }}
             dotProps={{ color: 'secondary.main' }}
             height={{ md: 500 }}
             items={items.map((item) => {
