@@ -1,5 +1,14 @@
 # @gravis-os/fields
 
+## 1.0.1
+
+### Patch Changes
+
+- [#286](https://github.com/gravis-os/gravis-os/pull/286) [`c5b7790b`](https://github.com/gravis-os/gravis-os/commit/c5b7790ba7116d8c53afc5b9820ec138b32a8d80) Thanks [@al1xt](https://github.com/al1xt)! - Fix CheckboxGroup onChange parameters
+
+- Updated dependencies [[`6fdcb7a8`](https://github.com/gravis-os/gravis-os/commit/6fdcb7a8b092a5368e868055faa12fc42ed23aba)]:
+  - @gravis-os/types@0.2.0
+
 ## 1.0.0
 
 ### Major Changes

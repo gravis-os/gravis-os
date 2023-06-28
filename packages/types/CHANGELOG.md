@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+### Minor Changes
+
+- [#285](https://github.com/gravis-os/gravis-os/pull/285) [`6fdcb7a8`](https://github.com/gravis-os/gravis-os/commit/6fdcb7a8b092a5368e868055faa12fc42ed23aba) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Renamed disable_faqs to disable_faqs_on_home_page for more clarity
+
 ## 0.1.0
 
 ### Minor Changes
