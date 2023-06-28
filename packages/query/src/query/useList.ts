@@ -154,6 +154,26 @@ const withSort = () => (props: UseListProps & UseListFilters) => {
   }
 }
 
+const partitionArrayBasedFilters = (
+  key: string,
+  filters: Record<string, any>[]
+) => {
+  // @example qs = brand=in.1&price=lt.500&brand=in.5;
+  // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
+  const [withInFilters, withoutInFilters] = partition(
+    filters,
+    (filter) => filter.op === 'in'
+  )
+
+  const inFilter = {
+    key,
+    op: 'in',
+    value: `(${withInFilters.map((inFilter) => inFilter.value).join(',')})`,
+  }
+
+  return [...withoutInFilters, inFilter]
+}
+
 const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
   const { filterByQueryString, filters, parsedQs } = props
 
@@ -206,23 +226,8 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
           const newFilter = { key, op, value: filterValue }
           return acc.concat(newFilter)
         }, [])
-
-        // @example qs = brand=in.1&price=lt.500&brand=in.5;
-        // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
-        const [withInFilters, withoutInFilters] = partition(
-          nextFilters,
-          (filter) => filter.op === 'in'
-        )
-
-        const inFilter = {
-          key,
-          op: 'in',
-          value: `(${withInFilters
-            .map((inFilter) => inFilter.value)
-            .join(',')})`,
-        }
-
-        return [...acc, ...withoutInFilters, inFilter]
+        const partitionedFilters = partitionArrayBasedFilters(key, nextFilters)
+        return [...acc, ...partitionedFilters]
       }
 
       // Single filter
