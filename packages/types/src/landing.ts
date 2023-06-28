@@ -237,3 +237,10 @@ export interface Technology extends Page {
 }
 
 export interface CrudWorkspace extends CrudItem {}
+
+export interface Showcase extends Page {
+  hero_src: string
+  mode?: 'light' | 'dark' | string
+  backgroundColor?: string
+  reverse?: boolean
+}

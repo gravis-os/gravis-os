@@ -1,4 +1,5 @@
-import { Showcase, useLayout } from '../providers/LayoutProvider'
+import { Showcase } from '@gravis-os/types'
+import { useLayout } from '../providers/LayoutProvider'
 import renderGhostButtonBlockItem from './renderGhostButtonBlockItem'
 
 export interface RenderShowcaseCardBlockItemProps {

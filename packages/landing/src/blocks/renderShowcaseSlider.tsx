@@ -1,6 +1,6 @@
 import { Slider } from '@gravis-os/ui'
 import React from 'react'
-import { Showcase } from '../providers/LayoutProvider'
+import { Showcase } from '@gravis-os/types'
 import Block, { BlockProps } from '../web/Block/Block'
 import renderShowcaseCardBlockItem from './renderShowcaseCardBlockItem'
 

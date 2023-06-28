@@ -5,6 +5,13 @@
     "outDir": "dist/esm",
     "declarationDir": "dist/types"
   },
-  "include": ["./src/**/*", "typings.d.ts"],
-  "exclude": ["node_modules", "dist", "**/*.stories.tsx"]
+  "include": [
+    "./src/**/*",
+    "typings.d.ts"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "**/*.stories.tsx"
+  ]
 }
