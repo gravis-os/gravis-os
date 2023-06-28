@@ -13,6 +13,7 @@ import uniqBy from 'lodash/uniqBy'
 import pick from 'lodash/pick'
 import partition from 'lodash/partition'
 import isEmpty from 'lodash/isEmpty'
+import groupBy from 'lodash/groupBy'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { CrudItem } from '@gravis-os/types'
 import usePagination from './usePagination'
@@ -154,24 +155,36 @@ const withSort = () => (props: UseListProps & UseListFilters) => {
   }
 }
 
-const partitionArrayBasedFilters = (
+const getCombinedArrayBasedFilter = (
   key: string,
+  op: string,
   filters: Record<string, any>[]
 ) => {
+  return {
+    key,
+    op,
+    value: `(${filters.map((filt) => filt.value).join(',')})`,
+  }
+}
+
+const getPartitionedFilters = (key: string, filters: Record<string, any>[]) => {
+  // TODO: find all array based filters
+  const arrayBasedOps = ['in', 'not.in']
+
   // @example qs = brand=in.1&price=lt.500&brand=in.5;
   // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
-  const [withInFilters, withoutInFilters] = partition(
-    filters,
-    (filter) => filter.op === 'in'
+
+  const [arrayBasedFilters, otherFilters] = partition(filters, (filter) =>
+    arrayBasedOps.includes(filter.op)
   )
 
-  const inFilter = {
-    key,
-    op: 'in',
-    value: `(${withInFilters.map((inFilter) => inFilter.value).join(',')})`,
-  }
+  const groupedArrayBasedFilters = groupBy(arrayBasedFilters, (filt) => filt.op)
 
-  return [...withoutInFilters, inFilter]
+  const combinedArrayBasedFilters = Object.entries(
+    groupedArrayBasedFilters
+  ).map(([op, filters]) => getCombinedArrayBasedFilter(key, op, filters))
+
+  return [...otherFilters, ...combinedArrayBasedFilters]
 }
 
 const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
@@ -192,6 +205,14 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 
       const parsedQsValue = String(injectedParsedQsValue)
 
+      const getOpAndFilterValueFromParsedQsValue = (parsedQsValue: string) => {
+        const parsedQsValueArr = parsedQsValue.split('.')
+        return [
+          parsedQsValueArr.slice(0, -1).join('.'),
+          parsedQsValueArr[parsedQsValueArr.length - 1],
+        ]
+      }
+
       const getOpAndFilterValue = (parsedQsValue: string): string[] => {
         // Check if we have an op
         const isOpInParsedQsValue = parsedQsValue.includes('.')
@@ -201,11 +222,8 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 
         // Split the query into two parts by the last period
         // @example qs = brand=not.in.1; [op, filterValue] = ['not.in', '1']
-        const parsedQsValueArr = parsedQsValue.split('.')
-        const [op, filterValue] = [
-          parsedQsValueArr.slice(0, -1).join('.'),
-          parsedQsValueArr[parsedQsValueArr.length - 1],
-        ]
+        const [op, filterValue] =
+          getOpAndFilterValueFromParsedQsValue(parsedQsValue)
 
         // If op is ilike, add `%`
         if (op === 'ilike') return [op, `%${filterValue}%`]
@@ -226,7 +244,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
           const newFilter = { key, op, value: filterValue }
           return acc.concat(newFilter)
         }, [])
-        const partitionedFilters = partitionArrayBasedFilters(key, nextFilters)
+        const partitionedFilters = getPartitionedFilters(key, nextFilters)
         return [...acc, ...partitionedFilters]
       }
 
