@@ -11,7 +11,9 @@ import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import flowRight from 'lodash/flowRight'
 import uniqBy from 'lodash/uniqBy'
 import pick from 'lodash/pick'
+import partition from 'lodash/partition'
 import isEmpty from 'lodash/isEmpty'
+import groupBy from 'lodash/groupBy'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { CrudItem } from '@gravis-os/types'
 import usePagination from './usePagination'
@@ -158,6 +160,46 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 
   if (!filterByQueryString || isEmpty(parsedQs)) return props
 
+  const getArrayBasedFilterValue = (values: string[]) => `(${values.join(',')})`
+
+  const getCombinedArrayBasedFilter = (
+    key: string,
+    op: string,
+    filters: Record<string, any>[]
+  ) => {
+    return {
+      key,
+      op,
+      value: getArrayBasedFilterValue(filters.map((filt) => filt.value)),
+    }
+  }
+
+  // TODO: find all array based filters
+  const arrayBasedOps = ['in', 'not.in']
+
+  const getPartitionedFilters = (
+    key: string,
+    filters: Record<string, any>[]
+  ) => {
+    // @example qs = brand=in.1&price=lt.500&brand=in.5;
+    // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
+
+    const [arrayBasedFilters, otherFilters] = partition(filters, (filter) =>
+      arrayBasedOps.includes(filter.op)
+    )
+
+    const groupedArrayBasedFilters = groupBy(
+      arrayBasedFilters,
+      (filt) => filt.op
+    )
+
+    const combinedArrayBasedFilters = Object.entries(
+      groupedArrayBasedFilters
+    ).map(([op, filters]) => getCombinedArrayBasedFilter(key, op, filters))
+
+    return [...otherFilters, ...combinedArrayBasedFilters]
+  }
+
   /**
    * Let everything in the parsedQs go into the filters.
    * Just spread out the parsedQs into the filters.
@@ -171,6 +213,14 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 
       const parsedQsValue = String(injectedParsedQsValue)
 
+      const getOpAndFilterValueFromParsedQsValue = (parsedQsValue: string) => {
+        const parsedQsValueArr = parsedQsValue.split('.')
+        return [
+          parsedQsValueArr.slice(0, -1).join('.'),
+          parsedQsValueArr[parsedQsValueArr.length - 1],
+        ]
+      }
+
       const getOpAndFilterValue = (parsedQsValue: string): string[] => {
         // Check if we have an op
         const isOpInParsedQsValue = parsedQsValue.includes('.')
@@ -178,7 +228,10 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
         // Return eq as op by default
         if (!isOpInParsedQsValue) return ['eq', parsedQsValue]
 
-        const [op, filterValue] = parsedQsValue.split('.')
+        // Split the query into two parts by the last period
+        // @example qs = brand=not.in.1; [op, filterValue] = ['not.in', '1']
+        const [op, filterValue] =
+          getOpAndFilterValueFromParsedQsValue(parsedQsValue)
 
         // If op is ilike, add `%`
         if (op === 'ilike') return [op, `%${filterValue}%`]
@@ -187,18 +240,20 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       }
 
       // Early terminate on multiple filters
-      const isMultipleFilterOnTheSameColumn = Array.isArray(parsedQsValue)
+      const isMultipleFilterOnTheSameColumn =
+        Array.isArray(injectedParsedQsValue) && injectedParsedQsValue.length > 1
+
       if (isMultipleFilterOnTheSameColumn) {
         // @example qs = price=lt.300&price=gt.100; parsedQsValue = ['lt.300', 'gt.100']
-        const nextFilters = (parsedQsValue as Record<string, any>).reduce(
-          (acc, parsedQsValueItem) => {
-            const [op, filterValue] = getOpAndFilterValue(parsedQsValueItem)
-            const newFilter = { key, op, value: filterValue }
-            return acc.concat(newFilter)
-          },
-          []
-        )
-        return [...acc, ...nextFilters]
+        const nextFilters = (
+          injectedParsedQsValue as Record<string, any>
+        ).reduce((acc, parsedQsValueItem) => {
+          const [op, filterValue] = getOpAndFilterValue(parsedQsValueItem)
+          const newFilter = { key, op, value: filterValue }
+          return acc.concat(newFilter)
+        }, [])
+        const partitionedFilters = getPartitionedFilters(key, nextFilters)
+        return [...acc, ...partitionedFilters]
       }
 
       // Single filter
@@ -206,7 +261,9 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       const newFilter = {
         key,
         op,
-        value: filterValue,
+        value: arrayBasedOps.includes(op)
+          ? getArrayBasedFilterValue([filterValue])
+          : filterValue,
       } as unknown as SupabasePostgrestBuilderFiltersType
 
       return acc.concat(newFilter)

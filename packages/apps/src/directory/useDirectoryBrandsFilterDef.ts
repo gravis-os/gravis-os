@@ -31,7 +31,7 @@ const useDirectoryBrandsFilterDef = (
       key: 'brands',
       label: 'Brands',
       name: 'brand_id',
-      op: 'eq',
+      op: 'in',
       options: brands.map((brand) => ({
         key: brand.id,
         value: brand.id,
