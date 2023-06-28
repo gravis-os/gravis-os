@@ -22,6 +22,11 @@ export interface UserPreferencesContextValue {
 
 export interface UserPreferencesProviderProps {
   children?: React.ReactNode
+  shouldSetThemeFromLocalStorage?: boolean
+}
+
+export interface RestoreUserPreferencesOptions {
+  shouldSetThemeFromLocalStorage?: UserPreferencesProviderProps['shouldSetThemeFromLocalStorage']
 }
 
 const initialUserPreferences: UserPreferences = {
@@ -31,20 +36,28 @@ const initialUserPreferences: UserPreferences = {
   isDarkSidebar: false,
 }
 
-const restoreUserPreferences = (): UserPreferences | null => {
+const restoreUserPreferences = (
+  options: RestoreUserPreferencesOptions = {}
+): UserPreferences | null => {
   let userPreferences: any = null
-
+  const { shouldSetThemeFromLocalStorage } = options
   try {
     const storedData: string | null =
       globalThis.localStorage.getItem('userPreferences')
+
+    const systemThemeSetting = shouldSetThemeFromLocalStorage
+      ? {}
+      : {
+          mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+            ? 'dark'
+            : 'light',
+        }
 
     userPreferences = {
       ...initialUserPreferences,
       ...JSON.parse(storedData),
       // Allow to overriding of the mode with the system preference
-      mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-        ? 'dark'
-        : 'light',
+      ...systemThemeSetting,
     }
   } catch (err) {
     console.error(err)
@@ -97,7 +110,7 @@ export const useUserPreferences = () => {
 const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
   props
 ) => {
-  const { children } = props
+  const { children, shouldSetThemeFromLocalStorage } = props
   const [userPreferences, setUserPreferences] = useState<UserPreferences>(
     initialUserPreferences
   )
@@ -106,7 +119,9 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
   useEffect(() => {
-    const restoredUserPreferences = restoreUserPreferences()
+    const restoredUserPreferences = restoreUserPreferences({
+      shouldSetThemeFromLocalStorage,
+    })
 
     if (restoredUserPreferences) {
       setUserPreferences(restoredUserPreferences)
@@ -135,7 +150,11 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
     })
   }
   const toggleDarkModeIconButtonJsx = (
-    <IconButton onClick={handleToggleDarkMode} color="inherit" aria-label='toggle color mode'>
+    <IconButton
+      onClick={handleToggleDarkMode}
+      color="inherit"
+      aria-label="toggle color mode"
+    >
       {isDarkMode ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
     </IconButton>
   )
