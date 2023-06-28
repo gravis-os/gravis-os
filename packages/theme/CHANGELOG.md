@@ -1,5 +1,11 @@
 # @gravis-os/theme
 
+## 0.0.11
+
+### Patch Changes
+
+- [#284](https://github.com/gravis-os/gravis-os/pull/284) [`1f680999`](https://github.com/gravis-os/gravis-os/commit/1f680999412cd87b977e5cf8eebe3951fb341304) Thanks [@shank1xt](https://github.com/shank1xt)! - add prop to userpreferencesprovider to set dark mode from localstorage
+
 ## 0.0.10
 
 ### Patch Changes

@@ -1,5 +1,12 @@
 # @gravis-os/fields
 
+## 1.0.2
+
+### Patch Changes
+
+- [#287](https://github.com/gravis-os/gravis-os/pull/287) [`6a56d5b3`](https://github.com/gravis-os/gravis-os/commit/6a56d5b3675081da47ee3cd2633d34a09f0d5f17) Thanks [@al1xt](https://github.com/al1xt)! - - Fix ManageColumnsMenuButton not working without value
+  - Fix CheckboxGroup isChecked logic
+
 ## 1.0.1
 
 ### Patch Changes
