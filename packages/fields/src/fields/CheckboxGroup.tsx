@@ -72,7 +72,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
       )}
 
       <FormGroup row={row}>
-        {options?.map((injectedOption) => {
+        {options?.map((injectedOption, index) => {
           const option =
             typeof injectedOption === 'string'
               ? {
@@ -83,9 +83,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
               : injectedOption
           const { key, value, label: injectedLabel } = option
 
-          const isChecked = injectedValue
-            .map(({ value }) => value)
-            .includes(value)
+          const isChecked = Boolean(injectedValue?.[index]?.value)
 
           return (
             <FormControlLabel

@@ -31,6 +31,27 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
         const getIsExcludedColumn = (field: string) =>
           !field || ['index', 'checkbox', 'actions'].includes(field)
 
+        const getCheckboxOptions = (columnDefs: ManageColumnDef[]) => {
+          return columnDefs
+            .map(({ field, headerName }) => {
+              // Exclude certain columns from showing up in the checkbox
+              if (getIsExcludedColumn(field)) return null
+
+              // Check if checkbox should be default checked
+              const currentKeys = columnDefs
+                .filter(({ hide }) => !hide)
+                .map(({ field }) => field)
+
+              const isChecked = currentKeys.includes(field)
+
+              return { key: field, value: isChecked, label: headerName }
+            })
+            .filter(Boolean)
+        }
+
+        const options = getCheckboxOptions(initialColumnDefs)
+        const value = getCheckboxOptions(columnDefs)
+
         return (
           <CheckboxGroup
             sx={{ px: 2 }}
@@ -40,31 +61,13 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
             onChange={(_, { params }) => {
               const nextColumnDefs = columnDefs.map((columnDef) =>
                 columnDef.field === params.key
-                  ? { ...columnDef, hide: !params.checked }
+                  ? { ...columnDef, hide: !params.event.target.checked }
                   : columnDef
               )
-
               setColumnDefs(nextColumnDefs)
             }}
-            options={initialColumnDefs
-              .map(({ field, headerName }) => {
-                // Exclude certain columns from showing up in the checkbox
-                if (getIsExcludedColumn(field)) return
-
-                // Check if checkbox should be default checked
-                const currentKeys = columnDefs
-                  .filter(({ hide }) => !hide)
-                  .map(({ field }) => field)
-
-                const isChecked = currentKeys.includes(field)
-
-                return {
-                  key: field,
-                  value: isChecked,
-                  label: headerName,
-                }
-              })
-              .filter(Boolean)}
+            options={options}
+            value={value}
           />
         )
       }}
