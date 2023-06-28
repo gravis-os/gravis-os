@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.2
+
+### Patch Changes
+
+- [#288](https://github.com/gravis-os/gravis-os/pull/288) [`b4dccded`](https://github.com/gravis-os/gravis-os/commit/b4dccdedf0c69b317443b9c8920fb9e205181419) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - rebuild form
+
 ## 1.0.1
 
 ### Patch Changes
