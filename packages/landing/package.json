@@ -6,9 +6,22 @@
   "main": "./dist/cjs/index.js",
   "module": "./dist/esm/index.js",
   "types": "./dist/types/index.d.ts",
+  "typesVersions": {
+    "*": {
+      "server": [
+        "./dist/types/server/index.d.ts"
+      ]
+    }
+  },
   "exports": {
-    "require": "./dist/cjs/index.js",
-    "import": "./dist/esm/index.js"
+    ".": {
+      "require": "./dist/cjs/index.js",
+      "import": "./dist/esm/index.js"
+    },
+    "./server": {
+      "require": "./dist/cjs/server/index.js",
+      "import": "./dist/esm/server/index.js"
+    }
   },
   "files": [
     "dist"
@@ -38,9 +51,7 @@
     "lodash": "^4.17.21",
     "material-ui-popup-state": "^3.1.1",
     "next-seo": "^5.15.0",
-    "nextjs-progressbar": "^0.0.16",
-    "tslib": "^2.4.0",
-    "typescript": "^4.6.3"
+    "nextjs-progressbar": "^0.0.16"
   },
   "peerDependencies": {
     "@emotion/react": ">=11.9.0",
@@ -127,7 +138,6 @@
     "ts-loader": "^8.0.1",
     "tsc-watch": "^5.0.3",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
-    "typescript": "^4.6.3",
     "webpack": "^5.68.0",
     "yalc": "^1.0.0-pre.53"
   },

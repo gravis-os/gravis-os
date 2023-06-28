@@ -1,6 +1,6 @@
 import React from 'react'
 import { MOCK_FAQ_ACCORDION_ITEMS } from '../mocks'
-import getStorybookTitle from '../utils/getStorybookTitle'
+import getStorybookTitle from '../server/getStorybookTitle'
 import FaqAccordion from './FaqAccordion'
 
 export default {

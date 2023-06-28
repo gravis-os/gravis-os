@@ -1,6 +1,5 @@
 export * from './web'
 export * from './themes'
-export * from './utils'
 export * from './providers'
 export * from './blocks'
 export * from './components'

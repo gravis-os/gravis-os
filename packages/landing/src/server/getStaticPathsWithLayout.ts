@@ -15,7 +15,7 @@ const withFallback = (context) => (staticPathsResult: GetStaticPathsResult) => {
  * Abstracted from @link https://github.com/i18next/next-i18next/blob/master/examples/ssg/lib/getStatic.js
  * @param staticPathsResult
  */
-const makeGetStaticPaths =
+const getStaticPathsWithLayout =
   (staticPathsResult: Omit<GetStaticPathsResult, 'fallback'>) =>
   async (context) => {
     return flowRight([
@@ -24,4 +24,4 @@ const makeGetStaticPaths =
     ])(staticPathsResult)
   }
 
-export default makeGetStaticPaths
+export default getStaticPathsWithLayout
