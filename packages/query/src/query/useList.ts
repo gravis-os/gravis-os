@@ -155,42 +155,50 @@ const withSort = () => (props: UseListProps & UseListFilters) => {
   }
 }
 
-const getCombinedArrayBasedFilter = (
-  key: string,
-  op: string,
-  filters: Record<string, any>[]
-) => {
-  return {
-    key,
-    op,
-    value: `(${filters.map((filt) => filt.value).join(',')})`,
-  }
-}
-
-const getPartitionedFilters = (key: string, filters: Record<string, any>[]) => {
-  // TODO: find all array based filters
-  const arrayBasedOps = ['in', 'not.in']
-
-  // @example qs = brand=in.1&price=lt.500&brand=in.5;
-  // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
-
-  const [arrayBasedFilters, otherFilters] = partition(filters, (filter) =>
-    arrayBasedOps.includes(filter.op)
-  )
-
-  const groupedArrayBasedFilters = groupBy(arrayBasedFilters, (filt) => filt.op)
-
-  const combinedArrayBasedFilters = Object.entries(
-    groupedArrayBasedFilters
-  ).map(([op, filters]) => getCombinedArrayBasedFilter(key, op, filters))
-
-  return [...otherFilters, ...combinedArrayBasedFilters]
-}
-
 const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
   const { filterByQueryString, filters, parsedQs } = props
 
   if (!filterByQueryString || isEmpty(parsedQs)) return props
+
+  const getArrayBasedFilterValue = (values: string[]) => `(${values.join(',')})`
+
+  const getCombinedArrayBasedFilter = (
+    key: string,
+    op: string,
+    filters: Record<string, any>[]
+  ) => {
+    return {
+      key,
+      op,
+      value: getArrayBasedFilterValue(filters.map((filt) => filt.value)),
+    }
+  }
+
+  // TODO: find all array based filters
+  const arrayBasedOps = ['in', 'not.in']
+
+  const getPartitionedFilters = (
+    key: string,
+    filters: Record<string, any>[]
+  ) => {
+    // @example qs = brand=in.1&price=lt.500&brand=in.5;
+    // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
+
+    const [arrayBasedFilters, otherFilters] = partition(filters, (filter) =>
+      arrayBasedOps.includes(filter.op)
+    )
+
+    const groupedArrayBasedFilters = groupBy(
+      arrayBasedFilters,
+      (filt) => filt.op
+    )
+
+    const combinedArrayBasedFilters = Object.entries(
+      groupedArrayBasedFilters
+    ).map(([op, filters]) => getCombinedArrayBasedFilter(key, op, filters))
+
+    return [...otherFilters, ...combinedArrayBasedFilters]
+  }
 
   /**
    * Let everything in the parsedQs go into the filters.
@@ -253,7 +261,9 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       const newFilter = {
         key,
         op,
-        value: op === 'in' ? `(${filterValue})` : filterValue,
+        value: arrayBasedOps.includes(op)
+          ? getArrayBasedFilterValue([filterValue])
+          : filterValue,
       } as unknown as SupabasePostgrestBuilderFiltersType
 
       return acc.concat(newFilter)
