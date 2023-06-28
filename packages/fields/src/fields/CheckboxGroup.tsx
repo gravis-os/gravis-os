@@ -98,7 +98,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
               control={
                 <Checkbox
                   checked={isChecked}
-                  onChange={(e, params) => {
+                  onChange={(e) => {
                     const injectedValues = injectedValue.map(
                       ({ value }) => value
                     )
@@ -112,7 +112,11 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
 
                     // By default we assume this onChange will be used with a Controller.
                     // If this is not the case, we will pass the event and params along in the second argument.
-                    return injectedOnChange(nextValue, { e, params, isChecked })
+                    return injectedOnChange(nextValue, {
+                      e,
+                      params: { key, checked: e.target.checked, event: e },
+                      isChecked,
+                    })
                   }}
                   {...checkboxProps}
                   sx={{
