@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- [`d614eae`](https://github.com/gravis-os/gravis-os/commit/d614eae8ca2991cfc67b88a6cb3435c36724b3e4) Thanks [@clodal](https://github.com/clodal)! - Update types for Showcase interface
+
 ## 0.2.1
 
 ### Patch Changes
