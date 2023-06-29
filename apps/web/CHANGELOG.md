@@ -1,5 +1,14 @@
 # web
 
+## 0.0.20
+
+### Patch Changes
+
+- [#290](https://github.com/gravis-os/gravis-os/pull/290) [`9abd282`](https://github.com/gravis-os/gravis-os/commit/9abd28278c326122b51fc3307ccf99d9a05aeb49) Thanks [@shank1xt](https://github.com/shank1xt)! - add server submodules to landing package
+
+- Updated dependencies [[`9abd282`](https://github.com/gravis-os/gravis-os/commit/9abd28278c326122b51fc3307ccf99d9a05aeb49), [`28201e1`](https://github.com/gravis-os/gravis-os/commit/28201e14811f6f409d244862a2f77633cdb744fa)]:
+  - @gravis-os/landing@0.3.1
+
 ## 0.0.19
 
 ### Patch Changes

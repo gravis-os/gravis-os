@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1
+
+### Patch Changes
+
+- [#290](https://github.com/gravis-os/gravis-os/pull/290) [`9abd282`](https://github.com/gravis-os/gravis-os/commit/9abd28278c326122b51fc3307ccf99d9a05aeb49) Thanks [@shank1xt](https://github.com/shank1xt)! - add server submodules to landing package
+
+* [#291](https://github.com/gravis-os/gravis-os/pull/291) [`28201e1`](https://github.com/gravis-os/gravis-os/commit/28201e14811f6f409d244862a2f77633cdb744fa) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Revert changes to carousel
+
 ## 0.3.0
 
 ### Minor Changes

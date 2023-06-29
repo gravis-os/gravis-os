@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.33
+
+### Patch Changes
+
+- [#282](https://github.com/gravis-os/gravis-os/pull/282) [`11f9e26`](https://github.com/gravis-os/gravis-os/commit/11f9e262b090493aaf8eb758084c9b3b89b307a2) Thanks [@shank1xt](https://github.com/shank1xt)! - add handlers for in operation in query string
+
 ## 0.0.32
 
 ### Patch Changes
