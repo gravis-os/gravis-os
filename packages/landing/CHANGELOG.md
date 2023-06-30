@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2
+
+### Patch Changes
+
+- [#293](https://github.com/gravis-os/gravis-os/pull/293) [`0d1cfa2a`](https://github.com/gravis-os/gravis-os/commit/0d1cfa2a320618dc95226741110185f938549491) Thanks [@shank1xt](https://github.com/shank1xt)! - remove hook from getDynamicPage
+
 ## 0.3.1
 
 ### Patch Changes
