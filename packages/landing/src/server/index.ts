@@ -1,7 +1,7 @@
 export * from './constants'
 
-export { default as getDynamicPage } from './getDynamicPage'
-export * from './getDynamicPage'
+export { default as makeGetDynamicPage } from './makeGetDynamicPage'
+export * from './makeGetDynamicPage'
 
 export { default as getStaticPathsWithLayout } from './getStaticPathsWithLayout'
 export * from './getStaticPathsWithLayout'
