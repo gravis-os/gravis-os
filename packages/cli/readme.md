@@ -1,6 +1,6 @@
 # GravisOS CLI
 
-A CLI for gravis.
+A CLI for Gravis-OS.
 
 ## Installation
 `npm install -g @gravis-os/cli`
@@ -18,18 +18,8 @@ or
 Check out the documentation at https://github.com/infinitered/gluegun/tree/master/docs.
 
 ## Publishing to NPM
-
-To package your CLI up for NPM, do this:
-
-```shell
-$ npm login
-$ npm whoami 
-$ npm test
-
-$ npm run build
-
-$ npm publish
-```
+- To package your CLI up for NPM, follow the usual changeset method.
+- Then in downstream just do `npm i -g @gravis-os/cli` to get the latest version.
 
 # License
 
