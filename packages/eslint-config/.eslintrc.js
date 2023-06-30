@@ -94,6 +94,7 @@ module.exports = {
           '^@gravis-os/apps/*',
           '^@gravis-os/stripe/*',
           '^@gravis-os/auth-server/*',
+          '^@gravis-os/landing/*',
         ],
       },
     ],
