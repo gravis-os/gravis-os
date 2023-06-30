@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.0.18
+
+### Patch Changes
+
+- [#292](https://github.com/gravis-os/gravis-os/pull/292) [`99f5ea05`](https://github.com/gravis-os/gravis-os/commit/99f5ea052b5f7fa5ef5e8d95fc35a833f7b98015) Thanks [@shank1xt](https://github.com/shank1xt)! - add ignore unresolved rule for landing packages
+
 ## 0.0.17
 
 ### Patch Changes
