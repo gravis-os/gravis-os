@@ -2,6 +2,7 @@ import { GluegunToolbox } from 'gluegun'
 
 module.exports = {
   name: 'generate',
+  description: 'Generate CRUD modules using the Gravis CLI.',
   alias: ['g'],
   run: async (toolbox: GluegunToolbox) => {
     const {
