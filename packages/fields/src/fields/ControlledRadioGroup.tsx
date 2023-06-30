@@ -9,9 +9,10 @@ export interface ControlledRadioGroupProps extends RadioGroupProps {
 }
 
 const ControlledRadioGroup: React.FC<ControlledRadioGroupProps> = (props) => {
-  const { name, controllerProps, ...rest } = props
+  const { name, controllerProps, control, ...rest } = props
   return (
     <Controller
+      control={control}
       name={name}
       render={({ field }) => <RadioGroup {...field} {...rest} />}
       {...controllerProps}

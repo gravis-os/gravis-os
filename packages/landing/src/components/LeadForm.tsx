@@ -9,7 +9,7 @@ import { EnquiryTypeEnum } from '../enquiries/common/constants'
 import { useLayout } from '../providers/LayoutProvider'
 
 export interface LeadFormProps {
-  serviceCategorys: ServiceCategory[]
+  serviceCategorys?: ServiceCategory[]
   onSubmit?: (values: any) => void
 }
 
