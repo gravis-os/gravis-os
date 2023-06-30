@@ -1,5 +1,14 @@
 # @gravis-os/fields
 
+## 1.0.4
+
+### Patch Changes
+
+- [#295](https://github.com/gravis-os/gravis-os/pull/295) [`905af7b`](https://github.com/gravis-os/gravis-os/commit/905af7bd1e2e7419c9f26391fd919d116f4f2c6b) Thanks [@clodal](https://github.com/clodal)! - Fix issue with missing control prop in RadioGroup. Also fixed types
+
+- Updated dependencies [[`905af7b`](https://github.com/gravis-os/gravis-os/commit/905af7bd1e2e7419c9f26391fd919d116f4f2c6b)]:
+  - @gravis-os/types@0.2.3
+
 ## 1.0.3
 
 ### Patch Changes
