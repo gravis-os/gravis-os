@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.4
+
+### Patch Changes
+
+- [#298](https://github.com/gravis-os/gravis-os/pull/298) [`c0699b32`](https://github.com/gravis-os/gravis-os/commit/c0699b3210d62719231c6344fc836f5b5d3ab309) Thanks [@shank1xt](https://github.com/shank1xt)! - add mailchimp to enquiry handler
+
+- Updated dependencies [[`1d295ab4`](https://github.com/gravis-os/gravis-os/commit/1d295ab41c8a998993477eb62e62da08c7b4bccd)]:
+  - @gravis-os/ui@0.1.7
+
 ## 0.3.3
 
 ### Patch Changes

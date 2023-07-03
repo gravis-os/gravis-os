@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.7
+
+### Patch Changes
+
+- [#300](https://github.com/gravis-os/gravis-os/pull/300) [`1d295ab4`](https://github.com/gravis-os/gravis-os/commit/1d295ab41c8a998993477eb62e62da08c7b4bccd) Thanks [@shank1xt](https://github.com/shank1xt)! - update announcement layout
+
 ## 0.1.6
 
 ### Patch Changes
