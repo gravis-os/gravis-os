@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+### Patch Changes
+
+- [#303](https://github.com/gravis-os/gravis-os/pull/303) [`1e47fc34`](https://github.com/gravis-os/gravis-os/commit/1e47fc34869c6e61537da9a53a23e55eb4ee7928) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add default value for foreignRecords in useMultiStorageDropzone.ts
+
 ## 0.1.4
 
 ### Patch Changes
