@@ -223,6 +223,7 @@ const Slider: React.FC<SliderProps> = (props) => {
       zIndex: 1,
       top: '50%',
       transform: 'translate(0, -50%)',
+      mx: -5,
     },
   }
   // Dots
