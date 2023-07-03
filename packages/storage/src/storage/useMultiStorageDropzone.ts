@@ -96,11 +96,10 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
         !isEmpty(primaryRecord) && setUpsertRowsValue
           ? setUpsertRowsValue(defaultForeignTableRows)
           : defaultForeignTableRows
-
       // This is a new item, defer db saving action instead by storing in the form value
       // for Quotation and SO, always defer
       if ((attachToNewRecord || isEmpty(primaryRecord)) && setFormValue) {
-        setFormValue([...foreignTableRows, ...foreignRecords])
+        setFormValue([...foreignTableRows, ...foreignTableRows])
         return foreignTableRows
       }
 
