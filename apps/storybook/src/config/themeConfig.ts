@@ -12,7 +12,7 @@ const baseTheme = {
     },
     h3: {
       fontWeight: 600,
-      fontSize: '1.5rem',
+      fontSize: '1.125rem',
       lineHeight: 1.375,
     },
     h4: {

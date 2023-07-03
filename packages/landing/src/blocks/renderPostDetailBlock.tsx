@@ -21,7 +21,7 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
 
   return {
     key: 'post-detail',
-    sx: { backgroundColor: 'background.paper' },
+    sx: { backgroundColor: 'background.paper', mt: -2 },
     items: [
       {
         type: 'grid',
