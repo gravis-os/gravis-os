@@ -92,7 +92,26 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
 
     const channel = getTargetSlackChannelByType(type)
 
-    const response = await fetch('https://slack.com/api/chat.postMessage', {
+    const mailchimpListId = process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID
+    const mailchimpRequest = fetch(
+      `https://us2.api.mailchimp.com/3.0/lists/${mailchimpListId}/members/${email}?skip_merge_validation=false`,
+      {
+        method: 'PUT',
+        headers: {
+          Authorization: `Basic ${btoa(
+            `anystring:${process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY}`
+          )}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email_address: email,
+          status: 'subscribed',
+          tags: [type],
+        }),
+      }
+    )
+
+    const slackRequest = fetch('https://slack.com/api/chat.postMessage', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -104,8 +123,13 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
         blocks: payloadAsBlocks,
       }),
     })
-    const data = await response.json()
-    return NextResponse.json(data, { status: 200 })
+
+    await Promise.all([slackRequest, mailchimpRequest])
+
+    return NextResponse.json(
+      { data: 'Successfully submitted!' },
+      { status: 200 }
+    )
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
