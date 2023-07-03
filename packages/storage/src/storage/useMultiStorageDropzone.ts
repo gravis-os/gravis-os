@@ -51,8 +51,8 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const foreignRecords =
     storageRecords ??
     item?.[foreignTableName] ?? // `product_image` instances
-    item?.[name] // `attachment_files` instance instead of `quotation_attachment_file` foreignTableName
-
+    item?.[name] ?? // `attachment_files` instance instead of `quotation_attachment_file` foreignTableName
+    []
   // State
   const { files, setFiles } = useFiles({ items: foreignRecords, bucketName })
 
@@ -99,7 +99,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       // This is a new item, defer db saving action instead by storing in the form value
       // for Quotation and SO, always defer
       if ((attachToNewRecord || isEmpty(primaryRecord)) && setFormValue) {
-        setFormValue([...foreignTableRows, ...foreignTableRows])
+        setFormValue([...foreignTableRows, ...foreignRecords])
         return foreignTableRows
       }
 
