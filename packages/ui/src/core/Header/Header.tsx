@@ -69,7 +69,7 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   disableScrollTrigger?: boolean
   disableSticky?: boolean
   disableRightDrawer?: boolean
-  announcement?: { title: string; href?: string }
+  announcement?: { title: React.ReactNode; href?: string }
   announcementProps?: TypographyProps
   height?: number
   drawerWidth?: BoxProps['width']
