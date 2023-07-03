@@ -69,7 +69,7 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   disableScrollTrigger?: boolean
   disableSticky?: boolean
   disableRightDrawer?: boolean
-  announcements?: Array<{ title: string; href?: string }>
+  announcement?: { title: string; href?: string }
   announcementProps?: TypographyProps
   height?: number
   drawerWidth?: BoxProps['width']
@@ -389,7 +389,7 @@ const Header: React.FC<HeaderProps> = (props) => {
     navItems: injectedNavItems,
     accordionProps,
     renderProps,
-    announcements,
+    announcement,
     announcementProps,
     toolbarProps,
     height,
@@ -477,7 +477,7 @@ const Header: React.FC<HeaderProps> = (props) => {
         }),
       }}
     >
-      {Boolean(announcements?.length) && (
+      {announcement && (
         <Box
           sx={{
             py: 0.5,
@@ -487,23 +487,21 @@ const Header: React.FC<HeaderProps> = (props) => {
           }}
         >
           <Container {...containerProps}>
-            {announcements[0] && (
-              <Link
-                href={announcements[0]?.href}
+            <Link
+              href={announcement.href}
+              color="inherit"
+              underline="none"
+              fadeOnHover
+            >
+              <Typography
+                variant="subtitle2"
                 color="inherit"
-                underline="none"
-                fadeOnHover
+                fontFamily="body2.fontFamily"
+                {...announcementProps}
               >
-                <Typography
-                  variant="subtitle2"
-                  color="inherit"
-                  fontFamily="body2.fontFamily"
-                  {...announcementProps}
-                >
-                  {announcements[0]?.title}
-                </Typography>
-              </Link>
-            )}
+                {announcement?.title}
+              </Typography>
+            </Link>
           </Container>
         </Box>
       )}
