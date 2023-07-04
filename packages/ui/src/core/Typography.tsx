@@ -95,7 +95,6 @@ const Typography: React.FC<TypographyProps> = (props) => {
         spacing={spacing}
         sx={{
           '& .MuiSvgIcon-root': { color: getIconColor(color) },
-          width: 'auto',
         }}
       >
         {startIcon}

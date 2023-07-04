@@ -34,6 +34,7 @@ import Box, { BoxProps } from '../Box'
 import Image, { ImageProps } from '../Image'
 import AppBar, { AppBarProps } from '../AppBar'
 import useOpen from '../../hooks/useOpen'
+import Stack from '../Stack'
 
 export interface HeaderNavItem
   extends Omit<HeaderButtonWithMenuProps, 'title'> {
@@ -71,9 +72,9 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   disableSticky?: boolean
   disableRightDrawer?: boolean
   announcement?: {
-    title: React.ReactNode
-    hrefTitle?: React.ReactNode
-    href?: string
+    title: TypographyProps['children']
+    hrefTitle?: TypographyProps['children']
+    href?: TypographyProps['href']
   }
   announcementProps?: {
     titleProps?: TypographyProps
@@ -494,14 +495,13 @@ const Header: React.FC<HeaderProps> = (props) => {
             textAlign: 'center',
           }}
         >
-          <Container
-            sx={{
-              display: 'flex',
-              gap: { xs: 1, md: 2 },
-              width: '100%',
-              flexWrap: 'wrap',
-            }}
+          <Stack
             {...containerProps}
+            maxWidth="100%"
+            direction="row"
+            center
+            gap={2}
+            flexWrap="wrap"
           >
             <Typography variant="body2" {...announcementProps?.titleProps}>
               {announcement.title}
@@ -510,14 +510,13 @@ const Header: React.FC<HeaderProps> = (props) => {
               <Typography
                 href={announcement.href}
                 variant="body2"
-                sx={{ justifyContent: 'center' }}
                 {...announcementProps?.linkProps}
                 endIcon={<ArrowForwardOutlined />}
               >
                 {announcement?.hrefTitle || 'Read more'}
               </Typography>
             )}
-          </Container>
+          </Stack>
         </Box>
       )}
       <Container {...containerProps}>
