@@ -501,7 +501,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             }}
             {...containerProps}
           >
-            <Typography variant="body2" {...announcementProps.title}>
+            <Typography variant="body2" {...announcementProps?.title}>
               {announcement.title}
             </Typography>
             {announcement.link && announcement.href && (
@@ -509,7 +509,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 href={announcement.href}
                 variant="body2"
                 sx={{ justifyContent: 'center' }}
-                {...announcementProps.link}
+                {...announcementProps?.link}
                 endIcon={<ArrowForwardOutlined />}
               >
                 {announcement.link}
