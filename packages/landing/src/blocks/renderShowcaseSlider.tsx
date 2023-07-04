@@ -1,4 +1,4 @@
-import { Slider } from '@gravis-os/ui'
+import { Box, Slider } from '@gravis-os/ui'
 import React from 'react'
 import { Showcase } from '@gravis-os/types'
 import Block, { BlockProps } from '../web/Block/Block'
@@ -46,9 +46,21 @@ const renderShowcaseSlider = (props: RenderShowcaseSliderProps) => {
             sx={{ mt: { xs: 0, md: 4 } }}
             options={{ slides: { perView: 1, spacing: 12 } }}
             dotProps={{ color: 'secondary.main' }}
-            height={{ md: 500 }}
+            height={{ md: 600 }}
             items={items.map((item) => {
-              return <Block items={[renderShowcaseCardBlockItem({ item })]} />
+              return (
+                <Box key={item.id} sx={{ width: '100%' }}>
+                  <Block
+                    items={[
+                      renderShowcaseCardBlockItem({
+                        item,
+                        disableContainer: true,
+                        sx: { mt: 0 },
+                      }),
+                    ]}
+                  />
+                </Box>
+              )
             })}
           />
         ),

@@ -1,8 +1,10 @@
 import { Showcase } from '@gravis-os/types'
 import { useLayout } from '../providers/LayoutProvider'
+import { BlockProps } from '../web/Block/Block'
 import renderGhostButtonBlockItem from './renderGhostButtonBlockItem'
 
-export interface RenderShowcaseCardBlockItemProps {
+export interface RenderShowcaseCardBlockItemProps
+  extends Omit<BlockProps, 'items' | 'title'> {
   item: Showcase
   isHero?: boolean
 }
@@ -10,7 +12,7 @@ export interface RenderShowcaseCardBlockItemProps {
 const renderShowcaseCardBlockItem = (
   props: RenderShowcaseCardBlockItemProps
 ) => {
-  const { item, isHero } = props
+  const { item, isHero, ...rest } = props
   const {
     slug,
     backgroundColor,
@@ -30,7 +32,7 @@ const renderShowcaseCardBlockItem = (
       md: 6,
       lg: 7,
       sx: {
-        height: { xs: 300, md: 500 },
+        height: { xs: 300, md: 'auto' },
         position: 'relative',
         overflow: 'hidden',
       },
@@ -59,6 +61,7 @@ const renderShowcaseCardBlockItem = (
       boxProps: {
         sx: {
           mt: { xs: 2, md: 4, lg: 5 },
+          mb: { xs: 2, md: 7, lg: 8 },
           mx: { xs: 3, md: 0, lg: 0 },
           [reverse ? 'ml' : 'mr']: {
             xs: 3,
@@ -82,6 +85,9 @@ const renderShowcaseCardBlockItem = (
           title: subtitle,
           titleProps: {
             color: 'text.secondary',
+          },
+          boxProps: {
+            minHeight: 110,
           },
         },
         !isHero &&
@@ -112,6 +118,7 @@ const renderShowcaseCardBlockItem = (
       sx: { textAlign: { xs: 'center', md: 'left' } },
     },
     gridItems: nextGridItems,
+    ...rest,
   }
 }
 
