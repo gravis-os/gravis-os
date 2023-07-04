@@ -500,22 +500,16 @@ const Header: React.FC<HeaderProps> = (props) => {
               {announcement.title}
             </Typography>
             {announcement.link && announcement.href && (
-              <Link
+              <Typography
                 href={announcement.href}
+                variant="subtitle2"
                 color="inherit"
-                underline="none"
-                fadeOnHover
+                fontWeight="bold"
+                fontFamily="body2.fontFamily"
+                {...announcementProps.link}
               >
-                <Typography
-                  variant="subtitle2"
-                  color="inherit"
-                  fontWeight="bold"
-                  fontFamily="body2.fontFamily"
-                  {...announcementProps.link}
-                >
-                  {announcement.link}
-                </Typography>
-              </Link>
+                {announcement.link}
+              </Typography>
             )}
           </Container>
         </Box>
