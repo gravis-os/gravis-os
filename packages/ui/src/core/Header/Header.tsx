@@ -75,7 +75,10 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
     link?: React.ReactNode
     href?: string
   }
-  announcementProps?: { title?: TypographyProps; link?: TypographyProps }
+  announcementProps?: {
+    titleProps?: TypographyProps
+    linkProps?: TypographyProps
+  }
   height?: number
   drawerWidth?: BoxProps['width']
   textColor?: string
@@ -501,7 +504,7 @@ const Header: React.FC<HeaderProps> = (props) => {
             }}
             {...containerProps}
           >
-            <Typography variant="body2" {...announcementProps?.title}>
+            <Typography variant="body2" {...announcementProps?.titleProps}>
               {announcement.title}
             </Typography>
             {announcement.link && announcement.href && (
@@ -509,7 +512,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 href={announcement.href}
                 variant="body2"
                 sx={{ justifyContent: 'center' }}
-                {...announcementProps?.link}
+                {...announcementProps?.linkProps}
                 endIcon={<ArrowForwardOutlined />}
               >
                 {announcement.link}
