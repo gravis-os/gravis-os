@@ -93,7 +93,10 @@ const Typography: React.FC<TypographyProps> = (props) => {
         direction="row"
         alignItems="center"
         spacing={spacing}
-        sx={{ '& .MuiSvgIcon-root': { color: getIconColor(color) } }}
+        sx={{
+          '& .MuiSvgIcon-root': { color: getIconColor(color) },
+          width: 'auto',
+        }}
       >
         {startIcon}
         {childrenJsx}

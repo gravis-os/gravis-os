@@ -19,7 +19,7 @@ import useScrollPosition from '@react-hook/window-scroll'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import flowRight from 'lodash/flowRight'
 import merge from 'lodash/merge'
-import { ArrowForwardOutlined } from '@mui/icons-material'
+import ArrowForwardOutlined from '@mui/icons-material/ArrowForwardOutlined'
 import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
 import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import HeaderButtonWithMenu, {
@@ -72,7 +72,7 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   disableRightDrawer?: boolean
   announcement?: {
     title: React.ReactNode
-    link?: React.ReactNode
+    hrefTitle?: React.ReactNode
     href?: string
   }
   announcementProps?: {
@@ -500,14 +500,13 @@ const Header: React.FC<HeaderProps> = (props) => {
               gap: { xs: 1, md: 2 },
               width: '100%',
               flexWrap: 'wrap',
-              '& .MuiStack-root': { width: 'auto' },
             }}
             {...containerProps}
           >
             <Typography variant="body2" {...announcementProps?.titleProps}>
               {announcement.title}
             </Typography>
-            {announcement.link && announcement.href && (
+            {announcement.href && (
               <Typography
                 href={announcement.href}
                 variant="body2"
@@ -515,7 +514,7 @@ const Header: React.FC<HeaderProps> = (props) => {
                 {...announcementProps?.linkProps}
                 endIcon={<ArrowForwardOutlined />}
               >
-                {announcement.link}
+                {announcement?.hrefTitle || 'Read more'}
               </Typography>
             )}
           </Container>
