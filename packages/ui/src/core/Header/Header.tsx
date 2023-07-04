@@ -19,6 +19,7 @@ import useScrollPosition from '@react-hook/window-scroll'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import flowRight from 'lodash/flowRight'
 import merge from 'lodash/merge'
+import { ArrowForwardOutlined } from '@mui/icons-material'
 import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
 import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import HeaderButtonWithMenu, {
@@ -490,23 +491,26 @@ const Header: React.FC<HeaderProps> = (props) => {
             textAlign: 'center',
           }}
         >
-          <Container sx={{ display: 'flex', gap: 2 }} {...containerProps}>
-            <Typography
-              variant="subtitle2"
-              color="inherit"
-              fontFamily="body2.fontFamily"
-              {...announcementProps.title}
-            >
+          <Container
+            sx={{
+              display: 'flex',
+              gap: { xs: 1, md: 2 },
+              width: '100%',
+              flexWrap: 'wrap',
+              '& .MuiStack-root': { width: 'auto' },
+            }}
+            {...containerProps}
+          >
+            <Typography variant="body2" {...announcementProps.title}>
               {announcement.title}
             </Typography>
             {announcement.link && announcement.href && (
               <Typography
                 href={announcement.href}
-                variant="subtitle2"
-                color="inherit"
-                fontWeight="bold"
-                fontFamily="body2.fontFamily"
+                variant="body2"
+                sx={{ justifyContent: 'center' }}
                 {...announcementProps.link}
+                endIcon={<ArrowForwardOutlined />}
               >
                 {announcement.link}
               </Typography>

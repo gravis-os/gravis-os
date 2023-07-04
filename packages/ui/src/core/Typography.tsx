@@ -78,12 +78,17 @@ const Typography: React.FC<TypographyProps> = (props) => {
     />
   )
 
+  const makeTypographyElement = (children: JSX.Element) =>
+    flowRight([withHref({ href, ...hrefProps }), withReveal({ reveal })])(
+      children
+    )
+
   if (startIcon || endIcon) {
     const getIconColor = (color) => {
       if (!color) return
       return color.includes('.') ? color : `${color}.main`
     }
-    return (
+    return makeTypographyElement(
       <Stack
         direction="row"
         alignItems="center"
@@ -97,9 +102,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     )
   }
 
-  return flowRight([withHref({ href, ...hrefProps }), withReveal({ reveal })])(
-    childrenJsx
-  )
+  return makeTypographyElement(childrenJsx)
 }
 
 export default Typography
