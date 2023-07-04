@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.2.0
+
+### Minor Changes
+
+- [#306](https://github.com/gravis-os/gravis-os/pull/306) [`a8a49efb`](https://github.com/gravis-os/gravis-os/commit/a8a49efb643175fc7212ad289ba03614b5d97336) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Removed the margin top in HTML block
+
+### Patch Changes
+
+- [#308](https://github.com/gravis-os/gravis-os/pull/308) [`0403f69c`](https://github.com/gravis-os/gravis-os/commit/0403f69ce66943bfa061876dfafe0f9b5fb4c405) Thanks [@clodal](https://github.com/clodal)! - Update landing and ui to fix slider and html renders in the website
+
 ## 0.1.7
 
 ### Patch Changes

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.3
+
+### Patch Changes
+
+- [#305](https://github.com/gravis-os/gravis-os/pull/305) [`2e6d637a`](https://github.com/gravis-os/gravis-os/commit/2e6d637a608b76e3fecc07505680217590634e26) Thanks [@shank1xt](https://github.com/shank1xt)! - reduce size of listing card title
+
+- Updated dependencies [[`a8a49efb`](https://github.com/gravis-os/gravis-os/commit/a8a49efb643175fc7212ad289ba03614b5d97336), [`0403f69c`](https://github.com/gravis-os/gravis-os/commit/0403f69ce66943bfa061876dfafe0f9b5fb4c405)]:
+  - @gravis-os/ui@0.2.0
+
 ## 0.1.2
 
 ### Patch Changes
