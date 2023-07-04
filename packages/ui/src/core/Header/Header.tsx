@@ -69,8 +69,12 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   disableScrollTrigger?: boolean
   disableSticky?: boolean
   disableRightDrawer?: boolean
-  announcement?: { title: React.ReactNode; href?: string }
-  announcementProps?: TypographyProps
+  announcement?: {
+    title: React.ReactNode
+    link?: React.ReactNode
+    href?: string
+  }
+  announcementProps?: { title?: TypographyProps; link?: TypographyProps }
   height?: number
   drawerWidth?: BoxProps['width']
   textColor?: string
@@ -480,28 +484,39 @@ const Header: React.FC<HeaderProps> = (props) => {
       {announcement && (
         <Box
           sx={{
-            py: 0.5,
+            py: 1,
             backgroundColor: 'primary.main',
             color: 'primary.contrastText',
             textAlign: 'center',
           }}
         >
-          <Container {...containerProps}>
-            <Link
-              href={announcement.href}
+          <Container sx={{ display: 'flex', gap: 2 }} {...containerProps}>
+            <Typography
+              variant="subtitle2"
               color="inherit"
-              underline="none"
-              fadeOnHover
+              fontFamily="body2.fontFamily"
+              {...announcementProps.title}
             >
-              <Typography
-                variant="subtitle2"
+              {announcement.title}
+            </Typography>
+            {announcement.link && announcement.href && (
+              <Link
+                href={announcement.href}
                 color="inherit"
-                fontFamily="body2.fontFamily"
-                {...announcementProps}
+                underline="none"
+                fadeOnHover
               >
-                {announcement?.title}
-              </Typography>
-            </Link>
+                <Typography
+                  variant="subtitle2"
+                  color="inherit"
+                  fontWeight="bold"
+                  fontFamily="body2.fontFamily"
+                  {...announcementProps.link}
+                >
+                  {announcement.link}
+                </Typography>
+              </Link>
+            )}
           </Container>
         </Box>
       )}
