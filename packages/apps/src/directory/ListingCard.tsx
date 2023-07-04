@@ -60,7 +60,7 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
         >
           {brand?.title}
         </Link>
-        <Link variant="h4" href={listingHref}>
+        <Link variant="h6" href={listingHref}>
           {title}
         </Link>
         {is_listing_price_enabled && priceText && (
