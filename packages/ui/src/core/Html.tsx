@@ -44,7 +44,6 @@ const Html: React.FC<HtmlProps> = (props) => {
           xs: 'subtitle2.fontSize',
           md: 'subtitle1.fontSize',
         },
-        mt: 5,
         ...sx,
       }}
       dangerouslySetInnerHTML={{
