@@ -42,18 +42,19 @@ const makeGetLayoutProviderProps =
         href: `${routeConfig.POSTS}/${postCategory.slug}`,
       })),
       serviceCategorys,
-      services: getCrudItemsByCategory(services, serviceCategorys).map(
-        (service) => ({
-          ...service,
-          href: `${routeConfig.SERVICES}/${service.slug}`,
-          items: withLocales(context)(
-            service.items.map((item) => ({
-              ...item,
-              href: `${routeConfig.SERVICES}/${service.slug}/${item.slug}`,
-            }))
-          ),
-        })
-      ),
+      services: getCrudItemsByCategory(
+        services.filter(({ is_hidden_from_nav }) => !is_hidden_from_nav),
+        serviceCategorys
+      ).map((service) => ({
+        ...service,
+        href: `${routeConfig.SERVICES}/${service.slug}`,
+        items: withLocales(context)(
+          service.items.map((item) => ({
+            ...item,
+            href: `${routeConfig.SERVICES}/${service.slug}/${item.slug}`,
+          }))
+        ),
+      })),
       technologys: technologys
         .filter(({ is_hidden_from_nav }) => !is_hidden_from_nav)
         .map((technology) => ({

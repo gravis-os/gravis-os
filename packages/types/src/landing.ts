@@ -144,6 +144,8 @@ export interface Service extends Page {
   category?: ServiceCategory
   hero_src?: string
   hero_alt?: string
+  is_hidden_from_nav?: boolean
+  enable_locales?: SiteLocale[]
   // Tags
   tags?: CrudItem[]
 }
