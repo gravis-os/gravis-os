@@ -5,10 +5,11 @@ import {
 } from '@mui/material'
 import get from 'lodash/get'
 import flowRight from 'lodash/flowRight'
-import Stack, { StackProps } from './Stack'
+import { StackProps } from './Stack'
 import { RevealProps } from './Reveal'
 import withReveal from './withReveal'
 import withHref, { WithHrefProps } from './withHref'
+import withStartEndIcon from './withStartEndIcon'
 
 export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   startIcon?: React.ReactElement
@@ -78,31 +79,11 @@ const Typography: React.FC<TypographyProps> = (props) => {
     />
   )
 
-  const getIconColor = (color) => {
-    if (!color) return
-    return color.includes('.') ? color : `${color}.main`
-  }
-
-  const nextChildrenJsx = !(startIcon || endIcon) ? (
-    childrenJsx
-  ) : (
-    <Stack
-      direction="row"
-      alignItems="center"
-      spacing={spacing}
-      sx={{
-        '& .MuiSvgIcon-root': { color: getIconColor(color) },
-      }}
-    >
-      {startIcon}
-      {childrenJsx}
-      {endIcon}
-    </Stack>
-  )
-
-  return flowRight([withHref({ href, ...hrefProps }), withReveal({ reveal })])(
-    nextChildrenJsx
-  )
+  return flowRight([
+    withHref({ href, ...hrefProps }),
+    withReveal({ reveal }),
+    withStartEndIcon({ startIcon, endIcon, color, spacing }),
+  ])(childrenJsx)
 }
 
 export default Typography
