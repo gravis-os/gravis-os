@@ -126,7 +126,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     ? { ...fieldDefaultValues, ...resolvedDefaultValues }
     : getDefaultValues({
         isNew,
-        item: { ...fieldDefaultValues, ...resolvedDefaultValues, ...item },
+        item: { ...item, ...fieldDefaultValues, ...resolvedDefaultValues },
       })
 
   // Form
