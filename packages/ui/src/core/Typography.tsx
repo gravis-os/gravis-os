@@ -78,33 +78,31 @@ const Typography: React.FC<TypographyProps> = (props) => {
     />
   )
 
-  const makeTypographyElement = (children: JSX.Element) =>
-    flowRight([withHref({ href, ...hrefProps }), withReveal({ reveal })])(
-      children
-    )
-
-  if (startIcon || endIcon) {
-    const getIconColor = (color) => {
-      if (!color) return
-      return color.includes('.') ? color : `${color}.main`
-    }
-    return makeTypographyElement(
-      <Stack
-        direction="row"
-        alignItems="center"
-        spacing={spacing}
-        sx={{
-          '& .MuiSvgIcon-root': { color: getIconColor(color) },
-        }}
-      >
-        {startIcon}
-        {childrenJsx}
-        {endIcon}
-      </Stack>
-    )
+  const getIconColor = (color) => {
+    if (!color) return
+    return color.includes('.') ? color : `${color}.main`
   }
 
-  return makeTypographyElement(childrenJsx)
+  const nextChildrenJsx = !(startIcon || endIcon) ? (
+    childrenJsx
+  ) : (
+    <Stack
+      direction="row"
+      alignItems="center"
+      spacing={spacing}
+      sx={{
+        '& .MuiSvgIcon-root': { color: getIconColor(color) },
+      }}
+    >
+      {startIcon}
+      {childrenJsx}
+      {endIcon}
+    </Stack>
+  )
+
+  return flowRight([withHref({ href, ...hrefProps }), withReveal({ reveal })])(
+    nextChildrenJsx
+  )
 }
 
 export default Typography
