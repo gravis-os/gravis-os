@@ -159,3 +159,6 @@ export * from './renderShowcasesBlock'
 
 export { default as renderCtaBlock } from './renderCtaBlock'
 export * from './renderCtaBlock'
+
+export { default as renderOtherPostsBlock } from './renderOtherPostsBlock'
+export * from './renderOtherPostsBlock'
