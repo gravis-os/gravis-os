@@ -9,7 +9,7 @@ import {
   FormSections,
   FormSectionsProps,
 } from '@gravis-os/form'
-import { CrudItem, CrudModule } from '@gravis-os/types'
+import { CrudItem } from '@gravis-os/types'
 import useSearchForm, { UseSearchFormArgs } from './useSearchForm'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 
@@ -23,8 +23,7 @@ export interface SearchFormProps {
   item?: CrudItem
   formSectionsProps?: FormSectionsProps
   sections: FormSectionsProps['sections']
-  module: CrudModule
-  useSearchFormProps?: UseSearchFormArgs
+  useSearchFormProps?: Partial<UseSearchFormArgs>
   onSubmit?: UseSearchFormArgs['onSubmit']
   children?: FormProps<any>['children']
 }
@@ -35,7 +34,6 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
     useSearchFormProps,
     sections,
     formSectionsProps,
-    module,
     children,
   } = props
 
@@ -44,7 +42,6 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
 
   // useSearchForm
   const { form, handleSubmit } = useSearchForm({
-    module,
     onSubmit,
     resetOnSubmit: true,
     defaultValues,
@@ -62,14 +59,13 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
             // Merge over first field
             {
               ...sections[0],
-              fields: sections[0].fields.map((field, i) => {
-                if (i !== 0) return field
+              fields: sections[0].fields.map((field) => {
                 return {
-                  disableBorders: true,
                   disableLabel: true,
                   placeholder: 'Search',
                   InputProps: {
-                    startAdornment: (
+                    // @ts-ignore
+                    startAdornment: !field?.disableSearchIcon && (
                       <InputAdornment position="start">
                         <SearchOutlinedIcon fontSize="small" />
                       </InputAdornment>
@@ -78,7 +74,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                   size: 'small',
                   ...field,
                   sx: {
-                    backgroundColor: 'common.white',
+                    backgroundColor: 'secondary',
                     filter: 'drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1))',
                     ...(field as FormSectionFieldProps)?.sx,
                   },

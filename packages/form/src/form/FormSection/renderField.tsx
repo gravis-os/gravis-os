@@ -118,6 +118,7 @@ export interface FormSectionFieldProps {
   checkboxTableProps?: ControlledCheckboxTableOptions
 
   shouldQuillAutofocus?: boolean
+  disableSearchIcon?: boolean
 
   // Manage layout
   gridProps?: GridProps
