@@ -166,6 +166,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
             }}
           >
             <SearchForm
+              module={module}
               sections={searchFormSections as FormSectionsProps['sections']}
               onSubmit={handleSubmit}
               {...searchFormProps}

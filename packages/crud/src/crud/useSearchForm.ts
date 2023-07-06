@@ -1,12 +1,14 @@
 import { useForm } from 'react-hook-form'
 import { getSearchFormValues } from '@gravis-os/form'
 import toast from 'react-hot-toast'
+import { CrudModule } from '@gravis-os/types'
 
 interface UseSearchFormValues {
   values: Record<string, any>
 }
 
 export interface UseSearchFormArgs {
+  module: CrudModule
   setFormValues?: ({ values }: UseSearchFormValues) => Record<string, any>
   onSubmit?: (values: UseSearchFormValues) => void
   resetOnSubmit?: boolean

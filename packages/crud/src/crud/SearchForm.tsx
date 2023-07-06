@@ -9,7 +9,7 @@ import {
   FormSections,
   FormSectionsProps,
 } from '@gravis-os/form'
-import { CrudItem } from '@gravis-os/types'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import useSearchForm, { UseSearchFormArgs } from './useSearchForm'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 
@@ -20,6 +20,7 @@ const getDefaultValuesFromFields = (fields) =>
   }, {})
 
 export interface SearchFormProps {
+  module: CrudModule
   item?: CrudItem
   formSectionsProps?: FormSectionsProps
   sections: FormSectionsProps['sections']
@@ -30,6 +31,7 @@ export interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
   const {
+    module,
     onSubmit,
     useSearchFormProps,
     sections,
@@ -42,6 +44,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
 
   // useSearchForm
   const { form, handleSubmit } = useSearchForm({
+    module,
     onSubmit,
     resetOnSubmit: true,
     defaultValues,
@@ -64,8 +67,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                   disableLabel: true,
                   placeholder: 'Search',
                   InputProps: {
-                    // @ts-ignore
-                    startAdornment: !field?.disableSearchIcon && (
+                    startAdornment: (
                       <InputAdornment position="start">
                         <SearchOutlinedIcon fontSize="small" />
                       </InputAdornment>
@@ -74,7 +76,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                   size: 'small',
                   ...field,
                   sx: {
-                    backgroundColor: 'secondary',
+                    backgroundColor: 'common.white',
                     filter: 'drop-shadow(0px 1px 1px rgba(0, 0, 0, 0.1))',
                     ...(field as FormSectionFieldProps)?.sx,
                   },
