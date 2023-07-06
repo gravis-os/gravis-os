@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0
+
+### Minor Changes
+
+- [#310](https://github.com/gravis-os/gravis-os/pull/310) [`70adf3cd`](https://github.com/gravis-os/gravis-os/commit/70adf3cd2b6eba7ce445d260cd92655b3f7db7ab) Thanks [@benzlui](https://github.com/benzlui)! - add render client logos gallery
+
+### Patch Changes
+
+- Updated dependencies [[`73ffd60b`](https://github.com/gravis-os/gravis-os/commit/73ffd60be8d9a10e3089e7a8e13f30fdc32174f2)]:
+  - @gravis-os/form@1.0.3
+
 ## 0.4.0
 
 ### Minor Changes

@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.109
+
+### Patch Changes
+
+- [#311](https://github.com/gravis-os/gravis-os/pull/311) [`73ffd60b`](https://github.com/gravis-os/gravis-os/commit/73ffd60be8d9a10e3089e7a8e13f30fdc32174f2) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - update search form for multi-field search
+
+- Updated dependencies [[`73ffd60b`](https://github.com/gravis-os/gravis-os/commit/73ffd60be8d9a10e3089e7a8e13f30fdc32174f2)]:
+  - @gravis-os/form@1.0.3
+
 ## 0.0.108
 
 ### Patch Changes
