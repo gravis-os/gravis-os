@@ -19,6 +19,7 @@ import useScrollPosition from '@react-hook/window-scroll'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import flowRight from 'lodash/flowRight'
 import merge from 'lodash/merge'
+import ArrowForwardOutlined from '@mui/icons-material/ArrowForwardOutlined'
 import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
 import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import HeaderButtonWithMenu, {
@@ -33,6 +34,7 @@ import Box, { BoxProps } from '../Box'
 import Image, { ImageProps } from '../Image'
 import AppBar, { AppBarProps } from '../AppBar'
 import useOpen from '../../hooks/useOpen'
+import Stack from '../Stack'
 
 export interface HeaderNavItem
   extends Omit<HeaderButtonWithMenuProps, 'title'> {
@@ -69,8 +71,15 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   disableScrollTrigger?: boolean
   disableSticky?: boolean
   disableRightDrawer?: boolean
-  announcement?: { title: React.ReactNode; href?: string }
-  announcementProps?: TypographyProps
+  announcement?: {
+    title: TypographyProps['children']
+    hrefTitle?: TypographyProps['children']
+    href?: TypographyProps['href']
+  }
+  announcementProps?: {
+    titleProps?: TypographyProps
+    linkProps?: TypographyProps
+  }
   height?: number
   drawerWidth?: BoxProps['width']
   textColor?: string
@@ -480,29 +489,34 @@ const Header: React.FC<HeaderProps> = (props) => {
       {announcement && (
         <Box
           sx={{
-            py: 0.5,
+            py: 1,
             backgroundColor: 'primary.main',
             color: 'primary.contrastText',
             textAlign: 'center',
           }}
         >
-          <Container {...containerProps}>
-            <Link
-              href={announcement.href}
-              color="inherit"
-              underline="none"
-              fadeOnHover
-            >
+          <Stack
+            {...containerProps}
+            maxWidth="100%"
+            direction="row"
+            center
+            gap={2}
+            flexWrap="wrap"
+          >
+            <Typography variant="body2" {...announcementProps?.titleProps}>
+              {announcement.title}
+            </Typography>
+            {announcement.href && (
               <Typography
-                variant="subtitle2"
-                color="inherit"
-                fontFamily="body2.fontFamily"
-                {...announcementProps}
+                href={announcement.href}
+                variant="body2"
+                {...announcementProps?.linkProps}
+                endIcon={<ArrowForwardOutlined />}
               >
-                {announcement?.title}
+                {announcement?.hrefTitle || 'Read more'}
               </Typography>
-            </Link>
-          </Container>
+            )}
+          </Stack>
         </Box>
       )}
       <Container {...containerProps}>
