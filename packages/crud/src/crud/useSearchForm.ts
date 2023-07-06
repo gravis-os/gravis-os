@@ -1,7 +1,8 @@
 import { useForm } from 'react-hook-form'
+import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { getSearchFormValues } from '@gravis-os/form'
-import toast from 'react-hot-toast'
 import { CrudModule } from '@gravis-os/types'
+import toast from 'react-hot-toast'
 
 interface UseSearchFormValues {
   values: Record<string, any>
@@ -9,6 +10,7 @@ interface UseSearchFormValues {
 
 export interface UseSearchFormArgs {
   module: CrudModule
+  client?: SupabaseClient
   setFormValues?: ({ values }: UseSearchFormValues) => Record<string, any>
   onSubmit?: (values: UseSearchFormValues) => void
   resetOnSubmit?: boolean
@@ -16,7 +18,16 @@ export interface UseSearchFormArgs {
 }
 
 const useSearchForm = (args: UseSearchFormArgs) => {
-  const { defaultValues, resetOnSubmit, onSubmit, setFormValues } = args
+  const {
+    defaultValues,
+    resetOnSubmit,
+    onSubmit,
+    setFormValues,
+    client = supabaseClient,
+    module,
+  } = args
+  const { sk = 'slug', route, table } = module
+
   // ==============================
   // Form
   // ==============================

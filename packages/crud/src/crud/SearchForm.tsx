@@ -20,10 +20,10 @@ const getDefaultValuesFromFields = (fields) =>
   }, {})
 
 export interface SearchFormProps {
-  module: CrudModule
   item?: CrudItem
   formSectionsProps?: FormSectionsProps
   sections: FormSectionsProps['sections']
+  module: CrudModule
   useSearchFormProps?: Partial<UseSearchFormArgs>
   onSubmit?: UseSearchFormArgs['onSubmit']
   children?: FormProps<any>['children']
@@ -31,11 +31,11 @@ export interface SearchFormProps {
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
   const {
-    module,
     onSubmit,
     useSearchFormProps,
     sections,
     formSectionsProps,
+    module,
     children,
   } = props
 
