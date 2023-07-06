@@ -1,7 +1,7 @@
 import { ClientLogo } from '@gravis-os/types'
 import renderClientLogoCardBlockItem from './renderClientLogoCardBlockItem'
 
-interface renderClientLogosGalleryProps {
+export interface renderClientLogosGalleryProps {
   items?: ClientLogo[]
   title: React.ReactNode
 }
