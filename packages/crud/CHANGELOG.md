@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.0.108
+
+### Patch Changes
+
+- [#309](https://github.com/gravis-os/gravis-os/pull/309) [`546059a1`](https://github.com/gravis-os/gravis-os/commit/546059a18d9c8aac428d481137bfdd436adf6ba3) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(crud): adjusted default values priority.
+
+- Updated dependencies [[`f14036bc`](https://github.com/gravis-os/gravis-os/commit/f14036bcc8cfb0e390e2a51156fe337f3dbad4d4)]:
+  - @gravis-os/types@0.3.0
+
 ## 0.0.107
 
 ### Patch Changes
