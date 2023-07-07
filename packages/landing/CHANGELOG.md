@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+### Minor Changes
+
+- [#312](https://github.com/gravis-os/gravis-os/pull/312) [`b4bf0f7d`](https://github.com/gravis-os/gravis-os/commit/b4bf0f7d7b9c6cd5b6f961960ec1ae0859d5538b) Thanks [@benzlui](https://github.com/benzlui)! - added other posts block
+
 ## 0.5.0
 
 ### Minor Changes
