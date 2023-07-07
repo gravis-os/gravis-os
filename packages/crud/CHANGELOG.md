@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.110
+
+### Patch Changes
+
+- [#313](https://github.com/gravis-os/gravis-os/pull/313) [`4bd5e1cc`](https://github.com/gravis-os/gravis-os/commit/4bd5e1cc19822ced8e1bef2e2d27ad802248b2a8) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add createOnSubmit to onSubmit to override form props
+
 ## 0.0.109
 
 ### Patch Changes
