@@ -162,3 +162,9 @@ export * from './renderCtaBlock'
 
 export { default as renderHeroWithVideoSlider } from './renderHeroWithVideoSlider'
 export * from './renderHeroWithVideoSlider'
+
+export { default as renderOtherPostsBlock } from './renderOtherPostsBlock'
+export * from './renderOtherPostsBlock'
+
+export { default as renderClientLogosGallery } from './renderClientLogosGallery'
+export * from './renderClientLogosGallery'

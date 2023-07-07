@@ -24,7 +24,7 @@ export interface SearchFormProps {
   formSectionsProps?: FormSectionsProps
   sections: FormSectionsProps['sections']
   module: CrudModule
-  useSearchFormProps?: UseSearchFormArgs
+  useSearchFormProps?: Partial<UseSearchFormArgs>
   onSubmit?: UseSearchFormArgs['onSubmit']
   children?: FormProps<any>['children']
 }
@@ -62,10 +62,8 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
             // Merge over first field
             {
               ...sections[0],
-              fields: sections[0].fields.map((field, i) => {
-                if (i !== 0) return field
+              fields: sections[0].fields.map((field) => {
                 return {
-                  disableBorders: true,
                   disableLabel: true,
                   placeholder: 'Search',
                   InputProps: {
