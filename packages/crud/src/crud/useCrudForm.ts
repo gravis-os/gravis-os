@@ -37,6 +37,7 @@ export interface UseCrudFormArgs extends UseFormProps {
   item?: CrudItem
   refetch?: () => Promise<unknown>
   client?: SupabaseClient
+  shouldCreateOnSubmit?: (formContext) => boolean
   createOnSubmit?: boolean // Always create onSubmit only. Never update.
   setFormValues?: ({
     values,
@@ -90,11 +91,12 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     afterDelete,
     setFormValues,
     client = supabaseClient,
-    createOnSubmit: injectedCreateOnSubmit,
+    createOnSubmit,
     item: injectedItem,
     refetch,
     module,
     sections,
+    shouldCreateOnSubmit = () => false,
     ...rest
   } = props
   const { sk, table } = module
@@ -167,7 +169,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   })
 
   // onSubmit will manage create and update function
-  const onSubmit = async (values, createOnSubmit) => {
+  const onSubmit = async (values) => {
     // Cleaning function for dbFormValues
     const fields = getFieldsFromFormSections(sections)
     const withValuesArgs = { isNew, user, fields, module }
@@ -244,7 +246,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       // Default action: Create or Update
       default:
         const mutation =
-          injectedCreateOnSubmit || isNew || createOnSubmit
+          createOnSubmit || isNew || shouldCreateOnSubmit(form)
             ? createMutation
             : updateMutation
         mutation.mutate(nextValues, {
