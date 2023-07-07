@@ -3,19 +3,22 @@ import { Box, Slider, Typography } from '@gravis-os/ui'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'
-import Block, { BlockProps } from '../web/Block/Block'
+import BlockItem, { BlockProps } from '../web/Block/Block'
+
+export interface RenderHeroWithVideoSliderItem {
+  title?: React.ReactNode
+  subtitle?: React.ReactNode
+  buttonProps?: RenderGhostButtonBlockItemProps
+}
 
 export interface RenderHeroWithVideoSliderProps extends BlockProps {
   video_src?: string
   video_poster_src?: string
-  headings?: string[]
-  subheadings?: string[]
-  buttonProps?: RenderGhostButtonBlockItemProps[]
+  items?: RenderHeroWithVideoSliderItem[]
 }
 
 const renderHeroWithVideoSlider = (props: RenderHeroWithVideoSliderProps) => {
-  const { video_src, video_poster_src, headings, subheadings, buttonProps } =
-    props
+  const { video_src, video_poster_src, items } = props
   return {
     key: 'hero-with-video-slider',
     dark: true,
@@ -36,11 +39,17 @@ const renderHeroWithVideoSlider = (props: RenderHeroWithVideoSliderProps) => {
             middle
             loop
             height={{ xs: 600, sm: 700, md: 800, xxl: 820 }}
-            tabs={headings}
+            tabs={[
+              ...items.map((item) => {
+                const { title } = item
+                return title
+              }),
+            ]}
             tabsProps={{ fullWidthOnDesktop: true }}
             tabProps={{ sx: { p: 3 } }}
             items={[
-              ...headings.map((heading, i) => {
+              ...items.map((item) => {
+                const { title, subtitle, buttonProps } = item
                 return (
                   <Box sx={{ maxWidth: { md: '50%' } }}>
                     <Typography
@@ -48,18 +57,16 @@ const renderHeroWithVideoSlider = (props: RenderHeroWithVideoSliderProps) => {
                       gutterBottom
                       color="text.secondary"
                     >
-                      {heading}
+                      {title}
                     </Typography>
-                    <Typography variant="h2">{subheadings[i]}</Typography>
-                    <Block
+                    <Typography variant="h2">{subtitle}</Typography>
+                    <BlockItem
                       disableContainer
-                      items={[
-                        renderGhostButtonBlockItem({
-                          ...buttonProps[i],
-                          size: 'lg',
-                          sx: { mt: { xs: 2, md: 4 } },
-                        }),
-                      ]}
+                      {...renderGhostButtonBlockItem({
+                        ...buttonProps,
+                        size: 'lg',
+                        sx: { mt: { xs: 2, md: 4 } },
+                      })}
                     />
                   </Box>
                 )
