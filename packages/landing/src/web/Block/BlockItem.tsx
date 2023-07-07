@@ -25,6 +25,7 @@ import {
   AccordionProps,
   Html,
   List,
+  VideoProps,
 } from '@gravis-os/ui'
 import merge from 'lodash/merge'
 import isEmpty from 'lodash/isEmpty'
@@ -76,6 +77,9 @@ export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
     | DividerProps
     | AccordionProps
   type?: BlockItemTypeEnum | string
+
+  // Background Video
+  backgroundVideoProps?: VideoProps
 }
 
 const renderBlockItem = (props) => {

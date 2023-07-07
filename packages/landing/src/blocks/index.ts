@@ -160,6 +160,9 @@ export * from './renderShowcasesBlock'
 export { default as renderCtaBlock } from './renderCtaBlock'
 export * from './renderCtaBlock'
 
+export { default as renderHeroWithVideoSlider } from './renderHeroWithVideoSlider'
+export * from './renderHeroWithVideoSlider'
+
 export { default as renderOtherPostsBlock } from './renderOtherPostsBlock'
 export * from './renderOtherPostsBlock'
 
