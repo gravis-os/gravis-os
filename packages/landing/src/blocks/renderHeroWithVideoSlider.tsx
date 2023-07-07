@@ -3,7 +3,7 @@ import { Box, Slider, Typography } from '@gravis-os/ui'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'
-import BlockItem, { BlockProps } from '../web/Block/Block'
+import BlockItem, { BlockItemProps, BlockProps } from '../web/Block'
 
 export interface RenderHeroWithVideoSliderItem {
   title?: React.ReactNode
@@ -12,8 +12,8 @@ export interface RenderHeroWithVideoSliderItem {
 }
 
 export interface RenderHeroWithVideoSliderProps extends BlockProps {
-  video_src?: string
-  video_poster_src?: string
+  video_src?: BlockItemProps['backgroundVideoProps']['poster']
+  video_poster_src?: BlockItemProps['backgroundVideoProps']['poster']
   items?: RenderHeroWithVideoSliderItem[]
 }
 
