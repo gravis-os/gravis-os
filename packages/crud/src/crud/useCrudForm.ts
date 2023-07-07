@@ -90,7 +90,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     afterDelete,
     setFormValues,
     client = supabaseClient,
-    createOnSubmit,
+    createOnSubmit: injectedCreateOnSubmit,
     item: injectedItem,
     refetch,
     module,
@@ -143,18 +143,22 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   // ==============================
   const queryClient = useQueryClient()
   const queryMatcher = { [sk]: item[sk] } // e.g. { id: 1 }
-  const createOrUpdateMutationFunction = async (nextValues) =>
-    createOnSubmit || isNew
-      ? client.from(table.name).insert([nextValues])
-      : client.from(table.name).update([nextValues]).match(queryMatcher)
+  const createMutationFunction = async (nextValues) =>
+    client.from(table.name).insert([nextValues])
+  const updateMutationFunction = async (nextValues) =>
+    client.from(table.name).update([nextValues]).match(queryMatcher)
   const deleteMutationFunction = async () =>
     client.from(table.name).delete().match(queryMatcher)
   const handleMutationError = (error) => {
     toast.error('Something went wrong')
     console.error('Error caught:', error)
   }
-  const createOrUpdateMutation = useMutation({
-    mutationFn: createOrUpdateMutationFunction,
+  const createMutation = useMutation({
+    mutationFn: createMutationFunction,
+    onError: handleMutationError,
+  })
+  const updateMutation = useMutation({
+    mutationFn: updateMutationFunction,
     onError: handleMutationError,
   })
   const deleteMutation = useMutation({
@@ -163,7 +167,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   })
 
   // onSubmit will manage create and update function
-  const onSubmit = async (values) => {
+  const onSubmit = async (values, createOnSubmit) => {
     // Cleaning function for dbFormValues
     const fields = getFieldsFromFormSections(sections)
     const withValuesArgs = { isNew, user, fields, module }
@@ -239,15 +243,16 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
         return handleSuccess({ item: onInjectedOnSubmit })
       // Default action: Create or Update
       default:
-        createOrUpdateMutation.mutate(nextValues, {
+        const mutation =
+          injectedCreateOnSubmit || isNew || createOnSubmit
+            ? createMutation
+            : updateMutation
+        mutation.mutate(nextValues, {
           onSuccess: async (result) => {
             // Handle errors
             const { error, data } = result
             if (error || !data) {
-              console.error(
-                'error at useCrudForm.createOrUpdateMutation()',
-                error.message
-              )
+              console.error('error at useCrudForm.mutate', error.message)
               toast.error('Something went wrong')
               return
             }
