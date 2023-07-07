@@ -96,7 +96,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     refetch,
     module,
     sections,
-    shouldCreateOnSubmit = () => false,
+    shouldCreateOnSubmit,
     ...rest
   } = props
   const { sk, table } = module
@@ -145,22 +145,18 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   // ==============================
   const queryClient = useQueryClient()
   const queryMatcher = { [sk]: item[sk] } // e.g. { id: 1 }
-  const createMutationFunction = async (nextValues) =>
-    client.from(table.name).insert([nextValues])
-  const updateMutationFunction = async (nextValues) =>
-    client.from(table.name).update([nextValues]).match(queryMatcher)
+  const createOrUpdateMutationFunction = async (nextValues) =>
+    createOnSubmit || isNew || shouldCreateOnSubmit?.(form)
+      ? client.from(table.name).insert([nextValues])
+      : client.from(table.name).update([nextValues]).match(queryMatcher)
   const deleteMutationFunction = async () =>
     client.from(table.name).delete().match(queryMatcher)
   const handleMutationError = (error) => {
     toast.error('Something went wrong')
     console.error('Error caught:', error)
   }
-  const createMutation = useMutation({
-    mutationFn: createMutationFunction,
-    onError: handleMutationError,
-  })
-  const updateMutation = useMutation({
-    mutationFn: updateMutationFunction,
+  const createOrUpdateMutation = useMutation({
+    mutationFn: createOrUpdateMutationFunction,
     onError: handleMutationError,
   })
   const deleteMutation = useMutation({
@@ -245,16 +241,15 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
         return handleSuccess({ item: onInjectedOnSubmit })
       // Default action: Create or Update
       default:
-        const mutation =
-          createOnSubmit || isNew || shouldCreateOnSubmit(form)
-            ? createMutation
-            : updateMutation
-        mutation.mutate(nextValues, {
+        createOrUpdateMutation.mutate(nextValues, {
           onSuccess: async (result) => {
             // Handle errors
             const { error, data } = result
             if (error || !data) {
-              console.error('error at useCrudForm.mutate', error.message)
+              console.error(
+                'error at useCrudForm.createOrUpdateMutation()',
+                error.message
+              )
               toast.error('Something went wrong')
               return
             }
