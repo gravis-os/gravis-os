@@ -17,7 +17,7 @@ import { CrudModule } from '@gravis-os/types'
 import { ButtonProps } from '@mui/material'
 import styleConfig from '../config/styleConfig'
 import FilterForm, { FilterFormProps } from './FilterForm'
-import SearchForm from './SearchForm'
+import SearchForm, { SearchFormProps } from './SearchForm'
 import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'
 import CrudAddDialog from './CrudAddDialog'
@@ -49,6 +49,7 @@ export interface CrudTableHeaderProps {
   manyToManyKeys?: string[]
   getUploadValues?: (rows: unknown) => unknown
   filterFormProps?: Partial<FilterFormProps>
+  searchFormProps?: Partial<SearchFormProps>
 }
 
 const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
@@ -72,7 +73,8 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     filterFormSections = [],
     renderAddButton,
     disableReset,
-    filterFormProps,
+    filterFormProps = {},
+    searchFormProps = {},
   } = props
   const { route, name } = module
 
@@ -167,6 +169,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
               module={module}
               sections={searchFormSections as FormSectionsProps['sections']}
               onSubmit={handleSubmit}
+              {...searchFormProps}
             />
           </Box>
         )}

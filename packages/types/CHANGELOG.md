@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- [#307](https://github.com/gravis-os/gravis-os/pull/307) [`f14036bc`](https://github.com/gravis-os/gravis-os/commit/f14036bcc8cfb0e390e2a51156fe337f3dbad4d4) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Add attribute is_hidden_from_nav to Service to have an option for each service to be hidden from the navbar
+
 ## 0.2.3
 
 ### Patch Changes

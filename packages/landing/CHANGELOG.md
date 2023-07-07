@@ -1,5 +1,45 @@
 # Changelog
 
+## 0.5.0
+
+### Minor Changes
+
+- [#310](https://github.com/gravis-os/gravis-os/pull/310) [`70adf3cd`](https://github.com/gravis-os/gravis-os/commit/70adf3cd2b6eba7ce445d260cd92655b3f7db7ab) Thanks [@benzlui](https://github.com/benzlui)! - add render client logos gallery
+
+### Patch Changes
+
+- Updated dependencies [[`73ffd60b`](https://github.com/gravis-os/gravis-os/commit/73ffd60be8d9a10e3089e7a8e13f30fdc32174f2)]:
+  - @gravis-os/form@1.0.3
+
+## 0.4.0
+
+### Minor Changes
+
+- [#307](https://github.com/gravis-os/gravis-os/pull/307) [`f14036bc`](https://github.com/gravis-os/gravis-os/commit/f14036bcc8cfb0e390e2a51156fe337f3dbad4d4) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Add attribute is_hidden_from_nav to Service to have an option for each service to be hidden from the navbar
+
+### Patch Changes
+
+- Updated dependencies [[`f14036bc`](https://github.com/gravis-os/gravis-os/commit/f14036bcc8cfb0e390e2a51156fe337f3dbad4d4)]:
+  - @gravis-os/types@0.3.0
+
+## 0.3.5
+
+### Patch Changes
+
+- [#308](https://github.com/gravis-os/gravis-os/pull/308) [`0403f69c`](https://github.com/gravis-os/gravis-os/commit/0403f69ce66943bfa061876dfafe0f9b5fb4c405) Thanks [@clodal](https://github.com/clodal)! - Update landing and ui to fix slider and html renders in the website
+
+- Updated dependencies [[`a8a49efb`](https://github.com/gravis-os/gravis-os/commit/a8a49efb643175fc7212ad289ba03614b5d97336), [`0403f69c`](https://github.com/gravis-os/gravis-os/commit/0403f69ce66943bfa061876dfafe0f9b5fb4c405)]:
+  - @gravis-os/ui@0.2.0
+
+## 0.3.4
+
+### Patch Changes
+
+- [#298](https://github.com/gravis-os/gravis-os/pull/298) [`c0699b32`](https://github.com/gravis-os/gravis-os/commit/c0699b3210d62719231c6344fc836f5b5d3ab309) Thanks [@shank1xt](https://github.com/shank1xt)! - add mailchimp to enquiry handler
+
+- Updated dependencies [[`1d295ab4`](https://github.com/gravis-os/gravis-os/commit/1d295ab41c8a998993477eb62e62da08c7b4bccd)]:
+  - @gravis-os/ui@0.1.7
+
 ## 0.3.3
 
 ### Patch Changes

@@ -19,6 +19,7 @@ import useScrollPosition from '@react-hook/window-scroll'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import flowRight from 'lodash/flowRight'
 import merge from 'lodash/merge'
+import ArrowForwardOutlined from '@mui/icons-material/ArrowForwardOutlined'
 import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
 import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import HeaderButtonWithMenu, {
@@ -28,11 +29,12 @@ import HeaderButtonWithMenu, {
 import Container, { ContainerProps } from '../Container'
 import HideOnScroll from './HideOnScroll'
 import Link from '../Link'
-import Typography from '../Typography'
+import Typography, { TypographyProps } from '../Typography'
 import Box, { BoxProps } from '../Box'
 import Image, { ImageProps } from '../Image'
 import AppBar, { AppBarProps } from '../AppBar'
 import useOpen from '../../hooks/useOpen'
+import Stack from '../Stack'
 
 export interface HeaderNavItem
   extends Omit<HeaderButtonWithMenuProps, 'title'> {
@@ -69,7 +71,15 @@ export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   disableScrollTrigger?: boolean
   disableSticky?: boolean
   disableRightDrawer?: boolean
-  announcements?: Array<{ title: string }>
+  announcement?: {
+    title: TypographyProps['children']
+    hrefTitle?: TypographyProps['children']
+    href?: TypographyProps['href']
+  }
+  announcementProps?: {
+    titleProps?: TypographyProps
+    linkProps?: TypographyProps
+  }
   height?: number
   drawerWidth?: BoxProps['width']
   textColor?: string
@@ -388,7 +398,8 @@ const Header: React.FC<HeaderProps> = (props) => {
     navItems: injectedNavItems,
     accordionProps,
     renderProps,
-    announcements,
+    announcement,
+    announcementProps,
     toolbarProps,
     height,
     mode,
@@ -475,6 +486,39 @@ const Header: React.FC<HeaderProps> = (props) => {
         }),
       }}
     >
+      {announcement && (
+        <Box
+          sx={{
+            py: 1,
+            backgroundColor: 'primary.main',
+            color: 'primary.contrastText',
+            textAlign: 'center',
+          }}
+        >
+          <Stack
+            {...containerProps}
+            maxWidth="100%"
+            direction="row"
+            center
+            gap={2}
+            flexWrap="wrap"
+          >
+            <Typography variant="body2" {...announcementProps?.titleProps}>
+              {announcement.title}
+            </Typography>
+            {announcement.href && (
+              <Typography
+                href={announcement.href}
+                variant="body2"
+                {...announcementProps?.linkProps}
+                endIcon={<ArrowForwardOutlined />}
+              >
+                {announcement?.hrefTitle || 'Read more'}
+              </Typography>
+            )}
+          </Stack>
+        </Box>
+      )}
       <Container {...containerProps}>
         <Toolbar
           disableGutters
@@ -591,25 +635,6 @@ const Header: React.FC<HeaderProps> = (props) => {
 
   const childrenWithLayoutJsx = (
     <>
-      {Boolean(announcements?.length) && (
-        <Box
-          sx={{
-            py: 0.5,
-            backgroundColor: 'primary.main',
-            color: 'primary.contrastText',
-            textAlign: 'center',
-          }}
-        >
-          <Container {...containerProps}>
-            {announcements[0] && (
-              <Typography variant="subtitle2" color="inherit">
-                {announcements[0]?.title}
-              </Typography>
-            )}
-          </Container>
-        </Box>
-      )}
-
       {!disableScrollTrigger ? (
         <HideOnScroll threshold={10}>{childrenJsx}</HideOnScroll>
       ) : (

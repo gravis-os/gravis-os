@@ -33,7 +33,7 @@ const renderPostHeroBlockItem = (props: RenderPostHeroBlockItemProps) => {
           ...overlineProps,
         },
       },
-      { type: 'h3', title, titleProps: { component: 'h1' } },
+      { type: 'h2', title, titleProps: { component: 'h1' } },
       {
         type: 'subtitle1',
         title: subtitle,
