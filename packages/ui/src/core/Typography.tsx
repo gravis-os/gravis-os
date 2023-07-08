@@ -9,6 +9,7 @@ import { RevealProps } from './Reveal'
 import withReveal from './withReveal'
 import withHref, { WithHrefProps } from './withHref'
 import withStartEndIcon, { WithStartEndIconProps } from './withStartEndIcon'
+import { StackProps } from './Stack'
 
 export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   startIcon?: WithStartEndIconProps['startIcon']
@@ -21,6 +22,7 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   href?: WithHrefProps['href']
   hrefProps?: Omit<WithHrefProps, 'href'>
   hoverColor?: MuiTypographyProps['color']
+  spacing?: StackProps['spacing']
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
@@ -35,6 +37,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     href,
     hrefProps,
     hoverColor,
+    spacing,
     ...rest
   } = props
   const { color } = rest
@@ -81,7 +84,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
   return flowRight([
     withHref({ href, ...hrefProps }),
     withReveal({ reveal }),
-    withStartEndIcon({ startIcon, endIcon, color }),
+    withStartEndIcon({ startIcon, endIcon, color, spacing }),
   ])(childrenJsx)
 }
 
