@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0
+
+### Minor Changes
+
+- [#314](https://github.com/gravis-os/gravis-os/pull/314) [`f5bfc270`](https://github.com/gravis-os/gravis-os/commit/f5bfc270577a53a0a06bc4da3f781df961fcb3b6) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Create renderHeroWithVideoSlider, which will have a hero slider with videos
+
 ## 0.6.0
 
 ### Minor Changes
