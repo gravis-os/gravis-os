@@ -19,7 +19,6 @@ import { FooterProps, ImageProps } from '@gravis-os/ui'
 // ==============================
 // Types
 // ==============================
-
 export interface LayoutContextValue {
   site?: Site
   routeConfig?: Record<string, string>

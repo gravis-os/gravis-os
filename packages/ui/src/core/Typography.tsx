@@ -5,16 +5,14 @@ import {
 } from '@mui/material'
 import get from 'lodash/get'
 import flowRight from 'lodash/flowRight'
-import { StackProps } from './Stack'
 import { RevealProps } from './Reveal'
 import withReveal from './withReveal'
 import withHref, { WithHrefProps } from './withHref'
-import withStartEndIcon from './withStartEndIcon'
+import withStartEndIcon, { WithStartEndIconProps } from './withStartEndIcon'
 
 export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
-  startIcon?: React.ReactElement
-  endIcon?: React.ReactElement
-  spacing?: StackProps['spacing']
+  startIcon?: WithStartEndIconProps['startIcon']
+  endIcon?: WithStartEndIconProps['endIcon']
   maxWidth?: boolean | string // percentage e.g. '80%'. Shorthand for sx.maxWidth
   gradient?: string | { from: string; to: string; angle?: string }
   maxLines?: number
@@ -32,7 +30,6 @@ const Typography: React.FC<TypographyProps> = (props) => {
     startIcon,
     endIcon,
     reveal,
-    spacing = 0.5,
     maxLines,
     sx,
     href,
@@ -45,11 +42,13 @@ const Typography: React.FC<TypographyProps> = (props) => {
   const childrenJsx = (
     <MuiTypography
       sx={{
+        // maxWidth
         ...(maxWidth && {
           display: 'inline-block',
           maxWidth: { md: typeof maxWidth === 'boolean' ? '80%' : maxWidth },
         }),
 
+        // gradient
         ...(gradient && {
           background: (theme) => {
             return typeof gradient === 'string'
@@ -82,7 +81,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
   return flowRight([
     withHref({ href, ...hrefProps }),
     withReveal({ reveal }),
-    withStartEndIcon({ startIcon, endIcon, color, spacing }),
+    withStartEndIcon({ startIcon, endIcon, color }),
   ])(childrenJsx)
 }
 

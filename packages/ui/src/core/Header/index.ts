@@ -9,3 +9,6 @@ export * from './LocalePicker'
 
 export { default as HeaderButtonWithMenu } from './HeaderButtonWithMenu'
 export * from './HeaderButtonWithMenu'
+
+export { default as HeaderAnnouncement } from './HeaderAnnouncement'
+export * from './HeaderAnnouncement'
