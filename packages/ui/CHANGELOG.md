@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1
+
+### Patch Changes
+
+- [#318](https://github.com/gravis-os/gravis-os/pull/318) [`bda6fd65`](https://github.com/gravis-os/gravis-os/commit/bda6fd6560227af2496894d676f8c79ea3e33fe7) Thanks [@clodal](https://github.com/clodal)! - Fix issue with spacing prop in typography
+
 ## 0.3.0
 
 ### Minor Changes
