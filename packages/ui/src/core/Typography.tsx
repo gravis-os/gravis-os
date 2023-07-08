@@ -9,11 +9,8 @@ import { RevealProps } from './Reveal'
 import withReveal from './withReveal'
 import withHref, { WithHrefProps } from './withHref'
 import withStartEndIcon, { WithStartEndIconProps } from './withStartEndIcon'
-import { StackProps } from './Stack'
 
 export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
-  startIcon?: WithStartEndIconProps['startIcon']
-  endIcon?: WithStartEndIconProps['endIcon']
   maxWidth?: boolean | string // percentage e.g. '80%'. Shorthand for sx.maxWidth
   gradient?: string | { from: string; to: string; angle?: string }
   maxLines?: number
@@ -22,7 +19,10 @@ export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
   href?: WithHrefProps['href']
   hrefProps?: Omit<WithHrefProps, 'href'>
   hoverColor?: MuiTypographyProps['color']
-  spacing?: StackProps['spacing']
+
+  startIcon?: WithStartEndIconProps['startIcon']
+  endIcon?: WithStartEndIconProps['endIcon']
+  spacing?: WithStartEndIconProps['spacing']
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
@@ -37,7 +37,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
     href,
     hrefProps,
     hoverColor,
-    spacing,
+    spacing = 0.5,
     ...rest
   } = props
   const { color } = rest
