@@ -1,35 +1,49 @@
 import React from 'react'
-import Stack from './Stack'
-import { TypographyProps } from './Typography'
+import type { TypographyProps as MuiTypographyProps } from '@mui/material'
+import Stack, { StackProps } from './Stack'
 
-export interface withStartEndIconProps {
-  startIcon?: TypographyProps['startIcon']
-  endIcon?: TypographyProps['endIcon']
-  spacing?: TypographyProps['spacing']
-  color?: TypographyProps['color']
+export interface WithStartEndIconProps {
+  startIcon?: React.ReactElement
+  endIcon?: React.ReactElement
+  spacing?: StackProps['spacing']
+  color?: MuiTypographyProps['color']
 }
 
-const withStartEndIcon = (props: withStartEndIconProps) => {
-  const { startIcon, endIcon, spacing, color } = props
-  if (startIcon || endIcon) {
-    const getIconColor = (color) => {
-      if (!color) return
-      return color.includes('.') ? color : `${color}.main`
-    }
-    return (children) => (
-      <Stack
-        direction="row"
-        alignItems="center"
-        spacing={spacing}
-        sx={{ '& .MuiSvgIcon-root': { color: getIconColor(color) } }}
-      >
-        {startIcon}
-        {children}
-        {endIcon}
-      </Stack>
-    )
-  }
-  return (children) => children
+const withStartEndIcon = (props: WithStartEndIconProps) => (children) => {
+  const { startIcon, endIcon, spacing = 0.25, color } = props
+
+  if (!(startIcon || endIcon)) return children
+
+  return (
+    <Stack
+      direction="row"
+      alignItems="center"
+      spacing={spacing}
+      sx={{
+        '& .MuiSvgIcon-root': {
+          // Position
+          position: 'relative',
+          top: 0.5,
+
+          // Color
+          ...(Boolean(color) && {
+            color: String(color).includes('.') ? color : `${color}.main`,
+          }),
+        },
+
+        // Hover color
+        '&:hover': {
+          '& .MuiTypography-root, & .MuiSvgIcon-root': {
+            color: `${color}.dark`,
+          },
+        },
+      }}
+    >
+      {startIcon}
+      {children}
+      {endIcon}
+    </Stack>
+  )
 }
 
 export default withStartEndIcon
