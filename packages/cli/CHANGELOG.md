@@ -1,5 +1,11 @@
 # @gravis-os/cli
 
+## 0.0.16
+
+### Patch Changes
+
+- [#315](https://github.com/gravis-os/gravis-os/pull/315) [`5842296f`](https://github.com/gravis-os/gravis-os/commit/5842296f7e8f7e58fbdb22987f93807458959b7b) Thanks [@clodal](https://github.com/clodal)! - Upgrade gravis cli dep command
+
 ## 0.0.15
 
 ### Patch Changes

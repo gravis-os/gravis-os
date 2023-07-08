@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/cli",
-  "version": "0.0.15",
+  "version": "0.0.16",
   "description": "gravis CLI",
   "sideEffects": false,
   "private": false,
