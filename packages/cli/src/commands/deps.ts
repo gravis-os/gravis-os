@@ -13,7 +13,7 @@ module.exports = {
       // $ gravis deps --upgrade
       case Boolean(options.upgrade):
         const onUpgrade = await toolbox.system.run(
-          `yarn upgrade-interactive --latest --scope @gravis-os`
+          `echo "a" | yarn upgrade-interactive --latest --scope @gravis-os`
         )
         return toolbox.print.info(onUpgrade)
       default:
