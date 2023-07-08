@@ -10,7 +10,7 @@ export interface WithStartEndIconProps {
 }
 
 const withStartEndIcon = (props: WithStartEndIconProps) => (children) => {
-  const { startIcon, endIcon, spacing = 0.25, color } = props
+  const { startIcon, endIcon, spacing, color } = props
 
   if (!(startIcon || endIcon)) return children
 
