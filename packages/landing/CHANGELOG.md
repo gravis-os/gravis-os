@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.1
+
+### Patch Changes
+
+- [#316](https://github.com/gravis-os/gravis-os/pull/316) [`e226f924`](https://github.com/gravis-os/gravis-os/commit/e226f924051a5d88ae7210af0b6bd1924c52aee2) Thanks [@clodal](https://github.com/clodal)! - Fixed issue with LayoutProvider and abstracted HeaderAnnouncement in ui
+
+- Updated dependencies [[`94444102`](https://github.com/gravis-os/gravis-os/commit/944441022865cb713a86dcae9942915ece01fa0b), [`e226f924`](https://github.com/gravis-os/gravis-os/commit/e226f924051a5d88ae7210af0b6bd1924c52aee2)]:
+  - @gravis-os/ui@0.3.0
+
 ## 0.7.0
 
 ### Minor Changes
