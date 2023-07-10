@@ -92,21 +92,25 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
 
     const channel = getTargetSlackChannelByType(type)
 
-    const mailchimpListId = process.env.NEXT_PUBLIC_MAILCHIMP_LIST_ID
+    const mailchimpListId = process.env.MAILCHIMP_LIST_ID
     const mailchimpRequest = fetch(
       `https://us2.api.mailchimp.com/3.0/lists/${mailchimpListId}/members/${email}?skip_merge_validation=false`,
       {
         method: 'PUT',
         headers: {
           Authorization: `Basic ${btoa(
-            `anystring:${process.env.NEXT_PUBLIC_MAILCHIMP_API_KEY}`
+            `anystring:${process.env.MAILCHIMP_API_KEY}`
           )}`,
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           email_address: email,
           status: 'subscribed',
-          tags: [type],
+          tags: [type, date, source],
+          merge_fields: {
+            NAME: name,
+            PHONE: mobile,
+          },
         }),
       }
     )
