@@ -22,6 +22,8 @@ export const handleSignUp: HandleSignUp = async (
   const { email, password } = values
 
   try {
+    // we use this to prevent the global supabaseClient
+    // from being overidden by NEXT_PUBLIC_SUPABASE_ANON_KEY
     const tempClient = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
       process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
