@@ -1,6 +1,7 @@
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
 import { AuthUser } from '@gravis-os/types'
+import { createClient } from '@supabase/supabase-js'
 
 interface SupabaseAuthOptions {}
 
@@ -21,7 +22,11 @@ export const handleSignUp: HandleSignUp = async (
   const { email, password } = values
 
   try {
-    const onSignUp = await supabaseClient.auth.signUp(
+    const tempClient = createClient(
+      process.env.NEXT_PUBLIC_SUPABASE_URL,
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+    )
+    const onSignUp = await tempClient.auth.signUp(
       {
         email: email?.toLowerCase(),
         password,
