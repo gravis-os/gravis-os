@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.2
+
+### Patch Changes
+
+- [#319](https://github.com/gravis-os/gravis-os/pull/319) [`2a8b121c`](https://github.com/gravis-os/gravis-os/commit/2a8b121c7a1cebfe42b8a5d67b4f63b4319a6992) Thanks [@shank1xt](https://github.com/shank1xt)! - fix mailchimp security issue
+
 ## 0.7.1
 
 ### Patch Changes
