@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.1
+
+### Patch Changes
+
+- [#327](https://github.com/gravis-os/gravis-os/pull/327) [`676ff27f`](https://github.com/gravis-os/gravis-os/commit/676ff27f99e13fde6a901ba79bd0d84203013e03) Thanks [@shank1xt](https://github.com/shank1xt)! - add defaultThemeMode prop to settings providers
+
 ## 0.3.0
 
 ### Minor Changes

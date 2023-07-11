@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.4.0
+
+### Minor Changes
+
+- [#328](https://github.com/gravis-os/gravis-os/pull/328) [`fdf3b060`](https://github.com/gravis-os/gravis-os/commit/fdf3b060abb4b0bf3692257ffb6a0905b3c2768a) Thanks [@benzlui](https://github.com/benzlui)! - fix locale picker margins on mobile
+
+### Patch Changes
+
+- [#327](https://github.com/gravis-os/gravis-os/pull/327) [`676ff27f`](https://github.com/gravis-os/gravis-os/commit/676ff27f99e13fde6a901ba79bd0d84203013e03) Thanks [@shank1xt](https://github.com/shank1xt)! - add defaultThemeMode prop to settings providers
+
+* [#330](https://github.com/gravis-os/gravis-os/pull/330) [`09bc2594`](https://github.com/gravis-os/gravis-os/commit/09bc25946084fedb9c6cafb07735bae85381c094) Thanks [@shank1xt](https://github.com/shank1xt)! - fix incorrect enum naming
+
+* Updated dependencies [[`676ff27f`](https://github.com/gravis-os/gravis-os/commit/676ff27f99e13fde6a901ba79bd0d84203013e03), [`09bc2594`](https://github.com/gravis-os/gravis-os/commit/09bc25946084fedb9c6cafb07735bae85381c094)]:
+  - @gravis-os/theme@0.0.12
+  - @gravis-os/types@0.3.1
+
 ## 0.3.1
 
 ### Patch Changes

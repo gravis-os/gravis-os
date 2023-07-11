@@ -1,5 +1,22 @@
 # Changelog
 
+## 0.9.0
+
+### Minor Changes
+
+- [#325](https://github.com/gravis-os/gravis-os/pull/325) [`d4b21fef`](https://github.com/gravis-os/gravis-os/commit/d4b21fef969264d6cba36394695e428fcfa0fb7f) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - create renderFeaturedResourcesBlock function
+
+* [#324](https://github.com/gravis-os/gravis-os/pull/324) [`76d2d2e9`](https://github.com/gravis-os/gravis-os/commit/76d2d2e96f2fbc7610509ac91aed0b8527f95d8b) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - change renderShowcaseCardBlockItem to renderShowcaseSlider to have a slider for other posts
+
+### Patch Changes
+
+- [#326](https://github.com/gravis-os/gravis-os/pull/326) [`487cfeab`](https://github.com/gravis-os/gravis-os/commit/487cfeab3f0bebefc12beda0d59eb2c7b68c8fed) Thanks [@shank1xt](https://github.com/shank1xt)! - add service links in nav
+
+- Updated dependencies [[`fdf3b060`](https://github.com/gravis-os/gravis-os/commit/fdf3b060abb4b0bf3692257ffb6a0905b3c2768a), [`676ff27f`](https://github.com/gravis-os/gravis-os/commit/676ff27f99e13fde6a901ba79bd0d84203013e03), [`09bc2594`](https://github.com/gravis-os/gravis-os/commit/09bc25946084fedb9c6cafb07735bae85381c094)]:
+  - @gravis-os/ui@0.4.0
+  - @gravis-os/theme@0.0.12
+  - @gravis-os/types@0.3.1
+
 ## 0.8.1
 
 ### Patch Changes

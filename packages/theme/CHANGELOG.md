@@ -1,5 +1,16 @@
 # @gravis-os/theme
 
+## 0.0.12
+
+### Patch Changes
+
+- [#327](https://github.com/gravis-os/gravis-os/pull/327) [`676ff27f`](https://github.com/gravis-os/gravis-os/commit/676ff27f99e13fde6a901ba79bd0d84203013e03) Thanks [@shank1xt](https://github.com/shank1xt)! - add defaultThemeMode prop to settings providers
+
+* [#330](https://github.com/gravis-os/gravis-os/pull/330) [`09bc2594`](https://github.com/gravis-os/gravis-os/commit/09bc25946084fedb9c6cafb07735bae85381c094) Thanks [@shank1xt](https://github.com/shank1xt)! - fix incorrect enum naming
+
+* Updated dependencies [[`676ff27f`](https://github.com/gravis-os/gravis-os/commit/676ff27f99e13fde6a901ba79bd0d84203013e03)]:
+  - @gravis-os/types@0.3.1
+
 ## 0.0.11
 
 ### Patch Changes
