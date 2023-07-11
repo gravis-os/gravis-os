@@ -117,7 +117,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     ...useCrudFormProps,
   })
   const { formContext, isNew, onSubmit, onDelete } = crudForm
-
+  const { getValues } = formContext
+  console.log(defaultValues)
   // Read Only State
   const defaultIsReadOnly =
     typeof injectedDefaultIsReadOnly === 'boolean'
