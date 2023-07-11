@@ -63,8 +63,8 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
         sx: {
           fontSize: 20,
           borderRadius: 0,
-          paddingX: matches ? '0px' : null,
-          minWidth: matches ? '48px' : null,
+          paddingX: matches ? 0 : null,
+          minWidth: matches ? 48 : null,
         },
       }}
       {...rest}
