@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import { DEFAULT_THEME_MODE_ENUM } from '@gravis-os/types'
 import IconButton from './IconButton'
 
 export interface Settings {
@@ -20,11 +21,11 @@ export interface SettingsContextValue {
 
 export interface SettingsProviderProps {
   children?: React.ReactNode
-  shouldSetThemeFromLocalStorage?: boolean
+  defaultThemeMode?: DEFAULT_THEME_MODE_ENUM
 }
 
 export interface RestoreSettingsOptions {
-  shouldSetThemeFromLocalStorage?: SettingsProviderProps['shouldSetThemeFromLocalStorage']
+  defaultThemeMode?: SettingsProviderProps['defaultThemeMode']
 }
 
 const initialSettings: Settings = {
@@ -33,28 +34,40 @@ const initialSettings: Settings = {
   theme: 'light',
 }
 
+const getComputedThemeSetting = (defaultThemeMode: DEFAULT_THEME_MODE_ENUM) => {
+  switch (defaultThemeMode) {
+    case DEFAULT_THEME_MODE_ENUM.DARK:
+    case DEFAULT_THEME_MODE_ENUM.LIGHT:
+      return { mode: defaultThemeMode }
+    case DEFAULT_THEME_MODE_ENUM.SYSTEM:
+      return {
+        mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light',
+      }
+    case DEFAULT_THEME_MODE_ENUM.MANUAL:
+      return {}
+    default:
+      return
+  }
+}
+
 const restoreSettings = (
   options: RestoreSettingsOptions = {}
 ): Settings | null => {
   let settings: any = null
-  const { shouldSetThemeFromLocalStorage } = options
+  const { defaultThemeMode } = options
   try {
     const storedData: string | null =
       globalThis.localStorage.getItem('settings')
 
-    const systemThemeSetting = shouldSetThemeFromLocalStorage
-      ? {}
-      : {
-          theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light',
-        }
+    const computedThemeSetting = getComputedThemeSetting(defaultThemeMode)
 
     settings = {
       direction: 'ltr',
       responsiveFontSizes: true,
       ...JSON.parse(storedData),
-      ...systemThemeSetting,
+      ...computedThemeSetting,
     }
   } catch (err) {
     console.error(err)
@@ -100,14 +113,14 @@ export const useSettings = () => {
  * </SettingsProvider>
  */
 const SettingsProvider: React.FC<SettingsProviderProps> = (props) => {
-  const { children, shouldSetThemeFromLocalStorage } = props
+  const { children, defaultThemeMode } = props
   const [settings, setSettings] = useState<Settings>(initialSettings)
 
   // @link: https://mui.com/material-ui/customization/dark-mode/#system-preference
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
 
   useEffect(() => {
-    const restoredSettings = restoreSettings({ shouldSetThemeFromLocalStorage })
+    const restoredSettings = restoreSettings({ defaultThemeMode })
 
     if (restoredSettings) {
       setSettings(restoredSettings)
