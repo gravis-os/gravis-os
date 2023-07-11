@@ -34,6 +34,22 @@ const initialSettings: Settings = {
   theme: 'light',
 }
 
+const getComputedThemeSetting = (defaultThemeMode: DEFAULT_THEME_MODE_ENUM) => {
+  switch (defaultThemeMode) {
+    case DEFAULT_THEME_MODE_ENUM.DARK:
+    case DEFAULT_THEME_MODE_ENUM.LIGHT:
+      return { mode: defaultThemeMode }
+    case DEFAULT_THEME_MODE_ENUM.SYSTEM:
+      return {
+        mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+          ? 'dark'
+          : 'light',
+      }
+    default:
+      return {}
+  }
+}
+
 const restoreSettings = (
   options: RestoreSettingsOptions = {}
 ): Settings | null => {
@@ -43,22 +59,7 @@ const restoreSettings = (
     const storedData: string | null =
       globalThis.localStorage.getItem('settings')
 
-    let computedThemeSetting = {}
-    switch (defaultThemeMode) {
-      case DEFAULT_THEME_MODE_ENUM.DARK:
-      case DEFAULT_THEME_MODE_ENUM.LIGHT:
-        computedThemeSetting = { mode: defaultThemeMode }
-        break
-      case DEFAULT_THEME_MODE_ENUM.SYSTEM:
-        computedThemeSetting = {
-          mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
-            ? 'dark'
-            : 'light',
-        }
-        break
-      default:
-        break
-    }
+    const computedThemeSetting = getComputedThemeSetting(defaultThemeMode)
 
     settings = {
       direction: 'ltr',
@@ -132,7 +133,6 @@ const SettingsProvider: React.FC<SettingsProviderProps> = (props) => {
   const isDarkMode = settings.theme === 'dark'
 
   const handleToggleThemeMode = () => {
-    if (!(defaultThemeMode === 'manual')) return
     return saveSettings({
       ...settings,
       theme: isDarkMode ? 'light' : 'dark',
