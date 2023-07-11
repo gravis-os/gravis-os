@@ -1,5 +1,5 @@
 import React from 'react'
-import { Stack } from '@mui/material'
+import { Stack, useMediaQuery, useTheme } from '@mui/material'
 import { useRouter } from 'next/router'
 import HeaderButtonWithMenu, {
   HeaderButtonWithMenuProps,
@@ -30,6 +30,9 @@ export interface LocalePickerProps
 const LocalePicker: React.FC<LocalePickerProps> = (props) => {
   const { locales, ...rest } = props
 
+  const theme = useTheme()
+  const matches = useMediaQuery(theme.breakpoints.down('sm'))
+
   if (!locales?.length) return null
 
   // Router
@@ -56,7 +59,9 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
       key="locale-picker"
       title={getFlagFromCountryISOAlpha2(locale)}
       items={items}
-      buttonProps={{ sx: { fontSize: 20, borderRadius: 0 } }}
+      buttonProps={{
+        sx: { fontSize: 20, borderRadius: 0, paddingX: matches ? '0px' : null },
+      }}
       {...rest}
     />
   )
