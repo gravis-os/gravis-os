@@ -12,7 +12,7 @@ const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
     key: 'gallery',
     center: true,
     maxWidth: 'md',
-    dark: true,
+    invertImageOnMode: 'light',
     items: [
       { type: 'h4', title },
       {
