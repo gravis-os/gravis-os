@@ -224,6 +224,16 @@ export interface Site {
   social_media_linkedin_url?: string
   social_media_instagram_url?: string
   social_media_youtube_url?: string
+
+  // Color mode
+  default_theme_mode?: DEFAULT_THEME_MODE_ENUM
+}
+
+export enum DEFAULT_THEME_MODE_ENUM {
+  SYSTEM = 'system',
+  LIGHT = 'light',
+  DARK = 'dark',
+  MANUAL = 'manual',
 }
 
 export interface Technology extends Page {

@@ -3,6 +3,7 @@ import useMediaQuery from '@mui/material/useMediaQuery'
 import { IconButton } from '@mui/material'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
+import { DEFAULT_THEME_MODE_ENUM } from '@gravis-os/types'
 
 export interface UserPreferences {
   direction?: 'ltr' | 'rtl'
@@ -22,11 +23,11 @@ export interface UserPreferencesContextValue {
 
 export interface UserPreferencesProviderProps {
   children?: React.ReactNode
-  shouldSetThemeFromLocalStorage?: boolean
+  defaultThemeMode?: DEFAULT_THEME_MODE_ENUM
 }
 
 export interface RestoreUserPreferencesOptions {
-  shouldSetThemeFromLocalStorage?: UserPreferencesProviderProps['shouldSetThemeFromLocalStorage']
+  defaultThemeMode?: UserPreferencesProviderProps['defaultThemeMode']
 }
 
 const initialUserPreferences: UserPreferences = {
@@ -40,24 +41,33 @@ const restoreUserPreferences = (
   options: RestoreUserPreferencesOptions = {}
 ): UserPreferences | null => {
   let userPreferences: any = null
-  const { shouldSetThemeFromLocalStorage } = options
+  const { defaultThemeMode } = options
   try {
     const storedData: string | null =
       globalThis.localStorage.getItem('userPreferences')
 
-    const systemThemeSetting = shouldSetThemeFromLocalStorage
-      ? {}
-      : {
+    let computedThemeSetting = {}
+    switch (defaultThemeMode) {
+      case DEFAULT_THEME_MODE_ENUM.DARK:
+      case DEFAULT_THEME_MODE_ENUM.LIGHT:
+        computedThemeSetting = { mode: defaultThemeMode }
+        break
+      case DEFAULT_THEME_MODE_ENUM.SYSTEM:
+        computedThemeSetting = {
           mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
             ? 'dark'
             : 'light',
         }
+        break
+      default:
+        break
+    }
 
     userPreferences = {
       ...initialUserPreferences,
       ...JSON.parse(storedData),
       // Allow to overriding of the mode with the system preference
-      ...systemThemeSetting,
+      ...computedThemeSetting,
     }
   } catch (err) {
     console.error(err)
@@ -110,7 +120,7 @@ export const useUserPreferences = () => {
 const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
   props
 ) => {
-  const { children, shouldSetThemeFromLocalStorage } = props
+  const { children, defaultThemeMode } = props
   const [userPreferences, setUserPreferences] = useState<UserPreferences>(
     initialUserPreferences
   )
@@ -120,7 +130,7 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
 
   useEffect(() => {
     const restoredUserPreferences = restoreUserPreferences({
-      shouldSetThemeFromLocalStorage,
+      defaultThemeMode,
     })
 
     if (restoredUserPreferences) {
