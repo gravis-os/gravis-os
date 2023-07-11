@@ -1,6 +1,6 @@
 import { Showcase } from '@gravis-os/types'
 import { BlockProps } from '../web/Block/Block'
-import renderShowcaseCardBlockItem from './renderShowcaseCardBlockItem'
+import renderShowcaseSlider from './renderShowcaseSlider'
 
 export interface RenderOtherShowcasesBlockProps
   extends Omit<BlockProps, 'items'> {
@@ -15,7 +15,7 @@ const renderOtherShowcasesBlock = (props: RenderOtherShowcasesBlockProps) => {
     sx: { backgroundColor: 'background.paper' },
     items: [
       { type: 'h4', title: 'Other Showcases' },
-      ...items.map((item) => renderShowcaseCardBlockItem({ item })),
+      renderShowcaseSlider({ items }),
     ],
     ...rest,
   }
