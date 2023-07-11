@@ -168,3 +168,6 @@ export * from './renderOtherPostsBlock'
 
 export { default as renderClientLogosGallery } from './renderClientLogosGallery'
 export * from './renderClientLogosGallery'
+
+export { default as renderFeaturedResourcesBlock } from './renderFeaturedResourcesBlock'
+export * from './renderFeaturedResourcesBlock'
