@@ -176,7 +176,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     // By default, fetch data from server-side paginated
     ...(!disableServerSideRowModel && {
-      rowModelType: 'serverSide' as RowModelType,
+      rowModelType: 'externalServerSide' as RowModelType,
       height: '60vh',
       serverSideRowModelProps: { pagination, fetchNextPage },
       serverSideRowCount: onUseList?.count,
