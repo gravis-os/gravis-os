@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.8.0
+
+### Minor Changes
+
+- [#320](https://github.com/gravis-os/gravis-os/pull/320) [`942e9778`](https://github.com/gravis-os/gravis-os/commit/942e9778402878f5e94162be9c8e29af8df1bb55) Thanks [@benzlui](https://github.com/benzlui)! - fix bug where client logos gallery is still in dark mode when light mode selected
+
+### Patch Changes
+
+- [#322](https://github.com/gravis-os/gravis-os/pull/322) [`988c962c`](https://github.com/gravis-os/gravis-os/commit/988c962c068f04a691cf390ae772e74301a64363) Thanks [@shank1xt](https://github.com/shank1xt)! - fix mailchimp tag issue
+
 ## 0.7.2
 
 ### Patch Changes
