@@ -60,7 +60,12 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
       title={getFlagFromCountryISOAlpha2(locale)}
       items={items}
       buttonProps={{
-        sx: { fontSize: 20, borderRadius: 0, paddingX: matches ? '0px' : null },
+        sx: {
+          fontSize: 20,
+          borderRadius: 0,
+          paddingX: matches ? '0px' : null,
+          minWidth: matches ? '48px' : null,
+        },
       }}
       {...rest}
     />
