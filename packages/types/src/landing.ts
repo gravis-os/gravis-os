@@ -233,7 +233,7 @@ export enum DEFAULT_THEME_MODE_ENUM {
   SYSTEM = 'system',
   LIGHT = 'light',
   DARK = 'dark',
-  MANUAL = 'manual',
+  USER_LOCAL_STORAGE = 'user_local_storage',
 }
 
 export interface Technology extends Page {
