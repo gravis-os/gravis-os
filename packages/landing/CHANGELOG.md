@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.1
+
+### Patch Changes
+
+- [#323](https://github.com/gravis-os/gravis-os/pull/323) [`3f81a580`](https://github.com/gravis-os/gravis-os/commit/3f81a5807ffdab388c29e5f005378ca4ab20b9cb) Thanks [@shank1xt](https://github.com/shank1xt)! - fix mailchimp tag format
+
 ## 0.8.0
 
 ### Minor Changes
