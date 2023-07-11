@@ -39,7 +39,7 @@ const renderHeaderMenuMobileBlockItem = (
         type: 'h7',
         title,
         titleProps: {
-          mb: 0.5,
+          mb: 2,
           href,
           hrefProps: {
             sx: { display: 'block' },
@@ -50,7 +50,16 @@ const renderHeaderMenuMobileBlockItem = (
           },
         },
       },
-      ...items,
+      ...(items.map((item) => ({
+        type: 'link',
+        title: item.title,
+        titleProps: {
+          href: item.href,
+          variant: 'body2',
+          gutterBottom: true,
+        },
+        ...item,
+      })) as BlockItemProps[]),
     ],
   }
 }
