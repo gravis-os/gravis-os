@@ -31,7 +31,9 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
   const { locales, ...rest } = props
 
   const theme = useTheme()
-  const matches = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+
+  const mobileStyles = isMobile ? { paddingX: 0, minWidth: 48 } : {}
 
   if (!locales?.length) return null
 
@@ -63,8 +65,7 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
         sx: {
           fontSize: 20,
           borderRadius: 0,
-          paddingX: matches ? 0 : null,
-          minWidth: matches ? 48 : null,
+          ...mobileStyles,
         },
       }}
       {...rest}
