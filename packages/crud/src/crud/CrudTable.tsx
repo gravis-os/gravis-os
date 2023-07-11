@@ -5,6 +5,7 @@ import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { useList, UseListProps } from '@gravis-os/query'
 import size from 'lodash/size'
+import { RowModelType } from 'ag-grid-community'
 import DataTable, { DataTableProps } from './DataTable'
 import getFieldsFromFormSections from './getFieldsFromFormSections'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
@@ -175,7 +176,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     // By default, fetch data from server-side paginated
     ...(!disableServerSideRowModel && {
-      rowModelType: 'externalServerSide',
+      rowModelType: 'serverSide' as RowModelType,
       height: '60vh',
       serverSideRowModelProps: { pagination, fetchNextPage },
       serverSideRowCount: onUseList?.count,
