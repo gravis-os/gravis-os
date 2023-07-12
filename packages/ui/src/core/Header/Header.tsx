@@ -214,7 +214,7 @@ const renderNavItems = (navItems, props) => {
       alignItems: 'center',
       sx: {
         display: { xs: 'none', md: 'flex' },
-        '& > button': { whiteSpace: 'nowrap' },
+        '& > button': { whiteSpace: 'nowrap', fontSize: 20 },
         ...(showOnMobileBar && { display: 'flex' }),
         ...(offsetLeft && { ml: -2 }),
         ...sx,
