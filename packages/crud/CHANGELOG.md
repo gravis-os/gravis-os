@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.0.111
+
+### Patch Changes
+
+- [#329](https://github.com/gravis-os/gravis-os/pull/329) [`218de21a`](https://github.com/gravis-os/gravis-os/commit/218de21ad65a79510e808e505afbbbceef2b8118) Thanks [@jianlingteng](https://github.com/jianlingteng)! - upgrade ag-grid
+
+* [#331](https://github.com/gravis-os/gravis-os/pull/331) [`145ba6eb`](https://github.com/gravis-os/gravis-os/commit/145ba6ebcc543399630250d73de43b4920a28ec4) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - update row model type
+
 ## 0.0.110
 
 ### Patch Changes
