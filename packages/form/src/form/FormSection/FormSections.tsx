@@ -7,12 +7,12 @@ export interface FormSectionsProps extends Partial<FormSectionProps> {
 }
 
 const FormSections: React.FC<FormSectionsProps> = (props) => {
-  const { sections, ...rest } = props
+  const { sections, gridProps, ...rest } = props
   if (!sections?.length) return null
 
   return (
     // @ts-ignore
-    <Grid container spacing={2} {...rest.sx}>
+    <Grid container spacing={2} {...gridProps}>
       {sections.map((section) => (
         <FormSection key={section.key} {...section} {...rest} />
       ))}
