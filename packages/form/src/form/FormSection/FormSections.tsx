@@ -4,11 +4,11 @@ import FormSection, { FormSectionProps } from './FormSection'
 
 export interface FormSectionsProps extends Partial<FormSectionProps> {
   sections: FormSectionProps[]
-  containerProps: GridProps
+  containerProps?: GridProps
 }
 
 const FormSections: React.FC<FormSectionsProps> = (props) => {
-  const { sections, containerProps, ...rest } = props
+  const { sections, containerProps = {}, ...rest } = props
   if (!sections?.length) return null
 
   return (
