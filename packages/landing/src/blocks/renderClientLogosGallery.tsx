@@ -12,7 +12,6 @@ const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
     key: 'gallery',
     center: true,
     maxWidth: 'md',
-    invertImageOnMode: 'light',
     items: [
       { type: 'h4', title },
       {
@@ -30,6 +29,7 @@ const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
               alt: avatar_alt,
               width: avatar_width,
               height: avatar_height,
+              invertImageOnMode: 'light',
             },
           })
         }),
@@ -37,6 +37,5 @@ const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
     ],
   }
 }
-//
 
 export default renderClientLogosGallery
