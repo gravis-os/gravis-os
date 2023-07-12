@@ -1,4 +1,10 @@
-import React, { createContext, useEffect, useState } from 'react'
+import React, {
+  Dispatch,
+  SetStateAction,
+  createContext,
+  useEffect,
+  useState,
+} from 'react'
 import useMediaQuery from '@mui/material/useMediaQuery'
 import { IconButton } from '@mui/material'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
@@ -15,6 +21,7 @@ export interface UserPreferences {
 export interface UserPreferencesContextValue {
   userPreferences: UserPreferences
   saveUserPreferences: (update: UserPreferences) => void
+  setDefaultThemeMode: Dispatch<SetStateAction<DEFAULT_THEME_MODE_ENUM>>
   isDarkMode: boolean
   handleToggleDarkMode: () => void
   handleToggleDarkSidebar: () => void
@@ -23,11 +30,10 @@ export interface UserPreferencesContextValue {
 
 export interface UserPreferencesProviderProps {
   children?: React.ReactNode
-  defaultThemeMode?: DEFAULT_THEME_MODE_ENUM
 }
 
 export interface RestoreUserPreferencesOptions {
-  defaultThemeMode?: UserPreferencesProviderProps['defaultThemeMode']
+  defaultThemeMode?: DEFAULT_THEME_MODE_ENUM
 }
 
 const initialUserPreferences: UserPreferences = {
@@ -92,6 +98,7 @@ export const UserPreferencesContext =
   createContext<UserPreferencesContextValue>({
     userPreferences: initialUserPreferences,
     saveUserPreferences: () => null,
+    setDefaultThemeMode: () => null,
     isDarkMode: false,
     handleToggleDarkMode: () => null,
     handleToggleDarkSidebar: () => null,
@@ -123,10 +130,14 @@ export const useUserPreferences = () => {
 const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
   props
 ) => {
-  const { children, defaultThemeMode } = props
+  const { children } = props
   const [userPreferences, setUserPreferences] = useState<UserPreferences>(
     initialUserPreferences
   )
+  const [defaultThemeMode, setDefaultThemeMode] =
+    useState<DEFAULT_THEME_MODE_ENUM>(
+      DEFAULT_THEME_MODE_ENUM.USER_LOCAL_STORAGE
+    )
 
   // @link: https://mui.com/material-ui/customization/dark-mode/#system-preference
   const prefersDarkMode = useMediaQuery('(prefers-color-scheme: dark)')
@@ -135,11 +146,10 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
     const restoredUserPreferences = restoreUserPreferences({
       defaultThemeMode,
     })
-
     if (restoredUserPreferences) {
       setUserPreferences(restoredUserPreferences)
     }
-  }, [prefersDarkMode])
+  }, [prefersDarkMode, defaultThemeMode])
 
   const saveUserPreferences = (
     updatedUserPreferences: UserPreferences
@@ -177,6 +187,7 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
       value={{
         userPreferences,
         saveUserPreferences,
+        setDefaultThemeMode,
         isDarkMode,
         handleToggleDarkMode,
         handleToggleDarkSidebar,
