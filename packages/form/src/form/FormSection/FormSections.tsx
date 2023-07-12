@@ -12,7 +12,6 @@ const FormSections: React.FC<FormSectionsProps> = (props) => {
   if (!sections?.length) return null
 
   return (
-    // @ts-ignore
     <Grid container spacing={2} {...containerProps}>
       {sections.map((section) => (
         <FormSection key={section.key} {...section} {...rest} />
