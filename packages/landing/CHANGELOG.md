@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.10.0
+
+### Minor Changes
+
+- [#333](https://github.com/gravis-os/gravis-os/pull/333) [`46b9ad54`](https://github.com/gravis-os/gravis-os/commit/46b9ad549bcd4577634cc085eb0fe10e62eacf4c) Thanks [@benzlui](https://github.com/benzlui)! - fix client logo display on light mode
+
+### Patch Changes
+
+- [#335](https://github.com/gravis-os/gravis-os/pull/335) [`7adb5bcf`](https://github.com/gravis-os/gravis-os/commit/7adb5bcffd922d719e9fe103df065558ac2376c4) Thanks [@shank1xt](https://github.com/shank1xt)! - move default theme mode to site instead of as a prop
+
+- Updated dependencies [[`7adb5bcf`](https://github.com/gravis-os/gravis-os/commit/7adb5bcffd922d719e9fe103df065558ac2376c4)]:
+  - @gravis-os/theme@0.0.13
+
 ## 0.9.0
 
 ### Minor Changes

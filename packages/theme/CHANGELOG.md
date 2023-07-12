@@ -1,5 +1,11 @@
 # @gravis-os/theme
 
+## 0.0.13
+
+### Patch Changes
+
+- [#335](https://github.com/gravis-os/gravis-os/pull/335) [`7adb5bcf`](https://github.com/gravis-os/gravis-os/commit/7adb5bcffd922d719e9fe103df065558ac2376c4) Thanks [@shank1xt](https://github.com/shank1xt)! - move default theme mode to site instead of as a prop
+
 ## 0.0.12
 
 ### Patch Changes
