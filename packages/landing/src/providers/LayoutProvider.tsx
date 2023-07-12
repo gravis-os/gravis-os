@@ -1,4 +1,4 @@
-import React, { createContext, useContext } from 'react'
+import React, { createContext, useContext, useEffect } from 'react'
 import merge from 'lodash/merge'
 import type {
   ClientHighlight,
@@ -15,6 +15,7 @@ import type {
   Workspace,
 } from '@gravis-os/types'
 import { FooterProps, ImageProps } from '@gravis-os/ui'
+import { useUserPreferences } from '@gravis-os/theme'
 
 // ==============================
 // Types
@@ -100,6 +101,8 @@ export interface LayoutProviderProps {
 const LayoutProvider: React.FC<LayoutProviderProps> = (props) => {
   const { children, value: injectedValue } = props
 
+  const { setDefaultThemeMode } = useUserPreferences()
+
   // Calculated state
   const { site, routeConfig } = injectedValue
   const calculatedValues = {
@@ -130,6 +133,11 @@ const LayoutProvider: React.FC<LayoutProviderProps> = (props) => {
     injectedValue,
     calculatedValues
   )
+
+  useEffect(() => {
+    if (!(setDefaultThemeMode && site.default_theme_mode)) return
+    setDefaultThemeMode(site.default_theme_mode)
+  }, [site.default_theme_mode, setDefaultThemeMode])
 
   return (
     <LayoutContext.Provider value={value}>{children}</LayoutContext.Provider>
