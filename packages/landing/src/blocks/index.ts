@@ -16,6 +16,9 @@ export * from './renderHeaderMenuListBlockItem'
 export { default as renderShowcaseCardBlockItem } from './renderShowcaseCardBlockItem'
 export * from './renderShowcaseCardBlockItem'
 
+export { default as renderPostAuthorBlock } from './renderPostAuthorBlock'
+export * from './renderPostAuthorBlock'
+
 export { default as renderShowcaseStickyGridBlockItem } from './renderShowcaseStickyGridBlockItem'
 export * from './renderShowcaseStickyGridBlockItem'
 
