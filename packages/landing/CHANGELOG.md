@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.2
+
+### Patch Changes
+
+- [#339](https://github.com/gravis-os/gravis-os/pull/339) [`1f057042`](https://github.com/gravis-os/gravis-os/commit/1f057042697a5f2ba9e2837e4e9f318b3c6e1d96) Thanks [@shank1xt](https://github.com/shank1xt)! - author block rendering
+
 ## 0.10.1
 
 ### Patch Changes
