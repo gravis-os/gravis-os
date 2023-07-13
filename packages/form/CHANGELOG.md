@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.4
+
+### Patch Changes
+
+- [#332](https://github.com/gravis-os/gravis-os/pull/332) [`f8c9efb0`](https://github.com/gravis-os/gravis-os/commit/f8c9efb081031cd75e2312b97579b0cf8c5b8c48) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add sx to form sections grid
+
 ## 1.0.3
 
 ### Patch Changes

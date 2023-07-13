@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.10.1
+
+### Patch Changes
+
+- [#337](https://github.com/gravis-os/gravis-os/pull/337) [`17e9147a`](https://github.com/gravis-os/gravis-os/commit/17e9147a8698521f1a3c879d56846b940605cb45) Thanks [@shank1xt](https://github.com/shank1xt)! - add props to center elements in industry block on mobile
+
+* [#336](https://github.com/gravis-os/gravis-os/pull/336) [`db96f6e0`](https://github.com/gravis-os/gravis-os/commit/db96f6e055525884bb11f37e91a8ef19c0e9cf87) Thanks [@shank1xt](https://github.com/shank1xt)! - add prop to disable author details
+
+- [#338](https://github.com/gravis-os/gravis-os/pull/338) [`e49e9974`](https://github.com/gravis-os/gravis-os/commit/e49e9974f298dca5fb6a1566cff15f838e827545) Thanks [@shank1xt](https://github.com/shank1xt)! - render location of author block on mobile
+
+- Updated dependencies [[`f8c9efb0`](https://github.com/gravis-os/gravis-os/commit/f8c9efb081031cd75e2312b97579b0cf8c5b8c48)]:
+  - @gravis-os/form@1.0.4
+
 ## 0.10.0
 
 ### Minor Changes
