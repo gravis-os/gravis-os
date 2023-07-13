@@ -5,11 +5,12 @@ import { BlockProps } from '../web/Block/Block'
 
 export interface RenderPostDetailBlockItemProps
   extends Omit<BlockProps, 'items'> {
+  disableAuthorDetails?: boolean
   item?: PressRelease | Post
 }
 
 const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
-  const { item, ...rest } = props
+  const { item, disableAuthorDetails, ...rest } = props
   const {
     author_avatar_src,
     author_avatar_alt,
@@ -26,7 +27,7 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
       {
         type: 'grid',
         gridItems: [
-          {
+          !disableAuthorDetails && {
             md: 3,
             lg: 2,
             items: [
