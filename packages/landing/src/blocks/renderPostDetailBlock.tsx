@@ -1,7 +1,7 @@
-import dayjs from 'dayjs'
 import { Post, PressRelease } from '@gravis-os/types'
 import renderHtmlBlockItem from './renderHtmlBlockItem'
 import { BlockProps } from '../web/Block/Block'
+import renderPostAuthorBlock from './renderPostAuthorBlock'
 
 export interface RenderPostDetailBlockItemProps
   extends Omit<BlockProps, 'items'> {
@@ -27,34 +27,14 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
       {
         type: 'grid',
         gridItems: [
-          !disableAuthorDetails && {
-            md: 3,
-            lg: 2,
-            items: [
-              {
-                type: 'image',
-                title: author_avatar_src,
-                titleProps: {
-                  alt: author_avatar_alt,
-                  width: 40,
-                  height: 40,
-                },
-              },
-              { type: 'body1', title: author_title },
-              {
-                type: 'body1',
-                title: author_job_title,
-                titleProps: { color: 'text.secondary' },
-              },
-              {
-                type: 'body2',
-                title: published_at
-                  ? dayjs(published_at).format('ddd, DD MMM YYYY')
-                  : '',
-                titleProps: { color: 'text.secondary', sx: { marginTop: 1 } },
-              },
-            ],
-          },
+          !disableAuthorDetails &&
+            renderPostAuthorBlock({
+              author_avatar_src,
+              author_avatar_alt,
+              author_title,
+              author_job_title,
+              published_at,
+            }),
           renderHtmlBlockItem({ html }),
         ],
       },
