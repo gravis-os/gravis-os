@@ -27,7 +27,7 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
       {
         type: 'grid',
         gridItems: [
-          disableAuthorDetails && {
+          !disableAuthorDetails && {
             md: 3,
             lg: 2,
             items: [
