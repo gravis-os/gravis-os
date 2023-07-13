@@ -46,15 +46,15 @@ const renderPostHeroBlockItem = (props: RenderPostHeroBlockItemProps) => {
         },
       },
       { type: 'h2', title, titleProps: { component: 'h1' } },
-      !disableAuthorDetails &&
-        !isDesktop &&
-        renderPostAuthorBlock({
-          author_avatar_src,
-          author_avatar_alt,
-          author_title,
-          author_job_title,
-          published_at,
-        }),
+      ...(!disableAuthorDetails && !isDesktop
+        ? renderPostAuthorBlock({
+            author_avatar_src,
+            author_avatar_alt,
+            author_title,
+            author_job_title,
+            published_at,
+          }).items
+        : []),
       {
         type: 'subtitle1',
         title: subtitle,
