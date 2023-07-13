@@ -19,11 +19,20 @@ const renderFeaturedIndustrysBlock = (
   return {
     key: 'featured-industrys',
     items: [
-      { type: 'overline', title: 'Industries' },
+      {
+        type: 'overline',
+        title: 'Industries',
+        titleProps: {
+          textAlign: { xs: 'center', md: 'left' },
+        },
+      },
       {
         type: 'h3',
         title,
-        titleProps: { gutterBottom: true },
+        titleProps: {
+          gutterBottom: true,
+          textAlign: { xs: 'center', md: 'left' },
+        },
       },
       {
         type: 'body1',
@@ -31,11 +40,17 @@ const renderFeaturedIndustrysBlock = (
         titleProps: {
           color: 'text.secondary',
           maxWidth: '50%',
+          textAlign: { xs: 'center', md: 'left' },
         },
       },
       {
         type: 'grid',
         sx: { mt: { xs: 4, md: 8 } },
+        gridItemProps: {
+          xs: 12,
+          md: 4,
+          sx: { textAlign: { xs: 'center', md: 'left' } },
+        },
         gridItems: items.map((item) => {
           return {
             xs: 12,
