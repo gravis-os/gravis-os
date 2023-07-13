@@ -43,7 +43,8 @@ const ContactCallout: React.FC<ContactCalloutProps> = (props) => {
             items: [
               {
                 type: size === 'medium' ? 'h5' : 'h4',
-                title: cta_title,
+                // eslint-disable-next-line react/no-danger
+                title: <div dangerouslySetInnerHTML={{ __html: cta_title }} />,
                 titleProps: {
                   sx: {
                     textAlign:
