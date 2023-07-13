@@ -41,7 +41,7 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
               published_at,
             }),
           renderHtmlBlockItem({ html }),
-        ],
+        ].filter(Boolean),
       },
     ],
     ...rest,

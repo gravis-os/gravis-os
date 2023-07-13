@@ -28,6 +28,7 @@ const renderPostAuthorBlock = (props: RenderPostAuthorBlockProps) => {
           alt: author_avatar_alt,
           width: 40,
           height: 40,
+          sx: { mt: { xs: 4, md: 0 } },
         },
       },
       { type: 'body1', title: author_title },
