@@ -1,20 +1,32 @@
+import { Post, PressRelease } from '@gravis-os/types'
+import { useMediaQuery, useTheme } from '@mui/material'
 import { BlockProps } from '../web/Block/Block'
 import { BlockItemProps } from '../web/Block/BlockItem'
+import renderPostAuthorBlock from './renderPostAuthorBlock'
 
 export interface RenderPostHeroBlockItemProps extends BlockProps {
   overline?: string
   overlineProps?: BlockItemProps['titleProps']
-  item: {
-    title: string
-    subtitle?: string
-    hero_src?: string
-    hero_alt?: string
-  }
+  item: PressRelease | Post
+  disableAuthorDetails?: boolean
 }
 
 const renderPostHeroBlockItem = (props: RenderPostHeroBlockItemProps) => {
-  const { item, overline, overlineProps, ...rest } = props
-  const { title, subtitle, hero_src, hero_alt } = item || {}
+  const { item, disableAuthorDetails, overline, overlineProps, ...rest } = props
+  const {
+    title,
+    subtitle,
+    hero_src,
+    hero_alt,
+    author_avatar_src,
+    author_avatar_alt,
+    author_title,
+    author_job_title,
+    published_at,
+  } = item || {}
+
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
 
   return {
     key: 'post-hero',
@@ -34,6 +46,15 @@ const renderPostHeroBlockItem = (props: RenderPostHeroBlockItemProps) => {
         },
       },
       { type: 'h2', title, titleProps: { component: 'h1' } },
+      !disableAuthorDetails &&
+        !isDesktop &&
+        renderPostAuthorBlock({
+          author_avatar_src,
+          author_avatar_alt,
+          author_title,
+          author_job_title,
+          published_at,
+        }),
       {
         type: 'subtitle1',
         title: subtitle,

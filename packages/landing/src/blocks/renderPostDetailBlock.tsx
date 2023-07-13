@@ -1,4 +1,5 @@
 import { Post, PressRelease } from '@gravis-os/types'
+import { useMediaQuery, useTheme } from '@mui/material'
 import renderHtmlBlockItem from './renderHtmlBlockItem'
 import { BlockProps } from '../web/Block/Block'
 import renderPostAuthorBlock from './renderPostAuthorBlock'
@@ -20,6 +21,9 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
     html,
   } = item
 
+  const theme = useTheme()
+  const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
+
   return {
     key: 'post-detail',
     sx: { backgroundColor: 'background.paper' },
@@ -28,6 +32,7 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
         type: 'grid',
         gridItems: [
           !disableAuthorDetails &&
+            isDesktop &&
             renderPostAuthorBlock({
               author_avatar_src,
               author_avatar_alt,
