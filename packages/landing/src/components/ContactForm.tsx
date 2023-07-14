@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Form, FormSections } from '@gravis-os/form'
 import { Alert } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
@@ -23,41 +23,34 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false)
   const router = useRouter()
+  const { locale } = router
   const { routeConfig } = useLayout()
 
-  const contactFormSchema = yup.lazy((values) => {
-    const { email, mobile } = values
-
-    const emailDomain = email.split('@')[1]
-    const isEmailFreeDomain = freeEmailDomains.includes(emailDomain)
-
-    const { locale } = router
-    const parsedMobile = parsePhoneNumber(mobile, {
-      regionCode: upperCase(locale),
-    })
-    const { valid: isMobileValid } = parsedMobile
-
-    return yup.object({
-      email: yup.mixed().test('isValidEmail', 'Valid work email', async () => {
-        if (isEmailFreeDomain) {
-          toast.error('Enter a work email instead')
-          return false
-        }
-        return true
+  const contactFormSchema = useMemo(
+    () =>
+      yup.object().shape({
+        email: yup
+          .mixed()
+          .test('isValidEmail', 'Enter a work email instead', (value) => {
+            const emailDomain = value.split('@')[1]
+            return !freeEmailDomains.includes(emailDomain)
+          }),
+        mobile: yup
+          .mixed()
+          .test(
+            'isMobileValid',
+            'Please select a valid mobile phone number based on the country selected.',
+            (value) => {
+              const parsedMobile = parsePhoneNumber(value, {
+                regionCode: upperCase(locale),
+              })
+              const { valid: isMobileValid } = parsedMobile
+              return isMobileValid
+            }
+          ),
       }),
-      mobile: yup
-        .mixed()
-        .test('isMobileValid', 'Valid mobile that matches locale', async () => {
-          if (!isMobileValid) {
-            toast.error(
-              'Please select a valid mobile phone number based on the country selected.'
-            )
-            return false
-          }
-          return true
-        }),
-    })
-  })
+    [locale]
+  )
 
   const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values)
