@@ -1,9 +1,14 @@
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Form, FormSections } from '@gravis-os/form'
 import { Alert } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
+import freeEmailDomains from 'free-email-domains'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
+import { upperCase } from 'lodash'
+import { parsePhoneNumber } from 'awesome-phonenumber'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
 import { useLayout } from '../providers/LayoutProvider'
@@ -18,7 +23,34 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false)
   const router = useRouter()
+  const { locale } = router
   const { routeConfig } = useLayout()
+
+  const contactFormSchema = useMemo(
+    () =>
+      yup.object().shape({
+        email: yup
+          .mixed()
+          .test('isValidEmail', 'Please enter a valid work email.', (value) => {
+            const emailDomain = value.split('@')[1]
+            return !freeEmailDomains.includes(emailDomain)
+          }),
+        mobile: yup
+          .mixed()
+          .test(
+            'isMobileValid',
+            'Please select a valid mobile phone number based on the country selected.',
+            (value) => {
+              const parsedMobile = parsePhoneNumber(value, {
+                regionCode: upperCase(locale),
+              })
+              const { valid: isMobileValid } = parsedMobile
+              return isMobileValid
+            }
+          ),
+      }),
+    [locale]
+  )
 
   const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values)
@@ -63,6 +95,7 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
           boxProps: { display: 'flex', justifyContent: 'flex-end' },
           loading: isLoading,
         }}
+        useFormProps={{ resolver: yupResolver(contactFormSchema) }}
         formJsx={
           <FormSections
             disableCard
