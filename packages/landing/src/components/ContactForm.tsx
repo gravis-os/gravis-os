@@ -4,21 +4,42 @@ import { Alert } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
+import freeEmailDomains from 'free-email-domains'
+import * as yup from 'yup'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
 import { useLayout } from '../providers/LayoutProvider'
 
 export interface ContactFormProps {
   onSubmit?: (values: any) => void
+  //
 }
 
-const ContactForm: React.FC<ContactFormProps> = (props) => {
+const ContactForm: React.FC<ContactFormProps> = (props: ContactFormProps) => {
   const { onSubmit } = props
 
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false)
   const router = useRouter()
   const { routeConfig } = useLayout()
+
+  const contactFormSchema = yup.lazy((values) => {
+    const { email } = values
+
+    const emailDomain = email.split('@')[1]
+    const isEmailValid = freeEmailDomains.includes(emailDomain)
+
+    return yup.object({
+      email: yup.mixed().test('isValidEmail', 'Valid work email', async () => {
+        if (!isEmailValid) {
+          toast.error('Enter a work email instead')
+          return false
+        }
+        return true
+      }),
+    })
+  })
 
   const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values)
@@ -63,6 +84,7 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
           boxProps: { display: 'flex', justifyContent: 'flex-end' },
           loading: isLoading,
         }}
+        useFormProps={{ resolver: yupResolver(contactFormSchema) }}
         formJsx={
           <FormSections
             disableCard
@@ -87,7 +109,7 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
                   {
                     key: 'mobile',
                     name: 'mobile',
-                    type: 'mobile',
+                    type: 'mobile', // +65 91341234 or 12332144
                     placeholder: 'What is your mobile number?',
                     required: true,
                   },
