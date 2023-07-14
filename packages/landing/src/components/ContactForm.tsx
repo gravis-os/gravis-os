@@ -15,10 +15,9 @@ import { useLayout } from '../providers/LayoutProvider'
 
 export interface ContactFormProps {
   onSubmit?: (values: any) => void
-  //
 }
 
-const ContactForm: React.FC<ContactFormProps> = (props: ContactFormProps) => {
+const ContactForm: React.FC<ContactFormProps> = (props) => {
   const { onSubmit } = props
 
   const [isLoading, setIsLoading] = useState(false)
@@ -51,7 +50,7 @@ const ContactForm: React.FC<ContactFormProps> = (props: ContactFormProps) => {
         .test('isMobileValid', 'Valid mobile that matches locale', async () => {
           if (!isMobileValid) {
             toast.error(
-              'Does your mobile number match the location you selected?'
+              'Please select a valid mobile phone number based on the country selected.'
             )
             return false
           }
@@ -128,7 +127,7 @@ const ContactForm: React.FC<ContactFormProps> = (props: ContactFormProps) => {
                   {
                     key: 'mobile',
                     name: 'mobile',
-                    type: 'mobile', // +65 91341234 or 12332144
+                    type: 'mobile',
                     placeholder: 'What is your mobile number?',
                     required: true,
                   },
