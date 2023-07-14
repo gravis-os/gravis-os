@@ -7,6 +7,8 @@ import { FormCategoryEnum } from '@gravis-os/types'
 import freeEmailDomains from 'free-email-domains'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
+import { upperCase } from 'lodash'
+import { parsePhoneNumber } from 'awesome-phonenumber'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
 import { useLayout } from '../providers/LayoutProvider'
@@ -25,10 +27,16 @@ const ContactForm: React.FC<ContactFormProps> = (props: ContactFormProps) => {
   const { routeConfig } = useLayout()
 
   const contactFormSchema = yup.lazy((values) => {
-    const { email } = values
+    const { email, mobile } = values
 
     const emailDomain = email.split('@')[1]
     const isEmailFreeDomain = freeEmailDomains.includes(emailDomain)
+
+    const { locale } = router
+    const parsedMobile = parsePhoneNumber(mobile, {
+      regionCode: upperCase(locale),
+    })
+    const { valid: isMobileValid } = parsedMobile
 
     return yup.object({
       email: yup.mixed().test('isValidEmail', 'Valid work email', async () => {
@@ -38,6 +46,17 @@ const ContactForm: React.FC<ContactFormProps> = (props: ContactFormProps) => {
         }
         return true
       }),
+      mobile: yup
+        .mixed()
+        .test('isMobileValid', 'Valid mobile that matches locale', async () => {
+          if (!isMobileValid) {
+            toast.error(
+              'Does your mobile number match the location you selected?'
+            )
+            return false
+          }
+          return true
+        }),
     })
   })
 
