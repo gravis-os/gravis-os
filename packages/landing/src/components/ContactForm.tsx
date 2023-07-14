@@ -28,11 +28,11 @@ const ContactForm: React.FC<ContactFormProps> = (props: ContactFormProps) => {
     const { email } = values
 
     const emailDomain = email.split('@')[1]
-    const isEmailValid = freeEmailDomains.includes(emailDomain)
+    const isEmailFreeDomain = freeEmailDomains.includes(emailDomain)
 
     return yup.object({
       email: yup.mixed().test('isValidEmail', 'Valid work email', async () => {
-        if (!isEmailValid) {
+        if (isEmailFreeDomain) {
           toast.error('Enter a work email instead')
           return false
         }
