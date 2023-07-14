@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.1.0
+
+### Minor Changes
+
+- [#343](https://github.com/gravis-os/gravis-os/pull/343) [`6691a020`](https://github.com/gravis-os/gravis-os/commit/6691a020fbeddf4dceddade5b467fdcfc96393f4) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Fixed a bug in the checkbox group to allow each checkbox to be independently checked
+
 ## 1.0.4
 
 ### Patch Changes

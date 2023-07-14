@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.11.0
+
+### Minor Changes
+
+- [#342](https://github.com/gravis-os/gravis-os/pull/342) [`7488ebfd`](https://github.com/gravis-os/gravis-os/commit/7488ebfd31e6ff87ff6fe14a59a7babeefa816c3) Thanks [@benzlui](https://github.com/benzlui)! - add yup validation for contact form
+
+* [#342](https://github.com/gravis-os/gravis-os/pull/342) [`f17a4443`](https://github.com/gravis-os/gravis-os/commit/f17a4443e60afb8fba5b4dde9939a22271292175) Thanks [@benzlui](https://github.com/benzlui)! - add mobile validation for contact form
+
 ## 0.10.2
 
 ### Patch Changes
