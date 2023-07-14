@@ -83,7 +83,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
               : injectedOption
           const { key, value, label: injectedLabel } = option
 
-          const isChecked = Boolean(injectedValue?.[index]?.value)
+          const isChecked = injectedValue.some((item) => item.value === value)
 
           return (
             <FormControlLabel
