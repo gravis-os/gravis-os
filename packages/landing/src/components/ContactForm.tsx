@@ -31,7 +31,7 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
       yup.object().shape({
         email: yup
           .mixed()
-          .test('isValidEmail', 'Enter a work email instead', (value) => {
+          .test('isValidEmail', 'Please enter a valid work email.', (value) => {
             const emailDomain = value.split('@')[1]
             return !freeEmailDomains.includes(emailDomain)
           }),
