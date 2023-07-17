@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { EnquiryTypeEnum } from './constants'
 import getSlackFormats from '../slack/getSlackFormats'
+import { getDomainAndPathTagsFromUrl } from './utils'
 
 const getAudienceByType = (type: EnquiryTypeEnum) => {
   switch (type) {
@@ -92,6 +93,8 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
 
     const channel = getTargetSlackChannelByType(type)
 
+    const { domain, path } = getDomainAndPathTagsFromUrl(origin)
+
     const mailchimpListId = process.env.MAILCHIMP_LIST_ID
     const mailchimpRequest = fetch(
       `https://us2.api.mailchimp.com/3.0/lists/${mailchimpListId}/members/${email}?skip_merge_validation=false`,
@@ -107,13 +110,14 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
           email_address: email,
           status: 'subscribed',
           tags: [
-            type,
-            date,
-            origin,
-            job_department,
-            job_role,
-            company_size,
-            source,
+            `Type: ${type}`,
+            `Date: ${date}`,
+            domain,
+            path,
+            `JD: ${job_department}`,
+            `JR: ${job_role}`,
+            `CS: ${company_size}`,
+            `SRC: ${source}`,
           ].filter(Boolean),
           merge_fields: {
             FNAME: name,
