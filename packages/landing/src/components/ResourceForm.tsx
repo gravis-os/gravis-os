@@ -4,6 +4,11 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
 import { getNames } from 'country-list'
+import * as yup from 'yup'
+import { parsePhoneNumber } from 'awesome-phonenumber'
+import { upperCase } from 'lodash'
+import freeEmailDomains from 'free-email-domains'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
 
@@ -16,6 +21,33 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
 
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+
+  const resourceFormSchema = yup.lazy((values) => {
+    const { mobile, email, country } = values
+
+    const { valid: isMobileValid } = parsePhoneNumber(mobile, {
+      regionCode: upperCase(country),
+    })
+
+    const emailDomain = email.split('@')[1]
+    const isEmailValid = !freeEmailDomains.includes(emailDomain)
+    return yup.object({
+      mobile: yup
+        .mixed()
+        .test(
+          'isMobileValid',
+          'Please select a valid mobile phone number based on the country selected.',
+          () => isMobileValid
+        ),
+      email: yup
+        .mixed()
+        .test(
+          'isValidEmail',
+          'Please enter a valid work email.',
+          () => isEmailValid
+        ),
+    })
+  })
 
   const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values)
@@ -53,6 +85,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
           boxProps: { display: 'flex', justifyContent: 'flex-end' },
           loading: isLoading,
         }}
+        useFormProps={{ resolver: yupResolver(resourceFormSchema) }}
         formJsx={
           <FormSections
             disableCard
