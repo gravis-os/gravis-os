@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.1
+
+### Patch Changes
+
+- [#347](https://github.com/gravis-os/gravis-os/pull/347) [`20253f25`](https://github.com/gravis-os/gravis-os/commit/20253f25c035742d7aaab7c55ed8dfab26925c68) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix wrong theme key
+
 ## 0.4.0
 
 ### Minor Changes
