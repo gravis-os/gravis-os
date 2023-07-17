@@ -117,7 +117,7 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
           ].filter(Boolean),
           merge_fields: {
             FNAME: name,
-            PHONE: mobile,
+            PHONE: mobile ?? '',
           },
         }),
       }
