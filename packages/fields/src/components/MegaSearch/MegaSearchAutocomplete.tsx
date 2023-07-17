@@ -9,7 +9,6 @@ import {
 } from '@mui/material'
 import React from 'react'
 import { SxProps } from '@mui/system'
-import omit from 'lodash/omit'
 
 // Constants
 const marginBetweenAutocompleteIconAndText = 1

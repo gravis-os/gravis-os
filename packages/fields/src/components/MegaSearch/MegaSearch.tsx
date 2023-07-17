@@ -4,15 +4,20 @@ import { Controller } from 'react-hook-form'
 import MegaSearchAutocomplete, {
   MegaSearchAutocompleteProps,
 } from './MegaSearchAutocomplete'
+import MegaSearchTextField, {
+  MegaSearchTextFieldProps,
+} from './MegaSearchTextField'
 
 export interface MegaSearchProps extends Omit<StackProps, 'onChange'> {
   buttonProps?: ButtonProps
   dropdowns?: MegaSearchAutocompleteProps[]
+  textFields?: MegaSearchTextFieldProps[]
   disableButton?: boolean
 }
 
 const MegaSearch: React.FC<MegaSearchProps> = (props) => {
-  const { dropdowns, buttonProps, sx, disableButton, ...rest } = props
+  const { dropdowns, textFields, buttonProps, sx, disableButton, ...rest } =
+    props
 
   return (
     <Stack
@@ -45,6 +50,41 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
               const { field } = renderProps
               return (
                 <MegaSearchAutocomplete
+                  {...rest}
+                  {...field}
+                  onChange={(e, value, reason) => {
+                    field.onChange(value)
+                    if (injectedOnChange) injectedOnChange(e, value, reason)
+                  }}
+                />
+              )
+            }}
+          />
+        )
+      })}
+
+      {textFields?.map((textField) => {
+        const { control, onChange: injectedOnChange, ...rest } = textField
+        const { name } = textField
+        if (!control) {
+          return (
+            <MegaSearchTextField
+              key={name}
+              onChange={injectedOnChange}
+              {...rest}
+            />
+          )
+        }
+
+        return (
+          <Controller
+            key={name}
+            name={name}
+            control={control}
+            render={(renderProps) => {
+              const { field } = renderProps
+              return (
+                <MegaSearchTextField
                   {...rest}
                   {...field}
                   onChange={(e, value, reason) => {
