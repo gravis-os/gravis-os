@@ -106,7 +106,15 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
         body: JSON.stringify({
           email_address: email,
           status: 'subscribed',
-          tags: [type, date, origin].filter(Boolean),
+          tags: [
+            type,
+            date,
+            origin,
+            job_department,
+            job_role,
+            company_size,
+            source,
+          ].filter(Boolean),
           merge_fields: {
             FNAME: name,
             PHONE: mobile,
