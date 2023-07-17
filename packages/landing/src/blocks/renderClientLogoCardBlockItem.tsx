@@ -9,7 +9,6 @@ const renderClientLogoCardBlockItem = (
   props: RenderClientLogoCardBlockItemProps
 ) => {
   const { title, titleProps } = props
-  console.log('hiiiiii')
 
   return {
     items: [
