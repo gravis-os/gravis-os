@@ -22,7 +22,7 @@ const renderClientLogoCardBlockItem = (
       sx: {
         backgroundColor: 'background.paper',
         p: 3,
-        minHeight: { xs: 200, md: 260 },
+        minHeight: { xs: 150, md: 260 },
         lineHeight: 1,
       },
       center: true,

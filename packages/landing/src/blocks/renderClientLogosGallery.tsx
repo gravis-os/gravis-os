@@ -16,7 +16,7 @@ const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
       { type: 'h4', title },
       {
         type: 'grid',
-        sx: { mt: { xs: 5, md: 10 } },
+        sx: { mt: { xs: 5, md: 10 }, mx: 4 },
         maxWidth: 'xl',
         gridProps: { spacing: 1 },
         gridItemProps: { xs: 6, md: 4 },
