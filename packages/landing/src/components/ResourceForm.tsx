@@ -3,6 +3,7 @@ import { Form, FormSections } from '@gravis-os/form'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
+import { getNames } from 'country-list'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
 
@@ -128,6 +129,58 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                       { key: '201-500', value: '201-500', label: '201-500' },
                       { key: '501+', value: '501+', label: '501+' },
                     ],
+                  },
+                  {
+                    key: 'mobile',
+                    name: 'mobile',
+                    required: true,
+                    placeholder: 'Phone',
+                    type: 'mobile',
+                  },
+
+                  {
+                    key: 'industry',
+                    name: 'industry',
+                    required: true,
+                    placeholder: 'Which industry are you from?',
+                    props: { disableFirstOptionAsDefaultValue: true },
+                    options: [
+                      'Advertising/Media/Publishing',
+                      'Aerospace and Aviation',
+                      'Agriculture and Forestry',
+                      'Automotive',
+                      'Banking/Accounting/Financial',
+                      'Computer and Technology',
+                      'Education and Training',
+                      'Engineering and Construction',
+                      'Entertainment/Travel/Hospitality',
+                      'Food and Beverage',
+                      'Government and Public Administration',
+                      'Healthcare',
+                      'Insurance',
+                      'Legal Solutions',
+                      'Manufacturing',
+                      'Marketing',
+                      'Non profit Organizations',
+                      'Other Industry Not Listed',
+                      'Pharmaceutical',
+                      'Public Relations',
+                      'Real Estate',
+                      'Retail and Wholesale',
+                      'Scientific',
+                      'Telecommunications',
+                      'Transportation and Shipping',
+                      'Utilities',
+                      'VAR/VAD/System Integrator',
+                    ],
+                  },
+                  {
+                    key: 'country',
+                    name: 'country',
+                    required: true,
+                    placeholder: 'Where are you from?',
+                    props: { disableFirstOptionAsDefaultValue: true },
+                    options: getNames(),
                   },
                   {
                     key: 'source',
