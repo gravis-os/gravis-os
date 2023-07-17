@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.4
+
+### Patch Changes
+
+- [#345](https://github.com/gravis-os/gravis-os/pull/345) [`9b3dd47e`](https://github.com/gravis-os/gravis-os/commit/9b3dd47e0dc40d3977e52e0512ad2bb6fcc1ebce) Thanks [@shank1xt](https://github.com/shank1xt)! - add storage image public url util
+
 ## 0.1.3
 
 ### Patch Changes
