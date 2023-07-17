@@ -38,17 +38,16 @@ const getComputedThemeSetting = (defaultThemeMode: DEFAULT_THEME_MODE_ENUM) => {
   switch (defaultThemeMode) {
     case DEFAULT_THEME_MODE_ENUM.DARK:
     case DEFAULT_THEME_MODE_ENUM.LIGHT:
-      return { mode: defaultThemeMode }
+      return { theme: defaultThemeMode }
     case DEFAULT_THEME_MODE_ENUM.SYSTEM:
       return {
-        mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
+        theme: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
           ? 'dark'
           : 'light',
       }
     case DEFAULT_THEME_MODE_ENUM.USER_LOCAL_STORAGE:
-      return {}
     default:
-      return
+      return { theme: DEFAULT_THEME_MODE_ENUM.LIGHT }
   }
 }
 
