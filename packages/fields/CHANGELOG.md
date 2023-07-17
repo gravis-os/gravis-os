@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.1.1
+
+### Patch Changes
+
+- [#348](https://github.com/gravis-os/gravis-os/pull/348) [`1becaf33`](https://github.com/gravis-os/gravis-os/commit/1becaf334b87a6d22284df18606333d198191545) Thanks [@shank1xt](https://github.com/shank1xt)! - add megasearch text field
+
 ## 1.1.0
 
 ### Minor Changes
