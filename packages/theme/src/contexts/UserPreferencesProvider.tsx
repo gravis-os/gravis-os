@@ -30,6 +30,7 @@ export interface UserPreferencesContextValue {
 
 export interface UserPreferencesProviderProps {
   children?: React.ReactNode
+  defaultThemeMode?: DEFAULT_THEME_MODE_ENUM
 }
 
 export interface RestoreUserPreferencesOptions {
@@ -55,9 +56,8 @@ const getComputedThemeSetting = (defaultThemeMode: DEFAULT_THEME_MODE_ENUM) => {
           : 'light',
       }
     case DEFAULT_THEME_MODE_ENUM.USER_LOCAL_STORAGE:
-      return {}
     default:
-      return
+      return {}
   }
 }
 
@@ -130,13 +130,13 @@ export const useUserPreferences = () => {
 const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
   props
 ) => {
-  const { children } = props
+  const { children, defaultThemeMode: injectedDefaultThemeMode } = props
   const [userPreferences, setUserPreferences] = useState<UserPreferences>(
     initialUserPreferences
   )
   const [defaultThemeMode, setDefaultThemeMode] =
     useState<DEFAULT_THEME_MODE_ENUM>(
-      DEFAULT_THEME_MODE_ENUM.USER_LOCAL_STORAGE
+      injectedDefaultThemeMode || DEFAULT_THEME_MODE_ENUM.USER_LOCAL_STORAGE
     )
 
   // @link: https://mui.com/material-ui/customization/dark-mode/#system-preference
