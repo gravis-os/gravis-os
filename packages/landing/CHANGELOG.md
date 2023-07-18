@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.12.0
+
+### Minor Changes
+
+- [#346](https://github.com/gravis-os/gravis-os/pull/346) [`7ffe1382`](https://github.com/gravis-os/gravis-os/commit/7ffe13824a645270504ed2f83d5047bf4974d1eb) Thanks [@benzlui](https://github.com/benzlui)! - add mailchimp tags from honeypot
+
+* [#344](https://github.com/gravis-os/gravis-os/pull/344) [`404dddf9`](https://github.com/gravis-os/gravis-os/commit/404dddf9498ffad0202e4b492ae3b6de37f06260) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Reduce the size of the client logo gallery on mobile
+
 ## 0.11.0
 
 ### Minor Changes
