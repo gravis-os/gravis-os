@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.5.0
+
+### Minor Changes
+
+- [#349](https://github.com/gravis-os/gravis-os/pull/349) [`95f78fba`](https://github.com/gravis-os/gravis-os/commit/95f78fba9a9593633e0f56b6e7ab1b8ce8c5c5d5) Thanks [@shank1xt](https://github.com/shank1xt)! - remove duplicate SettingsProvider component
+
+### Patch Changes
+
+- Updated dependencies [[`95f78fba`](https://github.com/gravis-os/gravis-os/commit/95f78fba9a9593633e0f56b6e7ab1b8ce8c5c5d5)]:
+  - @gravis-os/theme@0.0.14
+
 ## 0.4.1
 
 ### Patch Changes

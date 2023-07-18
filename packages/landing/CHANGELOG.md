@@ -1,5 +1,23 @@
 # Changelog
 
+## 0.13.0
+
+### Minor Changes
+
+- [#357](https://github.com/gravis-os/gravis-os/pull/357) [`a7dd73ae`](https://github.com/gravis-os/gravis-os/commit/a7dd73aed9d65e36e2e705fa052a828c5c6036df) Thanks [@benzlui](https://github.com/benzlui)! - remove the use of lodash for contact form
+
+* [#350](https://github.com/gravis-os/gravis-os/pull/350) [`1e8a1f12`](https://github.com/gravis-os/gravis-os/commit/1e8a1f12a9b416561a567bd31b3ad994b9ad6302) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Add sx prop to render client logo gallery
+
+- [#351](https://github.com/gravis-os/gravis-os/pull/351) [`7461e2dd`](https://github.com/gravis-os/gravis-os/commit/7461e2dd06f7ad7eab5b3741aa66c1e9bc45feeb) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Changed variant of footer item subtitle to h7 to match title
+
+### Patch Changes
+
+- [#352](https://github.com/gravis-os/gravis-os/pull/352) [`4a555c87`](https://github.com/gravis-os/gravis-os/commit/4a555c8786656eadd867a48e248cd620c76b49f8) Thanks [@shank1xt](https://github.com/shank1xt)! - add griditemprops to post block
+
+- Updated dependencies [[`95f78fba`](https://github.com/gravis-os/gravis-os/commit/95f78fba9a9593633e0f56b6e7ab1b8ce8c5c5d5)]:
+  - @gravis-os/ui@0.5.0
+  - @gravis-os/theme@0.0.14
+
 ## 0.12.0
 
 ### Minor Changes

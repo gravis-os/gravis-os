@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.4
+
+### Patch Changes
+
+- [#355](https://github.com/gravis-os/gravis-os/pull/355) [`cd5bbed2`](https://github.com/gravis-os/gravis-os/commit/cd5bbed2683cc753d18c97426f818631e3cd9175) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add location chip to memo card
+
+- Updated dependencies [[`95f78fba`](https://github.com/gravis-os/gravis-os/commit/95f78fba9a9593633e0f56b6e7ab1b8ce8c5c5d5)]:
+  - @gravis-os/ui@0.5.0
+
 ## 0.1.3
 
 ### Patch Changes
