@@ -14,7 +14,6 @@ const DocumentDetailPage: React.FC<DocumentDetailPageProps> = (props) => {
   const { type, module, formSections, crudFormProps, ...rest } = props
 
   const router = useRouter()
-
   return (
     <DetailPage
       module={module}
