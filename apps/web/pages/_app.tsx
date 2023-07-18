@@ -2,19 +2,15 @@ import * as React from 'react'
 import Head from 'next/head'
 import type { NextPage } from 'next'
 import type { AppProps } from 'next/app'
-import { ThemeProvider } from '@mui/material/styles'
-import CssBaseline from '@mui/material/CssBaseline'
 import { CacheProvider, EmotionCache } from '@emotion/react'
-import { Toaster } from 'react-hot-toast'
 import {
   Hydrate,
   QueryClient,
   QueryClientProvider,
   DehydratedState,
 } from 'react-query'
-import getWebTheme from '@web/app/getWebTheme'
-import { UserPreferencesProvider } from '@gravis-os/landing'
-import { UserPreferencesConsumer } from '@gravis-os/theme'
+import { UserPreferencesProvider } from '@gravis-os/theme'
+import AppProvider from '@web/providers/AppProvider'
 import createEmotionCache from '../src/createEmotionCache'
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -46,17 +42,9 @@ const App: React.FC<EnhancedAppProps<PageProps>> = (props) => {
           </Head>
 
           <UserPreferencesProvider>
-            <UserPreferencesConsumer>
-              {({ isDarkMode }) => (
-                <ThemeProvider
-                  theme={getWebTheme(isDarkMode ? 'dark' : 'light')}
-                >
-                  <CssBaseline />
-                  <Component {...pageProps} />
-                  <Toaster position="top-right" reverseOrder={false} />
-                </ThemeProvider>
-              )}
-            </UserPreferencesConsumer>
+            <AppProvider>
+              <Component {...pageProps} />
+            </AppProvider>
           </UserPreferencesProvider>
         </CacheProvider>
       </Hydrate>
