@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.1
+
+### Patch Changes
+
+- [#359](https://github.com/gravis-os/gravis-os/pull/359) [`1ee8003f`](https://github.com/gravis-os/gravis-os/commit/1ee8003f1064aa17d0bd9480d8b50d8c5abfd754) Thanks [@clodal](https://github.com/clodal)! - Fix build error
+
 ## 0.14.0
 
 ### Minor Changes
