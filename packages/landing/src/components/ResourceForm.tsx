@@ -206,7 +206,6 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                       'Telecommunications',
                       'Transportation and Shipping',
                       'Utilities',
-                      'VAR/VAD/System Integrator',
                     ],
                   },
                   {

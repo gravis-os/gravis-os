@@ -122,8 +122,8 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
             `Jr: ${job_role}`,
             `Cs: ${company_size}`,
             `Src: ${source}`,
-            `Industry: ${industry}`,
-            `Ctry: ${country}`,
+            `Ind: ${industry}`,
+            `Cty: ${country}`,
           ].filter(Boolean),
           merge_fields: {
             FNAME: name,
