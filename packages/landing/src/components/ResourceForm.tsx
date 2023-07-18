@@ -3,10 +3,9 @@ import { Form, FormSections } from '@gravis-os/form'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
-import { getNames } from 'country-list'
+import { getNames, getCode } from 'country-list'
 import * as yup from 'yup'
 import { parsePhoneNumber } from 'awesome-phonenumber'
-import { upperCase } from 'lodash'
 import freeEmailDomains from 'free-email-domains'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
@@ -26,7 +25,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     const { mobile, email, country } = values
 
     const { valid: isMobileValid } = parsePhoneNumber(mobile, {
-      regionCode: upperCase(country),
+      regionCode: getCode(country),
     })
 
     const emailDomain = email.split('@')[1]
@@ -73,6 +72,9 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
           job_role: '',
           job_department: '',
           company_size: '',
+          mobile: '',
+          industry: '',
+          country: '',
         }}
         onSubmit={handleSubmit}
         submitButtonProps={{
