@@ -7,11 +7,10 @@ export interface RenderHomeSummaryBlockProps extends Omit<BlockProps, 'title'> {
 }
 
 const renderHomeSummaryBlock = (props: RenderHomeSummaryBlockProps) => {
-  const { title, titleProps, sx, ...rest } = props
+  const { title, titleProps, ...rest } = props
 
   return {
     key: 'home-summary',
-    sx: { backgroundColor: 'background.paper', ...sx },
     pt: { xs: 5, md: 10 },
     pb: { xs: 5, md: 10 },
     ...rest,
