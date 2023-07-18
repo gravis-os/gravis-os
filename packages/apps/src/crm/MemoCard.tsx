@@ -14,6 +14,7 @@ import type { RenderPropsFunction } from '@gravis-os/types'
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined'
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
+import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
 
 export interface MemoCardProps {
   item: {
@@ -24,6 +25,7 @@ export interface MemoCardProps {
     project?: Record<string, string>
     priority?: string
     contact?: Record<string, string>
+    location?: string
   }
   actions?: React.ReactNode
   showContact?: boolean
@@ -55,6 +57,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
     created_at,
     project = {},
     priority = '',
+    location = null,
     contact = null,
   } = item
 
@@ -145,6 +148,17 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                       }
                       color="primary"
                       label={showContact ? `Priority: ${priority}` : priority}
+                    />
+                  )}
+                  {location && (
+                    <Chip
+                      icon={
+                        !showContact && (
+                          <LocationOnOutlinedIcon fontSize="small" />
+                        )
+                      }
+                      color="primary"
+                      label={showContact ? `Location: ${location}` : location}
                     />
                   )}
                   {showContact && (
