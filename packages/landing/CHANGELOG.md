@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.0
+
+### Minor Changes
+
+- [#358](https://github.com/gravis-os/gravis-os/pull/358) [`56ddd8d4`](https://github.com/gravis-os/gravis-os/commit/56ddd8d4d5beb71c1f81bd9f432f0aa2a92d6843) Thanks [@clodal](https://github.com/clodal)! - Add renderHomeSummaryBlock
+
 ## 0.13.0
 
 ### Minor Changes
