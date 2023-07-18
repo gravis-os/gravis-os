@@ -174,3 +174,6 @@ export * from './renderClientLogosGallery'
 
 export { default as renderFeaturedResourcesBlock } from './renderFeaturedResourcesBlock'
 export * from './renderFeaturedResourcesBlock'
+
+export { default as renderHomeSummaryBlock } from './renderHomeSummaryBlock'
+export * from './renderHomeSummaryBlock'
