@@ -7,7 +7,6 @@ import { FormCategoryEnum } from '@gravis-os/types'
 import freeEmailDomains from 'free-email-domains'
 import * as yup from 'yup'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { upperCase } from 'lodash'
 import { parsePhoneNumber } from 'awesome-phonenumber'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
@@ -42,7 +41,7 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
             'Please select a valid mobile phone number based on the country selected.',
             (value) => {
               const parsedMobile = parsePhoneNumber(value, {
-                regionCode: upperCase(locale),
+                regionCode: locale.toUpperCase(),
               })
               const { valid: isMobileValid } = parsedMobile
               return isMobileValid
