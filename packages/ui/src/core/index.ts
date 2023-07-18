@@ -112,9 +112,6 @@ export * from './Ratings'
 export { default as Reveal } from './Reveal'
 export * from './Reveal'
 
-export { default as SettingsProvider } from './SettingsProvider'
-export * from './SettingsProvider'
-
 export { default as Skeleton } from './Skeleton'
 export * from './Skeleton'
 

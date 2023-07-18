@@ -12,8 +12,9 @@ import {
   QueryClientProvider,
   DehydratedState,
 } from 'react-query'
-import { SettingsProvider, SettingsConsumer } from '@gravis-os/ui'
 import getWebTheme from '@web/app/getWebTheme'
+import { UserPreferencesProvider } from '@gravis-os/landing'
+import { UserPreferencesConsumer } from '@gravis-os/theme'
 import createEmotionCache from '../src/createEmotionCache'
 
 // Client-side cache, shared for the whole session of the user in the browser.
@@ -44,17 +45,19 @@ const App: React.FC<EnhancedAppProps<PageProps>> = (props) => {
             />
           </Head>
 
-          <SettingsProvider>
-            <SettingsConsumer>
-              {({ settings }) => (
-                <ThemeProvider theme={getWebTheme(settings.theme)}>
+          <UserPreferencesProvider>
+            <UserPreferencesConsumer>
+              {({ isDarkMode }) => (
+                <ThemeProvider
+                  theme={getWebTheme(isDarkMode ? 'dark' : 'light')}
+                >
                   <CssBaseline />
                   <Component {...pageProps} />
                   <Toaster position="top-right" reverseOrder={false} />
                 </ThemeProvider>
               )}
-            </SettingsConsumer>
-          </SettingsProvider>
+            </UserPreferencesConsumer>
+          </UserPreferencesProvider>
         </CacheProvider>
       </Hydrate>
     </QueryClientProvider>
