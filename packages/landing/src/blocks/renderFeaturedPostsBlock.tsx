@@ -1,4 +1,5 @@
 import { Post } from '@gravis-os/types'
+import { BlockItemProps } from 'src/web'
 import { renderPostsBlockItem } from './index'
 import { BlockProps } from '../web/Block/Block'
 
@@ -7,10 +8,17 @@ export interface RenderFeaturedPostsBlockProps
   items?: Post[]
   title?: string
   fromStorage?: boolean
+  gridItemProps?: BlockItemProps['gridItemProps']
 }
 
 const renderFeaturedPostsBlock = (props: RenderFeaturedPostsBlockProps) => {
-  const { title = 'Featured Insights', items, fromStorage, ...rest } = props
+  const {
+    title = 'Featured Insights',
+    items,
+    fromStorage,
+    gridItemProps,
+    ...rest
+  } = props
   if (!items?.length) return
   return {
     key: 'featured-posts',
@@ -21,7 +29,7 @@ const renderFeaturedPostsBlock = (props: RenderFeaturedPostsBlockProps) => {
         title,
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
       },
-      renderPostsBlockItem({ items, fromStorage }),
+      renderPostsBlockItem({ items, fromStorage, gridItemProps }),
     ],
     ...rest,
   }

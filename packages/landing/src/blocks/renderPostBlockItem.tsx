@@ -1,12 +1,14 @@
 import { Post } from '@gravis-os/types'
+import { BlockItemProps } from 'src/web'
 
 export interface RenderPostBlockItemProps {
   item: Post & { href: string }
   fromStorage?: boolean
+  itemProps?: BlockItemProps['gridItemProps']
 }
 
 const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
-  const { item, fromStorage } = props
+  const { item, fromStorage, itemProps = {} } = props
   const { title, subtitle, href, avatar_src, avatar_alt, hero_src, hero_alt } =
     item || {}
 
@@ -41,6 +43,7 @@ const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
         titleProps: { href, rightCaret: true, variant: 'body2' },
       },
     ],
+    ...itemProps,
   }
 }
 
