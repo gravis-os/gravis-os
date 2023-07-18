@@ -13,7 +13,7 @@ export interface RenderPostsBlockItemProps {
 }
 
 const renderPostsBlockItem = (props: RenderPostsBlockItemProps) => {
-  const { items, fromStorage, gridItemProps = {} } = props
+  const { items, fromStorage, gridItemProps } = props
   const { routeConfig } = useLayout()
   return {
     type: 'grid',
