@@ -56,8 +56,9 @@ const getComputedThemeSetting = (defaultThemeMode: DEFAULT_THEME_MODE_ENUM) => {
           : 'light',
       }
     case DEFAULT_THEME_MODE_ENUM.USER_LOCAL_STORAGE:
-    default:
       return {}
+    default:
+      return
   }
 }
 
