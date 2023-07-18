@@ -67,6 +67,8 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
       job_department,
       job_role,
       company_size,
+      industry,
+      country,
     } = await req.json()
 
     const now = new Date()
@@ -85,6 +87,8 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
       job_department,
       job_role,
       company_size,
+      industry,
+      country,
     }
     const introText = `<!here> We have a new ${getAudienceByType(
       type
@@ -118,6 +122,8 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
             `Jr: ${job_role}`,
             `Cs: ${company_size}`,
             `Src: ${source}`,
+            `Industry: ${industry}`,
+            `Ctry: ${country}`,
           ].filter(Boolean),
           merge_fields: {
             FNAME: name,
