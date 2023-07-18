@@ -1,6 +1,7 @@
 import React from 'react'
 import Image from 'next/image'
-import { Link, Logo, useSettings } from '@gravis-os/ui'
+import { Link, Logo } from '@gravis-os/ui'
+import { useUserPreferences } from '@gravis-os/theme'
 import EmblemSvg from '../../public/emblem.svg'
 
 const headerLogoJsx = (
@@ -46,7 +47,7 @@ const landingLayoutProps = {
           title: 'Dark Mode',
           showOnMobileBar: true,
           render: () => {
-            const { toggleDarkModeIconButtonJsx } = useSettings()
+            const { toggleDarkModeIconButtonJsx } = useUserPreferences()
             return toggleDarkModeIconButtonJsx
           },
         },
