@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.16.0
+
+### Minor Changes
+
+- [#362](https://github.com/gravis-os/gravis-os/pull/362) [`fcee54b7`](https://github.com/gravis-os/gravis-os/commit/fcee54b776342f7a39647dbaa8665bd9345a1250) Thanks [@benzlui](https://github.com/benzlui)! - add autofill for resource form
+
 ## 0.15.1
 
 ### Patch Changes
