@@ -1,3 +1,4 @@
+import { SxProps } from '@mui/material'
 import { CrudItem } from './crud'
 
 export interface ClientHighlight extends Omit<CrudItem, 'title'> {
@@ -12,6 +13,7 @@ export interface ClientLogo extends Omit<CrudItem, 'title'> {
   avatar_alt?: string
   avatar_width?: number
   avatar_height?: number
+  sx?: SxProps
 }
 
 export interface ClientTestimonial extends CrudItem {

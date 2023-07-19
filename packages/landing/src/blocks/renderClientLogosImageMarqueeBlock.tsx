@@ -39,7 +39,7 @@ const renderClientLogosImageMarqueeBlock = (
               width: item.avatar_width * imageSizeMultiplier,
               height: item.avatar_height * imageSizeMultiplier,
               invertImageOnMode: 'light',
-              sx: { opacity },
+              sx: { opacity, ...item?.sx },
             }))}
           />
         ),
