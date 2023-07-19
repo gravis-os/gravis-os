@@ -21,7 +21,7 @@ const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
         gridProps: { spacing: 1 },
         gridItemProps: { xs: 6, md: 4 },
         gridItems: items.map((clientLogo) => {
-          const { avatar_src, avatar_alt, avatar_width, avatar_height } =
+          const { avatar_src, avatar_alt, avatar_width, avatar_height, sx } =
             clientLogo
           return renderClientLogoCardBlockItem({
             title: avatar_src,
@@ -30,6 +30,7 @@ const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
               sx: {
                 width: avatar_width,
                 height: avatar_height,
+                ...sx,
               },
               invertImageOnMode: 'light',
             },
