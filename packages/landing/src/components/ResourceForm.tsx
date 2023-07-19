@@ -3,6 +3,11 @@ import { Form, FormSections } from '@gravis-os/form'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
+import { getNames, getCode } from 'country-list'
+import * as yup from 'yup'
+import { parsePhoneNumber } from 'awesome-phonenumber'
+import freeEmailDomains from 'free-email-domains'
+import { yupResolver } from '@hookform/resolvers/yup'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
 
@@ -15,6 +20,33 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
 
   const [isLoading, setIsLoading] = useState(false)
   const router = useRouter()
+
+  const resourceFormSchema = yup.lazy((values) => {
+    const { mobile, email, country } = values
+
+    const { valid: isMobileValid } = parsePhoneNumber(mobile, {
+      regionCode: getCode(country),
+    })
+
+    const emailDomain = email.split('@')[1]
+    const isEmailValid = !freeEmailDomains.includes(emailDomain)
+    return yup.object({
+      mobile: yup
+        .mixed()
+        .test(
+          'isMobileValid',
+          'Please select a valid mobile phone number based on the country selected.',
+          () => isMobileValid
+        ),
+      email: yup
+        .mixed()
+        .test(
+          'isValidEmail',
+          'Please enter a valid work email.',
+          () => isEmailValid
+        ),
+    })
+  })
 
   const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values)
@@ -40,6 +72,9 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
           job_role: '',
           job_department: '',
           company_size: '',
+          mobile: '',
+          industry: '',
+          country: '',
         }}
         onSubmit={handleSubmit}
         submitButtonProps={{
@@ -52,6 +87,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
           boxProps: { display: 'flex', justifyContent: 'flex-end' },
           loading: isLoading,
         }}
+        useFormProps={{ resolver: yupResolver(resourceFormSchema) }}
         formJsx={
           <FormSections
             disableCard
@@ -128,6 +164,57 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                       { key: '201-500', value: '201-500', label: '201-500' },
                       { key: '501+', value: '501+', label: '501+' },
                     ],
+                  },
+                  {
+                    key: 'mobile',
+                    name: 'mobile',
+                    required: true,
+                    placeholder: 'Phone',
+                    type: 'mobile',
+                  },
+
+                  {
+                    key: 'industry',
+                    name: 'industry',
+                    required: true,
+                    placeholder: 'Which industry are you from?',
+                    props: { disableFirstOptionAsDefaultValue: true },
+                    options: [
+                      'Advertising/Media/Publishing',
+                      'Aerospace and Aviation',
+                      'Agriculture and Forestry',
+                      'Automotive',
+                      'Banking/Accounting/Financial',
+                      'Computer and Technology',
+                      'Education and Training',
+                      'Engineering and Construction',
+                      'Entertainment/Travel/Hospitality',
+                      'Food and Beverage',
+                      'Government and Public Administration',
+                      'Healthcare',
+                      'Insurance',
+                      'Legal Solutions',
+                      'Manufacturing',
+                      'Marketing',
+                      'Non profit Organizations',
+                      'Other Industry Not Listed',
+                      'Pharmaceutical',
+                      'Public Relations',
+                      'Real Estate',
+                      'Retail and Wholesale',
+                      'Scientific',
+                      'Telecommunications',
+                      'Transportation and Shipping',
+                      'Utilities',
+                    ],
+                  },
+                  {
+                    key: 'country',
+                    name: 'country',
+                    required: true,
+                    placeholder: 'Where are you from?',
+                    props: { disableFirstOptionAsDefaultValue: true },
+                    options: getNames(),
                   },
                   {
                     key: 'source',
