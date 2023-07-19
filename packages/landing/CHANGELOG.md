@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.15.1
+
+### Patch Changes
+
+- [#361](https://github.com/gravis-os/gravis-os/pull/361) [`1bbfb096`](https://github.com/gravis-os/gravis-os/commit/1bbfb096de3cc6d6fa781aaa94ea15a8e67a8f0d) Thanks [@clodal](https://github.com/clodal)! - Aadd sx to clientLogos
+
+- Updated dependencies [[`1bbfb096`](https://github.com/gravis-os/gravis-os/commit/1bbfb096de3cc6d6fa781aaa94ea15a8e67a8f0d)]:
+  - @gravis-os/types@0.3.2
+
 ## 0.15.0
 
 ### Minor Changes
