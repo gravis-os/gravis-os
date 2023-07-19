@@ -126,7 +126,6 @@ const DocumentFormSections: React.FC<any> = (props) => {
     disableEdit = false,
     ...rest
   } = props
-
   const { pageBreak } = printModeOptions || {}
 
   if (!sections?.length) return null
@@ -144,6 +143,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
     'published_at',
     'project',
     'company',
+    'currency',
     'contact',
     'warehouse',
     'shipping_address',
@@ -340,6 +340,14 @@ const DocumentFormSections: React.FC<any> = (props) => {
                       <FormSection
                         {...formSectionProps}
                         {...sectionsPropsByKey.company}
+                      />
+                    )}
+
+                    {/* Currency */}
+                    {Boolean(sectionsPropsByKey.currency) && (
+                      <FormSection
+                        {...formSectionProps}
+                        {...sectionsPropsByKey.currency}
                       />
                     )}
 
