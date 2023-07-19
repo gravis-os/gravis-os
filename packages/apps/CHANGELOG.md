@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.5
+
+### Patch Changes
+
+- [#354](https://github.com/gravis-os/gravis-os/pull/354) [`508e821a`](https://github.com/gravis-os/gravis-os/commit/508e821aab7e395d51f0e3cb1b77f28467f422c3) Thanks [@jianlingteng](https://github.com/jianlingteng)! - Add currency to sectionKeys
+
 ## 0.1.4
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0
+
+### Minor Changes
+
+- [#353](https://github.com/gravis-os/gravis-os/pull/353) [`8395f9f8`](https://github.com/gravis-os/gravis-os/commit/8395f9f87397eaff6707be8642df5d136f066629) Thanks [@benzlui](https://github.com/benzlui)! - add mobile, industry and country field to resource form
+
 ## 0.14.1
 
 ### Patch Changes
