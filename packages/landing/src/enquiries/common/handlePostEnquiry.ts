@@ -116,8 +116,8 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
           tags: [
             `Type: ${type}`,
             `Date: ${date}`,
-            domain,
-            path,
+            `Domain: ${domain}`,
+            `Path: ${path}`,
             job_department ? `Jd: ${job_department}` : '',
             job_role ? `Jr: ${job_role}` : '',
             company_size ? `Cs: ${company_size}` : '',
