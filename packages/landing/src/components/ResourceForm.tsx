@@ -47,6 +47,8 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
         ),
     })
   })
+  const { query } = router
+  const { email = '', name = '' } = query
 
   const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values)
@@ -66,8 +68,8 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
         id={FormCategoryEnum.HONEYPOT}
         resetOnSubmitSuccess
         defaultValues={{
-          name: '',
-          email: '',
+          name,
+          email,
           source: '',
           job_role: '',
           job_department: '',
