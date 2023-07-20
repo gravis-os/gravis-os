@@ -58,8 +58,10 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
       origin: window.location.href,
       ...values,
     })
+
     setIsLoading(false)
-    router.push(`${router.asPath}/success`)
+    const nextPath = router.asPath.split('?')[0]
+    router.push(`${nextPath}/success`)
   }
 
   return (
