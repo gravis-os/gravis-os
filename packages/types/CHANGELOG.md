@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.3
+
+### Patch Changes
+
+- [#372](https://github.com/gravis-os/gravis-os/pull/372) [`72058354`](https://github.com/gravis-os/gravis-os/commit/72058354cd246f4e8b878f00ee569a784982b4b2) Thanks [@clodal](https://github.com/clodal)! - Add changeset to publish landing and types
+
 ## 0.3.2
 
 ### Patch Changes
