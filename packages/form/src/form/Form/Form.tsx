@@ -60,8 +60,8 @@ const Form: React.FC<FormProps<any>> = (props) => {
 
   // Reset form values when defaultValues change
   useEffect(() => {
-    if (defaultValues) reset(defaultValues)
-  }, [defaultValues])
+    if (useFormProps?.defaultValues) reset(useFormProps.defaultValues)
+  }, [useFormProps])
 
   // Reset form values on submit success
   useEffect(() => {
