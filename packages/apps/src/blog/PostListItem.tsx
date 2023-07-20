@@ -82,7 +82,7 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
               </Typography>
             </Link>
             <Link
-              variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'}
+              variant={isLarge ? 'h4' : isSmall ? 'h6' : 'h5'}
               href={postHref}
             >
               {title}
