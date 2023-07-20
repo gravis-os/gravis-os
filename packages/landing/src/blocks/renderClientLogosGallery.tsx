@@ -1,22 +1,29 @@
 import { ClientLogo } from '@gravis-os/types'
 import renderClientLogoCardBlockItem from './renderClientLogoCardBlockItem'
+import { BlockProps } from '../web/Block/Block'
 
-export interface renderClientLogosGalleryProps {
+export interface RenderClientLogosGalleryProps
+  extends Omit<BlockProps, 'title' | 'items'> {
+  title?: React.ReactNode
   items?: ClientLogo[]
-  title: React.ReactNode
 }
 
-const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
-  const { items, title } = props
+const renderClientLogosGallery = (props: RenderClientLogosGalleryProps) => {
+  const { items, title, ...rest } = props
+
   return {
     key: 'gallery',
     center: true,
     maxWidth: 'md',
+    ...rest,
     items: [
-      { type: 'h4', title },
+      title && {
+        type: 'h4',
+        title,
+        titleProps: { sx: { mb: { xs: 5, md: 10 }, mx: 4 } },
+      },
       {
         type: 'grid',
-        sx: { mt: { xs: 5, md: 10 }, mx: 4 },
         maxWidth: 'xl',
         gridProps: { spacing: 1 },
         gridItemProps: { xs: 6, md: 4 },

@@ -112,6 +112,9 @@ const LayoutProvider: React.FC<LayoutProviderProps> = (props) => {
       width: site?.logo_width,
       height: site?.logo_height,
       invertImageOnMode: 'dark' as const,
+      ...(site?.logo_offset_y && {
+        boxSx: { position: 'relative', top: site?.logo_offset_y },
+      }),
     },
     legalItems: {
       terms: routeConfig?.TERMS,
