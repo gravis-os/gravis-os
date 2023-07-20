@@ -1,19 +1,27 @@
 import { ClientTestimonial } from '@gravis-os/types'
 import { useLayout } from '../providers/LayoutProvider'
 import { BlockProps } from '../web/Block/Block'
+import { BlockItemProps } from '../web/Block/BlockItem'
 import renderFeaturedIndustryBlockItem from './renderFeaturedIndustryBlockItem'
 
 export interface RenderFeaturedIndustrysBlockProps
   extends Omit<BlockProps, 'items' | 'title'> {
   items: ClientTestimonial[]
   title?: React.ReactNode
+  titleType?: BlockItemProps['type']
   subtitle?: React.ReactNode
 }
 
 const renderFeaturedIndustrysBlock = (
   props: RenderFeaturedIndustrysBlockProps
 ) => {
-  const { title = 'Featured Industries', subtitle = '', items, ...rest } = props
+  const {
+    title = 'Featured Industries',
+    titleType = 'h3',
+    subtitle = '',
+    items,
+    ...rest
+  } = props
   const { routeConfig } = useLayout()
 
   return {
@@ -27,7 +35,7 @@ const renderFeaturedIndustrysBlock = (
         },
       },
       {
-        type: 'h3',
+        type: titleType,
         title,
         titleProps: {
           gutterBottom: true,

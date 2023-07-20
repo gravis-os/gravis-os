@@ -180,6 +180,7 @@ export interface Site {
   logo_alt?: string
   logo_width?: number
   logo_height?: number
+  logo_offset_y?: number
 
   // App
   title?: string
