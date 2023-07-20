@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.0
+
+### Minor Changes
+
+- [#363](https://github.com/gravis-os/gravis-os/pull/363) [`85bfb15e`](https://github.com/gravis-os/gravis-os/commit/85bfb15eb9013e1fc878fab0e3cfe0337db29635) Thanks [@benzlui](https://github.com/benzlui)! - fix autofill resource form based on query parameters
+
 ## 0.18.0
 
 ### Minor Changes
