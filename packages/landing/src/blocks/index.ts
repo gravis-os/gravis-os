@@ -177,3 +177,6 @@ export * from './renderFeaturedResourcesBlock'
 
 export { default as renderHomeSummaryBlock } from './renderHomeSummaryBlock'
 export * from './renderHomeSummaryBlock'
+
+export { default as renderFeaturedNewsBlock } from './renderFeaturedNewsBlock'
+export * from './renderFeaturedNewsBlock'
