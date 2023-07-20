@@ -27,11 +27,9 @@ const renderClientLogosGallery = (props: renderClientLogosGalleryProps) => {
             title: avatar_src,
             titleProps: {
               alt: avatar_alt,
-              sx: {
-                width: avatar_width,
-                height: avatar_height,
-                ...sx,
-              },
+              width: avatar_width,
+              height: avatar_height,
+              sx,
               invertImageOnMode: 'light',
             },
           })
