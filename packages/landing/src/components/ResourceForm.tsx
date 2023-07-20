@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, FormSections } from '@gravis-os/form'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
@@ -67,9 +67,9 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     router.push(`${newUrl}/success`)
   }
 
-  const [defaultValues, setDefaultValues] = useState({
-    name: '',
-    email: '',
+  const defaultValues = {
+    name,
+    email,
     source: '',
     job_role: '',
     job_department: '',
@@ -77,13 +77,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     mobile: '',
     industry: '',
     country: '',
-  })
-
-  useEffect(() => {
-    const newEmail = email as string
-    const newName = name as string
-    setDefaultValues({ ...defaultValues, email: newEmail, name: newName })
-  }, [email, name])
+  }
 
   return (
     <div>
