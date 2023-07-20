@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.18.0
+
+### Minor Changes
+
+- [#366](https://github.com/gravis-os/gravis-os/pull/366) [`42fa914e`](https://github.com/gravis-os/gravis-os/commit/42fa914ec00132d8a8a605be1f86841daa6a04ff) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Create renderFeaturedNewsBlock function to display the featured news articles in page
+
+### Patch Changes
+
+- Updated dependencies [[`45d83541`](https://github.com/gravis-os/gravis-os/commit/45d8354165296825ab36b35841f075aa1b151974)]:
+  - @gravis-os/form@1.1.0
+
 ## 0.17.0
 
 ### Minor Changes

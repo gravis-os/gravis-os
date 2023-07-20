@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.1.2
+
+### Patch Changes
+
+- [#367](https://github.com/gravis-os/gravis-os/pull/367) [`dff108c9`](https://github.com/gravis-os/gravis-os/commit/dff108c9f15ca0e7cc574ec4c55453248120ad87) Thanks [@shank1xt](https://github.com/shank1xt)! - remove border in megasearch textfield
+
 ## 1.1.1
 
 ### Patch Changes

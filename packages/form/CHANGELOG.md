@@ -1,5 +1,16 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [#369](https://github.com/gravis-os/gravis-os/pull/369) [`45d83541`](https://github.com/gravis-os/gravis-os/commit/45d8354165296825ab36b35841f075aa1b151974) Thanks [@benzlui](https://github.com/benzlui)! - fix default value useEffect
+
+### Patch Changes
+
+- Updated dependencies [[`dff108c9`](https://github.com/gravis-os/gravis-os/commit/dff108c9f15ca0e7cc574ec4c55453248120ad87)]:
+  - @gravis-os/fields@1.1.2
+
 ## 1.0.4
 
 ### Patch Changes
