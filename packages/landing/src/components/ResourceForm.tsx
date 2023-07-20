@@ -59,21 +59,9 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
       ...values,
     })
 
-    const nextPath = router.asPath.split('?')[0]
     setIsLoading(false)
+    const nextPath = router.asPath.split('?')[0]
     router.push(`${nextPath}/success`)
-  }
-
-  const defaultValues = {
-    name,
-    email,
-    source: '',
-    job_role: '',
-    job_department: '',
-    company_size: '',
-    mobile: '',
-    industry: '',
-    country: '',
   }
 
   return (
@@ -82,7 +70,17 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
         id={FormCategoryEnum.HONEYPOT}
         resetOnSubmitSuccess
         onSubmit={handleSubmit}
-        defaultValues={defaultValues}
+        defaultValues={{
+          name,
+          email,
+          source: '',
+          job_role: '',
+          job_department: '',
+          company_size: '',
+          mobile: '',
+          industry: '',
+          country: '',
+        }}
         submitButtonProps={{
           title: 'Download Guide',
           variant: 'contained',
