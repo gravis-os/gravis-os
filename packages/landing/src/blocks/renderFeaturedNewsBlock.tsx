@@ -23,10 +23,10 @@ const renderFeaturedNewsBlock = (props: RenderFeaturedNewsBlockProps) => {
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
       },
       renderPostsBlockItem({
-        items: items.map((release) => {
+        items: items.map((item) => {
           return {
-            ...release,
-            href: `${routeConfig.PRESS_RELEASES}/${release.slug}`,
+            ...item,
+            href: `${routeConfig.PRESS_RELEASES}/${item.slug}`,
           }
         }),
       }),
