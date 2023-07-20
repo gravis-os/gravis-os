@@ -97,7 +97,7 @@ const PostCard: React.FC<PostCardProps> = (props) => {
             {blog_category.title}
           </Typography>
         </Link>
-        <Link variant={isLarge ? 'h2' : isSmall ? 'h4' : 'h3'} href={postHref}>
+        <Link variant={isLarge ? 'h4' : isSmall ? 'h6' : 'h5'} href={postHref}>
           {title}
         </Link>
         {!disableSubtitle && subtitle && (

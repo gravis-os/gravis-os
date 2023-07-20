@@ -33,7 +33,7 @@ const CategorysAppBar: React.FC<CategorysAppBarProps> = (props) => {
         return (
           <Box key={item.id}>
             <Link href={getHref(item)}>
-              <Typography variant={isSmall ? 'overline' : 'h4'}>
+              <Typography variant={isSmall ? 'overline' : 'h6'}>
                 {item.title}
               </Typography>
             </Link>
