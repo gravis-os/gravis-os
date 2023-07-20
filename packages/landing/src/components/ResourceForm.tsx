@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Form, FormSections } from '@gravis-os/form'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
@@ -22,6 +22,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
   const router = useRouter()
 
   const resourceFormSchema = yup.lazy((values) => {
+    console.log(values)
     const { mobile, email, country } = values
 
     const { valid: isMobileValid } = parsePhoneNumber(mobile, {
@@ -62,22 +63,32 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     router.push(`${router.asPath}/success`)
   }
 
+  const [defaultValues, setDefaultValues] = useState({
+    name: '',
+    email: '',
+    source: '',
+    job_role: '',
+    job_department: '',
+    company_size: '',
+    mobile: '',
+    industry: '',
+    country: '',
+  })
+
+  useEffect(() => {
+    const newEmail = email as string
+    const newName = name as string
+    setDefaultValues({ ...defaultValues, email: newEmail, name: newName })
+  }, [email, name])
+
+  console.log(defaultValues)
+
   return (
     <div>
       <Form
         id={FormCategoryEnum.HONEYPOT}
         resetOnSubmitSuccess
-        defaultValues={{
-          name,
-          email,
-          source: '',
-          job_role: '',
-          job_department: '',
-          company_size: '',
-          mobile: '',
-          industry: '',
-          country: '',
-        }}
+        // defaultValues={defaultValues}
         onSubmit={handleSubmit}
         submitButtonProps={{
           title: 'Download Guide',
@@ -89,7 +100,10 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
           boxProps: { display: 'flex', justifyContent: 'flex-end' },
           loading: isLoading,
         }}
-        useFormProps={{ resolver: yupResolver(resourceFormSchema) }}
+        useFormProps={{
+          resolver: yupResolver(resourceFormSchema),
+          defaultValues,
+        }}
         formJsx={
           <FormSections
             disableCard
