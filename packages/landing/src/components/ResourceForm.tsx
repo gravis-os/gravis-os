@@ -59,12 +59,9 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
       ...values,
     })
 
-    const targetUrl = router.asPath
-    const queryIndex = targetUrl.indexOf('?')
-    const isQueryPresent = queryIndex !== -1
-    const newUrl = isQueryPresent ? targetUrl.slice(0, queryIndex) : targetUrl
+    const nextPath = router.asPath.split('?')[0]
     setIsLoading(false)
-    router.push(`${newUrl}/success`)
+    router.push(`${nextPath}/success`)
   }
 
   const defaultValues = {
