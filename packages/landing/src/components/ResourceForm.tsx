@@ -22,7 +22,6 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
   const router = useRouter()
 
   const resourceFormSchema = yup.lazy((values) => {
-    console.log(values)
     const { mobile, email, country } = values
 
     const { valid: isMobileValid } = parsePhoneNumber(mobile, {
@@ -59,8 +58,13 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
       origin: window.location.href,
       ...values,
     })
+
+    const targetUrl = router.asPath
+    const queryIndex = targetUrl.indexOf('?')
+    const isQueryPresent = queryIndex !== -1
+    const newUrl = isQueryPresent ? targetUrl.slice(0, queryIndex) : targetUrl
     setIsLoading(false)
-    router.push(`${router.asPath}/success`)
+    router.push(`${newUrl}/success`)
   }
 
   const [defaultValues, setDefaultValues] = useState({
@@ -81,14 +85,11 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     setDefaultValues({ ...defaultValues, email: newEmail, name: newName })
   }, [email, name])
 
-  console.log(defaultValues)
-
   return (
     <div>
       <Form
         id={FormCategoryEnum.HONEYPOT}
         resetOnSubmitSuccess
-        // defaultValues={defaultValues}
         onSubmit={handleSubmit}
         submitButtonProps={{
           title: 'Download Guide',
