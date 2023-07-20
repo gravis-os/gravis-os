@@ -85,6 +85,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
         id={FormCategoryEnum.HONEYPOT}
         resetOnSubmitSuccess
         onSubmit={handleSubmit}
+        defaultValues={defaultValues}
         submitButtonProps={{
           title: 'Download Guide',
           variant: 'contained',
@@ -97,7 +98,6 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
         }}
         useFormProps={{
           resolver: yupResolver(resourceFormSchema),
-          defaultValues,
         }}
         formJsx={
           <FormSections
