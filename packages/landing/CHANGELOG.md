@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.17.0
+
+### Minor Changes
+
+- [#364](https://github.com/gravis-os/gravis-os/pull/364) [`60d5789e`](https://github.com/gravis-os/gravis-os/commit/60d5789e0b2cd7a7a340cc6e8fe0008071494566) Thanks [@johnhimawanonextech](https://github.com/johnhimawanonextech)! - Change structure of titleprops
+
 ## 0.16.0
 
 ### Minor Changes

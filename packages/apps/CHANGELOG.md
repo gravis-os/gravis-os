@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.6
+
+### Patch Changes
+
+- [#365](https://github.com/gravis-os/gravis-os/pull/365) [`c14d2c05`](https://github.com/gravis-os/gravis-os/commit/c14d2c0503bc88b42ddd299ef39214c2bd662021) Thanks [@shank1xt](https://github.com/shank1xt)! - update heading levels for post cards
+
 ## 0.1.5
 
 ### Patch Changes
