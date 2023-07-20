@@ -35,7 +35,13 @@ const MegaSearchTextField: React.FC<MegaSearchTextFieldProps> = (props) => {
       value={value}
       fullWidth
       variant="standard"
-      sx={{ px: 2, ...sx }}
+      sx={{
+        px: 2,
+        '& .MuiInputBase-root::after, & .MuiInputBase-root::before': {
+          display: 'none',
+        },
+        ...sx,
+      }}
       InputLabelProps={{ sx: { px: 2.5 } }}
       {...rest}
     />
