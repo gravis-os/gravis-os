@@ -10,13 +10,13 @@ export interface BrandCardProps extends CardProps {
 }
 
 const BrandCard: React.FC<BrandCardProps> = (props) => {
-  const { item, brandModule, sx, ...rest } = props
+  const { item, brandModule, sx, href, ...rest } = props
 
   if (!item) return null
 
   const { title, avatar_src, avatar_alt } = item
 
-  const brandHref = brandModule.getWebHref([item])
+  const brandHref = href || brandModule.getWebHref([item])
 
   return (
     <Card
