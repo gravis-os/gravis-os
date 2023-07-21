@@ -1,3 +1,6 @@
+import { makeMail } from '@gravis-os/mail'
+import { commonConfig } from './config'
+
 export const getDomainAndPathTagsFromUrl = (url: string) => {
   const urlObject = new URL(url)
 
@@ -12,3 +15,13 @@ export const getDomainAndPathTagsFromUrl = (url: string) => {
     path,
   }
 }
+
+export const Mail = makeMail({
+  from: commonConfig.fromEmail,
+  mailgenConfig: {
+    name: '',
+    link: commonConfig.absoluteUrl || '',
+    logo: `${commonConfig.absoluteUrl}/static/logo.jpg`,
+    logoHeight: 48,
+  },
+})

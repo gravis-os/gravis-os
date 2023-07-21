@@ -1,7 +1,8 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { EnquiryTypeEnum } from './constants'
 import getSlackFormats from '../slack/getSlackFormats'
-import { getDomainAndPathTagsFromUrl } from './utils'
+import { Mail, getDomainAndPathTagsFromUrl } from './utils'
+import { commonConfig } from './config'
 
 const getAudienceByType = (type: EnquiryTypeEnum) => {
   switch (type) {
@@ -100,58 +101,74 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
     const { domain, path } = getDomainAndPathTagsFromUrl(origin)
 
     const mailchimpListId = process.env.MAILCHIMP_LIST_ID
-    const mailchimpRequest = fetch(
-      `https://us2.api.mailchimp.com/3.0/lists/${mailchimpListId}/members/${email}?skip_merge_validation=false`,
-      {
-        method: 'PUT',
-        headers: {
-          Authorization: `Basic ${btoa(
-            `anystring:${process.env.MAILCHIMP_API_KEY}`
-          )}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          email_address: email,
-          status: 'subscribed',
-          tags: [
-            `Type: ${type}`,
-            `Date: ${date}`,
-            `Domain: ${domain}`,
-            `Path: ${path}`,
-            job_department ? `Jd: ${job_department}` : '',
-            job_role ? `Jr: ${job_role}` : '',
-            company_size ? `Cs: ${company_size}` : '',
-            `Src: ${source}`,
-            industry ? `Ind: ${industry}` : '',
-            country ? `Cty: ${country}` : '',
-          ].filter(Boolean),
-          merge_fields: {
-            FNAME: name,
-            PHONE: mobile ?? '',
-          },
-        }),
-      }
-    )
+    // const mailchimpRequest = fetch(
+    //   `https://us2.api.mailchimp.com/3.0/lists/${mailchimpListId}/members/${email}?skip_merge_validation=false`,
+    //   {
+    //     method: 'PUT',
+    //     headers: {
+    //       Authorization: `Basic ${btoa(
+    //         `anystring:${process.env.MAILCHIMP_API_KEY}`
+    //       )}`,
+    //       'Content-Type': 'application/json',
+    //     },
+    //     body: JSON.stringify({
+    //       email_address: email,
+    //       status: 'subscribed',
+    //       tags: [
+    //         `Type: ${type}`,
+    //         `Date: ${date}`,
+    //         `Domain: ${domain}`,
+    //         `Path: ${path}`,
+    //         job_department ? `Jd: ${job_department}` : '',
+    //         job_role ? `Jr: ${job_role}` : '',
+    //         company_size ? `Cs: ${company_size}` : '',
+    //         `Src: ${source}`,
+    //         industry ? `Ind: ${industry}` : '',
+    //         country ? `Cty: ${country}` : '',
+    //       ].filter(Boolean),
+    //       merge_fields: {
+    //         FNAME: name,
+    //         PHONE: mobile ?? '',
+    //       },
+    //     }),
+    //   }
+    // )
 
-    const slackRequest = fetch('https://slack.com/api/chat.postMessage', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${process.env.SLACK_ENQUIRY_BOT_OAUTH_TOKEN}`,
+    // const slackRequest = fetch('https://slack.com/api/chat.postMessage', {
+    //   method: 'POST',
+    //   headers: {
+    //     'Content-Type': 'application/json',
+    //     Authorization: `Bearer ${process.env.SLACK_ENQUIRY_BOT_OAUTH_TOKEN}`,
+    //   },
+    //   body: JSON.stringify({
+    //     icon_emoji: ':sparkles',
+    //     channel,
+    //     blocks: payloadAsBlocks,
+    //   }),
+    // })
+
+    // sendGrid request
+    const sendGridRequest = await Mail.send({
+      from: commonConfig.fromEmail,
+      to: email,
+      subject: 'Acknowledgement of Your Recent Website Inquiry.',
+      email: {
+        body: {
+          greeting: 'Dear',
+          name,
+          intro: [
+            'Thank you for reaching out to us through our website. We appreciate your interest in our products/services. Our team is currently reviewing your inquiry, and we will respond to you shortly with the information you require.',
+          ],
+          outro: [
+            'If you have any further questions or need immediate assistance, please feel free to reach out to us. We value your time and look forward to assisting you.',
+          ],
+        },
       },
-      body: JSON.stringify({
-        icon_emoji: ':sparkles',
-        channel,
-        blocks: payloadAsBlocks,
-      }),
     })
 
-    await Promise.all([slackRequest, mailchimpRequest])
+    // await Promise.all([sendGridRequest])
 
-    return NextResponse.json(
-      { data: 'Successfully submitted!' },
-      { status: 200 }
-    )
+    return NextResponse.json({ data: sendGridRequest }, { status: 200 })
   } catch (error) {
     console.error(error)
     return NextResponse.json({ error: 'Something went wrong' }, { status: 500 })
