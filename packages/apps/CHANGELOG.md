@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.1.7
+
+### Patch Changes
+
+- [#377](https://github.com/gravis-os/gravis-os/pull/377) [`0938bc10`](https://github.com/gravis-os/gravis-os/commit/0938bc108ce509d25bf0cbb44d2f08daa19625a3) Thanks [@shank1xt](https://github.com/shank1xt)! - add default href brand card
+
+- Updated dependencies [[`953b6875`](https://github.com/gravis-os/gravis-os/commit/953b6875b609a8f783fed268f9dc5dbefdf9c755), [`b0e05e56`](https://github.com/gravis-os/gravis-os/commit/b0e05e565c94292856442ac986c14a1cbee7cc5c), [`7a573a02`](https://github.com/gravis-os/gravis-os/commit/7a573a02138fddd07cb79d34f237862ba86d7131), [`f86442fd`](https://github.com/gravis-os/gravis-os/commit/f86442fd72b7f4f19afbc6fc7232a425914b10b0), [`20c1c60d`](https://github.com/gravis-os/gravis-os/commit/20c1c60deaa7f0094fa99e16a293b61374bebded)]:
+  - @gravis-os/ui@0.5.1
+  - @gravis-os/crud@0.0.112
+  - @gravis-os/dashboard@0.1.1
+
 ## 0.1.6
 
 ### Patch Changes

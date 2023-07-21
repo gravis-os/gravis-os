@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.0.112
+
+### Patch Changes
+
+- [#373](https://github.com/gravis-os/gravis-os/pull/373) [`b0e05e56`](https://github.com/gravis-os/gravis-os/commit/b0e05e565c94292856442ac986c14a1cbee7cc5c) Thanks [@al1xt](https://github.com/al1xt)! - Fix ManageColumnsMenuButton to accommodate CheckboxGroup logic
+
+* [#376](https://github.com/gravis-os/gravis-os/pull/376) [`f86442fd`](https://github.com/gravis-os/gravis-os/commit/f86442fd72b7f4f19afbc6fc7232a425914b10b0) Thanks [@shank1xt](https://github.com/shank1xt)! - reorder unpacking in default values
+
+* Updated dependencies [[`953b6875`](https://github.com/gravis-os/gravis-os/commit/953b6875b609a8f783fed268f9dc5dbefdf9c755), [`7a573a02`](https://github.com/gravis-os/gravis-os/commit/7a573a02138fddd07cb79d34f237862ba86d7131)]:
+  - @gravis-os/ui@0.5.1
+
 ## 0.0.111
 
 ### Patch Changes

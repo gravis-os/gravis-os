@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1
+
+### Patch Changes
+
+- [#374](https://github.com/gravis-os/gravis-os/pull/374) [`953b6875`](https://github.com/gravis-os/gravis-os/commit/953b6875b609a8f783fed268f9dc5dbefdf9c755) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add default button text color
+
+* [#375](https://github.com/gravis-os/gravis-os/pull/375) [`7a573a02`](https://github.com/gravis-os/gravis-os/commit/7a573a02138fddd07cb79d34f237862ba86d7131) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add variant check for default color
+
 ## 0.5.0
 
 ### Minor Changes

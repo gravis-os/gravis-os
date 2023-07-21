@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- [#370](https://github.com/gravis-os/gravis-os/pull/370) [`20c1c60d`](https://github.com/gravis-os/gravis-os/commit/20c1c60deaa7f0094fa99e16a293b61374bebded) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - persist mini variant closed state
+
+- Updated dependencies [[`953b6875`](https://github.com/gravis-os/gravis-os/commit/953b6875b609a8f783fed268f9dc5dbefdf9c755), [`7a573a02`](https://github.com/gravis-os/gravis-os/commit/7a573a02138fddd07cb79d34f237862ba86d7131)]:
+  - @gravis-os/ui@0.5.1
+
 ## 0.1.0
 
 ### Minor Changes
