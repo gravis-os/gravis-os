@@ -50,7 +50,9 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
         }
 
         const options = getCheckboxOptions(initialColumnDefs)
-        const value = getCheckboxOptions(columnDefs)
+        const value = getCheckboxOptions(columnDefs).map(
+          ({ key, ...rest }) => ({ ...rest, key, value: key })
+        )
 
         return (
           <CheckboxGroup
