@@ -110,7 +110,10 @@ const Button: React.FC<ButtonProps> = (props) => {
           // Increase horizontal padding slightly to make the button width more balanced
           px: 1,
         }),
-        color: 'common.white',
+        // Contained variant
+        ...(variant === 'contained' && {
+          color: 'common.white',
+        }),
         // Outlined variant
         ...(variant === 'outlined' && {
           color: `${color || 'primary'}.main`,
