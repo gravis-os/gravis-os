@@ -57,6 +57,7 @@ export interface DashboardLayoutProps {
   leftAsideListItemProps?: Omit<ListItemProps, 'key'>
   leftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
   leftAsideBottomActions?: ReactNode | ReactNode[]
+  leftAsideMiniVariantPersistClosedState?: boolean
 
   // Secondary Left Aside Props
   showSecondaryLeftAside?: boolean
@@ -114,6 +115,7 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     leftAsideListItemProps,
     leftAsideDrawerProps,
     leftAsideBottomActions,
+    leftAsideMiniVariantPersistClosedState = false,
     darkLeftAside,
 
     // Left Secondary Aside
@@ -439,13 +441,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                   },
 
                   // Make first click on mini-variant open the drawer instead of routing
-                  ...(isMiniVariantLeftAsideClosed && {
-                    onClick: (e) => {
-                      e.stopPropagation()
-                      e.preventDefault()
-                      setLeftAsideOpen(true)
-                    },
-                  }),
+                  ...(isMiniVariantLeftAsideClosed &&
+                    !leftAsideMiniVariantPersistClosedState && {
+                      onClick: (e) => {
+                        e.stopPropagation()
+                        e.preventDefault()
+                        setLeftAsideOpen(true)
+                      },
+                    }),
                 },
                 collapseProps: {
                   sx: {
