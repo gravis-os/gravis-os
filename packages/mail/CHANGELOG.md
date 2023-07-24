@@ -1,5 +1,14 @@
 # @gravis-os/mail
 
+## 0.0.8
+
+### Patch Changes
+
+- [#380](https://github.com/gravis-os/gravis-os/pull/380) [`dce0cdd3`](https://github.com/gravis-os/gravis-os/commit/dce0cdd33ab354f23e75e5576a4ece81f849dace) Thanks [@clodal](https://github.com/clodal)! - Update eslintconfig to include naming conventions. Renamed eslintrc.js files to .eslintrc.js following the standard convention
+
+- Updated dependencies [[`dce0cdd3`](https://github.com/gravis-os/gravis-os/commit/dce0cdd33ab354f23e75e5576a4ece81f849dace)]:
+  - @gravis-os/types@0.3.4
+
 ## 0.0.7
 
 ### Patch Changes

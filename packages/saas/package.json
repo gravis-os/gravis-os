@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/saas",
-  "version": "0.0.35",
+  "version": "0.0.36",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
