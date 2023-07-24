@@ -1,6 +1,6 @@
 {
   "extends": "@gravis-os/tsconfig/tsconfig.base.json",
-  "include": ["./src/**/*", "typings.d.ts"],
+  "include": ["./src/**/*", "typings.d.ts", ".eslintrc.js"],
   "exclude": ["node_modules", "dist"]
 }
 
