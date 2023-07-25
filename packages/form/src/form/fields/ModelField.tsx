@@ -446,12 +446,12 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const withCreateOptions = withCreate && { freeSolo: true }
   const getIsCreateOption = ({ option, pk }) => {
     if (!get(option, pk)) return
-    return option && pk && get(option, pk, '').startsWith('Add "')
+    return option && pk && get(option, pk, '').toString().startsWith('Add "')
   }
   const getCreateOption = ({ option, pk }) => {
     if (!get(option, pk)) return
     // e.g. 'Add "New Item"' -> 'New Item'
-    return option && pk && get(option, pk).split('"')[1]
+    return option && pk && get(option, pk).toString().split('"')[1]
   }
 
   return (
