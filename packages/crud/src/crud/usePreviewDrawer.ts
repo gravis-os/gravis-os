@@ -23,7 +23,7 @@ const usePreviewDrawer = (
 ): UsePreviewDrawerReturn => {
   const {
     module: injectedModule,
-    previewFormSections: injectedPreviewFormSections,
+    previewFormSections: injectedPreviewFormSections
   } = props
 
   // States
@@ -50,7 +50,9 @@ const usePreviewDrawer = (
 
   // Preview item
   const onUseGetItem = useGetItem({ module: previewModule, slug: previewSlug })
-  const { item: previewItem, isLoading: previewLoading } = onUseGetItem
+  const { item: previewItem, isLoading: previewLoading } = previewSlug === ''
+    ? { item: null, isLoading: false }
+    : onUseGetItem
 
   return {
     previewSlug,
@@ -61,7 +63,7 @@ const usePreviewDrawer = (
     previewLoading,
 
     setPreview,
-    resetPreview,
+    resetPreview
   }
 }
 

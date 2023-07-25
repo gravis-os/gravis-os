@@ -7,6 +7,7 @@ import {
   getObjectWithGetters,
   getQueryWithRouteParamsOnly,
 } from '@gravis-os/utils'
+import isNil from 'lodash/isNil'
 
 export interface UseGetItemProps {
   module: CrudModule
@@ -34,7 +35,7 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
   const routerSlug = querySlug !== 'new' ? querySlug : null
 
   // Slug value to match
-  const slug = injectedSlug || routerSlug
+  const slug = injectedSlug ?? routerSlug
 
   // Method
   const fetchItem = async ({ slug }) => {
@@ -54,14 +55,14 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
 
   // Differentiate queryKey between single query and nested query with array length
   // to prevent filtering and have separate queries
-  const isDetailPage = Boolean(!injectedSlug)
+  const isDetailPage = !isNil(injectedSlug)
   const queryKey = isDetailPage
     ? [table.name, 'detail', { slug }]
     : [table.name, 'detail', { routerSlug, slug }]
 
   // Fetch
   const onUseQuery = useQuery(queryKey, () => fetchItem({ slug }), {
-    enabled: Boolean(user && slug),
+    enabled: Boolean(user && !isNil(slug)),
     ...queryOptions,
   })
   const { data: item, isLoading: loading, isError: error } = onUseQuery
