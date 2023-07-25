@@ -1,5 +1,6 @@
 ---
 "web": patch
+"@gravis-os/eslint-config": patch
 ---
 
-fix eslint errors for apps/web
+fix eslint errors
