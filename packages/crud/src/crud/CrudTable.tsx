@@ -145,7 +145,6 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     module,
     previewFormSections: injectedPreviewFormSections,
   })
-  console.log(usePreviewDrawerProps)
   const { setPreview, previewFormSections } = usePreviewDrawerProps
 
   // AgGrid Ref
