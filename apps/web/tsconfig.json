@@ -1,6 +1,6 @@
 {
   "extends": "@gravis-os/tsconfig/nextjs.json",
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".eslintrc.js", "pages/api/auth/[...supabase].js"],
   "exclude": ["node_modules"],
   "compilerOptions": {
     "baseUrl": ".",
