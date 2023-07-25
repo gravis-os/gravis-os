@@ -201,6 +201,7 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
+    '@typescript-eslint/no-explicit-any': 1,
   },
   settings: {
     'import/resolver': {
