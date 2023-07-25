@@ -56,6 +56,7 @@ module.exports = {
     ],
     // TypeScript
     '@typescript-eslint/no-empty-interface': 0,
+    '@typescript-eslint/no-explicit-any': 1,
     // allow vars to specify _ for unused
     '@typescript-eslint/no-unused-vars': [1, { varsIgnorePattern: '^_' }],
     '@typescript-eslint/ban-ts-comment': 1,
@@ -201,7 +202,6 @@ module.exports = {
         argsIgnorePattern: '^_',
       },
     ],
-    '@typescript-eslint/no-explicit-any': 1,
   },
   settings: {
     'import/resolver': {
