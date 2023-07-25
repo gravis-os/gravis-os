@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.114
+
+### Patch Changes
+
+- [#382](https://github.com/gravis-os/gravis-os/pull/382) [`5e568adb`](https://github.com/gravis-os/gravis-os/commit/5e568adbfec5b1055d8c2755efd96e7bd39191fc) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix bugs when preview slug is 0
+
 ## 0.0.113
 
 ### Patch Changes
