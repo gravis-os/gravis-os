@@ -5,9 +5,6 @@ import themeConfig from '@web/app/themeConfig'
 import createEmotionCache from '../src/createEmotionCache'
 
 export default class MyDocument extends Document {
-  // @ts-ignore
-  emotionStyleTags = this.props.emotionStyleTags
-
   render() {
     return (
       <Html lang="en">
@@ -20,7 +17,8 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
           />
           {/* Inject MUI styles first to match with the prepend: true configuration. */}
-          {this.emotionStyleTags}
+          {/* @ts-ignore */}
+          {this.props.emotionStyleTags}
         </Head>
         <body>
           <Main />
