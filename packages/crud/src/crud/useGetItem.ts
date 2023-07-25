@@ -7,7 +7,7 @@ import {
   getObjectWithGetters,
   getQueryWithRouteParamsOnly,
 } from '@gravis-os/utils'
-import { isNil } from 'lodash'
+import isNil from 'lodash/isNil'
 
 export interface UseGetItemProps {
   module: CrudModule
