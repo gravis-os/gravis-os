@@ -66,6 +66,8 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
           <Grid item xs={3} lg={isSmall ? 3 : 2}>
             <Link href={listingHref}>
               <StorageImage
+                fill
+                fixed
                 src={avatar_src}
                 alt={avatar_alt || title}
                 scaleOnHover
