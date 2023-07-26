@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.9
+
+### Patch Changes
+
+- [#386](https://github.com/gravis-os/gravis-os/pull/386) [`4b6ae124`](https://github.com/gravis-os/gravis-os/commit/4b6ae12465e4023e565776732b2a3abc8ffec701) Thanks [@shank1xt](https://github.com/shank1xt)! - add missing props to listing list item
+
 ## 0.1.8
 
 ### Patch Changes

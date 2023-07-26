@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.19.3
+
+### Patch Changes
+
+- [#385](https://github.com/gravis-os/gravis-os/pull/385) [`56764d88`](https://github.com/gravis-os/gravis-os/commit/56764d8892c4d7029c480795c7f9563635a46283) Thanks [@shank1xt](https://github.com/shank1xt)! - allow injected gridprops in featured block
+
 ## 0.19.2
 
 ### Patch Changes
