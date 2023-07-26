@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.2
+
+### Patch Changes
+
+- [#383](https://github.com/gravis-os/gravis-os/pull/383) [`fcaf337b`](https://github.com/gravis-os/gravis-os/commit/fcaf337b9ef991c71d7f4845392f1fca1de2e242) Thanks [@jianlingteng](https://github.com/jianlingteng)! - Add toString to modelfield
+
 ## 1.1.1
 
 ### Patch Changes
