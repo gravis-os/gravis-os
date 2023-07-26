@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.3
+
+### Patch Changes
+
+- [#384](https://github.com/gravis-os/gravis-os/pull/384) [`8904eec4`](https://github.com/gravis-os/gravis-os/commit/8904eec492be0efc9e745758bc906c6b8d3b39a8) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add toString
+
 ## 1.1.2
 
 ### Patch Changes
