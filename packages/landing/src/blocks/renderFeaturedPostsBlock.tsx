@@ -8,6 +8,7 @@ export interface RenderFeaturedPostsBlockProps
   items?: Post[]
   title?: string
   fromStorage?: boolean
+  gridProps?: BlockItemProps['gridProps']
   gridItemProps?: BlockItemProps['gridItemProps']
 }
 
@@ -16,6 +17,7 @@ const renderFeaturedPostsBlock = (props: RenderFeaturedPostsBlockProps) => {
     title = 'Featured Insights',
     items,
     fromStorage,
+    gridProps,
     gridItemProps,
     ...rest
   } = props
@@ -29,7 +31,7 @@ const renderFeaturedPostsBlock = (props: RenderFeaturedPostsBlockProps) => {
         title,
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
       },
-      renderPostsBlockItem({ items, fromStorage, gridItemProps }),
+      renderPostsBlockItem({ items, fromStorage, gridItemProps, gridProps }),
     ],
     ...rest,
   }
