@@ -44,6 +44,7 @@ export interface RadioGroupProps extends MuiRadioGroupProps {
   formLabelProps?: FormLabelProps
   formHelperTextProps?: FormHelperTextProps
   compact?: boolean
+  disabled?: boolean
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = (props) => {
@@ -54,15 +55,14 @@ const RadioGroup: React.FC<RadioGroupProps> = (props) => {
     options = [],
     sx,
     compact,
-
     error,
     helperText,
-
-    formControlLabelProps: globalFormControlLabelProps,
-    radioProps: globalRadioProps,
+    formControlLabelProps: injectedFormControlLabelProps,
+    radioProps: injectedRadioProps,
     formControlProps,
     formLabelProps,
     formHelperTextProps,
+    disabled,
     ...rest
   } = props
 
@@ -87,18 +87,19 @@ const RadioGroup: React.FC<RadioGroupProps> = (props) => {
 
           return (
             <FormControlLabel
-              {...globalFormControlLabelProps}
+              disabled={disabled}
+              {...injectedFormControlLabelProps}
               {...formControlLabelProps}
               control={
                 <Radio
-                  {...globalRadioProps}
+                  {...injectedRadioProps}
                   {...option.radioProps}
                   sx={{
                     p: ({ spacing }) => ({
                       xs: spacing(0.5, 1),
                       md: spacing(compact ? 0.5 : 1, 1),
                     }),
-                    ...globalRadioProps?.sx,
+                    ...injectedRadioProps?.sx,
                     ...option.radioProps?.sx,
                   }}
                 />
@@ -107,6 +108,7 @@ const RadioGroup: React.FC<RadioGroupProps> = (props) => {
           )
         })}
       </MuiRadioGroup>
+
       {Boolean(helperText) && (
         <FormHelperText
           {...formHelperTextProps}

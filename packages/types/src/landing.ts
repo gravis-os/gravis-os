@@ -139,7 +139,9 @@ export interface PostCategory extends CrudItem {
 
 export interface PressRelease extends Omit<Post, 'category' | 'category_id'> {}
 
-export interface Resource extends Page {}
+export interface Resource extends Page {
+  filename: string
+}
 
 export interface Service extends Page {
   category_id?: number

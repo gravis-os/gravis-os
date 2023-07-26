@@ -3,13 +3,161 @@ import { Form, FormSections } from '@gravis-os/form'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
-import { getNames, getCode } from 'country-list'
+import {
+  getNames as getCountryNames,
+  getCode as getCountryCode,
+} from 'country-list'
 import * as yup from 'yup'
 import { parsePhoneNumber } from 'awesome-phonenumber'
 import freeEmailDomains from 'free-email-domains'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
+
+const INDUSTRY_OPTIONS = [
+  {
+    key: 'Advertising/Media/Publishing',
+    value: 'Advertising/Media/Publishing',
+    label: 'Advertising/Media/Publishing',
+  },
+  {
+    key: 'Aerospace and Aviation',
+    value: 'Aerospace and Aviation',
+    label: 'Aerospace and Aviation',
+  },
+  {
+    key: 'Agriculture and Forestry',
+    value: 'Agriculture and Forestry',
+    label: 'Agriculture and Forestry',
+  },
+  {
+    key: 'Automotive',
+    value: 'Automotive',
+    label: 'Automotive',
+  },
+  {
+    key: 'Banking/Accounting/Financial',
+    value: 'Banking/Accounting/Financial',
+    label: 'Banking/Accounting/Financial',
+  },
+  {
+    key: 'Computer and Technology',
+    value: 'Computer and Technology',
+    label: 'Computer and Technology',
+  },
+  {
+    key: 'Education and Training',
+    value: 'Education and Training',
+    label: 'Education and Training',
+  },
+  {
+    key: 'Engineering and Construction',
+    value: 'Engineering and Construction',
+    label: 'Engineering and Construction',
+  },
+  {
+    key: 'Entertainment/Travel/Hospitality',
+    value: 'Entertainment/Travel/Hospitality',
+    label: 'Entertainment/Travel/Hospitality',
+  },
+  {
+    key: 'Food and Beverage',
+    value: 'Food and Beverage',
+    label: 'Food and Beverage',
+  },
+  {
+    key: 'Government and Public Administration',
+    value: 'Government and Public Administration',
+    label: 'Government and Public Administration',
+  },
+  {
+    key: 'Healthcare',
+    value: 'Healthcare',
+    label: 'Healthcare',
+  },
+  {
+    key: 'Insurance',
+    value: 'Insurance',
+    label: 'Insurance',
+  },
+  {
+    key: 'Legal Solutions',
+    value: 'Legal Solutions',
+    label: 'Legal Solutions',
+  },
+  {
+    key: 'Manufacturing',
+    value: 'Manufacturing',
+    label: 'Manufacturing',
+  },
+  {
+    key: 'Marketing',
+    value: 'Marketing',
+    label: 'Marketing',
+  },
+  {
+    key: 'Non profit Organizations',
+    value: 'Non profit Organizations',
+    label: 'Non profit Organizations',
+  },
+  {
+    key: 'Other Industry Not Listed',
+    value: 'Other Industry Not Listed',
+    label: 'Other Industry Not Listed',
+  },
+  {
+    key: 'Pharmaceutical',
+    value: 'Pharmaceutical',
+    label: 'Pharmaceutical',
+  },
+  {
+    key: 'Public Relations',
+    value: 'Public Relations',
+    label: 'Public Relations',
+  },
+  {
+    key: 'Real Estate',
+    value: 'Real Estate',
+    label: 'Real Estate',
+  },
+  {
+    key: 'Retail and Wholesale',
+    value: 'Retail and Wholesale',
+    label: 'Retail and Wholesale',
+  },
+  {
+    key: 'Scientific',
+    value: 'Scientific',
+    label: 'Scientific',
+  },
+  {
+    key: 'Telecommunications',
+    value: 'Telecommunications',
+    label: 'Telecommunications',
+  },
+  {
+    key: 'Transportation and Shipping',
+    value: 'Transportation and Shipping',
+    label: 'Transportation and Shipping',
+  },
+  {
+    key: 'Utilities',
+    value: 'Utilities',
+    label: 'Utilities',
+  },
+]
+
+const SOURCE_OPTIONS = [
+  { key: 'email', value: 'Email', label: 'Email' },
+  { key: 'google', value: 'Google', label: 'Google' },
+  { key: 'linkedin', value: 'LinkedIn', label: 'LinkedIn' },
+  {
+    key: 'social-media',
+    value: 'Social Media',
+    label: 'Social Media',
+  },
+  { key: 'referral', value: 'Referral', label: 'Referral' },
+]
 
 export interface ResourceFormProps {
   onSubmit?: (values: any) => void
@@ -25,7 +173,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     const { mobile, email, country } = values
 
     const { valid: isMobileValid } = parsePhoneNumber(mobile, {
-      regionCode: getCode(country),
+      regionCode: getCountryCode(country),
     })
 
     const emailDomain = email.split('@')[1]
@@ -48,11 +196,20 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     })
   })
   const { query } = router
-  const { email = '', name = '' } = query
+  const {
+    email = '',
+    name = '',
+    industry = '',
+    country = '',
+    mobile = '',
+    source = '',
+  } = query
 
   const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values)
+
     setIsLoading(true)
+
     await postEnquiry({
       type: EnquiryTypeEnum.RESOURCE,
       origin: window.location.href,
@@ -60,8 +217,9 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     })
 
     setIsLoading(false)
+
     const nextPath = router.asPath.split('?')[0]
-    router.push(`${nextPath}/success`)
+    return router.push(`${nextPath}/success`)
   }
 
   return (
@@ -72,13 +230,17 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
         defaultValues={{
           name,
           email,
-          source: '',
           job_role: '',
           job_department: '',
           company_size: '',
-          mobile: '',
-          industry: '',
-          country: '',
+          mobile,
+          industry,
+          country,
+          source:
+            SOURCE_OPTIONS.find(
+              ({ value }) =>
+                value.toLowerCase() === String(source).toLowerCase()
+            )?.value || '',
         }}
         onSubmit={handleSubmit}
         submitButtonProps={{
@@ -176,41 +338,13 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                     placeholder: 'Phone',
                     type: 'mobile',
                   },
-
                   {
                     key: 'industry',
                     name: 'industry',
                     required: true,
                     placeholder: 'Which industry are you from?',
                     props: { disableFirstOptionAsDefaultValue: true },
-                    options: [
-                      'Advertising/Media/Publishing',
-                      'Aerospace and Aviation',
-                      'Agriculture and Forestry',
-                      'Automotive',
-                      'Banking/Accounting/Financial',
-                      'Computer and Technology',
-                      'Education and Training',
-                      'Engineering and Construction',
-                      'Entertainment/Travel/Hospitality',
-                      'Food and Beverage',
-                      'Government and Public Administration',
-                      'Healthcare',
-                      'Insurance',
-                      'Legal Solutions',
-                      'Manufacturing',
-                      'Marketing',
-                      'Non profit Organizations',
-                      'Other Industry Not Listed',
-                      'Pharmaceutical',
-                      'Public Relations',
-                      'Real Estate',
-                      'Retail and Wholesale',
-                      'Scientific',
-                      'Telecommunications',
-                      'Transportation and Shipping',
-                      'Utilities',
-                    ],
+                    options: INDUSTRY_OPTIONS,
                   },
                   {
                     key: 'country',
@@ -218,7 +352,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                     required: true,
                     placeholder: 'Where are you from?',
                     props: { disableFirstOptionAsDefaultValue: true },
-                    options: getNames(),
+                    options: getCountryNames(),
                   },
                   {
                     key: 'source',
@@ -227,18 +361,9 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                     type: 'radio',
                     required: true,
                     compact: true,
-                    options: [
-                      {
-                        key: 'social-media',
-                        value: 'Social Media',
-                        label: 'Social Media',
-                      },
-                      { key: 'google', value: 'Google', label: 'Google' },
-                      { key: 'linkedin', value: 'LinkedIn', label: 'LinkedIn' },
-                      { key: 'referral', value: 'Referral', label: 'Referral' },
-                    ],
+                    options: SOURCE_OPTIONS,
                   },
-                ],
+                ].map((field) => ({ disabled: isLoading, ...field })),
               },
             ]}
           />
