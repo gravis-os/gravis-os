@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.6.0
+
+### Minor Changes
+
+- [#387](https://github.com/gravis-os/gravis-os/pull/387) [`1bad2798`](https://github.com/gravis-os/gravis-os/commit/1bad279841165fa742db00c28a42b812788101a2) Thanks [@clodal](https://github.com/clodal)! - Update ResourceForm
+
+### Patch Changes
+
+- Updated dependencies [[`1bad2798`](https://github.com/gravis-os/gravis-os/commit/1bad279841165fa742db00c28a42b812788101a2)]:
+  - @gravis-os/types@0.4.0
+
 ## 0.5.2
 
 ### Patch Changes

@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.20.0
+
+### Minor Changes
+
+- [#387](https://github.com/gravis-os/gravis-os/pull/387) [`1bad2798`](https://github.com/gravis-os/gravis-os/commit/1bad279841165fa742db00c28a42b812788101a2) Thanks [@clodal](https://github.com/clodal)! - Update ResourceForm
+
+### Patch Changes
+
+- Updated dependencies [[`1bad2798`](https://github.com/gravis-os/gravis-os/commit/1bad279841165fa742db00c28a42b812788101a2)]:
+  - @gravis-os/form@1.2.0
+  - @gravis-os/types@0.4.0
+  - @gravis-os/ui@0.6.0
+
 ## 0.19.3
 
 ### Patch Changes
