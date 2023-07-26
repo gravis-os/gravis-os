@@ -54,7 +54,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
 
   const defaultForm = useForm(useFormProps)
   const formContext = injectedFormContext || defaultForm
-  const { watch, handleSubmit, reset, formState } = formContext
+  const { handleSubmit, reset, formState } = formContext
   const defaultValues = injectedDefaultValues || useFormProps?.defaultValues
   const { isSubmitSuccessful } = formState
 
@@ -99,7 +99,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
         {submitButtonProps && (
           <Button
             type="submit"
-            disabled={formState.isSubmitting}
+            disabled={formState.isSubmitting || submitButtonProps?.loading}
             {...buttonProps}
             {...submitButtonProps}
           />

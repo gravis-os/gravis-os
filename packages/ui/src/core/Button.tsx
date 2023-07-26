@@ -95,7 +95,11 @@ const Button: React.FC<ButtonProps> = (props) => {
     BUTTON_VARIANT_CALLOUT,
     BUTTON_VARIANT_GHOST,
   ].includes(variant)
-  const buttonProps = loading ? omit(rest, ['startIcon', 'endIcon']) : rest
+
+  const buttonProps = loading
+    ? { ...omit(rest, ['startIcon', 'endIcon']), disabled: true }
+    : rest
+
   const childrenJsxContent = children ?? title
   const childrenJsx = (
     <MuiButton
@@ -180,7 +184,6 @@ const Button: React.FC<ButtonProps> = (props) => {
           border: 1,
           borderColor: 'divider',
           '&:hover': {
-            // backgroundColor: 'action.hover',
             borderColor: 'text.primary',
           },
         }),
