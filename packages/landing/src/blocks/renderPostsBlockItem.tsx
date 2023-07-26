@@ -10,13 +10,15 @@ export interface RenderPostsBlockItemProps {
   items: Post[]
   fromStorage?: boolean
   gridItemProps?: BlockItemProps['gridItemProps']
+  gridProps?: BlockItemProps['gridProps']
 }
 
 const renderPostsBlockItem = (props: RenderPostsBlockItemProps) => {
-  const { items, fromStorage, gridItemProps } = props
+  const { items, fromStorage, gridItemProps, gridProps } = props
   const { routeConfig } = useLayout()
   return {
     type: 'grid',
+    gridProps,
     gridItems: orderBy(items, 'published_at', 'desc').map((item) => {
       return renderPostBlockItem({
         item: {
