@@ -135,12 +135,12 @@ const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
   const nextPageParam = isInitialPageParam ? initialPageParam : pageParam
 
   return {
-    ...props,
     range: null,
     limit: pageSize,
     // Set the location of the next cursor with this where clause
     [isAscending ? 'gte' : 'lte']: [sortKey, nextPageParam],
     order: [sortKey, { ascending: isAscending, nullsFirst: true }],
+    ...props,
   }
 }
 const withSort = () => (props: UseListProps & UseListFilters) => {
