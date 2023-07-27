@@ -203,6 +203,8 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     country = '',
     mobile = '',
     source = '',
+    job_department = '',
+    job_role = '',
   } = query
 
   const handleSubmit = async (values) => {
@@ -230,10 +232,9 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
         defaultValues={{
           name,
           email,
-          job_role: '',
-          job_department: '',
-          company_size: '',
           mobile,
+          job_role,
+          job_department,
           industry,
           country,
           source:
@@ -275,6 +276,22 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                     label: 'Work Email',
                     placeholder: 'What is your work email address?',
                     required: true,
+                  },
+                  {
+                    key: 'country',
+                    name: 'country',
+                    required: true,
+                    placeholder: 'Where are you from?',
+                    props: { disableFirstOptionAsDefaultValue: true },
+                    options: getCountryNames(),
+                  },
+                  {
+                    key: 'industry',
+                    name: 'industry',
+                    required: true,
+                    placeholder: 'Which industry are you from?',
+                    props: { disableFirstOptionAsDefaultValue: true },
+                    options: INDUSTRY_OPTIONS,
                   },
                   {
                     key: 'job_department',
@@ -319,40 +336,11 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                     ],
                   },
                   {
-                    key: 'company_size',
-                    name: 'company_size',
-                    required: true,
-                    props: { disableFirstOptionAsDefaultValue: true },
-                    options: [
-                      { key: '1-10', value: '1-10', label: '1-10' },
-                      { key: '11-50', value: '11-50', label: '11-50' },
-                      { key: '51-200', value: '51-200', label: '51-200' },
-                      { key: '201-500', value: '201-500', label: '201-500' },
-                      { key: '501+', value: '501+', label: '501+' },
-                    ],
-                  },
-                  {
                     key: 'mobile',
                     name: 'mobile',
                     required: true,
                     placeholder: 'Phone',
                     type: 'mobile',
-                  },
-                  {
-                    key: 'industry',
-                    name: 'industry',
-                    required: true,
-                    placeholder: 'Which industry are you from?',
-                    props: { disableFirstOptionAsDefaultValue: true },
-                    options: INDUSTRY_OPTIONS,
-                  },
-                  {
-                    key: 'country',
-                    name: 'country',
-                    required: true,
-                    placeholder: 'Where are you from?',
-                    props: { disableFirstOptionAsDefaultValue: true },
-                    options: getCountryNames(),
                   },
                   {
                     key: 'source',

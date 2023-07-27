@@ -42,7 +42,6 @@ export interface PostEnquiryRequestBody {
   source?: string
   job_department?: string
   job_role?: string
-  company_size?: string
 }
 
 export interface HandlePostEnquiryNextRequest extends NextRequest {
@@ -66,7 +65,6 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
       source,
       job_department,
       job_role,
-      company_size,
       industry,
       country,
     } = await req.json()
@@ -86,7 +84,6 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
       needs: needs.map(({ value }) => value).join(', '),
       job_department,
       job_role,
-      company_size,
       industry,
       country,
     }
@@ -118,12 +115,11 @@ const handlePostEnquiry = async (req: HandlePostEnquiryNextRequest) => {
             `Date: ${date}`,
             `Domain: ${domain}`,
             `Path: ${path}`,
+            `Source: ${source}`,
             job_department ? `Jd: ${job_department}` : '',
             job_role ? `Jr: ${job_role}` : '',
-            company_size ? `Cs: ${company_size}` : '',
-            `Src: ${source}`,
-            industry ? `Ind: ${industry}` : '',
-            country ? `Cty: ${country}` : '',
+            industry ? `Industry: ${industry}` : '',
+            country ? `Country: ${country}` : '',
           ].filter(Boolean),
           merge_fields: {
             FNAME: name,
