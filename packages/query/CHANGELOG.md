@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.35
+
+### Patch Changes
+
+- [#389](https://github.com/gravis-os/gravis-os/pull/389) [`e1d3cd4a`](https://github.com/gravis-os/gravis-os/commit/e1d3cd4a35b6925f64beeaca96913162fd1b0330) Thanks [@shank1xt](https://github.com/shank1xt)! - handle limit in uselist
+
 ## 0.0.34
 
 ### Patch Changes
