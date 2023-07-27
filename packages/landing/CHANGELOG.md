@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.21.0
+
+### Minor Changes
+
+- [#388](https://github.com/gravis-os/gravis-os/pull/388) [`11e9287f`](https://github.com/gravis-os/gravis-os/commit/11e9287f5b2f1889b7d36d42ed771210a5ba585c) Thanks [@clodal](https://github.com/clodal)! - Update ResourceForm for launch. Removed company size fields. Update UI
+
+### Patch Changes
+
+- Updated dependencies [[`11e9287f`](https://github.com/gravis-os/gravis-os/commit/11e9287f5b2f1889b7d36d42ed771210a5ba585c)]:
+  - @gravis-os/ui@0.7.0
+
 ## 0.20.0
 
 ### Minor Changes
