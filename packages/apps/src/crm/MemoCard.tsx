@@ -6,7 +6,7 @@ import {
   IconButton,
   Stack,
   Typography,
-  Button
+  Button,
 } from '@gravis-os/ui'
 import Popover from '@mui/material/Popover'
 import { printDateTime, printHtml } from '@gravis-os/utils'
@@ -49,7 +49,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
     isMutable,
     renderEditComponent,
     onSave,
-    onDelete
+    onDelete,
   } = props
 
   const {
@@ -61,7 +61,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
     priority = '',
     location = null,
     contact = null,
-    assignee = null
+    assignee = null,
   } = item
 
   const [isEditing, setIsEditing] = useState<boolean>(false)
