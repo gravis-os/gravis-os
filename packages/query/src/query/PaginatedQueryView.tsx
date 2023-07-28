@@ -82,7 +82,6 @@ const PaginatedQueryView: React.FC<PaginatedQueryViewProps> = (props) => {
   const isListVariant = variant === PaginatedQueryViewVariantEnum.List
   const gridProps = { ...injectedGridProps }
   const gridItemProps = {
-    ...injectedGridItemProps,
     // Resize on drawer change
     ...(bounds?.width < theme.breakpoints.values.md && {
       md: 12 / gridItemWidth,
@@ -97,6 +96,8 @@ const PaginatedQueryView: React.FC<PaginatedQueryViewProps> = (props) => {
       lg: 12,
       xl: 12,
     }),
+    // Overrides with injected props
+    ...injectedGridItemProps,
   }
 
   // InfiniteQuery setup
