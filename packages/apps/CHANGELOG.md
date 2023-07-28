@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.10
+
+### Patch Changes
+
+- [#390](https://github.com/gravis-os/gravis-os/pull/390) [`f6801bb1`](https://github.com/gravis-os/gravis-os/commit/f6801bb1265f0acdab3ebc18a45ef4273671eef6) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add assginee to memo card
+
 ## 0.1.9
 
 ### Patch Changes
