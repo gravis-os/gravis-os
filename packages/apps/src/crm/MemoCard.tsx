@@ -6,12 +6,13 @@ import {
   IconButton,
   Stack,
   Typography,
-  Button,
+  Button
 } from '@gravis-os/ui'
 import Popover from '@mui/material/Popover'
 import { printDateTime, printHtml } from '@gravis-os/utils'
 import type { RenderPropsFunction } from '@gravis-os/types'
 import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined'
+import PersonIcon from '@mui/icons-material/Person'
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
@@ -26,6 +27,7 @@ export interface MemoCardProps {
     priority?: string
     contact?: Record<string, string>
     location?: string
+    assignee?: { full_name?: string; title?: string }
   }
   actions?: React.ReactNode
   showContact?: boolean
@@ -47,7 +49,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
     isMutable,
     renderEditComponent,
     onSave,
-    onDelete,
+    onDelete
   } = props
 
   const {
@@ -59,6 +61,7 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
     priority = '',
     location = null,
     contact = null,
+    assignee = null
   } = item
 
   const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -159,6 +162,17 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                       }
                       color="primary"
                       label={showContact ? `Location: ${location}` : location}
+                    />
+                  )}
+                  {assignee && (
+                    <Chip
+                      icon={!showContact && <PersonIcon fontSize="small" />}
+                      color="primary"
+                      label={
+                        showContact
+                          ? `Assignee: ${assignee.full_name}`
+                          : assignee.full_name
+                      }
                     />
                   )}
                   {showContact && (
