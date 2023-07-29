@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.30
+
+### Patch Changes
+
+- [#393](https://github.com/gravis-os/gravis-os/pull/393) [`c0b9609c`](https://github.com/gravis-os/gravis-os/commit/c0b9609c97f3f21b3c9d8970c4494513c5ed0e21) Thanks [@clodal](https://github.com/clodal)! - Remove console logs to rule out side effects
+
 ## 0.0.29
 
 ### Patch Changes

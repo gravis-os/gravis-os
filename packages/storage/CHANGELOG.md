@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.2.0
+
+### Minor Changes
+
+- [#392](https://github.com/gravis-os/gravis-os/pull/392) [`2395fd09`](https://github.com/gravis-os/gravis-os/commit/2395fd094c8c1bd5536b1ad9dc9642149a9ac903) Thanks [@clodal](https://github.com/clodal)! - Clean up bad imports to improve bundle size. Add eslint rule
+
+### Patch Changes
+
+- Updated dependencies [[`2395fd09`](https://github.com/gravis-os/gravis-os/commit/2395fd094c8c1bd5536b1ad9dc9642149a9ac903)]:
+  - @gravis-os/ui@0.8.0
+
 ## 0.1.6
 
 ### Patch Changes

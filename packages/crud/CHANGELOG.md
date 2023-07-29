@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.0.115
+
+### Patch Changes
+
+- [#393](https://github.com/gravis-os/gravis-os/pull/393) [`c0b9609c`](https://github.com/gravis-os/gravis-os/commit/c0b9609c97f3f21b3c9d8970c4494513c5ed0e21) Thanks [@clodal](https://github.com/clodal)! - Remove console logs to rule out side effects
+
+- Updated dependencies [[`c0b9609c`](https://github.com/gravis-os/gravis-os/commit/c0b9609c97f3f21b3c9d8970c4494513c5ed0e21), [`2395fd09`](https://github.com/gravis-os/gravis-os/commit/2395fd094c8c1bd5536b1ad9dc9642149a9ac903)]:
+  - @gravis-os/auth@0.0.61
+  - @gravis-os/form@1.3.0
+  - @gravis-os/storage@0.2.0
+  - @gravis-os/ui@0.8.0
+
 ## 0.0.114
 
 ### Patch Changes

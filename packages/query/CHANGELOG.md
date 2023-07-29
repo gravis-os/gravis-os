@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.0.36
+
+### Patch Changes
+
+- [#391](https://github.com/gravis-os/gravis-os/pull/391) [`b6c201a1`](https://github.com/gravis-os/gravis-os/commit/b6c201a1cf79d4246ae07787ca7b545d68bfbc55) Thanks [@shank1xt](https://github.com/shank1xt)! - change destructuring order of gridprops
+
 ## 0.0.35
 
 ### Patch Changes
