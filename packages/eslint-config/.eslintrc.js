@@ -36,15 +36,29 @@ module.exports = {
     // Javascript
     camelcase: 0,
     'arrow-body-style': 0,
+    'prefer-const': 2,
     'no-shadow': 0,
     'no-case-declarations': 0,
     'no-use-before-define': 0,
     'no-nested-ternary': 1,
     'no-useless-return': 0,
-    'prefer-const': 2,
     'no-unreachable': 2,
     'no-useless-rename': 2,
-    'no-magic-numbers': 1,
+    'no-restricted-imports': [
+      2,
+      {
+        paths: [
+          {
+            name: 'lodash',
+            message: 'Import [module] from lodash/[module] instead',
+          },
+          {
+            name: '@mui/icons-material',
+            message: 'Import [icon] from @mui/icons-material/[icon] instead',
+          },
+        ],
+      },
+    ],
     'consistent-return': 1,
     // prettier
     'prettier/prettier': [

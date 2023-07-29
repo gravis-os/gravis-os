@@ -1,4 +1,4 @@
-import { ArrowBackIos } from '@mui/icons-material'
+import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined'
 import { SvgIconProps } from '@mui/material'
 import React from 'react'
 import Button, { ButtonProps } from '../core/Button'
@@ -51,7 +51,9 @@ const BackButton: React.FC<BackButtonProps> = (props): React.ReactElement => {
         sx={{ textTransform: 'none', ...buttonSxProps }}
         href={href}
         {...(!disableArrow && {
-          startIcon: <ArrowBackIos htmlColor="grey" {...arrowIconProps} />,
+          startIcon: (
+            <ArrowBackIosOutlinedIcon htmlColor="grey" {...arrowIconProps} />
+          ),
         })}
         {...rest}
       >

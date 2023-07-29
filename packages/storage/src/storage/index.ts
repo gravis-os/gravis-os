@@ -17,6 +17,11 @@ export { default as getStorageImageUrl } from './getStorageImageUrl'
 export * from './getStorageImageUrl'
 
 // ==============================
+// Types
+// ==============================
+export * from './types'
+
+// ==============================
 // Hooks
 // ==============================
 export { default as useGetStorageObject } from './useGetStorageObject'
