@@ -1,5 +1,5 @@
-import { LocalActivity as LocalActivityIcon } from '@mui/icons-material'
 import React from 'react'
+import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined'
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import IconButton from './IconButton'
 
@@ -23,7 +23,7 @@ export default {
 /* Template */
 const Template = (args) => (
   <IconButton {...args}>
-    <LocalActivityIcon />
+    <LocalActivityOutlinedIcon />
   </IconButton>
 )
 

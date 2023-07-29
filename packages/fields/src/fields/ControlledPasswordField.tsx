@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { Controller, UseControllerProps } from 'react-hook-form'
-import { Visibility, VisibilityOff } from '@mui/icons-material'
+import VisibilityIcon from '@mui/icons-material/Visibility'
+import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { InputAdornment } from '@mui/material'
 import { IconButton } from '@gravis-os/ui'
 import TextField from './TextField'
@@ -29,7 +30,7 @@ const ControlledPasswordField: React.FC<ControlledPasswordFieldProps> = (
                   onClick={() => setShowPassword(!showPassword)}
                   size="large"
                 >
-                  {showPassword ? <Visibility /> : <VisibilityOff />}
+                  {showPassword ? <VisibilityIcon /> : <VisibilityOffIcon />}
                 </IconButton>
               </InputAdornment>
             ),

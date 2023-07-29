@@ -1,5 +1,5 @@
-import { LocalShipping as LocalShippingIcon } from '@mui/icons-material'
 import React from 'react'
+import LocalShippingOutlinedIcon from '@mui/icons-material/LocalShippingOutlined'
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import ConfirmationDialog from './ConfirmationDialog'
 
@@ -18,4 +18,4 @@ export const Basic = Template.bind({})
 Basic.args = {}
 
 export const CustomIcon = Template.bind({})
-CustomIcon.args = { icon: <LocalShippingIcon /> }
+CustomIcon.args = { icon: <LocalShippingOutlinedIcon /> }

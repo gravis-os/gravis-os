@@ -1,6 +1,6 @@
 import React, { FC } from 'react'
 import { IconButton, Stack, StackProps, Typography } from '@gravis-os/ui'
-import { Close as CloseIcon } from '@mui/icons-material'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import dayjs from 'dayjs'
 import CalendarEventContent from './CalendarEventContent'
 import CalendarEventDrawerSection from './CalendarEventDrawerSection'
@@ -36,7 +36,7 @@ const CalendarEventDrawer: FC<CalendarDrawerProps> = (props) => {
           {dayjs(start).format('D MMMM YY, HH:mm A')}
         </Typography>
         <IconButton onClick={onClose}>
-          <CloseIcon />
+          <CloseOutlinedIcon />
         </IconButton>
       </Stack>
       <Stack sx={{ gap: 3, p: 2 }}>

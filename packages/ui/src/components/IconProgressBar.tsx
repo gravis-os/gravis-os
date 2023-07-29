@@ -1,4 +1,4 @@
-import { CheckOutlined } from '@mui/icons-material'
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import React, { ReactNode } from 'react'
 import Avatar from '../core/Avatar'
 import Box from '../core/Box'
@@ -84,7 +84,7 @@ const IconProgressBarItem = (iconProgressBarItem: IconProgressBarItemProps) => {
         }}
       >
         {status === IconProgressBarItemStatus.Completed ? (
-          <CheckOutlined sx={{ color: 'success.contrastText' }} />
+          <CheckOutlinedIcon sx={{ color: 'success.contrastText' }} />
         ) : (
           icon
         )}

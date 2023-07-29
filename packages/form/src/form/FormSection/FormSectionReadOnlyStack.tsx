@@ -3,8 +3,7 @@ import { Link, Stack, StackProps, Typography } from '@gravis-os/ui'
 import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined'
 import download from 'downloadjs'
-import type { File } from '@gravis-os/storage/src/storage/types'
-import { useFiles } from '@gravis-os/storage'
+import { useFiles, File } from '@gravis-os/storage'
 
 export interface FormSectionFileProps {
   isFiles?: boolean

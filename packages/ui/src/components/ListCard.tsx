@@ -1,4 +1,4 @@
-import { ArrowForwardIos } from '@mui/icons-material'
+import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined'
 import {
   List,
   ListItem,
@@ -57,7 +57,7 @@ const ListCard: React.FC<ListCardProps> = (props): React.ReactElement => {
             ...(!disableArrow && {
               secondaryAction: (
                 <IconButton edge="end">
-                  <ArrowForwardIos color="primary" />
+                  <ArrowForwardIosOutlinedIcon color="primary" />
                 </IconButton>
               ),
             }),
