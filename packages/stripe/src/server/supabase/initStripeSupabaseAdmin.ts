@@ -37,7 +37,6 @@ const initStripeSupabaseAdmin = (
       .from<StripeProduct>('stripe_product')
       .upsert([productData])
     if (error) throw error
-    console.log(`Product inserted/updated: ${product.id}`)
   }
   const upsertPriceRecord = async (price: Stripe.Price) => {
     const priceData: StripePrice = {
@@ -58,7 +57,6 @@ const initStripeSupabaseAdmin = (
       .from<StripePrice>('stripe_price')
       .upsert([priceData])
     if (error) throw error
-    console.log(`Price inserted/updated: ${price.id}`)
   }
   const createOrRetrieveCustomer = async ({
     email,
@@ -183,10 +181,6 @@ const initStripeSupabaseAdmin = (
       .from('stripe_subscription')
       .upsert([subscriptionData])
     if (error) throw error
-
-    console.log(
-      `Inserted/updated subscription [${subscription.id}] for user [${uuid}]`
-    )
 
     // For a new subscription copy the billing details to the customer object.
     // NOTE: This is a costly operation and should happen at the very end.

@@ -196,15 +196,6 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     // Payload
     const nextValues = nonOneToManyValues
 
-    // Add debugger
-    if (process.env.DEBUG === 'true') {
-      console.log('[DEBUG]: useCrudForm.onSubmit', {
-        values,
-        dbFormValues,
-        exposedValues,
-      })
-    }
-
     // HandleSuccess - Gets fired after both actions are completed
     const handleSuccess = async ({ item: nextItem }) => {
       // Toast
