@@ -128,19 +128,6 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     <CircularProgress fullScreen id="UserProvider-CircularProgress" />
   )
 
-  if (process.env.DEBUG === 'true') {
-    console.log(`👤 [DEBUG] UserProvider`, {
-      shouldShowLoader,
-      isGuestPath,
-      authUserLoading,
-      dbUser,
-      pathname,
-      injectedPathname,
-      router,
-      props,
-    })
-  }
-
   // Auth Context methods
   const logout = async () => {
     /**

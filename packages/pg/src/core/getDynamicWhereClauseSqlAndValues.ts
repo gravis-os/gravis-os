@@ -16,13 +16,6 @@ const getDynamicWhereClauseSqlAndValues = async (props: {
   const whereClauseSql = getWhereClauseSql({ query, columnKeys })
   const whereClauseValues = getWhereClauseValues({ query, columnKeys })
 
-  if (process.env.DEBUG === 'true') {
-    console.log('[DEBUG]: getWhereClauseSqlAndValues()', {
-      whereClauseSql,
-      whereClauseValues,
-    })
-  }
-
   return [whereClauseSql, whereClauseValues]
 }
 
