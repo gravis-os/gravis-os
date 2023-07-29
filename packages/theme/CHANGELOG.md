@@ -1,5 +1,16 @@
 # @gravis-os/theme
 
+## 0.1.0
+
+### Minor Changes
+
+- [#394](https://github.com/gravis-os/gravis-os/pull/394) [`259ffe2b`](https://github.com/gravis-os/gravis-os/commit/259ffe2bec29929386981917b4337c60987ffde4) Thanks [@clodal](https://github.com/clodal)! - Fix issue with missing type declarations TS7016
+
+### Patch Changes
+
+- Updated dependencies [[`259ffe2b`](https://github.com/gravis-os/gravis-os/commit/259ffe2bec29929386981917b4337c60987ffde4)]:
+  - @gravis-os/types@0.5.0
+
 ## 0.0.15
 
 ### Patch Changes
