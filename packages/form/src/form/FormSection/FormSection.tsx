@@ -1,58 +1,8 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
-import {
-  ButtonProps,
-  Card,
-  CardProps,
-  Grid,
-  GridProps,
-  StackProps,
-} from '@gravis-os/ui'
-import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
-import renderFieldWithWrapper, {
-  RenderFieldWithWrapperProps,
-} from './renderFieldWithWrapper'
-
-export interface FormSectionRenderReadOnlyProps {
-  item?: CrudItem
-  name: string
-  module: CrudModule
-  label: string
-  value: any
-  title: string
-}
-
-export interface FormSectionProps extends Omit<CardProps, 'hidden'> {
-  key: string
-  fields: Array<RenderFieldWithWrapperProps['fieldProps']>
-
-  // Note that this only controls the section.gridProps. There is also a field.gridProps
-  gridProps?: GridProps
-
-  module?: CrudModule
-  item?: CrudItem
-  isNew?: boolean
-  isPreview?: boolean
-
-  // Read Only
-  isReadOnly?: boolean
-  readOnlySx?: StackProps['sx']
-  renderReadOnly?: RenderPropsFunction<FormSectionRenderReadOnlyProps>
-  renderReadOnlySection?: RenderPropsFunction<{
-    label: React.ReactNode
-    item?: CrudItem
-  }>
-
-  disableEdit?: boolean
-  actionButtons?: ButtonProps[]
-
-  disableCard?: boolean
-  disabledFields?: string[]
-
-  // Contexts
-  crudContext?: RenderFieldWithWrapperProps['crudContext'] // If Form is used inside CrudForm
-  userContext?: RenderFieldWithWrapperProps['userContext'] // If Form is used inside AuthProvider
-}
+import { Card, Grid } from '@gravis-os/ui'
+import renderFieldWithWrapper from './renderFieldWithWrapper'
+import type { FormSectionProps } from './types'
 
 const FormSection: React.FC<FormSectionProps> = (props) => {
   const {

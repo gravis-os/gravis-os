@@ -1,6 +1,8 @@
 export { default as Form } from './Form'
 export * from './Form'
 
+export * from './FormSection/types'
+
 export { default as FormSections } from './FormSection/FormSections'
 export * from './FormSection/FormSections'
 
@@ -74,3 +76,4 @@ export * from './effects/observeField'
 // Field Defs
 // ==============================
 export * from './fieldDefs'
+export { FormSectionFieldTypeEnum } from './FormSection/constants'

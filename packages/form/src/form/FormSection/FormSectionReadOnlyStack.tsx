@@ -1,9 +1,5 @@
 import React from 'react'
-import { Link, Stack, StackProps, Typography } from '@gravis-os/ui'
-import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
-import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined'
-import download from 'downloadjs'
-import { useFiles, File } from '@gravis-os/storage'
+import { Stack, StackProps, Typography } from '@gravis-os/ui'
 
 export interface FormSectionFileProps {
   isFiles?: boolean
@@ -19,14 +15,6 @@ export interface FormSectionReadOnlyStackProps
   label: React.ReactNode
   disableTitle?: boolean
   fileProps?: FormSectionFileProps
-}
-
-// TODO: export from storage package
-const downloadFromBlobUrl = async (file: File) => {
-  const { url, name, type } = file
-  // @ts-ignore
-  const blob = await fetch(url).then((r) => r.blob())
-  return download(blob, name, type)
 }
 
 const getDisplayTitle = (title) => {
@@ -50,21 +38,7 @@ const getDisplayTitles = (titles) =>
 const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
   props
 ) => {
-  const {
-    disableTitle,
-    title,
-    label,
-    children,
-    fileProps = {},
-    ...rest
-  } = props
-
-  const { isFiles, bucketName } = fileProps
-  const hasFiles = isFiles && Array.isArray(title) && title.length > 0
-  const { files } = useFiles({
-    items: hasFiles ? (title as File[]) : [],
-    bucketName,
-  })
+  const { disableTitle, title, label, children, ...rest } = props
 
   const displayTitles = getDisplayTitles(title)
 
@@ -78,49 +52,10 @@ const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
 
         {/* Title */}
         {!disableTitle &&
-          // Handle when files are fed as the title
-          (hasFiles ? (
-            <List>
-              {files.map((file) => {
-                const { path, name, alt }: File = file
-                const handleDownloadClick = async () =>
-                  downloadFromBlobUrl(file)
-                return (
-                  <ListItem
-                    key={path}
-                    sx={{
-                      border: 1,
-                      borderColor: 'divider',
-                      borderRadius: 1,
-                      '& + &': {
-                        mt: 1,
-                      },
-                    }}
-                  >
-                    <ListItemIcon>
-                      <FileCopyOutlinedIcon fontSize="small" />
-                    </ListItemIcon>
-                    <ListItemText
-                      primary={
-                        <Link pointer onClick={handleDownloadClick}>
-                          {name || alt}
-                        </Link>
-                      }
-                      primaryTypographyProps={{
-                        color: 'textPrimary',
-                        variant: 'subtitle2',
-                      }}
-                    />
-                  </ListItem>
-                )
-              })}
-            </List>
-          ) : (
-            displayTitles.map((title, index) => (
-              <Typography key={`${title}-${index}`} variant="subtitle1">
-                {title}
-              </Typography>
-            ))
+          displayTitles.map((title, index) => (
+            <Typography key={`${title}-${index}`} variant="subtitle1">
+              {title}
+            </Typography>
           ))}
       </Stack>
 

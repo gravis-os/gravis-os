@@ -4,20 +4,17 @@ import { UseFormReturn } from 'react-hook-form'
 import FieldEffectProvider, {
   FieldEffectProviderProps,
 } from './FieldEffectProvider'
-import { FormSectionProps } from './FormSection'
-import renderField, {
-  FormSectionFieldProps,
-  RenderFieldProps,
-} from './renderField'
+import renderField, { RenderFieldProps } from './renderField'
+import { FormSectionFieldProps } from './types'
 import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
 import getFormSectionFieldRenderProps from './getFormSectionFieldRenderProps'
 
 export interface FormSectionJsxFieldProps {
   formContext: UseFormReturn
-  item: FormSectionProps['item']
-  isNew: FormSectionProps['isNew']
-  isReadOnly: FormSectionProps['isReadOnly']
-  isPreview: FormSectionProps['isPreview']
+  item: RenderFieldProps['sectionProps']['item']
+  isNew: RenderFieldProps['sectionProps']['isNew']
+  isReadOnly: RenderFieldProps['sectionProps']['isReadOnly']
+  isPreview: RenderFieldProps['sectionProps']['isPreview']
 }
 
 /**
