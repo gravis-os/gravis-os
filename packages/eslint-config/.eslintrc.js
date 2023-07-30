@@ -80,14 +80,19 @@ module.exports = {
       1,
       {
         selector: 'variable',
-        format: ['strictCamelCase', 'snake_case', 'UPPER_CASE'],
+        format: [
+          'strictCamelCase',
+          'StrictPascalCase',
+          'snake_case',
+          'UPPER_CASE',
+        ],
       },
       // Valid boolean prefixes
       {
         selector: 'variable',
         types: ['boolean'],
         format: ['PascalCase'],
-        prefix: ['is', 'should', 'has', 'can', 'did', 'will'],
+        prefix: ['is', 'should', 'has', 'can', 'did', 'will', 'disable'],
       },
       // Valid function prefixes
       {
@@ -149,7 +154,7 @@ module.exports = {
       // Add suffix to enums
       {
         selector: 'enum',
-        format: ['UPPER_CASE'],
+        format: ['StrictPascalCase'],
         suffix: ['Enum'],
       },
       // Ignore destructured variables
