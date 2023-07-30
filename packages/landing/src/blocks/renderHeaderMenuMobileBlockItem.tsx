@@ -19,21 +19,6 @@ const renderHeaderMenuMobileBlockItem = (
     reveal: false,
     disableContainer: true,
     sx: { backgroundColor: 'transparent' },
-    boxProps: {
-      href,
-      hrefProps,
-      sx: {
-        ...(href && {
-          '&:hover': {
-            cursor: 'pointer',
-            backgroundColor: 'action.hover',
-          },
-          '&:active': {
-            backgroundColor: 'action.selected',
-          },
-        }),
-      },
-    },
     items: [
       {
         type: 'h7',
@@ -42,8 +27,9 @@ const renderHeaderMenuMobileBlockItem = (
           mb: 2,
           href,
           hrefProps: {
-            sx: { display: 'block' },
-            linkProps: { underline: 'hover' },
+            sx: { display: 'block', ...hrefProps?.sx },
+            linkProps: { underline: 'hover', ...hrefProps?.linkProps },
+            ...hrefProps,
           },
           sx: {
             ...(!href && { color: 'text.disabled' }),

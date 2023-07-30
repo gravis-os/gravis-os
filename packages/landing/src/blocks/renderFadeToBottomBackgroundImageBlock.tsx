@@ -28,7 +28,7 @@ const renderFadeToBottomBackgroundImageBlock = (
     buttonProps,
   } = props
   return {
-    key: title,
+    id: title,
     center: true,
     dark: true,
     pb: 46,

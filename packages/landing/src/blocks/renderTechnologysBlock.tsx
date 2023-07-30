@@ -12,7 +12,7 @@ const renderTechnologysBlock = (props: RenderTechnologysBlockProps) => {
   const { routeConfig } = useLayout()
 
   return {
-    key: 'technologys',
+    id: 'technologys',
     sx: { backgroundColor: 'background.paper' },
     mode: 'light',
     items: [

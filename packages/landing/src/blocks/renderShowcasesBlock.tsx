@@ -13,7 +13,7 @@ export interface RenderShowcasesBlockProps
 const renderShowcasesBlock = (props: RenderShowcasesBlockProps) => {
   const { overline, title, subtitle, items, ...rest } = props
   return {
-    key: 'showcases',
+    id: 'showcases',
     maxWidth: 'xl',
     items: [
       overline && {

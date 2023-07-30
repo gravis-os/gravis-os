@@ -25,9 +25,6 @@ export enum BlockItemTypeEnum {
   HTML = 'html',
   JSX = 'jsx',
 
-  // Card
-  CARD_ABSOLUTE_BOTTOM_IMAGE = 'card_absolute_bottom_image',
-
   // Custom
   IMAGE = 'image',
   SVG = 'svg',

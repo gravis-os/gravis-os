@@ -55,8 +55,7 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
 
 const Block: React.FC<BlockProps> = (props) => {
   const {
-    key,
-    id: injectedId,
+    id,
     spacing,
     stackProps,
     pt,
@@ -78,8 +77,6 @@ const Block: React.FC<BlockProps> = (props) => {
     ...rest
   } = props
 
-  const id = injectedId || String(key)
-
   const hasBackgroundImage = Boolean(backgroundImageProps)
   const hasBackgroundVideo = Boolean(backgroundVideoProps)
   const hasBackgroundOverlay =
@@ -94,7 +91,7 @@ const Block: React.FC<BlockProps> = (props) => {
   const childrenJsx = (
     // Section layer
     <Box
-      id={id}
+      {...(id && { id })}
       sx={{
         ...((dark || mode === 'dark') && {
           backgroundColor: defaultBackgroundColor,

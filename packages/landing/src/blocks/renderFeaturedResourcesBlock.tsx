@@ -1,5 +1,5 @@
 import { Resource } from '@gravis-os/types'
-import { renderPostsBlockItem } from './index'
+import renderPostsBlockItem from './renderPostsBlockItem'
 import { BlockProps } from '../web/Block/Block'
 import { useLayout } from '../providers/LayoutProvider'
 
@@ -16,7 +16,7 @@ const renderFeaturedResourcesBlock = (
   const { routeConfig } = useLayout()
   if (!items?.length) return
   return {
-    key: 'featured-resources',
+    id: 'featured-resources',
     items: [
       { type: 'overline', title: 'Resources' },
       {

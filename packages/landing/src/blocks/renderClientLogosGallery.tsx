@@ -12,7 +12,7 @@ const renderClientLogosGallery = (props: RenderClientLogosGalleryProps) => {
   const { items, title, ...rest } = props
 
   return {
-    key: 'gallery',
+    id: 'gallery',
     center: true,
     maxWidth: 'md',
     ...rest,

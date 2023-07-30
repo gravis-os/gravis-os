@@ -1,5 +1,5 @@
 import { PressRelease } from '@gravis-os/types'
-import { renderPostsBlockItem } from './index'
+import renderPostsBlockItem from './renderPostsBlockItem'
 import { BlockProps } from '../web/Block/Block'
 import { useLayout } from '../providers/LayoutProvider'
 
@@ -14,7 +14,7 @@ const renderFeaturedNewsBlock = (props: RenderFeaturedNewsBlockProps) => {
   const { routeConfig } = useLayout()
   if (!items?.length) return
   return {
-    key: 'featured-news',
+    id: 'featured-news',
     items: [
       { type: 'overline', title: 'News' },
       {

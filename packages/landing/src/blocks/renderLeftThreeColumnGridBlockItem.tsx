@@ -13,7 +13,7 @@ const renderLeftThreeColumnGridBlockItem = (
   const { overline, title, subtitle, items } = props
 
   return {
-    key: title,
+    id: title,
     center: false,
     items: [
       { type: 'overline', title: overline },

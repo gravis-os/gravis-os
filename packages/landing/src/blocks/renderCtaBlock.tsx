@@ -18,7 +18,7 @@ const renderCtaBlock = (props: RenderCtaBlockProps) => {
   const { routeConfig } = useLayout()
 
   return {
-    key: title,
+    id: title,
     center: true,
     maxWidth: 'md',
     items: [

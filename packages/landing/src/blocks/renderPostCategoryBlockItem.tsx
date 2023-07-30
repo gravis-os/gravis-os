@@ -1,6 +1,6 @@
 import { Post, PostCategory } from '@gravis-os/types'
 import orderBy from 'lodash/orderBy'
-import { renderPostBlockItem } from './index'
+import renderPostBlockItem from './renderPostBlockItem'
 
 export interface RenderPostCategoryBlockItemProps {
   item: PostCategory & { items: Array<Post & { href: string }> } & {

@@ -1,6 +1,6 @@
 import { Post } from '@gravis-os/types'
 import { BlockItemProps } from 'src/web'
-import { renderPostsBlockItem } from './index'
+import renderPostsBlockItem from './renderPostsBlockItem'
 import { BlockProps } from '../web/Block/Block'
 
 export interface RenderFeaturedPostsBlockProps
@@ -23,7 +23,7 @@ const renderFeaturedPostsBlock = (props: RenderFeaturedPostsBlockProps) => {
   } = props
   if (!items?.length) return
   return {
-    key: 'featured-posts',
+    id: 'featured-posts',
     items: [
       { type: 'overline', title: 'Insights' },
       {

@@ -10,7 +10,7 @@ const renderHomeSummaryBlock = (props: RenderHomeSummaryBlockProps) => {
   const { title, titleProps, ...rest } = props
 
   return {
-    key: 'home-summary',
+    id: 'home-summary',
     pt: { xs: 5, md: 10 },
     pb: { xs: 5, md: 10 },
     ...rest,

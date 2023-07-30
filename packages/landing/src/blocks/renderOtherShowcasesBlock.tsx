@@ -11,7 +11,7 @@ const renderOtherShowcasesBlock = (props: RenderOtherShowcasesBlockProps) => {
   const { items, ...rest } = props
   if (!items?.length) return
   return {
-    key: 'other-showcases',
+    id: 'other-showcases',
     sx: { backgroundColor: 'background.paper' },
     items: [
       { type: 'h4', title: 'Other Showcases' },

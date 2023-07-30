@@ -31,7 +31,7 @@ const renderHeroWithBackgroundBlock = (
   } = props
 
   return {
-    key: 'hero-with-background',
+    id: 'hero-with-background',
     py: { xs: 15, md: 30 },
     dark: true,
     center,

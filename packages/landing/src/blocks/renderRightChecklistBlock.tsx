@@ -14,7 +14,7 @@ const renderRightChecklistBlock = (props: RenderRightChecklistBlockProps) => {
   const { overline, title, subtitle, items, ...rest } = props
 
   return {
-    key: 'checklist',
+    id: 'checklist',
     ...rest,
     items: [
       {
@@ -51,7 +51,7 @@ const renderRightChecklistBlock = (props: RenderRightChecklistBlockProps) => {
                 title: items?.map((item) => {
                   const { title } = item
                   return {
-                    key: title,
+                    id: title,
                     title,
                     titleProps: { variant: 'subtitle2' },
                     startIcon: <CheckCircleIcon />,

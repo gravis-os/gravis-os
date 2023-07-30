@@ -40,7 +40,7 @@ const renderLeftHeroWithBackgroundBlock = (
   } = props
 
   return {
-    key: 'hero-with-background',
+    id: 'hero-with-background',
     pt: 30,
     pb: 0,
     centerOnMobile: true,

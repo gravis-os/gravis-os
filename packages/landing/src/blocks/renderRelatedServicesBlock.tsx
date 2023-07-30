@@ -11,7 +11,7 @@ const renderRelatedServicesBlock = (props: RenderRelatedServicesBlockProps) => {
   const { items, ...rest } = props
   if (!items?.length) return
   return {
-    key: 'related-services',
+    id: 'related-services',
     items: [
       {
         type: 'h4',
