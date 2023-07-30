@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 import { Customer, UserDetails, StripePrice, StripeProduct } from '../../types'
 import toDateTime from '../../utils/toDateTime'
-import { initStripeNode } from '../index'
+import initStripeNode from '../stripe/initStripeNode'
 
 /**
  * initStripeSupabaseAdmin()
