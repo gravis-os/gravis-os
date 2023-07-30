@@ -166,7 +166,7 @@ export interface SiteLocale {
 }
 
 export interface SiteNavItem {
-  key: string
+  id: string
   title: string
   subtitle?: string
 }
