@@ -16,6 +16,8 @@ import getBlockPadding from './getBlockPadding'
 import withBlockItemShorthand from './withBlockItemShorthand'
 
 export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
+  id?: string
+
   items?: BlockItemProps[]
   maxWidth?: BlockItemProps['maxWidth']
   containerProps?: BlockItemProps['containerProps']
@@ -49,8 +51,6 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
    * Used for forcing dark/light mode
    */
   mode?: WithPaletteModeProps['mode']
-
-  id?: string
 }
 
 const Block: React.FC<BlockProps> = (props) => {

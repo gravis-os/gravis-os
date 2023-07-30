@@ -40,6 +40,7 @@ const typography = {
     lineHeight: 1.4,
   },
   h7: {
+    display: 'block',
     fontSize: pxToRem(16),
     fontFamily: headerFontFamily,
     fontWeight: 400,

@@ -571,6 +571,7 @@ const Header: React.FC<HeaderProps> = (props) => {
           open={isDrawerOpen}
           onOpen={openDrawer}
           onClose={closeDrawer}
+          PaperProps={{ sx: { '&::-webkit-scrollbar': { display: 'none' } } }}
         >
           <Box
             width={drawerWidth}
