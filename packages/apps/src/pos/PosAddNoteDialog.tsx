@@ -1,9 +1,8 @@
 import React, { useState } from 'react'
 import { TextField } from '@gravis-os/fields'
-import { Button, Dialog, DialogTitle, Divider } from '@gravis-os/ui'
+import { Button, Dialog, DialogTitle, Divider, Stack } from '@gravis-os/ui'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { Stack } from '@mui/system'
 import { usePos } from './PosProvider'
 
 export interface PosAddNoteDialogProps {
