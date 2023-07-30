@@ -21,6 +21,14 @@ export interface HtmlFieldProps {
   shouldQuillAutofocus?: boolean
 }
 
+/**
+ * Ensure to add the following to the downstream app file
+ *
+ * import 'react-quill/dist/quill.snow.css'
+ *
+ * @param props
+ * @constructor
+ */
 const HtmlField: React.FC<HtmlFieldProps> = (props) => {
   const {
     children,
