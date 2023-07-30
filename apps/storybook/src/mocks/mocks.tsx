@@ -108,10 +108,6 @@ export const MOCK_CARD_ITEMS = [
             title: 'Shop',
             titleProps: { variant: 'contained', sx: { mt: 2 } },
           },
-          {
-            type: BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE,
-            title: 'https://via.placeholder.com/300x200',
-          },
         ],
       },
       {
@@ -141,10 +137,6 @@ export const MOCK_CARD_ITEMS = [
               rightCaret: true,
               sx: { mt: 2 },
             },
-          },
-          {
-            type: BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE,
-            title: 'https://via.placeholder.com/300x200',
           },
         ],
       },
