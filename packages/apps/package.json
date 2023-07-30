@@ -42,46 +42,57 @@
   },
   "exports": {
     ".": {
+      "types": "./dist/types/index.js",
       "require": "./dist/cjs/index.js",
       "import": "./dist/esm/index.js"
     },
     "./accounting": {
+      "types": "./dist/types/accounting/index.d.ts",
       "require": "./dist/cjs/accounting/index.js",
       "import": "./dist/esm/accounting/index.js"
     },
     "./calendar": {
+      "types": "./dist/types/calendar/index.d.ts",
       "require": "./dist/cjs/calendar/index.js",
       "import": "./dist/esm/calendar/index.js"
     },
     "./directory": {
+      "types": "./dist/types/directory/index.d.ts",
       "require": "./dist/cjs/directory/index.js",
       "import": "./dist/esm/directory/index.js"
     },
     "./blog": {
+      "types": "./dist/types/blog/index.d.ts",
       "require": "./dist/cjs/blog/index.js",
       "import": "./dist/esm/blog/index.js"
     },
     "./ads": {
+      "types": "./dist/types/ads/index.d.ts",
       "require": "./dist/cjs/ads/index.js",
       "import": "./dist/esm/ads/index.js"
     },
     "./tags": {
+      "types": "./dist/types/tags/index.d.ts",
       "require": "./dist/cjs/tags/index.js",
       "import": "./dist/esm/tags/index.js"
     },
     "./categories": {
+      "types": "./dist/types/categories/index.d.ts",
       "require": "./dist/cjs/categories/index.js",
       "import": "./dist/esm/categories/index.js"
     },
     "./forum": {
+      "types": "./dist/types/forum/index.d.ts",
       "require": "./dist/cjs/forum/index.js",
       "import": "./dist/esm/forum/index.js"
     },
     "./crm": {
+      "types": "./dist/types/crm/index.d.ts",
       "require": "./dist/cjs/crm/index.js",
       "import": "./dist/esm/crm/index.js"
     },
     "./pos": {
+      "types": "./dist/types/pos/index.d.ts",
       "require": "./dist/cjs/pos/index.js",
       "import": "./dist/esm/pos/index.js"
     }
