@@ -36,7 +36,9 @@ const renderHeroWithBackgroundBlock = (
     dark: true,
     center,
     maxWidth: 'md',
-    ...(hero_src && { backgroundImageProps: { src: hero_src, alt: hero_alt } }),
+    ...(hero_src && {
+      backgroundImageProps: { src: hero_src, alt: hero_alt, priority: true },
+    }),
     items: [
       { type: 'overline', title: overline },
       {

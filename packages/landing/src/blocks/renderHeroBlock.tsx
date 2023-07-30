@@ -34,6 +34,7 @@ const renderHeroBlock = (props: RenderHeroBlockProps) => {
         disableContainer: true,
         titleProps: {
           alt: hero_alt,
+          priority: true,
           background: true,
           backgroundHeight: { xs: 400, md: 600 },
           backgroundSx: { mt: { xs: 5, md: 10 } },
