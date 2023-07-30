@@ -193,19 +193,12 @@ const renderNavItems = (navItems, props) => {
     return null
 
   return navItems.filter(Boolean).map((navItem: HeaderNavItem, i) => {
-    const {
-      key: injectedKey,
-      children,
-      showOnMobileBar,
-      offsetLeft,
-      preset,
-      render,
-      sx,
-    } = navItem
+    const { children, showOnMobileBar, offsetLeft, preset, render, sx } =
+      navItem
 
     if (!navItem) return null
 
-    const key = injectedKey || `nav-item-${i}`
+    const key = `nav-item-${i}`
 
     // Get classes
     const boxProps = {
@@ -323,7 +316,6 @@ const renderMobileNavItems = (navItems, props) => {
   return mobileNavItems.map((navItem, i) => {
     // Omit redundant props
     const {
-      key: injectedKey,
       onClick: injectedOnClick,
       preset,
       isOpenOnHover,
@@ -334,7 +326,7 @@ const renderMobileNavItems = (navItems, props) => {
       ...accordionLinksNavItem
     } = navItem
 
-    const key = injectedKey || `mobile-nav-item-${i}`
+    const key = `mobile-nav-item-${i}`
     const boxProps = {
       key,
       component: 'div' as const,
@@ -358,6 +350,7 @@ const renderMobileNavItems = (navItems, props) => {
         return (
           <NavAccordion
             key={key}
+            id={key}
             onClick={(e) => {
               closeDrawer()
               if (injectedOnClick) injectedOnClick(e, navItem)

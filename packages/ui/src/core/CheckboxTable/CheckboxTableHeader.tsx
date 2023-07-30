@@ -3,7 +3,7 @@ import first from 'lodash/first'
 import CheckboxTableColumn from './CheckboxTableColumn'
 import { CheckboxTableColumnDefs } from './types'
 import Stack from '../Stack'
-import { Typography } from '../index'
+import Typography from '../Typography'
 
 interface CheckboxTableHeaderProps {
   hasToggleAllColumn?: boolean

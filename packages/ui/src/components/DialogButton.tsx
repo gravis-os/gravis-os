@@ -13,6 +13,7 @@ export interface DialogButtonProps extends Omit<ButtonProps, 'title'> {
   onClose?: () => void
 }
 
+// TODO@Joel: Test dynamic import of dialog for better perf
 const DialogButton: React.FC<DialogButtonProps> = (props) => {
   const {
     children,

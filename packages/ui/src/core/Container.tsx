@@ -5,7 +5,7 @@ import {
   useMediaQuery,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 import merge from 'lodash/merge'
 
 export type ResponsiveMaxWidth = ResponsiveStyleValue<

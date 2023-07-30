@@ -1,7 +1,10 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import Box from './Box'
-import Dialog, { DialogProps } from './Dialog'
+import type { DialogProps } from './Dialog'
 import useOpen from '../hooks/useOpen'
+
+const DynamicDialog = dynamic(() => import('./Dialog'))
 
 export interface WithDialogProps extends Omit<DialogProps, 'open'> {}
 
@@ -17,7 +20,8 @@ const withDialog = (props: WithDialogProps) => (children) => {
   return (
     <>
       <Box onClick={open}>{children}</Box>
-      <Dialog open={isOpen} onClose={close} {...rest} />
+
+      {isOpen && <DynamicDialog open={isOpen} onClose={close} {...rest} />}
     </>
   )
 }

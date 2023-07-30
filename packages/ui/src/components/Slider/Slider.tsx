@@ -6,7 +6,7 @@ import {
 } from 'keen-slider/react'
 import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
 import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 import { LinearProgress, LinearProgressProps } from '@mui/material'
 import Box, { BoxProps } from '../../core/Box'
 import Stack from '../../core/Stack'

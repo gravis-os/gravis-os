@@ -12,7 +12,7 @@ import {
 import { useTheme } from '@mui/material/styles'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 import Link, { LinkProps } from './Link'
 import Typography, { TypographyProps } from './Typography'
 
@@ -23,7 +23,7 @@ interface NavAccordionStyleProps {
 export interface NavAccordionProps
   extends Omit<AccordionProps, 'children' | 'title'>,
     NavAccordionStyleProps {
-  key?: string
+  id?: string
   title: React.ReactNode
   href?: string
   items?: Array<{
@@ -44,7 +44,7 @@ const EXPAND_ALL = 'EXPAND_ALL'
 
 const NavAccordion: React.FC<NavAccordionProps> = (props) => {
   const {
-    key,
+    id,
     disablePadding,
     onClick = null,
     title,
@@ -71,7 +71,7 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
     setExpanded({ ...expanded, [panel]: isExpanded })
   }
   const isExpanded = Boolean(
-    expanded[EXPAND_ALL] || expanded[typeof title === 'string' ? title : key]
+    expanded[EXPAND_ALL] || expanded[typeof title === 'string' ? title : id]
   )
 
   // Icon
