@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- [#395](https://github.com/gravis-os/gravis-os/pull/395) [`5c928123`](https://github.com/gravis-os/gravis-os/commit/5c928123521d8a22b26437281aab9afe9d75a410) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add shouldCreateOnSubmit to everywhere with createOnSubmit
+
 ## 0.1.0
 
 ### Minor Changes
