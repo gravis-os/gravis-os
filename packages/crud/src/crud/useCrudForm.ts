@@ -256,7 +256,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             )
             if (hasManyToManyValues) {
               await saveManyToManyValues({
-                item: createOnSubmit ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
+                item: (createOnSubmit || shouldCreateOnSubmit?.(form)) ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
                 values: manyToManyValues,
                 data: nextItem,
                 client,
@@ -271,7 +271,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             )
             if (hasOneToManyValues) {
               await saveOneToManyValues({
-                item: createOnSubmit ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
+                item: (createOnSubmit || shouldCreateOnSubmit?.(form)) ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
                 values: oneToManyValues,
                 data: nextItem,
                 client,
