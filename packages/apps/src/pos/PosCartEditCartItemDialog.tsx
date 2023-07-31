@@ -1,10 +1,16 @@
 import React, { useEffect, useState } from 'react'
 import { UseListReturn } from '@gravis-os/query'
 import { StorageAvatar } from '@gravis-os/storage'
-import { Button, Dialog, DialogTitle, Divider, ListItem } from '@gravis-os/ui'
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  Divider,
+  ListItem,
+  Stack,
+} from '@gravis-os/ui'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
-import { TransitionProps } from '@mui/material/transitions'
-import { Stack } from '@mui/system'
+import type { TransitionProps } from '@mui/material/transitions'
 import set from 'lodash/set'
 import PosEditPricingFields from './PosEditPricingFields'
 import { usePos } from './PosProvider'

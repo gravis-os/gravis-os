@@ -31,12 +31,14 @@ const renderHeroWithBackgroundBlock = (
   } = props
 
   return {
-    key: 'hero-with-background',
+    id: 'hero-with-background',
     py: { xs: 15, md: 30 },
     dark: true,
     center,
     maxWidth: 'md',
-    ...(hero_src && { backgroundImageProps: { src: hero_src, alt: hero_alt } }),
+    ...(hero_src && {
+      backgroundImageProps: { src: hero_src, alt: hero_alt, priority: true },
+    }),
     items: [
       { type: 'overline', title: overline },
       {

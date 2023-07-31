@@ -21,7 +21,7 @@ export interface RenderHeroWithVideoSliderProps extends BlockProps {
 const renderHeroWithVideoSlider = (props: RenderHeroWithVideoSliderProps) => {
   const { video_src, video_poster_src, items } = props
   return {
-    key: 'hero-with-video-slider',
+    id: 'hero-with-video-slider',
     dark: true,
     py: 0,
     backgroundVideoProps: {

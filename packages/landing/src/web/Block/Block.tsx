@@ -16,6 +16,8 @@ import getBlockPadding from './getBlockPadding'
 import withBlockItemShorthand from './withBlockItemShorthand'
 
 export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
+  id?: string
+
   items?: BlockItemProps[]
   maxWidth?: BlockItemProps['maxWidth']
   containerProps?: BlockItemProps['containerProps']
@@ -49,14 +51,11 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
    * Used for forcing dark/light mode
    */
   mode?: WithPaletteModeProps['mode']
-
-  id?: string
 }
 
 const Block: React.FC<BlockProps> = (props) => {
   const {
-    key,
-    id: injectedId,
+    id,
     spacing,
     stackProps,
     pt,
@@ -78,8 +77,6 @@ const Block: React.FC<BlockProps> = (props) => {
     ...rest
   } = props
 
-  const id = injectedId || String(key)
-
   const hasBackgroundImage = Boolean(backgroundImageProps)
   const hasBackgroundVideo = Boolean(backgroundVideoProps)
   const hasBackgroundOverlay =
@@ -94,7 +91,7 @@ const Block: React.FC<BlockProps> = (props) => {
   const childrenJsx = (
     // Section layer
     <Box
-      id={id}
+      {...(id && { id })}
       sx={{
         ...((dark || mode === 'dark') && {
           backgroundColor: defaultBackgroundColor,

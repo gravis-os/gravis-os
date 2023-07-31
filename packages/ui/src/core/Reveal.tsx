@@ -1,11 +1,17 @@
 import React from 'react'
-import {
-  Fade,
-  Slide,
-  Reveal as ReactAwesomeReveal,
-  RevealProps as ReactAwesomeRevealProps,
-} from 'react-awesome-reveal'
+import dynamic from 'next/dynamic'
+import type { RevealProps as ReactAwesomeRevealProps } from 'react-awesome-reveal'
 import { keyframes } from '@emotion/react'
+
+const DynamicFade = dynamic(() =>
+  import('react-awesome-reveal').then((module) => module.Fade)
+)
+const DynamicSlide = dynamic(() =>
+  import('react-awesome-reveal').then((module) => module.Slide)
+)
+const DynamicReactAwesomeReveal = dynamic(() =>
+  import('react-awesome-reveal').then((module) => module.Reveal)
+)
 
 // Override the default animation to reduce the distance of the fade
 // @link https://github.com/morellodev/react-awesome-reveal/issues/43
@@ -37,12 +43,12 @@ const Reveal: React.FC<RevealProps> = (props) => {
   // Render
   switch (variant) {
     case RevealVariantEnum.Fade:
-      return <Fade {...commonProps} />
+      return <DynamicFade {...commonProps} />
     case RevealVariantEnum.Slide:
-      return <Slide {...commonProps} />
+      return <DynamicSlide {...commonProps} />
     default:
       return (
-        <ReactAwesomeReveal
+        <DynamicReactAwesomeReveal
           keyframes={customAnimation}
           duration={1000}
           {...commonProps}

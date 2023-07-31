@@ -5,6 +5,7 @@ import {
   Divider,
   IconButton,
   Typography,
+  Stack,
 } from '@gravis-os/ui'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined'
@@ -13,7 +14,6 @@ import PercentOutlinedIcon from '@mui/icons-material/PercentOutlined'
 import PersonIcon from '@mui/icons-material/Person'
 import { DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { Stack } from '@mui/system'
 import PosAddCustomerDialog from './PosAddCustomerDialog'
 import PosAddNoteDialog from './PosAddNoteDialog'
 

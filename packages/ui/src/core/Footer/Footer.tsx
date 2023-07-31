@@ -86,13 +86,14 @@ const Footer: React.FC<FooterProps> = (props) => {
                   </Box>
                 </Grid>
               )}
-              {navItems?.map((navGroup) => {
+              {navItems?.map((navItem) => {
                 return (
-                  <Grid key={navGroup.title} item xs={12} md>
+                  <Grid key={navItem.title} item xs={12} md>
                     <NavAccordion
+                      id={navItem.title}
                       px={{ xs: 2, sm: 3, md: 2 }}
                       {...accordionProps}
-                      {...navGroup}
+                      {...navItem}
                     />
                   </Grid>
                 )

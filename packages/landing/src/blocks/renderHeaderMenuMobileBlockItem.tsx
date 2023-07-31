@@ -14,49 +14,43 @@ const renderHeaderMenuMobileBlockItem = (
 ) => {
   const { slug, href: injectedHref, hrefProps, title, items = [] } = props
   const href = injectedHref || (slug && `/${slug}`)
+
+  const hasChildren = Boolean(items?.length)
+
   return {
     py: 0,
     reveal: false,
     disableContainer: true,
     sx: { backgroundColor: 'transparent' },
-    boxProps: {
-      href,
-      hrefProps,
-      sx: {
-        ...(href && {
-          '&:hover': {
-            cursor: 'pointer',
-            backgroundColor: 'action.hover',
-          },
-          '&:active': {
-            backgroundColor: 'action.selected',
-          },
-        }),
-      },
-    },
     items: [
       {
-        type: 'h7',
+        type: 'h6',
         title,
         titleProps: {
-          mb: 2,
           href,
           hrefProps: {
-            sx: { display: 'block' },
-            linkProps: { underline: 'hover' },
+            sx: { display: 'block', ...hrefProps?.sx },
+            linkProps: { underline: 'hover', ...hrefProps?.linkProps },
+            ...hrefProps,
           },
           sx: {
+            ...(hasChildren && { mb: 0.5, fontWeight: 'bold' }),
             ...(!href && { color: 'text.disabled' }),
           },
         },
       },
-      ...(items.map((item) => ({
+      ...(items.map((item, i) => ({
+        key:
+          typeof item.title === 'string'
+            ? `${item.title}-${i}`
+            : `header-menu-mobile-${i}`,
         type: 'link',
         title: item.title,
         titleProps: {
           href: item.href,
           variant: 'body2',
           gutterBottom: true,
+          sx: { mb: 0.5 },
         },
         ...item,
       })) as BlockItemProps[]),

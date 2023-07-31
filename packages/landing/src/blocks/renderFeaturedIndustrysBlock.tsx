@@ -25,7 +25,7 @@ const renderFeaturedIndustrysBlock = (
   const { routeConfig } = useLayout()
 
   return {
-    key: 'featured-industrys',
+    id: 'featured-industrys',
     items: [
       {
         type: 'overline',

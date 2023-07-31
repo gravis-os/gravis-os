@@ -93,13 +93,12 @@ const Accordion: React.FC<AccordionProps> = (props) => {
     <Box sx={sx}>
       {items.map((item, i) => {
         const {
-          key: injectedKey,
           title,
           actionIconButtons = [],
           disablePadding: disableItemPadding,
         } = item
 
-        const key = injectedKey || (typeof title === 'string' ? title : i)
+        const key = typeof title === 'string' ? title : `accordion-item-${i}`
         const content = item.children || item.content
 
         const isExpanded = Boolean(expanded[key])

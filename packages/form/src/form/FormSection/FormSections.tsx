@@ -1,6 +1,7 @@
 import React from 'react'
 import { Grid, GridProps } from '@gravis-os/ui'
-import FormSection, { FormSectionProps } from './FormSection'
+import FormSection from './FormSection'
+import { FormSectionProps } from './types'
 
 export interface FormSectionsProps extends Partial<FormSectionProps> {
   sections: FormSectionProps[]

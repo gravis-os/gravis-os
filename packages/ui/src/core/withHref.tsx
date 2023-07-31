@@ -1,6 +1,9 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import { cleanHref } from '@gravis-os/utils'
-import Link, { LinkProps } from './Link'
+import type { LinkProps } from './Link'
+
+const DynamicLink = dynamic(() => import('./Link'))
 
 export interface WithHrefProps {
   href?: string
@@ -35,7 +38,7 @@ const withHref = (props: WithHrefProps) => {
       ...injectedLinkProps,
     }
 
-    return <Link {...linkProps}>{children}</Link>
+    return <DynamicLink {...linkProps}>{children}</DynamicLink>
   }
 }
 

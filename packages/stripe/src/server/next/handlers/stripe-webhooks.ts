@@ -1,7 +1,8 @@
 import { NextApiRequest, NextApiResponse } from 'next'
 import Stripe from 'stripe'
 import { Readable } from 'node:stream'
-import { initStripeNode, initStripeSupabaseAdmin } from '../../index'
+import initStripeNode from '../../stripe/initStripeNode'
+import initStripeSupabaseAdmin from '../../supabase/initStripeSupabaseAdmin'
 
 // Stripe requires the raw body to construct the event.
 export const config = {

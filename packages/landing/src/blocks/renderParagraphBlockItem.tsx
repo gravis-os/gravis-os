@@ -9,7 +9,7 @@ export interface RenderParagraphBlockItemProps
 const renderParagraphBlockItem = (props: RenderParagraphBlockItemProps) => {
   const { title, items, ...rest } = props
   return {
-    key: 'paragraph',
+    id: 'paragraph',
     ...rest,
     items: [
       {

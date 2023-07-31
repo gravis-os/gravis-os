@@ -1,37 +1,35 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import {
-  Typography,
-  TypographyProps,
-  Grid,
-  GridProps,
+  AccordionProps,
   Box,
   BoxProps,
+  ButtonProps,
+  CardProps,
   Container,
   ContainerProps,
-  Dialog,
   DialogProps,
-  Image,
-  ImageProps,
-  Button,
-  ButtonProps,
-  Stack,
-  StackProps,
-  Link,
-  LinkProps,
-  CardProps,
   Divider,
   DividerProps,
-  Accordion,
-  AccordionProps,
-  Html,
-  List,
+  Grid,
+  GridProps,
+  Image,
+  ImageProps,
+  Link,
+  LinkProps,
+  Stack,
+  StackProps,
+  Typography,
+  TypographyProps,
   VideoProps,
 } from '@gravis-os/ui'
 import merge from 'lodash/merge'
-import isEmpty from 'lodash/isEmpty'
 import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
-import { StorageImage } from '@gravis-os/storage'
 import { BlockItemTypeEnum } from './constants'
+
+const DynamicDialog = dynamic(() =>
+  import('@gravis-os/ui').then((module) => module.Dialog)
+)
 
 export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
   // BoxProps - Wrapper of a BlockItem
@@ -123,9 +121,12 @@ const renderBlockItem = (props) => {
           </Box>
         )
       case BlockItemTypeEnum.BUTTON:
+        const DynamicButton = dynamic(() =>
+          import('@gravis-os/ui').then((module) => module.Button)
+        )
         return (
           <Box {...boxProps}>
-            <Button {...titleProps}>{title}</Button>
+            <DynamicButton {...titleProps}>{title}</DynamicButton>
           </Box>
         )
       case BlockItemTypeEnum.LINK:
@@ -143,9 +144,12 @@ const renderBlockItem = (props) => {
           </Box>
         )
       case BlockItemTypeEnum.STORAGE_IMAGE:
+        const DynamicStorageImage = dynamic(() =>
+          import('@gravis-os/storage').then((module) => module.StorageImage)
+        )
         return (
           <Box {...boxProps}>
-            <StorageImage src={title} {...titleProps} />
+            <DynamicStorageImage src={title} {...titleProps} />
           </Box>
         )
       case BlockItemTypeEnum.SVG:
@@ -178,41 +182,26 @@ const renderBlockItem = (props) => {
           </Box>
         )
       case BlockItemTypeEnum.HTML:
+        const DynamicHtml = dynamic(() =>
+          import('@gravis-os/ui').then((module) => module.Html)
+        )
         return (
           <Box {...boxProps}>
-            {title && <Html html={title} {...titleProps} />}
+            {title && <DynamicHtml html={title} {...titleProps} />}
           </Box>
         )
       // Accordion
       case BlockItemTypeEnum.ACCORDION:
-        return <Accordion transparent items={title} {...titleProps} />
+        const DynamicAccordion = dynamic(() =>
+          import('@gravis-os/ui').then((module) => module.Accordion)
+        )
+        return <DynamicAccordion transparent items={title} {...titleProps} />
       // List
       case BlockItemTypeEnum.LIST:
-        return <List items={title} {...titleProps} />
-      // Card
-      case BlockItemTypeEnum.CARD_ABSOLUTE_BOTTOM_IMAGE:
-        return (
-          <Box
-            {...boxProps}
-            sx={{
-              width: '100%',
-              position: { xs: 'static', md: 'absolute' },
-              bottom: 0,
-              ...boxProps?.sx,
-            }}
-          >
-            {!isEmpty(title) && (
-              <Image
-                src={title}
-                layout="responsive"
-                width={300}
-                height={200}
-                {...titleProps}
-                sx={{ mt: 5, ...titleProps?.sx }}
-              />
-            )}
-          </Box>
+        const DynamicList = dynamic(() =>
+          import('@gravis-os/ui').then((module) => module.List)
         )
+        return <DynamicList items={title} {...titleProps} />
       case BlockItemTypeEnum.JSX:
         return <Box {...boxProps}>{title}</Box>
       default:
@@ -310,13 +299,11 @@ const renderGrid = (props) => {
                 </Grid>
               )
 
-              return dialogProps ? (
-                <>
+              return (
+                <React.Fragment key={`grid-item-wrapper-${i}`}>
                   {childrenJsx}
-                  <Dialog {...dialogProps} />
-                </>
-              ) : (
-                childrenJsx
+                  {dialogProps && <DynamicDialog {...dialogProps} />}
+                </React.Fragment>
               )
             })}
           </Grid>

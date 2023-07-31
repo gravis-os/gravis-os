@@ -3,12 +3,14 @@ import {
   Dialog as MuiDialog,
   DialogProps as MuiDialogProps,
   useMediaQuery,
-  useTheme
+  useTheme,
+  Slide,
+  Fade,
+  SlideProps,
+  FadeProps,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import Slide from '@mui/material/Slide'
-import Fade from '@mui/material/Fade'
-import { TransitionProps } from '@mui/material/transitions'
+import type { TransitionProps } from '@mui/material/transitions'
 import DialogTitle, { DialogTitleProps } from './DialogTitle'
 import IconButton from './IconButton'
 
@@ -19,7 +21,12 @@ const SlideTransition = React.forwardRef(
     },
     ref: React.Ref<unknown>
   ) => {
-    return <Slide direction="up" ref={ref} {...props} />
+    const slideProps = {
+      direction: 'up',
+      ref,
+      ...props,
+    } as SlideProps
+    return <Slide {...slideProps} />
   }
 )
 
@@ -30,7 +37,11 @@ const FadeTransition = React.forwardRef(
     },
     ref: React.Ref<unknown>
   ) => {
-    return <Fade ref={ref} {...props} />
+    const fadeProps = {
+      ref,
+      ...props,
+    } as FadeProps
+    return <Fade {...fadeProps} />
   }
 )
 

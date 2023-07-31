@@ -1,10 +1,12 @@
-import omit from 'lodash/omit'
-import NextImage, { ImageProps as NextImageProps } from 'next/image'
 import React, { useState } from 'react'
-import Zoom from 'react-medium-image-zoom'
+import dynamic from 'next/dynamic'
+import NextImage, { ImageProps as NextImageProps } from 'next/image'
+import omit from 'lodash/omit'
 import { useGravis } from '@gravis-os/config'
-import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 import Box, { BoxProps } from './Box'
+
+const DynamicZoom = dynamic(() => import('react-medium-image-zoom'))
 
 export interface ImageProps extends Omit<NextImageProps, 'loading'> {
   /**
@@ -287,7 +289,7 @@ const Image: React.FC<ImageProps> = (props) => {
         },
       }}
     >
-      <Zoom>{childrenJsx}</Zoom>
+      <DynamicZoom>{childrenJsx}</DynamicZoom>
     </Box>
   ) : (
     childrenJsx

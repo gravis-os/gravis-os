@@ -5,7 +5,7 @@ import { alpha } from '@mui/material/styles'
 import Image, { ImageProps } from '../core/Image'
 import Box, { BoxProps } from '../core/Box'
 
-export interface MarqueeProps {
+export interface ReactFastMarqueeProps {
   /**
    * Inline style for the container div
    * Type: object
@@ -120,7 +120,7 @@ const getGutterMultiplier = (size: ImageMarqueeProps['size']) => {
   }
 }
 
-export interface ImageMarqueeProps extends MarqueeProps {
+export interface ImageMarqueeProps extends ReactFastMarqueeProps {
   items: Array<{ key?: React.Key } & ImageProps>
   imageProps?: Omit<ImageProps, 'src' | 'alt'>
   size?: 'sm' | 'md' | 'lg' | string
@@ -155,7 +155,6 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = (props) => {
   const gutterMultiplier = getGutterMultiplier(size)
 
   const imageProps = {
-    // defaultImageProps
     width,
     height: width / aspectRatio,
     ...injectedImageProps,
@@ -197,7 +196,7 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = (props) => {
         gradient={false}
         speed={20}
         pauseOnClick
-        {...(marqueeProps as any)}
+        {...(marqueeProps as ReactFastMarqueeProps)}
       >
         <Stack direction="row" spacing={mx} mr={mx} py={py}>
           {items.map((item) => {

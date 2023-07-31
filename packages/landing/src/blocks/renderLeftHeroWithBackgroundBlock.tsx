@@ -40,13 +40,15 @@ const renderLeftHeroWithBackgroundBlock = (
   } = props
 
   return {
-    key: 'hero-with-background',
+    id: 'hero-with-background',
     pt: 30,
     pb: 0,
     centerOnMobile: true,
     dark: true,
     center,
-    ...(hero_src && { backgroundImageProps: { src: hero_src, alt: hero_alt } }),
+    ...(hero_src && {
+      backgroundImageProps: { src: hero_src, alt: hero_alt, priority: true },
+    }),
     items: [
       {
         type: 'grid',
@@ -97,6 +99,7 @@ const renderLeftHeroWithBackgroundBlock = (
                 title: image_src,
                 titleProps: {
                   alt: image_alt,
+                  priority: true,
                   ...imageProps,
                 },
               },

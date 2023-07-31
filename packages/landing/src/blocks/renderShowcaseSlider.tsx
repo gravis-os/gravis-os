@@ -16,7 +16,7 @@ const renderShowcaseSlider = (props: RenderShowcaseSliderProps) => {
   const { overline, title, subtitle, items, ...rest } = props
 
   return {
-    key: 'showcase-slider',
+    id: 'showcase-slider',
     maxWidth: 'xl',
     items: [
       overline && {

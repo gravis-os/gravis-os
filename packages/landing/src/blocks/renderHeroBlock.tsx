@@ -13,7 +13,7 @@ const renderHeroBlock = (props: RenderHeroBlockProps) => {
   const { item, ...rest } = props
   const { title, subtitle, hero_src, hero_alt } = item || {}
   return {
-    key: 'hero',
+    id: 'hero',
     pb: 0,
     pt: { xs: 4, md: 8 },
     sx: { backgroundColor: 'background.paper' },
@@ -34,6 +34,7 @@ const renderHeroBlock = (props: RenderHeroBlockProps) => {
         disableContainer: true,
         titleProps: {
           alt: hero_alt,
+          priority: true,
           background: true,
           backgroundHeight: { xs: 400, md: 600 },
           backgroundSx: { mt: { xs: 5, md: 10 } },

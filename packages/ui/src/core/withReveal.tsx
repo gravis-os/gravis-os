@@ -1,15 +1,17 @@
 import React from 'react'
-import Reveal from './Reveal'
+import dynamic from 'next/dynamic'
+
+const DynamicReveal = dynamic(() => import('./Reveal'))
 
 const withReveal = (props) => (children) => {
   const { reveal } = props
 
-  if (!reveal) return children
-
-  return (
-    <Reveal {...(typeof reveal === 'object' ? reveal : {})}>
+  return reveal ? (
+    <DynamicReveal {...(typeof reveal === 'object' ? reveal : {})}>
       <div>{children}</div>
-    </Reveal>
+    </DynamicReveal>
+  ) : (
+    children
   )
 }
 

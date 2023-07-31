@@ -18,7 +18,7 @@ const renderOtherPressReleasesBlock = (
   const { routeConfig } = useLayout()
   if (!items?.length) return
   return {
-    key: 'other-press-releases',
+    id: 'other-press-releases',
     items: [
       {
         type: 'h4',

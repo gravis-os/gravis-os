@@ -20,7 +20,7 @@ const renderClientTestimonialCardsBlock = (
   } = props
 
   return {
-    key: 'client-testimonials',
+    id: 'client-testimonials',
     items: [
       { type: 'overline', title: 'Client Testimonials' },
       {

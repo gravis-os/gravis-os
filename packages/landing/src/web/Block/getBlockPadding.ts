@@ -1,5 +1,5 @@
 import isNil from 'lodash/isNil'
-import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 
 export type BlockPadding = ResponsiveStyleValue<any>
 

@@ -1,5 +1,5 @@
 import { Post } from '@gravis-os/types'
-import { renderPostsBlockItem } from './index'
+import renderPostsBlockItem from './renderPostsBlockItem'
 import { BlockProps } from '../web/Block/Block'
 
 export interface RenderOtherPostsBlockProps extends Omit<BlockProps, 'items'> {
@@ -10,7 +10,7 @@ const renderOtherPostsBlock = (props: RenderOtherPostsBlockProps) => {
   const { items, ...rest } = props
   if (!items?.length) return {}
   return {
-    key: 'other-posts',
+    id: 'other-posts',
     items: [
       {
         type: 'h4',

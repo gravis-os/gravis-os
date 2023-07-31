@@ -25,7 +25,7 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
 
   return {
-    key: 'post-detail',
+    id: 'post-detail',
     sx: { backgroundColor: 'background.paper' },
     items: [
       {

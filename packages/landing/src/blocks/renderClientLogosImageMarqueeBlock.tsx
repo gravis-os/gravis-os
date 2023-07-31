@@ -29,11 +29,11 @@ const renderClientLogosImageMarqueeBlock = (
           <ImageMarquee
             gradient
             py={2}
-            // Spacing and speed
             spacing={{ xs: 10, md: 15, lg: 20 }}
             speed={15}
+            imageProps={{ priority: true }}
             items={items?.map((item) => ({
-              key: item.avatar_src,
+              id: item.avatar_src,
               src: item.avatar_src,
               alt: item.avatar_alt,
               width: item.avatar_width * imageSizeMultiplier,

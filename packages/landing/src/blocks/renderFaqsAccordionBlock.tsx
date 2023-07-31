@@ -2,14 +2,14 @@ import { BlockProps } from '../web/Block/Block'
 
 export interface RenderFaqsAccordionBlockProps
   extends Omit<BlockProps, 'items'> {
-  items?: Array<{ key?: string; title: string; content?: string }>
+  items?: Array<{ id?: string; title: string; content?: string }>
 }
 
 const renderFaqsAccordionBlock = (props: RenderFaqsAccordionBlockProps) => {
   const { items, ...rest } = props
 
   return {
-    key: 'faqs',
+    id: 'faqs',
     ...rest,
     items: [
       {
@@ -46,9 +46,9 @@ const renderFaqsAccordionBlock = (props: RenderFaqsAccordionBlockProps) => {
               {
                 type: 'accordion',
                 title: items.map((item) => {
-                  const { key, title, content } = item
+                  const { id, title, content } = item
                   return {
-                    key: key || title,
+                    id: id || title,
                     title,
                     content,
                   }

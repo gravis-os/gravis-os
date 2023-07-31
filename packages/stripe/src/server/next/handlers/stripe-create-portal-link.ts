@@ -1,6 +1,7 @@
 import { getUser, withApiAuth } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
-import { initStripeNode, initStripeSupabaseAdmin } from '../../index'
+import initStripeNode from '../../stripe/initStripeNode'
+import initStripeSupabaseAdmin from '../../supabase/initStripeSupabaseAdmin'
 
 const handleCreateStripePortalLink = async (
   req: NextApiRequest,

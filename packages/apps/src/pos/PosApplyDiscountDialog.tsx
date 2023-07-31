@@ -1,5 +1,12 @@
 import React, { useState } from 'react'
-import { Button, Dialog, DialogTitle, Divider, Typography } from '@gravis-os/ui'
+import {
+  Button,
+  Dialog,
+  DialogTitle,
+  Divider,
+  Typography,
+  Stack,
+} from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import {
   DialogActions,
@@ -10,7 +17,6 @@ import {
   ToggleButtonGroup,
 } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { Stack } from '@mui/system'
 import set from 'lodash/set'
 import startCase from 'lodash/startCase'
 import { getDiscountedPrice } from '../utils/getDiscountedPriceFromItem'

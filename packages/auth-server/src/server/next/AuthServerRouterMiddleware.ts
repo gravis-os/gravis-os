@@ -2,7 +2,7 @@ import type { NextApiHandler } from 'next'
 import camelCase from 'lodash/camelCase'
 import withApiAuthAndAuthz from '../utils/withApiAuthAndAuthz'
 import config from '../../config/config'
-import { initSupabaseAdminClient } from '../index'
+import initSupabaseAdminClient from '../supabase/initSupabaseAdminClient'
 
 export interface AuthServerMiddlewareProps {}
 

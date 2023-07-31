@@ -29,7 +29,7 @@ const renderPostHeroBlockItem = (props: RenderPostHeroBlockItemProps) => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
 
   return {
-    key: 'post-hero',
+    id: 'post-hero',
     pb: 0,
     pt: { xs: 2, md: 4 },
     sx: { backgroundColor: 'background.paper' },

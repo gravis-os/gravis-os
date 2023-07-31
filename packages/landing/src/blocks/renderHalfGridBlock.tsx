@@ -31,7 +31,7 @@ const renderHalfGridBlock = (props: RenderHalfGridBlockProps) => {
   const { routeConfig } = useLayout()
 
   return {
-    key: title,
+    id: title,
     py: 0,
     disableContainerOnMobile: true,
     items: [

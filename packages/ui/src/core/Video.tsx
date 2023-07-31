@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, BoxProps } from '@mui/material'
-import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 
 export interface VideoProps
   extends React.VideoHTMLAttributes<HTMLVideoElement> {

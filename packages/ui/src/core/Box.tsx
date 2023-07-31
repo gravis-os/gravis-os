@@ -1,7 +1,7 @@
 import React, { forwardRef } from 'react'
 import { Box as MuiBox, BoxProps as MuiBoxProps } from '@mui/material'
 import flowRight from 'lodash/flowRight'
-import { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 import { RevealProps } from './Reveal'
 import withReveal from './withReveal'
 import withHref, { WithHrefProps } from './withHref'

@@ -21,7 +21,7 @@ const renderClientTestimonialSliderBlock = (
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
 
   return {
-    key: 'client-testimonials',
+    id: 'client-testimonials',
     items: [
       { type: 'overline', title: 'Client Testimonials' },
       title && {
