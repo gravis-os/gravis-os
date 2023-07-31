@@ -4,22 +4,15 @@ import {
   DialogProps as MuiDialogProps,
   useMediaQuery,
   useTheme,
+  Slide,
+  Fade,
   SlideProps,
   FadeProps,
 } from '@mui/material'
 import CloseIcon from '@mui/icons-material/Close'
-import dynamic from 'next/dynamic'
 import type { TransitionProps } from '@mui/material/transitions'
 import DialogTitle, { DialogTitleProps } from './DialogTitle'
 import IconButton from './IconButton'
-
-const DynamicFade = dynamic(() =>
-  import('@mui/material').then((module) => module.Fade)
-)
-
-const DynamicSlide = dynamic(() =>
-  import('@mui/material').then((module) => module.Slide)
-)
 
 const SlideTransition = React.forwardRef(
   (
@@ -33,7 +26,7 @@ const SlideTransition = React.forwardRef(
       ref,
       ...props,
     } as SlideProps
-    return <DynamicSlide {...slideProps} />
+    return <Slide {...slideProps} />
   }
 )
 
@@ -48,7 +41,7 @@ const FadeTransition = React.forwardRef(
       ref,
       ...props,
     } as FadeProps
-    return <DynamicFade {...fadeProps} />
+    return <Fade {...fadeProps} />
   }
 )
 
