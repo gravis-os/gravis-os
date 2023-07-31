@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.21.1
+
+### Patch Changes
+
+- [#396](https://github.com/gravis-os/gravis-os/pull/396) [`f04f51b3`](https://github.com/gravis-os/gravis-os/commit/f04f51b38a4b45765e513b9ce2be7d65da60cb34) Thanks [@clodal](https://github.com/clodal)! - Refactor code for better treeshaking and bundle size via code splitting of unused components
+
+- Updated dependencies [[`f04f51b3`](https://github.com/gravis-os/gravis-os/commit/f04f51b38a4b45765e513b9ce2be7d65da60cb34)]:
+  - @gravis-os/form@1.4.1
+  - @gravis-os/types@0.5.1
+  - @gravis-os/ui@0.9.1
+
 ## 0.21.0
 
 ### Minor Changes
