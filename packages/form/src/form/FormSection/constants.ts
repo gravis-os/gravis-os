@@ -35,4 +35,5 @@ export enum FormSectionFieldTypeEnum {
   // Date
   DATE = 'date',
   DATE_TIME = 'date_time',
+  TIME = 'time',
 }

@@ -34,6 +34,12 @@ export * from './DateField'
 export { default as ControlledDateTimeField } from './ControlledDateTimeField'
 export * from './ControlledDateTimeField'
 
+export { default as TimeField } from './TimeField'
+export * from './TimeField'
+
+export { default as ControlledTimeField } from './ControlledTimeField'
+export * from './ControlledTimeField'
+
 export { default as DateTimeField } from './DateTimeField'
 export * from './DateTimeField'
 
