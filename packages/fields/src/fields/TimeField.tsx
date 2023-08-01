@@ -4,7 +4,7 @@ import { SxProps, TextFieldProps } from '@mui/material'
 
 export interface TimeFieldProps extends TimePickerProps<Date> {
   textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
-  sx: SxProps
+  sx?: SxProps
 }
 
 const TimeField: React.FC<TimeFieldProps> = (props) => {
