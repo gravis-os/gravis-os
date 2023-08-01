@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.4.2
+
+### Patch Changes
+
+- [#397](https://github.com/gravis-os/gravis-os/pull/397) [`9edc15f9`](https://github.com/gravis-os/gravis-os/commit/9edc15f92ecf69eefec960c457c933e2eddcb913) Thanks [@shank1xt](https://github.com/shank1xt)! - add time field
+
+- Updated dependencies [[`9edc15f9`](https://github.com/gravis-os/gravis-os/commit/9edc15f92ecf69eefec960c457c933e2eddcb913)]:
+  - @gravis-os/fields@1.4.2
+
 ## 1.4.1
 
 ### Patch Changes
