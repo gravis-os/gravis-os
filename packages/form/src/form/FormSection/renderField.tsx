@@ -336,6 +336,13 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <DynamicControlledDateTimeField control={control} {...commonProps} />
         )
+      case FormSectionFieldTypeEnum.TIME:
+        const DynamicControlledTimeField = dynamic(() =>
+          import('@gravis-os/fields').then(
+            (module) => module.ControlledTimeField
+          )
+        )
+        return <DynamicControlledTimeField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.AMOUNT:
         const DynamicControlledAmountField = dynamic(() =>
           import('@gravis-os/fields').then(
