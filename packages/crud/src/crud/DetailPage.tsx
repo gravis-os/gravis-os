@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   CircularProgress,
   Container,
@@ -62,8 +62,18 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   } = props
 
   // Get Item
-  const onUseGetItem = useGetItem({ module, ...useGetItemProps })
-  const { item, isLoading } = onUseGetItem
+  const [isItemFetched, setIsItemFetched] = useState(false)
+  const onUseGetItem = useGetItem({
+    module,
+    options: { enabled: !isItemFetched },
+    ...useGetItemProps,
+  })
+  const { item, isLoading, isFetched } = onUseGetItem
+  useEffect(() => {
+    if (isFetched) {
+      setIsItemFetched(true)
+    }
+  }, [isFetched])
 
   // renderProps for injection later
   const renderProps = { module, ...omit(onUseGetItem, 'refetch') }
@@ -94,7 +104,8 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   const { hasTabs, currentTab, items: tabs } = onUseTabs
 
   // Manage loading
-  if (!hasTabs && isLoading) return <CircularProgress fullScreen />
+  if (!hasTabs && isLoading && !isItemFetched)
+    return <CircularProgress fullScreen />
 
   return (
     <Container {...containerProps}>
