@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.4.3
+
+### Patch Changes
+
+- [#398](https://github.com/gravis-os/gravis-os/pull/398) [`962cfdff`](https://github.com/gravis-os/gravis-os/commit/962cfdff3a4a985d3b38e8ef8e97f8d1a0d7c10e) Thanks [@shank1xt](https://github.com/shank1xt)! - fix build issues for time field
+
 ## 1.4.2
 
 ### Patch Changes
