@@ -2124,7 +2124,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.15.4":
+"@babel/runtime@^7.15.4", "@babel/runtime@^7.22.6":
   version "7.22.6"
   resolved "https://registry.yarnpkg.com/@babel/runtime/-/runtime-7.22.6.tgz#57d64b9ae3cff1d67eb067ae117dac087f5bd438"
   integrity sha512-wDb5pWm4WDdF6LFUde3Jl8WzPA+3ZbxYqkC6xAXuD3irdEHN1k0NfTRrJD8ZD378SJ61miMLCqIOXYhd8x+AJQ==
@@ -4137,6 +4137,17 @@
     prop-types "^15.8.1"
     react-is "^18.2.0"
 
+"@mui/utils@^5.13.7":
+  version "5.14.3"
+  resolved "https://registry.yarnpkg.com/@mui/utils/-/utils-5.14.3.tgz#76d8151c23d2c2a871e98b90add57a8fd01d5d80"
+  integrity sha512-gZ6Etw+ppO43GYc1HFZSLjwd4DoZoa+RrYTD25wQLfzcSoPjVoC/zZqA2Lkq0zjgwGBQOSxKZI6jfp9uXR+kgw==
+  dependencies:
+    "@babel/runtime" "^7.22.6"
+    "@types/prop-types" "^15.7.5"
+    "@types/react-is" "^18.2.1"
+    prop-types "^15.8.1"
+    react-is "^18.2.0"
+
 "@mui/utils@^5.2.3":
   version "5.7.0"
   resolved "https://registry.npmjs.org/@mui/utils/-/utils-5.7.0.tgz"
@@ -4147,6 +4158,19 @@
     "@types/react-is" "^16.7.1 || ^17.0.0"
     prop-types "^15.8.1"
     react-is "^17.0.2"
+
+"@mui/x-date-pickers-pro@^6.9.0":
+  version "6.10.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers-pro/-/x-date-pickers-pro-6.10.2.tgz#564d6a4ec8cf02fe4043fd7a277f3ffb38fb0b1a"
+  integrity sha512-KpnX86YJiS9be868Xc7XbLNZhTI4UXEe4+wg35VewJUEB5vPLbtnxCOzqevBODZpvNSD/rjQm/KzaGeGW4KhDQ==
+  dependencies:
+    "@babel/runtime" "^7.22.6"
+    "@mui/utils" "^5.13.7"
+    "@mui/x-date-pickers" "6.10.2"
+    "@mui/x-license-pro" "6.10.2"
+    clsx "^1.2.1"
+    prop-types "^15.8.1"
+    react-transition-group "^4.4.5"
 
 "@mui/x-date-pickers@5.0.0-alpha.0":
   version "5.0.0-alpha.0"
@@ -4163,6 +4187,18 @@
     react-transition-group "^4.4.2"
     rifm "^0.12.1"
 
+"@mui/x-date-pickers@6.10.2":
+  version "6.10.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-date-pickers/-/x-date-pickers-6.10.2.tgz#af9734994b6415e19f2f01c34b64f9772b05cc21"
+  integrity sha512-RZHvPj5UYGdV2FoBlTbtAtg1aaJ1sbdD9LM9vSgefQWMW0vFC4fSYtFACS4ptxK/8Q0FHyuVZF5bDO+TUAPxQg==
+  dependencies:
+    "@babel/runtime" "^7.22.6"
+    "@mui/utils" "^5.13.7"
+    "@types/react-transition-group" "^4.4.6"
+    clsx "^1.2.1"
+    prop-types "^15.8.1"
+    react-transition-group "^4.4.5"
+
 "@mui/x-date-pickers@^6.9.0":
   version "6.9.0"
   resolved "https://registry.npmjs.org/@mui/x-date-pickers/-/x-date-pickers-6.9.0.tgz"
@@ -4174,6 +4210,14 @@
     clsx "^1.2.1"
     prop-types "^15.8.1"
     react-transition-group "^4.4.5"
+
+"@mui/x-license-pro@6.10.2":
+  version "6.10.2"
+  resolved "https://registry.yarnpkg.com/@mui/x-license-pro/-/x-license-pro-6.10.2.tgz#68b069214efb085f7f8c34b73d450743857e0aea"
+  integrity sha512-Baw3shilU+eHgU+QYKNPFUKvfS5rSyNJ98pQx02E0gKA22hWp/XAt88K1qUfUMPlkPpvg/uci6gviQSSLZkuKw==
+  dependencies:
+    "@babel/runtime" "^7.22.6"
+    "@mui/utils" "^5.13.7"
 
 "@next/bundle-analyzer@^12.1.5":
   version "12.3.1"
@@ -7531,7 +7575,7 @@
   dependencies:
     "@types/react" "*"
 
-"@types/react-is@^18.2.0":
+"@types/react-is@^18.2.0", "@types/react-is@^18.2.1":
   version "18.2.1"
   resolved "https://registry.npmjs.org/@types/react-is/-/react-is-18.2.1.tgz"
   integrity sha512-wyUkmaaSZEzFZivD8F2ftSyAfk6L+DfFliVj/mYdOXbVjRcS87fQJLTnhk6dRZPuJjI+9g6RZJO4PNCngUrmyw==
