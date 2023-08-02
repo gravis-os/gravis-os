@@ -14,7 +14,7 @@ const ControlledTimeField: React.FC<ControlledTimeFieldProps> = (props) => {
   return (
     <Controller
       render={({ field }) => (
-        <TimeField views={} label={label} {...field} {...timePickerProps} />
+        <TimeField label={label} {...field} {...timePickerProps} />
       )}
       defaultValue={new Date()}
       {...rest}
