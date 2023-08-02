@@ -94,7 +94,7 @@ const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
         {
           key: name.singular,
           title: isNew ? 'New' : get(item, pk),
-          href: `${route.plural}/${isNew ? 'new' : get(item, sk)}`
+          href: `${route.plural}/${isNew ? 'new' : get(item, sk)}`,
         },
       ]}
       {...rest}
