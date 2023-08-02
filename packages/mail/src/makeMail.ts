@@ -47,6 +47,8 @@ const makeMail = (props: MakeMailProps) => {
       email,
       attachments,
       blacklist,
+      headers,
+      replyTo,
     }: {
       to: string
       from?: string
@@ -54,6 +56,8 @@ const makeMail = (props: MakeMailProps) => {
       email: Mailgen.Content
       attachments?: MailDataRequired['attachments']
       blacklist?: string[]
+      headers?: Record<string, string>
+      replyTo?: MailDataRequired['replyTo']
     }) => {
       const shouldSkip = Boolean(
         blacklist?.some((email) => email === to?.toLowerCase())
@@ -67,6 +71,8 @@ const makeMail = (props: MakeMailProps) => {
         html: mailgen.generate(email),
         text: mailgen.generatePlaintext(email),
         attachments,
+        headers,
+        replyTo,
       })
     },
   }
