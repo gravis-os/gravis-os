@@ -343,6 +343,15 @@ const renderField = (props: RenderFieldProps) => {
           )
         )
         return <DynamicControlledTimeField control={control} {...commonProps} />
+      case FormSectionFieldTypeEnum.TIME_RANGE:
+        const DynamicControlledTimeRangeField = dynamic(() =>
+          import('@gravis-os/fields').then(
+            (module) => module.ControlledTimeRangeField
+          )
+        )
+        return (
+          <DynamicControlledTimeRangeField control={control} {...commonProps} />
+        )
       case FormSectionFieldTypeEnum.AMOUNT:
         const DynamicControlledAmountField = dynamic(() =>
           import('@gravis-os/fields').then(

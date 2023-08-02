@@ -37,6 +37,7 @@
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
     "@mui/x-date-pickers": "^6.9.0",
+    "@mui/x-date-pickers-pro": "^6.9.0",
     "downloadjs": "^1.4.7",
     "react-hook-form": "^7.30.0",
     "lodash": "^4.17.21",
