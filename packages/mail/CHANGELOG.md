@@ -1,5 +1,11 @@
 # @gravis-os/mail
 
+## 0.2.0
+
+### Minor Changes
+
+- [#399](https://github.com/gravis-os/gravis-os/pull/399) [`e5a563b2`](https://github.com/gravis-os/gravis-os/commit/e5a563b2d8cbe5a5c412b66f77c3d0a6db389747) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(mail): supported to reply email.
+
 ## 0.1.0
 
 ### Minor Changes

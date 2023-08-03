@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.4.4
+
+### Patch Changes
+
+- [#401](https://github.com/gravis-os/gravis-os/pull/401) [`76411c2c`](https://github.com/gravis-os/gravis-os/commit/76411c2c62234bbeabc412e8a16cbd2500da8a29) Thanks [@shank1xt](https://github.com/shank1xt)! - add time range field
+
 ## 1.4.3
 
 ### Patch Changes
