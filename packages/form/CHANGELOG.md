@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.4
+
+### Patch Changes
+
+- [#403](https://github.com/gravis-os/gravis-os/pull/403) [`3b0f63af`](https://github.com/gravis-os/gravis-os/commit/3b0f63af9bc4250008788eeff9adca4a1599b005) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add virtualized list
+
 ## 1.4.3
 
 ### Patch Changes

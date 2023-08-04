@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- [#402](https://github.com/gravis-os/gravis-os/pull/402) [`d90897c7`](https://github.com/gravis-os/gravis-os/commit/d90897c72dd3a99195957076c6e56a424748128c) Thanks [@jianlingteng](https://github.com/jianlingteng)! - Fix ManageColumnMenuButton
+
+- Updated dependencies [[`3b0f63af`](https://github.com/gravis-os/gravis-os/commit/3b0f63af9bc4250008788eeff9adca4a1599b005)]:
+  - @gravis-os/form@1.4.4
+
 ## 0.1.1
 
 ### Patch Changes
