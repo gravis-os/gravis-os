@@ -44,14 +44,19 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
 
               const isChecked = currentKeys.includes(field)
 
-              return { key: field, value: isChecked, label: headerName }
+              return {
+                key: field,
+                value: field,
+                label: headerName,
+                isChecked,
+              }
             })
             .filter(Boolean)
         }
 
         const options = getCheckboxOptions(initialColumnDefs)
-        const value = getCheckboxOptions(columnDefs).map(
-          ({ key, ...rest }) => ({ ...rest, key, value: key })
+        const value = getCheckboxOptions(columnDefs).filter(
+          ({ isChecked }) => isChecked
         )
 
         return (
