@@ -73,11 +73,22 @@ export const ListboxComponent = React.forwardRef<
   const itemData = children as JsxElement[]
   const itemCount = itemData.length
   const itemSize = 36
+
+  const getItemSize = (index: number) => {
+    const data = itemData[index]
+    const content = get(data[1], data[2]) as string
+
+    return Math.ceil(content.length / 25) * itemSize
+  }
+
   const getHeight = () => {
     if (itemCount > 8) {
       return 8 * itemSize
     }
-    return itemCount * itemSize
+
+    return itemData
+      .map((_, index) => getItemSize(index))
+      .reduce((a, b) => a + b, 0)
   }
   const gridRef = useResetCache(itemCount)
 
@@ -91,12 +102,7 @@ export const ListboxComponent = React.forwardRef<
           ref={gridRef}
           outerElementType={OuterElementType}
           innerElementType="ul"
-          itemSize={(index) => {
-            const data = itemData[index]
-            const content = get(data[1], data[2]) as string
-
-            return Math.ceil(content.length / 25) * itemSize
-          }}
+          itemSize={getItemSize}
           overscanCount={5}
           itemCount={itemCount}
         >
