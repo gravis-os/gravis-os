@@ -6,8 +6,7 @@ import React, {
   useState,
 } from 'react'
 import { CrudModule } from '@gravis-os/types'
-import { CircularProgress, Stack, Typography } from '@gravis-os/ui'
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import { CircularProgress } from '@gravis-os/ui'
 import {
   Autocomplete,
   AutocompleteProps,
@@ -20,7 +19,6 @@ import {
 } from '@supabase/postgrest-js'
 import debounce from 'lodash/debounce'
 import has from 'lodash/has'
-import isEmpty from 'lodash/isEmpty'
 import partition from 'lodash/partition'
 import startCase from 'lodash/startCase'
 import uniqBy from 'lodash/uniqBy'
@@ -33,11 +31,10 @@ import negate from 'lodash/negate'
 import orderBy from 'lodash/orderBy'
 import { TextField, TextFieldProps } from '@gravis-os/fields'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
+import { ListboxComponent } from '../components/ListboxComponent'
+import { DataItem } from '../../types'
+import { getIsCreateOption } from '../utils/getIsCreateOption'
 
-interface DataItem {
-  [key: string]: unknown
-  id?: string | number
-}
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
 /**
@@ -444,10 +441,6 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   // withCreate: Ability to create new item from an option
   // ==============================
   const withCreateOptions = withCreate && { freeSolo: true }
-  const getIsCreateOption = ({ option, pk }) => {
-    if (!get(option, pk)) return
-    return option && pk && get(option, pk, '').toString().startsWith('Add "')
-  }
   const getCreateOption = ({ option, pk }) => {
     if (!get(option, pk)) return
     // e.g. 'Add "New Item"' -> 'New Item'
@@ -465,6 +458,8 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         inputValue={inputValue}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
+        disableListWrap
+        ListboxComponent={ListboxComponent}
         autoComplete
         includeInputInList
         filterOptions={(options: DataItem[], params) => {
@@ -585,44 +580,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             />
           )
         }}
-        renderOption={(props, option: DataItem | null) => {
-          const shouldSkipOption =
-            isEmpty(option) ||
-            Array.isArray(option) ||
-            typeof option !== 'object' ||
-            (Array.isArray(displayValue) &&
-              displayValue.find((value) => value?.id === option?.id))
-          const isCreateOption = getIsCreateOption({ option, pk })
-
-          // Handle degenerate case where option is an empty object
-          if (shouldSkipOption) return null
-
-          // Careful, option might be null
-          const primitiveOptionValue: React.ReactNode = renderOption
-            ? renderOption({ option, pk })
-            : (get(option, pk) as string)
-
-          switch (true) {
-            case isCreateOption:
-              return (
-                <li {...props}>
-                  <Stack
-                    direction="row"
-                    alignItems="center"
-                    spacing={0.5}
-                    sx={{ color: 'primary.main' }}
-                  >
-                    <AddOutlinedIcon fontSize="small" />
-                    <Typography color="inherit">
-                      {primitiveOptionValue}
-                    </Typography>
-                  </Stack>
-                </li>
-              )
-            default:
-              return <li {...props}>{primitiveOptionValue}</li>
-          }
-        }}
+        renderOption={(props, option: DataItem | null) =>
+          [props, option, pk, displayValue, renderOption] as React.ReactNode
+        }
         {...rest}
       />
     </>
