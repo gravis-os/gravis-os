@@ -6,7 +6,7 @@ import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import { Stack, Typography } from '@gravis-os/ui'
 import { getIsCreateOption } from '../utils/getIsCreateOption'
-import { useResetCache } from '../hooks/useResetCache'
+import { useResetCache } from '../VirtualizedAutocompleteList.tsx/hooks/useResetCache'
 
 const LISTBOX_PADDING = 8
 const OuterElementContext = React.createContext({})

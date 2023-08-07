@@ -1,0 +1,4 @@
+export const LISTBOX_PADDING = 8
+export const CHARACTERS_PER_LINE = 25
+export const MAX_VISIBLE_ITEM_COUNT = 8
+export const VIRTUALIZED_LIST_ITEM_SIZE = 36

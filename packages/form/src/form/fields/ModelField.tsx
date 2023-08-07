@@ -31,9 +31,10 @@ import negate from 'lodash/negate'
 import orderBy from 'lodash/orderBy'
 import { TextField, TextFieldProps } from '@gravis-os/fields'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
-import { ListboxComponent } from '../components/ListboxComponent'
-import { DataItem } from '../../types'
+import { ModelFieldDataItem } from '../../types'
 import { getIsCreateOption } from '../utils/getIsCreateOption'
+import { VirtualizedAutocompleteList } from '../VirtualizedAutocompleteList.tsx'
+import { renderOptionFromListDataItem } from '../utils/renderModelFieldOption'
 
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
@@ -49,11 +50,11 @@ const delayFunction = debounce
  * When using server-side filter, this is deactivated
  * @link: https://mui.com/material-ui/react-autocomplete/#custom-filter
  */
-const getClientSideFilterOptions = createFilterOptions<DataItem>()
+const getClientSideFilterOptions = createFilterOptions<ModelFieldDataItem>()
 
 const getWithCreateOptions =
   ({ pk, inputValue }: { pk: string; inputValue: string }) =>
-  (options: DataItem[]) => {
+  (options: ModelFieldDataItem[]) => {
     const isExisting = options.some((option) => inputValue === get(option, pk))
     if (inputValue !== '' && !isExisting) {
       return options.concat({ [pk]: `Add "${inputValue}"` })
@@ -67,7 +68,7 @@ export type SetModelFieldQuery = ({
 }: {
   inputValue: string
   select: string
-}) => Promise<PostgrestResponse<DataItem>>
+}) => Promise<PostgrestResponse<ModelFieldDataItem>>
 
 export interface ModelFieldProps {
   pk?: string
@@ -80,6 +81,7 @@ export interface ModelFieldProps {
   helperText?: TextFieldProps['helperText']
   textFieldProps?: TextFieldProps
   sx?: ModelAutocompleteProps['sx']
+  isVirtualized?: boolean
 
   // Mui
   disableClearable?: ModelAutocompleteProps['disableClearable']
@@ -140,7 +142,7 @@ export interface ModelFieldProps {
     option,
     pk,
   }: {
-    option: DataItem
+    option: ModelFieldDataItem
     pk: string
   }) => React.ReactNode
 
@@ -198,6 +200,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     // TextField
     textFieldProps,
 
+    isVirtualized = false,
     ...rest
   } = props
   const { table } = module
@@ -209,10 +212,10 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const initialValue = getInitialValue(formValue)
   // displayValue here is not necessarily the same as the form value
   const [displayValue, setDisplayValue] = useState<
-    DataItem | DataItem[] | null
+    ModelFieldDataItem | ModelFieldDataItem[] | null
   >(initialValue)
   const [inputValue, setInputValue] = useState('')
-  const [options, setOptions] = useState<DataItem[]>([])
+  const [options, setOptions] = useState<ModelFieldDataItem[]>([])
   const [open, setOpen] = useState(false)
   const [filters, setFilters] = useState(null)
 
@@ -269,7 +272,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
       const select = injectedSelect || defaultSelect
 
-      let query: PostgrestFilterBuilder<DataItem> = supabaseClient
+      let query: PostgrestFilterBuilder<ModelFieldDataItem> = supabaseClient
         .from(table.name)
         .select(select)
 
@@ -353,7 +356,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         }
       }
 
-      const onSelect: PostgrestResponse<DataItem> = await (setQuery
+      const onSelect: PostgrestResponse<ModelFieldDataItem> = await (setQuery
         ? setQuery({ inputValue, select })
         : query)
 
@@ -362,7 +365,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
       if (!dbItems) return
 
       const newOptions =
-        typeof displayValue === 'object' ? [displayValue as DataItem] : []
+        typeof displayValue === 'object'
+          ? [displayValue as ModelFieldDataItem]
+          : []
 
       const nextOptions = (injectedOrderBy ? orderBy : identity).apply(null, [
         filter(
@@ -458,11 +463,9 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         inputValue={inputValue}
         onOpen={() => setOpen(true)}
         onClose={() => setOpen(false)}
-        disableListWrap
-        ListboxComponent={ListboxComponent}
         autoComplete
         includeInputInList
-        filterOptions={(options: DataItem[], params) => {
+        filterOptions={(options: ModelFieldDataItem[], params) => {
           const { inputValue } = params
 
           // Suggest the creation of a new value
@@ -495,7 +498,10 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
           return nextClientSideFilteredOptions
         }}
-        onChange={(e, newValue: DataItem | DataItem[] | null) => {
+        onChange={(
+          e,
+          newValue: ModelFieldDataItem | ModelFieldDataItem[] | null
+        ) => {
           // Set UI field display value only
           const isCreateOption = getIsCreateOption({ option: newValue, pk })
 
@@ -580,9 +586,25 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             />
           )
         }}
-        renderOption={(props, option: DataItem | null) =>
-          [props, option, pk, displayValue, renderOption] as React.ReactNode
-        }
+        {...(isVirtualized && {
+          disableListWrap: true,
+          ListboxComponent: VirtualizedAutocompleteList,
+          renderOption: (props, option: ModelFieldDataItem | null) =>
+            [props, option, pk, displayValue, renderOption] as React.ReactNode,
+        })}
+        {...(!isVirtualized && {
+          renderOption: (props, option: ModelFieldDataItem | null) => (
+            <li {...props}>
+              {renderOptionFromListDataItem([
+                props,
+                option,
+                pk,
+                displayValue,
+                renderOption,
+              ])}
+            </li>
+          ),
+        })}
         {...rest}
       />
     </>
