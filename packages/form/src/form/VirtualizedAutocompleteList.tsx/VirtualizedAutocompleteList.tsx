@@ -20,7 +20,7 @@ const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
 const renderOption = (optionProps: ListChildComponentProps) => {
   const { data, index, style } = optionProps
   const dataSet = data[index]
-  const props = data[0] ?? {}
+  const props = dataSet[0] ?? {}
   const inlineStyle = {
     ...style,
     top: (style.top as number) + LISTBOX_PADDING,
