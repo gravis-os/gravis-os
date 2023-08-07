@@ -305,6 +305,11 @@ const renderField = (props: RenderFieldProps) => {
             options={(commonProps.options || []) as RadioGroupProps['options']}
           />
         )
+      case FormSectionFieldTypeEnum.JSON:
+        const DynamicControlledJSONField = dynamic(() =>
+          import('@gravis-os/fields').then((module) => module.JSONField)
+        )
+        return <DynamicControlledJSONField control={control} {...commonProps} />
       case FormSectionFieldTypeEnum.CHECKBOX:
         const DynamicControlledCheckboxGroup = dynamic(() =>
           import('@gravis-os/fields').then(
