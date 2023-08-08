@@ -30,11 +30,11 @@ import identity from 'lodash/identity'
 import negate from 'lodash/negate'
 import orderBy from 'lodash/orderBy'
 import { TextField, TextFieldProps } from '@gravis-os/fields'
-import getRelationalObjectKey from '../utils/getRelationalObjectKey'
-import { ModelFieldDataItem } from './types'
-import { getIsCreateOption } from './getIsCreateOption'
-import { VirtualizedAutocompleteList } from '../VirtualizedAutocompleteList'
-import { renderOptionFromListDataItem } from '../utils/renderModelFieldOption'
+import getRelationalObjectKey from '../../utils/getRelationalObjectKey'
+import { ModelFieldDataItem } from '../types'
+import { getIsCreateOption } from '../getIsCreateOption'
+import { VirtualizedAutocompleteList } from './VirtualizedAutocompleteList'
+import { renderOptionFromListDataItem } from './renderModelFieldOption'
 
 type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 

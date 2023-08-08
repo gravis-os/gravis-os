@@ -3,8 +3,8 @@ import { Stack, Typography } from '@gravis-os/ui'
 import isEmpty from 'lodash/isEmpty'
 import get from 'lodash/get'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-import { AutocompleteListDataItem } from '../fields/types'
-import { getIsCreateOption } from '../fields/getIsCreateOption'
+import { AutocompleteListDataItem } from '../types'
+import { getIsCreateOption } from '../getIsCreateOption'
 
 export const renderOptionFromListDataItem = (
   dataSet: AutocompleteListDataItem
