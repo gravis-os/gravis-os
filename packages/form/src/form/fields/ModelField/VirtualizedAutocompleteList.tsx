@@ -8,7 +8,7 @@ import {
   MAX_VISIBLE_ITEM_COUNT,
   VIRTUALIZED_LIST_ITEM_SIZE,
 } from './constants'
-import { AutocompleteListDataItem } from '../types'
+import { AutocompleteListDataItem } from './types'
 import { renderOptionFromListDataItem } from './renderModelFieldOption'
 
 // for MUI Autocomplete to pass renderOption props to
