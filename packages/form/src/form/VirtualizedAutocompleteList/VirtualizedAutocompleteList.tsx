@@ -8,9 +8,11 @@ import {
   MAX_VISIBLE_ITEM_COUNT,
   VIRTUALIZED_LIST_ITEM_SIZE,
 } from './constants'
-import { AutocompleteListDataItem } from '../../types'
+import { AutocompleteListDataItem } from '../fields/types'
 import { renderOptionFromListDataItem } from '../utils/renderModelFieldOption'
 
+// for MUI Autocomplete to pass renderOption props to
+// this virtualized list' renderOption function
 const OuterElementContext = React.createContext({})
 const OuterElementType = React.forwardRef<HTMLDivElement>((props, ref) => {
   const outerProps = React.useContext(OuterElementContext)
