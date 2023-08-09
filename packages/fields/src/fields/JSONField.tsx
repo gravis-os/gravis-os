@@ -1,5 +1,6 @@
 import React from 'react'
 import capitalize from 'lodash/capitalize'
+import sortBy from 'lodash/sortBy'
 import { GridProps, Box, Divider, Grid, Typography } from '@mui/material'
 import { Control } from 'react-hook-form'
 import { Page } from '@gravis-os/types'
@@ -34,7 +35,9 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
 
   return sectionEntries.map(([key, section], i) => {
     const sectionKeys = Object.keys(section)
-    const sortedSectionKeys = sectionKeys
+    const sortedSectionKeys = sortBy(sectionKeys, (sectionKey) =>
+      SORT_ORDER.indexOf(sectionKey)
+    )
     const isItems = name.includes('items')
     const isNestedItems = name.split('items').length > 2
     const isLast = sectionEntries.length - 1 === i
