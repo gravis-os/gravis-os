@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.5
+
+### Patch Changes
+
+- [#405](https://github.com/gravis-os/gravis-os/pull/405) [`7cc10456`](https://github.com/gravis-os/gravis-os/commit/7cc1045694059c1c52f52ce6e4fdba566451271f) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add virtualized autocomplete list
+
 ## 1.4.4
 
 ### Patch Changes

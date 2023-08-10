@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/form",
-  "version": "1.4.4",
+  "version": "1.4.5",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
