@@ -31,6 +31,7 @@ export enum FormSectionFieldTypeEnum {
   MODEL = 'model',
   CHIP = 'chip',
   CHECKBOX_TABLE = 'CHECKBOX_TABLE',
+  JSON = 'json',
 
   // Date
   DATE = 'date',
