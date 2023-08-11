@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.1.1
+
+### Patch Changes
+
+- [#407](https://github.com/gravis-os/gravis-os/pull/407) [`c7ce70d4`](https://github.com/gravis-os/gravis-os/commit/c7ce70d4ec0f10631d7995341afb8267525bf9aa) Thanks [@shank1xt](https://github.com/shank1xt)! - return correct props for withsort in uselist
+
 ## 0.1.0
 
 ### Minor Changes

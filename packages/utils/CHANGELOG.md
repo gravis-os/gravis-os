@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.1
+
+### Patch Changes
+
+- [#406](https://github.com/gravis-os/gravis-os/pull/406) [`1372e13c`](https://github.com/gravis-os/gravis-os/commit/1372e13c34ac360d074cd2cdd3d3c5c1842a6bce) Thanks [@shank1xt](https://github.com/shank1xt)! - add json field
+
 ## 0.2.0
 
 ### Minor Changes
