@@ -147,7 +147,7 @@ const withSort = () => (props: UseListProps & UseListFilters) => {
   const { order } = props
   const [sortKey, sortDirection] = getSort(props)
 
-  if (order || !sortKey) return props
+  if (!(order && sortKey)) return props
 
   return {
     ...props,
