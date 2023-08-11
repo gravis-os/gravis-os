@@ -104,7 +104,7 @@ const getSort = (props) => {
   return [sortKey || defaultSortKey, sortDirection]
 }
 const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
-  const { pagination = {}, limit } = props
+  const { pagination = {}, order, limit } = props
   const {
     paginationType = UseListPaginationType.Infinite,
     pageSize = DEFAULT_PAGE_SIZE,
@@ -140,14 +140,14 @@ const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
     limit: limit || pageSize,
     // Set the location of the next cursor with this where clause
     [isAscending ? 'gte' : 'lte']: [sortKey, nextPageParam],
-    order: [sortKey, { ascending: isAscending, nullsFirst: true }],
+    order: order || [sortKey, { ascending: isAscending, nullsFirst: true }],
   }
 }
 const withSort = () => (props: UseListProps & UseListFilters) => {
   const { order } = props
   const [sortKey, sortDirection] = getSort(props)
 
-  if (!(order && sortKey)) return props
+  if (order || !sortKey) return props
 
   return {
     ...props,
