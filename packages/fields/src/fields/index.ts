@@ -34,6 +34,9 @@ export * from './TextField'
 export { default as DateField } from './DateField'
 export * from './DateField'
 
+export { default as DownloadableLinksField } from './DownloadableLinksField'
+export * from './DownloadableLinksField'
+
 export { default as ControlledDateTimeField } from './ControlledDateTimeField'
 export * from './ControlledDateTimeField'
 

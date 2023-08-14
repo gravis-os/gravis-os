@@ -12,6 +12,7 @@ import {
   ControlledTextField,
   RadioGroupProps,
   CheckboxGroupProps,
+  DownloadableLinksField,
 } from '@gravis-os/fields'
 import { printPercentage } from '@gravis-os/utils'
 import getFormSectionFieldWithFunctionType from './getFormSectionFieldWithFunctionType'
@@ -184,13 +185,12 @@ const renderField = (props: RenderFieldProps) => {
         const files = get(item, name)
         const { bucketName } = fieldProps
         return (
-          <FormSectionReadOnlyStack
+          <DownloadableLinksField
             label={label}
             sx={readOnlySx}
-            title={files}
+            files={files}
             fileProps={{
               bucketName,
-              isFiles: true,
             }}
           />
         )
