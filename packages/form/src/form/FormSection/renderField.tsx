@@ -23,10 +23,6 @@ import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import { FormSectionFieldProps, FormSectionProps } from './types'
 import { FormSectionFieldTypeEnum } from './constants'
 
-const FormSectionReadOnlyFiles = React.lazy(
-  () => import('@gravis-os/fields/src/fields/FormSectionReadOnlyFiles')
-)
-
 export interface RenderFieldProps {
   formContext: UseFormReturn
   sectionProps: FormSectionProps
@@ -187,6 +183,11 @@ const renderField = (props: RenderFieldProps) => {
       case FormSectionFieldTypeEnum.FILES:
         const files = get(item, name)
         const { bucketName } = fieldProps
+        const FormSectionReadOnlyFiles = dynamic(() =>
+          import('@gravis-os/fields').then(
+            (module) => module.FormSectionReadOnlyFiles
+          )
+        )
         return (
           <FormSectionReadOnlyFiles
             label={label}

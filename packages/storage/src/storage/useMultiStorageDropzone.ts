@@ -41,7 +41,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     setFormValue,
     setUpsertRowsValue,
     dropzoneProps,
-    attachToNewRecord = false,
+    attachToNewRecord = false
   } = props
 
   // Vars
@@ -86,11 +86,10 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
             name: file.name,
             size: file.size,
             type: file.type,
-            position: file.position || 0,
+            position: file.position || 0
           }
         }
       )
-
       // Allow modify foreignTableRows
       const foreignTableRows =
         !isEmpty(primaryRecord) && setUpsertRowsValue
@@ -99,6 +98,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       // This is a new item, defer db saving action instead by storing in the form value
       // for Quotation and SO, always defer
       if ((attachToNewRecord || isEmpty(primaryRecord)) && setFormValue) {
+        console.log([...foreignTableRows, ...foreignRecords])
         setFormValue([...foreignTableRows, ...foreignRecords])
         return foreignTableRows
       }
@@ -110,8 +110,8 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           // The relation_id e.g. product_id
           [`${primaryTableName}_id`]: primaryRecord.id,
           ...(primaryRecord.workspace_id && {
-            workspace_id: primaryRecord.workspace_id,
-          }),
+            workspace_id: primaryRecord.workspace_id
+          })
         }))
       )
 
@@ -203,17 +203,17 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
         ['.docx'],
       'application/vnd.ms-excel': ['.xls'],
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
-        '.xlsx',
+        '.xlsx'
       ],
       'text/csv': ['.csv'],
       'application/vnd.ms-powerpoint': ['.ppt'],
       'application/vnd.openxmlformats-officedocument.presentationml.presentation':
         ['.pptx'],
       'application/vnd.oasis.opendocument.text': ['.odt'],
-      'application/rtf': ['.rtf'],
+      'application/rtf': ['.rtf']
     } as DropzoneOptions['accept'],
     onDrop: handleDrop,
-    ...dropzoneProps,
+    ...dropzoneProps
   }
   const dropzone = useDropzone(dropzoneOptions)
 
@@ -223,7 +223,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     onUpload: handleUpload,
     onRemove: handleRemove,
     dropzone,
-    dropzoneOptions,
+    dropzoneOptions
   }
 }
 
