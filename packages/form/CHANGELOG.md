@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.4.7
+
+### Patch Changes
+
+- [#408](https://github.com/gravis-os/gravis-os/pull/408) [`67364156`](https://github.com/gravis-os/gravis-os/commit/673641561872be93c700583550debcabcb218c2b) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add link display field
+
+- Updated dependencies [[`67364156`](https://github.com/gravis-os/gravis-os/commit/673641561872be93c700583550debcabcb218c2b)]:
+  - @gravis-os/fields@1.4.6
+
 ## 1.4.6
 
 ### Patch Changes

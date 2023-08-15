@@ -19,8 +19,8 @@
     "tslint": "turbo run tslint",
     "cs": "changeset",
     "cs:version": "changeset version",
-    "cs:publish": "changeset publish && git push --follow-tags",
-    "cs:vp": "npm run cs:version && npm run cs:publish && git add . && git commit -m \"build: published changeset\" && git push",
+    "cs:publish": "changeset publish && git push --follow-tags --no-verify",
+    "cs:vp": "npm run cs:version && npm run cs:publish && git add . && git commit -m \"build: published changeset\" --no-verify && git push",
     "test": "turbo run test"
   },
   "config": {
