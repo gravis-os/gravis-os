@@ -12,7 +12,6 @@ import {
   ControlledTextField,
   RadioGroupProps,
   CheckboxGroupProps,
-  DownloadableLinksField,
 } from '@gravis-os/fields'
 import { printPercentage } from '@gravis-os/utils'
 import getFormSectionFieldWithFunctionType from './getFormSectionFieldWithFunctionType'
@@ -23,6 +22,10 @@ import FormSectionReadOnlyStack from './FormSectionReadOnlyStack'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
 import { FormSectionFieldProps, FormSectionProps } from './types'
 import { FormSectionFieldTypeEnum } from './constants'
+
+const FormSectionReadOnlyFiles = React.lazy(
+  () => import('@gravis-os/fields/src/fields/FormSectionReadOnlyFiles')
+)
 
 export interface RenderFieldProps {
   formContext: UseFormReturn
@@ -185,7 +188,7 @@ const renderField = (props: RenderFieldProps) => {
         const files = get(item, name)
         const { bucketName } = fieldProps
         return (
-          <DownloadableLinksField
+          <FormSectionReadOnlyFiles
             label={label}
             sx={readOnlySx}
             files={files}

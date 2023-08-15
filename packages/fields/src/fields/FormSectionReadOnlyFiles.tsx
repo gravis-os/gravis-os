@@ -11,13 +11,14 @@ export interface FormSectionFileProps {
   bucketName?: string
 }
 
-export interface DownloadableLinksFieldProps extends Omit<StackProps, 'title'> {
+export interface FormSectionReadOnlyFilesProps
+  extends Omit<StackProps, 'title'> {
   files: File[]
   label: React.ReactNode
   fileProps?: FormSectionFileProps
 }
 
-const DownloadableLinksField: React.FC<DownloadableLinksFieldProps> = (
+const FormSectionReadOnlyFiles: React.FC<FormSectionReadOnlyFilesProps> = (
   props
 ) => {
   const {
@@ -87,4 +88,4 @@ const DownloadableLinksField: React.FC<DownloadableLinksFieldProps> = (
   )
 }
 
-export default DownloadableLinksField
+export default FormSectionReadOnlyFiles
