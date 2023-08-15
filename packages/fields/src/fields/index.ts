@@ -34,6 +34,9 @@ export * from './TextField'
 export { default as DateField } from './DateField'
 export * from './DateField'
 
+export { default as FormSectionReadOnlyFiles } from './FormSectionReadOnlyFiles'
+export * from './FormSectionReadOnlyFiles'
+
 export { default as ControlledDateTimeField } from './ControlledDateTimeField'
 export * from './ControlledDateTimeField'
 
