@@ -14,11 +14,11 @@ import { useLayout } from '../providers/LayoutProvider'
 
 export interface ContactFormProps {
   onSubmit?: (values: any) => void
+  contactSuccessRoute?: string
 }
 
 const ContactForm: React.FC<ContactFormProps> = (props) => {
-  const { onSubmit } = props
-
+  const { onSubmit, contactSuccessRoute } = props
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false)
   const router = useRouter()
@@ -62,8 +62,11 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
     setIsLoading(false)
     setIsSubmitSuccess(true)
     toast.success('Successfully sent')
+    if (!contactSuccessRoute && !routeConfig?.CONTACT_SUCCESS) return
     router.push(
-      `/${routeConfig?.CONTACT_SUCCESS}?name=${values.name}&email=${values.email}`
+      `/${routeConfig?.CONTACT_SUCCESS || contactSuccessRoute}?name=${
+        values.name
+      }&email=${values.email}`
     )
   }
 
