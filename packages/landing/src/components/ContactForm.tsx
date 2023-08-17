@@ -15,11 +15,11 @@ import { useLayout } from '../providers/LayoutProvider'
 export interface ContactFormProps {
   onSubmit?: (values: any) => void
   contactSuccessRoute?: string
-  injectedValues?: Record<string, string>
+  postEnquiryValues?: Record<string, string>
 }
 
 const ContactForm: React.FC<ContactFormProps> = (props) => {
-  const { onSubmit, contactSuccessRoute, injectedValues } = props
+  const { onSubmit, contactSuccessRoute, postEnquiryValues } = props
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false)
   const router = useRouter()
@@ -58,7 +58,7 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
     await postEnquiry({
       type: EnquiryTypeEnum.ENQUIRY,
       origin: window.location.href,
-      ...injectedValues,
+      ...postEnquiryValues,
       ...values,
     })
     setIsLoading(false)
