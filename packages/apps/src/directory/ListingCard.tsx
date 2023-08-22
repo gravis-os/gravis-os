@@ -1,5 +1,13 @@
 import React from 'react'
-import { Card, CardContent, CardProps, Link, Typography } from '@gravis-os/ui'
+import {
+  Box,
+  Card,
+  CardContent,
+  CardProps,
+  Link,
+  Stack,
+  Typography,
+} from '@gravis-os/ui'
 import { CrudModule } from '@gravis-os/types'
 import { StorageImage } from '@gravis-os/storage'
 import { Listing } from './types'
@@ -24,8 +32,11 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
     priceText,
   } = item
   const { directory } = directory_category
-  const { is_listing_image_enabled, is_listing_price_enabled } = directory
-
+  const {
+    is_listing_image_enabled,
+    is_listing_price_enabled,
+    is_listing_brand_image_enabled,
+  } = directory
   const listingHref = listingModule.getWebHref([
     directory,
     directory_category,
@@ -53,19 +64,26 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
       )}
 
       <CardContent disableGutterBottom sx={{ height: '100%' }}>
-        <Link
-          variant="overline"
-          href={brandModule.getWebHref([brand])}
-          color="secondary"
-        >
-          {brand?.title}
-        </Link>
-        <Link variant="h6" href={listingHref}>
-          {title}
-        </Link>
-        {is_listing_price_enabled && priceText && (
-          <Typography variant="body2">{priceText}</Typography>
-        )}
+        <Stack direction="row" gap={2} alignItems="center">
+          {is_listing_brand_image_enabled && (
+            <StorageImage src={brand?.avatar_src} width={50} height={50} />
+          )}
+          <Box>
+            <Link
+              variant="overline"
+              href={brandModule.getWebHref([brand])}
+              color="secondary"
+            >
+              {brand?.title}
+            </Link>
+            <Link variant="h6" href={listingHref}>
+              {title}
+            </Link>
+            {is_listing_price_enabled && priceText && (
+              <Typography variant="body2">{priceText}</Typography>
+            )}
+          </Box>
+        </Stack>
       </CardContent>
     </Card>
   )
