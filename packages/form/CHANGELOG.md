@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.9
+
+### Patch Changes
+
+- [#413](https://github.com/gravis-os/gravis-os/pull/413) [`32626365`](https://github.com/gravis-os/gravis-os/commit/326263656f6caf79e369b2e5800aa82795f22d8a) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - republish due to missing cjs
+
 ## 1.4.8
 
 ### Patch Changes
