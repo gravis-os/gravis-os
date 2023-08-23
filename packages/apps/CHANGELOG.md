@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.2.2
+
+### Patch Changes
+
+- [#411](https://github.com/gravis-os/gravis-os/pull/411) [`cc96c39f`](https://github.com/gravis-os/gravis-os/commit/cc96c39fa0ca8e1ea6f134fd80868b669a42b379) Thanks [@shank1xt](https://github.com/shank1xt)! - add brand image to listing card
+
+- Updated dependencies [[`52f424f5`](https://github.com/gravis-os/gravis-os/commit/52f424f51b29253ddb22b5d12505433106b68264)]:
+  - @gravis-os/form@1.4.8
+
 ## 0.2.1
 
 ### Patch Changes
