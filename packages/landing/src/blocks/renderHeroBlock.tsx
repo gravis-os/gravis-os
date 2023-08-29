@@ -29,7 +29,7 @@ const renderHeroBlock = (props: RenderHeroBlockProps) => {
         },
       },
       {
-        type: 'image',
+        type: 'storage_image',
         title: hero_src,
         disableContainer: true,
         titleProps: {

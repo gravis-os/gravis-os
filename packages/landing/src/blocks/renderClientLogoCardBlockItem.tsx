@@ -13,7 +13,7 @@ const renderClientLogoCardBlockItem = (
   return {
     items: [
       {
-        type: 'image',
+        type: 'storage_image',
         title,
         titleProps,
       },

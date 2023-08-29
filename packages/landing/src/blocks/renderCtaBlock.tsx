@@ -42,7 +42,7 @@ const renderCtaBlock = (props: RenderCtaBlockProps) => {
         href: `/${routeConfig?.CONTACT}`,
       }),
       {
-        type: 'image',
+        type: 'storage_image',
         title: hero_src,
         disableContainer: true,
         titleProps: {

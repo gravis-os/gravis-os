@@ -20,7 +20,7 @@ const renderShowcaseStickyGridBlockItem = (
       lg: 7,
       items: [
         hero_src && {
-          type: 'image',
+          type: 'storage_image',
           title: hero_src,
           boxProps: { sx: { display: 'flex', justifyContent: 'center' } },
           titleProps: {

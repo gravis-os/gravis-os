@@ -85,7 +85,7 @@ const renderBaseColumnGridBlock = (props: RenderBaseColumnGridBlockProps) => {
           return {
             items: [
               avatar_src && {
-                type: 'image',
+                type: 'storage_image',
                 title: avatar_src,
                 titleProps: {
                   alt: avatar_alt,

@@ -22,7 +22,7 @@ const renderPostAuthorBlock = (props: RenderPostAuthorBlockProps) => {
     lg: 2,
     items: [
       {
-        type: 'image',
+        type: 'storage_image',
         title: author_avatar_src,
         titleProps: {
           alt: author_avatar_alt,

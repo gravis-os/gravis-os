@@ -65,7 +65,7 @@ const renderPostHeroBlockItem = (props: RenderPostHeroBlockItemProps) => {
         },
       },
       {
-        type: 'image',
+        type: 'storage_image',
         title: hero_src,
         titleProps: {
           alt: hero_alt,
