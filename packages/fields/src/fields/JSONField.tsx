@@ -7,13 +7,14 @@ import { Page } from '@gravis-os/types'
 import ControlledHtmlField from './ControlledHtmlField'
 import ControlledTextField from './ControlledTextField'
 
-interface JSONFieldProps {
+export interface JSONFieldProps {
   name: string
   control: Control
-  sections?: string // This is a JSON string that will be parsed to Array<{ key: string }>
+  value?: string | Page['sections']
 }
 
-interface RenderJSONSectionArgs extends Omit<JSONFieldProps, 'sections'> {
+export interface RenderJSONSectionArgs
+  extends Omit<JSONFieldProps, 'sections'> {
   sections: Page['sections']
 }
 
@@ -80,8 +81,10 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
           <Grid container spacing={columnGridSpacing}>
             {sortedSectionKeys.map((sectionKey, j) => {
               const sectionValue = section[sectionKey]
-              const sectionName = `${name}[${i}].[${sectionKey}]`
-
+              const sectionName = Array.isArray(sections)
+                ? `${name}[${i}].[${sectionKey}]`
+                : `${name}.[${key}].[${sectionKey}]`
+              if (!SORT_ORDER.includes(sectionKey)) return <></>
               const renderFieldContent = (sectionKey: string) => {
                 switch (sectionKey) {
                   case 'items':
@@ -135,9 +138,9 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
 }
 
 export const JSONField: React.FC<JSONFieldProps> = (props) => {
-  const { name, control, sections: injectedSections } = props
+  const { name, control, value = '{}' } = props
 
-  const sections = JSON.parse(injectedSections)
+  const sections = typeof value === 'string' ? JSON.parse(value) : value
 
   // Handle degenerate case
   if (sections === null)
