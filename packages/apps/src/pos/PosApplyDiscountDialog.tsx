@@ -21,6 +21,7 @@ import set from 'lodash/set'
 import startCase from 'lodash/startCase'
 import { getDiscountedPrice } from '../utils/getDiscountedPriceFromItem'
 import { usePos } from './PosProvider'
+import type { CartItem } from './types'
 
 export interface PosApplyDiscountDialogProps {
   open: boolean
@@ -33,7 +34,7 @@ const PosApplyDiscountDialog: React.FC<PosApplyDiscountDialogProps> = (
 ) => {
   const { open, onClose, cartIndex } = props
   const { cart, setCart } = usePos()
-  const item = cart?.items?.[cartIndex]
+  const item = cart?.items?.[cartIndex] ?? {} as CartItem
 
   const [selectedDiscountType, setSelectedDiscountType] = useState(
     item?.discountType || 'amount'
@@ -111,10 +112,10 @@ const PosApplyDiscountDialog: React.FC<PosApplyDiscountDialogProps> = (
             label="Price"
             value={printAmount(
               getDiscountedPrice(
-                item.price,
+                item?.price,
                 nextCartItem?.discount,
                 selectedDiscountType
-              ) || item.price
+              ) || item?.price
             )}
           />
         </Stack>
