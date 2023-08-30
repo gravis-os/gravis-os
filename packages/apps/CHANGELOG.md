@@ -1,5 +1,19 @@
 # Changelog
 
+## 1.0.0
+
+### Major Changes
+
+- [#417](https://github.com/gravis-os/gravis-os/pull/417) [`0225194c`](https://github.com/gravis-os/gravis-os/commit/0225194c86a40c1aa6e10f2b398509dcc078f18a) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - - fix(apps): set default quantity to 1 when add item to cart.
+
+  - fix(apps): updated price by selected quantity.
+
+  * feat(apps): show more payment methods when checkout.
+
+### Minor Changes
+
+- [#415](https://github.com/gravis-os/gravis-os/pull/415) [`567aee4d`](https://github.com/gravis-os/gravis-os/commit/567aee4d8e4183d6b715ddfd76399a1ae593dfef) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(apps): handled undefined cart item.
+
 ## 0.2.2
 
 ### Patch Changes
