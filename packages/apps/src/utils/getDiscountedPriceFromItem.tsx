@@ -10,7 +10,7 @@ const getDiscountedPriceFromItem = (item: CartItem) => {
     case 'override':
       return Number(discount) * (quantity || 1)
     default:
-      return price
+      return price * (quantity || 1)
   }
 }
 
