@@ -57,7 +57,7 @@ const PosProvider: React.FC<PosProviderProps> = (props) => {
 
   // Cart methods
   const addToCart = (cartItem: CartItem) => {
-    setCart({ ...cart, items: cart.items.concat(cartItem) })
+    setCart({ ...cart, items: cart.items.concat({ ...cartItem, quantity: cartItem?.quantity ?? 1}) })
   }
   const removeFromCart = (removeIndex: number) =>
     setCart({
