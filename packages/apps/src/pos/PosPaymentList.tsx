@@ -8,9 +8,13 @@ import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 
-export interface PosPaymentListProps {}
+export interface PosPaymentListProps {
+  showMorePaymentMethods?: boolean
+}
 
 const PosPaymentList: React.FC<PosPaymentListProps> = (props) => {
+  const { showMorePaymentMethods = false } = props
+
   const { cart } = usePos()
 
   const commonIconSx = { color: 'text.secondary' }
@@ -27,18 +31,20 @@ const PosPaymentList: React.FC<PosPaymentListProps> = (props) => {
       title: renderTitle('Cash'),
       href: posConfig.routes.PAYMENT_CASH,
     },
-    {
-      key: 'credit_card',
-      startIcon: <CreditCardOutlinedIcon sx={commonIconSx} />,
-      title: renderTitle('Credit Card'),
-      href: posConfig.routes.PAYMENT_CREDIT_CARD,
-    },
-    {
-      key: 'bank_transfer',
-      startIcon: <AttachMoneyOutlinedIcon sx={commonIconSx} />,
-      title: renderTitle('Bank Transfer'),
-      href: posConfig.routes.PAYMENT_BANK_TRANSFER,
-    },
+    ...(showMorePaymentMethods && [
+      {
+        key: 'credit_card',
+        startIcon: <CreditCardOutlinedIcon sx={commonIconSx} />,
+        title: renderTitle('Credit Card'),
+        href: posConfig.routes.PAYMENT_CREDIT_CARD,
+      },
+      {
+        key: 'bank_transfer',
+        startIcon: <AttachMoneyOutlinedIcon sx={commonIconSx} />,
+        title: renderTitle('Bank Transfer'),
+        href: posConfig.routes.PAYMENT_BANK_TRANSFER,
+      }
+    ]),
   ].map((item) => ({
     ...item,
     endIcon: (
