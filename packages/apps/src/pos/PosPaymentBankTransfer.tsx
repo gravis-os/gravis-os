@@ -1,7 +1,8 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useRouter } from 'next/router'
 import { Box, Button, Container, Grid, Stack, Typography } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
+import isNumber from 'lodash/isNumber'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 
@@ -22,8 +23,14 @@ const PosPaymentBankTransfer: React.FC<PosPaymentBankTransferProps> = () => {
 
   const handlePaidAmount = (value: number) => {
     setPaymentMethodAndPaidAmount('BANK_TRANSFER', value)
-    router.push(posConfig.routes.PAYMENT_SUCCESS)
   }
+
+  // Redirect to payment success page if receipt_id is available
+  useEffect(() => {
+    if (isNumber(cart.receipt_id)) {
+      router.push(`${posConfig.routes.PAYMENT_SUCCESS}/${cart.receipt_id}`)
+    }
+  }, [cart.receipt_id, router])
 
   return (
     <div>
