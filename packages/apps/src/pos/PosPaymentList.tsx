@@ -3,6 +3,8 @@ import { Container, Box, List, Stack, Typography } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
+import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined'
+import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined'
 import { usePos } from './PosProvider'
 import posConfig from './posConfig'
 
@@ -24,6 +26,18 @@ const PosPaymentList: React.FC<PosPaymentListProps> = (props) => {
       startIcon: <MoneyOutlinedIcon sx={commonIconSx} />,
       title: renderTitle('Cash'),
       href: posConfig.routes.PAYMENT_CASH,
+    },
+    {
+      key: 'credit_card',
+      startIcon: <CreditCardOutlinedIcon sx={commonIconSx} />,
+      title: renderTitle('Credit Card'),
+      href: posConfig.routes.PAYMENT_CREDIT_CARD,
+    },
+    {
+      key: 'bank_transfer',
+      startIcon: <AttachMoneyOutlinedIcon sx={commonIconSx} />,
+      title: renderTitle('Bank Transfer'),
+      href: posConfig.routes.PAYMENT_BANK_TRANSFER,
     },
   ].map((item) => ({
     ...item,
