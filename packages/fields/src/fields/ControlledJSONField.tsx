@@ -1,21 +1,20 @@
 import React from 'react'
 import { Control, Controller } from 'react-hook-form'
-import JSONField, { JSONFieldProps } from './JSONField'
+import JsonField, { JsonFieldProps } from './JsonField'
 
-export interface ControlledJSONFieldProps
-  extends Omit<JSONFieldProps, 'value'> {
+export interface ControlledJsonFieldProps
+  extends Omit<JsonFieldProps, 'value'> {
   control: Control
 }
 
-const ControlledJSONField: React.FC<ControlledJSONFieldProps> = (props) => {
+const ControlledJsonField: React.FC<ControlledJsonFieldProps> = (props) => {
   const { control, ...rest } = props
-
   return (
     <Controller
       control={control}
       render={({ field }) => {
         return (
-          <JSONField {...(field as any)} value={field.value ?? ''} {...rest} />
+          <JsonField {...(field as any)} value={field.value ?? ''} {...rest} />
         )
       }}
       {...rest}
@@ -23,4 +22,4 @@ const ControlledJSONField: React.FC<ControlledJSONFieldProps> = (props) => {
   )
 }
 
-export default ControlledJSONField
+export default ControlledJsonField

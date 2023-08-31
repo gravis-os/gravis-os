@@ -310,12 +310,18 @@ const renderField = (props: RenderFieldProps) => {
           />
         )
       case FormSectionFieldTypeEnum.JSON:
-        const DynamicControlledJSONField = dynamic(() =>
+        const DynamicControlledJsonField = dynamic(() =>
           import('@gravis-os/fields').then(
-            (module) => module.ControlledJSONField
+            (module) => module.ControlledJsonField
           )
         )
-        return <DynamicControlledJSONField control={control} {...commonProps} />
+        return (
+          <DynamicControlledJsonField
+            control={control}
+            module={injectedModule as CrudModule}
+            {...commonProps}
+          />
+        )
       case FormSectionFieldTypeEnum.CHECKBOX:
         const DynamicControlledCheckboxGroup = dynamic(() =>
           import('@gravis-os/fields').then(
