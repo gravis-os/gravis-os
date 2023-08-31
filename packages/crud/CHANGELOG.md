@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.2.0
+
+### Minor Changes
+
+- [#418](https://github.com/gravis-os/gravis-os/pull/418) [`8443d882`](https://github.com/gravis-os/gravis-os/commit/8443d8824dda646da1546bdd2962be02345be733) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): support to show user full_name instead of id in meta section.
+
 ## 0.1.2
 
 ### Patch Changes
