@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode } from 'react'
+import React, { useState, useEffect, ReactNode, useMemo } from 'react'
 import { useRouter } from 'next/router'
 import { CircularProgress, ButtonProps } from '@gravis-os/ui'
 import {
@@ -118,7 +118,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
       return data
     },
     // @ts-ignore
-    queryKey: [userModuleTableName, userModuleTableName, injectedItem?.created_by],
+    queryKey: [userModuleTableName],
     // @ts-ignore
     enabled: Boolean(shouldUseFullNameInMetaSection) && Boolean(injectedItem?.created_by)
   })
@@ -135,18 +135,21 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
       return data
     },
     // @ts-ignore
-    queryKey: [userModuleTableName, userModuleTableName, injectedItem?.updated_by],
+    queryKey: [userModuleTableName],
     // @ts-ignore
     enabled: Boolean(shouldUseFullNameInMetaSection) && Boolean(injectedItem?.updated_by)
   })
 
-  const item = shouldUseFullNameInMetaSection ? {
-    ...injectedItem,
+  const item = useMemo(() => {
     // @ts-ignore
-    created_by_full_name: creator?.full_name,
-    // @ts-ignore
-    updated_by_full_name: updater?.full_name,
-  } : injectedItem
+    return shouldUseFullNameInMetaSection && (injectedItem?.created_by || injectedItem?.updated_by) ? {
+      ...injectedItem,
+      // @ts-ignore
+      created_by_full_name: creator?.full_name,
+      // @ts-ignore
+      updated_by_full_name: updater?.full_name,
+    } : injectedItem
+  }, [injectedItem, creator, updater])
 
   // Lifecycle
   const router = useRouter()
