@@ -12,10 +12,11 @@ import { CrudItem, CrudModule } from '@gravis-os/types'
 import { UserContextInterface, useUser } from '@gravis-os/auth'
 import useCrudForm, { UseCrudFormArgs, UseCrudFormReturn } from './useCrudForm'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
-import metaFormSection, { metaFormSectionWithFullName, renderReadOnlySection } from './metaFormSection'
+import metaFormSection from './metaFormSection'
 import CrudFormProvider from '../providers/CrudFormProvider'
 import useCrud from './useCrud'
 import { CrudContextInterface } from './CrudContext'
+import renderMetaReadOnlySection from './renderMetaReadonlySection'
 
 type HiddenFunction = ({
   isNew,
@@ -155,7 +156,12 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   const onUseUser = useUser()
 
   // @ts-ignore
-  const metaSection = shouldUseFullNameInMetaSection && (injectedItem?.created_by || injectedItem?.updated_by) ? { ...metaFormSection, renderReadOnlySection: (props) => renderReadOnlySection(props, userModuleTableName) } : metaFormSection
+  const shouldShowMetaReadOnlySection = shouldUseFullNameInMetaSection && (item?.created_by || item?.updated_by)
+  const metaSection = {
+    ...metaFormSection,
+    ...(shouldShowMetaReadOnlySection && { renderReadOnlySection: (props) => renderMetaReadOnlySection(props, userModuleTableName) }),
+  }
+  console.log('stet ')
 
   // Form JSX Props
   const formJsxProps: CrudFormJsxProps = {
