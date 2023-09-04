@@ -35,7 +35,10 @@ interface RenderHeaderProps
 }
 
 export interface CrudFormProps {
-  item?: CrudItem // Typically gets injected via DetailPage cloneElement
+  item?: CrudItem & {
+    created_by?: string | null
+    updated_by?: string | null
+  } // Typically gets injected via DetailPage cloneElement
   setItem?: React.Dispatch<React.SetStateAction<CrudItem>> // Typically gets injected via DetailPage cloneElement
   disableHeader?: boolean
   sections: FormSectionsProps['sections']
@@ -155,7 +158,6 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   const onUseCrud = useCrud()
   const onUseUser = useUser()
 
-  // @ts-ignore
   const shouldShowMetaReadOnlySection = shouldUseFullNameInMetaSection && (item?.created_by || item?.updated_by)
   const metaSection = {
     ...metaFormSection,

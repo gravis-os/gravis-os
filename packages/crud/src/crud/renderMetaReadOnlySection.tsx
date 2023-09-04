@@ -16,9 +16,7 @@ const renderMetaReadOnlySection = ({ label, item }, userModuleTableName = "user"
 
       return data
     },
-    // @ts-ignore
     queryKey: [userModuleTableName],
-    // @ts-ignore
     enabled: Boolean(item?.created_by)
   })
 
@@ -27,15 +25,12 @@ const renderMetaReadOnlySection = ({ label, item }, userModuleTableName = "user"
       const { data } = await supabaseClient
         .from(userModuleTableName)
         .select('full_name')
-        // @ts-ignore
         .match({ id: item?.updated_by })
         .single()
 
       return data
     },
-    // @ts-ignore
     queryKey: [userModuleTableName],
-    // @ts-ignore
     enabled: Boolean(item?.updated_by)
   })
 
