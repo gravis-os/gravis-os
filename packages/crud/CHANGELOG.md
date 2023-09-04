@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- [#422](https://github.com/gravis-os/gravis-os/pull/422) [`b7c8fef0`](https://github.com/gravis-os/gravis-os/commit/b7c8fef04b17f8e8b58bf5170c5a7fbb6039a6c7) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - - fix(crud): setup readonly section to display full name in meta section.
+  - feat(crud): added renderMetaReadOnlySection component.
+
+* [#421](https://github.com/gravis-os/gravis-os/pull/421) [`2977fbbc`](https://github.com/gravis-os/gravis-os/commit/2977fbbca1eb1c4d8e619a1bd8bcaf26dcd2e5f6) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(crud): memorized crud item.
+
 ## 0.2.2
 
 ### Patch Changes
