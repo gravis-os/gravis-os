@@ -1,4 +1,4 @@
-import React, { useState, useEffect, ReactNode, useMemo } from 'react'
+import React, { useState, useEffect, ReactNode } from 'react'
 import { useRouter } from 'next/router'
 import { CircularProgress, ButtonProps } from '@gravis-os/ui'
 import {
@@ -12,12 +12,11 @@ import { CrudItem, CrudModule } from '@gravis-os/types'
 import { UserContextInterface, useUser } from '@gravis-os/auth'
 import useCrudForm, { UseCrudFormArgs, UseCrudFormReturn } from './useCrudForm'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
-import metaFormSection, { metaFormSectionWithFullName } from './metaFormSection'
+import metaFormSection from './metaFormSection'
 import CrudFormProvider from '../providers/CrudFormProvider'
 import useCrud from './useCrud'
 import { CrudContextInterface } from './CrudContext'
-import { useQuery } from 'react-query'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import renderMetaReadOnlySection from './renderMetaReadOnlySection'
 
 type HiddenFunction = ({
   isNew,
@@ -36,7 +35,10 @@ interface RenderHeaderProps
 }
 
 export interface CrudFormProps {
-  item?: CrudItem // Typically gets injected via DetailPage cloneElement
+  item?: CrudItem & {
+    created_by?: string | null
+    updated_by?: string | null
+  } // Typically gets injected via DetailPage cloneElement
   setItem?: React.Dispatch<React.SetStateAction<CrudItem>> // Typically gets injected via DetailPage cloneElement
   disableHeader?: boolean
   sections: FormSectionsProps['sections']
@@ -91,7 +93,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     useCrudFormProps,
     sections,
     formProps,
-    item: injectedItem,
+    item,
     refetch,
     module,
     children,
@@ -105,51 +107,6 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     formTemplateProps,
   } = props
   const { route } = module
-
-  const { data: creator } = useQuery({
-    queryFn: async () => {
-      const { data } = await supabaseClient
-        .from(userModuleTableName)
-        .select('full_name')
-        // @ts-ignore
-        .match({ id: injectedItem?.created_by })
-        .single()
-
-      return data
-    },
-    // @ts-ignore
-    queryKey: [userModuleTableName],
-    // @ts-ignore
-    enabled: Boolean(shouldUseFullNameInMetaSection) && Boolean(injectedItem?.created_by)
-  })
-
-  const { data: updater } = useQuery({
-    queryFn: async () => {
-      const { data } = await supabaseClient
-        .from(userModuleTableName)
-        .select('full_name')
-        // @ts-ignore
-        .match({ id: injectedItem?.updated_by })
-        .single()
-
-      return data
-    },
-    // @ts-ignore
-    queryKey: [userModuleTableName],
-    // @ts-ignore
-    enabled: Boolean(shouldUseFullNameInMetaSection) && Boolean(injectedItem?.updated_by)
-  })
-
-  const item = useMemo(() => {
-    // @ts-ignore
-    return shouldUseFullNameInMetaSection && (injectedItem?.created_by || injectedItem?.updated_by) ? {
-      ...injectedItem,
-      // @ts-ignore
-      created_by_full_name: creator?.full_name,
-      // @ts-ignore
-      updated_by_full_name: updater?.full_name,
-    } : injectedItem
-  }, [injectedItem, creator, updater])
 
   // Lifecycle
   const router = useRouter()
@@ -201,7 +158,11 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   const onUseCrud = useCrud()
   const onUseUser = useUser()
 
-  const metaSection = shouldUseFullNameInMetaSection ? metaFormSectionWithFullName : metaFormSection
+  const shouldShowMetaReadOnlySection = shouldUseFullNameInMetaSection && (item?.created_by || item?.updated_by)
+  const metaSection = {
+    ...metaFormSection,
+    ...(shouldShowMetaReadOnlySection && { renderReadOnlySection: (props) => renderMetaReadOnlySection(props, userModuleTableName) }),
+  }
 
   // Form JSX Props
   const formJsxProps: CrudFormJsxProps = {
