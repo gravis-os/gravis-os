@@ -16,7 +16,7 @@ import metaFormSection from './metaFormSection'
 import CrudFormProvider from '../providers/CrudFormProvider'
 import useCrud from './useCrud'
 import { CrudContextInterface } from './CrudContext'
-import renderMetaReadOnlySection from './renderMetaReadonlySection'
+import renderMetaReadOnlySection from './renderMetaReadOnlySection'
 
 type HiddenFunction = ({
   isNew,
@@ -161,7 +161,6 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     ...metaFormSection,
     ...(shouldShowMetaReadOnlySection && { renderReadOnlySection: (props) => renderMetaReadOnlySection(props, userModuleTableName) }),
   }
-  console.log('stet ')
 
   // Form JSX Props
   const formJsxProps: CrudFormJsxProps = {
