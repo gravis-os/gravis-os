@@ -138,6 +138,7 @@ const renderBlockItem = (props) => {
           </Box>
         )
       case BlockItemTypeEnum.IMAGE:
+        // If it's absolute path, this is a local src, so don't fetch from network.
         const isAbsolutePath = !/^public.+/.test(title)
         if (isAbsolutePath) {
           return (
