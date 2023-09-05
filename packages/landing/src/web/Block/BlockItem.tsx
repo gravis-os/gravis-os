@@ -139,8 +139,9 @@ const renderBlockItem = (props) => {
         )
       case BlockItemTypeEnum.IMAGE:
         // If it's absolute path, this is a local src, so don't fetch from network.
-        const isAbsolutePath = !/^public.+/.test(title)
-        if (isAbsolutePath) {
+        const isBucketPath =
+          typeof title === 'string' && title.startsWith('public')
+        if (!isBucketPath) {
           return (
             <Box {...boxProps}>
               <Image src={title} {...titleProps} />
