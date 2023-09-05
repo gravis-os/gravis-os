@@ -144,6 +144,14 @@ const renderBlockItem = (props) => {
           </Box>
         )
       case BlockItemTypeEnum.STORAGE_IMAGE:
+        const isAbsolutePath = !/^public.+/.test(title)
+        if (isAbsolutePath) {
+          return (
+            <Box {...boxProps}>
+              <Image src={title} {...titleProps} />
+            </Box>
+          )
+        }
         const DynamicStorageImage = dynamic(() =>
           import('@gravis-os/storage').then((module) => module.StorageImage)
         )
