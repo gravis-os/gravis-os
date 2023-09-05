@@ -57,7 +57,9 @@ const useFiles: UseFiles = ({ items, bucketName }) => {
           ...file,
           url: fetchedStorageUrls[i],
         })) || []
-      setFiles(fetchedFiles)
+      if (fetchedFiles.length) {
+        setFiles(fetchedFiles)
+      }
     }
 
     if (shouldFetchStorageItems)
