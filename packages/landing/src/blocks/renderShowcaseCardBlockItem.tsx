@@ -38,7 +38,7 @@ const renderShowcaseCardBlockItem = (
       },
       items: [
         {
-          type: 'storage_image',
+          type: 'image',
           title: hero_src,
           boxProps: { sx: { display: 'flex', justifyContent: 'center' } },
           titleProps: {

@@ -22,7 +22,7 @@ const renderTechnologyBlockItem = (props: RenderTechnologyBlockItemProps) => {
     lg: 3,
     items: [
       {
-        type: 'storage_image',
+        type: 'image',
         title: avatar_src,
         titleProps: {
           alt: avatar_alt,

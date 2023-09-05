@@ -29,7 +29,7 @@ const renderClientLogosGridBlock = (props: RenderClientLogosGridBlockProps) => {
           return {
             items: [
               {
-                type: 'storage_image',
+                type: 'image',
                 title: avatar_src,
                 titleProps: {
                   alt: avatar_alt,

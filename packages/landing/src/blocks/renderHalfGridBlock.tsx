@@ -100,7 +100,7 @@ const renderHalfGridBlock = (props: RenderHalfGridBlockProps) => {
             },
             items: [
               {
-                type: 'storage_image',
+                type: 'image',
                 title: hero_src,
                 titleProps: { alt: hero_alt, fill: true },
               },

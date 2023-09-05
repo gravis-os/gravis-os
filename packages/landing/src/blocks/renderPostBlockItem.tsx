@@ -18,7 +18,7 @@ const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
     md: 4,
     items: [
       {
-        type: fromStorage ? 'storage_image' : 'image',
+        type: fromStorage ? 'image' : 'image',
         title: hero_src || avatar_src,
         titleProps: {
           alt: hero_alt || avatar_alt,

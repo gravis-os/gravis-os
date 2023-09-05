@@ -95,7 +95,7 @@ const renderLeftHeroWithBackgroundBlock = (
             boxProps: { width: { xs: '95%', md: '100%' } },
             items: [
               {
-                type: 'storage_image',
+                type: 'image',
                 title: image_src,
                 titleProps: {
                   alt: image_alt,
