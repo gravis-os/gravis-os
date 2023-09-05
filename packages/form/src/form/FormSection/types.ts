@@ -6,7 +6,7 @@ import {
   ControlledCheckboxTableOptions,
   ControlledChipFieldProps,
   RadioGroupProps,
-  TextFieldProps,
+  TextFieldProps
 } from '@gravis-os/fields'
 import { UseFormReturn } from 'react-hook-form'
 import { SxProps } from '@mui/material'
@@ -100,6 +100,8 @@ export interface FormSectionFieldProps {
     | boolean
     | readonly string[]
     | FormSectionFieldWithFunctionType
+
+  formatFilterQuery?: (filter) => string[]
 
   // For setting value
   fieldEffect?: FieldEffectOptions
