@@ -5,7 +5,7 @@ import { CrudItem, CrudModule } from '@gravis-os/types'
 import { useUser } from '@gravis-os/auth'
 import {
   getObjectWithGetters,
-  getQueryWithRouteParamsOnly
+  getQueryWithRouteParamsOnly,
 } from '@gravis-os/utils'
 import isNil from 'lodash/isNil'
 
@@ -65,7 +65,7 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
   // Fetch
   const onUseQuery = useQuery(queryKey, () => fetchItem({ slug }), {
     enabled: Boolean(user && !isNil(slug)),
-    ...queryOptions
+    ...queryOptions,
   })
   const { data: item, isLoading: loading, isError: error } = onUseQuery
 
@@ -79,7 +79,7 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
     ...onUseQuery,
     item: itemWithVirtuals,
     loading,
-    error
+    error,
   }
 }
 

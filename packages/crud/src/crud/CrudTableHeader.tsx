@@ -10,7 +10,7 @@ import {
   Paper,
   Typography,
   ChipStack,
-  ChipStackProps
+  ChipStackProps,
 } from '@gravis-os/ui'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
@@ -22,7 +22,7 @@ import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'
 import CrudAddDialog from './CrudAddDialog'
 import CrudUploadDialog, {
-  CrudUploadDialogProps
+  CrudUploadDialogProps,
 } from './CrudUploadDialog/CrudUploadDialog'
 import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 
@@ -74,7 +74,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     renderAddButton,
     disableReset,
     filterFormProps = {},
-    searchFormProps = {}
+    searchFormProps = {},
   } = props
   const { route, name } = module
 
@@ -84,7 +84,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
 
   const filterAndSearchFormFieldDefs = {
     ...getFieldDefsFromSections(filterFormSections),
-    ...getFieldDefsFromSections(searchFormSections)
+    ...getFieldDefsFromSections(searchFormSections),
   }
 
   // Filter Drawer
@@ -102,7 +102,6 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const handleSubmit = ({ values }) => {
     // Submit the search + filter form here
     const appliedFilters = { ...filters, ...values }
-    console.log(appliedFilters)
 
     // Scan through the appliedFilters to apply any operator to the value
     const nextFilters = Object.entries(appliedFilters).reduce(
@@ -113,9 +112,9 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
         if (fieldDef?.formatFilterQuery) {
           const [formattedKey, formattedValue] = fieldDef.formatFilterQuery([
             key,
-            value
+            value,
           ])
-          console.log(formattedKey, formattedValue)
+
           return { ...acc, [formattedKey]: formattedValue }
         }
 
@@ -156,7 +155,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const chips = getChipsFromFilters({
     filters,
     setFilters,
-    fieldDefs: filterAndSearchFormFieldDefs
+    fieldDefs: filterAndSearchFormFieldDefs,
   }) as ChipStackProps['items']
   const hasChips = chips && chips?.length > 0
 
@@ -175,7 +174,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           <Box
             sx={{
               width: '100%',
-              maxWidth: { xs: '100%', md: styleConfig.searchWidth }
+              maxWidth: { xs: '100%', md: styleConfig.searchWidth },
             }}
           >
             <SearchForm
@@ -234,8 +233,8 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
                       sx: {
                         width: '100%',
                         maxWidth: styleConfig.rightAsideWidth,
-                        boxShadow: styleConfig.rightAsideBoxShadow
-                      }
+                        boxShadow: styleConfig.rightAsideBoxShadow,
+                      },
                     }}
                   >
                     <FilterForm
