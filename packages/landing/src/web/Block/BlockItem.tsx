@@ -138,12 +138,6 @@ const renderBlockItem = (props) => {
           </Box>
         )
       case BlockItemTypeEnum.IMAGE:
-        return (
-          <Box {...boxProps}>
-            <Image src={title} {...titleProps} />
-          </Box>
-        )
-      case BlockItemTypeEnum.STORAGE_IMAGE:
         const isAbsolutePath = !/^public.+/.test(title)
         if (isAbsolutePath) {
           return (

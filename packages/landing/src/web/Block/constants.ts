@@ -33,5 +33,4 @@ export enum BlockItemTypeEnum {
   BUTTON = 'button',
   LINK = 'link',
   DIVIDER = 'divider',
-  STORAGE_IMAGE = 'storage_image',
 }
