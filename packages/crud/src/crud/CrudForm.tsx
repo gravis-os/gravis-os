@@ -125,6 +125,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     ...useCrudFormProps,
   })
   const { formContext, isNew, onSubmit, onDelete } = crudForm
+  const { shouldSkipOnSubmit } = useCrudFormProps
 
   // Read Only State
   const defaultIsReadOnly =
@@ -144,7 +145,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
 
   // Reset readOnly after every submission
   useEffect(() => {
-    if (isSubmitSuccessful && !isReadOnly) setIsReadOnly(true)
+    if (isSubmitSuccessful && !isReadOnly && !shouldSkipOnSubmit?.(formContext))
+      setIsReadOnly(true)
   }, [isSubmitSuccessful])
 
   // Keep track whether to disable button while redirecting after submitting form
@@ -158,10 +160,14 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   const onUseCrud = useCrud()
   const onUseUser = useUser()
 
-  const shouldShowMetaReadOnlySection = shouldUseFullNameInMetaSection && (item?.created_by || item?.updated_by)
+  const shouldShowMetaReadOnlySection =
+    shouldUseFullNameInMetaSection && (item?.created_by || item?.updated_by)
   const metaSection = {
     ...metaFormSection,
-    ...(shouldShowMetaReadOnlySection && { renderReadOnlySection: (props) => renderMetaReadOnlySection(props, userModuleTableName) }),
+    ...(shouldShowMetaReadOnlySection && {
+      renderReadOnlySection: (props) =>
+        renderMetaReadOnlySection(props, userModuleTableName),
+    }),
   }
 
   // Form JSX Props

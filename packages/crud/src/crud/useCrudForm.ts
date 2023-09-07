@@ -69,6 +69,7 @@ export interface UseCrudFormArgs extends UseFormProps {
     rawValues: UseCrudFormValues
     toast: any
   }) => unknown
+  shouldSkipOnSubmit?: (formContext) => boolean
   afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => unknown
   defaultValues?:
     | Record<string, unknown>
@@ -97,6 +98,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     module,
     sections,
     shouldCreateOnSubmit,
+    shouldSkipOnSubmit,
     ...rest
   } = props
   const { sk, table } = module
@@ -166,6 +168,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
   // onSubmit will manage create and update function
   const onSubmit = async (values) => {
+    if (shouldSkipOnSubmit?.(form)) return
     // Cleaning function for dbFormValues
     const fields = getFieldsFromFormSections(sections)
     const withValuesArgs = { isNew, user, fields, module }
@@ -256,7 +259,8 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             )
             if (hasManyToManyValues) {
               await saveManyToManyValues({
-                item: (createOnSubmit || shouldCreateOnSubmit?.(form)) ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
+                item:
+                  createOnSubmit || shouldCreateOnSubmit?.(form) ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
                 values: manyToManyValues,
                 data: nextItem,
                 client,
@@ -271,7 +275,8 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             )
             if (hasOneToManyValues) {
               await saveOneToManyValues({
-                item: (createOnSubmit || shouldCreateOnSubmit?.(form)) ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
+                item:
+                  createOnSubmit || shouldCreateOnSubmit?.(form) ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
                 values: oneToManyValues,
                 data: nextItem,
                 client,
