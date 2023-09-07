@@ -45,7 +45,6 @@
   },
   "dependencies": {
     "@gravis-os/form": "*",
-    "@gravis-os/storage": "*",
     "@gravis-os/theme": "*",
     "@gravis-os/types": "*",
     "@gravis-os/ui": "*",
@@ -64,6 +63,7 @@
   "peerDependencies": {
     "@emotion/react": ">=11.9.0",
     "@emotion/styled": ">=11.8.1",
+    "@gravis-os/storage": "*",
     "@mui/icons-material": ">=5.6.2",
     "@mui/lab": ">=5.0.0-alpha.78",
     "@mui/material": ">=5.6.2",

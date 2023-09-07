@@ -138,12 +138,16 @@ const renderBlockItem = (props) => {
           </Box>
         )
       case BlockItemTypeEnum.IMAGE:
-        return (
-          <Box {...boxProps}>
-            <Image src={title} {...titleProps} />
-          </Box>
-        )
-      case BlockItemTypeEnum.STORAGE_IMAGE:
+        // If it's absolute path, this is a local src, so don't fetch from network.
+        const isBucketPath =
+          typeof title === 'string' && title.startsWith('public')
+        if (!isBucketPath) {
+          return (
+            <Box {...boxProps}>
+              <Image src={title} {...titleProps} />
+            </Box>
+          )
+        }
         const DynamicStorageImage = dynamic(() =>
           import('@gravis-os/storage').then((module) => module.StorageImage)
         )

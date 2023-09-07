@@ -8,7 +8,7 @@ export interface RenderPostBlockItemProps {
 }
 
 const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
-  const { item, fromStorage, itemProps } = props
+  const { item, itemProps } = props
   const { title, subtitle, href, avatar_src, avatar_alt, hero_src, hero_alt } =
     item || {}
 
@@ -18,7 +18,7 @@ const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
     md: 4,
     items: [
       {
-        type: fromStorage ? 'storage_image' : 'image',
+        type: 'image',
         title: hero_src || avatar_src,
         titleProps: {
           alt: hero_alt || avatar_alt,
