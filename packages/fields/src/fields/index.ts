@@ -25,8 +25,11 @@ export * from './CheckboxGroup'
 export { default as NumberField } from './NumberField'
 export * from './NumberField'
 
-export { default as JSONField } from './JSONField'
-export * from './JSONField'
+export { default as JsonField } from './JsonField'
+export * from './JsonField'
+
+export { default as ControlledJsonField } from './ControlledJsonField'
+export * from './ControlledJsonField'
 
 export { default as TextField } from './TextField'
 export * from './TextField'

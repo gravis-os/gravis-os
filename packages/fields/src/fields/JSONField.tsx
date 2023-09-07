@@ -2,23 +2,27 @@ import React from 'react'
 import capitalize from 'lodash/capitalize'
 import sortBy from 'lodash/sortBy'
 import { GridProps, Box, Divider, Grid, Typography } from '@mui/material'
-import { Control } from 'react-hook-form'
-import { Page } from '@gravis-os/types'
+import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
+import { CrudModule, Page } from '@gravis-os/types'
+import { StorageAvatarWithUpload } from '@gravis-os/storage'
 import ControlledHtmlField from './ControlledHtmlField'
 import ControlledTextField from './ControlledTextField'
 
-interface JSONFieldProps {
+export interface JsonFieldProps {
   name: string
   control: Control
-  sections?: string // This is a JSON string that will be parsed to Array<{ key: string }>
+  value?: string | Page['sections']
+  module: CrudModule
+  setValue: UseFormSetValue<FieldValues>
 }
 
-interface RenderJSONSectionArgs extends Omit<JSONFieldProps, 'sections'> {
+export interface RenderJSONSectionArgs
+  extends Omit<JsonFieldProps, 'sections'> {
   sections: Page['sections']
 }
 
 const renderJSONSection = (args: RenderJSONSectionArgs) => {
-  const { name, control, sections } = args
+  const { name, control, sections, module, setValue } = args
 
   const SORT_ORDER = [
     'key',
@@ -28,6 +32,8 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
     'subtitle',
     'content',
     'items',
+    'hero_src',
+    'hero_alt',
     'html',
   ]
 
@@ -57,7 +63,11 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
       }
     }
     const getColumnLabel = () => {
-      return isNestedItems ? '' : capitalize(key)
+      if (isNestedItems) return ''
+      const numberedKey = +key
+      return Number.isNaN(numberedKey)
+        ? capitalize(key)
+        : `Item ${numberedKey + 1}`
     }
     const getColumnMarginTop = () => {
       return isNestedItems ? 0 : 2
@@ -80,10 +90,24 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
           <Grid container spacing={columnGridSpacing}>
             {sortedSectionKeys.map((sectionKey, j) => {
               const sectionValue = section[sectionKey]
-              const sectionName = `${name}[${i}].[${sectionKey}]`
-
+              const sectionName = Array.isArray(sections)
+                ? `${name}[${i}].[${sectionKey}]`
+                : `${name}.[${key}].[${sectionKey}]`
+              if (!SORT_ORDER.includes(sectionKey)) return <></>
               const renderFieldContent = (sectionKey: string) => {
                 switch (sectionKey) {
+                  case 'hero_src':
+                    return (
+                      <StorageAvatarWithUpload
+                        editable
+                        module={module}
+                        onUpload={(savedFilePath) =>
+                          setValue(sectionName, savedFilePath, {
+                            shouldDirty: true,
+                          })
+                        }
+                      />
+                    )
                   case 'items':
                     return (
                       <Grid container spacing={1}>
@@ -91,6 +115,8 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
                           name: sectionName,
                           control,
                           sections: sectionValue,
+                          module,
+                          setValue,
                         })}
                       </Grid>
                     )
@@ -134,10 +160,10 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
   })
 }
 
-export const JSONField: React.FC<JSONFieldProps> = (props) => {
-  const { name, control, sections: injectedSections } = props
+export const JsonField: React.FC<JsonFieldProps> = (props) => {
+  const { name, control, value = '{}', module, setValue } = props
 
-  const sections = JSON.parse(injectedSections)
+  const sections = typeof value === 'string' ? JSON.parse(value) : value
 
   // Handle degenerate case
   if (sections === null)
@@ -147,9 +173,9 @@ export const JSONField: React.FC<JSONFieldProps> = (props) => {
 
   return (
     <Grid container spacing={3}>
-      {renderJSONSection({ name, control, sections })}
+      {renderJSONSection({ name, control, sections, module, setValue })}
     </Grid>
   )
 }
 
-export default JSONField
+export default JsonField
