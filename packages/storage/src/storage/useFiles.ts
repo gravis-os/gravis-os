@@ -52,16 +52,19 @@ const useFiles: UseFiles = ({ items, bucketName }) => {
   useEffect(() => {
     const fetchAndSetFiles = async ({ srcs }) => {
       const fetchedStorageUrls = await fetchStorageUrls({ srcs, bucketName })
-      const fetchedFiles = items.map((file, i) => ({
-        ...file,
-        url: fetchedStorageUrls[i],
-      }))
-      setFiles(fetchedFiles)
+      const fetchedFiles =
+        items?.map((file, i) => ({
+          ...file,
+          url: fetchedStorageUrls[i],
+        })) || []
+      if (fetchedFiles.length) {
+        setFiles(fetchedFiles)
+      }
     }
 
     if (shouldFetchStorageItems)
       fetchAndSetFiles({
-        srcs: items.map(({ src }) => src),
+        srcs: items?.map(({ src }) => src) || [],
       })
   }, [items])
 
