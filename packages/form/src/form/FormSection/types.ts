@@ -101,7 +101,7 @@ export interface FormSectionFieldProps {
     | readonly string[]
     | FormSectionFieldWithFunctionType
 
-  formatFilterQuery?: (filter) => string[]
+  setFilterQuery?: (filter: any[]) => string[]
 
   // For setting value
   fieldEffect?: FieldEffectOptions

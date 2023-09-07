@@ -109,8 +109,8 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
         const fieldDef = get(filterAndSearchFormFieldDefs, key)
 
         // allow custom formatting
-        if (fieldDef?.formatFilterQuery) {
-          const [formattedKey, formattedValue] = fieldDef.formatFilterQuery([
+        if (fieldDef?.setFilterQuery) {
+          const [formattedKey, formattedValue] = fieldDef.setFilterQuery([
             key,
             value,
           ])
