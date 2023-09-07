@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.4.8
+
+### Patch Changes
+
+- [#414](https://github.com/gravis-os/gravis-os/pull/414) [`19d3b11c`](https://github.com/gravis-os/gravis-os/commit/19d3b11c026b2ac8ac72de7893b3cee874febc88) Thanks [@shank1xt](https://github.com/shank1xt)! - add controlled json field
+
 ## 1.4.7
 
 ### Patch Changes

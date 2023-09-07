@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.3.1
+
+### Patch Changes
+
+- [#416](https://github.com/gravis-os/gravis-os/pull/416) [`408632fa`](https://github.com/gravis-os/gravis-os/commit/408632facc06992b46ba5ccb6146522891bd68a6) Thanks [@shank1xt](https://github.com/shank1xt)! - update storage image in landing package
+
+* [#425](https://github.com/gravis-os/gravis-os/pull/425) [`32f135c3`](https://github.com/gravis-os/gravis-os/commit/32f135c3c62dabfda7a65f8a845180506a612f82) Thanks [@shank1xt](https://github.com/shank1xt)! - fix useFiles hook when items object is undefined
+
 ## 0.3.0
 
 ### Minor Changes

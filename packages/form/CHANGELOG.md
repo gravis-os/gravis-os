@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.4.10
+
+### Patch Changes
+
+- [#414](https://github.com/gravis-os/gravis-os/pull/414) [`19d3b11c`](https://github.com/gravis-os/gravis-os/commit/19d3b11c026b2ac8ac72de7893b3cee874febc88) Thanks [@shank1xt](https://github.com/shank1xt)! - add controlled json field
+
+- Updated dependencies [[`408632fa`](https://github.com/gravis-os/gravis-os/commit/408632facc06992b46ba5ccb6146522891bd68a6), [`19d3b11c`](https://github.com/gravis-os/gravis-os/commit/19d3b11c026b2ac8ac72de7893b3cee874febc88), [`32f135c3`](https://github.com/gravis-os/gravis-os/commit/32f135c3c62dabfda7a65f8a845180506a612f82)]:
+  - @gravis-os/storage@0.3.1
+  - @gravis-os/fields@1.4.8
+
 ## 1.4.9
 
 ### Patch Changes
