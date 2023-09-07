@@ -37,7 +37,7 @@ export interface UseCrudFormArgs extends UseFormProps {
   item?: CrudItem
   refetch?: () => Promise<unknown>
   client?: SupabaseClient
-  shouldCreateOnSubmit?: (formContext) => boolean
+  shouldCreateOnSubmit?: (formContext: UseFormReturn) => boolean
   createOnSubmit?: boolean // Always create onSubmit only. Never update.
   setFormValues?: ({
     values,
@@ -69,7 +69,7 @@ export interface UseCrudFormArgs extends UseFormProps {
     rawValues: UseCrudFormValues
     toast: any
   }) => unknown
-  shouldSkipOnSubmit?: (formContext) => boolean
+  shouldSkipOnSubmit?: (formContext: UseFormReturn) => boolean
   afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => unknown
   defaultValues?:
     | Record<string, unknown>
