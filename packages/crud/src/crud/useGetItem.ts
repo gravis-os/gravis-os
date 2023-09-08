@@ -39,6 +39,8 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
 
   // Method
   const fetchItem = async ({ slug }) => {
+    if (!slug) return
+
     const onItemQuery = await supabaseClient
       .from(table.name)
       .select(select?.detail || '*')

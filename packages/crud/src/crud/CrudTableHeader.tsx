@@ -106,10 +106,22 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     // Scan through the appliedFilters to apply any operator to the value
     const nextFilters = Object.entries(appliedFilters).reduce(
       (acc, [key, value]) => {
+        const fieldDef = get(filterAndSearchFormFieldDefs, key)
+
+        // allow custom formatting
+        if (fieldDef?.setFilterQuery) {
+          const [formattedKey, formattedValue] = fieldDef.setFilterQuery([
+            key,
+            value,
+          ])
+
+          return { ...acc, [formattedKey]: formattedValue }
+        }
+
         if (typeof value === 'object') return acc
 
         // Get the operator and apply op to the filters by scanning through the defs
-        const op = get(filterAndSearchFormFieldDefs, key)?.op
+        const op = fieldDef?.op
         const hasOp = Boolean(op)
 
         // Remove nested values as they interfere with the get() later
