@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.4.11
+
+### Patch Changes
+
+- [#426](https://github.com/gravis-os/gravis-os/pull/426) [`722804a4`](https://github.com/gravis-os/gravis-os/commit/722804a4c58419fce9b4475fae93753e7140da4c) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add custom formatting for filter query
+
 ## 1.4.10
 
 ### Patch Changes

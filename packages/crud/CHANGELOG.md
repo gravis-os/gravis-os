@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.2
+
+### Patch Changes
+
+- [#426](https://github.com/gravis-os/gravis-os/pull/426) [`722804a4`](https://github.com/gravis-os/gravis-os/commit/722804a4c58419fce9b4475fae93753e7140da4c) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add custom formatting for filter query
+
+* [#427](https://github.com/gravis-os/gravis-os/pull/427) [`4238efd4`](https://github.com/gravis-os/gravis-os/commit/4238efd4d9258ea6aca11834dc3aff010c85cfd3) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add should skip on submit
+
+* Updated dependencies [[`722804a4`](https://github.com/gravis-os/gravis-os/commit/722804a4c58419fce9b4475fae93753e7140da4c)]:
+  - @gravis-os/form@1.4.11
+
 ## 0.4.1
 
 ### Patch Changes
