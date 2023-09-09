@@ -53,7 +53,7 @@ const useFiles: UseFiles = ({ items, bucketName }) => {
     const fetchAndSetFiles = async ({ srcs }) => {
       const fetchedStorageUrls = await fetchStorageUrls({ srcs, bucketName })
       const fetchedFiles =
-        items?.map((file, i) => ({
+        items?.map?.((file, i) => ({
           ...file,
           url: fetchedStorageUrls[i],
         })) || []
@@ -64,7 +64,7 @@ const useFiles: UseFiles = ({ items, bucketName }) => {
 
     if (shouldFetchStorageItems)
       fetchAndSetFiles({
-        srcs: items?.map(({ src }) => src) || [],
+        srcs: items?.map?.(({ src }) => src) || [],
       })
   }, [items])
 
