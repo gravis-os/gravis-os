@@ -1,5 +1,11 @@
 # @gravis-os/analytics
 
+## 0.3.0
+
+### Minor Changes
+
+- [#429](https://github.com/gravis-os/gravis-os/pull/429) [`ab94b024`](https://github.com/gravis-os/gravis-os/commit/ab94b0241754a989caf42da2c01df09b3fc69327) Thanks [@clodal](https://github.com/clodal)! - Add FacebookPixel
+
 ## 0.2.0
 
 ### Minor Changes
