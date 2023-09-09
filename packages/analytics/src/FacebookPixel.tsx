@@ -43,17 +43,19 @@ export const FacebookPixel = () => {
 
   useEffect(() => {
     // This pageview only triggers the first time (it's important for Pixel to have real information)
-    facebookPixel.pageview()
-
-    const handleRouteChange = () => {
+    if (!FB_PIXEL_ID) {
       facebookPixel.pageview()
-    }
-
-    router.events.on('routeChangeComplete', handleRouteChange)
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChange)
+      const handleRouteChange = () => {
+        facebookPixel.pageview()
+      }
+      router.events.on('routeChangeComplete', handleRouteChange)
+      return () => {
+        router.events.off('routeChangeComplete', handleRouteChange)
+      }
     }
   }, [router.events])
+
+  if (!FB_PIXEL_ID) return null
 
   return (
     <>
@@ -71,7 +73,7 @@ export const FacebookPixel = () => {
             t.src=v;s=b.getElementsByTagName(e)[0];
             s.parentNode.insertBefore(t,s)}(window, document,'script',
             'https://connect.facebook.net/en_US/fbevents.js');
-            fbq('init', ${facebookPixel.FB_PIXEL_ID});
+            fbq('init', ${FB_PIXEL_ID});
           `,
         }}
       />
