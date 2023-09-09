@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2
+
+### Patch Changes
+
+- [#428](https://github.com/gravis-os/gravis-os/pull/428) [`1e31de48`](https://github.com/gravis-os/gravis-os/commit/1e31de480002df9f0cd77b3c1747777273f312b7) Thanks [@shank1xt](https://github.com/shank1xt)! - fix usefiles hook
+
 ## 0.3.1
 
 ### Patch Changes
