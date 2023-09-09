@@ -1,5 +1,11 @@
 # @gravis-os/analytics
 
+## 0.3.1
+
+### Patch Changes
+
+- [#430](https://github.com/gravis-os/gravis-os/pull/430) [`4a848575`](https://github.com/gravis-os/gravis-os/commit/4a84857540d706738b87f2444a3f63a1fbd08266) Thanks [@clodal](https://github.com/clodal)! - Update FacebookPixel with null return
+
 ## 0.3.0
 
 ### Minor Changes
