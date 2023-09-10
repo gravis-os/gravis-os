@@ -34,8 +34,9 @@ const useUserRedirectEffect = () => {
     if (workspace) {
       const nakedHostname = window.location.hostname.replace('www.', '')
       const isCorrectWorkspace =
-        typeof window !== 'undefined' &&
-        workspace.slug === nakedHostname.split('.')[0]
+        process.env.NEXT_PUBLIC_SAAS_SUBDOMAIN_OVERRIDE ||
+        (typeof window !== 'undefined' &&
+          workspace.slug === nakedHostname.split('.')[0])
 
       // Outcome: Invalid workspace
       const roleTitle = role?.title
