@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.1
+
+### Patch Changes
+
+- [#431](https://github.com/gravis-os/gravis-os/pull/431) [`cfb70f36`](https://github.com/gravis-os/gravis-os/commit/cfb70f36a7a6216ab613636774be59376da9100c) Thanks [@clodal](https://github.com/clodal)! - fix issue with middleware not redirecting in preview deployments
+
 ## 0.1.0
 
 ### Minor Changes
