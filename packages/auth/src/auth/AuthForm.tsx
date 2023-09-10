@@ -57,7 +57,7 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
       {({ formJsx, submitButtonJsx }) => (
         <Stack spacing={3}>
           {formJsx}
-          {!submitButtonProps && submitButtonJsx}
+          {submitButtonJsx}
         </Stack>
       )}
     </Form>
