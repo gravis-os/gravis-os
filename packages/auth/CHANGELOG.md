@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.1.2
+
+### Patch Changes
+
+- [#432](https://github.com/gravis-os/gravis-os/pull/432) [`53e21cd3`](https://github.com/gravis-os/gravis-os/commit/53e21cd3d38c0c962440792d0b87e1e75082f9a5) Thanks [@clodal](https://github.com/clodal)! - Always show submit button in auth form
+
 ## 0.1.1
 
 ### Patch Changes
