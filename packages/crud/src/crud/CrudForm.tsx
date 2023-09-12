@@ -6,7 +6,7 @@ import {
   Form,
   FormProps,
   FormSectionsProps,
-  FormRenderPropsInterface,
+  FormRenderPropsInterface
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import { UserContextInterface, useUser } from '@gravis-os/auth'
@@ -20,7 +20,7 @@ import renderMetaReadOnlySection from './renderMetaReadOnlySection'
 
 type HiddenFunction = ({
   isNew,
-  isPreview,
+  isPreview
 }: {
   isNew: boolean
   isPreview: boolean
@@ -104,7 +104,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
 
     // Form Jsx is the template/ui/layout of the form
     formTemplate: FormTemplate = FormSections,
-    formTemplateProps,
+    formTemplateProps
   } = props
   const { route } = module
 
@@ -122,10 +122,10 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     module,
     defaultValues,
     sections,
-    ...useCrudFormProps,
+    ...useCrudFormProps
   })
   const { formContext, isNew, onSubmit, onDelete } = crudForm
-  const { shouldSkipOnSubmit } = useCrudFormProps
+  const { shouldSkipOnSubmit } = useCrudFormProps ?? {}
 
   // Read Only State
   const defaultIsReadOnly =
@@ -166,8 +166,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     ...metaFormSection,
     ...(shouldShowMetaReadOnlySection && {
       renderReadOnlySection: (props) =>
-        renderMetaReadOnlySection(props, userModuleTableName),
-    }),
+        renderMetaReadOnlySection(props, userModuleTableName)
+    })
   }
 
   // Form JSX Props
@@ -180,7 +180,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     sections: [
       ...sections,
       // Hide meta section on new forms
-      !isNew && !disableMetaSection && metaSection,
+      !isNew && !disableMetaSection && metaSection
     ].filter(Boolean) as FormSectionsProps['sections'],
     module,
     disabledFields,
@@ -189,7 +189,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     onDelete,
     ...formTemplateProps,
     userContext: onUseUser,
-    crudContext: onUseCrud,
+    crudContext: onUseCrud
   }
 
   const formRenderProps = { sections }
@@ -217,7 +217,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
                 onDelete,
                 formContext,
                 isReadOnly,
-                setIsReadOnly,
+                setIsReadOnly
               })}
             {!disableHeader && (
               <DetailPageHeader
@@ -239,10 +239,10 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
                           onClick: () => {
                             reset()
                             setIsReadOnly(!isReadOnly)
-                          },
-                        },
+                          }
+                        }
                       ]
-                    : []),
+                    : [])
                 ]}
                 buttonProps={{
                   key: 'save',
@@ -250,7 +250,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
                   title: 'Save',
                   disabled:
                     isSubmitting || !isDirty || isLoadingRedirectOnSuccess,
-                  ...headerProps?.buttonProps,
+                  ...headerProps?.buttonProps
                 }}
               />
             )}
