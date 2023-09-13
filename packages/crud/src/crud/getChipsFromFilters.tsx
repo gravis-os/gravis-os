@@ -38,7 +38,7 @@ const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
               {routerQuery[relationalObjectKey] || nextValue}
             </>
           ),
-          onDelete: handleDelete(key)
+          onDelete: handleDelete(key),
         }
       }
 
@@ -49,7 +49,7 @@ const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
             <b>{startCase(key)}</b>: {nextValue}
           </>
         ),
-        onDelete: handleDelete(key)
+        onDelete: handleDelete(key),
       }
     })
     .filter(Boolean)
