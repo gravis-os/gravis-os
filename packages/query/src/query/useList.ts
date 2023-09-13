@@ -396,8 +396,11 @@ export const getFetchListQueryFn = (props: UseListProps) => {
     // Apply filters
     if (match) query.match(match)
     if (filters?.length) {
+      const relationalObjectKeys = filters
+        .filter((filter) => filter && filter.key.endsWith('_id'))
+        .map((filter) => filter.key.replace('_id', ''))
       filters.forEach((filter) => {
-        if (filter) {
+        if (filter && !relationalObjectKeys.includes(filter.key)) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           query.filter(filter.key, filter.op, filter.value)
