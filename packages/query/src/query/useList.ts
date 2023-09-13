@@ -399,7 +399,18 @@ export const getFetchListQueryFn = (props: UseListProps) => {
     if (filters?.length) {
       const relationalObjectKeys = filters
         .filter((filter) => filter && filter.key.endsWith('_id'))
-        .map((filter) => getRelationalObjectKey(filter.key))
+        .flatMap((filter) => {
+          const relationalObjectKey = getRelationalObjectKey(filter.key)
+
+          // the relational object key might not be direct e.g
+          // lines.order_form_line.order_form.sales_order.project_id=2&project_id=2&project=Fusheng+House
+          // we need to remove the query params that are only there to support FilterForm: project and project_id
+          if (`${relationalObjectKey}_id` !== filter.key) {
+            return [relationalObjectKey, `${relationalObjectKey}_id`]
+          }
+
+          return [relationalObjectKey]
+        })
       filters.forEach((filter) => {
         if (filter && !relationalObjectKeys.includes(filter.key)) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
