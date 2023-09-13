@@ -369,20 +369,29 @@ export const getFetchListQueryFn = (props: UseListProps) => {
       contains,
     } = listFilters
 
+    const getSelectString = () => {
+      if (countOnly) {
+        return module?.select?.count || '*'
+      }
+
+      // @ts-ignore
+      const filterSelect = module?.select?.filter
+      if (filters?.length && filterSelect) {
+        return filterSelect
+      }
+
+      return select || module?.select?.list || '*'
+    }
+
     // @note: The order of the filters below matter.
     // Setup query
     const query = supabaseClient
       .from(module.table.name)
-      .select(
-        countOnly
-          ? module?.select?.count || '*'
-          : select || module?.select?.list || '*',
-        {
-          // This is both the HEAD and GET query as this count gets overriden from above.
-          count: 'exact',
-          ...countProps,
-        },
-      )
+      .select(getSelectString(), {
+        // This is both the HEAD and GET query as this count gets overriden from above.
+        count: 'exact',
+        ...countProps,
+      })
 
     // Apply filters
     if (match) query.match(match)

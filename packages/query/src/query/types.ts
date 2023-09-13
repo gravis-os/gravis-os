@@ -89,7 +89,7 @@ export interface UseListFilters {
     | null
     | [
         string,
-        { ascending?: boolean; foreignTable?: string; nullsFirst?: boolean }
+        { ascending?: boolean; foreignTable?: string; nullsFirst?: boolean },
       ]
   gt: Array<string | number> | null
   lt: Array<string | number> | null
