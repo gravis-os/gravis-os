@@ -72,7 +72,7 @@ const getFormRenderProps = (
       variant="contained"
       color="primary"
       fullWidth
-      disabled={isSubmitting}
+      disabled={isSubmitting || submitButtonProps?.loading}
       {...submitButtonProps}
     />
   )
