@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.4.3
+
+### Patch Changes
+
+- [#433](https://github.com/gravis-os/gravis-os/pull/433) [`48512ac2`](https://github.com/gravis-os/gravis-os/commit/48512ac2f0b869033bb28fcdeed82bbb2dfed212) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix useCrudFormProps null bug
+
 ## 0.4.2
 
 ### Patch Changes
