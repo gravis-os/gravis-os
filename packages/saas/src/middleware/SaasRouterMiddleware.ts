@@ -5,7 +5,7 @@ import {
   getMiddlewareRouteBreakdown,
   GetMiddlewareRouteBreakdownOptions,
 } from '@gravis-os/middleware'
-import { isPathMatch } from '@gravis-os/utils'
+import { isPathMatch } from '@gravis-os/utils/edge'
 import getIsPermittedInSaaSMiddleware, {
   GetIsPermittedInSaaSMiddlewareProps,
 } from './getIsPermittedInSaaSMiddleware'
