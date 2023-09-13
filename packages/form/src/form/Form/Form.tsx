@@ -96,7 +96,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
         sx={{ width: '100%', ...sx }}
       >
         {renderChildren()}
-        {submitButtonProps && (
+        {!isChildrenRenderProp && submitButtonProps && (
           <Button
             type="submit"
             disabled={formState.isSubmitting || submitButtonProps?.loading}
