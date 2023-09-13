@@ -9,7 +9,7 @@ const getFilterFormValues = ({ values }) => {
       return {
         ...acc,
         [key]: (value as { id: number }).id || value,
-        [relationalObjectKey]: value,
+        [relationalObjectKey]: value
       }
     }
     return acc
@@ -18,9 +18,9 @@ const getFilterFormValues = ({ values }) => {
   const nextValues = omitBy(
     {
       ...values,
-      ...idValues,
+      ...idValues
     },
-    isNil, // Omit null/undefined values
+    isNil // Omit null/undefined values
   )
 
   return nextValues

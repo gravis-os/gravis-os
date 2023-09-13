@@ -10,7 +10,7 @@ import {
   Paper,
   Typography,
   ChipStack,
-  ChipStackProps,
+  ChipStackProps
 } from '@gravis-os/ui'
 import { FormSectionsProps, getRelationalObjectKey } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
@@ -23,7 +23,7 @@ import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'
 import CrudAddDialog from './CrudAddDialog'
 import CrudUploadDialog, {
-  CrudUploadDialogProps,
+  CrudUploadDialogProps
 } from './CrudUploadDialog/CrudUploadDialog'
 import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 
@@ -75,7 +75,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     renderAddButton,
     disableReset,
     filterFormProps = {},
-    searchFormProps = {},
+    searchFormProps = {}
   } = props
   const { route, name } = module
 
@@ -85,7 +85,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
 
   const filterAndSearchFormFieldDefs = {
     ...getFieldDefsFromSections(filterFormSections),
-    ...getFieldDefsFromSections(searchFormSections),
+    ...getFieldDefsFromSections(searchFormSections)
   }
 
   // Filter Drawer
@@ -112,19 +112,19 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
         if (fieldDef?.setFilterQuery) {
           const [formattedKey, formattedValue] = fieldDef.setFilterQuery([
             key,
-            value,
+            value
           ])
 
           const nextFilters = {
             ...acc,
             [formattedKey]: formattedValue,
-            ...(typeof value !== 'object' && { [key]: value }),
+            ...(typeof value !== 'object' && { [key]: value })
           }
 
           if (key.endsWith('_id')) {
             const relationalObjectKey = getRelationalObjectKey(key)
             assign(nextFilters, {
-              [relationalObjectKey]: get(appliedFilters, relationalObjectKey),
+              [relationalObjectKey]: get(appliedFilters, relationalObjectKey)
             })
           }
 
@@ -139,7 +139,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
 
         // Remove nested values as they interfere with the get() later
         const appliedFiltersWithoutEmptyValue = Object.entries(
-          appliedFilters,
+          appliedFilters
         ).reduce((acc, [key, value]) => {
           // Filter out values that are empty string
           if (value === '') return acc
@@ -153,6 +153,9 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
         // Set the resolved value with the operator
         const nextValue = hasOp ? `${op}.${resolvedValue}` : resolvedValue
 
+        // if this is a relational key, we want to include
+        // the relational object too for filter chip to display
+        // the correct label
         if (key.endsWith('_id')) {
           const relationalObjectKey = getRelationalObjectKey(key)
           return {
@@ -160,14 +163,14 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
             [key]: nextValue,
             [relationalObjectKey]: get(
               appliedFiltersWithoutEmptyValue,
-              relationalObjectKey,
-            ),
+              relationalObjectKey
+            )
           }
         }
 
         return { ...acc, [key]: nextValue }
       },
-      {},
+      {}
     )
 
     // Set state
@@ -180,7 +183,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const chips = getChipsFromFilters({
     filters,
     setFilters,
-    fieldDefs: filterAndSearchFormFieldDefs,
+    fieldDefs: filterAndSearchFormFieldDefs
   }) as ChipStackProps['items']
   const hasChips = chips && chips?.length > 0
 
@@ -199,7 +202,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           <Box
             sx={{
               width: '100%',
-              maxWidth: { xs: '100%', md: styleConfig.searchWidth },
+              maxWidth: { xs: '100%', md: styleConfig.searchWidth }
             }}
           >
             <SearchForm
@@ -258,8 +261,8 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
                       sx: {
                         width: '100%',
                         maxWidth: styleConfig.rightAsideWidth,
-                        boxShadow: styleConfig.rightAsideBoxShadow,
-                      },
+                        boxShadow: styleConfig.rightAsideBoxShadow
+                      }
                     }}
                   >
                     <FilterForm

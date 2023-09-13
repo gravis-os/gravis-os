@@ -37,7 +37,7 @@ const useRouterQueryFilters = (args) => {
 
         // Check if this field is a valid filter
         const filterField = filterFields.find(
-          (filterField) => filterField.key === key,
+          (filterField) => filterField.key === key
         )
         if (!filterField) return defaultReturn
 
@@ -55,7 +55,7 @@ const useRouterQueryFilters = (args) => {
             : relationalObject
         return {
           ...defaultReturn,
-          [relationalObjectKey]: relationalObjectValue,
+          [relationalObjectKey]: relationalObjectValue
         }
       }
 
@@ -92,7 +92,7 @@ const useRouterQueryFilters = (args) => {
     getRouterQueryFromFilters,
     getValidFilters,
     filters,
-    setFilters,
+    setFilters
   }
 }
 

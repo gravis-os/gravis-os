@@ -5,7 +5,7 @@ import type { SupabaseClient } from '@supabase/auth-helpers-nextjs'
 export type CrudModuleAfterTriggerFunction = ({
   item,
   values,
-  client,
+  client
 }: {
   client: SupabaseClient
   item: Record<string, unknown>
