@@ -15,6 +15,7 @@ import partition from 'lodash/partition'
 import isEmpty from 'lodash/isEmpty'
 import groupBy from 'lodash/groupBy'
 import { getObjectWithGetters } from '@gravis-os/utils'
+import { getRelationalObjectKey } from '@gravis-os/form'
 import { CrudItem } from '@gravis-os/types'
 import usePagination from './usePagination'
 import useRouterQuery from './useRouterQuery'
@@ -398,7 +399,7 @@ export const getFetchListQueryFn = (props: UseListProps) => {
     if (filters?.length) {
       const relationalObjectKeys = filters
         .filter((filter) => filter && filter.key.endsWith('_id'))
-        .map((filter) => filter.key.replace('_id', ''))
+        .map((filter) => getRelationalObjectKey(filter.key))
       filters.forEach((filter) => {
         if (filter && !relationalObjectKeys.includes(filter.key)) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
