@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.10.0
+
+### Minor Changes
+
+- [#436](https://github.com/gravis-os/gravis-os/pull/436) [`9e4270db`](https://github.com/gravis-os/gravis-os/commit/9e4270db38bd568b11603924284a7f4405ac025c) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(ui): added default ar value.
+  fix(form): removed redundant sign in button.
+
+### Patch Changes
+
+- Updated dependencies [[`92369e69`](https://github.com/gravis-os/gravis-os/commit/92369e6932197128d246664fa83c985392bdf361)]:
+  - @gravis-os/utils@0.3.0
+
 ## 0.9.1
 
 ### Patch Changes

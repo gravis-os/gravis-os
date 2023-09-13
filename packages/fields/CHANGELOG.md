@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.4.9
+
+### Patch Changes
+
+- [#434](https://github.com/gravis-os/gravis-os/pull/434) [`595a7a05`](https://github.com/gravis-os/gravis-os/commit/595a7a05d1dd99a3133c0e88fae84fe6afc3788a) Thanks [@shank1xt](https://github.com/shank1xt)! - add avatar_src to json field
+
 ## 1.4.8
 
 ### Patch Changes

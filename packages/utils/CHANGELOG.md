@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- [#437](https://github.com/gravis-os/gravis-os/pull/437) [`92369e69`](https://github.com/gravis-os/gravis-os/commit/92369e6932197128d246664fa83c985392bdf361) Thanks [@clodal](https://github.com/clodal)! - In utils, add /edge export to allow edgeruntime functions to import from utils without getting errors related to incompatibility"
+
 ## 0.2.1
 
 ### Patch Changes
