@@ -125,7 +125,7 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     ...useCrudFormProps,
   })
   const { formContext, isNew, onSubmit, onDelete } = crudForm
-  const { shouldSkipOnSubmit } = useCrudFormProps
+  const { shouldSkipOnSubmit } = useCrudFormProps ?? {}
 
   // Read Only State
   const defaultIsReadOnly =
