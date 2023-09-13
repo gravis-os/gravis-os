@@ -3,7 +3,7 @@ import { GetStaticPropsContext } from 'next/types'
 import {
   UseInfiniteQueryResult,
   UseQueryOptions,
-  UseQueryResult
+  UseQueryResult,
 } from 'react-query'
 import { UsePaginationReturn } from './usePagination'
 import { UseRouterQueryReturn } from './useRouterQuery'
@@ -74,7 +74,7 @@ export type SupabasePostgrestBuilderOrsType = string[] | []
 // ==============================
 export enum UseListPaginationType {
   Infinite = 'infinite-scroll',
-  Pagination = 'pagination'
+  Pagination = 'pagination',
 }
 
 // The values here can't be undefined because they are used as

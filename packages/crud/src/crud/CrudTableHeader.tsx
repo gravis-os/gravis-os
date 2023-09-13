@@ -10,7 +10,7 @@ import {
   Paper,
   Typography,
   ChipStack,
-  ChipStackProps
+  ChipStackProps,
 } from '@gravis-os/ui'
 import { FormSectionsProps, getRelationalObjectKey } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
@@ -23,7 +23,7 @@ import getChipsFromFilters from './getChipsFromFilters'
 import useAddDialog from './useAddDialog'
 import CrudAddDialog from './CrudAddDialog'
 import CrudUploadDialog, {
-  CrudUploadDialogProps
+  CrudUploadDialogProps,
 } from './CrudUploadDialog/CrudUploadDialog'
 import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 
@@ -75,7 +75,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     renderAddButton,
     disableReset,
     filterFormProps = {},
-    searchFormProps = {}
+    searchFormProps = {},
   } = props
   const { route, name } = module
 
@@ -85,7 +85,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
 
   const filterAndSearchFormFieldDefs = {
     ...getFieldDefsFromSections(filterFormSections),
-    ...getFieldDefsFromSections(searchFormSections)
+    ...getFieldDefsFromSections(searchFormSections),
   }
 
   // Filter Drawer
@@ -112,7 +112,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
         if (fieldDef?.setFilterQuery) {
           const [formattedKey, formattedValue] = fieldDef.setFilterQuery([
             key,
-            value
+            value,
           ])
 
           const nextFilters = {
@@ -122,7 +122,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           }
 
           if (key.endsWith('_id')) {
-            const relationalObjectKey = getRelationalObjectKey(key)
+            const relationalObjectKey = getRelationalObjectKey(key, false)
             assign(nextFilters, {
               [relationalObjectKey]: get(appliedFilters, relationalObjectKey)
             })
@@ -157,7 +157,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
         // the relational object too for filter chip to display
         // the correct label
         if (key.endsWith('_id')) {
-          const relationalObjectKey = getRelationalObjectKey(key)
+          const relationalObjectKey = getRelationalObjectKey(key, false)
           return {
             ...acc,
             [key]: nextValue,
@@ -183,7 +183,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const chips = getChipsFromFilters({
     filters,
     setFilters,
-    fieldDefs: filterAndSearchFormFieldDefs
+    fieldDefs: filterAndSearchFormFieldDefs,
   }) as ChipStackProps['items']
   const hasChips = chips && chips?.length > 0
 
@@ -202,7 +202,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           <Box
             sx={{
               width: '100%',
-              maxWidth: { xs: '100%', md: styleConfig.searchWidth }
+              maxWidth: { xs: '100%', md: styleConfig.searchWidth },
             }}
           >
             <SearchForm
@@ -261,8 +261,8 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
                       sx: {
                         width: '100%',
                         maxWidth: styleConfig.rightAsideWidth,
-                        boxShadow: styleConfig.rightAsideBoxShadow
-                      }
+                        boxShadow: styleConfig.rightAsideBoxShadow,
+                      },
                     }}
                   >
                     <FilterForm

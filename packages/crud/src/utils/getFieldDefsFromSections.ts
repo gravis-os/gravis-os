@@ -12,7 +12,7 @@ const getFieldDefsFromFields = (
     const { name } = field
     return {
       ...fieldDefs,
-      [name]: field
+      [name]: field,
     }
   }, {})
 }
@@ -25,7 +25,7 @@ const getFieldDefsFromSections = (
     const { fields } = section
     return {
       ...fieldDefs,
-      ...getFieldDefsFromFields(fields)
+      ...getFieldDefsFromFields(fields),
     }
   }, {})
 }

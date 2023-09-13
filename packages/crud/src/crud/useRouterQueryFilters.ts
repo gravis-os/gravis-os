@@ -33,7 +33,7 @@ const useRouterQueryFilters = (args) => {
        * query params if it was set before this render cycle.
        */
       if (key.endsWith('_id')) {
-        const relationalObjectKey = getRelationalObjectKey(key)
+        const relationalObjectKey = getRelationalObjectKey(key, false)
 
         // Check if this field is a valid filter
         const filterField = filterFields.find(
@@ -55,7 +55,7 @@ const useRouterQueryFilters = (args) => {
             : relationalObject
         return {
           ...defaultReturn,
-          [relationalObjectKey]: relationalObjectValue
+          [relationalObjectKey]: relationalObjectValue,
         }
       }
 
@@ -92,7 +92,7 @@ const useRouterQueryFilters = (args) => {
     getRouterQueryFromFilters,
     getValidFilters,
     filters,
-    setFilters
+    setFilters,
   }
 }
 

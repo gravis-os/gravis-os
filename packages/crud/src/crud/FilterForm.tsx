@@ -3,7 +3,7 @@ import {
   FormProps,
   FormSectionFieldProps,
   FormSections,
-  FormSectionsProps
+  FormSectionsProps,
 } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { Box, Divider, Stack, Typography } from '@gravis-os/ui'
@@ -25,7 +25,7 @@ export interface FilterFormProps {
 
 const getItemWithOpRemovedFromValue = ({
   item,
-  fieldDefs
+  fieldDefs,
 }: {
   item: Record<string, unknown>
   fieldDefs: Record<string, FormSectionFieldProps>
@@ -34,12 +34,13 @@ const getItemWithOpRemovedFromValue = ({
     return item
   }
 
+  // process all the filters to keep FilterForm's state consistent
   return Object.entries(item).reduce((nextItem, [key, value]) => {
     const nextValue = getValueWithoutOp({ key, value, fieldDefs })
 
     return {
       ...nextItem,
-      [key]: nextValue
+      [key]: nextValue,
     }
   }, {})
 }
@@ -53,7 +54,7 @@ const FilterForm: React.FC<FilterFormProps> = (props) => {
     item,
     module,
     children,
-    fieldDefs
+    fieldDefs,
   } = props
 
   const nextItem = getItemWithOpRemovedFromValue({ item, fieldDefs })
@@ -63,7 +64,7 @@ const FilterForm: React.FC<FilterFormProps> = (props) => {
     item: nextItem,
     module,
     onSubmit,
-    ...useFilterFormProps
+    ...useFilterFormProps,
   })
 
   return (
