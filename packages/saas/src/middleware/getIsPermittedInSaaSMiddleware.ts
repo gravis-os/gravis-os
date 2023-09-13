@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server'
 import { CrudModule } from '@gravis-os/types'
 import { fetchDbUserFromMiddleware } from '@gravis-os/middleware'
-import { isPathMatch, getGuestPaths } from '@gravis-os/utils'
+import { isPathMatch, getGuestPaths } from '@gravis-os/utils/edge'
 import saasConfig from '../config/saasConfig'
 import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 import getIsValidPermissions from '../utils/getIsValidPermissions'
