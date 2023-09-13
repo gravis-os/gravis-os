@@ -34,6 +34,8 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
     'items',
     'hero_src',
     'hero_alt',
+    'avatar_src',
+    'avatar_alt',
     'html',
   ]
 
@@ -96,6 +98,7 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
               if (!SORT_ORDER.includes(sectionKey)) return <></>
               const renderFieldContent = (sectionKey: string) => {
                 switch (sectionKey) {
+                  case 'avatar_src':
                   case 'hero_src':
                     return (
                       <StorageAvatarWithUpload
