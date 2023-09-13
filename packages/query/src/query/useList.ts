@@ -80,7 +80,7 @@ const withPaginate = () => (props: UseListProps & UseListFilters) => {
     ...props,
     range: [page * pageSize - pageSize, page * pageSize || 1000] as [
       number,
-      number
+      number,
     ],
   }
 }
@@ -165,7 +165,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
   const getCombinedArrayBasedFilter = (
     key: string,
     op: string,
-    filters: Record<string, any>[]
+    filters: Record<string, any>[],
   ) => {
     return {
       key,
@@ -179,22 +179,22 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 
   const getPartitionedFilters = (
     key: string,
-    filters: Record<string, any>[]
+    filters: Record<string, any>[],
   ) => {
     // @example qs = brand=in.1&price=lt.500&brand=in.5;
     // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
 
     const [arrayBasedFilters, otherFilters] = partition(filters, (filter) =>
-      arrayBasedOps.includes(filter.op)
+      arrayBasedOps.includes(filter.op),
     )
 
     const groupedArrayBasedFilters = groupBy(
       arrayBasedFilters,
-      (filt) => filt.op
+      (filt) => filt.op,
     )
 
     const combinedArrayBasedFilters = Object.entries(
-      groupedArrayBasedFilters
+      groupedArrayBasedFilters,
     ).map(([op, filters]) => getCombinedArrayBasedFilter(key, op, filters))
 
     return [...otherFilters, ...combinedArrayBasedFilters]
@@ -268,7 +268,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 
       return acc.concat(newFilter)
     },
-    filters as SupabasePostgrestBuilderFiltersType[]
+    filters as SupabasePostgrestBuilderFiltersType[],
   )
 
   return {
@@ -294,7 +294,7 @@ export const getUseListFilters = (props: UseListProps): UseListFilters => {
         withLocale(),
         !disableWorkspacePlugin &&
           withGetWorkspaceAndRenameWorkspaceToWorkspaceSlug(),
-      ].filter(Boolean)
+      ].filter(Boolean),
     )({
       // Initialize defaults here
       match: {},
@@ -325,7 +325,7 @@ export const getUseListFilters = (props: UseListProps): UseListFilters => {
       'select',
       'not',
       'contains',
-    ]
+    ],
   ) as UseListFilters
 }
 
@@ -381,7 +381,7 @@ export const getFetchListQueryFn = (props: UseListProps) => {
           // This is both the HEAD and GET query as this count gets overriden from above.
           count: 'exact',
           ...countProps,
-        }
+        },
       )
 
     // Apply filters
@@ -434,11 +434,11 @@ export const getFetchListQueryFn = (props: UseListProps) => {
 // Prefetch
 export const prefetchListQuery = async (
   queryClient: QueryClient,
-  props: UseListProps
+  props: UseListProps,
 ) => {
   return queryClient.prefetchQuery(
     getFetchListQueryKey(props),
-    getFetchListQueryFn(props)
+    getFetchListQueryFn(props),
   )
 }
 
@@ -495,7 +495,7 @@ const useList = (props: UseListProps): UseListReturn => {
     {
       enabled: Boolean(isInfinitePagination || !disablePagination),
       ...queryOptions,
-    }
+    },
   )
   const countFromCountQuery = (countQuery?.data as any)?.count
 
@@ -543,7 +543,7 @@ const useList = (props: UseListProps): UseListReturn => {
       }
       queryClient.prefetchQuery(
         getFetchListQueryKey(prefetchNextPageProps),
-        getFetchListQueryFn(prefetchNextPageProps)
+        getFetchListQueryFn(prefetchNextPageProps),
       )
     }
   }, [isRegularPagination, onUsePagination.hasNextPage, page, queryClient])
@@ -555,7 +555,7 @@ const useList = (props: UseListProps): UseListReturn => {
 
   // Override fetchNextPage for infiniteQuery
   const getInfinitePaginationFetchNextPage = (
-    onUseQuery: UseInfiniteQueryResult
+    onUseQuery: UseInfiniteQueryResult,
   ) => {
     const { isFetching, fetchNextPage } = onUseQuery
     const isQueryDisabled = queryOptions?.enabled === false

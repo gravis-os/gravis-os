@@ -37,7 +37,7 @@ const useRouterQueryFilters = (args) => {
 
         // Check if this field is a valid filter
         const filterField = filterFields.find(
-          (filterField) => filterField.key === key
+          (filterField) => filterField.key === key,
         )
         if (!filterField) return defaultReturn
 
@@ -48,9 +48,10 @@ const useRouterQueryFilters = (args) => {
 
         // Set relationalObjectValue to render the correct title
         const { pk = 'title' } = filterField.module
+        const { optionLabelKey = 'title' } = filterField
         const relationalObjectValue =
           typeof relationalObject === 'object'
-            ? relationalObject[pk]
+            ? relationalObject[optionLabelKey] ?? relationalObject[pk]
             : relationalObject
         return {
           ...defaultReturn,

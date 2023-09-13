@@ -12,9 +12,10 @@ import {
   ChipStack,
   ChipStackProps,
 } from '@gravis-os/ui'
-import { FormSectionsProps } from '@gravis-os/form'
+import { FormSectionsProps, getRelationalObjectKey } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { ButtonProps } from '@mui/material'
+import assign from 'lodash/assign'
 import styleConfig from '../config/styleConfig'
 import FilterForm, { FilterFormProps } from './FilterForm'
 import SearchForm, { SearchFormProps } from './SearchForm'
@@ -107,7 +108,6 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     const nextFilters = Object.entries(appliedFilters).reduce(
       (acc, [key, value]) => {
         const fieldDef = get(filterAndSearchFormFieldDefs, key)
-
         // allow custom formatting
         if (fieldDef?.setFilterQuery) {
           const [formattedKey, formattedValue] = fieldDef.setFilterQuery([
@@ -115,7 +115,20 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
             value,
           ])
 
-          return { ...acc, [formattedKey]: formattedValue }
+          const nextFilters = {
+            ...acc,
+            [formattedKey]: formattedValue,
+            ...(typeof value !== 'object' && { [key]: value }),
+          }
+
+          if (key.endsWith('_id')) {
+            const relationalObjectKey = getRelationalObjectKey(key)
+            assign(nextFilters, {
+              [relationalObjectKey]: get(appliedFilters, relationalObjectKey),
+            })
+          }
+
+          return nextFilters
         }
 
         if (typeof value === 'object') return acc
@@ -126,7 +139,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
 
         // Remove nested values as they interfere with the get() later
         const appliedFiltersWithoutEmptyValue = Object.entries(
-          appliedFilters
+          appliedFilters,
         ).reduce((acc, [key, value]) => {
           // Filter out values that are empty string
           if (value === '') return acc
@@ -140,9 +153,21 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
         // Set the resolved value with the operator
         const nextValue = hasOp ? `${op}.${resolvedValue}` : resolvedValue
 
+        if (key.endsWith('_id')) {
+          const relationalObjectKey = getRelationalObjectKey(key)
+          return {
+            ...acc,
+            [key]: nextValue,
+            [relationalObjectKey]: get(
+              appliedFiltersWithoutEmptyValue,
+              relationalObjectKey,
+            ),
+          }
+        }
+
         return { ...acc, [key]: nextValue }
       },
-      {}
+      {},
     )
 
     // Set state

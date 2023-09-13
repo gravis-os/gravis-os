@@ -1,10 +1,16 @@
 import isNil from 'lodash/isNil'
 import omitBy from 'lodash/omitBy'
+import getRelationalObjectKey from './getRelationalObjectKey'
 
 const getFilterFormValues = ({ values }) => {
   const idValues = Object.entries(values).reduce((acc, [key, value]) => {
     if (key.endsWith('_id') && value) {
-      return { ...acc, [key]: (value as { id: number }).id || value }
+      const relationalObjectKey = getRelationalObjectKey(key)
+      return {
+        ...acc,
+        [key]: (value as { id: number }).id || value,
+        [relationalObjectKey]: value,
+      }
     }
     return acc
   }, {})
@@ -14,7 +20,7 @@ const getFilterFormValues = ({ values }) => {
       ...values,
       ...idValues,
     },
-    isNil // Omit null/undefined values
+    isNil, // Omit null/undefined values
   )
 
   return nextValues
