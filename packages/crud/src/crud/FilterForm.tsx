@@ -34,11 +34,15 @@ const getItemWithOpRemovedFromValue = ({
     return item
   }
 
-  const [[key, value]] = Object.entries(item)
-  const nextValue = getValueWithoutOp({ key, value, fieldDefs })
-  const nextItem = { [key]: nextValue }
+  // process all the filters to keep FilterForm's state consistent
+  return Object.entries(item).reduce((nextItem, [key, value]) => {
+    const nextValue = getValueWithoutOp({ key, value, fieldDefs })
 
-  return nextItem
+    return {
+      ...nextItem,
+      [key]: nextValue,
+    }
+  }, {})
 }
 
 const FilterForm: React.FC<FilterFormProps> = (props) => {

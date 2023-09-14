@@ -29,7 +29,7 @@ const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
       const nextValue = getValueWithoutOp({ key, value, fieldDefs })
 
       if (key.endsWith('_id')) {
-        const relationalObjectKey = getRelationalObjectKey(key)
+        const relationalObjectKey = getRelationalObjectKey(key, false)
         return {
           key,
           label: (

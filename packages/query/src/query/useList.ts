@@ -15,6 +15,7 @@ import partition from 'lodash/partition'
 import isEmpty from 'lodash/isEmpty'
 import groupBy from 'lodash/groupBy'
 import { getObjectWithGetters } from '@gravis-os/utils'
+import { getRelationalObjectKey } from '@gravis-os/form'
 import { CrudItem } from '@gravis-os/types'
 import usePagination from './usePagination'
 import useRouterQuery from './useRouterQuery'
@@ -369,26 +370,49 @@ export const getFetchListQueryFn = (props: UseListProps) => {
       contains,
     } = listFilters
 
+    const getSelectString = () => {
+      if (countOnly) {
+        return module?.select?.count || '*'
+      }
+
+      // @ts-ignore
+      const filterSelect = module?.select?.filter
+      if (filters?.length && filterSelect) {
+        return filterSelect
+      }
+
+      return select || module?.select?.list || '*'
+    }
+
     // @note: The order of the filters below matter.
     // Setup query
     const query = supabaseClient
       .from(module.table.name)
-      .select(
-        countOnly
-          ? module?.select?.count || '*'
-          : select || module?.select?.list || '*',
-        {
-          // This is both the HEAD and GET query as this count gets overriden from above.
-          count: 'exact',
-          ...countProps,
-        }
-      )
+      .select(getSelectString(), {
+        // This is both the HEAD and GET query as this count gets overriden from above.
+        count: 'exact',
+        ...countProps
+      })
 
     // Apply filters
     if (match) query.match(match)
     if (filters?.length) {
+      const relationalObjectKeys = filters
+        .filter((filter) => filter && filter.key.endsWith('_id'))
+        .flatMap((filter) => {
+          const relationalObjectKey = getRelationalObjectKey(filter.key, false)
+
+          // the relational object key might not be direct e.g
+          // lines.order_form_line.order_form.sales_order.project_id=2&project_id=2&project=Fusheng+House
+          // we need to remove the query params that are only there to support FilterForm: project and project_id
+          if (`${relationalObjectKey}_id` !== filter.key) {
+            return [relationalObjectKey, `${relationalObjectKey}_id`]
+          }
+
+          return [relationalObjectKey]
+        })
       filters.forEach((filter) => {
-        if (filter) {
+        if (filter && !relationalObjectKeys.includes(filter.key)) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           query.filter(filter.key, filter.op, filter.value)

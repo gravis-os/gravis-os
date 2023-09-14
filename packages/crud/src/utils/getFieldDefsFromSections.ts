@@ -7,7 +7,8 @@ const getFieldDefsFromFields = (
 ): Record<string, FormSectionFieldProps> => {
   return fields.reduce((fieldDefs, field) => {
     if (React.isValidElement(field)) return fieldDefs
-    if (Array.isArray(field)) return getFieldDefsFromFields(field)
+    if (Array.isArray(field))
+      return { ...fieldDefs, ...getFieldDefsFromFields(field) }
     const { name } = field
     return {
       ...fieldDefs,

@@ -33,7 +33,7 @@ const useRouterQueryFilters = (args) => {
        * query params if it was set before this render cycle.
        */
       if (key.endsWith('_id')) {
-        const relationalObjectKey = getRelationalObjectKey(key)
+        const relationalObjectKey = getRelationalObjectKey(key, false)
 
         // Check if this field is a valid filter
         const filterField = filterFields.find(
@@ -48,9 +48,10 @@ const useRouterQueryFilters = (args) => {
 
         // Set relationalObjectValue to render the correct title
         const { pk = 'title' } = filterField.module
+        const { optionLabelKey = 'title' } = filterField
         const relationalObjectValue =
           typeof relationalObject === 'object'
-            ? relationalObject[pk]
+            ? relationalObject[optionLabelKey] ?? relationalObject[pk]
             : relationalObject
         return {
           ...defaultReturn,
