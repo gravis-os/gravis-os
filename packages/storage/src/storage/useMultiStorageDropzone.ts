@@ -98,7 +98,6 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       // This is a new item, defer db saving action instead by storing in the form value
       // for Quotation and SO, always defer
       if ((attachToNewRecord || isEmpty(primaryRecord)) && setFormValue) {
-        console.log([...foreignTableRows, ...foreignRecords])
         setFormValue([...foreignTableRows, ...foreignRecords])
         return foreignTableRows
       }
