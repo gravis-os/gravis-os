@@ -1,5 +1,5 @@
 import { Post } from '@gravis-os/types'
-import { BlockItemProps } from 'src/web'
+import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderPostBlockItemProps {
   item: Post & { href: string }

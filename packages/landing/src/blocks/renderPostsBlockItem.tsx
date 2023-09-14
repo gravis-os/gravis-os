@@ -1,6 +1,6 @@
 import { Post } from '@gravis-os/types'
 import orderBy from 'lodash/orderBy'
-import { BlockItemProps } from 'src/web'
+import { BlockItemProps } from '../web/Block/BlockItem'
 import { useLayout } from '../providers/LayoutProvider'
 import renderPostBlockItem, {
   RenderPostBlockItemProps,
