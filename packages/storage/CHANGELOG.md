@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.3.3
+
+### Patch Changes
+
+- [#438](https://github.com/gravis-os/gravis-os/pull/438) [`a7c4dd38`](https://github.com/gravis-os/gravis-os/commit/a7c4dd3829c9f0d9685b0957cf3074bfc4869a22) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - change padding
+
+- Updated dependencies [[`e3a774cd`](https://github.com/gravis-os/gravis-os/commit/e3a774cd7a0526f690642205f4410f533e2a4214)]:
+  - @gravis-os/types@0.5.2
+
 ## 0.3.2
 
 ### Patch Changes

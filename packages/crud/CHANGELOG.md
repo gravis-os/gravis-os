@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.4.4
+
+### Patch Changes
+
+- [#435](https://github.com/gravis-os/gravis-os/pull/435) [`e3a774cd`](https://github.com/gravis-os/gravis-os/commit/e3a774cd7a0526f690642205f4410f533e2a4214) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - update filter form logic
+
+- Updated dependencies [[`e3a774cd`](https://github.com/gravis-os/gravis-os/commit/e3a774cd7a0526f690642205f4410f533e2a4214), [`a7c4dd38`](https://github.com/gravis-os/gravis-os/commit/a7c4dd3829c9f0d9685b0957cf3074bfc4869a22)]:
+  - @gravis-os/form@1.5.1
+  - @gravis-os/types@0.5.2
+  - @gravis-os/storage@0.3.3
+
 ## 0.4.3
 
 ### Patch Changes

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.2
+
+### Patch Changes
+
+- [#435](https://github.com/gravis-os/gravis-os/pull/435) [`e3a774cd`](https://github.com/gravis-os/gravis-os/commit/e3a774cd7a0526f690642205f4410f533e2a4214) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - update filter form logic
+
 ## 0.5.1
 
 ### Patch Changes
