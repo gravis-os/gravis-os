@@ -391,31 +391,34 @@ export const getFetchListQueryFn = (props: UseListProps) => {
       .select(getSelectString(), {
         // This is both the HEAD and GET query as this count gets overriden from above.
         count: 'exact',
-        ...countProps
+        ...countProps,
       })
 
     // Apply filters
     if (match) query.match(match)
     if (filters?.length) {
       const relationalObjectKeys = filters
-        .filter((filter) => filter && filter.key.endsWith('_id'))
-        .flatMap((filter) => {
-          const relationalObjectKey = getRelationalObjectKey(filter.key, false)
+        .filter(({ key }) => (key as string).endsWith('_id'))
+        .flatMap(({ key }) => {
+          const relationalObjectKey = getRelationalObjectKey(
+            key as string,
+            false
+          )
 
           // the relational object key might not be direct e.g
           // lines.order_form_line.order_form.sales_order.project_id=2&project_id=2&project=Fusheng+House
           // we need to remove the query params that are only there to support FilterForm: project and project_id
-          if (`${relationalObjectKey}_id` !== filter.key) {
+          if (`${relationalObjectKey}_id` !== (key as string)) {
             return [relationalObjectKey, `${relationalObjectKey}_id`]
           }
 
           return [relationalObjectKey]
         })
-      filters.forEach((filter) => {
-        if (filter && !relationalObjectKeys.includes(filter.key)) {
+      filters.forEach(({ key, op, value }) => {
+        if (key && !relationalObjectKeys.includes(key)) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
-          query.filter(filter.key, filter.op, filter.value)
+          query.filter(key, op, value)
         }
       })
     }
