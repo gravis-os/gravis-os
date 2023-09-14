@@ -30,6 +30,7 @@ import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 export interface CrudTableHeaderProps {
   actions?: React.ReactNode | React.ReactNode[]
   actionButtons?: ButtonProps[]
+  batchUpdateActions?: React.ReactNode | React.ReactNode[]
   module: CrudModule
   disableAdd?: boolean
   disableChips?: boolean
@@ -57,6 +58,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const {
     actions,
     actionButtons,
+    batchUpdateActions,
     filters,
     setFilters,
     module,
@@ -186,6 +188,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     fieldDefs: filterAndSearchFormFieldDefs,
   }) as ChipStackProps['items']
   const hasChips = chips && chips?.length > 0
+  const hasBatchUpdateActions = Array.isArray(batchUpdateActions) ? Boolean(batchUpdateActions.length) : Boolean(batchUpdateActions)
 
   return (
     <>
@@ -330,6 +333,13 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
             <ChipStack items={chips} />
           </Stack>
         </Paper>
+      )}
+
+      {/* Third Row */}
+      {hasBatchUpdateActions && Array.isArray(batchUpdateActions) ? (
+        batchUpdateActions.map((action) => action)
+      ) : (
+        batchUpdateActions
       )}
     </>
   )
