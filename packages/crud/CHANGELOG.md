@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+### Minor Changes
+
+- [#439](https://github.com/gravis-os/gravis-os/pull/439) [`2afb700f`](https://github.com/gravis-os/gravis-os/commit/2afb700f9489584b340050bb79f97301692d0eb7) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): added 3rd row item on crud table header.
+
 ## 0.4.4
 
 ### Patch Changes
