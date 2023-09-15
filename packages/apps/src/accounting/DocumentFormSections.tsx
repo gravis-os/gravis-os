@@ -30,11 +30,18 @@ import { DocumentItem } from './types'
 
 const AddressReadOnlyFormSection: React.FC<{
   title?: React.ReactNode
+  label?: React.ReactNode
   icon?: React.ReactElement
   item?: DocumentItem
   prefix?: string
 }> = (props) => {
-  const { icon, title, item: injectedItem, prefix: injectedPrefix } = props
+  const {
+    icon,
+    title,
+    label,
+    item: injectedItem,
+    prefix: injectedPrefix,
+  } = props
 
   // Fallback with typing intact for safety reasons
   const item = injectedItem || ({} as DocumentItem)
@@ -48,14 +55,14 @@ const AddressReadOnlyFormSection: React.FC<{
   return (
     <Stack direction="row" alignItems="center" spacing={5}>
       <div>
-        {title && (
+        {(title || label) && (
           <Typography
             variant="subtitle1"
             color="primary"
             startIcon={icon}
             gutterBottom
           >
-            {title}
+            {label ?? title}
           </Typography>
         )}
 
