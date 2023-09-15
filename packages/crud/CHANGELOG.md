@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1
+
+### Patch Changes
+
+- [#441](https://github.com/gravis-os/gravis-os/pull/441) [`2941f2a4`](https://github.com/gravis-os/gravis-os/commit/2941f2a46b97b452927e2ade6f1f2976f20c2436) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - build(crud): rebuilt.
+
 ## 0.5.0
 
 ### Minor Changes
