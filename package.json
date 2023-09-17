@@ -39,7 +39,8 @@
     "dotenv": "^16.0.1",
     "husky": "^8.0.0",
     "prettier": "latest",
-    "turbo": "^1.10.14"
+    "turbo": "^1.10.14",
+    "typescript": "^5.2.2"
   },
   "engines": {
     "npm": ">=7.0.0",

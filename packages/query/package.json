@@ -37,8 +37,7 @@
     "qs": "^6.11.0",
     "react-intersection-observer": "^9.4.3",
     "react-use-measure": "^2.1.1",
-    "tslib": "^2.4.0",
-    "typescript": "^5.2.2"
+    "tslib": "^2.4.0"
   },
   "peerDependencies": {
     "@emotion/react": ">=11.9.0",
@@ -125,7 +124,6 @@
     "ts-loader": "^8.0.1",
     "tsc-watch": "^5.0.3",
     "tsconfig-paths-webpack-plugin": "^3.5.2",
-    "typescript": "^4.6.3",
     "webpack": "^5.68.0",
     "yalc": "^1.0.0-pre.53"
   },
