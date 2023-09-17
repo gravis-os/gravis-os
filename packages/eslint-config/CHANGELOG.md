@@ -1,5 +1,11 @@
 # @gravis-os/eslint-config
 
+## 0.1.2
+
+### Patch Changes
+
+- [#447](https://github.com/gravis-os/gravis-os/pull/447) [`9ba2ada0`](https://github.com/gravis-os/gravis-os/commit/9ba2ada093595e2d4a9391411e3eaaba947e73f5) Thanks [@clodal](https://github.com/clodal)! - Fix issue with isPathMatch polyfill basically not working
+
 ## 0.1.1
 
 ### Patch Changes
