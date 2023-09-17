@@ -20,6 +20,7 @@ import {
   bindPopper,
   bindTrigger,
   usePopupState,
+  PopupState,
 } from 'material-ui-popup-state/hooks'
 import Link, { LinkProps } from '../Link'
 
@@ -37,7 +38,11 @@ export interface HeaderButtonWithMenuProps {
   title?: React.ReactNode
 
   items?: RecursiveNavItemInterface[]
-  renderItems?: ({ popupState: PopupState }) => React.ReactElement
+  renderItems?: ({
+    popupState,
+  }: {
+    popupState: PopupState
+  }) => React.ReactElement
 
   isOpenOnHover?: boolean
   fullWidth?: boolean

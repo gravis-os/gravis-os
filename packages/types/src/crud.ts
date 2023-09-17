@@ -1,15 +1,17 @@
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs'
+import { DbUserWithAuthUser } from './user'
 // ==============================
 // Crud
 // ==============================
 export type CrudModuleAfterTriggerFunction = ({
-  item,
-  values,
   client,
+  item,
+  user,
+  values,
 }: {
   client: SupabaseClient
   item: Record<string, unknown>
-  user: Record<string, unknown>
+  user: DbUserWithAuthUser
   values: Record<string, unknown>
 }) => Promise<unknown>
 

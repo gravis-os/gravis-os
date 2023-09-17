@@ -38,7 +38,7 @@
     "react-intersection-observer": "^9.4.3",
     "react-use-measure": "^2.1.1",
     "tslib": "^2.4.0",
-    "typescript": "^4.6.3"
+    "typescript": "^5.2.2"
   },
   "peerDependencies": {
     "@emotion/react": ">=11.9.0",
