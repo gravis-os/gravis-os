@@ -1,5 +1,18 @@
 # @gravis-os/fields
 
+## 1.5.0
+
+### Minor Changes
+
+- [#446](https://github.com/gravis-os/gravis-os/pull/446) [`38e9245a`](https://github.com/gravis-os/gravis-os/commit/38e9245a3a139d048272fee5d30f833813a6c1da) Thanks [@clodal](https://github.com/clodal)! - Move typescript dependency to root package.json
+
+* [#446](https://github.com/gravis-os/gravis-os/pull/446) [`2e3c0c36`](https://github.com/gravis-os/gravis-os/commit/2e3c0c36acd57550109bb35e8be8bab5687e8785) Thanks [@clodal](https://github.com/clodal)! - Upgrade to typescript v5. Fixed build errors. Removed apps/web package
+
+### Patch Changes
+
+- Updated dependencies [[`38e9245a`](https://github.com/gravis-os/gravis-os/commit/38e9245a3a139d048272fee5d30f833813a6c1da), [`2e3c0c36`](https://github.com/gravis-os/gravis-os/commit/2e3c0c36acd57550109bb35e8be8bab5687e8785)]:
+  - @gravis-os/types@0.6.0
+
 ## 1.4.9
 
 ### Patch Changes

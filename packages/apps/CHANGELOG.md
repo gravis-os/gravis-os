@@ -1,5 +1,26 @@
 # Changelog
 
+## 1.1.0
+
+### Minor Changes
+
+- [#446](https://github.com/gravis-os/gravis-os/pull/446) [`38e9245a`](https://github.com/gravis-os/gravis-os/commit/38e9245a3a139d048272fee5d30f833813a6c1da) Thanks [@clodal](https://github.com/clodal)! - Move typescript dependency to root package.json
+
+* [#446](https://github.com/gravis-os/gravis-os/pull/446) [`2e3c0c36`](https://github.com/gravis-os/gravis-os/commit/2e3c0c36acd57550109bb35e8be8bab5687e8785) Thanks [@clodal](https://github.com/clodal)! - Upgrade to typescript v5. Fixed build errors. Removed apps/web package
+
+### Patch Changes
+
+- [#444](https://github.com/gravis-os/gravis-os/pull/444) [`8962dc72`](https://github.com/gravis-os/gravis-os/commit/8962dc72121014f1b24dad29c624340f33628cbb) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix custom label not showing in DocumentFormSections
+
+- Updated dependencies [[`38e9245a`](https://github.com/gravis-os/gravis-os/commit/38e9245a3a139d048272fee5d30f833813a6c1da), [`2e3c0c36`](https://github.com/gravis-os/gravis-os/commit/2e3c0c36acd57550109bb35e8be8bab5687e8785)]:
+  - @gravis-os/crud@0.6.0
+  - @gravis-os/dashboard@0.3.0
+  - @gravis-os/fields@1.5.0
+  - @gravis-os/form@1.6.0
+  - @gravis-os/query@0.2.0
+  - @gravis-os/types@0.6.0
+  - @gravis-os/ui@0.11.0
+
 ## 1.0.0
 
 ### Major Changes

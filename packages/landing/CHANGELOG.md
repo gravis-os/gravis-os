@@ -1,5 +1,22 @@
 # @gravis-os/landing
 
+## 1.0.0
+
+### Minor Changes
+
+- [#446](https://github.com/gravis-os/gravis-os/pull/446) [`38e9245a`](https://github.com/gravis-os/gravis-os/commit/38e9245a3a139d048272fee5d30f833813a6c1da) Thanks [@clodal](https://github.com/clodal)! - Move typescript dependency to root package.json
+
+* [#445](https://github.com/gravis-os/gravis-os/pull/445) [`14b89380`](https://github.com/gravis-os/gravis-os/commit/14b8938035ba72e87fd932f1a50e5fb06966b2f5) Thanks [@clodal](https://github.com/clodal)! - Fix gsc indexing issue by removing canonical
+
+### Patch Changes
+
+- Updated dependencies [[`38e9245a`](https://github.com/gravis-os/gravis-os/commit/38e9245a3a139d048272fee5d30f833813a6c1da), [`2e3c0c36`](https://github.com/gravis-os/gravis-os/commit/2e3c0c36acd57550109bb35e8be8bab5687e8785)]:
+  - @gravis-os/form@1.6.0
+  - @gravis-os/storage@0.4.0
+  - @gravis-os/theme@0.2.0
+  - @gravis-os/types@0.6.0
+  - @gravis-os/ui@0.11.0
+
 ## 0.21.5
 
 ### Patch Changes
