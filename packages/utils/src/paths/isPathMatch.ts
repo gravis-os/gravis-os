@@ -5,33 +5,19 @@
  * which will be able to test for more advanced cases.
  *
  * However, for our use case, this is sufficient.
- * @param pattern
+ * @param path {string}
+ * @param patterns {array}
  */
-const globToRegex = (pattern: string): RegExp => {
-  let reStr = pattern
-    // Treat single * as **
-    .replace(/\*/g, '.*')
-    // Escape characters that have special meanings in regex
-    .replace(/[.+^${}()|[\]\\]/g, '\\$&')
+const isPathMatch = (path: string, patterns: string[]) => {
+  if (!path) return false
 
-  reStr = `^${reStr}$`
-  return new RegExp(reStr)
-}
-
-const isMatch = (str: string, pattern: string | string[]): boolean => {
-  if (Array.isArray(pattern)) {
-    return pattern.some((p) => globToRegex(p).test(str))
-  }
-  return globToRegex(pattern).test(str)
-}
-
-const isPathMatch = (str: string, patterns: string | string[]) => {
-  if (!str) return false
-
-  // Append '/' to str to ensure we match '/blog' against ['/blog/*']
-  const nextStr = str.endsWith('/') ? str : `${str}/`
-
-  return isMatch(nextStr, patterns)
+  return patterns.some((pattern) => {
+    if (pattern.endsWith('*')) {
+      // Remove the '*' and check if the path starts with the pattern
+      return path.startsWith(pattern.slice(0, -1))
+    }
+    return path === pattern
+  })
 }
 
 export default isPathMatch
