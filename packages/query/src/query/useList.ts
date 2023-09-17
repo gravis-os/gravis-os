@@ -391,7 +391,7 @@ export const getFetchListQueryFn = (props: UseListProps) => {
       .select(getSelectString(), {
         // This is both the HEAD and GET query as this count gets overriden from above.
         count: 'exact',
-        ...countProps
+        ...countProps,
       })
 
     // Apply filters

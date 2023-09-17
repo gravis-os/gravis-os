@@ -9,7 +9,7 @@ const getFieldDefsFromFields = (
     if (React.isValidElement(field)) return fieldDefs
     if (Array.isArray(field))
       return { ...fieldDefs, ...getFieldDefsFromFields(field) }
-    const { name } = field
+    const { name } = field as FormSectionFieldProps
     return {
       ...fieldDefs,
       [name]: field,

@@ -34,12 +34,13 @@
     "@changesets/get-github-info": "^0.5.1",
     "@commitlint/cli": "^17.0.0",
     "@commitlint/config-conventional": "^17.0.0",
-    "@commitlint/prompt": "^17.0.0",
+    "@commitlint/prompt": "^17.7.1",
     "commitizen": "^4.2.4",
     "dotenv": "^16.0.1",
     "husky": "^8.0.0",
     "prettier": "latest",
-    "turbo": "latest"
+    "turbo": "^1.10.14",
+    "typescript": "^5.2.2"
   },
   "engines": {
     "npm": ">=7.0.0",

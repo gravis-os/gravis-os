@@ -85,7 +85,7 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
     )
   }
 
-  const { key, fieldEffect, hidden } = fieldProps
+  const { key, fieldEffect, hidden } = fieldProps as FormSectionFieldProps
   const fieldJsx = renderField(props as RenderFieldProps)
 
   // Calculate hidden field, still render the field for hidden prop to take effect and store the form value

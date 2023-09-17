@@ -1,6 +1,6 @@
 import React from 'react'
 import { Box, Grid, Stack, Typography } from '@gravis-os/ui'
-import { CrudItem, CrudModuleWithGetWebHref } from '@gravis-os/types'
+import { CrudItem, CrudModuleWithGetWebHref, DbUserWithAuthUser } from '@gravis-os/types'
 import {
   PaginatedQueryViewProps,
   PaginatedQueryViewVariantEnum,
@@ -65,8 +65,9 @@ const ForumTemplate: React.FC<ForumTemplateProps> = (props) => {
   }
 
   // Thread Form
-  const { user } = useUser()
-  const { person, workspace } = user
+  const { user } = useUser<DbUserWithAuthUser>()
+  const { person } = user
+  const { workspace } = person
   const { createMutation: createThreadMutation } = useCreateMutation({
     module: threadModule,
   })

@@ -20,10 +20,18 @@ export type CalendarEventApi = Omit<EventApi, 'extendedProps'> & {
   extendedProps: CalendarEventApiExtendedProps
 }
 
+export interface CalendarEventData {}
+
 export interface CalendarEventDrawerDef {
   name?: string
   title: string
-  render?: ({ data: CalendarEventData, value: unknown }) => ReactNode
+  render?: ({
+    data,
+    value,
+  }: {
+    data: CalendarEventData
+    value: unknown
+  }) => ReactNode
 }
 
 export type CalendarEventDrawerDefs = CalendarEventDrawerDef[]
