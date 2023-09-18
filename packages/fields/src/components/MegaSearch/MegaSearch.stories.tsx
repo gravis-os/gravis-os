@@ -6,6 +6,7 @@ import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices'
 import SearchIcon from '@mui/icons-material/Search'
 import MegaSearch from './MegaSearch'
 import MegaSearchTabs from './MegaSearchTabs'
+import type { MegaSearchAutocompleteProps } from './MegaSearchAutocomplete'
 
 export default {
   component: MegaSearch,
@@ -15,8 +16,9 @@ const defaultMegaSearchProps = {
   title: 'Foo',
 }
 
-const MOCK_DROPDOWNS = [
+const MOCK_DROPDOWNS: MegaSearchAutocompleteProps[] = [
   {
+    key: 'brand',
     name: 'brand',
     Icon: CategoryIcon,
     label: 'EV Brands',
@@ -28,6 +30,7 @@ const MOCK_DROPDOWNS = [
     ],
   },
   {
+    key: 'vehicle-type',
     name: 'vehicleType',
     Icon: DirectionsCarIcon,
     label: 'Vehicle Type',
@@ -39,6 +42,7 @@ const MOCK_DROPDOWNS = [
     ],
   },
   {
+    key: 'ev-type',
     name: 'evType',
     Icon: ElectricalServicesIcon,
     label: 'EV Type',
@@ -59,6 +63,7 @@ const tabs = [
       <MegaSearch
         dropdowns={[
           {
+            key: 'search',
             name: 'search',
             Icon: SearchIcon,
             label: 'Agent Search',
