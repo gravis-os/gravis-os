@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.1.1
+
+### Patch Changes
+
+- [#449](https://github.com/gravis-os/gravis-os/pull/449) [`059002e5`](https://github.com/gravis-os/gravis-os/commit/059002e50e7fb6de430b9cf0dbfdaee790ead7c4) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix pos product qty logic
+
 ## 1.1.0
 
 ### Minor Changes
