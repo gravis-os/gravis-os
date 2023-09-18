@@ -38,4 +38,5 @@ export enum FormSectionFieldTypeEnum {
   TEXTAREA = 'textarea',
   TIME = 'time',
   TIME_RANGE = 'time_range',
+  MULTI_TIME_RANGE = 'multi_time_range',
 }

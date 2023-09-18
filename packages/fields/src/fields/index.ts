@@ -28,8 +28,8 @@ export * from './NumberField'
 export { default as JsonField } from './JsonField'
 export * from './JsonField'
 
-export { default as ControlledJsonField } from './ControlledJsonField'
-export * from './ControlledJsonField'
+export { default as ControlledJsonField } from './ControlledJSONField'
+export * from './ControlledJSONField'
 
 export { default as TextField } from './TextField'
 export * from './TextField'
@@ -51,6 +51,9 @@ export * from './TimeRangeField'
 
 export { default as ControlledTimeRangeField } from './ControlledTimeRangeField'
 export * from './ControlledTimeRangeField'
+
+export { default as ControlledMultiTimeRangeField } from './ControlledMultiTimeRangeField'
+export * from './ControlledMultiTimeRangeField'
 
 export { default as ControlledTimeField } from './ControlledTimeField'
 export * from './ControlledTimeField'
