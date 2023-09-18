@@ -28,8 +28,8 @@ export * from './NumberField'
 export { default as JsonField } from './JsonField'
 export * from './JsonField'
 
-export { default as ControlledJsonField } from './ControlledJSONField'
-export * from './ControlledJSONField'
+export { default as ControlledJsonField } from './ControlledJsonField'
+export * from './ControlledJsonField'
 
 export { default as TextField } from './TextField'
 export * from './TextField'
