@@ -120,13 +120,13 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           const nextFilters = {
             ...acc,
             [formattedKey]: formattedValue,
-            ...(typeof value !== 'object' && { [key]: value })
+            ...(typeof value !== 'object' && { [key]: value }),
           }
 
           if (key.endsWith('_id')) {
             const relationalObjectKey = getRelationalObjectKey(key, false)
             assign(nextFilters, {
-              [relationalObjectKey]: get(appliedFilters, relationalObjectKey)
+              [relationalObjectKey]: get(appliedFilters, relationalObjectKey),
             })
           }
 
@@ -166,7 +166,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
             [relationalObjectKey]: get(
               appliedFiltersWithoutEmptyValue,
               relationalObjectKey
-            )
+            ),
           }
         }
 
@@ -188,7 +188,9 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
     fieldDefs: filterAndSearchFormFieldDefs,
   }) as ChipStackProps['items']
   const hasChips = chips && chips?.length > 0
-  const hasBatchUpdateActions = Array.isArray(batchUpdateActions) ? Boolean(batchUpdateActions.length) : Boolean(batchUpdateActions)
+  const hasBatchUpdateActions = Array.isArray(batchUpdateActions)
+    ? Boolean(batchUpdateActions.length)
+    : Boolean(batchUpdateActions)
 
   return (
     <>
@@ -336,11 +338,9 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
       )}
 
       {/* Third Row */}
-      {hasBatchUpdateActions && Array.isArray(batchUpdateActions) ? (
-        batchUpdateActions.map((action) => action)
-      ) : (
-        batchUpdateActions
-      )}
+      {hasBatchUpdateActions && Array.isArray(batchUpdateActions)
+        ? batchUpdateActions.map((action) => action)
+        : batchUpdateActions}
     </>
   )
 }
