@@ -112,6 +112,7 @@ export interface FormSectionFieldProps {
   // Filters
   op?: string
   filterKey?: string
+  filterLabel?: string
 
   // Render - manage custom renders for installing hooks
   render?: (props: {
