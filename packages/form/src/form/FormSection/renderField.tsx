@@ -182,6 +182,18 @@ const renderField = (props: RenderFieldProps) => {
       case FormSectionFieldTypeEnum.IMAGES:
       case FormSectionFieldTypeEnum.FILES:
         const files = get(item, name)
+
+        if (hasRenderReadOnly) {
+          return renderReadOnly({
+            item,
+            name,
+            module,
+            label,
+            value: files,
+            title: label,
+          })
+        }
+
         const { bucketName } = fieldProps
         const FormSectionReadOnlyFiles = dynamic(() =>
           import('@gravis-os/fields').then(
