@@ -1,5 +1,20 @@
 # Changelog
 
+## 0.7.0
+
+### Minor Changes
+
+- [#453](https://github.com/gravis-os/gravis-os/pull/453) [`360c81c8`](https://github.com/gravis-os/gravis-os/commit/360c81c8055212b5834cc7a038d8adb9005e27db) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(form): added filterLabel props in FormSectionFieldProps.
+  feat(crud): support to add custom filter label.
+  style(crud): lint.
+
+### Patch Changes
+
+- [#451](https://github.com/gravis-os/gravis-os/pull/451) [`a97a4afc`](https://github.com/gravis-os/gravis-os/commit/a97a4afccbd4a38d249deef1c165b81a680ed1d0) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - build(fields): fixed lint and ts check errors.
+  build(crud): rebuilt.
+- Updated dependencies [[`d058aba1`](https://github.com/gravis-os/gravis-os/commit/d058aba17ad791493f9d76b8a6e4f895808702f9), [`360c81c8`](https://github.com/gravis-os/gravis-os/commit/360c81c8055212b5834cc7a038d8adb9005e27db)]:
+  - @gravis-os/form@1.7.0
+
 ## 0.6.0
 
 ### Minor Changes

@@ -1,5 +1,20 @@
 # Changelog
 
+## 1.7.0
+
+### Minor Changes
+
+- [#454](https://github.com/gravis-os/gravis-os/pull/454) [`d058aba1`](https://github.com/gravis-os/gravis-os/commit/d058aba17ad791493f9d76b8a6e4f895808702f9) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(form): support to render custom files readonly section.
+
+* [#453](https://github.com/gravis-os/gravis-os/pull/453) [`360c81c8`](https://github.com/gravis-os/gravis-os/commit/360c81c8055212b5834cc7a038d8adb9005e27db) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(form): added filterLabel props in FormSectionFieldProps.
+  feat(crud): support to add custom filter label.
+  style(crud): lint.
+
+### Patch Changes
+
+- Updated dependencies [[`a97a4afc`](https://github.com/gravis-os/gravis-os/commit/a97a4afccbd4a38d249deef1c165b81a680ed1d0), [`e6276501`](https://github.com/gravis-os/gravis-os/commit/e6276501c0f62fdc17d3120521ce195803f74bac)]:
+  - @gravis-os/fields@1.6.0
+
 ## 1.6.0
 
 ### Minor Changes

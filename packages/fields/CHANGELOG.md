@@ -1,5 +1,16 @@
 # @gravis-os/fields
 
+## 1.6.0
+
+### Minor Changes
+
+- [#452](https://github.com/gravis-os/gravis-os/pull/452) [`e6276501`](https://github.com/gravis-os/gravis-os/commit/e6276501c0f62fdc17d3120521ce195803f74bac) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(fields): shrink select field when option value type is boolean.
+
+### Patch Changes
+
+- [#451](https://github.com/gravis-os/gravis-os/pull/451) [`a97a4afc`](https://github.com/gravis-os/gravis-os/commit/a97a4afccbd4a38d249deef1c165b81a680ed1d0) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - build(fields): fixed lint and ts check errors.
+  build(crud): rebuilt.
+
 ## 1.5.0
 
 ### Minor Changes
