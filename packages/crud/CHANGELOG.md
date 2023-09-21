@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.7.1
+
+### Patch Changes
+
+- [#455](https://github.com/gravis-os/gravis-os/pull/455) [`8c26c505`](https://github.com/gravis-os/gravis-os/commit/8c26c505194ab601b8c8d86e902736f1990ac207) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - build(crud, form, fields): rebuilt.
+
+- Updated dependencies [[`8c26c505`](https://github.com/gravis-os/gravis-os/commit/8c26c505194ab601b8c8d86e902736f1990ac207)]:
+  - @gravis-os/form@1.7.1
+
 ## 0.7.0
 
 ### Minor Changes
