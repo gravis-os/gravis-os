@@ -68,7 +68,11 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     fullWidth: true,
     InputLabelProps: {
       ...InputLabelProps,
-      ...(!isNil(value) ? { shrink: Boolean(value) } : {}),
+      ...(!isNil(value)
+        ? {
+            shrink: typeof value === 'boolean' ? true : Boolean(value),
+          }
+        : {}),
     },
     sx: {
       ...sx,
