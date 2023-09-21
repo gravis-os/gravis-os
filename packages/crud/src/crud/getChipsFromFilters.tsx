@@ -26,6 +26,7 @@ const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
       )
         return
 
+      const nextKey = fieldDefs?.[key]?.filterLabel ?? key
       const nextValue = getValueWithoutOp({ key, value, fieldDefs })
 
       if (key.endsWith('_id')) {
@@ -46,7 +47,7 @@ const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
         key,
         label: (
           <>
-            <b>{startCase(key)}</b>: {nextValue}
+            <b>{startCase(nextKey)}</b>: {nextValue}
           </>
         ),
         onDelete: handleDelete(key),
