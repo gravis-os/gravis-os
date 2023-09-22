@@ -64,7 +64,7 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
 const Image: React.FC<ImageProps> = (props) => {
   const {
     loading: injectedLoading,
-    ar = "16:9",
+    ar,
     scaleOnHover,
     fadeOnHover,
     sx,
