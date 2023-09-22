@@ -21,7 +21,7 @@
     "cs:version": "changeset version",
     "cs:publish": "changeset publish && git push --follow-tags",
     "cs:vp": "npm run cs:version && npm run cs:publish && git add . && git commit -m \"build: published changeset\" && git push",
-    "release": "npm run build && npm run cs:vp",
+    "release": "npm run build && npm run cs:version && npm run cs:publish",
     "test": "turbo run test"
   },
   "config": {
