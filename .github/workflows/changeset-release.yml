@@ -27,7 +27,8 @@ jobs:
         id: changesets
         uses: changesets/action@v1
         with:
-          title: ${{ format('release/{0}', github.ref) }}
+          title: >-
+            ${{ format('release: {0}', github.run_id) }}
           # This expects you to have a script called release which does a build for your packages and calls changeset publish
           publish: yarn ci:release
         env:
