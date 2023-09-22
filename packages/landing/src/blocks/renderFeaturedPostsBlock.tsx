@@ -1,5 +1,5 @@
 import { Post } from '@gravis-os/types'
-import { BlockItemProps } from 'src/web'
+import type { BlockItemProps } from '../web/Block/BlockItem'
 import renderPostsBlockItem from './renderPostsBlockItem'
 import { BlockProps } from '../web/Block/Block'
 
