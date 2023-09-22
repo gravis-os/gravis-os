@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.1
+
+### Patch Changes
+
+- [#459](https://github.com/gravis-os/gravis-os/pull/459) [`a6086bc7`](https://github.com/gravis-os/gravis-os/commit/a6086bc759a048cd64d774361f84faf9437bef64) Thanks [@clodal](https://github.com/clodal)! - Revert fallback in ar in Image component"
+
 ## 0.11.0
 
 ### Minor Changes
