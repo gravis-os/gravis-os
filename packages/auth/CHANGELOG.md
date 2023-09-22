@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- [#464](https://github.com/gravis-os/gravis-os/pull/464) [`4e9340bd`](https://github.com/gravis-os/gravis-os/commit/4e9340bd2878b553999018e7facb0f4196d3ae00) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(auth): support to customize bg image style by passing backgroundImgProps.
+
 ## 0.2.0
 
 ### Minor Changes
