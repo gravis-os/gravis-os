@@ -1,5 +1,11 @@
 # @gravis-os/landing
 
+## 1.1.0
+
+### Minor Changes
+
+- [#477](https://github.com/gravis-os/gravis-os/pull/477) [`e13f4527`](https://github.com/gravis-os/gravis-os/commit/e13f4527f29d3b519f391389db5350fa499b69a4) Thanks [@clodal](https://github.com/clodal)! - Update landing grid spacing
+
 ## 1.0.2
 
 ### Patch Changes
