@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.6.2
+
+### Patch Changes
+
+- [#465](https://github.com/gravis-os/gravis-os/pull/465) [`372044d2`](https://github.com/gravis-os/gravis-os/commit/372044d20bd009adc7db0dc10b92fa68ae871d80) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix percentage field inf loop
+
 ## 1.6.1
 
 ### Patch Changes
