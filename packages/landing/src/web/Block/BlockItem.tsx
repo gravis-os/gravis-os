@@ -240,7 +240,7 @@ const renderGrid = (props) => {
         {...containerProps}
       >
         <Box {...boxProps}>
-          <Grid container spacing={{ xs: 5, md: 10 }} {...gridProps}>
+          <Grid container spacing={{ xs: 2, md: 4 }} {...gridProps}>
             {gridItems.map((gridItem, i) => {
               const { items, dialogProps, boxProps, ...rest } = gridItem
 
