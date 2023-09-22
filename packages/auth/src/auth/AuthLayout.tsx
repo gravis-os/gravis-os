@@ -2,7 +2,7 @@ import React, { ReactNode } from 'react'
 import { StaticImageData } from 'next/image'
 import {
   Box,
-  BoxProps,
+  type BoxProps,
   Button,
   Card,
   Container,
@@ -10,6 +10,7 @@ import {
   Link,
   Grid,
   Image,
+  type ImageProps,
   Stack,
   Typography,
 } from '@gravis-os/ui'
@@ -27,6 +28,7 @@ export interface AuthLayoutProps extends BoxProps {
   logoProps?: BoxProps
   fullScreen?: boolean
   backgroundImgSrc?: string | StaticImageData
+  backgroundImgProps?: Omit<ImageProps, 'src'>
   copyright?: string | ReactNode
 }
 
@@ -43,6 +45,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
     sx,
     fullScreen,
     backgroundImgSrc,
+    backgroundImgProps = {},
     copyright,
     ...rest
   } = props
@@ -101,7 +104,11 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
           {/* Right Background */}
           {Boolean(backgroundImgSrc) && (
             <Grid item xs={false} md={5} sx={{ height: '100%' }}>
-              <Image src={backgroundImgSrc} boxSx={{ height: '100%', pb: 0 }} />
+              <Image
+                src={backgroundImgSrc}
+                boxSx={{ height: '100%', pb: 0 }}
+                {...backgroundImgProps}
+              />
             </Grid>
           )}
         </Grid>
