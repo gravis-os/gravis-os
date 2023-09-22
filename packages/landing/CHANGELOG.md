@@ -1,5 +1,11 @@
 # @gravis-os/landing
 
+## 1.0.1
+
+### Patch Changes
+
+- [#462](https://github.com/gravis-os/gravis-os/pull/462) [`9cdd74bd`](https://github.com/gravis-os/gravis-os/commit/9cdd74bd9b85e9e7af0331543eec4e50906bdf04) Thanks [@clodal](https://github.com/clodal)! - Fix build error due to bad import
+
 ## 1.0.0
 
 ### Minor Changes
