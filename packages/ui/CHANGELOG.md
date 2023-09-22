@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.11.2
+
+### Patch Changes
+
+- [#473](https://github.com/gravis-os/gravis-os/pull/473) [`95bc8dbb`](https://github.com/gravis-os/gravis-os/commit/95bc8dbbca69c50d1e24d681912013b0ef35738d) Thanks [@clodal](https://github.com/clodal)! - Publish rebuild
+
 ## 0.11.1
 
 ### Patch Changes
