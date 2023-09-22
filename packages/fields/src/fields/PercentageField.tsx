@@ -1,5 +1,6 @@
-import React, { forwardRef, useEffect } from 'react'
+import React, { forwardRef, useCallback } from 'react'
 import NumberFormat, { NumberFormatProps } from 'react-number-format'
+import debounce from 'lodash/debounce'
 import TextField, { TextFieldProps } from './TextField'
 
 export interface PercentageFieldProps
@@ -13,11 +14,16 @@ const PercentageField = forwardRef<
   PercentageFieldProps
 >((props, ref) => {
   const { onChange, value, ...rest } = props
-  const [displayValue, setDisplayValue] = React.useState(value)
+  const [displayValue, setDisplayValue] = React.useState(value * 100)
 
-  useEffect(() => {
-    setDisplayValue(value * 100)
-  }, [value])
+  const handleValueChange = useCallback(
+    debounce((target) => {
+      if (target.floatValue !== value * 100) {
+        onChange(target.floatValue / 100)
+      }
+    }, 300),
+    []
+  )
 
   return (
     <NumberFormat
@@ -29,9 +35,7 @@ const PercentageField = forwardRef<
       decimalScale={2}
       onValueChange={(target) => {
         setDisplayValue(target.floatValue)
-        if (target.floatValue !== value) {
-          onChange(target.floatValue / 100)
-        }
+        handleValueChange(target)
       }}
       isNumericString
       suffix="%"
