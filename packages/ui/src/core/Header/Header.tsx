@@ -1,7 +1,9 @@
 import React, { useEffect } from 'react'
-import MenuIcon from '@mui/icons-material/Menu'
+
+import { WithPaletteModeProps, withPaletteMode } from '@gravis-os/theme'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
+import MenuIcon from '@mui/icons-material/Menu'
 import {
   Button,
   ButtonProps,
@@ -12,74 +14,74 @@ import {
   ToolbarProps,
   useMediaQuery,
 } from '@mui/material'
-import { SxProps } from '@mui/system'
-import { useRouter } from 'next/router'
 import { useTheme } from '@mui/material/styles'
+import { SxProps } from '@mui/system'
 import useScrollPosition from '@react-hook/window-scroll'
-import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import flowRight from 'lodash/flowRight'
 import merge from 'lodash/merge'
-import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
+import { useRouter } from 'next/router'
+
+import useOpen from '../../hooks/useOpen'
+import AppBar, { AppBarProps } from '../AppBar'
+import Box, { BoxProps } from '../Box'
+import Container, { ContainerProps } from '../Container'
+import Image, { ImageProps } from '../Image'
+import Link from '../Link'
 import NavAccordion, { NavAccordionProps } from '../NavAccordion'
+import HeaderAnnouncement, {
+  HeaderAnnouncementProps,
+} from './HeaderAnnouncement'
 import HeaderButtonWithMenu, {
   HeaderButtonWithMenuProps,
   NavItemClickFunction,
 } from './HeaderButtonWithMenu'
-import Container, { ContainerProps } from '../Container'
+import HeaderSearch, { HeaderSearchProps } from './HeaderSearch'
 import HideOnScroll from './HideOnScroll'
-import Link from '../Link'
-import Box, { BoxProps } from '../Box'
-import Image, { ImageProps } from '../Image'
-import AppBar, { AppBarProps } from '../AppBar'
-import useOpen from '../../hooks/useOpen'
-import HeaderAnnouncement, {
-  HeaderAnnouncementProps,
-} from './HeaderAnnouncement'
 
 export interface HeaderNavItem
   extends Omit<HeaderButtonWithMenuProps, 'title'> {
-  key: string
-  sx?: SxProps
-  title?: HeaderButtonWithMenuProps['title']
   children?: React.ReactNode
-
-  // Clicks
-  href?: string
-  onClick?: NavItemClickFunction
-
   // Custom
   hideInMobileDrawer?: boolean
-  showOnMobileBar?: boolean
+  // Clicks
+  href?: string
+  key: string
+
   offsetLeft?: boolean
+  onClick?: NavItemClickFunction
+
   preset?: {
     type: 'logo' | 'search'
   } & Record<string, unknown> // NavItemSearchPreset
   render?: (renderProps: any) => React.ReactNode
+  showOnMobileBar?: boolean
+  sx?: SxProps
+  title?: HeaderButtonWithMenuProps['title']
 }
 
 export interface HeaderProps extends AppBarProps, WithPaletteModeProps {
   accordionProps?: Omit<NavAccordionProps, 'title'>
   announcement?: HeaderAnnouncementProps
+  center?: boolean
   containerProps?: ContainerProps
-  toolbarProps?: ToolbarProps
+  disableRightDrawer?: boolean
+  disableScrollTrigger?: boolean
+  disableSticky?: boolean
+  drawerWidth?: BoxProps['width']
+  height?: number
+  invertLogo?: boolean
   navItems: {
-    left?: HeaderNavItem[]
     center?: HeaderNavItem[]
+    left?: HeaderNavItem[]
     right?: HeaderNavItem[]
   }
   renderProps?: any
-  center?: boolean
-  disableScrollTrigger?: boolean
-  disableSticky?: boolean
-  disableRightDrawer?: boolean
-  height?: number
-  drawerWidth?: BoxProps['width']
   textColor?: string
+  toolbarProps?: ToolbarProps
   /**
    * The scroll position at which the header will become translucent instead.
    */
   translucentAtScrollY?: number
-  invertLogo?: boolean
 }
 
 // ==============================
@@ -98,7 +100,7 @@ const getCombinedMobileNavItems = (navItems) => {
   )
 }
 const withInvertLogoInNavItems =
-  ({ invertLogo, translucentAtScrollY, isTranslucentAtScrollY }) =>
+  ({ invertLogo, isTranslucentAtScrollY, translucentAtScrollY }) =>
   (navItems: HeaderProps['navItems']) => {
     return Object.entries(navItems).reduce((acc, [key, value]) => {
       // key here is left, center, or right
@@ -131,16 +133,16 @@ const withInvertLogoInNavItems =
 // Renders
 // ==============================
 const renderNavItemPreset = (props: {
-  navItem: HeaderNavItem
   boxProps?: BoxProps
   isMobile?: boolean
+  navItem: HeaderNavItem
 }) => {
-  const { navItem, boxProps, isMobile } = props
+  const { boxProps, isMobile, navItem } = props
   const { preset } = navItem
   const { type, ...presetProps } = preset
 
   switch (type) {
-    case 'logo':
+    case 'logo': {
       const logoImageProps = {
         ...(preset.logoProps as ImageProps),
         sx: {
@@ -157,16 +159,16 @@ const renderNavItemPreset = (props: {
           href="/"
           {...boxProps}
           sx={{
-            // Ensure that the box is stretched out vertically
-            height: '100%',
-            // Adds a gutter between the logo and other navItems
-            px: 2,
-            // Offset margin left against the px
-            ml: -2,
             // Hover effects
             '&:hover': { backgroundColor: 'action.hover' },
+            // Ensure that the box is stretched out vertically
+            height: '100%',
+            // Offset margin left against the px
+            ml: -2,
+            // Adds a gutter between the logo and other navItems
+            px: 2,
             // Mobile props
-            ...(isMobile && { py: 1.5, px: 3, ml: 0 }),
+            ...(isMobile && { ml: 0, px: 3, py: 1.5 }),
             // Rest
             ...boxProps?.sx,
             // Overwrite to ensure that logo is always shown
@@ -176,14 +178,17 @@ const renderNavItemPreset = (props: {
           {logoChildrenJsx}
         </Box>
       )
-    case 'search':
+    }
+    case 'search': {
       return <HeaderSearch {...(presetProps as unknown as HeaderSearchProps)} />
-    default:
+    }
+    default: {
       return null
+    }
   }
 }
 const renderNavItems = (navItems, props) => {
-  const { router, renderProps } = props
+  const { renderProps, router } = props
 
   if (
     !navItems ||
@@ -193,7 +198,7 @@ const renderNavItems = (navItems, props) => {
     return null
 
   return navItems.filter(Boolean).map((navItem: HeaderNavItem, i) => {
-    const { children, showOnMobileBar, offsetLeft, preset, render, sx } =
+    const { children, offsetLeft, preset, render, showOnMobileBar, sx } =
       navItem
 
     if (!navItem) return null
@@ -202,12 +207,12 @@ const renderNavItems = (navItems, props) => {
 
     // Get classes
     const boxProps = {
-      key,
-      component: 'div' as const,
       alignItems: 'center',
+      component: 'div' as const,
+      key,
       sx: {
-        display: { xs: 'none', md: 'flex' },
         '& > button': { whiteSpace: 'nowrap' },
+        display: { xs: 'none', md: 'flex' },
         ...(showOnMobileBar && { display: 'flex' }),
         ...(offsetLeft && { ml: -2 }),
         ...sx,
@@ -216,24 +221,27 @@ const renderNavItems = (navItems, props) => {
 
     switch (true) {
       // Render with renderProps to access state
-      case typeof render === 'function':
+      case typeof render === 'function': {
         return <Box {...boxProps}>{render({ ...renderProps, navItem })}</Box>
+      }
       // Render children override
-      case Boolean(children):
+      case Boolean(children): {
         return <Box {...boxProps}>{children}</Box>
+      }
       // Render presets
-      case Boolean(preset):
-        return renderNavItemPreset({ navItem, boxProps })
+      case Boolean(preset): {
+        return renderNavItemPreset({ boxProps, navItem })
+      }
       // Render children
-      default:
+      default: {
         const renderHeaderNavItemButton = (navItem: HeaderNavItem) => {
           const {
-            disableNewTabIcon,
             buttonProps,
+            disableNewTabIcon,
             onClick: injectedOnClick,
             ...rest
           } = navItem
-          const { items, renderItems, href, linkProps } = rest
+          const { href, items, linkProps, renderItems } = rest
 
           // Render nested menu if hasItems
           const hasNestedMenu = items?.length > 0 || Boolean(renderItems)
@@ -255,8 +263,8 @@ const renderNavItems = (navItems, props) => {
               height: '100%',
               lineHeight: 1,
               ...buttonProps?.sx,
-              p: 1.5,
               borderRadius: 0,
+              p: 1.5,
               whiteSpace: 'nowrap',
               ...(isActive && {
                 boxShadow: ({ palette }) =>
@@ -275,8 +283,8 @@ const renderNavItems = (navItems, props) => {
 
           const navItemButtonJsx = hasNestedMenu ? (
             <HeaderButtonWithMenu
-              key={key}
               buttonProps={nextButtonProps}
+              key={key}
               {...(rest as HeaderButtonWithMenuProps)}
             />
           ) : (
@@ -288,10 +296,10 @@ const renderNavItems = (navItems, props) => {
           if (navItem.href) {
             return (
               <Link
-                href={navItem.href}
                 color="inherit"
-                underline="none"
                 fadeOnHover
+                href={navItem.href}
+                underline="none"
                 {...linkProps}
                 sx={{ ...linkProps?.sx, height: '100%' }}
               >
@@ -303,11 +311,12 @@ const renderNavItems = (navItems, props) => {
           return navItemButtonJsx
         }
         return <Box {...boxProps}>{renderHeaderNavItemButton(navItem)}</Box>
+      }
     }
   })
 }
 const renderMobileNavItems = (navItems, props) => {
-  const { closeDrawer, accordionProps, isGroupedNavItems } = props
+  const { accordionProps, closeDrawer, isGroupedNavItems } = props
 
   const mobileNavItems = (
     isGroupedNavItems ? getCombinedMobileNavItems(navItems) : navItems
@@ -316,41 +325,42 @@ const renderMobileNavItems = (navItems, props) => {
   return mobileNavItems.map((navItem, i) => {
     // Omit redundant props
     const {
-      onClick: injectedOnClick,
-      preset,
-      isOpenOnHover,
-      renderItems,
       fullWidth,
       hideInMobileDrawer,
+      isOpenOnHover,
+      onClick: injectedOnClick,
+      preset,
+      renderItems,
       showOnMobileBar,
       ...accordionLinksNavItem
     } = navItem
 
     const key = `mobile-nav-item-${i}`
     const boxProps = {
-      key,
-      component: 'div' as const,
       alignItems: 'center',
+      component: 'div' as const,
+      key,
       sx: { display: 'flex', ...navItem.sx },
     }
 
     // Render
     switch (true) {
-      case Boolean(preset):
+      case Boolean(preset): {
         return (
           <React.Fragment key={key}>
             {renderNavItemPreset({
-              navItem,
               boxProps,
               isMobile: true,
+              navItem,
             })}
           </React.Fragment>
         )
-      default:
+      }
+      default: {
         return (
           <NavAccordion
-            key={key}
             id={key}
+            key={key}
             onClick={(e) => {
               closeDrawer()
               if (injectedOnClick) injectedOnClick(e, navItem)
@@ -359,6 +369,7 @@ const renderMobileNavItems = (navItems, props) => {
             {...accordionLinksNavItem}
           />
         )
+      }
     }
   })
 }
@@ -374,24 +385,24 @@ const renderMobileNavItems = (navItems, props) => {
  */
 const Header: React.FC<HeaderProps> = (props) => {
   const {
+    accordionProps,
     announcement,
-    containerProps,
     center,
+    containerProps,
+    dark,
+    disableRightDrawer,
     disableScrollTrigger,
     disableSticky,
-    disableRightDrawer,
     drawerWidth = 320,
-    navItems: injectedNavItems,
-    accordionProps,
-    renderProps,
-    toolbarProps,
     height,
+    invertLogo,
     mode,
-    dark,
+    navItems: injectedNavItems,
+    renderProps,
     sx,
     textColor = 'text.primary',
+    toolbarProps,
     translucentAtScrollY,
-    invertLogo,
     ...rest
   } = props
 
@@ -399,7 +410,7 @@ const Header: React.FC<HeaderProps> = (props) => {
   const router = useRouter()
 
   // State
-  const [isDrawerOpen, { open: openDrawer, close: closeDrawer }] =
+  const [isDrawerOpen, { close: closeDrawer, open: openDrawer }] =
     useOpen(false)
 
   // Hide drawer on desktop
@@ -428,8 +439,8 @@ const Header: React.FC<HeaderProps> = (props) => {
   const navItems = flowRight(
     withInvertLogoInNavItems({
       invertLogo,
-      translucentAtScrollY,
       isTranslucentAtScrollY,
+      translucentAtScrollY,
     })
   )(cleanedNavItems)
   const mobileNavItems = cleanedNavItems
@@ -438,20 +449,20 @@ const Header: React.FC<HeaderProps> = (props) => {
   const isGroupedNavItems =
     typeof navItems === 'object' && !Array.isArray(navItems)
   const hasNavItemCenterGroup = isGroupedNavItems && 'center' in navItems
-  const navItemGroupSx = { display: 'flex', alignItems: 'stretch' }
+  const navItemGroupSx = { alignItems: 'stretch', display: 'flex' }
   const renderNavItemsProps = {
     ...props,
 
-    // Router
-    router,
+    closeDrawer,
 
     // Drawer
     isDrawerOpen,
-    openDrawer,
-    closeDrawer,
-
     // Grouped
     isGroupedNavItems,
+    openDrawer,
+
+    // Router
+    router,
   }
 
   // ChildrenJsx
@@ -465,8 +476,8 @@ const Header: React.FC<HeaderProps> = (props) => {
         ...rest,
         ...(disableSticky && { position: 'static' }),
         ...(isTranslucentAtScrollY && {
-          transparent: false,
           translucent: true,
+          transparent: false,
         }),
       }}
     >
@@ -485,8 +496,8 @@ const Header: React.FC<HeaderProps> = (props) => {
           variant="dense"
           {...toolbarProps}
           sx={{
-            justifyContent: 'space-between',
             alignItems: 'stretch',
+            justifyContent: 'space-between',
             ...(typeof height === 'number' && { height }),
             ...toolbarProps?.sx,
           }}
@@ -505,10 +516,10 @@ const Header: React.FC<HeaderProps> = (props) => {
           <Box
             sx={{
               ...navItemGroupSx,
+              '& > *': { width: '100%' },
               flexGrow: 1,
               justifyContent: 'center',
               textAlign: 'center',
-              '& > *': { width: '100%' },
 
               // Flex box if we pass in center: true
               ...(center && {
@@ -552,9 +563,9 @@ const Header: React.FC<HeaderProps> = (props) => {
           {!disableRightDrawer && (
             <Box sx={{ display: { xs: 'flex', md: 'none' } }}>
               <IconButton
-                edge="end"
-                color="inherit"
                 aria-label="menu"
+                color="inherit"
+                edge="end"
                 onClick={openDrawer}
               >
                 <MenuIcon />
@@ -567,18 +578,18 @@ const Header: React.FC<HeaderProps> = (props) => {
       {/* Mobile navItems */}
       {!disableRightDrawer && (
         <SwipeableDrawer
-          anchor="right"
-          open={isDrawerOpen}
-          onOpen={openDrawer}
-          onClose={closeDrawer}
           PaperProps={{ sx: { '&::-webkit-scrollbar': { display: 'none' } } }}
+          anchor="right"
+          onClose={closeDrawer}
+          onOpen={openDrawer}
+          open={isDrawerOpen}
         >
           <Box
-            width={drawerWidth}
-            role="presentation"
             onKeyDown={(e) => {
               if (e.key === 'Escape') return closeDrawer()
             }}
+            role="presentation"
+            width={drawerWidth}
           >
             <Box textAlign="right">
               <IconButton color="inherit" onClick={closeDrawer}>
@@ -596,17 +607,17 @@ const Header: React.FC<HeaderProps> = (props) => {
 
   const childrenWithLayoutJsx = (
     <>
-      {!disableScrollTrigger ? (
-        <HideOnScroll threshold={10}>{childrenJsx}</HideOnScroll>
-      ) : (
+      {disableScrollTrigger ? (
         childrenJsx
+      ) : (
+        <HideOnScroll threshold={10}>{childrenJsx}</HideOnScroll>
       )}
     </>
   )
 
   return withPaletteMode({
-    mode,
     dark,
+    mode,
   })(childrenWithLayoutJsx)
 }
 

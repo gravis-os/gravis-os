@@ -1,33 +1,35 @@
 import React, { useState } from 'react'
+
 import {
+  Breakpoint,
   ImageList as MuiImageList,
-  ImageListProps as MuiImageListProps,
   ImageListItem as MuiImageListItem,
   ImageListItemProps as MuiImageListItemProps,
-  Breakpoint,
+  ImageListProps as MuiImageListProps,
 } from '@mui/material'
-import { ResponsiveSxProp } from '../utils'
+
 import Box from '../core/Box'
+import { ResponsiveSxProp } from '../utils'
 import ViewAllDialogButton from './Slider/ViewAllDialogButton'
 
 export interface ImageListProps
   extends Omit<MuiImageListProps, 'children' | 'cols'> {
-  items?: React.ReactNode[]
-  cols?: ResponsiveSxProp | MuiImageListProps['cols']
+  cols?: MuiImageListProps['cols'] | ResponsiveSxProp
   itemProps?: MuiImageListItemProps[]
+  items?: React.ReactNode[]
+  previewItemCount?: number
   viewAll?: boolean
   viewAllOnClick?: boolean
-  previewItemCount?: number
 }
 
 const ImageList: React.FC<ImageListProps> = (props) => {
   const {
+    itemProps,
+    items,
     previewItemCount,
+    sx,
     viewAll,
     viewAllOnClick,
-    items,
-    itemProps,
-    sx,
     ...rest
   } = props
   const { cols = { xs: 1, md: 2 } } = rest
@@ -61,8 +63,8 @@ const ImageList: React.FC<ImageListProps> = (props) => {
           // View all onClick
           ...(viewAllOnClick && {
             '& .MuiImageListItem-root:hover': {
-              opacity: 0.8,
               cursor: 'pointer',
+              opacity: 0.8,
             },
           }),
 

@@ -1,7 +1,9 @@
 import React from 'react'
-import { Button, ButtonProps } from '@mui/material'
+
 import ArrowForwardIcon from '@mui/icons-material/ArrowForward'
 import LaunchOutlinedIcon from '@mui/icons-material/LaunchOutlined'
+import { Button, ButtonProps } from '@mui/material'
+
 import Link from './Link'
 
 export interface ButtonLinkProps extends ButtonProps {
@@ -11,7 +13,7 @@ export interface ButtonLinkProps extends ButtonProps {
 }
 
 const ButtonLink: React.FC<ButtonLinkProps> = (props) => {
-  const { href, children, openInNewTab, showLinkIcon, ...rest } = props
+  const { children, href, openInNewTab, showLinkIcon, ...rest } = props
 
   const EndIcon = showLinkIcon ? LaunchOutlinedIcon : ArrowForwardIcon
 

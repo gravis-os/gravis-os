@@ -1,22 +1,24 @@
 import React from 'react'
-import flowRight from 'lodash/flowRight'
+
 import {
   IconButton as MuiIconButton,
   IconButtonProps as MuiIconButtonProps,
 } from '@mui/material'
-import withTooltip from './withTooltip'
+import flowRight from 'lodash/flowRight'
+
 import withHref from './withHref'
+import withTooltip from './withTooltip'
 
 export interface IconButtonProps extends MuiIconButtonProps {
-  title?: string
   component?: React.JSXElementConstructor<any> | string
   href?: string
-  tooltip?: string
   targetBlank?: boolean
+  title?: string
+  tooltip?: string
 }
 
 const IconButton: React.FC<IconButtonProps> = (props) => {
-  const { title, href, children, tooltip, targetBlank, sx, ...rest } = props
+  const { title, children, href, sx, targetBlank, tooltip, ...rest } = props
   const { color } = rest
 
   const childrenJsx = (

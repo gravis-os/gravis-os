@@ -1,4 +1,6 @@
 import React from 'react'
+
+import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
 import {
   Backdrop,
   Button,
@@ -9,63 +11,63 @@ import {
   MenuList,
   Paper,
   Popper,
+  PopperProps,
   Portal,
   Slide,
   Typography,
-  PopperProps,
 } from '@mui/material'
-import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
 import {
+  PopupState,
   bindHover,
   bindPopper,
   bindTrigger,
   usePopupState,
-  PopupState,
 } from 'material-ui-popup-state/hooks'
+
 import Link, { LinkProps } from '../Link'
 
 export type NavItemClickFunction = (e: React.MouseEvent, item: any) => void
 
 export interface RecursiveNavItemInterface {
-  key: string
-  title?: React.ReactNode
-  label?: React.ReactNode
   href?: string
+  key: string
+  label?: React.ReactNode
   onClick?: NavItemClickFunction
+  title?: React.ReactNode
 }
 
 export interface HeaderButtonWithMenuProps {
-  title?: React.ReactNode
+  buttonProps?: ButtonProps
 
+  disableBackdrop?: boolean
+  disableNewTabIcon?: boolean
+
+  fullWidth?: boolean
+  isOpenOnHover?: boolean
   items?: RecursiveNavItemInterface[]
+  linkProps?: LinkProps
+  popperProps?: Omit<PopperProps, 'open'>
   renderItems?: ({
     popupState,
   }: {
     popupState: PopupState
   }) => React.ReactElement
-
-  isOpenOnHover?: boolean
-  fullWidth?: boolean
-  disableNewTabIcon?: boolean
-  buttonProps?: ButtonProps
   sx?: ButtonProps['sx']
-  linkProps?: LinkProps
-  disableBackdrop?: boolean
-  popperProps?: Omit<PopperProps, 'open'>
+  title?: React.ReactNode
 }
 
 const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
   const {
-    disableBackdrop,
-    sx,
     title,
-    items,
-    renderItems,
+    buttonProps,
+    disableBackdrop,
     fullWidth,
     isOpenOnHover,
-    buttonProps,
+    items,
     linkProps,
     popperProps,
+    renderItems,
+    sx,
   } = props
 
   // Refs
@@ -92,19 +94,20 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
     const isMegaMenu = Boolean(renderItems)
 
     switch (true) {
-      case isMegaMenu:
+      case isMegaMenu: {
         return renderItems({ popupState })
-      default:
+      }
+      default: {
         return (
           <MenuList
             sx={{
               minWidth: 150,
-              paddingTop: 0,
               paddingBottom: 0,
+              paddingTop: 0,
             }}
           >
             {items.map((item, i) => {
-              const { onClick: injectedOnClick } = item
+              const { title, href, label, onClick: injectedOnClick } = item
 
               const key = `menu-item-${i}`
 
@@ -118,36 +121,30 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
                   key={key}
                   onClick={handleClick}
                   sx={{
-                    pt: 1,
-                    pb: 1,
-                    borderBottom: (theme) =>
-                      `1px solid ${theme.palette.divider}`,
                     '&:hover': {
                       backgroundColor: 'action.hover',
                     },
+                    borderBottom: (theme) =>
+                      `1px solid ${theme.palette.divider}`,
+                    pb: 1,
+                    pt: 1,
                   }}
                 >
-                  <Typography variant="button">
-                    {item.title || item.label}
-                  </Typography>
+                  <Typography variant="button">{title || label}</Typography>
                 </MenuItem>
               )
 
               if (injectedOnClick) return navItemJsx
 
               return (
-                <Link
-                  href={item.href}
-                  key={key}
-                  underline="none"
-                  {...linkProps}
-                >
+                <Link href={href} key={key} underline="none" {...linkProps}>
                   {navItemJsx}
                 </Link>
               )
             })}
           </MenuList>
         )
+      }
     }
   }
 
@@ -171,20 +168,20 @@ const HeaderButtonWithMenu: React.FC<HeaderButtonWithMenuProps> = (props) => {
 
       <Popper
         {...bindPopper(popupState)}
-        transition
         anchorEl={anchorRef.current}
         placement={fullWidth ? 'bottom' : 'bottom-start'}
         sx={{
           zIndex: (theme) => theme.zIndex.appBar,
           ...(fullWidth && {
-            width: '100vw',
             maxWidth: '100%',
             pointerEvents: 'none',
+            width: '100vw',
           }),
         }}
+        transition
         {...popperProps}
       >
-        {({ TransitionProps, placement }) => (
+        {({ placement, TransitionProps }) => (
           <ClickAwayListener onClickAway={popupState.close} ref={containerRef}>
             <Transition
               {...TransitionProps}

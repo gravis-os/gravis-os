@@ -1,6 +1,8 @@
+import React, { useState } from 'react'
+
 import faker from '@faker-js/faker'
 import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
-import React, { useState } from 'react'
+
 import { getCoreStorybookTitle } from '../../utils/getStorybookTitle'
 import Avatar from '../Avatar'
 import Box from '../Box'
@@ -19,14 +21,14 @@ export const Vertical = () => <Sortable layout={SortableLayout.Vertical} />
 export const Grid = () => <Sortable layout={SortableLayout.Grid} />
 
 const MyCard = (props) => {
-  const { id, active, onRemove, item, dragProps } = props
+  const { id, active, dragProps, item, onRemove } = props
   const { title } = item
 
   return (
     <>
       <Card
-        stretch
         disableHeaderDivider
+        stretch
         title={`${id}: ${title}`}
         {...dragProps}
       />
@@ -41,16 +43,16 @@ const MyCard = (props) => {
 }
 
 const MyAvatar = (props) => {
-  const { active, onRemove, item, dragProps } = props
+  const { active, dragProps, item, onRemove } = props
   const { title, src } = item
   const avatarSize = 120
 
   return (
     <>
       <Avatar
-        sx={{ width: avatarSize, height: avatarSize }}
-        src={src}
         alt={title}
+        src={src}
+        sx={{ height: avatarSize, width: avatarSize }}
         {...dragProps}
       />
 
@@ -78,22 +80,22 @@ export const CustomHorizontal = () => {
       {JSON.stringify(sortKeys)}
       <Box
         sx={{
-          width: 540,
-          overflowY: 'hidden',
-          overflowX: 'scroll',
           '&::-webkit-scrollbar': {
-            width: 0,
             background: 'transparent',
+            width: 0,
           },
+          overflowX: 'scroll',
+          overflowY: 'hidden',
+          width: 540,
         }}
       >
         <Sortable
-          spacing={0.5}
-          sortKeys={sortKeys}
-          setSortKeys={setSortKeys}
-          layout={SortableLayout.Horizontal}
           items={MOCK_ITEMS}
+          layout={SortableLayout.Horizontal}
           renderItem={(renderProps) => <MyAvatar {...renderProps} />}
+          setSortKeys={setSortKeys}
+          sortKeys={sortKeys}
+          spacing={0.5}
         />
       </Box>
     </>
@@ -107,11 +109,11 @@ export const CustomGrid = () => {
     <>
       {JSON.stringify(sortKeys)}
       <Sortable
-        sortKeys={sortKeys}
-        setSortKeys={setSortKeys}
-        layout={SortableLayout.Grid}
         items={MOCK_ITEMS}
+        layout={SortableLayout.Grid}
         renderItem={(renderProps) => <MyCard {...renderProps} />}
+        setSortKeys={setSortKeys}
+        sortKeys={sortKeys}
       />
     </>
   )

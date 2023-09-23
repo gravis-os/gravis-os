@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { Stack as MuiStack, StackProps as MuiStackProps } from '@mui/material'
+
 import Divider from './Divider'
 
 const getColumnOrRow = (direction) =>
@@ -7,20 +9,20 @@ const getColumnOrRow = (direction) =>
 
 export interface StackProps extends MuiStackProps {
   center?: boolean
+  component?: React.ElementType
+  divider?: React.ReactNode
+  horizontalDividers?: boolean
   reverseDirectionOnMobile?: boolean
   verticalDividers?: boolean
-  horizontalDividers?: boolean
-  divider?: React.ReactNode
-  component?: React.ElementType
 }
 
 const Stack: React.FC<StackProps> = (props) => {
   const {
-    sx,
     center,
-    reverseDirectionOnMobile,
-    verticalDividers,
     horizontalDividers,
+    reverseDirectionOnMobile,
+    sx,
+    verticalDividers,
     ...rest
   } = props
   const { direction = 'column', spacing } = rest
@@ -31,17 +33,17 @@ const Stack: React.FC<StackProps> = (props) => {
 
       // Direction  Overwrite default direction to add the necessary spacing
       ...(reverseDirectionOnMobile && {
-        flexDirection: { xs: getColumnOrRow(direction), md: direction },
         '& > :not(style)+:not(style)': {
-          marginTop: {
-            xs: direction === 'column' ? 0 : spacing,
-            md: direction === 'column' ? spacing : 0,
-          },
           marginLeft: {
             xs: direction === 'column' ? spacing : 0,
             md: direction === 'column' ? 0 : spacing,
           },
+          marginTop: {
+            xs: direction === 'column' ? 0 : spacing,
+            md: direction === 'column' ? spacing : 0,
+          },
         },
+        flexDirection: { xs: getColumnOrRow(direction), md: direction },
       }),
 
       // Center
@@ -55,7 +57,7 @@ const Stack: React.FC<StackProps> = (props) => {
 
     // Vertical Dividers
     ...(verticalDividers && {
-      divider: <Divider orientation="vertical" flexItem />,
+      divider: <Divider flexItem orientation="vertical" />,
     }),
 
     // Horizontal Dividers

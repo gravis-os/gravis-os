@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Box from './Box'
 import Button from './Button'
@@ -8,17 +9,17 @@ import Drawer from './Drawer'
 const anchors = ['left', 'right', 'top', 'bottom']
 export default {
   title: getCoreStorybookTitle(Drawer.name),
-  component: Drawer,
   args: {
     anchor: 'left',
     children: 'Label',
   },
   argTypes: {
     anchor: {
-      options: anchors,
       control: { type: 'select' },
+      options: anchors,
     },
   },
+  component: Drawer,
 }
 
 /* Template */
@@ -27,10 +28,10 @@ const Template = (args) => {
   const [open, setOpen] = useState(false)
   return (
     <>
-      <Button variant="contained" onClick={() => setOpen(true)}>
+      <Button onClick={() => setOpen(true)} variant="contained">
         Click
       </Button>
-      <Drawer open={open} anchor={anchor} onClose={() => setOpen(false)}>
+      <Drawer anchor={anchor} onClose={() => setOpen(false)} open={open}>
         <Box p={3}>{children}</Box>
       </Drawer>
     </>

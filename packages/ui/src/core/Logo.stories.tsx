@@ -1,24 +1,26 @@
-import LocalAirportIcon from '@mui/icons-material/LocalAirport'
 import React from 'react'
+
+import LocalAirportIcon from '@mui/icons-material/LocalAirport'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Logo from './Logo'
 
 /* Constants */
 export default {
   title: getCoreStorybookTitle(Logo.name),
-  component: Logo,
   args: {
     title: 'Label',
     spacing: 1,
   },
   argTypes: {
-    wordmark: {
-      control: { type: 'text' },
-    },
     emblem: {
       control: { type: 'object' },
     },
+    wordmark: {
+      control: { type: 'text' },
+    },
   },
+  component: Logo,
 }
 
 /* Template */
@@ -35,6 +37,6 @@ Emblem.args = {
 
 export const WordMark = Template.bind({})
 WordMark.args = {
-  wordmark: 'Word',
   emblem: <LocalAirportIcon />,
+  wordmark: 'Word',
 }

@@ -1,47 +1,48 @@
 import React from 'react'
+
 import {
   AppBar as MuiAppbar,
   AppBarProps as MuiAppbarProps,
 } from '@mui/material'
 
 export interface AppBarProps extends MuiAppbarProps {
-  disableBoxShadow?: boolean
   disableBorderBottom?: boolean
-  transparent?: boolean
+  disableBoxShadow?: boolean
   translucent?: boolean
+  transparent?: boolean
 }
 
 const AppBar = React.forwardRef<any, React.PropsWithChildren<AppBarProps>>(
   (props, ref) => {
     const {
-      transparent,
-      translucent,
-      disableBoxShadow,
       disableBorderBottom,
+      disableBoxShadow,
       sx,
+      translucent,
+      transparent,
       ...rest
     } = props
 
     return (
       <MuiAppbar
-        ref={ref}
-        position="sticky"
         color="inherit"
+        position="sticky"
+        ref={ref}
         {...((transparent || translucent) && { color: 'transparent' })}
         {...rest}
         sx={{
-          zIndex: (theme) => theme.zIndex.appBar + 1,
-          width: '100%',
-
-          // Scroll
-          overflowX: 'scroll',
-          overflowY: 'hidden',
           '&::-webkit-scrollbar': { display: 'none' },
-
           // Box Shadow
           boxShadow: disableBoxShadow
             ? 'none'
             : '0 0 1px 0 rgb(0 0 0 / 5%), 0 3px 4px -2px rgb(0 0 0 / 8%)',
+
+          // Scroll
+          overflowX: 'scroll',
+          overflowY: 'hidden',
+          width: '100%',
+
+          zIndex: (theme) => theme.zIndex.appBar + 1,
 
           // BorderBottom
           ...(!disableBorderBottom && {

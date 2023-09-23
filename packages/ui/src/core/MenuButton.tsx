@@ -1,35 +1,37 @@
 import React from 'react'
-import PopupState, {
-  bindTrigger,
-  bindMenu,
-  InjectedProps,
-} from 'material-ui-popup-state'
-import {
-  Menu as MuiMenu,
-  MenuProps as MuiMenuProps,
-  MenuItem as MuiMenuItem,
-  MenuItemProps as MuiMenuItemProps,
-  ListItemIcon,
-  ListItemText,
-  ListItemIconProps,
-  ListItemTextProps,
-} from '@mui/material'
+
 import { RenderPropsFunction } from '@gravis-os/types'
 import ArrowDropDownOutlinedIcon from '@mui/icons-material/ArrowDropDownOutlined'
+import {
+  ListItemIcon,
+  ListItemIconProps,
+  ListItemText,
+  ListItemTextProps,
+  Menu as MuiMenu,
+  MenuItem as MuiMenuItem,
+  MenuItemProps as MuiMenuItemProps,
+  MenuProps as MuiMenuProps,
+} from '@mui/material'
+import PopupState, {
+  InjectedProps,
+  bindMenu,
+  bindTrigger,
+} from 'material-ui-popup-state'
+
 import GvsButton, { ButtonProps } from './Button'
 
 const renderItems = ({
   items,
-  popupState,
   listItemIconProps,
   listItemTextProps,
   menuItemProps,
+  popupState,
   size,
 }) => {
   const isSmall = size === 'small'
 
   return items.map((item) => {
-    const { key, value, label, icon, onClick: injectedOnClick, ...rest } = item
+    const { icon, key, label, onClick: injectedOnClick, value, ...rest } = item
     const handleClick = (e) => {
       if (injectedOnClick) injectedOnClick(e)
       popupState.close()
@@ -66,32 +68,32 @@ const renderItems = ({
 export interface MenuButtonItem extends MuiMenuItemProps {
   icon?: React.ReactElement
   key: string
-  value: string
   label: string
+  value: string
 }
 
 export interface MenuButtonProps
   extends Omit<ButtonProps, 'children' | 'title'> {
-  menuProps?: Omit<MuiMenuProps, 'open'>
-  title: React.ReactNode
+  button?: React.ElementType
   children?: RenderPropsFunction<InjectedProps>
   items?: MenuButtonItem[]
-  button?: React.ElementType
-  menuItemProps?: MuiMenuItemProps
   listItemIconProps?: ListItemIconProps
   listItemTextProps?: ListItemTextProps
+  menuItemProps?: MuiMenuItemProps
+  menuProps?: Omit<MuiMenuProps, 'open'>
+  title: React.ReactNode
 }
 
 const MenuButton: React.FC<MenuButtonProps> = (props) => {
   const {
-    button,
-    items,
-    children,
     title,
-    menuProps,
-    menuItemProps,
+    button,
+    children,
+    items,
     listItemIconProps,
     listItemTextProps,
+    menuItemProps,
+    menuProps,
     size,
     ...rest
   } = props
@@ -99,13 +101,13 @@ const MenuButton: React.FC<MenuButtonProps> = (props) => {
   const Button = button || GvsButton
 
   return (
-    <PopupState variant="popover" popupId={String(title)}>
+    <PopupState popupId={String(title)} variant="popover">
       {(popupState) => (
         <>
           <Button
             {...bindTrigger(popupState)}
-            size={size}
             endIcon={<ArrowDropDownOutlinedIcon fontSize="small" />}
+            size={size}
             {...rest}
           >
             {title}
@@ -115,10 +117,10 @@ const MenuButton: React.FC<MenuButtonProps> = (props) => {
             {items
               ? renderItems({
                   items,
-                  popupState,
-                  menuItemProps,
                   listItemIconProps,
                   listItemTextProps,
+                  menuItemProps,
+                  popupState,
                   size,
                 })
               : children(popupState)}

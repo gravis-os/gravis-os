@@ -1,26 +1,28 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
+
 import ExpandLessOutlinedIcon from '@mui/icons-material/ExpandLessOutlined'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
+
 import Collapse, { CollapseProps } from '../Collapse'
-import ListItem, { ListItemProps } from './ListItem'
 import List from './List'
+import ListItem, { ListItemProps } from './ListItem'
 
 const INITIAL_LIST_PL = 2.5
 const INDENTED_LIST_PL = 2
 
 export interface ListItemWithCollapseProps
   extends Omit<ListItemProps, 'depth'> {
-  depth: number
   collapseProps?: CollapseProps
+  depth: number
 }
 
 const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
   const {
     collapseProps,
-    open: injectedOpen,
     defaultOpen,
     depth,
     items,
+    open: injectedOpen,
     ...rest
   } = props
 
@@ -33,9 +35,9 @@ const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
 
   // Props that are shared by both parent and children ListItems
   const commonListItemProps = {
+    buttonProps: rest?.buttonProps,
     iconProps: rest?.iconProps,
     textProps: rest?.textProps,
-    buttonProps: rest?.buttonProps,
   }
 
   return (
@@ -51,14 +53,11 @@ const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
       <Collapse in={open} timeout="auto" unmountOnExit {...collapseProps}>
         <List
           disablePadding
-          key={`nested-list-${depth}`}
           items={items.map((item) => {
             if (!item) return null
             return {
               ...item,
               ...commonListItemProps,
-              // Recurse this
-              depth: depth + 1,
               buttonProps: {
                 ...commonListItemProps?.buttonProps,
                 sx: {
@@ -67,8 +66,11 @@ const ListItemWithCollapse: React.FC<ListItemWithCollapseProps> = (props) => {
                   ...item.buttonProps?.sx,
                 },
               },
+              // Recurse this
+              depth: depth + 1,
             }
           })}
+          key={`nested-list-${depth}`}
         />
       </Collapse>
     </>

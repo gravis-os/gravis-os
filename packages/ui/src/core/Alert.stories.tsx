@@ -1,12 +1,13 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Alert from './Alert'
 import Stack from './Stack'
 
 export default {
   title: getCoreStorybookTitle(Alert.name),
-  component: Alert,
   args: { children: 'Label' },
+  component: Alert,
 }
 
 const Template = (args) => <Alert {...args} />

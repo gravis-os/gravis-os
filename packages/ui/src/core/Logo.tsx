@@ -1,57 +1,58 @@
 import React from 'react'
 import Svg from 'react-inlinesvg'
+
+import Link, { LinkProps } from './Link'
 import Stack, { StackProps } from './Stack'
 import Typography, { TypographyProps } from './Typography'
-import Link, { LinkProps } from './Link'
 
 export interface LogoProps extends LinkProps {
-  title?: string
   emblem?: React.ReactNode
-  wordmark?: React.ReactNode
-  titleProps?: TypographyProps
-  spacing?: StackProps['spacing']
-  width?: number | string
   height?: number | string
-  sx?: LinkProps['sx']
-  svgSx?: LinkProps['sx']
+  spacing?: StackProps['spacing']
   svgSrc?: string
+  svgSx?: LinkProps['sx']
+  sx?: LinkProps['sx']
+  title?: string
+  titleProps?: TypographyProps
+  width?: number | string
+  wordmark?: React.ReactNode
 }
 
 const Logo: React.FC<LogoProps> = (props) => {
   const {
-    wordmark,
-    emblem,
     title,
-    spacing = 1.5,
-    width,
+    emblem,
     height = 20,
-    titleProps,
-    sx,
-    svgSx,
+    spacing = 1.5,
     svgSrc,
+    svgSx,
+    sx,
+    titleProps,
+    width,
+    wordmark,
     ...rest
   } = props
 
   return (
     <Link
-      href="/"
       fadeOnHover
-      underline="none"
+      href="/"
       sx={
         {
-          display: 'flex',
           '& svg': {
-            width,
-            height,
             fill: ({ palette }) => palette.text.primary,
+            height,
+            width,
             ...svgSx,
           },
+          display: 'flex',
           ...sx,
         } as LinkProps['sx']
       }
+      underline="none"
       {...rest}
     >
-      <Stack direction="row" alignItems="center" spacing={spacing}>
+      <Stack alignItems="center" direction="row" spacing={spacing}>
         {emblem}
         {svgSrc && <Svg src={svgSrc} />}
         {wordmark}

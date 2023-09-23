@@ -1,52 +1,54 @@
 import React from 'react'
-import StarOutlinedIcon from '@mui/icons-material/StarOutlined'
+
 import StarHalfOutlinedIcon from '@mui/icons-material/StarHalfOutlined'
+import StarOutlinedIcon from '@mui/icons-material/StarOutlined'
 import StarOutlineOutlinedIcon from '@mui/icons-material/StarOutlineOutlined'
 import { SvgIconProps } from '@mui/material'
+
 import Stack, { StackProps } from './Stack'
 import Typography from './Typography'
 
 export interface RatingsProps extends StackProps {
-  value: number
+  disableText?: boolean
   max?: number
   reviewCount?: number
-  disableText?: boolean
+  value: number
 }
 
 const Ratings: React.FC<RatingsProps> = (props) => {
-  const { disableText, value, max = 5, reviewCount, ...rest } = props
+  const { disableText, max = 5, reviewCount, value, ...rest } = props
 
   const commonProps = {
     color: 'warning',
   } as SvgIconProps
 
   return (
-    <Stack direction="row" alignItems="center" {...rest}>
-      {[...new Array(Math.floor(value))].map((_, i) => {
+    <Stack alignItems="center" direction="row" {...rest}>
+      {Array.from({ length: Math.floor(value) }).map((_, i) => {
         return <StarOutlinedIcon key={`star-${i}`} {...commonProps} />
       })}
       {value % 1 > 0 && <StarHalfOutlinedIcon {...commonProps} />}
-      {[...new Array(max - Math.ceil(value))].map((_, i) => {
+      {Array.from({ length: max - Math.ceil(value) }).map((_, i) => {
         return (
           <StarOutlineOutlinedIcon key={`star-empty-${i}`} {...commonProps} />
         )
       })}
       {!disableText && value && (
         <Typography
-          variant="subtitle1"
           color="text.primary"
           lineHeight={1}
           sx={{ ml: 0.5 }}
+          variant="subtitle1"
         >
           {value}
         </Typography>
       )}
       {!disableText && reviewCount && (
         <Typography
-          variant="body2"
           color="text.primary"
           lineHeight={1}
           sx={{ ml: 0.5 }}
+          variant="body2"
         >
           ({reviewCount} reviews)
         </Typography>

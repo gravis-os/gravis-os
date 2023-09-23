@@ -1,7 +1,9 @@
 import React from 'react'
-import { InputAdornment, TextField, Tooltip } from '@mui/material'
-import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined'
 import toast from 'react-hot-toast'
+
+import ContentCopyOutlinedIcon from '@mui/icons-material/ContentCopyOutlined'
+import { InputAdornment, TextField, Tooltip } from '@mui/material'
+
 import Button from '../core/Button'
 
 export interface CopyLinkProps {
@@ -16,26 +18,25 @@ const CopyLink: React.FC<CopyLinkProps> = (props) => {
 
   return (
     <TextField
-      inputProps={{ readOnly: true }}
       InputProps={{
         endAdornment: (
           <InputAdornment position="end">
             <Tooltip title="Copy Link">
               <Button
-                square
-                variant="paper"
-                startIcon={<ContentCopyOutlinedIcon fontSize="small" />}
-                sx={{
-                  mr: -1.5,
-                  '&:hover': {
-                    backgroundColor: 'background.paper',
-                    color: 'primary.main',
-                  },
-                }}
                 onClick={() => {
                   navigator.clipboard.writeText(url)
                   toast.success('Link copied to clipboard')
                 }}
+                square
+                startIcon={<ContentCopyOutlinedIcon fontSize="small" />}
+                sx={{
+                  '&:hover': {
+                    backgroundColor: 'background.paper',
+                    color: 'primary.main',
+                  },
+                  mr: -1.5,
+                }}
+                variant="paper"
               >
                 Copy Link
               </Button>
@@ -43,19 +44,20 @@ const CopyLink: React.FC<CopyLinkProps> = (props) => {
           </InputAdornment>
         ),
       }}
-      value={url}
       fullWidth
+      inputProps={{ readOnly: true }}
       size="small"
       sx={{
+        '& .MuiInputBase-input': {
+          pb: 1,
+          pl: 1,
+          pt: 1.5,
+        },
         '& .MuiInputBase-root': {
           backgroundColor: 'background.muted',
         },
-        '& .MuiInputBase-input': {
-          pl: 1,
-          pb: 1,
-          pt: 1.5,
-        },
       }}
+      value={url}
     />
   )
 }

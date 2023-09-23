@@ -1,8 +1,10 @@
 import React from 'react'
+
 import {
   ListItemIcon as MuiListItemIcon,
   ListItemIconProps as MuiListItemIconProps,
 } from '@mui/material'
+
 import { ListItemProps } from './ListItem'
 
 export interface ListItemIconProps extends MuiListItemIconProps {
@@ -11,7 +13,7 @@ export interface ListItemIconProps extends MuiListItemIconProps {
 }
 
 const ListItemIcon: React.FC<ListItemIconProps> = (props) => {
-  const { sx, dense, fontSize, ...rest } = props
+  const { dense, fontSize, sx, ...rest } = props
   return (
     <MuiListItemIcon
       sx={{

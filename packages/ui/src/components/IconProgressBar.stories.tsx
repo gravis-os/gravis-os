@@ -1,8 +1,10 @@
+import React from 'react'
+
 import BrushIcon from '@mui/icons-material/Brush'
 import BuildIcon from '@mui/icons-material/Build'
 import drop from 'lodash/drop'
 import first from 'lodash/first'
-import React from 'react'
+
 import { getComponentStorybookTitle } from '../utils/getStorybookTitle'
 import IconProgressBar, { IconProgressBarItemStatus } from './IconProgressBar'
 
@@ -16,8 +18,8 @@ const items = [
 ]
 export default {
   title: getComponentStorybookTitle(IconProgressBar.name),
-  component: IconProgressBar,
   args: { items },
+  component: IconProgressBar,
 }
 
 /* Template */

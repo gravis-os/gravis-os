@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   Drawer as MuiDrawer,
   DrawerProps as MuiDrawerProps,
@@ -14,9 +15,9 @@ const Drawer: React.FC<DrawerProps> = (props) => {
         ...PaperProps,
         sx: {
           '&::-webkit-scrollbar': {
-            width: 0 /* Remove scrollbar space */,
             background:
               'transparent' /* Optional: just make scrollbar invisible */,
+            width: 0 /* Remove scrollbar space */,
           },
           ...PaperProps?.sx,
         },

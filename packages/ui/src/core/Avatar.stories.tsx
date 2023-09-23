@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Avatar from './Avatar'
 
@@ -7,14 +8,14 @@ const variants = ['square', 'rounded', 'circular']
 
 export default {
   title: getCoreStorybookTitle(Avatar.name),
-  component: Avatar,
   args: { size: 100, variant: 'square' },
   argTypes: {
     variant: {
-      options: variants,
       control: { type: 'select' },
+      options: variants,
     },
   },
+  component: Avatar,
 }
 
 /* Template */

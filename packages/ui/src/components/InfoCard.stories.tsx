@@ -1,5 +1,7 @@
-import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
 import React from 'react'
+
+import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
+
 import { getComponentStorybookTitle } from '../utils/getStorybookTitle'
 import InfoCard from './InfoCard'
 
@@ -10,12 +12,12 @@ const items = [
 ]
 export default {
   title: getComponentStorybookTitle(InfoCard.name),
-  component: InfoCard,
   args: {
-    key: 'info-card-key',
     title: 'Info Card',
     items,
+    key: 'info-card-key',
   },
+  component: InfoCard,
 }
 
 /* Template */

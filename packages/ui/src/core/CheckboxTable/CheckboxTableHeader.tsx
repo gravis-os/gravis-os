@@ -1,22 +1,24 @@
 import React from 'react'
+
 import first from 'lodash/first'
-import CheckboxTableColumn from './CheckboxTableColumn'
-import { CheckboxTableColumnDefs } from './types'
+
 import Stack from '../Stack'
 import Typography from '../Typography'
+import CheckboxTableColumn from './CheckboxTableColumn'
+import { CheckboxTableColumnDefs } from './types'
 
 interface CheckboxTableHeaderProps {
-  hasToggleAllColumn?: boolean
   columnDefs: CheckboxTableColumnDefs
+  hasToggleAllColumn?: boolean
   title: string
 }
 
 const CheckboxTableHeader: React.FC<CheckboxTableHeaderProps> = (props) => {
-  const { hasToggleAllColumn, title, columnDefs } = props
+  const { title, columnDefs, hasToggleAllColumn } = props
 
   return (
     <Stack direction="row" mb={2}>
-      <Typography sx={{ fontWeight: 700, flexGrow: 1 }}>{title}</Typography>
+      <Typography sx={{ flexGrow: 1, fontWeight: 700 }}>{title}</Typography>
       {hasToggleAllColumn && (
         <CheckboxTableColumn width={first(columnDefs).width}>
           <Typography sx={{ textAlign: 'center' }}>All</Typography>

@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { Tabs as MuiTabs, TabsProps as MuiTabsProps } from '@mui/material'
+
 import getPaletteColor from '../../utils/getPaletteColor'
 
 export interface TabsBaseProps extends MuiTabsProps {
@@ -9,7 +11,7 @@ export interface TabsBaseProps extends MuiTabsProps {
 }
 
 const TabsBase: React.FC<TabsBaseProps> = (props) => {
-  const { borderBottom, hoverColor, disableMinHeight, sx, ...rest } = props
+  const { borderBottom, disableMinHeight, hoverColor, sx, ...rest } = props
 
   return (
     <MuiTabs

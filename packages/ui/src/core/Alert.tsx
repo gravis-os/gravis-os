@@ -1,27 +1,30 @@
 import React from 'react'
+
 import { Alert as MuiAlert, AlertProps as MuiAlertProps } from '@mui/material'
 
 const getAlertVariant = (variant) => {
   switch (variant) {
-    case 'contained':
+    case 'contained': {
       return 'filled'
-    default:
+    }
+    default: {
       return variant
+    }
   }
 }
 
 export interface AlertProps extends Omit<MuiAlertProps, 'variant'> {
-  variant?: 'contained' | MuiAlertProps['variant']
   square?: boolean
+  variant?: 'contained' | MuiAlertProps['variant']
 }
 
 const Alert: React.FC<AlertProps> = (props) => {
   const {
-    variant: injectedVariant = 'filled',
-    severity: injectedSeverity,
     color,
+    severity: injectedSeverity,
     square,
     sx,
+    variant: injectedVariant = 'filled',
     ...rest
   } = props
 
@@ -29,11 +32,11 @@ const Alert: React.FC<AlertProps> = (props) => {
   const variant = getAlertVariant(injectedVariant)
   const alertProps = {
     severity,
-    variant,
     sx: {
       ...(square && { borderRadius: 0 }),
       ...sx,
     },
+    variant,
   }
 
   return <MuiAlert {...alertProps} {...rest} />

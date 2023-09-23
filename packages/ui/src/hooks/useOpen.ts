@@ -6,9 +6,9 @@ const useOpen = (
 ): [
   boolean,
   {
-    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
-    open: () => void
     close: () => void
+    open: () => void
+    setIsOpen: React.Dispatch<React.SetStateAction<boolean>>
     toggle: () => void
   }
 ] => {
@@ -20,7 +20,7 @@ const useOpen = (
   const close = () => setIsOpen(false)
   const toggle = () => setIsOpen(!isOpen)
 
-  return [isOpen, { setIsOpen, open, close, toggle }]
+  return [isOpen, { close, open, setIsOpen, toggle }]
 }
 
 export default useOpen

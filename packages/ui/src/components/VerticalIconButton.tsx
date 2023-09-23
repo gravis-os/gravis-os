@@ -1,18 +1,20 @@
+import React, { ReactNode, isValidElement } from 'react'
+
 import { SvgIconProps } from '@mui/material'
-import React, { isValidElement, ReactNode } from 'react'
+
 import Box, { BoxProps } from '../core/Box'
 import Button, { ButtonProps } from '../core/Button'
 import Stack from '../core/Stack'
 import Typography, { TypographyProps } from '../core/Typography'
 
 export interface VerticalIconButtonProps {
-  title: string
-  typographyProps?: TypographyProps
-  icon: ReactNode
-  iconProps?: SvgIconProps
-  iconBoxProps?: BoxProps
   buttonProps?: ButtonProps
   buttonSxProps?: ButtonProps['sx']
+  icon: ReactNode
+  iconBoxProps?: BoxProps
+  iconProps?: SvgIconProps
+  title: string
+  typographyProps?: TypographyProps
 }
 
 const VerticalIconButton: React.FC<VerticalIconButtonProps> = (
@@ -20,12 +22,12 @@ const VerticalIconButton: React.FC<VerticalIconButtonProps> = (
 ): React.ReactElement => {
   const {
     title,
-    typographyProps,
-    icon,
-    iconProps,
-    iconBoxProps,
     buttonProps,
     buttonSxProps,
+    icon,
+    iconBoxProps,
+    iconProps,
+    typographyProps,
     ...rest
   } = props
 
@@ -36,15 +38,15 @@ const VerticalIconButton: React.FC<VerticalIconButtonProps> = (
       {/* textTransform property used as buttons automatically capitalize */}
       <Button
         size="small"
-        sx={{ p: 0, m: 0, textTransform: 'none', ...buttonSxProps }}
+        sx={{ m: 0, p: 0, textTransform: 'none', ...buttonSxProps }}
         {...buttonProps}
         {...rest}
       >
-        <Stack spacing={1} alignItems="center">
+        <Stack alignItems="center" spacing={1}>
           {/* Box to create background for the icon */}
           <Box
-            py={1}
             px={1.5}
+            py={1}
             sx={{ backgroundColor: 'primary.light' }}
             {...iconBoxProps}
           >

@@ -1,3 +1,5 @@
+import React, { ReactNode } from 'react'
+
 import ArrowForwardIosOutlinedIcon from '@mui/icons-material/ArrowForwardIosOutlined'
 import {
   List,
@@ -6,7 +8,7 @@ import {
   ListItemText,
   ListProps,
 } from '@mui/material'
-import React, { ReactNode } from 'react'
+
 import Card, { CardProps } from '../core/Card'
 import IconButton from '../core/IconButton'
 import Typography from '../core/Typography'
@@ -23,14 +25,14 @@ import withHref from '../core/withHref'
  * @prop {string} href?
  */
 export interface ListCardItemProps {
-  key: string
-  title: string
-  icon?: ReactNode
   /** Removes the forward arrow if set to true */
   disableArrow?: boolean
-  onClick?: () => void
   /** Directs to the url given if clicked */
   href?: string
+  icon?: ReactNode
+  key: string
+  onClick?: () => void
+  title: string
 }
 
 /**
@@ -41,17 +43,17 @@ export interface ListCardItemProps {
  * @prop {ListCardItemProps[]} items
  */
 export interface ListCardProps extends CardProps {
-  listProps?: ListProps
   items: ListCardItemProps[]
+  listProps?: ListProps
 }
 
 const ListCard: React.FC<ListCardProps> = (props): React.ReactElement => {
-  const { listProps, items, ...rest } = props
+  const { items, listProps, ...rest } = props
   return (
-    <Card disablePadding disableLastGutterBottom padding={0} {...rest}>
+    <Card disableLastGutterBottom disablePadding padding={0} {...rest}>
       <List {...listProps}>
         {items.map((item) => {
-          const { key, icon, title, disableArrow, onClick, href } = item
+          const { title, disableArrow, href, icon, key, onClick } = item
           const listItemProps = {
             key,
             ...(!disableArrow && {

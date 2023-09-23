@@ -1,11 +1,13 @@
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
 import React from 'react'
+
 import {
   Container as MuiContainer,
   ContainerProps as MuiContainerProps,
   useMediaQuery,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 import merge from 'lodash/merge'
 
 export type ResponsiveMaxWidth = ResponsiveStyleValue<
@@ -23,18 +25,18 @@ export const getResponsiveMaxWidth =
   }
 
 export interface ContainerProps extends Omit<MuiContainerProps, 'maxWidth'> {
-  disableGuttersOnMobile?: boolean
   disableContainer?: boolean
   disableContainerOnMobile?: boolean
+  disableGuttersOnMobile?: boolean
   maxWidth?: MuiContainerProps['maxWidth'] | ResponsiveMaxWidth
 }
 
 const Container: React.FC<ContainerProps> = (props) => {
   const {
-    maxWidth,
-    disableGuttersOnMobile,
     disableContainer: injectedDisableContainer,
     disableContainerOnMobile,
+    disableGuttersOnMobile,
+    maxWidth,
     sx,
     ...rest
   } = props

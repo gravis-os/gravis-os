@@ -1,4 +1,5 @@
-import React, { isValidElement, ReactNode } from 'react'
+import React, { ReactNode, isValidElement } from 'react'
+
 import { Typography, TypographyProps } from '..'
 
 const renderReactNodeOrString = (

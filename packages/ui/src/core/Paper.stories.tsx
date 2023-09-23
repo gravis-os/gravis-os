@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Box from './Box'
 import Paper from './Paper'
@@ -7,24 +8,24 @@ import Paper from './Paper'
 const variants = ['elevation', 'outlined', 'string']
 export default {
   title: getCoreStorybookTitle(Paper.name),
-  component: Paper,
   args: {
     children: 'Label',
     square: false,
     variant: 'elevation',
   },
   argTypes: {
-    variant: {
-      options: variants,
-      control: { type: 'select' },
+    elevation: {
+      control: { type: 'number' },
     },
     square: {
       control: { type: 'boolean' },
     },
-    elevation: {
-      control: { type: 'number' },
+    variant: {
+      control: { type: 'select' },
+      options: variants,
     },
   },
+  component: Paper,
 }
 
 /* Template */

@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-let, fp/no-mutation, fp/no-loops, unicorn/number-literal-case, unicorn/prefer-code-point */
+
 // Adapted from mui
 // @link https://mui.com/material-ui/react-avatar/#letter-avatars
 const getColorFromString = (string: string): string => {

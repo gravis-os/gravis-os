@@ -1,3 +1,5 @@
+import React, { SyntheticEvent, useRef, useState } from 'react'
+
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'
 import {
   Button,
@@ -11,25 +13,24 @@ import {
   Paper,
   Popper,
 } from '@mui/material'
-import React, { SyntheticEvent, useRef, useState } from 'react'
 
 export interface SplitButtonOption<T = string> {
-  label: string
   disabled?: boolean
-  value?: T
+  label: string
   render?: () => React.ReactNode
+  value?: T
 }
 
 export interface SplitButtonProps
-  extends Omit<ButtonProps, 'onClick' | 'onChange'> {
-  options: SplitButtonOption[]
-  onClick?: (option: SplitButtonOption, event: SyntheticEvent) => void
-  onChange?: (option: SplitButtonOption) => void
+  extends Omit<ButtonProps, 'onChange' | 'onClick'> {
   buttonGroupProps?: Partial<ButtonGroupProps>
+  onChange?: (option: SplitButtonOption) => void
+  onClick?: (option: SplitButtonOption, event: SyntheticEvent) => void
+  options: SplitButtonOption[]
 }
 
 const SplitButton: React.FC<SplitButtonProps> = (props) => {
-  const { options, disabled, onClick, onChange, buttonGroupProps, ...rest } =
+  const { buttonGroupProps, disabled, onChange, onClick, options, ...rest } =
     props
   const [open, setOpen] = useState(false)
   const anchorRef = useRef(null)
@@ -67,18 +68,18 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
             {label}
           </Button>
         )}
-        <Button size="small" onClick={handleToggle}>
+        <Button onClick={handleToggle} size="small">
           <ArrowDropDownIcon />
         </Button>
       </ButtonGroup>
       <Popper
-        open={open}
         anchorEl={anchorRef.current}
-        transition
         disablePortal
+        open={open}
         sx={{ zIndex: 'modal' }}
+        transition
       >
-        {({ TransitionProps, placement }) => (
+        {({ placement, TransitionProps }) => (
           <Grow
             {...TransitionProps}
             style={{
@@ -90,13 +91,13 @@ const SplitButton: React.FC<SplitButtonProps> = (props) => {
               <ClickAwayListener onClickAway={handleClose}>
                 <MenuList autoFocusItem>
                   {options.map((option, index) => {
-                    const { label, disabled } = option
+                    const { disabled, label } = option
                     return (
                       <MenuItem
-                        key={label}
                         disabled={disabled}
-                        selected={index === selectedIndex}
+                        key={label}
                         onClick={(event) => handleMenuItemClick(event, index)}
+                        selected={index === selectedIndex}
                       >
                         {label}
                       </MenuItem>

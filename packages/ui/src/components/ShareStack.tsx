@@ -1,48 +1,49 @@
 import React from 'react'
 import {
-  EmailShareButton,
-  FacebookShareButton,
-  LinkedinShareButton,
-  RedditShareButton,
-  TelegramShareButton,
-  TwitterShareButton,
-  WhatsappShareButton,
-  FacebookIcon,
-  TwitterIcon,
-  LinkedinIcon,
-  RedditIcon,
   EmailIcon,
+  EmailShareButton,
+  FacebookIcon,
+  FacebookShareButton,
+  LinkedinIcon,
+  LinkedinShareButton,
+  RedditIcon,
+  RedditShareButton,
   TelegramIcon,
+  TelegramShareButton,
+  TwitterIcon,
+  TwitterShareButton,
   WhatsappIcon,
+  WhatsappShareButton,
 } from 'react-share'
+
 import Stack, { StackProps } from '../core/Stack'
 
 export interface ShareStackProps extends StackProps {
-  title: string
-  url?: string
   disableLinkedIn?: boolean
   disableReddit?: boolean
+  title: string
+  url?: string
 }
 
 const ShareStack: React.FC<ShareStackProps> = (props) => {
   const {
+    title,
     disableLinkedIn,
     disableReddit,
-    title,
-    url: injectedUrl,
     sx,
+    url: injectedUrl,
     ...rest
   } = props
 
   const url =
     injectedUrl || (typeof window !== 'undefined' && window.location.href)
   const shareButtonProps = { title, url }
-  const shareIconProps = { size: 32, round: true }
+  const shareIconProps = { round: true, size: 32 }
 
   return (
     <Stack
-      direction="row"
       alignItems="center"
+      direction="row"
       spacing={1}
       sx={{
         '& button:hover': { opacity: 0.8 },

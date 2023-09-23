@@ -1,24 +1,25 @@
 import React from 'react'
-import Grid from './Grid'
+
 import Box, { BoxProps } from './Box'
+import Grid from './Grid'
 
 export interface LayoutProps {
+  children?: React.ReactNode
   leftAside?: React.ReactElement
   leftAsideBoxProps?: BoxProps
   rightAside?: React.ReactElement
   rightAsideBoxProps?: BoxProps
   rightAsideSticky?: boolean
-  children?: React.ReactNode
 }
 
 const Layout: React.FC<LayoutProps> = (props) => {
   const {
+    children,
     leftAside,
     leftAsideBoxProps,
     rightAside,
     rightAsideBoxProps,
     rightAsideSticky,
-    children,
   } = props
 
   const rightAsideProps = {

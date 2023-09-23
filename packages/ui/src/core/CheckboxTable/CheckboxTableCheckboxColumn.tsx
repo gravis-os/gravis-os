@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { Checkbox } from '@mui/material'
 import { CheckboxProps } from '@mui/material/Checkbox'
+
 import CheckboxTableColumn, {
   CheckboxTableColumnProps,
 } from './CheckboxTableColumn'
@@ -11,7 +13,7 @@ interface CheckboxTableCheckboxColumnProps extends CheckboxProps {
 
 const CheckboxTableCheckboxColumn: React.FC<
   CheckboxTableCheckboxColumnProps
-> = ({ checked, checkboxTableColumnProps, ...rest }) => (
+> = ({ checkboxTableColumnProps, checked, ...rest }) => (
   <CheckboxTableColumn
     {...checkboxTableColumnProps}
     sx={{ display: 'flex', justifyContent: 'center' }}

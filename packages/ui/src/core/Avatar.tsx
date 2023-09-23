@@ -1,10 +1,12 @@
 import React from 'react'
+
+import { getCssStringSplit } from '@gravis-os/utils'
+import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined'
 import {
   Avatar as MuiAvatar,
   AvatarProps as MuiAvatarProps,
 } from '@mui/material'
-import PhotoSizeSelectActualOutlinedIcon from '@mui/icons-material/PhotoSizeSelectActualOutlined'
-import { getCssStringSplit } from '@gravis-os/utils'
+
 import getColorFromString from '../utils/getColorFromString'
 
 const getLetterAvatarFallbackProps = (name: string) => {
@@ -37,28 +39,28 @@ const getIconAvatarFallbackProps = (props) => {
 }
 
 export interface AvatarProps extends MuiAvatarProps {
-  size?: number
+  border?: boolean
   /**
    * Fallback to Avatar with truncated letters from `alt` prop
    */
   letterAltFallback?: boolean
-  border?: boolean
+  size?: number
 }
 
 const Avatar: React.FC<AvatarProps> = (props) => {
   const {
+    border,
+    letterAltFallback: injectedLetterAltFallback,
     size,
     sx,
-    letterAltFallback: injectedLetterAltFallback,
-    border,
     ...rest
   } = props
-  const { src, alt, children } = rest
+  const { alt, children, src } = rest
 
   const letterAltFallback = injectedLetterAltFallback ?? Boolean(alt)
 
   // Size
-  const sizeSx = size && { width: size, height: size }
+  const sizeSx = size && { height: size, width: size }
 
   // Fallbacks
   const fallbackProps = letterAltFallback
@@ -77,10 +79,10 @@ const Avatar: React.FC<AvatarProps> = (props) => {
       }
     : {
         backgroundColor: 'transparent',
+        borderColor: src ? 'transparent' : 'primary.main',
+        borderStyle: src ? 'solid' : 'dashed',
         borderWidth: '1px',
         color: 'primary.main',
-        borderStyle: src ? 'solid' : 'dashed',
-        borderColor: src ? 'transparent' : 'primary.main',
       }
 
   const shouldFallback = !src && !children

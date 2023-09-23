@@ -1,10 +1,11 @@
 import React from 'react'
+
 import dynamic from 'next/dynamic'
 
 const DynamicTooltip = dynamic(() => import('./Tooltip'))
 
 const withTooltip = (props) => (children) => {
-  const { tooltip: injectedTooltip, title, ...rest } = props
+  const { title, tooltip: injectedTooltip, ...rest } = props
   const tooltip = title || injectedTooltip
   const tooltipProps = { ...rest }
 

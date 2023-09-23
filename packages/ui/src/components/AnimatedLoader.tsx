@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { keyframes } from '@emotion/react'
+
 import Box from '../core/Box'
 
 const bounceKeyframes = keyframes`

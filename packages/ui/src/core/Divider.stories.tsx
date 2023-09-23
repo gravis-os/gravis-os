@@ -1,5 +1,7 @@
-import isEqual from 'lodash/isEqual'
 import React from 'react'
+
+import isEqual from 'lodash/isEqual'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Divider from './Divider'
 import Stack from './Stack'
@@ -9,17 +11,17 @@ import Typography from './Typography'
 const orientations = ['vertical', 'horizontal']
 export default {
   title: getCoreStorybookTitle(Divider.name),
-  component: Divider,
   args: {
-    orientation: 'horizontal',
     children: 'Divider',
+    orientation: 'horizontal',
   },
   argTypes: {
     orientation: {
-      options: orientations,
       control: { type: 'select' },
+      options: orientations,
     },
   },
+  component: Divider,
 }
 
 /* Template */
@@ -27,8 +29,8 @@ const Template = (args) => {
   const { orientation } = args
   return (
     <Stack
-      spacing={1}
       direction={isEqual(orientation, 'vertical') ? 'row' : 'column'}
+      spacing={1}
     >
       <Typography>Top Text</Typography>
       <Divider {...args} />

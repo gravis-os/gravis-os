@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Link from './Link'
 
@@ -6,15 +7,14 @@ import Link from './Link'
 const colors = ['primary', 'secondary', 'success', 'error', 'info', 'warning']
 export default {
   title: getCoreStorybookTitle(Link.name),
-  component: Link,
   args: {
     children: 'Link',
     pointer: true,
   },
   argTypes: {
     color: {
-      options: colors,
       control: { type: 'select' },
+      options: colors,
     },
     fadeOnHover: {
       control: { type: 'boolean' },
@@ -23,6 +23,7 @@ export default {
       control: { type: 'boolean' },
     },
   },
+  component: Link,
 }
 
 /* Template */
@@ -36,4 +37,4 @@ export const RightCaret = Template.bind({})
 RightCaret.args = { rightCaret: true }
 
 export const Fade = Template.bind({})
-Fade.args = { fadeOnHover: true, color: 'primary' }
+Fade.args = { color: 'primary', fadeOnHover: true }

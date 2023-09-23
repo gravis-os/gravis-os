@@ -1,9 +1,12 @@
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
 import React, { useState } from 'react'
+
+import { useGravis } from '@gravis-os/config'
+import omit from 'lodash/omit'
 import dynamic from 'next/dynamic'
 import NextImage, { ImageProps as NextImageProps } from 'next/image'
-import omit from 'lodash/omit'
-import { useGravis } from '@gravis-os/config'
-import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
 import Box, { BoxProps } from './Box'
 
 const DynamicZoom = dynamic(() => import('react-medium-image-zoom'))
@@ -15,45 +18,45 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
    * @example '16:9'
    */
   ar?: string
-  disableBlur?: boolean
-  sx?: BoxProps['sx']
-  boxSx?: BoxProps['sx']
-  boxProps?: BoxProps
-  fadeOnHover?: boolean
-  scaleOnHover?: boolean
-  loading?: boolean
-  rounded?: boolean
-  center?: boolean
-  zoom?: boolean
-  /**
-   * Use the original image dimensioms
-   * @default false
-   */
-  fixed?: boolean
   /**
    * Use the image as a background photo
    * @default false
    */
   background?: boolean
-  backgroundSx?: BoxProps['sx']
   backgroundHeight?: ResponsiveStyleValue<React.CSSProperties['height']>
+  backgroundSx?: BoxProps['sx']
+  boxProps?: BoxProps
+  boxSx?: BoxProps['sx']
+  center?: boolean
+  disableBlur?: boolean
+  fadeOnHover?: boolean
   /**
-   * Preserve the image size without scaling
+   * Fade the image in after it's loaded
    * @default false
    */
-  fixedBackground?: boolean
+  fadeOnLoad?: boolean
   /**
    * Allow the image to fill the container
    * @default false
    */
   fill?: boolean
   /**
-   * Fade the image in after it's loaded
+   * Use the original image dimensioms
    * @default false
    */
-  fadeOnLoad?: boolean
-  invertImageOnMode?: 'dark' | 'light'
+  fixed?: boolean
+  /**
+   * Preserve the image size without scaling
+   * @default false
+   */
+  fixedBackground?: boolean
   invertImage?: boolean
+  invertImageOnMode?: 'dark' | 'light'
+  loading?: boolean
+  rounded?: boolean
+  scaleOnHover?: boolean
+  sx?: BoxProps['sx']
+  zoom?: boolean
 }
 
 /**
@@ -63,36 +66,36 @@ export interface ImageProps extends Omit<NextImageProps, 'loading'> {
  */
 const Image: React.FC<ImageProps> = (props) => {
   const {
-    loading: injectedLoading,
     ar,
-    scaleOnHover,
-    fadeOnHover,
-    sx,
-    boxSx,
-    boxProps: injectedBoxProps,
-    disableBlur,
-    rounded,
-    fixed,
-
     // Background
     background,
     backgroundHeight,
     backgroundSx,
-    fixedBackground,
-
-    fadeOnLoad: injectedFadeOnLoad,
-    fill,
-    zoom,
-
+    boxProps: injectedBoxProps,
+    boxSx,
     center,
+    disableBlur,
+    fadeOnHover,
+    fadeOnLoad: injectedFadeOnLoad,
+
+    fill,
+    fixed,
+    fixedBackground,
+    invertImage,
 
     // Invert Filter
     invertImageOnMode,
-    invertImage,
+    loading: injectedLoading,
+    rounded,
+
+    scaleOnHover,
+
+    sx,
+    zoom,
 
     ...rest
   } = props
-  const { src } = rest
+  const { height, src, width } = rest || {}
 
   const empty = !src
   const [loading, setLoading] = useState(injectedLoading ?? true)
@@ -109,8 +112,8 @@ const Image: React.FC<ImageProps> = (props) => {
       <Box
         sx={{
           ...(ar
-            ? { position: 'relative', overflow: 'hidden', pb: '100%' }
-            : { width: rest?.width, height: rest?.height }),
+            ? { overflow: 'hidden', pb: '100%', position: 'relative' }
+            : { height, width }),
           backgroundColor: ({ palette: { mode } }) => {
             const isDarkMode = mode === 'dark'
             return isDarkMode ? 'grey.900' : 'grey.100'
@@ -134,9 +137,9 @@ const Image: React.FC<ImageProps> = (props) => {
       ...(!disableBlur && {
         transition: ({ transitions }) => {
           const opacityTransition = transitions.create(['opacity'], {
-            easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
-            duration: '3s',
             delay: '0.1s',
+            duration: '3s',
+            easing: 'cubic-bezier(0.23, 1, 0.32, 1)',
           })
 
           const transformTransition = transitions.create(['transform'])
@@ -182,8 +185,8 @@ const Image: React.FC<ImageProps> = (props) => {
         ...(isNotBackgroundImage && { position: 'relative !important' }),
 
         ...(fixed && {
-          width: 'initial !important',
           height: 'initial !important',
+          width: 'initial !important',
         }),
 
         /**
@@ -207,10 +210,10 @@ const Image: React.FC<ImageProps> = (props) => {
       ...(!fixed &&
         ar &&
         !fill && {
-          position: 'relative',
-          width: '100%',
           overflow: 'hidden',
           pb: `calc(${aspectHeight} / ${aspectWidth} * 100%)`,
+          position: 'relative',
+          width: '100%',
         }),
 
       /**
@@ -225,8 +228,8 @@ const Image: React.FC<ImageProps> = (props) => {
 
       // Center the image
       ...(center && {
-        display: 'flex',
         alignItems: 'center',
+        display: 'flex',
         justifyContent: 'center',
       }),
 
@@ -247,7 +250,7 @@ const Image: React.FC<ImageProps> = (props) => {
     ]) as NextImageProps
 
     switch (true) {
-      case Boolean(isNextImageFill):
+      case Boolean(isNextImageFill): {
         return {
           ...(next.version >= 13
             ? { fill: true }
@@ -258,7 +261,8 @@ const Image: React.FC<ImageProps> = (props) => {
           ...commonProps,
           ...nextRest,
         }
-      default:
+      }
+      default: {
         return {
           ...(next.version >= 13
             ? {}
@@ -269,6 +273,7 @@ const Image: React.FC<ImageProps> = (props) => {
           // Contains width and height
           ...rest,
         }
+      }
     }
   }
 
@@ -297,7 +302,7 @@ const Image: React.FC<ImageProps> = (props) => {
 
   return backgroundHeight ? (
     <Box
-      sx={{ position: 'relative', height: backgroundHeight, ...backgroundSx }}
+      sx={{ height: backgroundHeight, position: 'relative', ...backgroundSx }}
     >
       {childrenJsxWithZoom}
     </Box>

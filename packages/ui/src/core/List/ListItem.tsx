@@ -1,135 +1,138 @@
+import type { SxCssProperties } from '@gravis-os/types'
+
 import React from 'react'
-import merge from 'lodash/merge'
+
 import {
   ListItem as MuiListItem,
+  ListItemAvatar as MuiListItemAvatar,
+  ListItemAvatarProps as MuiListItemAvatarProps,
   ListItemProps as MuiListItemProps,
   ListItemText as MuiListItemText,
   ListItemTextProps as MuiListItemTextProps,
-  ListItemAvatar as MuiListItemAvatar,
-  ListItemAvatarProps as MuiListItemAvatarProps,
 } from '@mui/material'
-import type { SxCssProperties } from '@gravis-os/types'
-import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
-import ListItemButton, { ListItemButtonProps } from './ListItemButton'
+import merge from 'lodash/merge'
+
 import Box from '../Box'
 import { TooltipProps } from '../Tooltip'
 import withTooltip from '../withTooltip'
+import ListItemButton, { ListItemButtonProps } from './ListItemButton'
+import ListItemIcon, { ListItemIconProps } from './ListItemIcon'
 
 export interface ListItemProps
-  extends Omit<MuiListItemProps, 'title' | 'onClick'> {
-  id?: string
-  title?: MuiListItemTextProps['primary']
-  titleProps?: MuiListItemTextProps['primaryTypographyProps']
-  subtitle?: MuiListItemTextProps['secondary']
-  subtitleProps?: MuiListItemTextProps['secondaryTypographyProps']
-  textProps?: MuiListItemTextProps
-  avatarProps?: MuiListItemAvatarProps
-  buttonProps?: ListItemButtonProps
-
+  extends Omit<MuiListItemProps, 'onClick' | 'title'> {
+  // Advanced styles
+  advancedStyles?: {
+    buttonColor?: SxCssProperties
+    hoverBackgroundColor?: SxCssProperties
+    hoverTextColor?: SxCssProperties
+    iconColor?: SxCssProperties
+    linkColor?: SxCssProperties
+    // Only the following styles are required:
+    selectedBackgroundColor: SxCssProperties
+    selectedTextColor?: SxCssProperties
+    subtitleColor?: SxCssProperties
+    textColor: SxCssProperties
+    titleColor?: SxCssProperties
+  }
   // Avatar
   avatar?: React.ReactNode
-
-  start?: React.ReactElement
-  end?: React.ReactElement
-  startIcon?: React.ReactElement
-  endIcon?: React.ReactElement
-
-  startIconProps?: ListItemIconProps
-  endIconProps?: ListItemIconProps
-  iconProps?: ListItemIconProps
-
-  href?: string
-  targetBlank?: boolean
-  onClick?: ListItemButtonProps['onClick']
-
-  // NestedItems
-  depth?: number
-  items?: ListItemProps[]
-  // Divider
-  divider?: boolean
+  avatarProps?: MuiListItemAvatarProps
+  buttonProps?: ListItemButtonProps
   // Open state
   defaultOpen?: boolean
-  open?: boolean
+  // NestedItems
+  depth?: number
+  disableText?: boolean
+  // Divider
+  divider?: boolean
 
-  // Tooltip
-  tooltip?: TooltipProps['title']
+  end?: React.ReactElement
+
+  endIcon?: React.ReactElement
+  endIconProps?: ListItemIconProps
   hasTooltip?: boolean
-  tooltipProps?: TooltipProps
+  href?: string
+
+  iconProps?: ListItemIconProps
+  id?: string
+  items?: ListItemProps[]
+
+  onClick?: ListItemButtonProps['onClick']
+  open?: boolean
+  // Right
+  right?: React.ReactNode
 
   // Selected state
   selected?: boolean
-
   // Horizontal spacing between elements in ListItem
   spacing?: number
+  start?: React.ReactElement
+  startIcon?: React.ReactElement
+  startIconProps?: ListItemIconProps
 
-  disableText?: boolean
+  subtitle?: MuiListItemTextProps['secondary']
+  subtitleProps?: MuiListItemTextProps['secondaryTypographyProps']
+  targetBlank?: boolean
 
-  // Advanced styles
-  advancedStyles?: {
-    iconColor?: SxCssProperties
-    titleColor?: SxCssProperties
-    subtitleColor?: SxCssProperties
-    linkColor?: SxCssProperties
-    buttonColor?: SxCssProperties
-    selectedTextColor?: SxCssProperties
-    hoverBackgroundColor?: SxCssProperties
-    hoverTextColor?: SxCssProperties
-    // Only the following styles are required:
-    selectedBackgroundColor: SxCssProperties
-    textColor: SxCssProperties
-  }
+  textProps?: MuiListItemTextProps
 
-  // Right
-  right?: React.ReactNode
+  title?: MuiListItemTextProps['primary']
+
+  titleProps?: MuiListItemTextProps['primaryTypographyProps']
+
+  // Tooltip
+  tooltip?: TooltipProps['title']
+
+  tooltipProps?: TooltipProps
 }
 
 const ListItem: React.FC<ListItemProps> = (props) => {
   const {
-    textProps: injectedListItemTextProps,
-    avatarProps: injectedListItemAvatarProps,
-    buttonProps: injectedListItemButtonProps,
-
+    title,
+    // Advanced Styles
+    advancedStyles: injectedAdvancedStyles,
     // avatar
     avatar,
 
-    title,
-    titleProps,
-    subtitle,
-    subtitleProps,
+    avatarProps: injectedListItemAvatarProps,
 
+    buttonProps: injectedListItemButtonProps,
+    disableGutters,
+    disablePadding,
+    disableText,
+
+    end,
+    endIcon,
+
+    endIconProps,
+    // Tooltip
+    hasTooltip,
     // Link
     href,
-    targetBlank,
+    iconProps,
+    onClick,
+    // Right
+    right,
+    // Selected
+    selected,
+
+    spacing = 1,
 
     start,
     startIcon,
     startIconProps,
-    end,
-    endIcon,
-    endIconProps,
-    iconProps,
 
-    onClick,
+    subtitle,
+    subtitleProps,
+    targetBlank,
 
-    disableGutters,
-    disablePadding,
-    spacing = 1,
+    textProps: injectedListItemTextProps,
 
-    // Tooltip
-    hasTooltip,
+    titleProps,
+
     tooltip,
+
     tooltipProps,
-
-    // Selected
-    selected,
-
-    disableText,
-
-    // Advanced Styles
-    advancedStyles: injectedAdvancedStyles,
-
-    // Right
-    right,
 
     ...rest
   } = props
@@ -138,16 +141,16 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   // Advanced Styles
   // ==============================
   const defaultAdvancedStyles = {
-    iconColor: 'inherit',
-    titleColor: 'inherit',
-    subtitleColor: 'inherit',
-    selectedTextColor: 'inherit',
-    linkColor: 'inherit',
     buttonColor: 'inherit',
     hoverBackgroundColor: 'inherit',
     hoverTextColor: 'inherit',
-    textColor: '',
+    iconColor: 'inherit',
+    linkColor: 'inherit',
     selectedBackgroundColor: '',
+    selectedTextColor: 'inherit',
+    subtitleColor: 'inherit',
+    textColor: '',
+    titleColor: 'inherit',
   }
   const advancedStyles = {
     ...defaultAdvancedStyles,
@@ -159,33 +162,33 @@ const ListItem: React.FC<ListItemProps> = (props) => {
 
   const hasButton = Boolean(onClick || href)
   const listItemButtonProps = {
-    onClick,
     href,
-    targetBlank,
+    onClick,
     selected,
+    targetBlank,
     ...injectedListItemButtonProps,
     sx: {
       ...(hasAdvancedStyles && {
-        color: advancedStyles.buttonColor,
+        // Hover
+        '&:hover': {
+          background: advancedStyles.hoverBackgroundColor,
+          color: advancedStyles.hoverTextColor,
+        },
         // Selected
         '&.Mui-selected, &.Mui-selected:hover': {
           background: advancedStyles.selectedBackgroundColor,
           color: advancedStyles.selectedTextColor,
         },
 
-        // Hover
-        '&:hover': {
-          background: advancedStyles.hoverBackgroundColor,
-          color: advancedStyles.hoverTextColor,
-        },
+        color: advancedStyles.buttonColor,
       }),
       ...injectedListItemButtonProps?.sx,
     },
   }
 
   const listItemProps = {
-    disablePadding: disablePadding || hasButton,
     disableGutters,
+    disablePadding: disablePadding || hasButton,
     ...rest,
     sx: {
       ...(hasAdvancedStyles && {
@@ -193,18 +196,18 @@ const ListItem: React.FC<ListItemProps> = (props) => {
       }),
 
       ...(href && {
-        // Expand by default
-        '&, & > a': { width: '100%' },
-
         // Link Props
         '& > a': {
           ...(hasAdvancedStyles && {
-            color: advancedStyles.linkColor,
             '&:hover': {
               color: advancedStyles.hoverTextColor,
             },
+            color: advancedStyles.linkColor,
           }),
         },
+
+        // Expand by default
+        '&, & > a': { width: '100%' },
       }),
 
       ...rest?.sx,
@@ -293,8 +296,8 @@ const ListItem: React.FC<ListItemProps> = (props) => {
           {...endIconProps}
           sx={
             {
-              mr: 0,
               justifyContent: 'flex-end',
+              mr: 0,
               ...commonIconProps?.sx,
               ...endIconProps?.sx,
             } as ListItemIconProps['sx']
@@ -317,9 +320,9 @@ const ListItem: React.FC<ListItemProps> = (props) => {
   )
 
   return withTooltip({
-    tooltip: hasTooltip && title,
     arrow: true,
     placement: 'right',
+    tooltip: hasTooltip && title,
     ...tooltipProps,
   })(listItemJsx)
 }

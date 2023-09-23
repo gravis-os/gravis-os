@@ -1,5 +1,6 @@
 import React from 'react'
-import get from 'lodash/get'
+
+import { RenderPropsFunction } from '@gravis-os/types'
 import {
   Avatar,
   List,
@@ -9,31 +10,31 @@ import {
   ListItemText,
   ListProps,
 } from '@mui/material'
-import { RenderPropsFunction } from '@gravis-os/types'
+import get from 'lodash/get'
 
 interface CardListRenderPropsInterface {
-  item: any
   index: number
+  item: any
 }
 
 export interface CardListProps extends ListProps {
+  AvatarComponent?: any
+  disableAvatar?: boolean
   items?: any[]
   map: {
-    avatar?: string
-    title: RenderPropsFunction<CardListRenderPropsInterface> | React.ReactNode
-    subtitle?:
-      | RenderPropsFunction<CardListRenderPropsInterface>
-      | React.ReactNode
     action?:
-      | RenderPropsFunction<CardListRenderPropsInterface>
       | React.ReactElement
+      | RenderPropsFunction<CardListRenderPropsInterface>
+    avatar?: string
+    subtitle?:
+      | React.ReactNode
+      | RenderPropsFunction<CardListRenderPropsInterface>
+    title: React.ReactNode | RenderPropsFunction<CardListRenderPropsInterface>
   }
-  disableAvatar?: boolean
-  AvatarComponent?: any
 }
 
 const CardList: React.FC<CardListProps> = (props) => {
-  const { items, map, disableAvatar, sx, AvatarComponent, ...rest } = props
+  const { AvatarComponent, disableAvatar, items, map, sx, ...rest } = props
 
   return (
     <List
@@ -47,7 +48,7 @@ const CardList: React.FC<CardListProps> = (props) => {
     >
       {items?.map((item, i) => {
         const isLast = items.length - 1 === i
-        const renderProps = { item, index: i }
+        const renderProps = { index: i, item }
 
         const avatar = get(item, map.avatar as string)
         const title =
@@ -62,9 +63,9 @@ const CardList: React.FC<CardListProps> = (props) => {
 
         return (
           <ListItem
-            key={`list-item-${i}`}
             alignItems="flex-start"
             divider={!isLast}
+            key={`list-item-${i}`}
           >
             {!disableAvatar && (
               <ListItemAvatar>

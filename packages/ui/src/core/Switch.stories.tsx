@@ -1,12 +1,13 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Switch from './Switch'
 
 /* Constants */
 export default {
   title: getCoreStorybookTitle(Switch.name),
-  component: Switch,
   args: {},
+  component: Switch,
 }
 
 /* Template */

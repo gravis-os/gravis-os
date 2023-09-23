@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { printHtml } from '@gravis-os/utils'
+
 import Box, { BoxProps } from './Box'
 
 export interface HtmlProps extends BoxProps {
@@ -11,18 +13,17 @@ const Html: React.FC<HtmlProps> = (props) => {
 
   return (
     <Box
+      dangerouslySetInnerHTML={{
+        __html: printHtml(html),
+      }}
       sx={{
-        '& p': { mt: 0, mb: 0 },
-        '& p + p': { mt: 2 },
-        '& img': {
-          maxWidth: '100%',
-        },
-        '& h1, & h2, & h3, & h4, & h5, & h6': {
-          mt: 0,
-          mb: 1,
-        },
+        '& blockquote': { borderLeft: 4, ml: 0, opacity: 0.8, pl: 4 },
         '& h1': {
           fontFamily: 'h1.fontFamily',
+        },
+        '& h1, & h2, & h3, & h4, & h5, & h6': {
+          mb: 1,
+          mt: 0,
         },
         '& h2': {
           fontFamily: 'h2.fontFamily',
@@ -39,16 +40,17 @@ const Html: React.FC<HtmlProps> = (props) => {
         '& h6': {
           fontFamily: 'h6.fontFamily',
         },
-        '& blockquote': { borderLeft: 4, pl: 4, ml: 0, opacity: 0.8 },
+        '& img': {
+          maxWidth: '100%',
+        },
+        '& p': { mb: 0, mt: 0 },
+        '& p + p': { mt: 2 },
         fontSize: {
           xs: 'subtitle2.fontSize',
           md: 'subtitle1.fontSize',
         },
         mt: 0,
         ...sx,
-      }}
-      dangerouslySetInnerHTML={{
-        __html: printHtml(html),
       }}
       {...rest}
     />

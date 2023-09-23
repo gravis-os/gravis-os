@@ -1,45 +1,47 @@
 import React from 'react'
+
 import isNil from 'lodash/isNil'
 import startCase from 'lodash/startCase'
-import Stack, { StackProps } from './Stack'
-import Grid from './Grid'
-import Typography, { TypographyProps } from './Typography'
+
 import Button, { ButtonProps } from './Button'
+import Grid from './Grid'
+import Stack, { StackProps } from './Stack'
+import Typography, { TypographyProps } from './Typography'
 
 export interface DescriptionListItem {
   key: string
-  value?: React.ReactNode
   label?: React.ReactNode
   labelProps?: TypographyProps
+  value?: React.ReactNode
   valueProps?: TypographyProps
 }
 
 export interface DescriptionListProps extends Omit<StackProps, 'title'> {
+  actionButtonProps?: ButtonProps
+  actions?: React.ReactNode
   data?: Record<string, any>
   items: DescriptionListItem[] | string[]
+  justifyContent?: 'space-between'
+  labelProps?: TypographyProps
   placeholder?: string
   title?: React.ReactNode
   titleProps?: TypographyProps
-  actions?: React.ReactNode
-  actionButtonProps?: ButtonProps
-  justifyContent?: 'space-between'
-  labelProps?: TypographyProps
   valueProps?: TypographyProps
 }
 
 const DescriptionList: React.FC<DescriptionListProps> = (props) => {
   const {
-    data,
-    actions,
-    actionButtonProps,
     title,
-    titleProps,
+    actionButtonProps,
+    actions,
+    data,
     items,
-    sx,
-    placeholder = '-',
     justifyContent,
-    valueProps: commonValueProps,
     labelProps: commonLabelProps,
+    placeholder = '-',
+    sx,
+    titleProps,
+    valueProps: commonValueProps,
   } = props
 
   if (!items?.length) return null
@@ -51,36 +53,36 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
       {/* Header */}
       {(title || actions || actionButtonProps) && (
         <Stack
-          direction="row"
           alignItems="center"
+          direction="row"
           justifyContent="space-between"
           spacing={1}
         >
           <div>
             {title && (
-              <Typography variant="overline" gutterBottom {...titleProps}>
+              <Typography gutterBottom variant="overline" {...titleProps}>
                 {title}
               </Typography>
             )}
           </div>
 
           <div>
-            <Stack direction="row" alignItems="center" spacing={0.5}>
+            <Stack alignItems="center" direction="row" spacing={0.5}>
               <div>{actions}</div>
 
               <div>
                 {actionButtonProps && (
                   <Button
-                    variant="text"
                     size="small"
                     sx={{
-                      mr: -2,
                       '&:hover, &:active': {
                         backgroundColor: 'transparent',
                         color: 'primary.dark',
                       },
+                      mr: -2,
                     }}
                     title="Edit"
+                    variant="text"
                     {...actionButtonProps}
                   />
                 )}
@@ -91,7 +93,7 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
       )}
 
       {/* Stack */}
-      <Stack component="dl" sx={{ my: 0, ...sx }} horizontalDividers>
+      <Stack component="dl" horizontalDividers sx={{ my: 0, ...sx }}>
         {items.map((injectedItem) => {
           const item =
             typeof injectedItem === 'string'
@@ -113,16 +115,16 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
 
           const shouldShowPlaceholder = isNil(value) || value === ''
           const placeholderJsx = (
-            <Typography variant="body1" color="text.secondary" {...valueProps}>
+            <Typography color="text.secondary" variant="body1" {...valueProps}>
               {placeholder}
             </Typography>
           )
 
           // Each line is a Grid with a <dt> and <dd> pair
           return (
-            <Grid key={key} container spacing={{ xs: 0, md: 1 }} sx={{ py: 1 }}>
+            <Grid container key={key} spacing={{ xs: 0, md: 1 }} sx={{ py: 1 }}>
               {/* Left */}
-              <Grid item md={4} lg={5} component="dt">
+              <Grid component="dt" item lg={5} md={4}>
                 {typeof label === 'string' ? (
                   <Typography
                     variant="subtitle1"
@@ -143,10 +145,10 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
 
               {/* Right */}
               <Grid
-                item
-                md={8}
-                lg={7}
                 component="dd"
+                item
+                lg={7}
+                md={8}
                 sx={{
                   ...(isSpaceBetween && { textAlign: 'right' }),
                 }}
@@ -159,10 +161,10 @@ const DescriptionList: React.FC<DescriptionListProps> = (props) => {
                     {...commonValueProps}
                     {...valueProps}
                     sx={{
+                      '&::-webkit-scrollbar': { display: 'none' },
                       // For managing overflow
                       overflow: 'scroll',
                       whiteSpace: 'nowrap',
-                      '&::-webkit-scrollbar': { display: 'none' },
 
                       ...commonValueProps?.sx,
                       ...valueProps?.sx,

@@ -1,11 +1,13 @@
 import React from 'react'
+
 import { getStorybookTitle } from '@gravis-os/landing'
-import Footer from './Footer'
+
 import { MOCK_FOOTER_PROPS } from '../../mocks'
+import Footer from './Footer'
 
 export default {
-  component: Footer,
   title: getStorybookTitle(Footer.name),
+  component: Footer,
   parameters: { layout: 'fullscreen' },
 }
 

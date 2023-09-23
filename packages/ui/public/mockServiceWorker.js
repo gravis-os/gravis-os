@@ -1,5 +1,17 @@
-/* eslint-disable */
-/* tslint:disable */
+/* eslint-disable
+  no-restricted-globals,
+  prefer-arrow-callback,
+  default-case,
+  fp/no-throw,
+  fp/no-mutation,
+  fp/no-delete,
+  fp/no-loops,
+  no-bitwise,
+  no-restricted-syntax,
+  unicorn/prefer-math-trunc,
+  unicorn/prefer-spread,
+  unicorn/prefer-add-event-listener,
+*/
 
 /**
  * Mock Service Worker (0.39.2).
@@ -45,8 +57,8 @@ self.addEventListener('message', async function (event) {
 
     case 'INTEGRITY_CHECK_REQUEST': {
       sendToClient(client, {
-        type: 'INTEGRITY_CHECK_RESPONSE',
         payload: INTEGRITY_CHECKSUM,
+        type: 'INTEGRITY_CHECK_RESPONSE',
       })
       break
     }
@@ -55,8 +67,8 @@ self.addEventListener('message', async function (event) {
       activeClientIds.add(clientId)
 
       sendToClient(client, {
-        type: 'MOCKING_ENABLED',
         payload: true,
+        type: 'MOCKING_ENABLED',
       })
       break
     }
@@ -119,18 +131,18 @@ async function handleRequest(event, requestId) {
     ;(async function () {
       const clonedResponse = response.clone()
       sendToClient(client, {
-        type: 'RESPONSE',
         payload: {
-          requestId,
-          type: clonedResponse.type,
-          ok: clonedResponse.ok,
-          status: clonedResponse.status,
-          statusText: clonedResponse.statusText,
           body:
             clonedResponse.body === null ? null : await clonedResponse.text(),
           headers: serializeHeaders(clonedResponse.headers),
+          ok: clonedResponse.ok,
           redirected: clonedResponse.redirected,
+          requestId,
+          status: clonedResponse.status,
+          statusText: clonedResponse.statusText,
+          type: clonedResponse.type,
         },
+        type: 'RESPONSE',
       })
     })()
   }
@@ -153,7 +165,7 @@ async function getResponse(event, client, requestId) {
   // means that MSW hasn't dispatched the "MOCK_ACTIVATE" event yet
   // and is not ready to handle requests.
   if (!activeClientIds.has(client.id)) {
-    return await getOriginalResponse()
+    return getOriginalResponse()
   }
 
   // Bypass requests with the explicit bypass header
@@ -175,31 +187,31 @@ async function getResponse(event, client, requestId) {
   const body = await request.text()
 
   const clientMessage = await sendToClient(client, {
-    type: 'REQUEST',
     payload: {
       id: requestId,
-      url: request.url,
-      method: request.method,
-      headers: reqHeaders,
+      body,
+      bodyUsed: request.bodyUsed,
       cache: request.cache,
-      mode: request.mode,
       credentials: request.credentials,
       destination: request.destination,
+      headers: reqHeaders,
       integrity: request.integrity,
+      keepalive: request.keepalive,
+      method: request.method,
+      mode: request.mode,
       redirect: request.redirect,
       referrer: request.referrer,
       referrerPolicy: request.referrerPolicy,
-      body,
-      bodyUsed: request.bodyUsed,
-      keepalive: request.keepalive,
+      url: request.url,
     },
+    type: 'REQUEST',
   })
 
   switch (clientMessage.type) {
     case 'MOCK_SUCCESS': {
       return delayPromise(
         () => respondWithMock(clientMessage),
-        clientMessage.payload.delay,
+        clientMessage.payload.delay
       )
     }
 
@@ -208,7 +220,7 @@ async function getResponse(event, client, requestId) {
     }
 
     case 'NETWORK_ERROR': {
-      const { name, message } = clientMessage.payload
+      const { message, name } = clientMessage.payload
       const networkError = new Error(message)
       networkError.name = name
 
@@ -228,7 +240,7 @@ ${parsedBody.location}
 This exception has been gracefully handled as a 500 response, however, it's strongly recommended to resolve this error, as it indicates a mistake in your code. If you wish to mock an error response, please see this guide: https://mswjs.io/docs/recipes/mocking-error-responses\
 `,
         request.method,
-        request.url,
+        request.url
       )
 
       return respondWithMock(clientMessage)
@@ -273,7 +285,7 @@ self.addEventListener('fetch', function (event) {
         console.warn(
           '[MSW] Successfully emulated a network error for the "%s %s" request.',
           request.method,
-          request.url,
+          request.url
         )
         return
       }
@@ -284,19 +296,19 @@ self.addEventListener('fetch', function (event) {
 [MSW] Caught an exception from the "%s %s" request (%s). This is probably not a problem with Mock Service Worker. There is likely an additional logging output above.`,
         request.method,
         request.url,
-        `${error.name}: ${error.message}`,
+        `${error.name}: ${error.message}`
       )
-    }),
+    })
   )
 })
 
 function serializeHeaders(headers) {
   const reqHeaders = {}
-  headers.forEach((value, name) => {
+  for (const [name, value] of headers.entries()) {
     reqHeaders[name] = reqHeaders[name]
-      ? [].concat(reqHeaders[name]).concat(value)
+      ? [reqHeaders[name]].flat().concat(value)
       : value
-  })
+  }
   return reqHeaders
 }
 
@@ -330,9 +342,12 @@ function respondWithMock(clientMessage) {
 }
 
 function uuidv4() {
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function (c) {
-    const r = (Math.random() * 16) | 0
-    const v = c == 'x' ? r : (r & 0x3) | 0x8
-    return v.toString(16)
-  })
+  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replaceAll(
+    /[xy]/g,
+    function (c) {
+      const r = (Math.random() * 16) | 0
+      const v = c === 'x' ? r : (r & 0x3) | 0x8
+      return v.toString(16)
+    }
+  )
 }

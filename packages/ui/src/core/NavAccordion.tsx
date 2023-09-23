@@ -1,4 +1,9 @@
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
 import React, { useEffect } from 'react'
+
+import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
   Accordion,
   AccordionDetails,
@@ -10,9 +15,7 @@ import {
   useMediaQuery,
 } from '@mui/material'
 import { useTheme } from '@mui/material/styles'
-import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
-import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
 import Link, { LinkProps } from './Link'
 import Typography, { TypographyProps } from './Typography'
 
@@ -23,21 +26,21 @@ interface NavAccordionStyleProps {
 export interface NavAccordionProps
   extends Omit<AccordionProps, 'children' | 'title'>,
     NavAccordionStyleProps {
-  id?: string
-  title: React.ReactNode
+  accordionProps?: Omit<AccordionProps, 'children'>
+  children?: React.ReactNode
   href?: string
+  id?: string
+  itemTitleProps?: TypographyProps
   items?: Array<{
-    title: React.ReactNode
     href?: string
     onClick?: (e: React.SyntheticEvent, item: Record<string, unknown>) => void
+    title: React.ReactNode
   }>
   onClick?: (e: React.MouseEvent) => void
-  children?: React.ReactNode
-  accordionProps?: Omit<AccordionProps, 'children'>
-  titleProps?: TypographyProps | LinkProps
-  itemTitleProps?: TypographyProps
-  py?: ResponsiveStyleValue<React.CSSProperties['padding']>
   px?: ResponsiveStyleValue<React.CSSProperties['padding']>
+  py?: ResponsiveStyleValue<React.CSSProperties['padding']>
+  title: React.ReactNode
+  titleProps?: LinkProps | TypographyProps
 }
 
 const EXPAND_ALL = 'EXPAND_ALL'
@@ -45,17 +48,17 @@ const EXPAND_ALL = 'EXPAND_ALL'
 const NavAccordion: React.FC<NavAccordionProps> = (props) => {
   const {
     id,
-    disablePadding,
-    onClick = null,
     title,
-    titleProps,
-    itemTitleProps,
+    accordionProps,
+    children,
+    disablePadding,
     href,
     items,
-    children,
-    accordionProps,
-    py = 1.5,
+    itemTitleProps,
+    onClick = null,
     px = 3,
+    py = 1.5,
+    titleProps,
   } = props
 
   // Handle expanded state onScreenResize
@@ -87,70 +90,73 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
   // This is for the title
   const renderAccordionSummaryTitle = () => {
     switch (true) {
-      case shouldRenderLink:
+      case shouldRenderLink: {
         return (
           <Link
             color="inherit"
-            variant="button"
             href={href}
             onClick={onClick}
+            variant="button"
             {...(titleProps as LinkProps)}
           >
             {title}
           </Link>
         )
+      }
       // Title is a Jsx
-      case typeof title === 'object':
+      case typeof title === 'object': {
         return title
+      }
       // Title is a string
-      default:
+      default: {
         return (
           <Typography variant="button" {...(titleProps as TypographyProps)}>
             {title}
           </Typography>
         )
+      }
     }
   }
 
   return (
     <Accordion
+      disableGutters
       expanded={isExpanded}
       onChange={handleChange(title)}
       square
-      disableGutters
       {...accordionProps}
       {...(shouldAllowOnClick && { onClick })}
       sx={{
         ...accordionProps?.sx,
 
+        '&': { borderColor: 'divider' },
+        '&:before': { backgroundColor: 'transparent' },
+
         // Border
         borderBottom: { xs: 1, md: 0 },
-        '&': { borderColor: 'divider' },
-
         // Colors
         boxShadow: 'none',
-        '&:before': { backgroundColor: 'transparent' },
       }}
     >
       {/* Title */}
       <AccordionSummary
         expandIcon={items && !isDesktop && <ExpansionIcon fontSize="small" />}
         sx={{
+          '& .MuiAccordionSummary-content': { m: 0 },
           // Padding
           px,
+
           py,
 
-          '& .MuiAccordionSummary-content': { m: 0 },
-
           ...((hasLink || children || shouldAllowOnClick) && {
-            '& .MuiAccordionSummary-root': {
-              py: 0,
-              px,
-            },
             '& .MuiAccordionSummary-content > .MuiButton-root': {
-              width: '100%',
-              py,
               px,
+              py,
+              width: '100%',
+            },
+            '& .MuiAccordionSummary-root': {
+              px,
+              py: 0,
             },
           }),
 
@@ -182,8 +188,8 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
               const listItemContentJsx = (
                 <ListItemText disableTypography>
                   <Typography
-                    variant="button"
                     sx={{ textTransform: 'none' }}
+                    variant="button"
                     {...itemTitleProps}
                   >
                     {item.title}
@@ -193,12 +199,12 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
 
               const renderListItem = (children: JSX.Element) => (
                 <ListItem
+                  color="inherit"
                   sx={{
                     lineHeight: disablePadding ? 1.2 : 1,
                     padding: disablePadding && 0,
                     px,
                   }}
-                  color="inherit"
                   {...listItemProps}
                 >
                   {children}
@@ -206,7 +212,7 @@ const NavAccordion: React.FC<NavAccordionProps> = (props) => {
               )
 
               const renderLinkItem = (children: JSX.Element) => (
-                <Link href={item.href} aria-label={key}>
+                <Link aria-label={key} href={item.href}>
                   {children}
                 </Link>
               )

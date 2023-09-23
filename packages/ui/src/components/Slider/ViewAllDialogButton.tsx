@@ -1,5 +1,7 @@
 import React, { useState } from 'react'
+
 import CollectionsOutlinedIcon from '@mui/icons-material/CollectionsOutlined'
+
 import Button from '../../core/Button'
 import Dialog from '../../core/Dialog'
 import ImageList, { ImageListProps } from '../ImageList'
@@ -24,27 +26,27 @@ const ViewAllDialogButton: React.FC<ViewAllDialogButtonProps> = (props) => {
   return (
     <>
       <Button
-        variant="paper"
-        startIcon={<CollectionsOutlinedIcon />}
         onClick={() => setOpen(true)}
+        startIcon={<CollectionsOutlinedIcon />}
         sx={{
-          position: 'absolute',
-          zIndex: 1,
-          right: 0,
           bottom: 0,
-          mr: 1,
           mb: 1,
+          mr: 1,
+          position: 'absolute',
+          right: 0,
+          zIndex: 1,
         }}
+        variant="paper"
       >
         View All
       </Button>
 
       {/* View All Dialog */}
       <Dialog
-        open={open}
-        onClose={() => setOpen(false)}
         fullWidth
         maxWidth="lg"
+        onClose={() => setOpen(false)}
+        open={open}
       >
         <ImageList items={items} />
       </Dialog>

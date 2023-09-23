@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
-import CircularProgress from './CircularProgress'
+
 import { ButtonProps } from './Button'
+import CircularProgress from './CircularProgress'
 
 export type WithSetLoadingInOnClick = (
   e: React.MouseEvent<HTMLButtonElement, MouseEvent>,

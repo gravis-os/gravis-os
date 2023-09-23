@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Skeleton from './Skeleton'
 
@@ -7,18 +8,18 @@ const variants = ['text', 'circular', 'rectangular', 'rounded']
 const animations = ['wave', 'default']
 export default {
   title: getCoreStorybookTitle(Skeleton.name),
-  component: Skeleton,
   args: {
+    height: 100,
     variant: 'text',
     width: 100,
-    height: 100,
   },
   argTypes: {
     variant: {
-      options: variants,
       control: { type: 'select' },
+      options: variants,
     },
   },
+  component: Skeleton,
 }
 
 /* Template */

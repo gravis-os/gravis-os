@@ -1,32 +1,33 @@
 import React from 'react'
 import { ErrorBoundary } from 'react-error-boundary'
+
 import renderStatefulChildren from './renderStatefulChildren'
 
 const ErrorFallback = ({ error }) =>
   renderStatefulChildren(error.message, { isError: true })
 
 export interface StatesProps {
-  isLoading?: boolean
-  loading?: boolean
-
-  isError?: boolean | unknown
-  error?: boolean | unknown
-
-  isEmpty?: boolean
+  children?: React.ReactNode
   empty?: boolean
 
-  children?: React.ReactNode
+  error?: boolean | unknown
+  isEmpty?: boolean
+
+  isError?: boolean | unknown
+  isLoading?: boolean
+
+  loading?: boolean
 }
 
 const States: React.FC<StatesProps> = (props) => {
   const {
-    isLoading: injectedIsLoading,
-    loading,
-    isError: injectedIsError,
+    children,
+    empty,
     error,
     isEmpty: injectedIsEmpty,
-    empty,
-    children,
+    isError: injectedIsError,
+    isLoading: injectedIsLoading,
+    loading,
   } = props
 
   const isLoading = injectedIsLoading || loading
@@ -36,9 +37,9 @@ const States: React.FC<StatesProps> = (props) => {
   return (
     <ErrorBoundary FallbackComponent={ErrorFallback}>
       {renderStatefulChildren(children, {
-        isLoading,
-        isError,
         isEmpty,
+        isError,
+        isLoading,
       })}
     </ErrorBoundary>
   )

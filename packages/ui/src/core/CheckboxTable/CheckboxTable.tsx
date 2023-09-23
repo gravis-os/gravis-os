@@ -1,19 +1,21 @@
 import React, { useMemo } from 'react'
+
 import pick from 'lodash/pick'
 import toUpper from 'lodash/toUpper'
-import CheckboxTableHeader from './CheckboxTableHeader'
-import CheckboxTableBody, { CheckboxTableBodyProps } from './CheckboxTableBody'
-import { CheckboxTableColumns, CheckboxTableRows } from './types'
+
 import Stack, { StackProps } from '../Stack'
+import CheckboxTableBody, { CheckboxTableBodyProps } from './CheckboxTableBody'
+import CheckboxTableHeader from './CheckboxTableHeader'
+import { CheckboxTableColumns, CheckboxTableRows } from './types'
 
 export interface CheckboxTableProps<T> extends StackProps {
   bordered?: boolean
-  isReadOnly?: boolean
-  title: string
-  columns: CheckboxTableColumns
-  rows: CheckboxTableRows<T>
-  onChangeRow?: (checked: boolean, row: string) => void
   checkboxTableBodyProps?: CheckboxTableBodyProps<T>
+  columns: CheckboxTableColumns
+  isReadOnly?: boolean
+  onChangeRow?: (checked: boolean, row: string) => void
+  rows: CheckboxTableRows<T>
+  title: string
 }
 
 const getDefaultColumnDef = (column, options) => ({
@@ -24,13 +26,13 @@ const getDefaultColumnDef = (column, options) => ({
 
 const CheckboxTable = <T,>(props: CheckboxTableProps<T>) => {
   const {
-    bordered,
-    columns,
-    rows,
-    isReadOnly,
     title,
-    onChangeRow,
+    bordered,
     checkboxTableBodyProps,
+    columns,
+    isReadOnly,
+    onChangeRow,
+    rows,
     ...rest
   } = props
 
@@ -47,16 +49,16 @@ const CheckboxTable = <T,>(props: CheckboxTableProps<T>) => {
     <Stack {...rest}>
       <CheckboxTableHeader
         columnDefs={columnDefs}
-        title={title}
         hasToggleAllColumn={Boolean(onChangeRow)}
+        title={title}
       />
       <CheckboxTableBody
         {...checkboxTableBodyProps}
         bordered={bordered}
-        isReadOnly={isReadOnly}
         columnDefs={columnDefs}
-        rows={rows}
+        isReadOnly={isReadOnly}
         onChangeRow={onChangeRow}
+        rows={rows}
       />
     </Stack>
   )

@@ -1,11 +1,13 @@
 import React from 'react'
+
 import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
 import MoreVertOutlinedIcon from '@mui/icons-material/MoreVertOutlined'
-import MenuButton, { MenuButtonProps } from './MenuButton'
+
 import IconButton, { IconButtonProps } from './IconButton'
+import MenuButton, { MenuButtonProps } from './MenuButton'
 
 export interface MoreIconButtonProps extends Omit<MenuButtonProps, 'title'> {
-  orientation?: 'vertical' | 'horizontal'
+  orientation?: 'horizontal' | 'vertical'
   size?: IconButtonProps['size']
 }
 

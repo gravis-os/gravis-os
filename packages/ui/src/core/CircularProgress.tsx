@@ -1,8 +1,10 @@
 import React from 'react'
+
 import {
   CircularProgress as MuiCircularProgress,
   CircularProgressProps as MuiCircularProgressProps,
 } from '@mui/material'
+
 import styleConfig from '../config/styleConfig'
 import Box from './Box'
 
@@ -17,8 +19,8 @@ const CircularProgress: React.FC<CircularProgressProps> = (props) => {
     <Box
       center
       sx={{
-        width: '100%',
         height: `calc(100vh - ${styleConfig.headerHeight}px - ${styleConfig.layoutGutterTop}px)`,
+        width: '100%',
       }}
     >
       {childrenJsx}

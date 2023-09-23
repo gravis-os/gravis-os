@@ -1,5 +1,7 @@
-import map from 'lodash/map'
 import React from 'react'
+
+import map from 'lodash/map'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Stack from './Stack'
 import Typography from './Typography'
@@ -8,17 +10,17 @@ import Typography from './Typography'
 const directions = ['column', 'row']
 export default {
   title: getCoreStorybookTitle(Stack.name),
-  component: Stack,
   args: {
-    spacing: 2,
     children: ['Item 1', 'Item 2', 'Item 3'],
+    spacing: 2,
   },
   argTypes: {
     direction: {
-      options: directions,
       control: { type: 'select' },
+      options: directions,
     },
   },
+  component: Stack,
 }
 
 /* Template */

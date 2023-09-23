@@ -1,25 +1,27 @@
 import React from 'react'
-import dynamic from 'next/dynamic'
+
 import { cleanHref } from '@gravis-os/utils'
+import dynamic from 'next/dynamic'
+
 import type { LinkProps } from './Link'
 
 const DynamicLink = dynamic(() => import('./Link'))
 
 export interface WithHrefProps {
-  href?: string
-  targetBlank?: boolean
   disabled?: boolean
+  href?: string
   linkProps?: LinkProps
   sx?: LinkProps['sx']
+  targetBlank?: boolean
 }
 
 const withHref = (props: WithHrefProps) => {
   const {
     disabled,
     href,
-    targetBlank = false,
-    sx,
     linkProps: injectedLinkProps,
+    sx,
+    targetBlank = false,
   } = props
 
   return (children) => {
@@ -30,10 +32,10 @@ const withHref = (props: WithHrefProps) => {
 
     const linkProps = {
       href,
-      underline: 'none' as LinkProps['underline'],
       sx,
+      underline: 'none' as LinkProps['underline'],
       ...(isTargetBlank
-        ? { target: '_blank', href: nextHref }
+        ? { href: nextHref, target: '_blank' }
         : { passHref: true }),
       ...injectedLinkProps,
     }

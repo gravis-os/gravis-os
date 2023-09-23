@@ -1,7 +1,9 @@
+import React from 'react'
+
 import AccessibleForwardIcon from '@mui/icons-material/AccessibleForward'
 import AddReactionIcon from '@mui/icons-material/AddReaction'
 import AssuredWorkloadIcon from '@mui/icons-material/AssuredWorkload'
-import React from 'react'
+
 import { getComponentStorybookTitle } from '../utils/getStorybookTitle'
 import CardIconButtonRow from './CardIconButtonRow'
 
@@ -13,8 +15,8 @@ const items = [
 ]
 export default {
   title: getComponentStorybookTitle(CardIconButtonRow.name),
+  args: { disableLastGutterBottom: true, items },
   component: CardIconButtonRow,
-  args: { items, disableLastGutterBottom: true },
 }
 
 /* Template */

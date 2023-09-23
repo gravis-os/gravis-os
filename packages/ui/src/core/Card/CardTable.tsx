@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   CardHeaderProps,
   Table,
@@ -21,7 +22,7 @@ interface CardTableStyleProps {
  */
 const getLabelFromKey = (str: string): string => {
   const array = str.split('.')
-  return startCase(array[array.length - 1])
+  return startCase(array.at(-1))
 }
 
 interface CardTableRowInterface {
@@ -31,20 +32,20 @@ interface CardTableRowInterface {
 }
 
 export interface CardTableProps extends CardTableStyleProps {
+  CardHeaderProps?: CardHeaderProps
   data: Record<string, any>
+  disableBlankRows?: boolean
   rows: Array<CardTableRowInterface | string>
   size?: 'large' | 'medium'
-  disableBlankRows?: boolean
-  CardHeaderProps?: CardHeaderProps
 }
 
 const CardTable: React.FC<CardTableProps> = (props) => {
   const {
     data,
-    rows,
-    size = 'medium',
     disableBlankRows,
     labelCellWidth,
+    rows,
+    size = 'medium',
     ...rest
   } = props
   const isLarge = size === 'large'
@@ -72,7 +73,7 @@ const CardTable: React.FC<CardTableProps> = (props) => {
               </TableCell>
 
               <TableCell>
-                <Typography variant="body2" color="textSecondary">
+                <Typography color="textSecondary" variant="body2">
                   {value}
                 </Typography>
               </TableCell>

@@ -1,134 +1,136 @@
 import React, { useState } from 'react'
+
 import {
+  CardActions,
+  CardActionsProps,
   Card as MuiCard,
   CardProps as MuiCardProps,
-  CardActions,
   Typography,
-  CardActionsProps,
 } from '@mui/material'
 import flowRight from 'lodash/flowRight'
+
+import getPaletteColor from '../../utils/getPaletteColor'
+import ButtonLink, { ButtonLinkProps } from '../ButtonLink'
+import Collapse from '../Collapse'
+import withHref from '../withHref'
+import CardContent, { CardContentProps } from './CardContent'
 import CardHeader, {
   CardHeaderProps as BaseCardHeaderProps,
 } from './CardHeader'
-import ButtonLink, { ButtonLinkProps } from '../ButtonLink'
-import CardTable, { CardTableProps } from './CardTable'
 import CardList, { CardListProps } from './CardList'
-import CardContent, { CardContentProps } from './CardContent'
-import Collapse from '../Collapse'
-import withHref from '../withHref'
-import getPaletteColor from '../../utils/getPaletteColor'
+import CardTable, { CardTableProps } from './CardTable'
 
 interface CardLinkInterface extends ButtonLinkProps {
-  key: string
-  title: string
   href: string
   icon?: React.ReactElement
+  key: string
+  title: string
 }
 
 interface CardActionInterface {
-  key: string
   children: React.ReactNode
+  key: string
 }
 
 interface CardHeaderProps extends BaseCardHeaderProps {
+  action?: React.ReactNode
   icon: React.ReactElement
   subtitle?: CardHeaderProps['subheader']
-  action?: React.ReactNode
 }
 
 export interface CardProps extends Omit<MuiCardProps, 'title'> {
-  // Shorthands
-  overline?: React.ReactNode
-  title?: CardHeaderProps['title']
-  subtitle?: CardHeaderProps['subheader']
-  icon?: CardHeaderProps['avatar']
-
-  // Props
-  header?: CardHeaderProps
-  content?: {
-    title?: string
-    subtitle?: string
-  }
-  contentProps?: CardContentProps
-  list?: CardListProps
-  table?: CardTableProps
-  links?: CardLinkInterface[]
-  actions?: CardActionInterface[]
   actionProps?: CardActionsProps
-
-  // Padding
-  py?: number
-  padding?: number
-
-  // Flex
-  stretch?: boolean
-
-  // Styles
-  hover?: boolean
+  actions?: CardActionInterface[]
   border?: boolean
   borderHoverColor?: string
 
-  // Disables
-  disableHeaderDivider?: boolean
-  disableLastGutterBottom?: boolean
-  disableBorderRadiusTop?: boolean
-  disableBorderRadiusBottom?: boolean
-  disablePadding?: boolean
-  disableCardContent?: boolean
-  disableHeader?: boolean
-  disableBoxShadow?: boolean
-  disableBackgroundColor?: boolean
-  gutterBottom?: boolean
-
   // Collapse
   collapsible?: boolean
+  content?: {
+    subtitle?: string
+    title?: string
+  }
+  contentProps?: CardContentProps
   defaultCollapsed?: boolean
+  disableBackgroundColor?: boolean
+  disableBorderRadiusBottom?: boolean
+  disableBorderRadiusTop?: boolean
+  disableBoxShadow?: boolean
 
-  // Size
-  size?: 'small' | 'medium' | 'large'
+  disableCardContent?: boolean
+  disableHeader?: boolean
 
+  // Disables
+  disableHeaderDivider?: boolean
+
+  disableLastGutterBottom?: boolean
+  disablePadding?: boolean
+  gutterBottom?: boolean
+
+  // Props
+  header?: CardHeaderProps
+  // Styles
+  hover?: boolean
   // Href
   href?: string
+  icon?: CardHeaderProps['avatar']
+  links?: CardLinkInterface[]
+  list?: CardListProps
+  // Shorthands
+  overline?: React.ReactNode
+  padding?: number
+  // Padding
+  py?: number
+  // Size
+  size?: 'large' | 'medium' | 'small'
+
+  // Flex
+  stretch?: boolean
+  subtitle?: CardHeaderProps['subheader']
+
+  table?: CardTableProps
+
   targetBlank?: boolean
+  title?: CardHeaderProps['title']
 }
 
 const Card: React.FC<CardProps> = (props) => {
   const {
+    title,
     actionProps: injectedCardActionProps,
+    actions,
     border,
     borderHoverColor = 'primary',
-    collapsible,
-    defaultCollapsed,
     children,
+    collapsible,
     content = {},
     contentProps,
-    gutterBottom,
-    overline,
-    title,
-    subtitle,
-    icon,
-    header,
-    href,
-    hover,
-    list,
-    table,
-    links,
-    actions,
-    sx,
-    py,
-    padding: injectedPadding,
-    stretch,
-    size,
-    targetBlank,
+    defaultCollapsed,
+    disableBackgroundColor,
+    disableBorderRadiusBottom,
+    disableBorderRadiusTop,
+    disableBoxShadow,
+    disableCardContent,
     disableHeader,
     disableHeaderDivider,
     disableLastGutterBottom,
-    disableBorderRadiusTop,
-    disableBorderRadiusBottom,
     disablePadding,
-    disableCardContent,
-    disableBoxShadow,
-    disableBackgroundColor,
+    gutterBottom,
+    header,
+    hover,
+    href,
+    icon,
+    links,
+    list,
+    overline,
+    padding: injectedPadding,
+    py,
+    size,
+    stretch,
+    subtitle,
+    sx,
+    table,
+    targetBlank,
     ...rest
   } = props
   const { onClick } = rest
@@ -146,17 +148,17 @@ const Card: React.FC<CardProps> = (props) => {
   // Header
   // ==============================
   const {
-    icon: headerIcon,
     title: headerTitle,
-    subtitle: headerSubtitle,
     action: headerAction,
+    icon: headerIcon,
+    subtitle: headerSubtitle,
   } = header || {}
 
   const cardHeaderProps = {
-    avatar: icon || headerIcon,
     title: title || headerTitle,
-    subheader: subtitle || headerSubtitle,
     action: headerAction,
+    avatar: icon || headerIcon,
+    subheader: subtitle || headerSubtitle,
   }
   const hasHeader =
     !disableHeader && Object.values(cardHeaderProps).some(Boolean)
@@ -164,15 +166,16 @@ const Card: React.FC<CardProps> = (props) => {
   // ==============================
   // Content
   // ==============================
-  const hasContent = Boolean(Object.keys(content).length)
+  const hasContent = Object.keys(content).length > 0
   const { title: contentTitle, subtitle: contentSubtitle } = content || {}
   const cardContentProps = {
     ...contentProps,
     disableGutterBottom: !gutterBottom,
-    stretch,
     padding: disablePadding
       ? 0
-      : injectedPadding || (isSmall ? 1.5 : isLarge ? 2.5 : 2),
+      : // prettier-ignore
+        injectedPadding || (isSmall ? 1.5 : (isLarge ? 2.5 : 2)),
+    stretch,
     sx: {
       ...contentProps?.sx,
       ...((disablePadding || disableCardContent) && { p: 0 }),
@@ -196,10 +199,10 @@ const Card: React.FC<CardProps> = (props) => {
     <>
       {hasContent && (
         <CardContent {...cardContentProps}>
-          <Typography variant="h5" gutterBottom>
+          <Typography gutterBottom variant="h5">
             {contentTitle}
           </Typography>
-          <Typography variant="body2" color="textSecondary">
+          <Typography color="textSecondary" variant="body2">
             {contentSubtitle}
           </Typography>
         </CardContent>
@@ -207,10 +210,10 @@ const Card: React.FC<CardProps> = (props) => {
       {list && <CardList {...list} />}
       {table && <CardTable {...table} />}
       {children &&
-        (!disableCardContent ? (
-          <CardContent {...cardContentProps}>{children}</CardContent>
-        ) : (
+        (disableCardContent ? (
           children
+        ) : (
+          <CardContent {...cardContentProps}>{children}</CardContent>
         ))}
       {links && (
         <CardActions {...cardActionProps}>
@@ -240,8 +243,8 @@ const Card: React.FC<CardProps> = (props) => {
     <CardHeader
       collapsed={!collapsed}
       collapsible={collapsible}
-      onCollapsedClick={toggleCollapsed}
       divider={!disableHeaderDivider}
+      onCollapsedClick={toggleCollapsed}
       titleTypographyProps={{ variant: 'h4' }}
       {...cardHeaderProps}
     />
@@ -255,15 +258,15 @@ const Card: React.FC<CardProps> = (props) => {
 
   const cardProps = {
     sx: {
-      '& .MuiCardHeader-avatar': {
-        display: 'flex',
-        marginRight: 1,
-      },
       '& .MuiCardActions-root': {
-        backgroundColor: 'grey.100',
         '& .MuiButton-root': {
           textTransform: 'none',
         },
+        backgroundColor: 'grey.100',
+      },
+      '& .MuiCardHeader-avatar': {
+        display: 'flex',
+        marginRight: 1,
       },
 
       // Padding
@@ -297,8 +300,8 @@ const Card: React.FC<CardProps> = (props) => {
       // Hover
       ...((onClick || hover) && {
         '&:hover': {
-          cursor: 'pointer',
           borderColor: getPaletteColor(borderHoverColor),
+          cursor: 'pointer',
         },
       }),
 
@@ -326,7 +329,6 @@ const Card: React.FC<CardProps> = (props) => {
   return flowRight([
     withHref({
       href,
-      targetBlank,
       linkProps: {
         sx: {
           '&:hover .MuiCard-root': {
@@ -334,6 +336,7 @@ const Card: React.FC<CardProps> = (props) => {
           },
         },
       },
+      targetBlank,
     }),
   ])(cardChildrenWithOverlineJsx)
 }

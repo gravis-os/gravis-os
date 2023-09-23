@@ -7,8 +7,8 @@ const renderFontAwesomeKitScriptTag = () => {
   return (
     <script
       async
-      src={`https://kit.fontawesome.com/${kitName}.js`}
       crossOrigin="anonymous"
+      src={`https://kit.fontawesome.com/${kitName}.js`}
     />
   )
 }

@@ -1,41 +1,42 @@
 import React from 'react'
+
+import { useGravis } from '@gravis-os/config'
+import { cleanHref } from '@gravis-os/utils'
+import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
+import { Link as MuiLink, LinkProps as MuiLinkProps } from '@mui/material'
 import get from 'lodash/get'
 import RouterLink, { LinkProps as RouterLinkProps } from 'next/link'
-import { Link as MuiLink, LinkProps as MuiLinkProps } from '@mui/material'
-import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
-import { cleanHref } from '@gravis-os/utils'
-import { useGravis } from '@gravis-os/config'
 
 export interface LinkProps extends MuiLinkProps {
-  pointer?: boolean
-  rightCaret?: boolean
-  rightCaretFullWidth?: boolean
+  disableHoverColor?: boolean
   displayBlock?: boolean
   fadeOnHover?: boolean
   /**
    * Set the textColor to text.primary and hoverColor to primary.main by default
    */
   hoverColor?: string
-  disableHoverColor?: boolean
   passHref?: boolean
-  targetBlank?: boolean
+  pointer?: boolean
+  rightCaret?: boolean
+  rightCaretFullWidth?: boolean
   startIcon?: React.ReactElement
+  targetBlank?: boolean
 }
 
 const Link: React.FC<LinkProps> = (props) => {
   const {
-    startIcon,
-    fadeOnHover,
-    hoverColor,
+    children,
     disableHoverColor,
     displayBlock,
+    fadeOnHover,
+    hoverColor,
+    href,
+    passHref,
+    pointer,
     rightCaret,
     rightCaretFullWidth,
-    href,
-    children,
-    pointer,
+    startIcon,
     sx,
-    passHref,
     targetBlank,
     ...rest
   } = props
@@ -46,6 +47,29 @@ const Link: React.FC<LinkProps> = (props) => {
 
   // Define link props
   const linkProps = {
+    children: (
+      <>
+        {startIcon &&
+          React.cloneElement(startIcon, {
+            sx: {
+              fontSize: '1.25rem',
+              mr: 0.5,
+              position: 'relative',
+              top: 4,
+            },
+          })}
+        {children}
+        {(rightCaret || rightCaretFullWidth) && (
+          <KeyboardArrowRightOutlinedIcon
+            sx={{
+              height: '0.75em',
+              mb: -0.5,
+              width: '0.75em',
+            }}
+          />
+        )}
+      </>
+    ),
     sx: {
       ...(pointer && { cursor: 'pointer' }),
       ...(displayBlock && { display: 'block' }),
@@ -77,37 +101,14 @@ const Link: React.FC<LinkProps> = (props) => {
 
       // Right caret full width
       ...(rightCaretFullWidth && {
+        alignItems: 'center',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
       }),
 
       // Overrides
       ...sx,
     },
-    children: (
-      <>
-        {startIcon &&
-          React.cloneElement(startIcon, {
-            sx: {
-              fontSize: '1.25rem',
-              mr: 0.5,
-              position: 'relative',
-              top: 4,
-            },
-          })}
-        {children}
-        {(rightCaret || rightCaretFullWidth) && (
-          <KeyboardArrowRightOutlinedIcon
-            sx={{
-              width: '0.75em',
-              height: '0.75em',
-              mb: -0.5,
-            }}
-          />
-        )}
-      </>
-    ),
 
     ...(targetBlank && { target: '_blank' }),
 
@@ -115,7 +116,7 @@ const Link: React.FC<LinkProps> = (props) => {
   }
 
   switch (true) {
-    case Boolean(href):
+    case Boolean(href): {
       const nextHref = cleanHref(href)
 
       // If next >= 13, check next link implementation
@@ -123,8 +124,8 @@ const Link: React.FC<LinkProps> = (props) => {
         return (
           <MuiLink
             {...linkProps}
-            href={nextHref as MuiLinkProps['href']}
             component={RouterLink}
+            href={nextHref as MuiLinkProps['href']}
           />
         )
       }
@@ -135,8 +136,10 @@ const Link: React.FC<LinkProps> = (props) => {
           <MuiLink {...linkProps} />
         </RouterLink>
       )
-    default:
+    }
+    default: {
       return <MuiLink {...linkProps} />
+    }
   }
 }
 
