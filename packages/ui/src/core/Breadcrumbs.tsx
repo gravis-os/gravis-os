@@ -1,46 +1,48 @@
 import React, { useEffect, useState } from 'react'
+
 import {
   Breadcrumbs as MuiBreadcrumbs,
   BreadcrumbsProps as MuiBreadcrumbsProps,
 } from '@mui/material'
 import startCase from 'lodash/startCase'
 import { useRouter } from 'next/router'
+
+import Box from './Box'
 import Link from './Link'
 import Typography, { TypographyProps } from './Typography'
 import withContainer, { WithContainerProps } from './withContainer'
-import Box from './Box'
 
 export interface BreadcrumbsProps extends MuiBreadcrumbsProps {
-  items: Array<{ key: string; title: string; href: string }>
-  disableHomeBreadcrumb?: boolean
-  typographyProps?: TypographyProps
+  autoBreadcrumbs?: boolean
+  // Background
+  backgroundColor?: React.CSSProperties['backgroundColor']
+  container?: WithContainerProps['container']
 
   // Container
   containerProps?: WithContainerProps['containerProps']
-  container?: WithContainerProps['container']
+  disableHomeBreadcrumb?: boolean
 
-  // Background
-  backgroundColor?: React.CSSProperties['backgroundColor']
+  hideLastItem?: boolean
 
-  autoBreadcrumbs?: boolean
+  items: Array<{ href: string; key: string; title: string }>
 
   scrollOnOverflow?: boolean
 
-  hideLastItem?: boolean
+  typographyProps?: TypographyProps
 }
 
 const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   const {
+    autoBreadcrumbs,
     backgroundColor,
-    typographyProps,
-    disableHomeBreadcrumb,
-    scrollOnOverflow,
-    items: injectedItems = [],
-    sx,
     container,
     containerProps,
-    autoBreadcrumbs,
+    disableHomeBreadcrumb,
     hideLastItem,
+    items: injectedItems = [],
+    scrollOnOverflow,
+    sx,
+    typographyProps,
     ...rest
   } = props
 
@@ -59,9 +61,9 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
           if (isLast && hideLastItem) return null
           const href = `/${subPaths.slice(0, i + 1).join('/')}`
           return {
-            key: subPath,
             title: startCase(subPath),
             href,
+            key: subPath,
           }
         })
         .filter(Boolean)
@@ -70,9 +72,9 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
     }
   }, [router, autoBreadcrumbs])
 
-  const defaultItems = !disableHomeBreadcrumb
-    ? [{ key: 'home', title: 'Home', href: '/' }]
-    : []
+  const defaultItems = disableHomeBreadcrumb
+    ? []
+    : [{ title: 'Home', href: '/', key: 'home' }]
 
   // Data to render
   const items = [
@@ -92,10 +94,10 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
         // Scroll on overflow
         ...(scrollOnOverflow && {
           '& .MuiBreadcrumbs-ol': {
+            '&::-webkit-scrollbar': { display: 'none' },
+            flexWrap: 'nowrap',
             overflowX: 'scroll',
             whiteSpace: 'nowrap',
-            flexWrap: 'nowrap',
-            '&::-webkit-scrollbar': { display: 'none' },
           },
         }),
 
@@ -104,7 +106,7 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
       {...rest}
     >
       {nextItems.map((item, i) => {
-        const { key, title, href } = item
+        const { title, href, key } = item
         const isLast = i === nextItems.length - 1
 
         const childrenJsx = (
@@ -129,8 +131,8 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
   return (
     <Box
       sx={{
-        backgroundColor,
         '& .MuiBreadcrumbs-root': { my: 0, py: 0.5 },
+        backgroundColor,
       }}
     >
       {withContainer({ container, containerProps })(childrenJsx)}

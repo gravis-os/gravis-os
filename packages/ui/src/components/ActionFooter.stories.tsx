@@ -1,16 +1,17 @@
 import React from 'react'
+
 import { Button, Stack } from '../core'
 import { getComponentStorybookTitle } from '../utils/getStorybookTitle'
 import ActionFooter from './ActionFooter'
 
 /* Constants */
 const actions = [
-  <Button variant="contained" title="Contained" color="secondary" />,
+  <Button color="secondary" title="Contained" variant="contained" />,
 ]
 export default {
   title: getComponentStorybookTitle(ActionFooter.name),
-  component: ActionFooter,
   args: { actions },
+  component: ActionFooter,
   parameters: {
     layout: 'fullscreen',
   },
@@ -29,17 +30,17 @@ export const FullWidth = Template.bind({})
 FullWidth.args = {
   actions: [
     <Button
-      variant="contained"
-      title="Full Width"
       color="secondary"
       fullWidth
+      title="Full Width"
+      variant="contained"
     />,
   ],
 }
 export const Multiple = Template.bind({})
 Multiple.args = {
   actions: [
-    <Button variant="muted" title="Muted" color="primary" />,
-    <Button variant="contained" title="contained" color="secondary" />,
+    <Button color="primary" title="Muted" variant="muted" />,
+    <Button color="secondary" title="contained" variant="contained" />,
   ],
 }

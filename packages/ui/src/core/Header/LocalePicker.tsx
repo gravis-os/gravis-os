@@ -1,24 +1,26 @@
 import React from 'react'
+
 import { Stack, useMediaQuery, useTheme } from '@mui/material'
 import { useRouter } from 'next/router'
+
 import HeaderButtonWithMenu, {
   HeaderButtonWithMenuProps,
 } from './HeaderButtonWithMenu'
 
 // ISO 3166-1 alpha-2. ⚠️ No support for IE 11
 const getFlagFromCountryISOAlpha2 = (isoCode: string): string => {
-  return typeof String.fromCodePoint !== 'undefined'
+  return String.fromCodePoint === undefined
     ? isoCode
-        .toUpperCase()
-        .replace(/./g, (char) =>
-          String.fromCodePoint(char.charCodeAt(0) + 127397)
-        )
     : isoCode
+        .toUpperCase()
+        .replaceAll(/./g, (char) =>
+          String.fromCodePoint(char.codePointAt(0) + 127_397)
+        )
 }
 
 export interface Locale {
-  key: string
   isoAlpha2: string
+  key: string
   title: string
 }
 
@@ -33,41 +35,41 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
 
-  const mobileStyles = isMobile ? { paddingX: 0, minWidth: 48 } : {}
+  const mobileStyles = isMobile ? { minWidth: 48, paddingX: 0 } : {}
 
   if (!locales?.length) return null
 
   // Router
   const router = useRouter()
-  const { locale, asPath } = router
+  const { asPath, locale } = router
 
   // Items
   const items = locales.map((localeItem) => {
-    const { key, isoAlpha2, title } = localeItem
+    const { title, isoAlpha2, key } = localeItem
     return {
-      key,
       title: (
-        <Stack key={key} direction="row" spacing={1.5}>
+        <Stack direction="row" key={key} spacing={1.5}>
           <div>{getFlagFromCountryISOAlpha2(isoAlpha2)}</div>
           <div>{title}</div>
         </Stack>
       ),
+      key,
       onClick: () => router.push(asPath, asPath, { locale: isoAlpha2 }),
     }
   })
 
   return (
     <HeaderButtonWithMenu
-      key="locale-picker"
-      title={getFlagFromCountryISOAlpha2(locale)}
-      items={items}
       buttonProps={{
         sx: {
-          fontSize: 20,
           borderRadius: 0,
+          fontSize: 20,
           ...mobileStyles,
         },
       }}
+      items={items}
+      key="locale-picker"
+      title={getFlagFromCountryISOAlpha2(locale)}
       {...rest}
     />
   )

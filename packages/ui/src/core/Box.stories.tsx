@@ -1,18 +1,19 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Box from './Box'
 
 export default {
   title: getCoreStorybookTitle('Box'),
-  component: Box,
-  parameters: { layout: 'fullscreen' },
   args: {
-    children: 'Title',
-    reveal: true,
     center: true,
+    children: 'Title',
     py: 10,
+    reveal: true,
     sx: { backgroundColor: 'common.white' },
   },
+  component: Box,
+  parameters: { layout: 'fullscreen' },
 }
 
 const Template = (args) => <Box {...args} />

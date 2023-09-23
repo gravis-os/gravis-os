@@ -6,9 +6,9 @@ const renderFontAwesomeKitPreconnectLinkTags = () => {
   if (!kitName) return null
   return (
     <>
-      <link rel="preconnect" href="https://ka-p.fontawesome.com" />
-      <link rel="preconnect" href="https://use.fontawesome.com" />
-      <link rel="preconnect" href="https://kit.fontawesome.com" />
+      <link href="https://ka-p.fontawesome.com" rel="preconnect" />
+      <link href="https://use.fontawesome.com" rel="preconnect" />
+      <link href="https://kit.fontawesome.com" rel="preconnect" />
     </>
   )
 }

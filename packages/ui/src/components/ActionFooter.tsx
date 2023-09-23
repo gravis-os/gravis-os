@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+
 import Box, { BoxProps } from '../core/Box'
 
 /**
@@ -33,16 +34,16 @@ const ActionFooter: React.FC<ActionFooterProps> = (
   return (
     <Box
       sx={{
-        justifyContent: actions.length > 1 ? 'space-between' : 'center',
         alignItems: 'center',
+        backgroundColor: 'white',
         bottom: 0,
+        boxShadow: '1px 5px 8px #121828',
+        display: 'flex',
+        height: ACTION_FOOTER_HEIGHT,
+        justifyContent: actions.length > 1 ? 'space-between' : 'center',
         p: 2,
         position: 'fixed',
         width: '100vw',
-        height: ACTION_FOOTER_HEIGHT,
-        display: 'flex',
-        backgroundColor: 'white',
-        boxShadow: '1px 5px 8px #121828',
         ...sxProps,
       }}
       {...rest}

@@ -1,16 +1,19 @@
+import type { TransitionProps } from '@mui/material/transitions'
+
 import React from 'react'
+
+import CloseIcon from '@mui/icons-material/Close'
 import {
+  Fade,
+  FadeProps,
   Dialog as MuiDialog,
   DialogProps as MuiDialogProps,
+  Slide,
+  SlideProps,
   useMediaQuery,
   useTheme,
-  Slide,
-  Fade,
-  SlideProps,
-  FadeProps,
 } from '@mui/material'
-import CloseIcon from '@mui/icons-material/Close'
-import type { TransitionProps } from '@mui/material/transitions'
+
 import DialogTitle, { DialogTitleProps } from './DialogTitle'
 import IconButton from './IconButton'
 
@@ -46,40 +49,42 @@ const FadeTransition = React.forwardRef(
 )
 
 export enum DialogTransitionVariantEnum {
-  SLIDE = 'slide',
   FADE = 'fade',
+  SLIDE = 'slide',
 }
 
 export interface DialogProps extends MuiDialogProps {
+  disableTitle?: boolean
+  disableTransition?: boolean
+  fullScreenOnMobile?: boolean
   title?: string
   titleProps?: DialogTitleProps
-  disableTransition?: boolean
   transitionVariant?: DialogTransitionVariantEnum | string
-  disableTitle?: boolean
-  fullScreenOnMobile?: boolean
 }
 
 const getTransitionComponentByTransitionVariant = (
   transitionVariant: DialogProps['transitionVariant']
 ) => {
   switch (transitionVariant) {
-    case DialogTransitionVariantEnum.FADE:
+    case DialogTransitionVariantEnum.FADE: {
       return FadeTransition
+    }
     case DialogTransitionVariantEnum.SLIDE:
-    default:
+    default: {
       return SlideTransition
+    }
   }
 }
 
 const Dialog: React.FC<DialogProps> = (props) => {
   const {
-    transitionVariant,
-    disableTransition,
-    disableTitle,
     title,
-    titleProps,
     children,
+    disableTitle,
+    disableTransition,
     fullScreenOnMobile,
+    titleProps,
+    transitionVariant,
     ...rest
   } = props
   const { onClose } = rest
@@ -88,8 +93,8 @@ const Dialog: React.FC<DialogProps> = (props) => {
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'))
 
   const dialogProps = {
-    fullWidth: true,
     fullScreen: fullScreenOnMobile && !isDesktop,
+    fullWidth: true,
     ...(!disableTransition && {
       TransitionComponent:
         getTransitionComponentByTransitionVariant(transitionVariant),
@@ -104,11 +109,11 @@ const Dialog: React.FC<DialogProps> = (props) => {
           aria-label="close"
           onClick={(e) => onClose(e, 'backdropClick')}
           sx={{
+            color: (theme) => theme.palette.grey[500],
             position: 'absolute',
-            zIndex: 1,
             right: 8,
             top: 8,
-            color: (theme) => theme.palette.grey[500],
+            zIndex: 1,
           }}
         >
           <CloseIcon />

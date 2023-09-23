@@ -1,69 +1,71 @@
 import React from 'react'
+
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
 import {
-  Accordion as MuiAccordion,
   AccordionDetails,
   AccordionSummary,
+  Accordion as MuiAccordion,
   useMediaQuery,
   useTheme,
 } from '@mui/material'
-import Typography, { TypographyProps } from './Typography'
-import Stack from './Stack'
-import IconButton, { IconButtonProps } from './IconButton'
+
 import Box, { BoxProps } from './Box'
+import IconButton, { IconButtonProps } from './IconButton'
+import Stack from './Stack'
+import Typography, { TypographyProps } from './Typography'
 
 export enum AccordionIconVariantEnum {
-  Plus = 'plus',
   Caret = 'caret',
+  Plus = 'plus',
 }
 
 export interface AccordionProps {
-  gutterBottom?: boolean
+  contentProps?: TypographyProps
   defaultExpandAll?: boolean
   defaultExpandAllOnDesktopOnly?: boolean
+  defaultExpandedKeys?: string[]
   disablePadding?: boolean
+  gutterBottom?: boolean
+  iconVariant?: AccordionIconVariantEnum
   items?: Array<{
-    key: string
-    title: React.ReactNode
+    actionIconButtons?: IconButtonProps[]
     children?: React.ReactNode
     content?: React.ReactNode
-    actionIconButtons?: IconButtonProps[]
     disablePadding?: boolean
+    key: string
+    title: React.ReactNode
   }>
-  transparent?: boolean
-  titleProps?: TypographyProps
-  contentProps?: TypographyProps
-  defaultExpandedKeys?: string[]
-  iconVariant?: AccordionIconVariantEnum
   sx?: BoxProps['sx']
+  titleProps?: TypographyProps
+  transparent?: boolean
 }
 
 export const ACCORDION_ICON_VARIANTS = {
-  [AccordionIconVariantEnum.Plus]: {
-    expandIcon: AddOutlinedIcon,
-    collapseIcon: CloseOutlinedIcon,
-  },
   [AccordionIconVariantEnum.Caret]: {
-    expandIcon: ExpandMoreOutlinedIcon,
     collapseIcon: ExpandMoreOutlinedIcon,
+    expandIcon: ExpandMoreOutlinedIcon,
+  },
+  [AccordionIconVariantEnum.Plus]: {
+    collapseIcon: CloseOutlinedIcon,
+    expandIcon: AddOutlinedIcon,
   },
 }
 
 const Accordion: React.FC<AccordionProps> = (props) => {
   const {
-    items: injectedItems,
-    transparent,
-    gutterBottom,
+    contentProps,
     defaultExpandAll,
     defaultExpandAllOnDesktopOnly,
-    disablePadding,
-    titleProps,
-    contentProps,
     defaultExpandedKeys: injectedDefaultExpandedKeys = [],
+    disablePadding,
+    gutterBottom,
     iconVariant = AccordionIconVariantEnum.Caret,
+    items: injectedItems,
     sx,
+    titleProps,
+    transparent,
   } = props
 
   // Icon
@@ -73,11 +75,12 @@ const Accordion: React.FC<AccordionProps> = (props) => {
     defaultExpandAll || (defaultExpandAllOnDesktopOnly && isDesktop)
       ? injectedItems.map(({ key }) => key)
       : injectedDefaultExpandedKeys
-  const initialExpanded = defaultExpandedKeys.length
-    ? defaultExpandedKeys.reduce((acc, defaultExpandedKey) => {
-        return { ...acc, [defaultExpandedKey]: true }
-      }, {})
-    : {}
+  const initialExpanded =
+    defaultExpandedKeys.length > 0
+      ? defaultExpandedKeys.reduce((acc, defaultExpandedKey) => {
+          return { ...acc, [defaultExpandedKey]: true }
+        }, {})
+      : {}
   const [expanded, setExpanded] = React.useState(initialExpanded)
 
   const handleChange = (panel) => (e, isExpanded) => {
@@ -95,11 +98,13 @@ const Accordion: React.FC<AccordionProps> = (props) => {
         const {
           title,
           actionIconButtons = [],
+          children,
+          content: injectedContent,
           disablePadding: disableItemPadding,
         } = item
 
         const key = typeof title === 'string' ? title : `accordion-item-${i}`
-        const content = item.children || item.content
+        const content = children || injectedContent
 
         const isExpanded = Boolean(expanded[key])
         const accordionIconVariant = ACCORDION_ICON_VARIANTS[iconVariant]
@@ -109,30 +114,30 @@ const Accordion: React.FC<AccordionProps> = (props) => {
 
         return (
           <MuiAccordion
-            expanded={isExpanded}
-            onChange={handleChange(key)}
-            key={key}
-            square
             disableGutters={!gutterBottom}
+            expanded={isExpanded}
+            key={key}
+            onChange={handleChange(key)}
+            square
             sx={{
-              boxShadow: 'none',
               '&.Mui-expanded': {
                 borderTop: (theme) => `1px solid ${theme.palette.divider}`,
               },
+              boxShadow: 'none',
               ...(transparent && { backgroundColor: 'transparent' }),
             }}
           >
             <AccordionSummary
               expandIcon={<ExpansionIcon />}
               sx={{
-                '&:hover': { backgroundColor: 'action.hover' },
                 '& .MuiAccordionSummary-content': { my: 2 },
+                '&:hover': { backgroundColor: 'action.hover' },
                 ...(disablePadding && { px: 0 }),
               }}
             >
               <Stack
-                direction="row"
                 alignItems="center"
+                direction="row"
                 justifyContent="space-between"
                 spacing={1}
               >
@@ -144,20 +149,20 @@ const Accordion: React.FC<AccordionProps> = (props) => {
 
                 <div>
                   {Boolean(actionIconButtons?.length) && (
-                    <Stack direction="row" alignItems="center" sx={{ mr: 0.5 }}>
+                    <Stack alignItems="center" direction="row" sx={{ mr: 0.5 }}>
                       {actionIconButtons.map((actionIconButton) => (
                         <IconButton
                           {...actionIconButton}
-                          sx={{
-                            // Mirror expanded icon size
-                            padding: 0.5,
-                            '& svg': { fontSize: '1.25rem' },
-                            ...actionIconButton?.sx,
-                          }}
                           onClick={(e) => {
                             e.stopPropagation()
                             e.preventDefault()
                             actionIconButton.onClick(e)
+                          }}
+                          sx={{
+                            '& svg': { fontSize: '1.25rem' },
+                            // Mirror expanded icon size
+                            padding: 0.5,
+                            ...actionIconButton?.sx,
                           }}
                         />
                       ))}

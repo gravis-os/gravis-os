@@ -1,5 +1,7 @@
-import MenuIcon from '@mui/icons-material/Menu'
 import React from 'react'
+
+import MenuIcon from '@mui/icons-material/Menu'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import AppBar from './AppBar'
 import Button from './Button'
@@ -9,12 +11,12 @@ import Typography from './Typography'
 
 const Template = (args) => (
   <AppBar {...args}>
-    <Stack direction="row" alignItems="center">
-      <IconButton size="large" edge="start" sx={{ mx: 1 }}>
+    <Stack alignItems="center" direction="row">
+      <IconButton edge="start" size="large" sx={{ mx: 1 }}>
         <MenuIcon />
       </IconButton>
       <Typography sx={{ flexGrow: 1 }}>AppBar</Typography>
-      <Button variant="contained" sx={{ mx: 1 }} color="secondary">
+      <Button color="secondary" sx={{ mx: 1 }} variant="contained">
         Logout
       </Button>
     </Stack>
@@ -23,13 +25,13 @@ const Template = (args) => (
 
 export default {
   title: getCoreStorybookTitle('AppBar'),
-  component: AppBar,
   args: {
-    disableBoxShadow: false,
     disableBorderBottom: false,
-    transparent: false,
+    disableBoxShadow: false,
     translucent: false,
+    transparent: false,
   },
+  component: AppBar,
 }
 
 export const Basic = Template.bind({})

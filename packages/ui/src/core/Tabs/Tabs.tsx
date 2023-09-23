@@ -1,38 +1,40 @@
 import React from 'react'
-import { useTheme } from '@mui/material/styles'
+
 import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+
 import Card, { CardProps } from '../Card'
-import TabsBase, { TabsBaseProps } from './TabsBase'
 import Tab, { TabProps } from './Tab'
+import TabsBase, { TabsBaseProps } from './TabsBase'
 
 export interface TabsProps extends TabsBaseProps {
-  currentTab?: string
-  disableCard?: boolean
-  handleTabsChange?: (e, value: string) => void
-  hasTabs?: boolean
-  items?: TabProps[]
-  tabsProps?: TabsBaseProps
   cardProps?: CardProps
   children?: React.ReactNode
-  renderProps?: Record<string, unknown>
-  indicatorPosition?: 'top' | 'bottom'
+  currentTab?: string
+  disableCard?: boolean
   fullWidthOnDesktop?: boolean
+  handleTabsChange?: (e, value: string) => void
+  hasTabs?: boolean
+  indicatorPosition?: 'bottom' | 'top'
+  items?: TabProps[]
+  renderProps?: Record<string, unknown>
+  tabsProps?: TabsBaseProps
 }
 
 const Tabs: React.FC<TabsProps> = (props) => {
   const {
-    currentTab,
-    disableCard,
-    items,
-    renderProps,
-    handleTabsChange,
-    tabsProps,
     cardProps,
     children,
+    currentTab,
+    disableCard,
+    fullWidthOnDesktop,
+    handleTabsChange,
+    indicatorPosition,
+    items,
+    renderProps,
     sx,
     TabIndicatorProps,
-    indicatorPosition,
-    fullWidthOnDesktop,
+    tabsProps,
     ...rest
   } = props
 
@@ -42,18 +44,18 @@ const Tabs: React.FC<TabsProps> = (props) => {
   // Terminate if no tabs
   if (!items?.length && !children) return null
 
+  const getVariant = () => {
+    const desktopVariant = fullWidthOnDesktop ? 'fullWidth' : 'scrollable'
+    return isDesktop ? desktopVariant : 'scrollable'
+  }
+  const variant = getVariant()
+
   const childrenJsx = (
     <TabsBase
       onChange={handleTabsChange}
-      value={currentTab}
       scrollButtons="auto"
-      variant={
-        fullWidthOnDesktop
-          ? isDesktop
-            ? 'fullWidth'
-            : 'scrollable'
-          : 'scrollable'
-      }
+      value={currentTab}
+      variant={variant}
       {...tabsProps}
       TabIndicatorProps={{
         ...TabIndicatorProps,
@@ -73,17 +75,17 @@ const Tabs: React.FC<TabsProps> = (props) => {
             typeof hidden === 'function' && renderProps
               ? (hidden as any)(renderProps)
               : hidden
-          return <Tab key={item.value} hidden={nextHidden} {...rest} />
+          return <Tab hidden={nextHidden} key={item.value} {...rest} />
         })}
     </TabsBase>
   )
 
-  return !disableCard ? (
+  return disableCard ? (
+    childrenJsx
+  ) : (
     <Card square {...{ disablePadding: true, ...cardProps }}>
       {childrenJsx}
     </Card>
-  ) : (
-    childrenJsx
   )
 }
 

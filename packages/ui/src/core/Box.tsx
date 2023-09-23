@@ -1,48 +1,51 @@
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
 import React, { forwardRef } from 'react'
+
 import { Box as MuiBox, BoxProps as MuiBoxProps } from '@mui/material'
 import flowRight from 'lodash/flowRight'
-import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
-import { RevealProps } from './Reveal'
-import withReveal from './withReveal'
-import withHref, { WithHrefProps } from './withHref'
 
-export interface BoxProps extends Omit<MuiBoxProps, 'pt' | 'py' | 'px' | 'pb'> {
-  fullWidthOnMobile?: boolean
+import { RevealProps } from './Reveal'
+import withHref, { WithHrefProps } from './withHref'
+import withReveal from './withReveal'
+
+export interface BoxProps extends Omit<MuiBoxProps, 'pb' | 'pt' | 'px' | 'py'> {
   center?: boolean
   centerOnMobile?: boolean
-  stretch?: boolean
   fill?: boolean
-  middle?: boolean
-  reveal?: boolean | RevealProps
+  fullWidthOnMobile?: boolean
   href?: WithHrefProps['href']
   hrefProps?: Omit<WithHrefProps, 'href'>
-
+  middle?: boolean
+  pb?: ResponsiveStyleValue<any>
   // Responsive padding
   pt?: ResponsiveStyleValue<any>
-  py?: ResponsiveStyleValue<any>
+
   px?: ResponsiveStyleValue<any>
-  pb?: ResponsiveStyleValue<any>
+  py?: ResponsiveStyleValue<any>
+  reveal?: RevealProps | boolean
+  stretch?: boolean
 }
 
 const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
   const {
-    href,
-    hrefProps,
-    stretch,
-    fill,
-    fullWidthOnMobile,
-    reveal,
     center,
     centerOnMobile,
-    middle,
-    sx,
     children,
-
+    fill,
+    fullWidthOnMobile,
+    href,
+    hrefProps,
+    middle,
+    pb,
     // Responsive padding
     pt,
-    py,
     px,
-    pb,
+
+    py,
+    reveal,
+    stretch,
+    sx,
 
     ...rest
   } = props
@@ -57,35 +60,35 @@ const Box: React.FC<BoxProps> = forwardRef((props, ref) => {
 
       // Middle
       ...(middle && {
-        display: 'flex',
         alignItems: 'center',
+        display: 'flex',
       }),
       // Center
       ...(center && {
+        alignItems: 'center',
         display: 'flex',
         flexDirection: 'column',
         justifyContent: 'center',
-        alignItems: 'center',
         textAlign: 'center',
       }),
       // centerOnMobile
       ...(centerOnMobile && {
+        alignItems: { xs: 'center', md: 'flex-start' },
         display: 'flex',
         flexDirection: 'column',
         justifyContent: { xs: 'center', md: 'flex-start' },
-        alignItems: { xs: 'center', md: 'flex-start' },
         textAlign: { xs: 'center', md: 'left' },
       }),
 
       // Stretch
       ...(stretch && { height: '100%' }),
-      ...(fill && { width: '100%', height: '100%' }),
+      ...(fill && { height: '100%', width: '100%' }),
 
+      pb,
       // Responsive padding
       pt,
-      py,
       px,
-      pb,
+      py,
 
       ...sx,
     } as BoxProps['sx'],

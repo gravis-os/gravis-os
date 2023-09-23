@@ -1,14 +1,15 @@
 import React from 'react'
+
 import { TabsProps } from './Tabs'
 
 export interface TabContentProps {
-  items: TabsProps['items']
   currentTab?: TabsProps['currentTab']
+  items: TabsProps['items']
   renderProps?: TabsProps['renderProps']
 }
 
 const TabContent: React.FC<TabContentProps> = (props) => {
-  const { items, currentTab, renderProps } = props
+  const { currentTab, items, renderProps } = props
 
   if (!items?.length) return null
 
@@ -19,12 +20,15 @@ const TabContent: React.FC<TabContentProps> = (props) => {
   const hasRender = Boolean(currentTabItem.render)
 
   switch (true) {
-    case hasRender:
+    case hasRender: {
       return currentTabItem.render(renderProps)
-    case React.isValidElement(tabChildrenJsx):
+    }
+    case React.isValidElement(tabChildrenJsx): {
       return React.cloneElement(tabChildrenJsx, renderProps)
-    default:
+    }
+    default: {
       return tabChildrenJsx
+    }
   }
 }
 

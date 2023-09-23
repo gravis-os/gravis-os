@@ -1,25 +1,26 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Reveal from './Reveal'
 
 /* Constants */
 export default {
   title: getCoreStorybookTitle(Reveal.name),
-  component: Reveal,
   args: {
     children: 'Label',
   },
   argTypes: {
+    bottom: {
+      control: { type: 'boolean' },
+    },
     cascase: {
       control: { type: 'boolean' },
     },
     left: {
       control: { type: 'boolean' },
     },
-    bottom: {
-      control: { type: 'boolean' },
-    },
   },
+  component: Reveal,
 }
 
 /* Template */

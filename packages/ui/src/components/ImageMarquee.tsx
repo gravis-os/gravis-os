@@ -1,17 +1,19 @@
 import React from 'react'
 import ReactFastMarquee from 'react-fast-marquee'
+
 import { Stack, StackProps } from '@mui/material'
 import { alpha } from '@mui/material/styles'
-import Image, { ImageProps } from '../core/Image'
+
 import Box, { BoxProps } from '../core/Box'
+import Image, { ImageProps } from '../core/Image'
 
 export interface ReactFastMarqueeProps {
   /**
-   * Inline style for the container div
-   * Type: object
-   * Default: {}
+   * The children rendered inside the marquee
+   * Type: ReactNode
+   * Default: null
    */
-  style?: React.CSSProperties
+  children?: React.ReactNode
   /**
    * Class name to style the container div
    * Type: string
@@ -19,47 +21,17 @@ export interface ReactFastMarqueeProps {
    */
   className?: string
   /**
-   * Whether to play or pause the marquee
-   * Type: boolean
-   * Default: true
-   */
-  play?: boolean
-  /**
-   * Whether to pause the marquee when hovered
-   * Type: boolean
-   * Default: false
-   */
-  pauseOnHover?: boolean
-  /**
-   * Whether to pause the marquee when clicked
-   * Type: boolean
-   * Default: false
-   */
-  pauseOnClick?: boolean
-  /**
-   * The direction the marquee is sliding
-   * Type: "left" or "right"
-   * Default: "left"
-   */
-  direction?: 'left' | 'right'
-  /**
-   * Speed calculated as pixels/second
-   * Type: number
-   * Default: 20
-   */
-  speed?: number
-  /**
    * Duration to delay the animation after render, in seconds
    * Type: number
    * Default: 0
    */
   delay?: number
   /**
-   * The number of times the marquee should loop, 0 is equivalent to infinite
-   * Type: number
-   * Default: 0
+   * The direction the marquee is sliding
+   * Type: "left" or "right"
+   * Default: "left"
    */
-  loop?: number
+  direction?: 'left' | 'right'
   /**
    * Whether to show the gradient or not
    * Type: boolean
@@ -79,11 +51,11 @@ export interface ReactFastMarqueeProps {
    */
   gradientWidth?: number | string
   /**
-   * A callback for when the marquee finishes scrolling and stops. Only calls if loop is non-zero.
-   * Type: Function
-   * Default: null
+   * The number of times the marquee should loop, 0 is equivalent to infinite
+   * Type: number
+   * Default: 0
    */
-  onFinish?: () => void
+  loop?: number
   /**
    * A callback for when the marquee finishes a loop. Does not call if maximum loops are reached (use onFinish instead).
    * Type: Function
@@ -91,60 +63,96 @@ export interface ReactFastMarqueeProps {
    */
   onCycleComplete?: () => void
   /**
-   * The children rendered inside the marquee
-   * Type: ReactNode
+   * A callback for when the marquee finishes scrolling and stops. Only calls if loop is non-zero.
+   * Type: Function
    * Default: null
    */
-  children?: React.ReactNode
+  onFinish?: () => void
+  /**
+   * Whether to pause the marquee when clicked
+   * Type: boolean
+   * Default: false
+   */
+  pauseOnClick?: boolean
+  /**
+   * Whether to pause the marquee when hovered
+   * Type: boolean
+   * Default: false
+   */
+  pauseOnHover?: boolean
+  /**
+   * Whether to play or pause the marquee
+   * Type: boolean
+   * Default: true
+   */
+  play?: boolean
+  /**
+   * Speed calculated as pixels/second
+   * Type: number
+   * Default: 20
+   */
+  speed?: number
+  /**
+   * Inline style for the container div
+   * Type: object
+   * Default: {}
+   */
+  style?: React.CSSProperties
 }
 
 const getWidth = (size: ImageMarqueeProps['size']) => {
   switch (size) {
-    case 'lg':
+    case 'lg': {
       return 640
-    case 'sm':
+    }
+    case 'sm': {
       return 360
-    default:
+    }
+    default: {
       return 480
+    }
   }
 }
 
 const getGutterMultiplier = (size: ImageMarqueeProps['size']) => {
   switch (size) {
-    case 'lg':
+    case 'lg': {
       return 2
-    case 'sm':
+    }
+    case 'sm': {
       return 1
-    default:
+    }
+    default: {
       return 1
+    }
   }
 }
 
 export interface ImageMarqueeProps extends ReactFastMarqueeProps {
-  items: Array<{ key?: React.Key } & ImageProps>
-  imageProps?: Omit<ImageProps, 'src' | 'alt'>
-  size?: 'sm' | 'md' | 'lg' | string
   aspectRatio?: number
-  reverse?: boolean
   center?: boolean
-  sx?: BoxProps['sx']
+  imageProps?: Omit<ImageProps, 'alt' | 'src'>
+  items: Array<{ key?: React.Key } & ImageProps>
+  py?: StackProps['py']
+  reverse?: boolean
+  size?: 'lg' | 'md' | 'sm' | string
 
   // Stack
   spacing?: StackProps['spacing']
-  py?: StackProps['py']
+  sx?: BoxProps['sx']
 }
 
 const ImageMarquee: React.FC<ImageMarqueeProps> = (props) => {
   const {
-    items,
-    imageProps: injectedImageProps,
-    size = 'md',
-    aspectRatio = 1.75229358,
-    sx,
+    aspectRatio = 1.752_293_58,
     center = true,
+    imageProps: injectedImageProps,
+    items,
     py,
     reverse,
+    size = 'md',
     spacing,
+    sx,
     ...rest
   } = props
 
@@ -155,8 +163,8 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = (props) => {
   const gutterMultiplier = getGutterMultiplier(size)
 
   const imageProps = {
-    width,
     height: width / aspectRatio,
+    width,
     ...injectedImageProps,
   }
 
@@ -192,20 +200,20 @@ const ImageMarquee: React.FC<ImageMarqueeProps> = (props) => {
       }}
     >
       <ReactFastMarquee
-        style={{ paddingRight: 8 * gutterMultiplier }}
         gradient={false}
-        speed={20}
         pauseOnClick
+        speed={20}
+        style={{ paddingRight: 8 * gutterMultiplier }}
         {...(marqueeProps as ReactFastMarqueeProps)}
       >
-        <Stack direction="row" spacing={mx} mr={mx} py={py}>
+        <Stack direction="row" mr={mx} py={py} spacing={mx}>
           {items.map((item) => {
             const { key, ...itemRest } = item
             const { alt } = itemRest
             return (
               <Image
-                key={key || alt}
                 center={center}
+                key={key || alt}
                 {...imageProps}
                 {...itemRest}
                 sx={

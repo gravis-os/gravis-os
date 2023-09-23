@@ -1,4 +1,6 @@
-import { KeenSliderPlugin, KeenSliderInstance } from 'keen-slider/react'
+/* eslint-disable fp/no-loops */
+
+import { KeenSliderInstance, KeenSliderPlugin } from 'keen-slider/react'
 
 const withThumbnailsPlugin =
   (
@@ -6,9 +8,9 @@ const withThumbnailsPlugin =
   ): KeenSliderPlugin =>
   (slider) => {
     function removeActive() {
-      slider.slides.forEach((slide) => {
+      for (const slide of slider.slides) {
         slide.classList.remove('active')
-      })
+      }
     }
 
     function addActive(idx: number) {
@@ -16,11 +18,11 @@ const withThumbnailsPlugin =
     }
 
     function addClickEvents() {
-      slider.slides.forEach((slide, idx) => {
+      for (const [idx, slide] of slider.slides.entries()) {
         slide.addEventListener('click', () => {
           if (mainRef.current) mainRef.current.moveToIdx(idx)
         })
-      })
+      }
     }
 
     slider.on('created', () => {

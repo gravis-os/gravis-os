@@ -1,11 +1,11 @@
 import * as React from 'react'
+
 import { getComponentStorybookTitle } from '../utils/getStorybookTitle'
 import BackButton from './BackButton'
 
 /* Constants */
 export default {
   title: getComponentStorybookTitle(BackButton.name),
-  component: BackButton,
   args: {
     title: 'Label',
   },
@@ -14,6 +14,7 @@ export default {
       control: { type: 'boolean' },
     },
   },
+  component: BackButton,
 }
 
 /* Template */

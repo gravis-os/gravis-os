@@ -1,12 +1,13 @@
 import React from 'react'
+
 import Card, { CardProps } from '../Card'
-import Tabs, { TabsProps } from './Tabs'
 import Tab, { TabProps } from './Tab'
+import Tabs, { TabsProps } from './Tabs'
 
 export interface TabsCardItem extends Omit<TabProps, 'children' | 'hidden'> {
   children?: React.ReactNode
+  hidden?: (({ item }: any) => boolean) | boolean
   render?: ({ item }: any) => React.ReactElement
-  hidden?: boolean | (({ item }: any) => boolean)
 }
 
 export interface TabsCardProps extends CardProps {
@@ -15,17 +16,17 @@ export interface TabsCardProps extends CardProps {
   handleTabsChange: (e, value: string) => void
   hasTabs: boolean
   items: TabsCardItem[]
-  tabsProps?: TabsProps
   renderProps?: Record<string, unknown> // RenderProps
+  tabsProps?: TabsProps
 }
 
 const TabsCard: React.FC<TabsCardProps> = (props) => {
   const {
     currentTab,
     disableGutterBottom,
-    renderProps,
-    items,
     handleTabsChange,
+    items,
+    renderProps,
     tabsProps,
     ...rest
   } = props
@@ -37,7 +38,6 @@ const TabsCard: React.FC<TabsCardProps> = (props) => {
     <Card
       square
       {...rest}
-      sx={{ ...(!disableGutterBottom && { mb: 3 }), ...rest?.sx }}
       contentProps={{
         sx: {
           '&&': { py: 0 },
@@ -46,6 +46,7 @@ const TabsCard: React.FC<TabsCardProps> = (props) => {
         },
         ...rest?.contentProps,
       }}
+      sx={{ ...(!disableGutterBottom && { mb: 3 }), ...rest?.sx }}
     >
       <Tabs
         onChange={handleTabsChange}
@@ -55,7 +56,7 @@ const TabsCard: React.FC<TabsCardProps> = (props) => {
         {...tabsProps}
       >
         {items?.map((tab) => {
-          const { hidden } = tab
+          const { hidden, label, value } = tab
 
           // Hidden
           const hasHidden =
@@ -68,7 +69,7 @@ const TabsCard: React.FC<TabsCardProps> = (props) => {
             if (shouldHide) return
           }
 
-          return <Tab key={tab.value} label={tab.label} value={tab.value} />
+          return <Tab key={value} label={label} value={value} />
         })}
       </Tabs>
     </Card>

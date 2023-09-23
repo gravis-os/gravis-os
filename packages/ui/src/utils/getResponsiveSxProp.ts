@@ -1,13 +1,26 @@
 import isNil from 'lodash/isNil'
 
+const getNextCssValue = ({ cssValue, setCssValue }) => {
+  if (!setCssValue) return cssValue
+
+  // Apply transformation to every value in the object
+  if (typeof cssValue === 'object') {
+    return Object.entries(cssValue).reduce((acc, [key, value]) => {
+      return { ...acc, [key]: setCssValue(value) }
+    }, {})
+  }
+
+  return setCssValue(cssValue)
+}
+
 // ==============================
 // ResponsiveSxProp
 // ==============================
 export type ResponsiveSxProp =
   | Record<string, unknown>
-  | string
-  | number
   | boolean
+  | number
+  | string
 
 /**
  * getResponsiveSxProp
@@ -32,32 +45,20 @@ export type ResponsiveSxProp =
  * })
  */
 export const getResponsiveSxProp = ({
-  targetCssKey,
   cssValue,
   setCssValue,
+  targetCssKey,
 }: {
   // User-defined value
   cssValue: ResponsiveSxProp
-  // Remap css key
-  targetCssKey: string
   // Remap css value
   setCssValue?: (cssValue: ResponsiveSxProp) => ResponsiveSxProp
+  // Remap css key
+  targetCssKey: string
 }) => {
   // Handle case where cssValue is nil
   if (isNil(cssValue)) return {}
 
-  const getNextCssValue = ({ cssValue, setCssValue }) => {
-    if (!setCssValue) return cssValue
-
-    // Apply transformation to every value in the object
-    if (typeof cssValue === 'object') {
-      return Object.entries(cssValue).reduce((acc, [key, value]) => {
-        return { ...acc, [key]: setCssValue(value) }
-      }, {})
-    }
-
-    return setCssValue(cssValue)
-  }
   const nextCssValue = getNextCssValue({ cssValue, setCssValue })
 
   // Handle case where cssValue is a primitive

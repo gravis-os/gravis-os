@@ -1,23 +1,25 @@
-import React from 'react'
 import type { TypographyProps as MuiTypographyProps } from '@mui/material'
+
+import React from 'react'
+
 import Stack, { StackProps } from './Stack'
 
 export interface WithStartEndIconProps {
-  startIcon?: React.ReactElement
+  color?: MuiTypographyProps['color']
   endIcon?: React.ReactElement
   spacing?: StackProps['spacing']
-  color?: MuiTypographyProps['color']
+  startIcon?: React.ReactElement
 }
 
 const withStartEndIcon = (props: WithStartEndIconProps) => (children) => {
-  const { startIcon, endIcon, spacing, color } = props
+  const { color, endIcon, spacing, startIcon } = props
 
   if (!(startIcon || endIcon)) return children
 
   return (
     <Stack
-      direction="row"
       alignItems="center"
+      direction="row"
       spacing={spacing}
       sx={{
         '& .MuiSvgIcon-root': {

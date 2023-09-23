@@ -1,5 +1,7 @@
-import TramSharpIcon from '@mui/icons-material/TramSharp'
 import React from 'react'
+
+import TramSharpIcon from '@mui/icons-material/TramSharp'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import MoreIconButton from './MoreIconButton'
 
@@ -8,40 +10,40 @@ const sizes = ['small', 'medium', 'large']
 const orientations = ['horizontal', 'vertical']
 export default {
   title: getCoreStorybookTitle(MoreIconButton.name),
-  component: MoreIconButton,
   args: {
     items: [
       {
+        icon: <TramSharpIcon />,
         key: 'item1',
-        value: 'item1',
         label: 'Item 1',
-        icon: <TramSharpIcon />,
+        value: 'item1',
       },
       {
+        icon: <TramSharpIcon />,
         key: 'item2',
-        value: 'item2',
         label: 'Item 2',
-        icon: <TramSharpIcon />,
+        value: 'item2',
       },
       {
-        key: 'item3',
-        value: 'item3',
-        label: 'Item 3',
         icon: <TramSharpIcon />,
+        key: 'item3',
+        label: 'Item 3',
+        value: 'item3',
       },
     ],
     size: 'medium',
   },
   argTypes: {
-    size: {
-      options: sizes,
-      control: { type: 'select' },
-    },
     orientation: {
-      options: orientations,
       control: { type: 'select' },
+      options: orientations,
+    },
+    size: {
+      control: { type: 'select' },
+      options: sizes,
     },
   },
+  component: MoreIconButton,
 }
 
 /* Template */

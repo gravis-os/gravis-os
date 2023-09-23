@@ -1,95 +1,103 @@
 import React, { ReactNode } from 'react'
+
 import { printNumber } from '@gravis-os/utils'
 import { SxProps } from '@mui/material'
-import Stack, { StackProps } from './Stack'
+
 import Box from './Box'
 import Divider from './Divider'
+import Stack, { StackProps } from './Stack'
 import Typography, { TypographyProps } from './Typography'
 
 const getTitleVariantBySize = (size): TypographyProps['variant'] => {
   switch (size) {
-    case 'large':
+    case 'large': {
       return 'h2'
-    default:
+    }
+    default: {
       return 'h3'
+    }
   }
 }
 
 const getOverlineVariantBySize = (size): TypographyProps['variant'] => {
   switch (size) {
-    case 'large':
+    case 'large': {
       return 'overline'
-    default:
+    }
+    default: {
       return 'overline'
+    }
   }
 }
 
 const getSubtitleVariantBySize = (size): TypographyProps['variant'] => {
   switch (size) {
-    case 'large':
+    case 'large': {
       return 'body1'
-    default:
+    }
+    default: {
       return 'body2'
+    }
   }
 }
 
 export interface StatStackItem {
-  key: string
-  title: ReactNode
-  overline?: ReactNode
-  subtitle?: ReactNode
   formatType?: 'amount' | string
-  titleTypographyProps?: TypographyProps
-  subtitleTypographyProps?: TypographyProps
-  overlineTypographyProps?: TypographyProps
   icon?: ReactNode
+  key: string
+  overline?: ReactNode
+  overlineTypographyProps?: TypographyProps
   stackProps?: StackProps
+  subtitle?: ReactNode
+  subtitleTypographyProps?: TypographyProps
+  title: ReactNode
+  titleTypographyProps?: TypographyProps
 }
 
 export interface StatStackProps extends StackProps {
-  variant?: 'contained' | 'outlined'
-  items: StatStackItem[]
-  size?: 'small' | 'medium' | 'large'
-  reverse?: boolean
-  titleTypographyProps?: TypographyProps
-  subtitleTypographyProps?: TypographyProps
-  overlineTypographyProps?: TypographyProps
   itemStackProps?: StackProps
+  items: StatStackItem[]
+  overlineTypographyProps?: TypographyProps
+  reverse?: boolean
+  size?: 'large' | 'medium' | 'small'
   spacing?: StackProps['spacing']
+  subtitleTypographyProps?: TypographyProps
+  titleTypographyProps?: TypographyProps
+  variant?: 'contained' | 'outlined'
 }
 
 const StatStack: React.FC<StatStackProps> = (props) => {
   const {
     items,
-    titleTypographyProps,
-    subtitleTypographyProps,
-    overlineTypographyProps,
-    size,
-    sx,
-    reverse,
     itemStackProps,
+    overlineTypographyProps,
+    reverse,
+    size,
     spacing = 0.5,
+    subtitleTypographyProps,
+    sx,
+    titleTypographyProps,
     ...rest
   } = props
 
   return (
     <Stack
       direction="row"
+      divider={<Divider flexItem orientation="vertical" />}
       justifyContent="space-around"
-      sx={{ width: '100%', textAlign: 'center', ...sx }}
-      divider={<Divider orientation="vertical" flexItem />}
+      sx={{ textAlign: 'center', width: '100%', ...sx }}
       {...rest}
     >
       {items.map((item) => {
-        const { key, title, overline, subtitle, formatType, icon, stackProps } =
+        const { title, formatType, icon, key, overline, stackProps, subtitle } =
           item
 
         return (
           <React.Fragment key={key}>
             <Stack
+              alignItems="center"
               direction="row"
               spacing={2}
-              alignItems="center"
               {...itemStackProps}
               {...stackProps}
               sx={
@@ -110,8 +118,8 @@ const StatStack: React.FC<StatStackProps> = (props) => {
                   {/* Overline */}
                   {overline && (
                     <Typography
-                      variant={getOverlineVariantBySize(size)}
                       color="text.secondary"
+                      variant={getOverlineVariantBySize(size)}
                       {...overlineTypographyProps}
                       {...item.overlineTypographyProps}
                       sx={

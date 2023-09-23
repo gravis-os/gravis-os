@@ -1,9 +1,9 @@
 import React from 'react'
+
 import {
   DialogTitle as MuiDialogTitle,
   DialogTitleProps as MuiDialogTitleProps,
 } from '@mui/material'
-import { DialogProps as MuiDialogProps } from '@mui/material/Dialog/Dialog'
 
 export interface DialogTitleProps extends MuiDialogTitleProps {}
 

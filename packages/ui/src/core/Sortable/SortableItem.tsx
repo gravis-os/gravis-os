@@ -1,14 +1,16 @@
 import React from 'react'
+
 import { useSortable } from '@dnd-kit/sortable'
 import { CSS } from '@dnd-kit/utilities'
-import Item, { ItemProps } from './Item'
+
 import { SortablePosition } from './constants'
+import Item, { ItemProps } from './Item'
 import { ItemInterface } from './Sortable'
 
 export type SortableItemProps = ItemProps & {
   activeIndex: number
-  item: ItemInterface
   disabled?: boolean
+  item: ItemInterface
 }
 
 const SortableItem = (props: SortableItemProps) => {
@@ -17,15 +19,15 @@ const SortableItem = (props: SortableItemProps) => {
   // Init sortable
   const sortable = useSortable({
     id,
-    disabled,
     animateLayoutChanges: () => true,
+    disabled,
   })
   const {
     attributes,
-    listeners,
     index,
     isDragging,
     isSorting,
+    listeners,
     over,
     setNodeRef,
     transform,
@@ -38,15 +40,15 @@ const SortableItem = (props: SortableItemProps) => {
 
   return (
     <Item
+      active={isDragging}
       id={id}
+      insertPosition={insertPosition}
       ref={setNodeRef}
       sortable={sortable}
-      active={isDragging}
       style={{
-        transition,
         transform: isSorting ? undefined : CSS.Translate.toString(transform),
+        transition,
       }}
-      insertPosition={insertPosition}
       {...rest}
       {...attributes}
       {...listeners}

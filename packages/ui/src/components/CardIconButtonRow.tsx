@@ -1,4 +1,5 @@
 import React from 'react'
+
 import Card, { CardProps } from '../core/Card'
 import Grid, { GridProps } from '../core/Grid'
 import VerticalIconButton, {
@@ -13,10 +14,10 @@ import VerticalIconButton, {
  * @prop {GridProps} gridProps
  */
 export interface CardIconButtonRowProps extends CardProps {
-  /** List of VerticalIconButtons */
-  items: VerticalIconButtonProps[]
   /** Property of the grid component */
   gridProps?: GridProps
+  /** List of VerticalIconButtons */
+  items: VerticalIconButtonProps[]
 }
 
 /**
@@ -25,21 +26,21 @@ export interface CardIconButtonRowProps extends CardProps {
 const CardIconButtonRow: React.FC<CardIconButtonRowProps> = (
   props
 ): React.ReactElement => {
-  const { items, gridProps, ...rest } = props
+  const { gridProps, items, ...rest } = props
   const itemSize = Math.floor(12 / items.length)
   return (
     <Card {...rest}>
       <Grid
+        alignItems="center"
         container
         justifyContent="center"
-        alignItems="center"
         {...gridProps}
       >
         {items.map((item) => {
           const { title: label, icon, ...rest } = item
           return (
-            <Grid item xs={itemSize} textAlign="center">
-              <VerticalIconButton title={label} icon={icon} {...rest} />
+            <Grid item textAlign="center" xs={itemSize}>
+              <VerticalIconButton icon={icon} title={label} {...rest} />
             </Grid>
           )
         })}

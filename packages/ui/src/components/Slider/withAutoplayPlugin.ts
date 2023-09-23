@@ -1,9 +1,11 @@
+/* eslint-disable fp/no-let, fp/no-mutation */
+
 import { KeenSliderPlugin } from 'keen-slider/react'
 
 const withAutoplay =
   (options: {
-    durationPerSlide: number
     disablePauseOnHover?: boolean
+    durationPerSlide: number
   }): KeenSliderPlugin =>
   (slider) => {
     const { disablePauseOnHover, durationPerSlide } = options

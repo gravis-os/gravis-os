@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Button from './Button'
 
@@ -8,22 +9,22 @@ const variants = ['contained', 'outlined']
 const sizes = ['small', 'medium', 'large']
 export default {
   title: getCoreStorybookTitle(Button.name),
-  component: Button,
   args: { children: 'Label', disabled: false, disableElevation: false },
   argTypes: {
     color: {
+      control: { type: 'select' },
       options: colors,
-      control: { type: 'select' },
-    },
-    variant: {
-      options: variants,
-      control: { type: 'select' },
     },
     size: {
-      options: sizes,
       control: { type: 'select' },
+      options: sizes,
+    },
+    variant: {
+      control: { type: 'select' },
+      options: variants,
     },
   },
+  component: Button,
 }
 
 /* Template */
@@ -40,10 +41,10 @@ export const Outlined = Template.bind({})
 Outlined.args = { variant: 'outlined' }
 
 export const Small = Template.bind({})
-Small.args = { variant: 'contained', size: 'small' }
+Small.args = { size: 'small', variant: 'contained' }
 
 export const Medium = Template.bind({})
-Medium.args = { variant: 'contained', size: 'medium' }
+Medium.args = { size: 'medium', variant: 'contained' }
 
 export const Large = Template.bind({})
-Large.args = { variant: 'contained', size: 'large' }
+Large.args = { size: 'large', variant: 'contained' }

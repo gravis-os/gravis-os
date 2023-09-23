@@ -1,14 +1,15 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Html from './Html'
 
 /* Constants */
 export default {
   title: getCoreStorybookTitle(Html.name),
-  component: Html,
   args: {
     html: '<b>Html Content</b>',
   },
+  component: Html,
 }
 
 /* Template */

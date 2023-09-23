@@ -1,19 +1,21 @@
+import React from 'react'
+
 import BusinessCenterIcon from '@mui/icons-material/BusinessCenter'
 import map from 'lodash/map'
-import React from 'react'
+
 import { getComponentStorybookTitle } from '../utils/getStorybookTitle'
 import ListCard from './ListCard'
 
 /* Constants */
-const items = map(Array(4), (item, index) => ({
-  key: `list-card-item-${index}`,
+const items = map(Array.from({ length: 4 }), (item, index) => ({
   title: `List Card ${index}`,
   disableArrow: false,
+  key: `list-card-item-${index}`,
 }))
 export default {
   title: getComponentStorybookTitle(ListCard.name),
-  component: ListCard,
   args: { title: 'List Card', items },
+  component: ListCard,
 }
 
 /* Template */

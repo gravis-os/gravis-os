@@ -1,7 +1,9 @@
+import React from 'react'
+
 import AccountCircle from '@mui/icons-material/AccountCircle'
 import MailIcon from '@mui/icons-material/Mail'
 import { Badge, Box } from '@mui/material'
-import React from 'react'
+
 import {
   MOCK_DASHBOARD_HEADER_PROPS,
   MOCK_HEADER_PROPS,
@@ -15,17 +17,17 @@ import SubHeader from './SubHeader'
 
 export default {
   title: getCoreStorybookTitle(Header.name),
+  args: { ...MOCK_HEADER_PROPS },
   component: Header,
   parameters: { layout: 'fullscreen' },
-  args: { ...MOCK_HEADER_PROPS },
 }
 
 const handleRecursiveNavItemClick = (e, item) =>
   window.alert(`You clicked on: ${item.title}`)
 
 const defaultButtonProps = {
-  size: 'small' as ButtonProps['size'],
   onClick: () => window.alert('Clicked'),
+  size: 'small' as ButtonProps['size'],
   variant: 'paper',
 } as const
 
@@ -33,12 +35,12 @@ const defaultButtonProps = {
 export const Basic = (props) => <Header {...props} />
 
 export const Transparent = (props) => <Header {...props} />
-Transparent.args = { transparent: true, dark: true }
+Transparent.args = { dark: true, transparent: true }
 
 export const TransparentOnBackground = (props) => (
   <>
     <Header {...props} />
-    <Box height="50vh" py={10} bgcolor="common.black" />
+    <Box bgcolor="common.black" height="50vh" py={10} />
   </>
 )
 TransparentOnBackground.args = { transparent: true }
@@ -57,20 +59,20 @@ WithSearch.args = {
   navItems: {
     center: [
       {
-        key: 'Search',
         title: 'Search',
+        key: 'Search',
         preset: {
-          type: 'search',
-          onSearch: (searchValue) => window.alert(`Searched: ${searchValue}`),
           fullWidth: true,
+          onSearch: (searchValue) => window.alert(`Searched: ${searchValue}`),
+          type: 'search',
         },
       },
     ],
     right: [
       {
-        key: 'login/signup',
         title: 'login/signup',
         children: <Button {...defaultButtonProps}>Get Started</Button>,
+        key: 'login/signup',
       },
     ],
   },
@@ -82,7 +84,6 @@ WithItems.args = {
     left: [
       ...MOCK_HEADER_PROPS.navItems.left,
       {
-        key: 'on-click',
         title: 'onClick',
         items: [
           {
@@ -98,9 +99,9 @@ WithItems.args = {
             href: '#',
           },
         ],
+        key: 'on-click',
       },
       {
-        key: 'on-hover',
         title: 'onHover',
         isOpenOnHover: true,
         items: [
@@ -117,11 +118,11 @@ WithItems.args = {
             href: '#',
           },
         ],
+        key: 'on-hover',
       },
     ],
     right: [
       {
-        key: 'account',
         title: <AccountCircle />,
         items: [
           {
@@ -133,6 +134,7 @@ WithItems.args = {
             onClick: handleRecursiveNavItemClick,
           },
         ],
+        key: 'account',
       },
     ],
   },
@@ -144,7 +146,6 @@ WithMegaComponent.args = {
     left: [
       ...MOCK_HEADER_PROPS.navItems.left,
       {
-        key: 'onclick-mega-list',
         title: 'onClick Mega List',
         fullWidth: true,
         items: [
@@ -161,11 +162,12 @@ WithMegaComponent.args = {
             href: '#',
           },
         ],
+        key: 'onclick-mega-list',
       },
       {
-        key: 'onclick-mega-menu',
         title: 'onClick Mega Menu',
         fullWidth: true,
+        key: 'onclick-mega-menu',
         renderItems: ({ popupState }) => {
           return (
             <Box sx={{ p: 5, textAlign: 'center' }}>
@@ -177,13 +179,13 @@ WithMegaComponent.args = {
     ],
     right: [
       {
-        key: 'mail',
         title: (
           <Badge badgeContent={4} color="error">
             <MailIcon />
           </Badge>
         ),
         isOpenOnHover: true,
+        key: 'mail',
         onClick: () => window.alert('You clicked on mail'),
         renderItems: ({ popupState }) => {
           return (
@@ -201,24 +203,24 @@ export const WithLogoCenter = (props) => <Header {...props} />
 WithLogoCenter.args = {
   center: true,
   navItems: {
+    center: [
+      {
+        title: 'Logo',
+        children: MOCK_LOGO_JSX,
+        hideInMobileDrawer: true,
+        key: 'logo',
+        showOnMobileBar: true,
+      },
+    ],
     left: [
       MOCK_HEADER_PROPS.navItems.left[1],
       MOCK_HEADER_PROPS.navItems.left[2],
     ],
-    center: [
-      {
-        key: 'logo',
-        title: 'Logo',
-        children: MOCK_LOGO_JSX,
-        hideInMobileDrawer: true,
-        showOnMobileBar: true,
-      },
-    ],
     right: [
       {
-        key: 'login/signup',
         title: 'login/signup',
         children: <Button {...defaultButtonProps}>Get Started</Button>,
+        key: 'login/signup',
       },
     ],
   },

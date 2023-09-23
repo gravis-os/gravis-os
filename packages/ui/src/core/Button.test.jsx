@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { render, screen } from '@gravis-os/rtl'
+
 import Button from './Button'
 
 test('Button renders its children content on the screen via the children prop', () => {

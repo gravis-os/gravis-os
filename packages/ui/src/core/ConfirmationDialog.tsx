@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
+
 import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
 import {
   DialogActions,
@@ -6,28 +8,28 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material'
-import toast from 'react-hot-toast'
+
 import Button, { ButtonProps } from './Button'
 import Dialog, { DialogProps } from './Dialog'
 import IconButton from './IconButton'
 
 export interface ConfirmationDialogProps extends Omit<DialogProps, 'open'> {
-  onConfirm: () => Promise<void> | void
-  icon?: React.ReactElement
-  tooltip?: string
-  buttonProps?: ButtonProps
   buttonComponent?: React.ElementType
+  buttonProps?: ButtonProps
   disableToastSuccess?: boolean
+  icon?: React.ReactElement
+  onConfirm: () => Promise<void> | void
+  tooltip?: string
 }
 
 const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
   const {
     buttonComponent: ButtonComponent,
-    tooltip = 'Delete',
-    icon,
-    onConfirm,
     buttonProps,
     disableToastSuccess,
+    icon,
+    onConfirm,
+    tooltip = 'Delete',
     ...rest
   } = props
 
@@ -42,9 +44,9 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
       if (!disableToastSuccess) {
         toast.success('Success')
       }
-    } catch (err) {
+    } catch (error) {
       toast.error('Error')
-      console.error('Error caught:', err)
+      console.error('Error caught:', error)
     } finally {
       closeDialog()
     }
@@ -71,7 +73,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
       )}
 
       {/* Dialog */}
-      <Dialog open={confirmationDialogOpen} onClose={closeDialog} {...rest}>
+      <Dialog onClose={closeDialog} open={confirmationDialogOpen} {...rest}>
         <DialogTitle>Confirmation</DialogTitle>
         <DialogContent>
           <DialogContentText>
@@ -80,7 +82,7 @@ const ConfirmationDialog: React.FC<ConfirmationDialogProps> = (props) => {
         </DialogContent>
         <DialogActions>
           <Button onClick={closeDialog}>Cancel</Button>
-          <Button onClick={handleConfirmButtonClick} autoFocus>
+          <Button autoFocus onClick={handleConfirmButtonClick}>
             Confirm
           </Button>
         </DialogActions>

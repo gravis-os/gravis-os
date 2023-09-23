@@ -1,8 +1,10 @@
 import React from 'react'
+
 import {
   CardContent as MuiCardContent,
   CardContentProps as MuiCardContentProps,
 } from '@mui/material'
+
 import { ResponsiveSxProp } from '../../utils'
 
 export interface CardContentProps extends MuiCardContentProps {
@@ -12,7 +14,7 @@ export interface CardContentProps extends MuiCardContentProps {
 }
 
 const CardContent: React.FC<CardContentProps> = (props) => {
-  const { stretch, sx, padding, disableGutterBottom, ...rest } = props
+  const { disableGutterBottom, padding, stretch, sx, ...rest } = props
 
   return (
     <MuiCardContent
@@ -31,9 +33,9 @@ const CardContent: React.FC<CardContentProps> = (props) => {
 
           // Stretch
           ...(stretch && {
-            height: '100%',
             display: 'flex',
             flexDirection: 'column',
+            height: '100%',
           }),
 
           ...sx,

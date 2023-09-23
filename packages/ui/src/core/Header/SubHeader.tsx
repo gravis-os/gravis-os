@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+
+import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
 import {
   AppBar,
   AppBarProps,
@@ -9,27 +11,27 @@ import {
   Toolbar,
   Typography,
 } from '@mui/material'
-import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'
+
 import Button, { ButtonProps } from '../Button'
-import Link from '../Link'
 import Container, { ContainerProps } from '../Container'
+import Link from '../Link'
 
 interface SubHeaderButton {
-  title: string
-  href: string
   ButtonProps?: ButtonProps
+  href: string
+  title: string
 }
 
 export interface SubHeaderProps extends Omit<AppBarProps, 'color' | 'title'> {
-  title: SubHeaderButton | string
+  blend?: 'dark' | 'light'
   button?: SubHeaderButton
-  links?: SubHeaderButton[]
-  blend?: 'light' | 'dark'
   containerProps?: ContainerProps
+  links?: SubHeaderButton[]
+  title: SubHeaderButton | string
 }
 
 const SubHeader: React.FC<SubHeaderProps> = (props) => {
-  const { containerProps, blend = 'light', links, title, button } = props
+  const { title, blend = 'light', button, containerProps, links } = props
 
   // isMobileMenuOpen state
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
@@ -45,11 +47,11 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
       {links?.map((link) => {
         return (
           <Button
-            key={link.title}
             href={link.href}
+            key={link.title}
+            onClick={handleLinkClick}
             size="small"
             variant="text"
-            onClick={handleLinkClick}
             {...link.ButtonProps}
           >
             {link.title}
@@ -65,15 +67,15 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
         component="nav"
         position="sticky"
         sx={{
+          backdropFilter: 'saturate(180%) blur(20px)',
           backgroundColor:
             blend === 'light'
               ? 'rgba(255, 255, 255, 0.65)'
               : 'rgba(0, 0, 0, 0.65)',
-          color: blend === 'light' ? 'text.primary' : 'white',
-          backdropFilter: 'saturate(180%) blur(20px)',
-          boxShadow: 'none',
-          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
           borderBottom: (theme) => `1px solid ${theme.palette.divider}`,
+          borderTop: (theme) => `1px solid ${theme.palette.divider}`,
+          boxShadow: 'none',
+          color: blend === 'light' ? 'text.primary' : 'white',
         }}
       >
         <Container {...containerProps}>
@@ -111,7 +113,7 @@ const SubHeader: React.FC<SubHeaderProps> = (props) => {
 
             {/* Button */}
             {button && (
-              <Button size="small" href={button.href} variant="contained">
+              <Button href={button.href} size="small" variant="contained">
                 {button.title}
               </Button>
             )}

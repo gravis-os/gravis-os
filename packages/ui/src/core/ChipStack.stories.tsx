@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import ChipStack from './ChipStack'
 
@@ -6,7 +7,6 @@ import ChipStack from './ChipStack'
 const directions = ['row', 'column']
 export default {
   title: getCoreStorybookTitle(ChipStack.name),
-  component: ChipStack,
   args: {
     items: [
       { title: 'Chip 1', color: 'primary' },
@@ -15,10 +15,11 @@ export default {
   },
   argTypes: {
     direction: {
-      options: directions,
       control: { type: 'select' },
+      options: directions,
     },
   },
+  component: ChipStack,
 }
 
 /* Template */

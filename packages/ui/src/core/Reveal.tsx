@@ -1,7 +1,9 @@
-import React from 'react'
-import dynamic from 'next/dynamic'
 import type { RevealProps as ReactAwesomeRevealProps } from 'react-awesome-reveal'
+
+import React from 'react'
+
 import { keyframes } from '@emotion/react'
+import dynamic from 'next/dynamic'
 
 const DynamicFade = dynamic(() =>
   import('react-awesome-reveal').then((module) => module.Fade)
@@ -42,18 +44,21 @@ const Reveal: React.FC<RevealProps> = (props) => {
 
   // Render
   switch (variant) {
-    case RevealVariantEnum.Fade:
+    case RevealVariantEnum.Fade: {
       return <DynamicFade {...commonProps} />
-    case RevealVariantEnum.Slide:
+    }
+    case RevealVariantEnum.Slide: {
       return <DynamicSlide {...commonProps} />
-    default:
+    }
+    default: {
       return (
         <DynamicReactAwesomeReveal
-          keyframes={customAnimation}
           duration={1000}
+          keyframes={customAnimation}
           {...commonProps}
         />
       )
+    }
   }
 }
 

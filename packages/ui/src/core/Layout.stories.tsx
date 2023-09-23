@@ -1,14 +1,15 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Layout from './Layout'
 
 /* Constants */
 export default {
   title: getCoreStorybookTitle(Layout.name),
-  component: Layout,
   args: {
     children: 'Label',
   },
+  component: Layout,
 }
 
 /* Template */

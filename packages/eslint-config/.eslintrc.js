@@ -5,6 +5,7 @@ module.exports = {
     jest: true,
   },
   extends: [
+    // Style
     'plugin:react/recommended',
     'airbnb',
     'airbnb/hooks',
@@ -17,7 +18,7 @@ module.exports = {
     'plugin:unicorn/recommended',
     'plugin:fp/recommended',
     'plugin:promise/recommended',
-    'plugin:perfectionist/recommended-natural',
+    'plugin:perfectionist/recommended-natural'
   ],
   globals: {
     Atomics: 'readonly',
@@ -30,6 +31,7 @@ module.exports = {
     },
     ecmaVersion: 11,
     sourceType: 'module',
+    warnOnUnsupportedTypeScriptVersion: false,
   },
   plugins: [
     'react',
@@ -41,7 +43,6 @@ module.exports = {
     'unused-imports',
     'no-secrets',
     'fp',
-    'check-file',
     'write-good-comments',
   ],
   rules: {
@@ -143,22 +144,6 @@ module.exports = {
     '@typescript-eslint/no-use-before-define': 1,
     'arrow-body-style': 0,
     camelcase: 0,
-    'check-file/filename-naming-convention': [
-      2,
-      {
-        '**/*.{js,ts}': 'CAMEL_CASE',
-        '**/*.{jsx,tsx}': 'PASCAL_CASE',
-      },
-    ],
-    'check-file/folder-naming-convention': [
-      2,
-      {
-        'components/*/': 'PASCAL_CASE',
-        'lib/*/': 'PASCAL_CASE',
-        // Check the first level of folders in src
-        'src/*/': 'CAMEL_CASE',
-      },
-    ],
     'consistent-return': 1,
     'fp/no-mutating-methods': [
       2,
@@ -170,6 +155,7 @@ module.exports = {
       2,
       {
         commonjs: true,
+        exceptions: [{ property: 'args' }, { property: 'argTypes' }],
       },
     ],
     'fp/no-nil': 1,
@@ -224,8 +210,9 @@ module.exports = {
         ],
       },
     ],
+    'no-restricted-syntax': 0,
     // Security
-    'no-secrets/no-secrets': 2,
+    'no-secrets/no-secrets': [2, { tolerance: 5 }],
     'no-shadow': 0,
     'no-unreachable': 2,
     // Unused imports
@@ -295,6 +282,7 @@ module.exports = {
         extensions: ['.ts', '.tsx'],
       },
     ],
+    'react/jsx-no-duplicate-props': [2, { ignoreCase: false }],
     'react/jsx-props-no-spreading': 0,
     'react/no-array-index-key': 0,
     'react/no-unescaped-entities': 1,

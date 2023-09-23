@@ -1,5 +1,7 @@
 import React from 'react'
+
 import LocalActivityOutlinedIcon from '@mui/icons-material/LocalActivityOutlined'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import IconButton from './IconButton'
 
@@ -7,17 +9,17 @@ import IconButton from './IconButton'
 const colors = ['primary', 'secondary', 'success', 'error', 'info', 'warning']
 export default {
   title: getCoreStorybookTitle(IconButton.name),
-  component: IconButton,
   args: {},
   argTypes: {
     color: {
-      options: colors,
       control: { type: 'select' },
+      options: colors,
     },
     tooltip: {
       control: { type: 'text' },
     },
   },
+  component: IconButton,
 }
 
 /* Template */

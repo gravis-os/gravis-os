@@ -1,35 +1,38 @@
-import React, { useState, useEffect } from 'react'
 import type {
   DragEndEvent,
   DragStartEvent,
   MeasuringConfiguration,
   UniqueIdentifier,
 } from '@dnd-kit/core'
+
+import React, { useEffect, useState } from 'react'
+
 import {
-  closestCenter,
-  defaultDropAnimationSideEffects,
   DndContext,
   DragOverlay,
   DropAnimation,
   KeyboardSensor,
   MeasuringStrategy,
   PointerSensor,
+  closestCenter,
+  defaultDropAnimationSideEffects,
   useSensor,
   useSensors,
 } from '@dnd-kit/core'
 import {
-  arrayMove,
   SortableContext,
+  arrayMove,
   sortableKeyboardCoordinates,
 } from '@dnd-kit/sortable'
-import clsx from 'clsx'
 import { CSS } from '@dnd-kit/utilities'
+import clsx from 'clsx'
+
+import Box from '../Box'
+import { SortableLayout } from './constants'
 import createRange from './createRange'
 import { ItemProps } from './Item'
-import Box from '../Box'
-import SortableItem from './SortableItem'
 import OverlayItem from './OverlayItem'
-import { SortableLayout } from './constants'
+import SortableItem from './SortableItem'
 
 const measuring: MeasuringConfiguration = {
   droppable: {
@@ -66,27 +69,27 @@ export type ItemInterface = {
 } & Record<string, unknown>
 
 export interface SortableProps {
-  layout: SortableLayout
-  spacing?: number // Grid gap
-  items?: ItemInterface[] | []
-  renderItem?: ItemProps['renderItem']
-  sortKeys?: UniqueIdentifier[]
-  setSortKeys?: React.Dispatch<React.SetStateAction<any>>
   disabled?: boolean
+  items?: [] | ItemInterface[]
+  layout: SortableLayout
+  renderItem?: ItemProps['renderItem']
+  setSortKeys?: React.Dispatch<React.SetStateAction<any>>
+  sortKeys?: UniqueIdentifier[]
+  spacing?: number // Grid gap
 }
+
+const getSortKeysFromItems = (items) => items.map(({ id }) => String(id))
 
 const Sortable = (props: SortableProps) => {
   const {
+    disabled,
+    items = defaultItems,
     layout,
     renderItem,
-    items = defaultItems,
-    spacing = 2,
-    sortKeys: injectedSortKeys,
     setSortKeys: injectedSetSortKeys,
-    disabled,
+    sortKeys: injectedSortKeys,
+    spacing = 2,
   } = props
-
-  const getSortKeysFromItems = (items) => items.map(({ id }) => String(id))
 
   // States
   const [activeId, setActiveId] = useState<UniqueIdentifier | null>(null)
@@ -137,42 +140,42 @@ const Sortable = (props: SortableProps) => {
     <Box
       sx={{
         '& .Sortable': {
-          display: 'grid',
-          gap: spacing,
-          padding: 0,
-          margin: 0,
-          '&.horizontal': {
-            gridAutoFlow: 'column',
-            gridAutoColumns: 'max-content',
-          },
           '&.grid': {
             display: 'grid',
             gridTemplateColumns: 'repeat(auto-fill, minmax(320px, 1fr))',
           },
+          '&.horizontal': {
+            gridAutoColumns: 'max-content',
+            gridAutoFlow: 'column',
+          },
+          display: 'grid',
+          gap: spacing,
+          margin: 0,
+          padding: 0,
         },
       }}
     >
       <DndContext
-        onDragStart={handleDragStart}
-        onDragEnd={handleDragEnd}
-        onDragCancel={handleDragCancel}
-        sensors={sensors}
         collisionDetection={closestCenter}
         measuring={measuring}
+        onDragCancel={handleDragCancel}
+        onDragEnd={handleDragEnd}
+        onDragStart={handleDragStart}
+        sensors={sensors}
       >
         <SortableContext items={sortKeys}>
           <ul className={clsx('Sortable', layout)}>
             {sortKeys.map((id, index) => (
               <SortableItem
+                activeIndex={activeIndex}
+                disabled={disabled}
                 id={id}
                 index={index + 1}
-                key={id}
-                disabled={disabled}
-                layout={layout}
-                activeIndex={activeIndex}
-                renderItem={renderItem}
                 item={items.find((item) => String(item.id) === String(id))}
+                key={id}
+                layout={layout}
                 onRemove={() => handleRemoveItem(id)}
+                renderItem={renderItem}
               />
             ))}
           </ul>
@@ -182,10 +185,10 @@ const Sortable = (props: SortableProps) => {
           {activeId && (
             <OverlayItem
               id={activeId}
-              layout={layout}
-              sortKeys={sortKeys}
-              renderItem={renderItem}
               item={items.find(({ id }) => String(id) === String(activeId))}
+              layout={layout}
+              renderItem={renderItem}
+              sortKeys={sortKeys}
             />
           )}
         </DragOverlay>

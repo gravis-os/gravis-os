@@ -1,13 +1,14 @@
 import React from 'react'
+
 import { Tab as MuiTab, TabProps as MuiTabProps } from '@mui/material'
 
 export interface TabProps extends Omit<MuiTabProps, 'children' | 'hidden'> {
   children?: React.ReactNode
-  hidden?: boolean | ((item) => void)
+  hidden?: ((item) => void) | boolean
 }
 
 const Tab: React.FC<TabProps> = (props) => {
-  const { hidden, children, ...rest } = props
+  const { children, hidden, ...rest } = props
 
   // Hidden
   if (typeof hidden === 'function' || typeof hidden === 'boolean') {

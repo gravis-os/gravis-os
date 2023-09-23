@@ -1,10 +1,11 @@
+import React, { ChangeEvent, ReactNode, useState } from 'react'
+
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined'
 import { TextField } from '@mui/material'
 import isString from 'lodash/isString'
-import React, { ChangeEvent, ReactNode, useEffect, useState } from 'react'
+
 import Card, { CardProps } from '../core/Card'
 import Grid from '../core/Grid'
-import Image from '../core/Image'
 import Stack from '../core/Stack'
 import { renderReactNodeOrString } from '../utils'
 
@@ -20,22 +21,22 @@ import { renderReactNodeOrString } from '../utils'
  * @prop {boolean} hasError?
  */
 export interface QuantityCardProps extends CardProps {
-  title: ReactNode
+  /** Caption text displayed below the subtitle */
+  description?: ReactNode
+  /** Displays an error icon next to the quantity value if set to true */
+  hasError?: boolean
+  /**
+   * ReactNode to display the image
+   */
+  image?: React.ReactNode
+  /** URL of the image displayed on the left side of the component */
+  imageSrc?: string
   quantity: string
   /** Function which modifies the value of quantity */
   setQuantity?: (value: string) => void
   /** Text displayed before the title */
   subtitle?: ReactNode
-  /** Caption text displayed below the subtitle */
-  description?: ReactNode
-  /** URL of the image displayed on the left side of the component */
-  imageSrc?: string
-  /**
-   * ReactNode to display the image
-   */
-  image?: React.ReactNode
-  /** Displays an error icon next to the quantity value if set to true */
-  hasError?: boolean
+  title: ReactNode
 }
 
 const QuantityCard: React.FC<QuantityCardProps> = (
@@ -43,13 +44,13 @@ const QuantityCard: React.FC<QuantityCardProps> = (
 ): React.ReactElement => {
   const {
     title,
+    description,
+    hasError,
     image,
+    imageSrc,
     quantity: injectedQuantity,
     setQuantity: injectedSetQuantity,
     subtitle,
-    description,
-    imageSrc,
-    hasError,
     ...rest
   } = props
 
@@ -64,7 +65,7 @@ const QuantityCard: React.FC<QuantityCardProps> = (
   return (
     // Override default padding
     <Card disablePadding padding={1.5} {...rest}>
-      <Grid container spacing={1} display="flex" alignItems="center">
+      <Grid alignItems="center" container display="flex" spacing={1}>
         <Grid item xs={3}>
           {image}
         </Grid>
@@ -72,17 +73,24 @@ const QuantityCard: React.FC<QuantityCardProps> = (
           <Stack spacing={1}>
             {renderReactNodeOrString(title, { variant: 'subtitle2' })}
             {renderReactNodeOrString(subtitle, {
-              variant: 'body2',
               color: 'text.disabled',
+              variant: 'body2',
             })}
             {renderReactNodeOrString(description, {
-              variant: 'caption',
               color: 'text.disabled',
+              variant: 'caption',
             })}
           </Stack>
         </Grid>
         <Grid item xs={3}>
           <TextField
+            InputProps={{
+              inputProps: { inputMode: 'numeric', sx: { textAlign: 'center' } },
+              ...(hasError && {
+                endAdornment: <ErrorOutlinedIcon color="error" />,
+              }),
+            }}
+            onChange={handleQuantityOnChange}
             type="number"
             value={
               // Only use injectedQuantity if injectedSetQuantity is provided too to prevent input not changing
@@ -90,13 +98,6 @@ const QuantityCard: React.FC<QuantityCardProps> = (
                 ? injectedQuantity
                 : quantity
             }
-            onChange={handleQuantityOnChange}
-            InputProps={{
-              inputProps: { sx: { textAlign: 'center' }, inputMode: 'numeric' },
-              ...(hasError && {
-                endAdornment: <ErrorOutlinedIcon color="error" />,
-              }),
-            }}
           />
         </Grid>
       </Grid>

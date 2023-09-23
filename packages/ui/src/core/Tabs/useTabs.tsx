@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import { TabsProps } from './Tabs'
+import { useState } from 'react'
+
 import { TabProps } from './Tab'
+import { TabsProps } from './Tabs'
 
 export interface UseTabsProps {
   tabs: TabProps[]

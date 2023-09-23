@@ -1,15 +1,16 @@
 import React from 'react'
+
 import { getComponentStorybookTitle } from '../utils/getStorybookTitle'
 import QuantityCard from './QuantityCard'
 
 /* Constants */
 export default {
   title: getComponentStorybookTitle(QuantityCard.name),
-  component: QuantityCard,
   args: {
     title: 'Quantity Card',
     quantity: 25,
   },
+  component: QuantityCard,
 }
 
 /* Template */

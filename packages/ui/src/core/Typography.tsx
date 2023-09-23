@@ -1,43 +1,45 @@
 import React from 'react'
+
 import {
   Typography as MuiTypography,
   TypographyProps as MuiTypographyProps,
 } from '@mui/material'
-import get from 'lodash/get'
 import flowRight from 'lodash/flowRight'
+import get from 'lodash/get'
+
 import { RevealProps } from './Reveal'
-import withReveal from './withReveal'
 import withHref, { WithHrefProps } from './withHref'
+import withReveal from './withReveal'
 import withStartEndIcon, { WithStartEndIconProps } from './withStartEndIcon'
 
 export interface TypographyProps extends Omit<MuiTypographyProps, 'maxWidth'> {
-  maxWidth?: boolean | string // percentage e.g. '80%'. Shorthand for sx.maxWidth
-  gradient?: string | { from: string; to: string; angle?: string }
-  maxLines?: number
   component?: string
-  reveal?: boolean | RevealProps
+  endIcon?: WithStartEndIconProps['endIcon']
+  gradient?: { angle?: string; from: string; to: string } | string
+  hoverColor?: MuiTypographyProps['color']
   href?: WithHrefProps['href']
   hrefProps?: Omit<WithHrefProps, 'href'>
-  hoverColor?: MuiTypographyProps['color']
+  maxLines?: number
+  maxWidth?: boolean | string // percentage e.g. '80%'. Shorthand for sx.maxWidth
 
-  startIcon?: WithStartEndIconProps['startIcon']
-  endIcon?: WithStartEndIconProps['endIcon']
+  reveal?: RevealProps | boolean
   spacing?: WithStartEndIconProps['spacing']
+  startIcon?: WithStartEndIconProps['startIcon']
 }
 
 const Typography: React.FC<TypographyProps> = (props) => {
   const {
-    gradient,
-    maxWidth,
-    startIcon,
     endIcon,
-    reveal,
-    maxLines,
-    sx,
+    gradient,
+    hoverColor,
     href,
     hrefProps,
-    hoverColor,
+    maxLines,
+    maxWidth,
+    reveal,
     spacing = 0.5,
+    startIcon,
+    sx,
     ...rest
   } = props
   const { color } = rest
@@ -67,9 +69,9 @@ const Typography: React.FC<TypographyProps> = (props) => {
         // maxLines
         ...(maxLines && {
           display: '-webkit-box',
+          overflowY: 'hidden',
           WebkitBoxOrient: 'vertical',
           WebkitLineClamp: maxLines,
-          overflowY: 'hidden',
         }),
 
         // Hover color
@@ -84,7 +86,7 @@ const Typography: React.FC<TypographyProps> = (props) => {
   return flowRight([
     withHref({ href, ...hrefProps }),
     withReveal({ reveal }),
-    withStartEndIcon({ startIcon, endIcon, color, spacing }),
+    withStartEndIcon({ color, endIcon, spacing, startIcon }),
   ])(childrenJsx)
 }
 

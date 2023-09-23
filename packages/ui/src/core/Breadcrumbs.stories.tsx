@@ -1,25 +1,26 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Breadcrumbs from './Breadcrumbs'
 
 /* Constants */
 export default {
   title: getCoreStorybookTitle(Breadcrumbs.name),
-  component: Breadcrumbs,
   args: {
     items: [
       {
-        key: 'trail1',
         title: 'Trail 1',
         href: '/',
+        key: 'trail1',
       },
       {
-        key: 'trail2',
         title: 'Trail 2',
         href: '/',
+        key: 'trail2',
       },
     ],
   },
+  component: Breadcrumbs,
 }
 
 /* Template */

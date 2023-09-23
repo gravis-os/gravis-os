@@ -1,7 +1,8 @@
 import React from 'react'
+
+import Box from './Box'
 import Chip, { ChipProps } from './Chip'
-import Stack, { StackProps } from './Stack'
-import Box, { BoxProps } from './Box'
+import { StackProps } from './Stack'
 
 export interface ChipStackProps extends StackProps {
   items?: ChipProps[]
@@ -19,13 +20,13 @@ const ChipStack: React.FC<ChipStackProps> = (props) => {
   return (
     <Box
       sx={{
-        marginTop: -spacingY,
-        marginBottom: -spacingX,
         '& .MuiChip-root': {
-          marginTop: spacingY,
-          marginRight: spacingY,
           marginBottom: spacingX,
+          marginRight: spacingY,
+          marginTop: spacingY,
         },
+        marginBottom: -spacingX,
+        marginTop: -spacingY,
       }}
     >
       {items.map((item) => (

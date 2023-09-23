@@ -1,6 +1,8 @@
+import React from 'react'
+
 import ArrowBackIosOutlinedIcon from '@mui/icons-material/ArrowBackIosOutlined'
 import { SvgIconProps } from '@mui/material'
-import React from 'react'
+
 import Button, { ButtonProps } from '../core/Button'
 import Typography, { TypographyProps } from '../core/Typography'
 
@@ -16,18 +18,18 @@ import Typography, { TypographyProps } from '../core/Typography'
  * @prop {ButtonProps['sx']} buttonSxProps
  */
 export interface BackButtonProps extends ButtonProps {
-  /** Text displayed that represents the button */
-  title: string
-  /** Property of the title component */
-  typographyProps?: TypographyProps
   /** Property of the arrow icon displayed next to the title */
   arrowIconProps?: SvgIconProps
+  /** Sx property of the button component */
+  buttonSxProps?: ButtonProps['sx']
   /** Removes the arrow icon if set to true */
   disableArrow?: boolean
   /** Redirect destination when the button is clicked */
   href?: string
-  /** Sx property of the button component */
-  buttonSxProps?: ButtonProps['sx']
+  /** Text displayed that represents the button */
+  title: string
+  /** Property of the title component */
+  typographyProps?: TypographyProps
 }
 
 /**
@@ -38,18 +40,18 @@ export interface BackButtonProps extends ButtonProps {
 const BackButton: React.FC<BackButtonProps> = (props): React.ReactElement => {
   const {
     title,
-    typographyProps,
     arrowIconProps,
+    buttonSxProps,
     disableArrow,
     href,
-    buttonSxProps,
+    typographyProps,
     ...rest
   } = props
   return (
     <>
       <Button
-        sx={{ textTransform: 'none', ...buttonSxProps }}
         href={href}
+        sx={{ textTransform: 'none', ...buttonSxProps }}
         {...(!disableArrow && {
           startIcon: (
             <ArrowBackIosOutlinedIcon htmlColor="grey" {...arrowIconProps} />

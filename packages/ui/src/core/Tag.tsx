@@ -1,6 +1,7 @@
 import React from 'react'
-import Chip, { ChipProps } from './Chip'
+
 import getColorFromString from '../utils/getColorFromString'
+import Chip, { ChipProps } from './Chip'
 
 interface TagProps extends ChipProps {
   color?: string
@@ -14,12 +15,12 @@ const Tag: React.FC<TagProps> = (props) => {
 
   return (
     <Chip
+      color={color}
       sx={{
         borderRadius: 1,
         fontWeight: 'bold',
         ...sx,
       }}
-      color={color}
       {...rest}
     />
   )

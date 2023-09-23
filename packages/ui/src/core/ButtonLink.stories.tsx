@@ -1,17 +1,18 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import ButtonLink from './ButtonLink'
 
 /* Constants */
 export default {
   title: getCoreStorybookTitle(ButtonLink.name),
-  component: ButtonLink,
   args: {
-    href: '/',
     children: 'Label',
+    href: '/',
     openInNewTab: false,
     showLinkIcon: false,
   },
+  component: ButtonLink,
 }
 
 /* Template */

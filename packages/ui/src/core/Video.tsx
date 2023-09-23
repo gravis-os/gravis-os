@@ -1,39 +1,41 @@
-import React from 'react'
-import { Box, BoxProps } from '@mui/material'
 import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
+import React from 'react'
+
+import { Box, BoxProps } from '@mui/material'
 
 export interface VideoProps
   extends React.VideoHTMLAttributes<HTMLVideoElement> {
-  sx?: BoxProps['sx']
   maxHeight?: ResponsiveStyleValue<React.CSSProperties['maxHeight']>
+  sx?: BoxProps['sx']
 }
 
 const Video: React.FC<VideoProps> = (props: VideoProps) => {
   const {
-    src,
     autoPlay = true,
-    muted = true,
-    loop = true,
-    width = '100%',
     height,
+    loop = true,
     maxHeight,
+    muted = true,
+    src,
     sx,
+    width = '100%',
     ...rest
   } = props
 
   return (
     <Box
-      component="video"
       autoPlay={autoPlay}
-      muted={muted}
+      component="video"
       loop={loop}
+      muted={muted}
       playsInline
       {...rest}
       sx={{
-        width,
         height,
         maxHeight,
         objectFit: 'cover',
+        width,
         ...sx,
       }}
     >

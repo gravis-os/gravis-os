@@ -1,6 +1,8 @@
+import React from 'react'
+
 import LocalShippingIcon from '@mui/icons-material/LocalShipping'
 import PersonPinCircleIcon from '@mui/icons-material/PersonPinCircle'
-import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Typography from './Typography'
 
@@ -21,23 +23,23 @@ const variants = [
 ]
 export default {
   title: getCoreStorybookTitle(Typography.name),
-  component: Typography,
   args: {
     children: 'Label',
   },
   argTypes: {
+    align: {
+      control: { type: 'select' },
+      options: aligns,
+    },
     spacing: {
       control: { type: 'number' },
     },
-    align: {
-      options: aligns,
-      control: { type: 'select' },
-    },
     variant: {
-      options: variants,
       control: { type: 'select' },
+      options: variants,
     },
   },
+  component: Typography,
 }
 
 /* Template */
@@ -47,6 +49,6 @@ const Template = (args) => <Typography {...args} />
 export const Basic = Template.bind({})
 export const Icon = Template.bind({})
 Icon.args = {
-  startIcon: <LocalShippingIcon />,
   endIcon: <PersonPinCircleIcon />,
+  startIcon: <LocalShippingIcon />,
 }

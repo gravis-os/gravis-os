@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-let, fp/no-mutation */
+
 import { KeenSliderPlugin } from 'keen-slider/react'
 
 const withScrollPlugin: KeenSliderPlugin = (slider) => {

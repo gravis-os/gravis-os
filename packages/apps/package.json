@@ -113,7 +113,7 @@
     "reset": "rm -rf dist && rm -rf node_modules && npx yalc remove --all",
     "yalc:push": "yalc push",
     "test": "jest",
-    "lint": "lint-staged && next lint --quiet --fix",
+    "lint": "lint-staged && eslint --ext .ts,.js,.jsx,.tsx . --fix --quiet",
     "tslint": "tsc --noEmit --incremental"
   },
   "dependencies": {

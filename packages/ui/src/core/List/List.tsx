@@ -1,33 +1,35 @@
 import React from 'react'
+
+import { List as MuiList, ListProps as MuiListProps } from '@mui/material'
 import merge from 'lodash/merge'
 import omit from 'lodash/omit'
-import { List as MuiList, ListProps as MuiListProps } from '@mui/material'
+
+import Badge from '../Badge'
+import Divider from '../Divider'
+import Stack from '../Stack'
 import ListItem, { ListItemProps } from './ListItem'
 import ListItemWithCollapse, {
   ListItemWithCollapseProps,
 } from './ListItemWithCollapse'
-import Divider from '../Divider'
-import Badge from '../Badge'
-import Stack from '../Stack'
 
 export interface ListProps extends MuiListProps {
-  items: ListItemProps[]
-  listItemProps?: Omit<ListItemWithCollapseProps, 'key' | 'depth'>
   disableIndicator?: boolean
   divider?: boolean
+  items: ListItemProps[]
+  listItemProps?: Omit<ListItemWithCollapseProps, 'depth' | 'key'>
 }
 
 const List: React.FC<ListProps> = (props) => {
   const {
-    items,
-    listItemProps: injectedListItemProps,
     disableIndicator,
     divider,
+    items,
+    listItemProps: injectedListItemProps,
     ...rest
   } = props
   const { dense } = rest
 
-  if (!items.length) return null
+  if (items.length === 0) return null
 
   return (
     <MuiList disablePadding {...rest}>
@@ -44,7 +46,7 @@ const List: React.FC<ListProps> = (props) => {
           const isDivider = Boolean(item.divider)
 
           // Highest item will not have any depth key
-          const isHighestParent = typeof item.depth === 'undefined'
+          const isHighestParent = item.depth === undefined
 
           // Show badge dot on the highest parent that is currently slected
           const shouldShowIndicator =
@@ -56,12 +58,12 @@ const List: React.FC<ListProps> = (props) => {
           const listItemProps = merge({ dense }, injectedListItemProps, item, {
             startIcon: shouldShowIndicator ? (
               <Badge
+                anchorOrigin={{
+                  horizontal: 'left',
+                  vertical: 'top',
+                }}
                 color="secondary"
                 variant="dot"
-                anchorOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
               >
                 {item.startIcon}
               </Badge>
@@ -72,19 +74,22 @@ const List: React.FC<ListProps> = (props) => {
 
           // Render
           switch (true) {
-            case isDivider:
+            case isDivider: {
               return <Divider />
-            case isNestedMenu:
+            }
+            case isNestedMenu: {
               return (
-                <ListItemWithCollapse key={key} depth={1} {...listItemProps} />
+                <ListItemWithCollapse depth={1} key={key} {...listItemProps} />
               )
-            default:
+            }
+            default: {
               return (
                 <ListItem
                   key={key}
                   {...omit(listItemProps, ['collapseProps'])}
                 />
               )
+            }
           }
         })}
       </Stack>

@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { getCoreStorybookTitle } from '../utils/getStorybookTitle'
 import Chip from './Chip'
 
@@ -6,17 +7,17 @@ import Chip from './Chip'
 const colors = ['primary', 'secondary', 'success', 'error', 'info', 'warning']
 export default {
   title: getCoreStorybookTitle(Chip.name),
-  component: Chip,
   args: {
     title: 'Label',
     color: 'primary',
   },
   argTypes: {
     color: {
-      options: colors,
       control: { type: 'select' },
+      options: colors,
     },
   },
+  component: Chip,
 }
 
 /* Template */

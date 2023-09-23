@@ -1,10 +1,10 @@
 export enum SortablePosition {
-  Before = -1,
   After = 1,
+  Before = -1,
 }
 
 export enum SortableLayout {
+  Grid = 'grid',
   Horizontal = 'horizontal',
   Vertical = 'vertical',
-  Grid = 'grid',
 }

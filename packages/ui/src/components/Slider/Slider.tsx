@@ -1,69 +1,74 @@
-import React, { useState, useEffect } from 'react'
+/* eslint-disable fp/no-mutation */
+
+import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
+import React, { useEffect, useState } from 'react'
+
+import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
+import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
+import { LinearProgress, LinearProgressProps } from '@mui/material'
 import {
   KeenSliderOptions,
   KeenSliderPlugin,
   useKeenSlider,
 } from 'keen-slider/react'
-import NavigateNextOutlinedIcon from '@mui/icons-material/NavigateNextOutlined'
-import NavigateBeforeOutlinedIcon from '@mui/icons-material/NavigateBeforeOutlined'
-import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
-import { LinearProgress, LinearProgressProps } from '@mui/material'
+
 import Box, { BoxProps } from '../../core/Box'
+import IconButton from '../../core/IconButton'
 import Stack from '../../core/Stack'
 import Tabs, { TabsProps } from '../../core/Tabs'
 import { TabProps } from '../../core/Tabs/Tab'
-import IconButton from '../../core/IconButton'
 import ViewAllDialogButton from './ViewAllDialogButton'
+import withAutoHeight from './withAutoHeight'
 import withAutoplayPlugin from './withAutoplayPlugin'
 import withScrollPlugin from './withScrollPlugin'
 import withThumbnailsPlugin from './withThumbnailsPlugin'
-import withAutoHeight from './withAutoHeight'
 
 export interface SliderRenderItemProps {
-  prev: () => void
-  next: () => void
-  reset: () => void
   goTo: (index: number) => void
+  next: () => void
+  prev: () => void
+  reset: () => void
 }
 
 export type SliderRenderItem = ({
-  prev,
   next,
+  prev,
 }: SliderRenderItemProps) => React.ReactNode
 
 export interface SliderProps extends BoxProps {
-  items: Array<React.ReactNode | SliderRenderItem>
-  options?: KeenSliderOptions
-  plugins?: KeenSliderPlugin[]
-  itemProps?: BoxProps
+  arrows?: boolean
   autoHeight?: boolean
   autoplay?: boolean
-  scroll?: boolean
-  lazy?: boolean
-  loop?: boolean
-  thumbnails?: boolean
-  arrows?: boolean
-  dots?: boolean
-  dotProps?: { color?: string; sx?: BoxProps['sx'] }
-  fade?: boolean
-  tabs?: TabProps['label'][]
-  tabsProps?: TabsProps
-  tabProps?: TabProps
-  tabsColor?: 'primary' | 'secondary'
-  viewAll?: boolean
-  disableLeftArrow?: boolean
   disableCenter?: boolean
   disableDrag?: boolean
-  height?: ResponsiveStyleValue<React.CSSProperties['height']>
-  speed?: number
+  disableLeftArrow?: boolean
   // Autoplay props
   disablePauseOnHover?: boolean
+  dotProps?: { color?: string; sx?: BoxProps['sx'] }
+  dots?: boolean
   durationPerSlide?: number
+  fade?: boolean
+  height?: ResponsiveStyleValue<React.CSSProperties['height']>
+  itemProps?: BoxProps
+  items: Array<React.ReactNode | SliderRenderItem>
+  lazy?: boolean
+  loop?: boolean
+  options?: KeenSliderOptions
+  plugins?: KeenSliderPlugin[]
+  progress?: boolean
   /**
    * The higher, the smoother the progress bar gets
    */
   progressStepPerSlide?: number
-  progress?: boolean
+  scroll?: boolean
+  speed?: number
+  tabProps?: TabProps
+  tabs?: TabProps['label'][]
+  tabsColor?: 'primary' | 'secondary'
+  tabsProps?: TabsProps
+  thumbnails?: boolean
+  viewAll?: boolean
 }
 
 /**
@@ -71,36 +76,36 @@ export interface SliderProps extends BoxProps {
  */
 const Slider: React.FC<SliderProps> = (props) => {
   const {
-    sx,
-    items,
+    arrows,
+    autoHeight,
+    autoplay,
+    disableCenter,
+    disableDrag,
+    disableLeftArrow,
+    disablePauseOnHover,
+    dotProps,
+    dots,
+    durationPerSlide = 8000,
+    fade,
     height,
     itemProps,
-    options: injectedOptions = {},
-    plugins: injectedPlugins = [],
-    disableDrag,
-    disableCenter,
-    autoplay,
+    items,
     lazy,
     loop,
-    scroll,
-    autoHeight,
-    thumbnails,
-    arrows,
-    dots,
-    dotProps,
-    fade,
-    tabs,
-    tabsProps,
-    tabProps,
-    tabsColor = 'inherit',
-    speed,
     middle,
-    disableLeftArrow,
-    viewAll,
-    disablePauseOnHover,
+    options: injectedOptions = {},
+    plugins: injectedPlugins = [],
     progress,
-    durationPerSlide = 8000,
     progressStepPerSlide = 20,
+    scroll,
+    speed,
+    sx,
+    tabProps,
+    tabs,
+    tabsColor = 'inherit',
+    tabsProps,
+    thumbnails,
+    viewAll,
     ...rest
   } = props
 
@@ -137,6 +142,9 @@ const Slider: React.FC<SliderProps> = (props) => {
       ...(fade && {
         slides: items.length,
       }),
+      created() {
+        setLoaded(true)
+      },
       defaultAnimation: {
         duration: speed || fade ? 2000 : 500,
       },
@@ -148,9 +156,6 @@ const Slider: React.FC<SliderProps> = (props) => {
           setOpacities(new_opacities)
         }
       },
-      created() {
-        setLoaded(true)
-      },
       ...(lazy && { initial: 0 }),
       ...(disableDrag && { drag: false }),
       ...injectedOptions,
@@ -160,11 +165,11 @@ const Slider: React.FC<SliderProps> = (props) => {
       ...(autoplay
         ? [
             withAutoplayPlugin({
-              durationPerSlide,
               disablePauseOnHover:
                 typeof disablePauseOnHover === 'boolean'
                   ? disablePauseOnHover
                   : Boolean(progress),
+              durationPerSlide,
             }),
           ]
         : []),
@@ -196,20 +201,20 @@ const Slider: React.FC<SliderProps> = (props) => {
   // Item Props
   const commonItemProps = {
     center: !disableCenter,
-    middle,
     // Remove the keen-slider__slide selector if we're using fade to prevent transform
     className: fade ? '' : 'keen-slider__slide',
+    middle,
     ...itemProps,
     sx: {
-      '&:hover': { cursor: 'ew-resize' },
       '&:active': { cursor: 'grabbing' },
+      '&:hover': { cursor: 'ew-resize' },
       height,
       // If `fade`, get items to stack on top of each other instead of side by side
       ...(fade && {
-        width: '100%',
         height: '100%',
         position: 'absolute' as const,
         top: 0,
+        width: '100%',
       }),
       ...itemProps?.sx,
     },
@@ -220,9 +225,9 @@ const Slider: React.FC<SliderProps> = (props) => {
   const commonArrowIconButtonProps = {
     sx: {
       position: 'absolute',
-      zIndex: 1,
       top: '50%',
       transform: 'translate(0, -50%)',
+      zIndex: 1,
     },
   }
   // Dots
@@ -241,16 +246,16 @@ const Slider: React.FC<SliderProps> = (props) => {
         {shouldShowArrows && !disableLeftArrow && (
           <IconButton
             {...commonArrowIconButtonProps}
-            sx={{
-              ...commonArrowIconButtonProps?.sx,
-              left: 0,
-            }}
+            aria-label="Slider navigate previous"
+            disabled={!loop && currentSlide === 0}
             onClick={(e: any) => {
               e.stopPropagation()
               instanceRef.current?.prev()
             }}
-            disabled={!loop && currentSlide === 0}
-            aria-label="Slider navigate previous"
+            sx={{
+              ...commonArrowIconButtonProps?.sx,
+              left: 0,
+            }}
           >
             <NavigateBeforeOutlinedIcon />
           </IconButton>
@@ -259,20 +264,20 @@ const Slider: React.FC<SliderProps> = (props) => {
         {shouldShowArrows && (
           <IconButton
             {...commonArrowIconButtonProps}
-            sx={{
-              ...commonArrowIconButtonProps?.sx,
-              right: 0,
-            }}
-            onClick={(e: any) => {
-              e.stopPropagation()
-              instanceRef.current?.next()
-            }}
+            aria-label="Slider navigate next"
             disabled={
               !loop &&
               currentSlide ===
                 instanceRef.current.track.details.slides.length - 1
             }
-            aria-label="Slider navigate next"
+            onClick={(e: any) => {
+              e.stopPropagation()
+              instanceRef.current?.next()
+            }}
+            sx={{
+              ...commonArrowIconButtonProps?.sx,
+              right: 0,
+            }}
           >
             <NavigateNextOutlinedIcon />
           </IconButton>
@@ -282,10 +287,10 @@ const Slider: React.FC<SliderProps> = (props) => {
 
         {/* Main Slider */}
         <Box
-          ref={sliderRef}
           className={fade ? '' : 'keen-slider'}
+          ref={sliderRef}
           sx={{
-            ...(fade && { position: 'relative', height }),
+            ...(fade && { height, position: 'relative' }),
             ...sx,
           }}
           {...rest}
@@ -296,11 +301,11 @@ const Slider: React.FC<SliderProps> = (props) => {
               <>
                 {typeof item === 'function'
                   ? item({
-                      prev: instanceRef.current?.prev,
-                      next: instanceRef.current?.next,
-                      reset: () => instanceRef.current?.moveToIdx?.(0),
                       goTo: (index: number) =>
                         instanceRef.current?.moveToIdx?.(index),
+                      next: instanceRef.current?.next,
+                      prev: instanceRef.current?.prev,
+                      reset: () => instanceRef.current?.moveToIdx?.(0),
                     })
                   : item}
               </>
@@ -322,42 +327,42 @@ const Slider: React.FC<SliderProps> = (props) => {
         {/* Tabs */}
         {shouldShowTabs && (
           <Tabs
-            value={currentSlide}
-            onChange={(e, newValue) => instanceRef.current?.moveToIdx(newValue)}
-            items={[
-              ...new Array(instanceRef.current.track.details.slides.length),
-            ].map((_, i) => ({
-              key: i,
-              value: i,
-              label: tabs[i],
-              ...tabProps,
-            }))}
-            centered={!disableCenter}
-            disableCard
-            indicatorPosition="top"
             TabIndicatorProps={{
               ...(shouldShowProgress && {
                 children: (
                   <LinearProgress
-                    variant="determinate"
-                    value={progressValue}
                     color={tabsColor as LinearProgressProps['color']}
+                    value={progressValue}
+                    variant="determinate"
                   />
                 ),
               }),
             }}
+            centered={!disableCenter}
+            disableCard
             hoverColor={tabsColor as TabsProps['hoverColor']}
-            textColor={tabsColor as TabsProps['textColor']}
             indicatorColor={tabsColor as TabsProps['indicatorColor']}
+            indicatorPosition="top"
+            items={Array.from({
+              length: instanceRef.current.track.details.slides.length,
+            }).map((_, i) => ({
+              key: i,
+              label: tabs[i],
+              value: i,
+              ...tabProps,
+            }))}
+            onChange={(e, newValue) => instanceRef.current?.moveToIdx(newValue)}
+            textColor={tabsColor as TabsProps['textColor']}
+            value={currentSlide}
             {...tabsProps}
             sx={{
-              width: '100%',
-              position: 'absolute',
-              left: 0,
-              right: 0,
               bottom: -8,
               display: 'block',
+              left: 0,
+              position: 'absolute',
+              right: 0,
               textAlign: disableCenter ? 'left' : 'center',
+              width: '100%',
               ...tabsProps?.sx,
             }}
           />
@@ -370,27 +375,27 @@ const Slider: React.FC<SliderProps> = (props) => {
             justifyContent="center"
             spacing={0.5}
             sx={{
-              position: 'absolute',
               bottom: 24,
+              position: 'absolute',
             }}
           >
-            {[
-              ...new Array(instanceRef.current.track.details.slides.length),
-            ].map((_, i) => {
+            {Array.from({
+              length: instanceRef.current.track.details.slides.length,
+            }).map((_, i) => {
               const { color: dotColor = 'primary.main', sx: dotSx } =
                 dotProps || {}
               const isActiveDot = currentSlide === i
               return (
                 <Box
-                  key={i}
                   component="button"
+                  key={i}
                   onClick={() => instanceRef.current?.moveToIdx(i)}
                   sx={{
-                    width: 16,
+                    backgroundColor: isActiveDot && dotColor,
                     border: 0,
                     boxShadow: 'none',
                     cursor: 'pointer',
-                    backgroundColor: isActiveDot && dotColor,
+                    width: 16,
                     ...dotSx,
                   }}
                 />
@@ -403,8 +408,8 @@ const Slider: React.FC<SliderProps> = (props) => {
       {/* Thumbnails */}
       {thumbnails && (
         <Box
-          ref={thumbnailsRef}
           className="keen-slider thumbnail"
+          ref={thumbnailsRef}
           sx={{
             ...sx,
             mt: 1,
@@ -418,14 +423,14 @@ const Slider: React.FC<SliderProps> = (props) => {
                 {...commonItemProps}
                 sx={{
                   ...commonItemProps?.sx,
-                  opacity: 0.8,
-                  border: '1px solid transparent',
                   '&:hover': {
-                    cursor: 'pointer',
                     borderColor: 'divider',
+                    cursor: 'pointer',
                     opacity: 1,
                   },
                   '&.active': { borderColor: 'divider', opacity: 1 },
+                  border: '1px solid transparent',
+                  opacity: 0.8,
                 }}
               >
                 {item}

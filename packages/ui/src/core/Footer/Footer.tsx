@@ -1,61 +1,63 @@
 import React from 'react'
+
+import { WithPaletteModeProps, withPaletteMode } from '@gravis-os/theme'
 import FacebookOutlinedIcon from '@mui/icons-material/FacebookOutlined'
-import TwitterIcon from '@mui/icons-material/Twitter'
 import InstagramIcon from '@mui/icons-material/Instagram'
 import LinkedInIcon from '@mui/icons-material/LinkedIn'
+import TwitterIcon from '@mui/icons-material/Twitter'
 import YouTubeIcon from '@mui/icons-material/YouTube'
-import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
 import startCase from 'lodash/startCase'
-import NavAccordion, { NavAccordionProps } from '../NavAccordion'
+
 import Box from '../Box'
 import Container from '../Container'
 import Divider from '../Divider'
 import Grid from '../Grid'
+import IconButton from '../IconButton'
+import Link from '../Link'
+import NavAccordion, { NavAccordionProps } from '../NavAccordion'
 import Stack from '../Stack'
 import Typography from '../Typography'
-import Link from '../Link'
-import IconButton from '../IconButton'
 
 export type SocialItemType =
-  | 'github'
-  | 'medium'
   | 'behance'
-  | 'twitter'
   | 'dribbble'
   | 'facebook'
-  | 'linkedin'
+  | 'github'
   | 'instagram'
+  | 'linkedin'
+  | 'medium'
+  | 'twitter'
 
-export type LegalItemType = 'terms' | 'privacy' | 'cookies'
+export type LegalItemType = 'cookies' | 'privacy' | 'terms'
 
 export interface FooterNavItem {
+  items: Array<{ href: string; title: string }>
   title: string
-  items: Array<{ title: string; href: string }>
 }
 
 export interface FooterProps extends WithPaletteModeProps {
-  companyName: string
-  navItems: FooterNavItem[]
-  logo?: React.ReactElement
-  socialMediaItems?: { [type in SocialItemType]?: string }
-  legalItems?: { [type in LegalItemType]?: string }
   accordionProps?: Omit<NavAccordionProps, 'title'>
   callout?: React.ReactNode
+  companyName: string
   disableCallout?: boolean
+  legalItems?: { [type in LegalItemType]?: string }
+  logo?: React.ReactElement
+  navItems: FooterNavItem[]
+  socialMediaItems?: { [type in SocialItemType]?: string }
 }
 
 const Footer: React.FC<FooterProps> = (props) => {
   const {
     accordionProps,
-    logo,
-    companyName,
-    socialMediaItems,
-    legalItems,
-    navItems: injectedNavItems,
-    mode,
-    dark,
     callout,
+    companyName,
+    dark,
     disableCallout,
+    legalItems,
+    logo,
+    mode,
+    navItems: injectedNavItems,
+    socialMediaItems,
   } = props
 
   const navItems = injectedNavItems?.filter(Boolean)
@@ -66,21 +68,21 @@ const Footer: React.FC<FooterProps> = (props) => {
 
       {/* Footer */}
       <Box
-        component="footer"
-        textAlign={{ xs: 'center', md: 'left' }}
-        py={2}
         bgcolor="background.paper"
+        component="footer"
+        py={2}
+        textAlign={{ xs: 'center', md: 'left' }}
       >
         <Container disableGuttersOnMobile>
           <Box sx={{ py: { xs: 0, md: 4 } }}>
             <Grid container spacing={{ xs: 0, md: 5 }}>
               {logo && (
-                <Grid item xs={12} md={4}>
+                <Grid item md={4} xs={12}>
                   <Box
-                    pt={2}
-                    sx={{ mb: { xs: 2, md: 0 } }}
                     display="flex"
                     justifyContent={{ xs: 'center', md: 'flex-start' }}
+                    pt={2}
+                    sx={{ mb: { xs: 2, md: 0 } }}
                   >
                     {logo}
                   </Box>
@@ -88,7 +90,7 @@ const Footer: React.FC<FooterProps> = (props) => {
               )}
               {navItems?.map((navItem) => {
                 return (
-                  <Grid key={navItem.title} item xs={12} md>
+                  <Grid item key={navItem.title} md xs={12}>
                     <NavAccordion
                       id={navItem.title}
                       px={{ xs: 2, sm: 3, md: 2 }}
@@ -103,15 +105,15 @@ const Footer: React.FC<FooterProps> = (props) => {
 
           <Box mt={2}>
             <Stack
-              direction={{ xs: 'column-reverse', md: 'row' }}
               alignItems="center"
+              direction={{ xs: 'column-reverse', md: 'row' }}
               justifyContent="space-between"
               spacing={2}
             >
               {/* Legal items */}
               <Stack
-                direction="row"
                 alignItems="center"
+                direction="row"
                 justifyContent={{ xs: 'center', md: 'flex-start' }}
                 spacing={1}
               >
@@ -121,12 +123,12 @@ const Footer: React.FC<FooterProps> = (props) => {
 
                     return (
                       <Link
-                        key={key}
                         href={href}
+                        key={key}
                         sx={{ color: 'text.secondary' }}
                         targetBlank
                       >
-                        <Typography variant="caption" sx={{ display: 'block' }}>
+                        <Typography sx={{ display: 'block' }} variant="caption">
                           {startCase(key)}
                         </Typography>
                       </Link>
@@ -136,8 +138,8 @@ const Footer: React.FC<FooterProps> = (props) => {
 
               {/* Social media urls */}
               <Stack
-                direction="row"
                 alignItems="center"
+                direction="row"
                 justifyContent={{ xs: 'center', md: 'flex-end' }}
                 spacing={1}
               >
@@ -147,9 +149,9 @@ const Footer: React.FC<FooterProps> = (props) => {
 
                     const keyIconMap = {
                       facebook: FacebookOutlinedIcon,
-                      twitter: TwitterIcon,
                       instagram: InstagramIcon,
                       linkedin: LinkedInIcon,
+                      twitter: TwitterIcon,
                       youtube: YouTubeIcon,
                     }
                     const Icon = keyIconMap[type]
@@ -159,12 +161,12 @@ const Footer: React.FC<FooterProps> = (props) => {
 
                     return (
                       <Link
-                        key={type}
-                        href={href}
-                        target="_blank"
                         aria-label={ariaLabel}
+                        href={href}
+                        key={type}
+                        target="_blank"
                       >
-                        <IconButton size="small" aria-label={ariaLabel}>
+                        <IconButton aria-label={ariaLabel} size="small">
                           <Icon fontSize="inherit" />
                         </IconButton>
                       </Link>
@@ -175,16 +177,16 @@ const Footer: React.FC<FooterProps> = (props) => {
           </Box>
 
           <Divider
-            sx={{ mt: 1, mb: 2, display: { xs: 'none', md: 'block' } }}
+            sx={{ display: { xs: 'none', md: 'block' }, mb: 2, mt: 1 }}
           />
 
           <Box mt={2}>
             <Stack
-              direction={{ xs: 'column-reverse', md: 'row' }}
               alignItems="center"
+              direction={{ xs: 'column-reverse', md: 'row' }}
               justifyContent="space-between"
             >
-              <Typography variant="caption" color="text.secondary">
+              <Typography color="text.secondary" variant="caption">
                 {/* The following line replaces only the last period at the end of the company name. */}
                 Copyright ©{new Date().getFullYear()}{' '}
                 {companyName?.replace(/\.$/, '')}. All rights reserved.
@@ -197,8 +199,8 @@ const Footer: React.FC<FooterProps> = (props) => {
   )
 
   return withPaletteMode({
-    mode,
     dark,
+    mode,
   })(childrenJsx)
 }
 

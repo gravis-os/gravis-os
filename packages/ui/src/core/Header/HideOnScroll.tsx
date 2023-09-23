@@ -1,18 +1,19 @@
 import React from 'react'
-import { useScrollTrigger, Slide } from '@mui/material'
+
+import { Slide, useScrollTrigger } from '@mui/material'
 
 export interface HideOnScrollProps {
+  children: React.ReactElement
+  threshold?: number
   /**
    * Injected by the documentation to work in an iframe.
    * You won't need it on your project.
    */
   window?: () => Window
-  children: React.ReactElement
-  threshold?: number
 }
 
 const HideOnScroll: React.FC<HideOnScrollProps> = (props) => {
-  const { threshold = 100, children } = props
+  const { children, threshold = 100 } = props
 
   const trigger = useScrollTrigger({ threshold })
 

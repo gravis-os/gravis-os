@@ -1,13 +1,15 @@
 import React from 'react'
+
 import { UniqueIdentifier, useDndContext } from '@dnd-kit/core'
 import { isKeyboardEvent } from '@dnd-kit/utilities'
-import Item, { ItemProps } from './Item'
+
 import { SortablePosition } from './constants'
+import Item, { ItemProps } from './Item'
 import { ItemInterface } from './Sortable'
 
 export type OverlayItemsProps = Omit<ItemProps, 'index'> & {
-  sortKeys: UniqueIdentifier[]
   item: ItemInterface
+  sortKeys: UniqueIdentifier[]
 }
 
 const OverlayItem = (props: OverlayItemsProps) => {

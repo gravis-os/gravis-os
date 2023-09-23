@@ -1,5 +1,7 @@
-import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
 import React, { ReactNode } from 'react'
+
+import CheckOutlinedIcon from '@mui/icons-material/CheckOutlined'
+
 import Avatar from '../core/Avatar'
 import Box from '../core/Box'
 import Stack, { StackProps } from '../core/Stack'
@@ -28,10 +30,10 @@ export enum IconProgressBarItemStatus {
 export interface IconProgressBarItemProps {
   /** The icon component to represent the progress bar item */
   icon: ReactNode
-  /** The label displayed underneath the icon */
-  title?: ReactNode
   /** Used to indicate the status of the progress bar item which affects styling */
   status?: IconProgressBarItemStatus
+  /** The label displayed underneath the icon */
+  title?: ReactNode
 }
 
 /**
@@ -45,19 +47,22 @@ export interface IconProgressBarProps extends StackProps {
 }
 
 const IconProgressBarItem = (iconProgressBarItem: IconProgressBarItemProps) => {
-  const { icon, title, status } = iconProgressBarItem
+  const { title, icon, status } = iconProgressBarItem
   /**
    * Function used to return the correct color based on status
    * @returns The appropriate color based on current status of the icon progress item
    */
   const colorSelector = (): string => {
     switch (status) {
-      case IconProgressBarItemStatus.Current:
+      case IconProgressBarItemStatus.Current: {
         return 'primary.main'
-      case IconProgressBarItemStatus.Completed:
+      }
+      case IconProgressBarItemStatus.Completed: {
         return 'success.light'
-      default:
+      }
+      default: {
         return 'text.secondary'
+      }
     }
   }
   /**
@@ -66,21 +71,23 @@ const IconProgressBarItem = (iconProgressBarItem: IconProgressBarItemProps) => {
    */
   const backgroundColorSelector = (): string => {
     switch (status) {
-      case IconProgressBarItemStatus.Completed:
+      case IconProgressBarItemStatus.Completed: {
         return 'success.light'
-      default:
+      }
+      default: {
         return 'transparent'
+      }
     }
   }
 
   return (
-    <Stack spacing={1} alignItems="center" sx={{ width: 'fit-content' }}>
+    <Stack alignItems="center" spacing={1} sx={{ width: 'fit-content' }}>
       <Avatar
         sx={{
           backgroundColor: backgroundColorSelector(),
-          color: colorSelector(),
-          borderColor: colorSelector(),
           border: 1,
+          borderColor: colorSelector(),
+          color: colorSelector(),
         }}
       >
         {status === IconProgressBarItemStatus.Completed ? (
@@ -90,36 +97,40 @@ const IconProgressBarItem = (iconProgressBarItem: IconProgressBarItemProps) => {
         )}
       </Avatar>
       {renderReactNodeOrString(title, {
-        variant: 'overline',
         color: colorSelector(),
+        variant: 'overline',
       })}
     </Stack>
   )
+}
+
+/**
+ * Function used to return the correct bar color based on status
+ * @returns The appropriate bar color based on current status of the icon progress item
+ */
+const barColorSelector = (status: IconProgressBarItemStatus): string => {
+  switch (status) {
+    case IconProgressBarItemStatus.Current: {
+      return 'primary.main'
+    }
+    case IconProgressBarItemStatus.Completed: {
+      return 'success.light'
+    }
+    default: {
+      return 'text.disabled'
+    }
+  }
 }
 
 const IconProgressBar: React.FC<IconProgressBarProps> = (
   props
 ): React.ReactElement => {
   const { items, ...rest } = props
-  /**
-   * Function used to return the correct bar color based on status
-   * @returns The appropriate bar color based on current status of the icon progress item
-   */
-  const barColorSelector = (status: IconProgressBarItemStatus): string => {
-    switch (status) {
-      case IconProgressBarItemStatus.Current:
-        return 'primary.main'
-      case IconProgressBarItemStatus.Completed:
-        return 'success.light'
-      default:
-        return 'text.disabled'
-    }
-  }
   return (
     <Stack
+      alignItems="center"
       direction="row"
       justifyContent="space-between"
-      alignItems="center"
       {...rest}
     >
       {items.map((item, i) => {
@@ -135,7 +146,6 @@ const IconProgressBar: React.FC<IconProgressBarProps> = (
             {i !== items.length - 1 && (
               <Box
                 height={2}
-                width="100%"
                 sx={{
                   // Set color to primary if it is the current step
                   backgroundColor: barColorSelector(status),
@@ -143,6 +153,7 @@ const IconProgressBar: React.FC<IconProgressBarProps> = (
                   mt: -3,
                   mx: 3,
                 }}
+                width="100%"
               />
             )}
           </>

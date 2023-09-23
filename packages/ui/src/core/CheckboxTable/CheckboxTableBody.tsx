@@ -1,22 +1,24 @@
 import React from 'react'
+
 import every from 'lodash/every'
 import first from 'lodash/first'
 import toPairs from 'lodash/toPairs'
-import { CheckboxTableColumnDefs, CheckboxTableRows } from './types'
-import CheckboxTableCheckboxColumn from './CheckboxTableCheckboxColumn'
-import Typography from '../Typography'
+
 import Stack, { StackProps } from '../Stack'
+import Typography from '../Typography'
+import CheckboxTableCheckboxColumn from './CheckboxTableCheckboxColumn'
+import { CheckboxTableColumnDefs, CheckboxTableRows } from './types'
 
 export interface CheckboxTableBodyProps<T> extends StackProps {
   bordered?: boolean
+  columnDefs: CheckboxTableColumnDefs
   isReadOnly?: boolean
   onChangeRow?: (checked: boolean, row: string) => void
-  columnDefs: CheckboxTableColumnDefs
   rows: CheckboxTableRows<T>
 }
 
 const CheckboxTableBody = <T,>(props: CheckboxTableBodyProps<T>) => {
-  const { bordered, isReadOnly, onChangeRow, columnDefs, rows, ...rest } = props
+  const { bordered, columnDefs, isReadOnly, onChangeRow, rows, ...rest } = props
 
   const columnWidth = first(columnDefs)?.width
 
@@ -29,8 +31,8 @@ const CheckboxTableBody = <T,>(props: CheckboxTableBodyProps<T>) => {
           {...rest}
           sx={{
             alignItems: 'center',
-            minHeight: '3rem',
             margin: '0 -1rem',
+            minHeight: '3rem',
             padding: '0 1rem',
             width: 'calc(100% + 2rem)',
             ...(bordered
@@ -50,19 +52,19 @@ const CheckboxTableBody = <T,>(props: CheckboxTableBodyProps<T>) => {
           </Typography>
           {onChangeRow && (
             <CheckboxTableCheckboxColumn
+              checkboxTableColumnProps={{ width: columnWidth }}
               checked={every(cells, 'checked')}
               disabled={isReadOnly}
               onChange={(_, checked) => onChangeRow(checked, row)}
-              checkboxTableColumnProps={{ width: columnWidth }}
             />
           )}
           {cells.map((cell) => (
             <CheckboxTableCheckboxColumn
-              key={cell.key}
+              checkboxTableColumnProps={{ width: columnWidth }}
               checked={cell.checked}
               disabled={isReadOnly}
+              key={cell.key}
               onChange={(_, checked) => cell?.onChange(checked, cell.value)}
-              checkboxTableColumnProps={{ width: columnWidth }}
             />
           ))}
         </Stack>

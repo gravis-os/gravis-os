@@ -1,71 +1,74 @@
-import React from 'react'
 import type { SvgIconProps, Theme } from '@mui/material'
-import ChevronRightIcon from '@mui/icons-material/ChevronRight'
+
+import React from 'react'
+
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
+import ChevronRightIcon from '@mui/icons-material/ChevronRight'
 import { ThemeProvider } from '@mui/material/styles'
+
 import {
-  Drawer,
-  DrawerProps,
-  Button,
-  ButtonProps,
   Box,
   BoxProps,
+  Button,
+  ButtonProps,
+  Drawer,
+  DrawerProps,
 } from '../core'
 
 export interface ResponsiveDrawerProps extends DrawerProps {
+  dark?: boolean
+  desktopDrawerProps?: DrawerProps
   disableBorder?: boolean
-  width?: number | string
   maxWidth?: number | string
   mobileDrawerProps?: DrawerProps
-  desktopDrawerProps?: DrawerProps
-  dark?: boolean
+  onOpen?: () => void
 
   // Toggle Bar
   // TODO@Fernando: Move to separate component
   showToggleBar?: boolean
-  toggleBarBoxProps?: BoxProps
-  toggleBarButtonProps?: ButtonProps
-  toggleSvgIconProps?: SvgIconProps
-
   // Toggle Button
   showToggleButton?: boolean
-  toggleButtonProps?: ButtonProps
+  toggleBarBoxProps?: BoxProps
+  toggleBarButtonProps?: ButtonProps
 
-  onOpen?: () => void
+  toggleButtonProps?: ButtonProps
+  toggleSvgIconProps?: SvgIconProps
+
+  width?: number | string
 }
 
 const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
   const {
-    dark,
-    disableBorder,
-    desktopDrawerProps,
     anchor = 'left',
     children,
-    width,
+    dark,
+    desktopDrawerProps,
+    disableBorder,
     maxWidth = '100%',
     mobileDrawerProps,
-    open,
-    onOpen,
     onClose,
-    sx,
-
+    onOpen,
+    open,
     // Toggle bar is a white full height bar
     showToggleBar,
-    toggleBarBoxProps,
-    toggleBarButtonProps,
-    toggleSvgIconProps,
-
     // Exit button
     showToggleButton,
+
+    sx,
+    toggleBarBoxProps,
+    toggleBarButtonProps,
     toggleButtonProps,
+
+    toggleSvgIconProps,
+    width,
   } = props
 
   const childrenJSX = (
     <Box
       sx={{
-        height: '100%',
         display: 'flex',
         flexDirection: 'column',
+        height: '100%',
         justifyContent: 'space-between',
       }}
     >
@@ -90,9 +93,9 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
     open,
     sx: {
       '& .MuiDrawer-paper': {
-        width,
-        maxWidth,
         boxSizing: 'border-box',
+        maxWidth,
+        width,
         ...(disableBorder && { border: 0 }),
         ...sx,
       },
@@ -111,13 +114,13 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
       <Drawer
         variant="temporary"
         {...commonDrawerProps}
+        // Better open performance on mobile.
+        ModalProps={{ disableScrollLock: true, keepMounted: true }}
+        onClose={onClose}
         sx={{
           display: { xs: 'block', sm: 'none' },
           ...commonDrawerProps?.sx,
         }}
-        onClose={onClose}
-        // Better open performance on mobile.
-        ModalProps={{ keepMounted: true, disableScrollLock: true }}
         {...mobileDrawerProps}
       />
 
@@ -137,47 +140,47 @@ const ResponsiveDrawer: React.FC<ResponsiveDrawerProps> = (props) => {
       {showToggleBar && (
         <Box
           height="100%"
+          left={open ? (maxWidth in props ? maxWidth : width) : 0}
           position="fixed"
           top={0}
-          left={open ? (maxWidth in props ? maxWidth : width) : 0}
           {...toggleBarBoxProps}
           onClick={handleToggleDrawer}
           sx={{
-            zIndex: (theme) => theme.zIndex.drawer + 1,
             transition: (theme) =>
               theme.transitions.create(['left'], {
-                easing: theme.transitions.easing.sharp,
                 duration: theme.transitions.duration.leavingScreen,
+                easing: theme.transitions.easing.sharp,
               }),
+            zIndex: (theme) => theme.zIndex.drawer + 1,
             ...toggleBarBoxProps?.sx,
           }}
         >
           <Button
             color="primary"
-            variant="contained"
             sx={{
-              p: 0,
+              borderRadius: 0,
               height: '100%',
               minWidth: open ? 0 : 20,
-              borderRadius: 0,
               opacity: 0.08,
+              p: 0,
             }}
+            variant="contained"
           />
           <Button
-            variant="contained"
             color="primary"
             disableElevation
+            variant="contained"
             {...toggleBarButtonProps}
             onClick={handleToggleDrawer}
             sx={{
-              position: 'absolute',
-              top: 150,
-              right: -10,
-              p: 0,
-              transform: `rotate(${open ? 180 : 0}deg)`,
-              transition: `transform .275s ease-in`,
               borderRadius: '50%',
               minWidth: 'auto',
+              p: 0,
+              position: 'absolute',
+              right: -10,
+              top: 150,
+              transform: `rotate(${open ? 180 : 0}deg)`,
+              transition: `transform .275s ease-in`,
               ...toggleBarButtonProps?.sx,
             }}
           >
