@@ -1,10 +1,12 @@
-import { useEffect, useState, useRef, useCallback } from 'react'
+/* eslint-disable fp/no-mutation */
+
+import { useCallback, useEffect, useRef, useState } from 'react'
 
 function useStateWithCallback<T>(
   initialState: T
 ): [T, (state: T, cb?: (state: T) => void) => void] {
   const [state, setState] = useState(initialState)
-  const cbRef = useRef<((state: T) => void) | undefined>(undefined) // init mutable ref container for callbacks
+  const cbRef = useRef<((state: T) => void) | undefined>() // init mutable ref container for callbacks
 
   const setStateCallback = useCallback((state: T, cb?: (state: T) => void) => {
     cbRef.current = cb // store current, passed callback in ref

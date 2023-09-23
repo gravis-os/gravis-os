@@ -1,5 +1,6 @@
 import React from 'react'
 import NumberFormat from 'react-number-format'
+
 import TextField from './TextField'
 
 const NumberField = (props) => {
@@ -9,12 +10,12 @@ const NumberField = (props) => {
     <NumberFormat
       customInput={TextField}
       decimalScale={0}
-      isNumericString
       fullWidth
+      isNumericString
       thousandSeparator
       {...rest}
-      value={value}
       onValueChange={(target) => onChange(target.floatValue || null)}
+      value={value}
     />
   )
 }

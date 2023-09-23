@@ -1,41 +1,43 @@
 import React, { createContext, useState } from 'react'
+
 import { useCreateMutation } from '@gravis-os/crud'
 import { CrudModule } from '@gravis-os/types'
 import noop from 'lodash/noop'
 import omit from 'lodash/omit'
+
 import getDiscountedPriceFromItem from '../utils/getDiscountedPriceFromItem'
 import posConfig from './posConfig'
 import { Cart, CartItem, Receipt } from './types'
 
 export const initialCart: Cart = {
+  customer: null,
   items: [] as CartItem[],
+  note: '',
+  paid: 0,
+  paymentMethod: '',
+  receipt_id: null,
   subtotal: 0,
   tax: 0,
   total: 0,
-  paymentMethod: '',
-  paid: 0,
-  receipt_id: null,
-  customer: null,
-  note: '',
 }
 
 export const initialPosContext = {
-  cart: initialCart,
-  setCart: noop,
   addToCart: noop,
+  cart: initialCart,
+  hasCartItems: false,
   removeFromCart: noop,
   resetCart: noop,
-  hasCartItems: false,
+  setCart: noop,
   setPaymentMethodAndPaidAmount: noop,
 }
 
 export type PosContext = {
-  cart: Cart
-  setCart: React.Dispatch<React.SetStateAction<Cart>>
   addToCart: (cartItem: CartItem) => void
+  cart: Cart
+  hasCartItems: boolean
   removeFromCart: (removeIndex: number) => void
   resetCart: () => void
-  hasCartItems: boolean
+  setCart: React.Dispatch<React.SetStateAction<Cart>>
   setPaymentMethodAndPaidAmount: (
     paymentMethod: string,
     paidAmount: number
@@ -66,15 +68,16 @@ const PosProvider: React.FC<PosProviderProps> = (props) => {
       ...cart,
       items: existingItem
         ? cart.items.map((item) => (item.id === cartItem.id ? nextItem : item))
-        : cart.items.concat(nextItem),
+        : [...cart.items, nextItem],
     })
   }
   const removeFromCart = (removeIndex: number) =>
     setCart({
       ...cart,
-      items: cart.items
-        .slice(0, removeIndex)
-        .concat(cart.items.slice(removeIndex + 1)),
+      items: [
+        ...cart.items.slice(0, removeIndex),
+        ...cart.items.slice(removeIndex + 1),
+      ],
     })
   const resetCart = () => setCart(initialCart)
 
@@ -111,18 +114,18 @@ const PosProvider: React.FC<PosProviderProps> = (props) => {
     paymentMethod: string,
     paid: number
   ) => {
-    const paidCart = { ...nextCart, paymentMethod, paid }
+    const paidCart = { ...nextCart, paid, paymentMethod }
     setCart(paidCart)
     if (receiptModule) createReceipt(paidCart)
   }
 
   const value = {
-    cart: nextCart,
-    setCart,
     addToCart,
+    cart: nextCart,
+    hasCartItems: cart.items.length > 0,
     removeFromCart,
     resetCart,
-    hasCartItems: cart.items.length > 0,
+    setCart,
     setPaymentMethodAndPaidAmount,
   }
 

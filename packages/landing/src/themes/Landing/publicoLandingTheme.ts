@@ -1,4 +1,5 @@
 import merge from 'lodash/merge'
+
 import landingTheme from './landingTheme'
 
 const headerFontFamily =
@@ -22,8 +23,8 @@ const publicoLandingThemeConfig = {
 }
 
 const publicoLandingTheme = {
-  light: merge({}, landingTheme.light, publicoLandingThemeConfig),
   dark: merge({}, landingTheme.dark, publicoLandingThemeConfig),
+  light: merge({}, landingTheme.light, publicoLandingThemeConfig),
 }
 
 export default publicoLandingTheme

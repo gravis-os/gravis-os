@@ -1,22 +1,24 @@
-import { CrudItem, CrudModule } from '@gravis-os/types'
 import { useQueryClient } from 'react-query'
+
+import { CrudItem, CrudModule } from '@gravis-os/types'
+
 import fetchIncrementCountRpc from './fetchIncrementCountRpc'
 
 export interface UseUpdateIncrementCountProps {
-  module: CrudModule
   countColumnName?: string
+  module: CrudModule
 }
 
 const useUpdateIncrementCount = (props: UseUpdateIncrementCountProps) => {
-  const { module, countColumnName = 'view_count' } = props
+  const { countColumnName = 'view_count', module } = props
   const queryClient = useQueryClient()
 
   const updateIncrementCount = async (item: CrudItem) => {
     if (!item || !module) return
     const onUpdate = await fetchIncrementCountRpc({
+      countColumnName,
       item,
       module,
-      countColumnName,
     })
     queryClient.invalidateQueries([module.table.name])
     return onUpdate

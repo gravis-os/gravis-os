@@ -1,11 +1,12 @@
-import merge from 'lodash/merge'
+import { baseTheme } from '@gravis-os/ui'
 import {
   Palette,
   PaletteMode,
   PaletteOptions,
   ThemeOptions,
 } from '@mui/material'
-import { baseTheme } from '@gravis-os/ui'
+import merge from 'lodash/merge'
+
 import landingTheme from './landingTheme'
 
 const headerFontFamily =
@@ -23,52 +24,52 @@ const getGravisLandingThemeConfig = (mode: PaletteMode): ThemeOptions => {
   const isDarkMode = mode === 'dark'
 
   const palette: DeepPartial<Palette> = {
+    background: {
+      default: isDarkMode ? '#1A1D25' : '#fff',
+    },
     primary: { main: '#fff' },
     secondary: { main: '#59A5FE' },
     text: {
       primary: isDarkMode ? '#fff' : textPrimaryLight,
       secondary: '#91929C',
     },
-    background: {
-      default: isDarkMode ? '#1A1D25' : '#fff',
-    },
   }
 
   return {
-    typography: {
-      h1: { fontFamily: headerFontFamily },
-      h2: {
-        fontFamily: headerFontFamily,
-        lineHeight: 1.15555556,
-        letterSpacing: '-0.025em',
-        [baseTheme.light.breakpoints.up('lg')]: {
-          fontSize: baseTheme.light.typography.pxToRem(48),
-        },
-      },
-      h3: { fontFamily: headerFontFamily, fontWeight: 600 },
-      h4: { fontFamily: headerFontFamily },
-      h5: { fontFamily: subtitleFontFamily },
-    },
-    palette: palette as PaletteOptions,
     components: {
       MuiButton: {
         styleOverrides: {
           root: ({ ownerState }) => ({
             ...(ownerState.color === 'primary' && {
-              color: textPrimaryLight,
               '&:hover': { backgroundColor: '#fff' },
+              color: textPrimaryLight,
             }),
             textTransform: 'uppercase',
           }),
         },
       },
     },
+    palette: palette as PaletteOptions,
+    typography: {
+      h1: { fontFamily: headerFontFamily },
+      h2: {
+        [baseTheme.light.breakpoints.up('lg')]: {
+          fontSize: baseTheme.light.typography.pxToRem(48),
+        },
+        fontFamily: headerFontFamily,
+        letterSpacing: '-0.025em',
+        lineHeight: 1.155_555_56,
+      },
+      h3: { fontFamily: headerFontFamily, fontWeight: 600 },
+      h4: { fontFamily: headerFontFamily },
+      h5: { fontFamily: subtitleFontFamily },
+    },
   }
 }
 
 const gravisLandingTheme = {
-  light: merge({}, landingTheme.light, getGravisLandingThemeConfig('light')),
   dark: merge({}, landingTheme.dark, getGravisLandingThemeConfig('dark')),
+  light: merge({}, landingTheme.light, getGravisLandingThemeConfig('light')),
 }
 
 export default gravisLandingTheme

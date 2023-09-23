@@ -1,20 +1,22 @@
 import React from 'react'
-import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
-import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined'
-import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
+
+import { FormSectionsProps } from '@gravis-os/form'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import {
   IconButton,
   MoreIconButton,
   MoreIconButtonProps,
   Stack,
 } from '@gravis-os/ui'
-import { CrudItem, CrudModule } from '@gravis-os/types'
-import { FormSectionsProps } from '@gravis-os/form'
+import ArrowCircleRightOutlinedIcon from '@mui/icons-material/ArrowCircleRightOutlined'
+import DeleteOutlineOutlinedIcon from '@mui/icons-material/DeleteOutlineOutlined'
+import VisibilityOutlinedIcon from '@mui/icons-material/VisibilityOutlined'
 import { ICellRendererParams } from 'ag-grid-community'
+
 import getCrudItemHref, { GetCrudItemHrefParams } from './getCrudItemHref'
 import useCrud from './useCrud'
-import { UsePreviewDrawerReturn } from './usePreviewDrawer'
 import { handlePreview } from './useGetCrudTableColumnDefs/hocs/withPreview'
+import { UsePreviewDrawerReturn } from './usePreviewDrawer'
 
 type RenderMoreItemsFunction<CrudItem> = ({
   data,
@@ -24,35 +26,35 @@ type RenderMoreItemsFunction<CrudItem> = ({
 
 export interface CrudTableActionsColumnCellRendererProps
   extends ICellRendererParams {
-  module: CrudModule
-  data: CrudItem
-  disableManage?: boolean
-  disableDelete?: boolean
-  disablePreview?: boolean
-  previewFormSections?: FormSectionsProps['sections']
-  setPreview?: UsePreviewDrawerReturn['setPreview']
-  renderMoreItems?: RenderMoreItemsFunction<CrudItem>
-  children?: React.ReactNode
   afterDelete?: ({ data }: { data: CrudItem | any }) => Promise<void>
-  getCrudItemHref?: ({ module, item }: GetCrudItemHrefParams) => string
+  children?: React.ReactNode
+  data: CrudItem
+  disableDelete?: boolean
+  disableManage?: boolean
+  disablePreview?: boolean
+  getCrudItemHref?: ({ item, module }: GetCrudItemHrefParams) => string
+  module: CrudModule
+  previewFormSections?: FormSectionsProps['sections']
+  renderMoreItems?: RenderMoreItemsFunction<CrudItem>
+  setPreview?: UsePreviewDrawerReturn['setPreview']
 }
 
 const CrudTableActionsColumnCellRenderer: React.FC<
   CrudTableActionsColumnCellRendererProps
 > = (props) => {
   const {
-    node,
-    module,
+    afterDelete,
+    children,
     data: item,
     disableDelete,
     disableManage,
     disablePreview,
-    previewFormSections,
-    setPreview,
-    renderMoreItems,
-    children,
-    afterDelete,
     getCrudItemHref: injectedGetCrudItemHref,
+    module,
+    node,
+    previewFormSections,
+    renderMoreItems,
+    setPreview,
   } = props
 
   // Delete Dialog
@@ -62,27 +64,27 @@ const CrudTableActionsColumnCellRenderer: React.FC<
   const moreItems = [
     ...(renderMoreItems ? renderMoreItems({ data: item }) : []),
     !disablePreview && {
-      key: 'preview',
-      value: 'preview',
-      label: 'Preview',
       icon: <VisibilityOutlinedIcon fontSize="small" />,
+      key: 'preview',
+      label: 'Preview',
       onClick: () =>
         handlePreview({
           module,
+          params: props,
           previewFormSections,
           setPreview,
-          params: props,
         }),
+      value: 'preview',
     },
     !disableDelete && {
-      key: 'delete',
-      value: 'delete',
-      label: 'Delete',
       icon: <DeleteOutlineOutlinedIcon fontSize="small" />,
+      key: 'delete',
+      label: 'Delete',
       onClick: () => {
         setSelectedItems([item])
         handleDeleteDialogOpen()
       },
+      value: 'delete',
     },
   ].filter(Boolean)
 
@@ -90,8 +92,8 @@ const CrudTableActionsColumnCellRenderer: React.FC<
 
   return (
     <Stack
-      direction="row"
       alignItems="center"
+      direction="row"
       justifyContent="flex-start"
       spacing={1}
       sx={{ pr: 2 }}
@@ -99,8 +101,8 @@ const CrudTableActionsColumnCellRenderer: React.FC<
       {/* Manage */}
       {!disableManage && (
         <IconButton
+          href={(injectedGetCrudItemHref || getCrudItemHref)({ item, module })}
           size="small"
-          href={(injectedGetCrudItemHref || getCrudItemHref)({ module, item })}
           sx={{ '&:hover': { color: 'primary.main' } }}
           tooltip="Manage"
         >
@@ -111,7 +113,7 @@ const CrudTableActionsColumnCellRenderer: React.FC<
       {children}
 
       {/* More */}
-      <MoreIconButton size="small" items={moreItems} />
+      <MoreIconButton items={moreItems} size="small" />
     </Stack>
   )
 }

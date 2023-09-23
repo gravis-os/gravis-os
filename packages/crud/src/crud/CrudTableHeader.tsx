@@ -1,85 +1,87 @@
 import React, { useState } from 'react'
-import get from 'lodash/get'
-import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined'
-import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
-import {
-  Button,
-  Box,
-  Drawer,
-  Stack,
-  Paper,
-  Typography,
-  ChipStack,
-  ChipStackProps,
-} from '@gravis-os/ui'
+
 import { FormSectionsProps, getRelationalObjectKey } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
+import {
+  Box,
+  Button,
+  ChipStack,
+  ChipStackProps,
+  Drawer,
+  Paper,
+  Stack,
+  Typography,
+} from '@gravis-os/ui'
+import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
+import FilterListOutlinedIcon from '@mui/icons-material/FilterListOutlined'
 import { ButtonProps } from '@mui/material'
 import assign from 'lodash/assign'
+import get from 'lodash/get'
+
 import styleConfig from '../config/styleConfig'
-import FilterForm, { FilterFormProps } from './FilterForm'
-import SearchForm, { SearchFormProps } from './SearchForm'
-import getChipsFromFilters from './getChipsFromFilters'
-import useAddDialog from './useAddDialog'
+import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
 import CrudAddDialog from './CrudAddDialog'
 import CrudUploadDialog, {
   CrudUploadDialogProps,
 } from './CrudUploadDialog/CrudUploadDialog'
-import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
+import FilterForm, { FilterFormProps } from './FilterForm'
+import getChipsFromFilters from './getChipsFromFilters'
+import SearchForm, { SearchFormProps } from './SearchForm'
+import useAddDialog from './useAddDialog'
 
 export interface CrudTableHeaderProps {
-  actions?: React.ReactNode | React.ReactNode[]
   actionButtons?: ButtonProps[]
+  actions?: React.ReactNode | React.ReactNode[]
+  addDialogProps?: Record<string, unknown>
+  addFormSections?: FormSectionsProps['sections']
+  addModule?: CrudModule
   batchUpdateActions?: React.ReactNode | React.ReactNode[]
-  module: CrudModule
   disableAdd?: boolean
   disableChips?: boolean
-  addModule?: CrudModule
-  filterFormSections?: FormSectionsProps['sections']
-  searchFormSections?: FormSectionsProps['sections']
-  addFormSections?: FormSectionsProps['sections']
-  filters: Record<string, unknown>
-  setFilters: React.Dispatch<
-    React.SetStateAction<any[] | Record<string, unknown>>
-  >
-  addDialogProps?: Record<string, unknown>
-  uploadDialogProps?: Omit<CrudUploadDialogProps, 'module'>
-  renderAddButton?: (buttonProps: ButtonProps) => React.ReactElement
   disableReset?: boolean
   disableUpload?: boolean
-  uploadFields?: string[]
-  manyToManyKeys?: string[]
-  getUploadValues?: (rows: unknown) => unknown
   filterFormProps?: Partial<FilterFormProps>
+  filterFormSections?: FormSectionsProps['sections']
+  filters: Record<string, unknown>
+  getUploadValues?: (rows: unknown) => unknown
+  manyToManyKeys?: string[]
+  module: CrudModule
+  renderAddButton?: (buttonProps: ButtonProps) => React.ReactElement
   searchFormProps?: Partial<SearchFormProps>
+  searchFormSections?: FormSectionsProps['sections']
+  setFilters: React.Dispatch<
+    React.SetStateAction<Record<string, unknown> | any[]>
+  >
+  uploadDialogProps?: Omit<CrudUploadDialogProps, 'module'>
+  uploadFields?: string[]
 }
 
 const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const {
-    actions,
     actionButtons,
+    actions,
+    addDialogProps,
+    addFormSections = [],
+    addModule,
     batchUpdateActions,
-    filters,
-    setFilters,
-    module,
-    disableUpload,
-    uploadFields,
-    manyToManyKeys,
-    getUploadValues,
     disableAdd,
     disableChips,
-    addModule = module,
-    addDialogProps,
-    uploadDialogProps,
-    addFormSections = [],
-    searchFormSections = [],
-    filterFormSections = [],
-    renderAddButton,
     disableReset,
+    disableUpload,
     filterFormProps = {},
+    filterFormSections = [],
+    filters,
+    getUploadValues,
+    manyToManyKeys,
+    module,
+    renderAddButton,
     searchFormProps = {},
+    searchFormSections = [],
+    setFilters,
+    uploadDialogProps,
+    uploadFields,
   } = props
-  const { route, name } = module
+  const { name, route } = module
 
   const hasFilterFormSections = Boolean(filterFormSections?.length)
   const hasSearchFormSections = Boolean(searchFormSections?.length)
@@ -94,7 +96,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
   const [openFilterDrawer, setOpenFilterDrawer] = useState(false)
 
   // Add Dialog
-  const useAddDialogProps = useAddDialog({ module: addModule, addFormSections })
+  const useAddDialogProps = useAddDialog({ addFormSections, module: addModule })
   const { setAddDialogOpen } = useAddDialogProps
 
   // Methods
@@ -183,37 +185,37 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
 
   // Chips
   const chips = getChipsFromFilters({
+    fieldDefs: filterAndSearchFormFieldDefs,
     filters,
     setFilters,
-    fieldDefs: filterAndSearchFormFieldDefs,
   }) as ChipStackProps['items']
   const hasChips = chips && chips?.length > 0
   const hasBatchUpdateActions = Array.isArray(batchUpdateActions)
-    ? Boolean(batchUpdateActions.length)
+    ? batchUpdateActions.length > 0
     : Boolean(batchUpdateActions)
 
   return (
     <>
       {/* First Row */}
       <Stack
-        direction={{ xs: 'column', md: 'row' }}
         alignItems="center"
-        spacing={1}
+        direction={{ xs: 'column', md: 'row' }}
         justifyContent={hasSearchFormSections ? 'space-between' : 'flex-end'}
+        spacing={1}
         sx={{ mb: 2 }}
       >
         {/* Search */}
         {hasSearchFormSections && (
           <Box
             sx={{
-              width: '100%',
               maxWidth: { xs: '100%', md: styleConfig.searchWidth },
+              width: '100%',
             }}
           >
             <SearchForm
               module={module}
-              sections={searchFormSections as FormSectionsProps['sections']}
               onSubmit={handleSubmit}
+              sections={searchFormSections as FormSectionsProps['sections']}
               {...searchFormProps}
             />
           </Box>
@@ -221,12 +223,12 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
 
         {/* Right */}
         <Stack
-          width={1}
-          direction={{ xs: 'column', md: 'row' }}
           alignItems="center"
+          direction={{ xs: 'column', md: 'row' }}
           justifyContent="flex-end"
           spacing={1}
           sx={{ width: { xs: 'inherit', md: 'fit-content' } }}
+          width={1}
         >
           {actions}
 
@@ -237,10 +239,10 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           {/* Filter Button */}
           {hasFilterFormSections && (
             <Stack
-              sx={{ width: { xs: '100%', md: 'initial' } }}
-              direction="row"
               alignItems="center"
+              direction="row"
               spacing={1}
+              sx={{ width: { xs: '100%', md: 'initial' } }}
             >
               {/* Reset */}
               {hasChips && !disableReset && (
@@ -251,40 +253,40 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
               {hasFilterFormSections && (
                 <>
                   <Button
-                    onClick={() => setOpenFilterDrawer(!openFilterDrawer)}
-                    variant="outlined"
-                    startIcon={<FilterListOutlinedIcon />}
                     fullWidthOnMobile
+                    onClick={() => setOpenFilterDrawer(!openFilterDrawer)}
+                    startIcon={<FilterListOutlinedIcon />}
+                    variant="outlined"
                   >
                     Filters
                   </Button>
                   <Drawer
-                    anchor="right"
-                    open={openFilterDrawer}
-                    onClose={() => setOpenFilterDrawer(false)}
                     PaperProps={{
                       sx: {
-                        width: '100%',
-                        maxWidth: styleConfig.rightAsideWidth,
                         boxShadow: styleConfig.rightAsideBoxShadow,
+                        maxWidth: styleConfig.rightAsideWidth,
+                        width: '100%',
                       },
                     }}
+                    anchor="right"
+                    onClose={() => setOpenFilterDrawer(false)}
+                    open={openFilterDrawer}
                   >
                     <FilterForm
+                      fieldDefs={filterAndSearchFormFieldDefs}
                       item={filters}
                       module={module}
+                      onSubmit={handleSubmit}
                       sections={
                         filterFormSections as FormSectionsProps['sections']
                       }
-                      onSubmit={handleSubmit}
-                      fieldDefs={filterAndSearchFormFieldDefs}
                       {...filterFormProps}
                     />
-                    <Box sx={{ mx: 2, mt: 1 }}>
+                    <Box sx={{ mt: 1, mx: 2 }}>
                       <Button
+                        fullWidth
                         onClick={() => setOpenFilterDrawer(!openFilterDrawer)}
                         variant="outlined"
-                        fullWidth
                       >
                         Cancel
                       </Button>
@@ -298,10 +300,10 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           {/* Upload Button */}
           {!disableUpload && (
             <CrudUploadDialog
+              getUploadValues={getUploadValues}
+              manyToManyKeys={manyToManyKeys}
               module={module}
               uploadFields={uploadFields}
-              manyToManyKeys={manyToManyKeys}
-              getUploadValues={getUploadValues}
               {...uploadDialogProps}
             />
           )}
@@ -310,9 +312,9 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           {!disableAdd &&
             (renderAddButton?.({ onClick: () => setAddDialogOpen(true) }) || (
               <Button
+                fullWidthOnMobile
                 startIcon={<AddCircleOutlineOutlinedIcon fontSize="small" />}
                 variant="contained"
-                fullWidthOnMobile
                 {...(hasAddFormSections
                   ? { onClick: () => setAddDialogOpen(true) }
                   : { href: `${route.plural}/new` })}
@@ -329,7 +331,7 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
       {/* Second Row */}
       {hasChips && !disableChips && (
         <Paper square sx={{ p: 2 }}>
-          <Stack direction="row" alignItems="center" spacing={1}>
+          <Stack alignItems="center" direction="row" spacing={1}>
             <Typography variant="overline">Filters:</Typography>
             {/* Chips */}
             <ChipStack items={chips} />

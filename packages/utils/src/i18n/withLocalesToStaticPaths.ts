@@ -25,7 +25,7 @@ const withLocalesToStaticPaths =
 
               // If this is an object path
               const { params } = path
-              const { exclusive_locales, blocked_locales } = params || {}
+              const { blocked_locales, exclusive_locales } = params || {}
 
               // Calculate the existence and logic of exclusive/blocked locales
               const hasExclusiveLocales = exclusive_locales?.length

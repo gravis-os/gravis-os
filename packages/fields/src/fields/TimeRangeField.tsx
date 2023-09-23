@@ -1,15 +1,16 @@
 import React from 'react'
+
+import { SxProps, TextFieldProps } from '@mui/material'
 import {
   SingleInputTimeRangeField,
   UseSingleInputTimeRangeFieldProps,
 } from '@mui/x-date-pickers-pro'
-import { SxProps, TextFieldProps } from '@mui/material'
 
 export interface TimeRangeFieldProps
   extends UseSingleInputTimeRangeFieldProps<Date> {
   label?: string
-  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
   sx?: SxProps
+  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
 }
 
 const TimeRangeField: React.FC<TimeRangeFieldProps> = (props) => {

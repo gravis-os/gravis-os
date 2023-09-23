@@ -1,4 +1,5 @@
 import { NextRequest } from 'next/server'
+
 import fetchWorkspaceByCustomDomainFromMiddleware from '../supabase/fetchWorkspaceByCustomDomainFromMiddleware'
 
 export interface GetMiddlewareRouteBreakdownOptions {
@@ -12,15 +13,16 @@ export interface GetMiddlewareRouteBreakdownOptions {
  */
 const getMiddlewareRouteBreakdown = async (
   req: NextRequest,
-  options: GetMiddlewareRouteBreakdownOptions = { subdomainOverride: '' }
+  options: GetMiddlewareRouteBreakdownOptions = {}
 ) => {
+  const { subdomainOverride = '' } = options
   const url = req.nextUrl.clone()
-  const { pathname, locale } = url || {}
+  const { locale, pathname } = url || {}
 
   const hostname = req.headers.get('host') || ''
   const protocol = req.headers.get('x-forwarded-proto') || 'http'
   const nakedDomain =
-    process.env.NEXT_PUBLIC_APP_ABSOLUTE_URL?.split('://')?.reverse()?.[0]
+    process.env.NEXT_PUBLIC_APP_ABSOLUTE_URL?.split('://')?.at(-1)
 
   const isProduction = process.env.NODE_ENV === 'production'
   const isVercel = process.env.VERCEL === '1'
@@ -68,42 +70,44 @@ const getMiddlewareRouteBreakdown = async (
     (await (
       await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
         headers: {
-          Authorization: `Bearer ${sbAccessToken}`,
           apiKey: `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
+          Authorization: `Bearer ${sbAccessToken}`,
         },
       })
-    ).json())
+    )
+      // eslint-disable-next-line unicorn/no-await-expression-member
+      .json())
   const isLoggedIn = Boolean(authUser?.id)
 
   const result = {
-    url,
-    hostname,
-    protocol,
-    pathname,
+    // Auth
+    authUser,
     currentHost,
-    nakedDomain,
-    subdomain,
-    workspacesPathnamePrefix,
-
+    customDomainWorkspace,
+    hostname,
     // Checks
     isApiRoute,
     isAuthRoute,
-    isLoginRoute,
     isBaseRoute,
-    isWorkspace,
-    isWorkspaceBaseRoute,
-    isLoggedIn,
-
-    // Auth
-    authUser,
-
     // Custom Domain
     isCustomDomain,
-    nakedCustomDomain,
-    customDomainWorkspace,
 
+    isLoggedIn,
+    isLoginRoute,
+    isWorkspace,
+    isWorkspaceBaseRoute,
     // Locale
     locale,
+    nakedCustomDomain,
+    nakedDomain,
+
+    pathname,
+
+    protocol,
+    subdomain,
+    url,
+
+    workspacesPathnamePrefix,
   }
 
   return result

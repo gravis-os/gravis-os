@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import { UseListReturn } from '@gravis-os/query'
 import {
   Box,
@@ -11,52 +12,53 @@ import {
 import { printAmount } from '@gravis-os/utils'
 import ShoppingCartOutlinedIcon from '@mui/icons-material/ShoppingCartOutlined'
 import { SxProps } from '@mui/material'
+
 import PosCartEditCartItemDialog from './PosCartEditCartItemDialog'
 import PosCartMoreActionsDialog from './PosCartMoreActionsDialog'
+import posConfig from './posConfig'
 import PosProductList from './PosProductList'
 import { usePos } from './PosProvider'
-import posConfig from './posConfig'
 
 export interface PosCartProps {
   // Default states
   defaultEditCartItemOpen?: boolean
   defaultMoreActionsOpen?: boolean
 
+  disableEditCartItem?: boolean
+  disableMoreActions?: boolean
   // Edit cart item
   editCartItemDialog?: React.ReactNode
   editCartItemOpen?: boolean
-  disableEditCartItem?: boolean
-  setEditCartItemOpen?: React.Dispatch<React.SetStateAction<boolean>>
   editCartItemProps?: Record<string, any>
 
   // More actions
   moreActions?: React.ReactNode
   moreActionsOpen?: boolean
-  disableMoreActions?: boolean
-  setMoreActionsOpen?: React.Dispatch<React.SetStateAction<boolean>>
   moreActionsProps?: Record<string, any>
-
   productSpecImagesQueryResult?: UseListReturn
+  setEditCartItemOpen?: React.Dispatch<React.SetStateAction<boolean>>
+
+  setMoreActionsOpen?: React.Dispatch<React.SetStateAction<boolean>>
   sx?: SxProps
 }
 
 const PosCart: React.FC<PosCartProps> = (props) => {
   const {
+    defaultEditCartItemOpen = false,
+    defaultMoreActionsOpen = false,
+    disableEditCartItem,
+    disableMoreActions,
     // Edit cart item
     editCartItemDialog: injectedEditCartItemDialog,
-    disableEditCartItem,
-    defaultEditCartItemOpen = false,
     editCartItemOpen: injectedEditCartItemOpen,
-    setEditCartItemOpen: injectedSetEditCartItemOpen,
-    editCartItemProps,
 
+    editCartItemProps,
     // More actions
     moreActions: injectedMoreActions,
-    disableMoreActions,
-    defaultMoreActionsOpen = false,
     moreActionsOpen: injectedMoreActionsOpen,
-    setMoreActionsOpen: injectedSetMoreActionsOpen,
     moreActionsProps,
+    setEditCartItemOpen: injectedSetEditCartItemOpen,
+    setMoreActionsOpen: injectedSetMoreActionsOpen,
 
     ...rest
   } = props
@@ -68,13 +70,13 @@ const PosCart: React.FC<PosCartProps> = (props) => {
     defaultEditCartItemOpen
   )
   const editCartItemOpen =
-    typeof injectedEditCartItemOpen !== 'undefined'
-      ? injectedEditCartItemOpen
-      : localEditCartItemOpen
+    injectedEditCartItemOpen === undefined
+      ? localEditCartItemOpen
+      : injectedEditCartItemOpen
   const setEditCartItemOpen =
-    typeof injectedSetEditCartItemOpen !== 'undefined'
-      ? injectedSetEditCartItemOpen
-      : setLocalEditCartItemOpen
+    injectedSetEditCartItemOpen === undefined
+      ? setLocalEditCartItemOpen
+      : injectedSetEditCartItemOpen
   const handleOpenEditCartItem = (index: number) => {
     setSelectedCartItemIndex(index)
     setEditCartItemOpen(true)
@@ -85,47 +87,47 @@ const PosCart: React.FC<PosCartProps> = (props) => {
     defaultMoreActionsOpen
   )
   const moreActionsOpen =
-    typeof injectedMoreActionsOpen !== 'undefined'
-      ? injectedMoreActionsOpen
-      : localMoreActionsOpen
+    injectedMoreActionsOpen === undefined
+      ? localMoreActionsOpen
+      : injectedMoreActionsOpen
   const setMoreActionsOpen =
-    typeof injectedSetMoreActionsOpen !== 'undefined'
-      ? injectedSetMoreActionsOpen
-      : setLocalMoreActionsOpen
+    injectedSetMoreActionsOpen === undefined
+      ? setLocalMoreActionsOpen
+      : injectedSetMoreActionsOpen
 
   // Dialog components
   const editCartItemJsx =
-    typeof injectedEditCartItemDialog !== 'undefined' ? (
-      injectedEditCartItemDialog
-    ) : (
+    injectedEditCartItemDialog === undefined ? (
       <PosCartEditCartItemDialog
-        open={editCartItemOpen}
-        onClose={() => setEditCartItemOpen(false)}
         cartIndex={selectedCartItemIndex}
+        onClose={() => setEditCartItemOpen(false)}
+        open={editCartItemOpen}
         {...editCartItemProps}
         {...rest}
       />
+    ) : (
+      injectedEditCartItemDialog
     )
 
   const moreActionsJsx =
-    typeof injectedMoreActions !== 'undefined' ? (
-      injectedMoreActions
-    ) : (
+    injectedMoreActions === undefined ? (
       <PosCartMoreActionsDialog
-        open={moreActionsOpen}
         onClose={() => setMoreActionsOpen(false)}
+        open={moreActionsOpen}
         {...moreActionsProps}
       />
+    ) : (
+      injectedMoreActions
     )
 
-  const { cart, resetCart, hasCartItems } = usePos()
+  const { cart, hasCartItems, resetCart } = usePos()
   if (!hasCartItems)
     return (
       <Box center height="100%">
         <ShoppingCartOutlinedIcon
           sx={{ color: 'divider', fontSize: 'h1.fontSize' }}
         />
-        <Typography variant="h5" sx={{ color: 'divider', mt: 1 }}>
+        <Typography sx={{ color: 'divider', mt: 1 }} variant="h5">
           Add products to your cart to get started.
         </Typography>
       </Box>
@@ -135,8 +137,8 @@ const PosCart: React.FC<PosCartProps> = (props) => {
     <Stack sx={{ height: `calc(100% - ${posConfig.appBarHeight}px)` }}>
       {/* Header */}
       <Stack
-        direction="row"
         alignItems="center"
+        direction="row"
         spacing={2}
         sx={{ p: posConfig.cartPadding }}
       >
@@ -164,12 +166,12 @@ const PosCart: React.FC<PosCartProps> = (props) => {
       <Box
         sx={{
           maxHeight: '50vh',
-          py: posConfig.cartPadding,
           overflowX: 'hidden',
+          py: posConfig.cartPadding,
         }}
       >
         <Box sx={{ px: posConfig.cartPadding }}>
-          <Typography variant="overline" color="text.secondary" gutterBottom>
+          <Typography color="text.secondary" gutterBottom variant="overline">
             Products
           </Typography>
         </Box>
@@ -189,7 +191,7 @@ const PosCart: React.FC<PosCartProps> = (props) => {
 
       {/* Breakdown */}
       <Box
-        sx={{ p: posConfig.cartPadding, backgroundColor: 'background.default' }}
+        sx={{ backgroundColor: 'background.default', p: posConfig.cartPadding }}
       >
         <DescriptionList
           items={[
@@ -206,7 +208,7 @@ const PosCart: React.FC<PosCartProps> = (props) => {
         />
       </Box>
 
-      <Box sx={{ flexGrow: 1, backgroundColor: 'background.default' }} />
+      <Box sx={{ backgroundColor: 'background.default', flexGrow: 1 }} />
 
       {/* Total */}
       <Divider />
@@ -219,10 +221,10 @@ const PosCart: React.FC<PosCartProps> = (props) => {
         />
 
         <Button
-          fullWidth
           color="primary"
-          sx={{ mt: 1 }}
+          fullWidth
           href={posConfig.routes.PAYMENT}
+          sx={{ mt: 1 }}
         >
           Checkout
         </Button>

@@ -1,4 +1,5 @@
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs'
+
 import { DbUserWithAuthUser } from './user'
 // ==============================
 // Crud
@@ -16,64 +17,64 @@ export type CrudModuleAfterTriggerFunction = ({
 }) => Promise<unknown>
 
 export interface CrudModule {
-  pk?: string // primary key - used for display e.g. title
-  sk: string // slug key - used for route e.g. slug
-  name: { singular: string; plural: string }
-  route?: { plural: string }
-  table: { name: string; isJoinTable?: boolean }
-  select?: { detail?: string; list?: string; count?: string; filter?: string }
   Icon?: React.ElementType
-  relations?: {
-    [key: string]: {
-      table: { name: string; columns?: string[] }
-      joinTable?: { name: string }
-    }
-  }
+  disableAutoSlug?: boolean // To disable autoSlug
   // For modules with `exclusive_locales` and `blocked_locales` columns
   hasLocales?: boolean
-  // Virtuals
-  virtuals?: Record<string, (item: any) => any>
+  name: { plural: string; singular: string }
+  pk?: string // primary key - used for display e.g. title
+  relations?: {
+    [key: string]: {
+      joinTable?: { name: string }
+      table: { columns?: string[]; name: string }
+    }
+  }
+  route?: { plural: string }
+  select?: { count?: string; detail?: string; filter?: string; list?: string }
+  sk: string // slug key - used for route e.g. slug
+  table: { isJoinTable?: boolean; name: string }
+  /** Mapping of database headers into other names which will be reflected when user downloads CSV file. */
+  tableHeaderRenameMapping?: Record<string, string>
   // Application Triggers
   triggers?: {
     afterInsert?: CrudModuleAfterTriggerFunction
     afterUpdate?: CrudModuleAfterTriggerFunction
   }
-  disableAutoSlug?: boolean // To disable autoSlug
-  /** Mapping of database headers into other names which will be reflected when user downloads CSV file. */
-  tableHeaderRenameMapping?: Record<string, string>
+  // Virtuals
+  virtuals?: Record<string, (item: any) => any>
 }
 
 export interface CrudItem {
-  id: number | string
-  created_at?: string | Date
-  updated_at?: string | Date
-  title: string
-  slug?: string
-  subtitle?: string | null
-  avatar_src?: string | null
   avatar_alt?: string
-  workspace_id?: number
-  exclusive_locales?: string[]
+  avatar_src?: null | string
   blocked_locales?: string[]
+  created_at?: Date | string
+  exclusive_locales?: string[]
+  id: number | string
+  slug?: string
+  subtitle?: null | string
+  title: string
+  updated_at?: Date | string
+  workspace_id?: number
 }
 
 // ==============================
 // Context
 // ==============================
 export interface CrudContextInterface<AppCrudModule = any, AppCrudItem = any> {
-  selectedItems: AppCrudItem[]
-  setSelectedItems: React.Dispatch<React.SetStateAction<AppCrudItem[]>>
-  hasSelectedItems: boolean
+  deleteDialogOpen: boolean
+  handleDeleteDialogClose: () => void
+  handleDeleteDialogOpen: () => void
   hasMultipleSelectedItems: boolean
 
-  deleteDialogOpen: boolean
-  handleDeleteDialogOpen: () => void
-  handleDeleteDialogClose: () => void
+  hasSelectedItems: boolean
+  selectedItems: AppCrudItem[]
+  setSelectedItems: React.Dispatch<React.SetStateAction<AppCrudItem[]>>
 }
 
 // ==============================
 // Plugins
 // ==============================
 export interface CrudModuleWithGetWebHref extends CrudModule {
-  getWebHref: (items: CrudItem[] | CrudItem) => string
+  getWebHref: (items: CrudItem | CrudItem[]) => string
 }

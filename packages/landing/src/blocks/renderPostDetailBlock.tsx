@@ -1,24 +1,25 @@
 import { Post, PressRelease } from '@gravis-os/types'
 import { useMediaQuery, useTheme } from '@mui/material'
-import renderHtmlBlockItem from './renderHtmlBlockItem'
+
 import { BlockProps } from '../web/Block/Block'
+import renderHtmlBlockItem from './renderHtmlBlockItem'
 import renderPostAuthorBlock from './renderPostAuthorBlock'
 
 export interface RenderPostDetailBlockItemProps
   extends Omit<BlockProps, 'items'> {
   disableAuthorDetails?: boolean
-  item?: PressRelease | Post
+  item?: Post | PressRelease
 }
 
 const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
-  const { item, disableAuthorDetails, ...rest } = props
+  const { disableAuthorDetails, item, ...rest } = props
   const {
-    author_avatar_src,
     author_avatar_alt,
-    author_title,
+    author_avatar_src,
     author_job_title,
-    published_at,
+    author_title,
     html,
+    published_at,
   } = item
 
   const theme = useTheme()
@@ -26,24 +27,24 @@ const renderPostDetailBlock = (props: RenderPostDetailBlockItemProps) => {
 
   return {
     id: 'post-detail',
-    sx: { backgroundColor: 'background.paper' },
     items: [
       {
-        type: 'grid',
         gridItems: [
           !disableAuthorDetails &&
             isDesktop &&
             renderPostAuthorBlock({
-              author_avatar_src,
               author_avatar_alt,
-              author_title,
+              author_avatar_src,
               author_job_title,
+              author_title,
               published_at,
             }),
           renderHtmlBlockItem({ html }),
         ].filter(Boolean),
+        type: 'grid',
       },
     ],
+    sx: { backgroundColor: 'background.paper' },
     ...rest,
   }
 }

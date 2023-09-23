@@ -1,55 +1,57 @@
+import type { UseFormReturn } from 'react-hook-form'
+
 import React, { useEffect, useRef } from 'react'
-import startCase from 'lodash/startCase'
-import isNil from 'lodash/isNil'
+
+import { Box, Typography, TypographyProps } from '@gravis-os/ui'
 import {
   FormControl,
   InputAdornment,
   TextField as MuiTextField,
   StandardTextFieldProps as MuiTextFieldProps,
 } from '@mui/material'
-import type { UseFormReturn } from 'react-hook-form'
-import { Box, Typography, TypographyProps } from '@gravis-os/ui'
+import isNil from 'lodash/isNil'
+import startCase from 'lodash/startCase'
 
 export interface TextFieldOptionItem {
   key: string
-  value: any
   label: string
+  value: any
 }
 
 export interface TextFieldProps extends Omit<MuiTextFieldProps, 'title'> {
-  focus?: boolean
-  options?: Array<string | TextFieldOptionItem>
-  disableLabel?: boolean
+  backgroundColor?: string
   disableBorders?: boolean
   disableFirstOptionAsDefaultValue?: boolean
-  setValue?: UseFormReturn['setValue']
-  title?: React.ReactNode
-  start?: React.ReactNode
+  disableLabel?: boolean
   end?: React.ReactNode
+  focus?: boolean
+  options?: Array<TextFieldOptionItem | string>
+  setValue?: UseFormReturn['setValue']
+  start?: React.ReactNode
+  title?: React.ReactNode
   titleProps?: TypographyProps
-  backgroundColor?: string
 }
 
 const TextField: React.FC<TextFieldProps> = (props) => {
   const {
-    disableFirstOptionAsDefaultValue,
-    disableBorders,
-    disableLabel,
-    options,
-    InputLabelProps,
-    sx,
-    hidden,
-    inputProps,
     title,
-    titleProps,
-    focus,
-    start,
-    end,
-    InputProps,
     backgroundColor,
+    disableBorders,
+    disableFirstOptionAsDefaultValue,
+    disableLabel,
+    end,
+    focus,
+    hidden,
+    InputLabelProps,
+    inputProps,
+    InputProps,
+    options,
+    start,
+    sx,
+    titleProps,
     ...rest
   } = props
-  const { placeholder, name, value, setValue, required, error } = rest
+  const { error, name, placeholder, required, setValue, value } = rest
 
   // Autofocus
   // @link https://github.com/mui/material-ui/issues/7247#issuecomment-576032102
@@ -62,18 +64,36 @@ const TextField: React.FC<TextFieldProps> = (props) => {
 
   // Define TextField props
   const textFieldProps = {
-    variant: 'outlined' as TextFieldProps['variant'],
-    label: title || hidden || disableLabel ? null : startCase(name),
-    inputRef,
     fullWidth: true,
+    hiddenLabel: hidden,
     InputLabelProps: {
       ...InputLabelProps,
-      ...(!isNil(value)
-        ? {
+      ...(isNil(value)
+        ? {}
+        : {
             shrink: typeof value === 'boolean' ? true : Boolean(value),
-          }
-        : {}),
+          }),
     },
+    /// Hidden
+    inputProps: {
+      ...(hidden && { type: 'hidden' }),
+      ...inputProps,
+    },
+    InputProps: {
+      // Start/End Icon
+      ...(start && {
+        startAdornment: (
+          <InputAdornment position="start">{start}</InputAdornment>
+        ),
+      }),
+      ...(end && {
+        endAdornment: <InputAdornment position="end">{end}</InputAdornment>,
+      }),
+
+      ...InputProps,
+    },
+    inputRef,
+    label: title || hidden || disableLabel ? null : startCase(name),
     sx: {
       ...sx,
 
@@ -90,26 +110,8 @@ const TextField: React.FC<TextFieldProps> = (props) => {
         },
       }),
     },
-    /// Hidden
-    inputProps: {
-      ...(hidden && { type: 'hidden' }),
-      ...inputProps,
-    },
-    hiddenLabel: hidden,
 
-    InputProps: {
-      // Start/End Icon
-      ...(start && {
-        startAdornment: (
-          <InputAdornment position="start">{start}</InputAdornment>
-        ),
-      }),
-      ...(end && {
-        endAdornment: <InputAdornment position="end">{end}</InputAdornment>,
-      }),
-
-      ...InputProps,
-    },
+    variant: 'outlined' as TextFieldProps['variant'],
 
     ...rest,
   }
@@ -134,21 +136,26 @@ const TextField: React.FC<TextFieldProps> = (props) => {
   // Prepare children
   const renderChildren = () => {
     switch (true) {
-      case Boolean(options):
+      case Boolean(options): {
         return (
           <FormControl
-            required={required}
-            error={error}
             component="fieldset"
+            error={error}
+            required={required}
             sx={{ width: '100%' }}
           >
             <MuiTextField
               {...textFieldProps}
-              select
               SelectProps={{ native: true }}
+              select
             >
               {disableFirstOptionAsDefaultValue && (
-                <option key="placeholder" disabled value="" />
+                <option
+                  aria-label="placeholder"
+                  disabled
+                  key="placeholder"
+                  value=""
+                />
               )}
 
               {(options as any[]).map((option) => {
@@ -172,9 +179,11 @@ const TextField: React.FC<TextFieldProps> = (props) => {
             </MuiTextField>
           </FormControl>
         )
+      }
 
-      default:
+      default: {
         return <MuiTextField {...textFieldProps} />
+      }
     }
   }
   const childrenJsx = renderChildren()

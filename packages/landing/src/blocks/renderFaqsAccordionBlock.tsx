@@ -2,7 +2,7 @@ import { BlockProps } from '../web/Block/Block'
 
 export interface RenderFaqsAccordionBlockProps
   extends Omit<BlockProps, 'items'> {
-  items?: Array<{ id?: string; title: string; content?: string }>
+  items?: Array<{ content?: string; id?: string; title: string }>
 }
 
 const renderFaqsAccordionBlock = (props: RenderFaqsAccordionBlockProps) => {
@@ -13,8 +13,6 @@ const renderFaqsAccordionBlock = (props: RenderFaqsAccordionBlockProps) => {
     ...rest,
     items: [
       {
-        type: 'grid',
-        gridProps: { spacing: 4 },
         gridItemProps: {
           sx: { textAlign: { xs: 'center', md: 'left' } },
         },
@@ -23,13 +21,12 @@ const renderFaqsAccordionBlock = (props: RenderFaqsAccordionBlockProps) => {
             md: 4,
             items: [
               {
-                type: 'h3',
                 title: 'FAQs',
                 maxWidth: 'md',
                 titleProps: { gutterBottom: true },
+                type: 'h3',
               },
               {
-                type: 'body1',
                 title:
                   'Learn how we deliver effective, value-driven technological innovations for leading enterprises.',
                 maxWidth: 'md',
@@ -37,6 +34,7 @@ const renderFaqsAccordionBlock = (props: RenderFaqsAccordionBlockProps) => {
                   color: 'text.secondary',
                   maxWidth: '70%',
                 },
+                type: 'body1',
               },
             ],
           },
@@ -44,7 +42,6 @@ const renderFaqsAccordionBlock = (props: RenderFaqsAccordionBlockProps) => {
             md: 8,
             items: [
               {
-                type: 'accordion',
                 title: items.map((item) => {
                   const { id, title, content } = item
                   return {
@@ -57,10 +54,13 @@ const renderFaqsAccordionBlock = (props: RenderFaqsAccordionBlockProps) => {
                   sx: { textAlign: 'left' },
                   titleProps: { variant: 'subtitle2' as const },
                 },
+                type: 'accordion',
               },
             ],
           },
         ],
+        gridProps: { spacing: 4 },
+        type: 'grid',
       },
     ],
   }

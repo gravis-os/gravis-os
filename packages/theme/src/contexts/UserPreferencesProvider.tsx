@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-let, fp/no-mutation */
+
 import React, {
   Dispatch,
   SetStateAction,
@@ -5,27 +7,28 @@ import React, {
   useEffect,
   useState,
 } from 'react'
-import useMediaQuery from '@mui/material/useMediaQuery'
-import { IconButton } from '@mui/material'
+
+import { DEFAULT_THEME_MODE_ENUM } from '@gravis-os/types'
 import DarkModeOutlinedIcon from '@mui/icons-material/DarkModeOutlined'
 import LightModeOutlinedIcon from '@mui/icons-material/LightModeOutlined'
-import { DEFAULT_THEME_MODE_ENUM } from '@gravis-os/types'
+import { IconButton } from '@mui/material'
+import useMediaQuery from '@mui/material/useMediaQuery'
 
 export interface UserPreferences {
   direction?: 'ltr' | 'rtl'
-  responsiveFontSizes?: boolean
-  mode: 'light' | 'dark'
   isDarkSidebar?: boolean
+  mode: 'dark' | 'light'
+  responsiveFontSizes?: boolean
 }
 
 export interface UserPreferencesContextValue {
-  userPreferences: UserPreferences
-  saveUserPreferences: (update: UserPreferences) => void
-  setDefaultThemeMode: Dispatch<SetStateAction<DEFAULT_THEME_MODE_ENUM>>
-  isDarkMode: boolean
   handleToggleDarkMode: () => void
   handleToggleDarkSidebar: () => void
+  isDarkMode: boolean
+  saveUserPreferences: (update: UserPreferences) => void
+  setDefaultThemeMode: Dispatch<SetStateAction<DEFAULT_THEME_MODE_ENUM>>
   toggleDarkModeIconButtonJsx: React.ReactElement
+  userPreferences: UserPreferences
 }
 
 export interface UserPreferencesProviderProps {
@@ -39,26 +42,30 @@ export interface RestoreUserPreferencesOptions {
 
 const initialUserPreferences: UserPreferences = {
   direction: 'ltr',
-  responsiveFontSizes: true,
-  mode: 'light',
   isDarkSidebar: false,
+  mode: 'light',
+  responsiveFontSizes: true,
 }
 
 const getComputedThemeSetting = (defaultThemeMode: DEFAULT_THEME_MODE_ENUM) => {
   switch (defaultThemeMode) {
     case DEFAULT_THEME_MODE_ENUM.DARK:
-    case DEFAULT_THEME_MODE_ENUM.LIGHT:
+    case DEFAULT_THEME_MODE_ENUM.LIGHT: {
       return { mode: defaultThemeMode }
-    case DEFAULT_THEME_MODE_ENUM.SYSTEM:
+    }
+    case DEFAULT_THEME_MODE_ENUM.SYSTEM: {
       return {
         mode: globalThis.matchMedia('(prefers-color-scheme: dark)').matches
           ? 'dark'
           : 'light',
       }
-    case DEFAULT_THEME_MODE_ENUM.USER_LOCAL_STORAGE:
+    }
+    case DEFAULT_THEME_MODE_ENUM.USER_LOCAL_STORAGE: {
       return {}
-    default:
+    }
+    default: {
       return
+    }
   }
 }
 
@@ -68,7 +75,7 @@ const restoreUserPreferences = (
   let userPreferences: any = null
   const { defaultThemeMode } = options
   try {
-    const storedData: string | null =
+    const storedData: null | string =
       globalThis.localStorage.getItem('userPreferences')
 
     const computedThemeSetting = getComputedThemeSetting(defaultThemeMode)
@@ -79,8 +86,8 @@ const restoreUserPreferences = (
       // Allow to overriding of the mode with the system preference
       ...computedThemeSetting,
     }
-  } catch (err) {
-    console.error(err)
+  } catch (error) {
+    console.error(error)
     // If stored data is not a strigified JSON this will fail,
     // that's why we catch the error
   }
@@ -97,13 +104,13 @@ const storeUserPreferences = (userPreferences: UserPreferences): void => {
 
 export const UserPreferencesContext =
   createContext<UserPreferencesContextValue>({
-    userPreferences: initialUserPreferences,
-    saveUserPreferences: () => null,
-    setDefaultThemeMode: () => null,
-    isDarkMode: false,
     handleToggleDarkMode: () => null,
     handleToggleDarkSidebar: () => null,
+    isDarkMode: false,
+    saveUserPreferences: () => null,
+    setDefaultThemeMode: () => null,
     toggleDarkModeIconButtonJsx: null,
+    userPreferences: initialUserPreferences,
   })
 
 export const UserPreferencesConsumer = UserPreferencesContext.Consumer
@@ -175,9 +182,9 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
   }
   const toggleDarkModeIconButtonJsx = (
     <IconButton
-      onClick={handleToggleDarkMode}
-      color="inherit"
       aria-label="toggle color mode"
+      color="inherit"
+      onClick={handleToggleDarkMode}
     >
       {isDarkMode ? <DarkModeOutlinedIcon /> : <LightModeOutlinedIcon />}
     </IconButton>
@@ -186,13 +193,13 @@ const UserPreferencesProvider: React.FC<UserPreferencesProviderProps> = (
   return (
     <UserPreferencesContext.Provider
       value={{
-        userPreferences,
-        saveUserPreferences,
-        setDefaultThemeMode,
-        isDarkMode,
         handleToggleDarkMode,
         handleToggleDarkSidebar,
+        isDarkMode,
+        saveUserPreferences,
+        setDefaultThemeMode,
         toggleDarkModeIconButtonJsx,
+        userPreferences,
       }}
     >
       {children}

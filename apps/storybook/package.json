@@ -26,7 +26,6 @@
     "build-storybook": "build-storybook",
     "reset": "rm -rf dist && rm -rf node_modules && npx yalc remove --all",
     "yalc:push": "yalc push",
-    "lint": "lint-staged && eslint --ext .ts,.js,.jsx,.tsx . --fix --quiet",
     "tslint": "tsc --noEmit --incremental",
     "chromatic": "npx chromatic"
   },

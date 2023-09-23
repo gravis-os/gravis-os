@@ -1,32 +1,34 @@
 import React from 'react'
+
+import { StorageImage } from '@gravis-os/storage'
+import { CrudModule } from '@gravis-os/types'
 import {
   Box,
+  BoxProps,
   Card,
   CardProps,
-  Link,
   Grid,
+  Link,
   Typography,
-  BoxProps,
 } from '@gravis-os/ui'
-import { CrudModule } from '@gravis-os/types'
-import { StorageImage } from '@gravis-os/storage'
+
 import { Listing } from './types'
 
 export interface ListingListItemProps extends CardProps {
-  item: Listing
   brandModule: CrudModule | any
-  listingModule: CrudModule | any
-  size?: 'small' | 'medium' | 'large'
   cardContentProps?: BoxProps
+  item: Listing
+  listingModule: CrudModule | any
+  size?: 'large' | 'medium' | 'small'
 }
 
 const ListingListItem: React.FC<ListingListItemProps> = (props) => {
   const {
-    item,
-    size = 'medium',
-    cardContentProps,
     brandModule,
+    cardContentProps,
+    item,
     listingModule,
+    size = 'medium',
     sx,
     ...rest
   } = props
@@ -36,13 +38,14 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
   const isSmall = size === 'small'
 
   const {
+    id,
     title,
-    subtitle,
-    avatar_src,
     avatar_alt,
+    avatar_src,
     brand,
     directory_category,
     priceText,
+    subtitle,
   } = item
   const { directory } = directory_category
   const { is_listing_image_enabled, is_listing_price_enabled } = directory
@@ -55,22 +58,22 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
 
   return (
     <Card
-      key={item.id}
       disableCardContent
+      key={id}
       square
       sx={{ height: '100%', ...sx }}
       {...rest}
     >
       <Grid container spacing={2}>
         {is_listing_image_enabled && (
-          <Grid item xs={3} lg={isSmall ? 3 : 2}>
+          <Grid item lg={isSmall ? 3 : 2} xs={3}>
             <Link href={listingHref}>
               <StorageImage
+                alt={avatar_alt || title}
                 fill
                 fixed
-                src={avatar_src}
-                alt={avatar_alt || title}
                 scaleOnHover
+                src={avatar_src}
               />
             </Link>
           </Grid>
@@ -88,13 +91,13 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
             {...cardContentProps}
           >
             <Link
-              variant="overline"
-              href={brandModule.getWebHref([brand])}
               color="secondary"
+              href={brandModule.getWebHref([brand])}
+              variant="overline"
             >
               {brand?.title}
             </Link>
-            <Link variant={isSmall ? 'h5' : 'h4'} href={listingHref}>
+            <Link href={listingHref} variant={isSmall ? 'h5' : 'h4'}>
               {title}
             </Link>
             <Typography>{subtitle}</Typography>

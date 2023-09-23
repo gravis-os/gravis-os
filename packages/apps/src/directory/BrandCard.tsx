@@ -1,48 +1,50 @@
 import React from 'react'
-import { Card, CardContent, CardProps, Link } from '@gravis-os/ui'
-import { CrudModule } from '@gravis-os/types'
+
 import { StorageImage } from '@gravis-os/storage'
+import { CrudModule } from '@gravis-os/types'
+import { Card, CardContent, CardProps, Link } from '@gravis-os/ui'
+
 import { Brand } from './types'
 
 export interface BrandCardProps extends CardProps {
-  item: Brand
   brandModule: CrudModule | any
+  item: Brand
 }
 
 const BrandCard: React.FC<BrandCardProps> = (props) => {
-  const { item, brandModule, sx, href, ...rest } = props
+  const { brandModule, href, item, sx, ...rest } = props
 
   if (!item) return null
 
-  const { title, avatar_src, avatar_alt } = item
+  const { id, title, avatar_alt, avatar_src } = item
 
   const brandHref = href || brandModule.getWebHref([item])
 
   return (
     <Card
-      key={item.id}
       disableCardContent
+      key={id}
       square
       sx={{
-        height: '100%',
-        display: 'flex',
-        width: '100%',
         alignItems: 'center',
+        display: 'flex',
+        height: '100%',
+        width: '100%',
         ...sx,
       }}
       {...rest}
     >
       <Link href={brandHref}>
         <StorageImage
-          width={110}
-          height={110}
-          src={avatar_src}
           alt={avatar_alt || title}
+          height={110}
           scaleOnHover
+          src={avatar_src}
+          width={110}
         />
       </Link>
       <CardContent disableGutterBottom sx={{ height: '100%' }}>
-        <Link variant="h4" href={brandHref}>
+        <Link href={brandHref} variant="h4">
           {title}
         </Link>
       </CardContent>

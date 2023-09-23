@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-loops, fp/no-mutating-methods, unicorn/no-array-for-each */
+
 import { CrudItem } from '@gravis-os/types'
 
 const getObjectWithGetters = (

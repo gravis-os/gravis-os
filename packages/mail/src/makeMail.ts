@@ -1,5 +1,6 @@
 import { MailDataRequired } from '@sendgrid/mail'
 import Mailgen from 'mailgen'
+
 import Sendgrid from './services/Sendgrid'
 
 export enum MailServiceEnum {
@@ -10,10 +11,10 @@ export interface MakeMailProps {
   from: string
   mailService?: MailServiceEnum
   mailgenConfig: {
-    name: string
     link: string
     logo: string
     logoHeight?: number
+    name: string
   }
 }
 
@@ -32,32 +33,32 @@ const makeMail = (props: MakeMailProps) => {
 
   // Configure mailgen by setting a theme and your product info
   const mailgen = new Mailgen({
-    theme: 'default',
     product: {
       ...mailgenConfig,
       logoHeight: `${mailgenConfig.logoHeight || 48}px`,
     },
+    theme: 'default',
   })
 
   const Mail = {
     send: async ({
-      to,
-      from = injectedFrom,
-      subject,
-      email,
       attachments,
       blacklist,
+      email,
+      from = injectedFrom,
       headers,
       replyTo,
+      subject,
+      to,
     }: {
-      to: string
-      from?: string
-      subject: string
-      email: Mailgen.Content
       attachments?: MailDataRequired['attachments']
       blacklist?: string[]
+      email: Mailgen.Content
+      from?: string
       headers?: Record<string, string>
       replyTo?: MailDataRequired['replyTo']
+      subject: string
+      to: string
     }) => {
       const shouldSkip = Boolean(
         blacklist?.some((email) => email === to?.toLowerCase())
@@ -65,14 +66,14 @@ const makeMail = (props: MakeMailProps) => {
       if (shouldSkip) return
 
       return Sendgrid.send({
-        to,
-        from,
-        subject,
-        html: mailgen.generate(email),
-        text: mailgen.generatePlaintext(email),
         attachments,
+        from,
         headers,
+        html: mailgen.generate(email),
         replyTo,
+        subject,
+        text: mailgen.generatePlaintext(email),
+        to,
       })
     },
   }

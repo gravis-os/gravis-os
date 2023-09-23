@@ -1,7 +1,8 @@
 import { Resource } from '@gravis-os/types'
-import renderPostsBlockItem from './renderPostsBlockItem'
-import { BlockProps } from '../web/Block/Block'
+
 import { useLayout } from '../providers/LayoutProvider'
+import { BlockProps } from '../web/Block/Block'
+import renderPostsBlockItem from './renderPostsBlockItem'
 
 export interface RenderFeaturedResourcesBlockProps
   extends Omit<BlockProps, 'items'> {
@@ -18,11 +19,11 @@ const renderFeaturedResourcesBlock = (
   return {
     id: 'featured-resources',
     items: [
-      { type: 'overline', title: 'Resources' },
+      { title: 'Resources', type: 'overline' },
       {
-        type: 'h4',
         title,
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
+        type: 'h4',
       },
       renderPostsBlockItem({
         items: items.map((resource) => {

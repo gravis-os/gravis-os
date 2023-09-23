@@ -1,17 +1,17 @@
 import { CrudItem } from '@gravis-os/types'
 
 export interface GetStaticPathsByParamsProps {
-  items?: Array<CrudItem & { [key: string]: any }> | null
   fallback?: boolean
+  items?: Array<CrudItem & { [key: string]: any }> | null
+  locales?: string[]
   setParams: (item: CrudItem & { [key: string]: any }) => {
     [key: string]: any
   }
-  locales?: string[]
 }
 
 const getStaticPathsByParams = (props: GetStaticPathsByParamsProps) => {
   // A generic util for generating static paths with multiple params
-  const { locales, setParams, items, fallback = false } = props
+  const { fallback = false, items, locales, setParams } = props
 
   const nextLocales = !process.env.DISABLE_LOCALES && locales
 
@@ -19,8 +19,8 @@ const getStaticPathsByParams = (props: GetStaticPathsByParamsProps) => {
     ? items
         ?.map((item) => {
           return nextLocales.map((locale) => ({
-            params: typeof setParams === 'function' ? setParams(item) : item,
             locale,
+            params: typeof setParams === 'function' ? setParams(item) : item,
           }))
         })
         .flat()

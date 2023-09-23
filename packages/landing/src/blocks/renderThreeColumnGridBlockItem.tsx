@@ -1,7 +1,7 @@
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderThreeColumnGridBlockItemProps extends BlockItemProps {
-  items: Array<{ fa_icon: string; title: string; subtitle: string }>
+  items: Array<{ fa_icon: string; subtitle: string; title: string }>
 }
 
 const renderThreeColumnGridBlockItem = (
@@ -10,9 +10,9 @@ const renderThreeColumnGridBlockItem = (
   const { items, ...rest } = props
 
   return {
-    type: 'grid',
+    gridProps: { rowSpacing: 8, spacing: 4 },
     sx: { mt: { xs: 5, md: 12 } },
-    gridProps: { spacing: 4, rowSpacing: 8 },
+    type: 'grid',
     ...rest,
     gridItemProps: {
       xs: 6,
@@ -20,23 +20,23 @@ const renderThreeColumnGridBlockItem = (
       sx: { textAlign: { xs: 'center', md: 'left' } },
     },
     gridItems: items.map((item) => {
-      const { fa_icon, title, subtitle } = item
+      const { title, fa_icon, subtitle } = item
       return {
         items: [
           {
-            type: 'fa-icon',
             title: `fa-3x fa-thin ${fa_icon}`,
             titleProps: { sx: { mb: 3 } },
+            type: 'fa-icon',
           },
           {
-            type: 'subtitle2',
             title,
             titleProps: { gutterBottom: true },
+            type: 'subtitle2',
           },
           {
-            type: 'body1',
             title: subtitle,
             titleProps: { color: 'text.secondary' },
+            type: 'body1',
           },
         ],
       }

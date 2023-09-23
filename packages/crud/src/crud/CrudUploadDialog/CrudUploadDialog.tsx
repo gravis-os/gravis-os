@@ -1,3 +1,7 @@
+import React from 'react'
+import CSVReader from 'react-csv-reader'
+import toast from 'react-hot-toast'
+
 import { Typeform, TypeformState } from '@gravis-os/fields'
 import { CrudModule } from '@gravis-os/types'
 import {
@@ -5,60 +9,58 @@ import {
   Button,
   DialogButton,
   DialogButtonProps,
-  Typography,
   Stack,
+  Typography,
   useOpen,
 } from '@gravis-os/ui'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
-import React from 'react'
-import CSVReader from 'react-csv-reader'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import omit from 'lodash/omit'
-import toast from 'react-hot-toast'
+
 import useCreateMutation from '../../hooks/useCreateMutation'
 import DataTable, { DataTableProps } from '../DataTable'
+import getManyToManyUploadedRows from './getManyToManyUploadedRows'
 import { getUploadedRows } from './getUploadedRows'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
-import getManyToManyUploadedRows from './getManyToManyUploadedRows'
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
-  module: CrudModule
-  requireDownload?: boolean
-  uploadFields?: string[]
-  manyToManyKeys?: string[]
+  dataTableProps?: Partial<DataTableProps>
   getUploadValues?: (rows: unknown) => unknown
   hasUploadTemplate?: boolean
+  manyToManyKeys?: string[]
+  module: CrudModule
   onUpload?: (store: TypeformState, fileData: any) => Promise<void>
+  requireDownload?: boolean
   submitData?: (data) => Promise<{ error: { message: string } | null }>
-  dataTableProps?: Partial<DataTableProps>
+  uploadFields?: string[]
 }
 
 // TODO: Clean data + handle relations + handle error + allow edits
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
   const {
-    module,
-    requireDownload = true,
-    uploadFields,
-    manyToManyKeys,
+    dataTableProps = {},
     getUploadValues: injectedGetUploadedValues,
     hasUploadTemplate,
+    manyToManyKeys,
+    module,
     onUpload,
+    requireDownload = true,
     submitData,
-    dataTableProps = {},
+    uploadFields,
     ...rest
   } = props
   const { tableHeaderRenameMapping } = module ?? {}
 
-  const [open, { setIsOpen, close }] = useOpen(false)
+  const [open, { close, setIsOpen }] = useOpen(false)
 
   const { handleDownload, isDownloaded, resetIsDownloaded, tableColumnNames } =
     useDownloadTableDefinitionCsvFile({
+      hasUploadTemplate,
+      manyToManyKeys,
       module,
       uploadFields,
-      manyToManyKeys,
-      hasUploadTemplate,
     })
 
   const { createMutation } = useCreateMutation({
@@ -69,80 +71,75 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
   return (
     <DialogButton
+      dialogProps={{ maxWidth: 'md' }}
+      onClose={resetIsDownloaded}
       open={open}
       setOpen={setIsOpen}
-      onClose={resetIsDownloaded}
+      startIcon={<FileUploadOutlinedIcon />}
       title={`Upload ${module.name.plural}`}
       variant="callout"
-      startIcon={<FileUploadOutlinedIcon />}
-      dialogProps={{ maxWidth: 'md' }}
       {...rest}
     >
       <Typeform
         center
-        minHeight={400}
-        sx={{ p: 4 }}
-        sliderProps={{ lazy: true }}
         items={[
           {
-            key: 'welcome',
-            icon: <ModuleIcon sx={{ fontSize: 'h1.fontSize' }} />,
             title: `Welcome to the ${module.name.singular} Upload Wizard`,
-            subtitle: 'Get started with bulk uploading your data.',
+            icon: <ModuleIcon sx={{ fontSize: 'h1.fontSize' }} />,
+            key: 'welcome',
             render: (props) => {
               const { slider } = props
               const { next } = slider
               return (
                 <>
-                  <Button size="large" variant="contained" onClick={next}>
+                  <Button onClick={next} size="large" variant="contained">
                     Start
                   </Button>
                 </>
               )
             },
+            subtitle: 'Get started with bulk uploading your data.',
           },
           ...(hasUploadTemplate
             ? []
             : [
                 {
-                  key: 'download-template',
                   title: `Download ${module.name.singular} Template`,
-                  subtitle:
-                    'Fill in your data into this excel template before continuing.',
+                  key: 'download-template',
                   render: (props) => {
                     const {
-                      slider: { prev, next },
+                      slider: { next, prev },
                     } = props
 
                     return (
                       <>
                         <Button
-                          size="large"
                           disabled={isDownloaded}
-                          variant="contained"
                           fullWidth
-                          startIcon={<FileDownloadOutlinedIcon />}
                           onClick={() => handleDownload()}
+                          size="large"
+                          startIcon={<FileDownloadOutlinedIcon />}
+                          variant="contained"
                         >
                           {isDownloaded ? 'Downloaded' : 'Download'}
                         </Button>
 
                         <Stack
-                          direction="row"
                           alignItems="center"
+                          direction="row"
                           justifyContent="space-between"
                           spacing={1}
-                          sx={{ width: '100%', mt: 2 }}
+                          sx={{ mt: 2, width: '100%' }}
                         >
-                          <Button size="large" onClick={prev}>
+                          <Button onClick={prev} size="large">
                             Previous
                           </Button>
 
                           <Button
-                            variant="contained"
-                            size="large"
-                            onClick={next}
                             disabled={requireDownload && !isDownloaded}
+                            onClick={next}
+                            size="large"
+                            variant="contained"
                           >
                             Next
                           </Button>
@@ -150,19 +147,16 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                       </>
                     )
                   },
+                  subtitle:
+                    'Fill in your data into this excel template before continuing.',
                 },
               ]),
           {
-            key: 'upload-file',
             title: `Upload ${module.name.singular} Data`,
-            subtitle: `Select the file ${
-              hasUploadTemplate
-                ? ''
-                : "that you've downloaded in the previous step "
-            }with your data populated to continue.`,
+            key: 'upload-file',
             render: (props) => {
               const {
-                slider: { prev, next },
+                slider: { next, prev },
                 store,
               } = props
               const { values } = store
@@ -180,54 +174,55 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 <>
                   {hasUploadTemplate ? (
                     <>
-                      <Typography variant="body2" mb={1}>
+                      <Typography mb={1} variant="body2">
                         XLSX files only
                       </Typography>
                       <input
                         id="xlsx-upload"
-                        type="file"
                         onChange={(e) => {
                           const { files } = e.target
                           if (files && files[0]) {
                             const reader = new FileReader()
 
-                            reader.onload = async () => {
+                            reader.addEventListener('load', async () => {
                               const buffer = reader.result as ArrayBuffer
                               await onUpload(store, buffer)
-                            }
+                            })
 
+                            // eslint-disable-next-line unicorn/prefer-blob-reading-methods
                             reader.readAsArrayBuffer(files[0])
                           }
                         }}
+                        type="file"
                       />
                     </>
                   ) : (
                     <CSVReader
                       onFileLoaded={handleCsvFileUpload}
                       parserOptions={{
-                        header: true,
                         dynamicTyping: true,
+                        header: true,
                         skipEmptyLines: true,
                       }}
                     />
                   )}
 
                   <Stack
-                    direction="row"
                     alignItems="center"
+                    direction="row"
                     justifyContent="space-between"
                     spacing={1}
-                    sx={{ width: '100%', mt: 2 }}
+                    sx={{ mt: 2, width: '100%' }}
                   >
-                    <Button size="large" onClick={prev}>
+                    <Button onClick={prev} size="large">
                       Previous
                     </Button>
 
                     <Button
-                      variant="contained"
-                      size="large"
-                      onClick={next}
                       disabled={!isUploaded}
+                      onClick={next}
+                      size="large"
+                      variant="contained"
                     >
                       Next
                     </Button>
@@ -235,24 +230,28 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 </>
               )
             },
+            subtitle: `Select the file ${
+              hasUploadTemplate
+                ? ''
+                : "that you've downloaded in the previous step "
+            }with your data populated to continue.`,
           },
           {
-            key: 'review-data',
             title: `Review ${module.name.singular} Data`,
-            subtitle: 'The following items will be created in the next step.',
+            key: 'review-data',
             render: (props) => {
               const {
-                store,
                 // prev and next return void
-                slider: { prev, next },
+                slider: { next, prev },
+                store,
               } = props
 
               const { uploadedRows } = store.values
               const items = uploadedRows as any
 
               const columnDefs = tableColumnNames.map((tableColumnName) => ({
-                field: tableColumnName,
                 cellRenderer: 'agGroupCellRenderer',
+                field: tableColumnName,
               }))
 
               const uploadDataWithDefaultTemplate = async () => {
@@ -297,7 +296,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                     )
 
                     const manyToManyTablesResponse = await Promise.allSettled(
-                      manyToManyTables.map(async ({ tableName, rows }) =>
+                      manyToManyTables.map(async ({ rows, tableName }) =>
                         supabaseClient.from(tableName).insert(rows)
                       )
                     )
@@ -307,7 +306,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                         ({ status }) => status === 'rejected'
                       )
 
-                    if (rejectedManyToManyTablesResponse.length) {
+                    if (rejectedManyToManyTablesResponse.length > 0) {
                       toast.error(
                         `Some relations fail to upload: \n${rejectedManyToManyTablesResponse
                           .map(
@@ -326,7 +325,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
               const handleUploadClick = async () => {
                 switch (true) {
-                  case !!submitData:
+                  case !!submitData: {
                     const { error } = await submitData(uploadedRows)
                     if (error) {
                       toast.error(
@@ -337,9 +336,11 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
                     next()
                     return
-                  default:
+                  }
+                  default: {
                     await uploadDataWithDefaultTemplate()
                     return
+                  }
                 }
               }
 
@@ -347,32 +348,32 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 <>
                   <Box sx={{ textAlign: 'left' }}>
                     <DataTable
-                      height={400}
-                      disableSizeColumnsToFit
-                      disableResizeGrid={false}
+                      columnDefs={columnDefs}
                       defaultColDef={{ autoHeight: false }}
+                      disableResizeGrid={false}
+                      disableSizeColumnsToFit
+                      height={400}
                       module={module}
                       rowData={items}
-                      columnDefs={columnDefs}
                       {...dataTableProps}
                     />
                   </Box>
 
                   <Stack
-                    direction="row"
                     alignItems="center"
+                    direction="row"
                     justifyContent="space-between"
                     spacing={1}
-                    sx={{ width: '100%', mt: 2 }}
+                    sx={{ mt: 2, width: '100%' }}
                   >
-                    <Button size="large" onClick={prev}>
+                    <Button onClick={prev} size="large">
                       Previous
                     </Button>
 
                     <Button
-                      variant="contained"
-                      size="large"
                       onClick={handleUploadClick}
+                      size="large"
+                      variant="contained"
                     >
                       Upload
                     </Button>
@@ -380,38 +381,42 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                 </>
               )
             },
+            subtitle: 'The following items will be created in the next step.',
           },
           {
-            key: 'success',
+            title: `Your ${module.name.singular} Data has been Uploaded`,
             icon: (
               <CheckCircleOutlinedIcon
                 color="success"
                 sx={{ fontSize: 'h1.fontSize' }}
               />
             ),
-            title: `Your ${module.name.singular} Data has been Uploaded`,
-            subtitle:
-              'Your bulk upload has been submitted. Kindly close this dialog and refresh the browser to confirm.',
+            key: 'success',
             render: (props) => {
               const { store } = props
               const { reset } = store
               return (
                 <>
                   <Button
-                    size="large"
-                    variant="contained"
                     onClick={() => {
                       reset()
                       close()
                     }}
+                    size="large"
+                    variant="contained"
                   >
                     Close
                   </Button>
                 </>
               )
             },
+            subtitle:
+              'Your bulk upload has been submitted. Kindly close this dialog and refresh the browser to confirm.',
           },
         ]}
+        minHeight={400}
+        sliderProps={{ lazy: true }}
+        sx={{ p: 4 }}
       />
     </DialogButton>
   )

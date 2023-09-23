@@ -1,4 +1,5 @@
 import { Workspace } from '@gravis-os/types'
+
 import saasConfig from '../config/saasConfig'
 
 const getIsAdminWorkspace = (workspace: Workspace): boolean => {

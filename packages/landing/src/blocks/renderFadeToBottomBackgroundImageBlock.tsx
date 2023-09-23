@@ -4,51 +4,50 @@ import renderGhostButtonBlockItem, {
 } from './renderGhostButtonBlockItem'
 
 export interface RenderFadeToBottomBackgroundImageBlockProps {
+  buttonProps?: RenderGhostButtonBlockItemProps
+  hero_alt?: string
+  hero_src?: string
   overline?: string
-  title: string
-  titleProps?: BlockItemProps
   subtitle?: string
   subtitleProps?: BlockItemProps
-  hero_src?: string
-  hero_alt?: string
-  buttonProps?: RenderGhostButtonBlockItemProps
+  title: string
+  titleProps?: BlockItemProps
 }
 
 const renderFadeToBottomBackgroundImageBlock = (
   props: RenderFadeToBottomBackgroundImageBlockProps
 ) => {
   const {
-    overline,
     title,
-    titleProps,
+    buttonProps,
+    hero_alt,
+    hero_src,
+    overline,
     subtitle,
     subtitleProps,
-    hero_src,
-    hero_alt,
-    buttonProps,
+    titleProps,
   } = props
   return {
     id: title,
+    backgroundImageProps: {
+      alt: hero_alt,
+      src: hero_src,
+    },
     center: true,
     dark: true,
-    pb: 46,
-    backgroundImageProps: {
-      src: hero_src,
-      alt: hero_alt,
-    },
     items: [
-      { type: 'overline', title: overline },
+      { title: overline, type: 'overline' },
       {
-        type: 'h4',
         title,
         maxWidth: 'sm',
+        type: 'h4',
         ...titleProps,
         titleProps: { gutterBottom: true, ...titleProps?.titleProps },
       },
       {
-        type: 'h6',
         title: subtitle,
         maxWidth: 'md',
+        type: 'h6',
         ...subtitleProps,
         titleProps: {
           color: 'text.secondary',
@@ -57,12 +56,13 @@ const renderFadeToBottomBackgroundImageBlock = (
         },
       },
       renderGhostButtonBlockItem({
-        overline: 'Our Mission',
         title: 'Enabling Smarter Businesses',
         boxProps: { mt: 3 },
+        overline: 'Our Mission',
         ...buttonProps,
       }),
     ],
+    pb: 46,
   }
 }
 

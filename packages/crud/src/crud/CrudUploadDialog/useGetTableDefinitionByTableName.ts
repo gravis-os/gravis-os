@@ -3,7 +3,7 @@ import useSupabaseSchemaQuery from './useSupabaseSchemaQuery'
 export interface TableDefinition {
   properties: Record<
     string,
-    { type: string; format: string; description?: string; default?: string }
+    { default?: string; description?: string; format: string; type: string }
   >
   required: string[]
   type: string

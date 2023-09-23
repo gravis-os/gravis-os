@@ -1,21 +1,23 @@
 import React from 'react'
+
 import {
   Card,
   CardProps,
-  setThemeColor,
   Stack,
   Typography,
+  setThemeColor,
 } from '@gravis-os/ui'
+
 import posConfig from './posConfig'
 
 export interface PosAppCardProps extends CardProps {
+  color?: string
   iconElement?: React.ElementType
   title: string
-  color?: string
 }
 
 const PosAppCard: React.FC<PosAppCardProps> = (props) => {
-  const { color, iconElement: Icon, title, sx, ...rest } = props
+  const { title, color, iconElement: Icon, sx, ...rest } = props
 
   return (
     <Card
@@ -29,8 +31,8 @@ const PosAppCard: React.FC<PosAppCardProps> = (props) => {
       {...rest}
     >
       <Stack
-        sx={{ minHeight: posConfig.appCardMinHeight }}
         justifyContent="space-between"
+        sx={{ minHeight: posConfig.appCardMinHeight }}
       >
         {/* Icon */}
         <Icon
@@ -46,12 +48,12 @@ const PosAppCard: React.FC<PosAppCardProps> = (props) => {
         {/* Text */}
         <div>
           <Typography
-            variant="h4"
             sx={{
               ...(color && {
                 color: setThemeColor(`${color}.main`),
               }),
             }}
+            variant="h4"
           >
             {title}
           </Typography>

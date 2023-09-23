@@ -1,14 +1,16 @@
 import React, { useEffect, useState } from 'react'
+
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+
 import { File } from './types'
 import { DEFAULT_BUCKET_NAME, cleanPath } from './utils'
 
 const fetchStorageUrls = async ({
-  srcs,
   bucketName = DEFAULT_BUCKET_NAME,
+  srcs,
 }: {
-  srcs: string[]
   bucketName?: string
+  srcs: string[]
 }) => {
   try {
     const downloadPromises = srcs.map(async (src) =>
@@ -28,22 +30,22 @@ const fetchStorageUrls = async ({
 
     return storageUrls
   } catch (error) {
-    console.error('Error downloading image: ', error.message)
+    console.error('Error downloading image:', error.message)
   }
 }
 
 export type UseFiles = ({
-  items,
   bucketName,
+  items,
 }: {
-  items?: Array<{ src?: string } & File>
   bucketName?: string
+  items?: Array<{ src?: string } & File>
 }) => {
   files: File[]
   setFiles?: React.Dispatch<React.SetStateAction<File[]>>
 }
 
-const useFiles: UseFiles = ({ items, bucketName }) => {
+const useFiles: UseFiles = ({ bucketName, items }) => {
   const [files, setFiles] = useState<File[]>([])
 
   const shouldFetchStorageItems = Boolean(items?.length)
@@ -51,13 +53,13 @@ const useFiles: UseFiles = ({ items, bucketName }) => {
   // Hooks
   useEffect(() => {
     const fetchAndSetFiles = async ({ srcs }) => {
-      const fetchedStorageUrls = await fetchStorageUrls({ srcs, bucketName })
+      const fetchedStorageUrls = await fetchStorageUrls({ bucketName, srcs })
       const fetchedFiles =
         items?.map?.((file, i) => ({
           ...file,
           url: fetchedStorageUrls[i],
         })) || []
-      if (fetchedFiles.length) {
+      if (fetchedFiles.length > 0) {
         setFiles(fetchedFiles)
       }
     }

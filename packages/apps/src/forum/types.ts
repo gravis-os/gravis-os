@@ -3,30 +3,30 @@ import { CrudItem, Person } from '@gravis-os/types'
 export interface ForumCategory extends CrudItem {
   forum?: {
     id: number
-    title: string
     slug: string
+    title: string
   }
 }
 
 export interface Thread extends CrudItem {
-  id: number
-  hero_src?: string
-  hero_alt?: string
-  avatar_src?: string
   avatar_alt?: string
-  title: string
-  subtitle?: string
+  avatar_src?: string
   content?: string
-  upvote_count: number
-  person?: Person
   forum_category?: ForumCategory
+  hero_alt?: string
+  hero_src?: string
+  id: number
+  person?: Person
+  subtitle?: string
+  title: string
+  upvote_count: number
 }
 
 export interface ThreadComment extends CrudItem {
-  id: number
-  avatar_src?: string
   avatar_alt?: string
+  avatar_src?: string
   content?: string
-  upvote_count: number
+  id: number
   person?: Person
+  upvote_count: number
 }

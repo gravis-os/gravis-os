@@ -1,33 +1,35 @@
 import React from 'react'
-import dynamic from 'next/dynamic'
-import get from 'lodash/get'
-import startCase from 'lodash/startCase'
 import { Controller, UseFormReturn } from 'react-hook-form'
+
+import {
+  CheckboxGroupProps,
+  ControlledTextField,
+  RadioGroupProps,
+} from '@gravis-os/fields'
 import {
   CrudContextInterface,
   CrudModule,
   UserContextInterface,
 } from '@gravis-os/types'
-import {
-  ControlledTextField,
-  RadioGroupProps,
-  CheckboxGroupProps,
-} from '@gravis-os/fields'
 import { printPercentage } from '@gravis-os/utils'
-import getFormSectionFieldWithFunctionType from './getFormSectionFieldWithFunctionType'
-import getFormSectionFieldRenderProps from './getFormSectionFieldRenderProps'
-import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
+import get from 'lodash/get'
+import startCase from 'lodash/startCase'
+import dynamic from 'next/dynamic'
+
 import { ControlledModelFieldProps } from '../fields/ControlledModelField'
-import FormSectionReadOnlyStack from './FormSectionReadOnlyStack'
 import getRelationalObjectKey from '../utils/getRelationalObjectKey'
-import { FormSectionFieldProps, FormSectionProps } from './types'
 import { FormSectionFieldTypeEnum } from './constants'
+import FormSectionReadOnlyStack from './FormSectionReadOnlyStack'
+import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
+import getFormSectionFieldRenderProps from './getFormSectionFieldRenderProps'
+import getFormSectionFieldWithFunctionType from './getFormSectionFieldWithFunctionType'
+import { FormSectionFieldProps, FormSectionProps } from './types'
 
 export interface RenderFieldProps {
+  crudContext?: CrudContextInterface // Available if Form is used in CrudForm
+  fieldProps: FormSectionFieldProps
   formContext: UseFormReturn
   sectionProps: FormSectionProps
-  fieldProps: FormSectionFieldProps
-  crudContext?: CrudContextInterface // Available if Form is used in CrudForm
   userContext?: UserContextInterface // Available if Form is used in CrudForm
 }
 
@@ -35,47 +37,47 @@ export interface RenderFieldProps {
  * Render FormSection Field
  */
 const renderField = (props: RenderFieldProps) => {
-  const { formContext, sectionProps, fieldProps } = props
-  const { control, setValue, formState } = formContext
+  const { fieldProps, formContext, sectionProps } = props
+  const { control, formState, setValue } = formContext
   const { errors } = formState
 
   const {
+    disabledFields,
+    disableEdit,
     isNew,
     isPreview,
     isReadOnly,
-    disableEdit,
     item,
-    disabledFields,
-    renderReadOnly,
-    readOnlySx,
     module: injectedModule,
+    readOnlySx,
+    renderReadOnly,
   } = sectionProps
   const {
-    type,
-    module,
-    key,
-    gridProps,
-    fieldEffect,
-    render,
-
     // These props should be deprecated in favor of `props`
     checkboxTableProps,
-    modelFieldProps,
     chipFieldProps,
+    fieldEffect,
+    gridProps,
+    key,
+    modelFieldProps,
 
+    module,
     props: componentProps,
+    render,
+
+    type,
 
     ...rest
   } = fieldProps
   const {
-    name,
-    disabled,
-    hidden,
-    helperText,
     defaultValue,
+    disabled,
+    helperText,
+    hidden,
     label: injectedLabel,
-    withCreate,
     multiple,
+    name,
+    withCreate,
   } = rest
 
   // ==============================
@@ -97,14 +99,14 @@ const renderField = (props: RenderFieldProps) => {
   // Shared props by all fields
   const commonProps = {
     ...rest,
-    isNew,
-    setValue,
-    error: Boolean(get(errors, name)),
-    helperText: get(errors, name)?.message || helperText,
+    defaultValue: nextDefaultValue,
     // Resolved values
     disabled: isDisabled,
+    error: Boolean(get(errors, name)),
+    helperText: get(errors, name)?.message || helperText,
     hidden: isHidden,
-    defaultValue: nextDefaultValue,
+    isNew,
+    setValue,
     ...componentProps,
   }
 
@@ -122,7 +124,7 @@ const renderField = (props: RenderFieldProps) => {
 
     // Switch statements for managing readOnly mode for each field type
     switch (type) {
-      case FormSectionFieldTypeEnum.CHECKBOX_TABLE:
+      case FormSectionFieldTypeEnum.CHECKBOX_TABLE: {
         const DynamicControlledCheckboxTable = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledCheckboxTable
@@ -130,12 +132,13 @@ const renderField = (props: RenderFieldProps) => {
         )
         return (
           <DynamicControlledCheckboxTable
-            control={control}
             checkboxTableProps={{ ...checkboxTableProps, isReadOnly: true }}
+            control={control}
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.MODEL:
+      }
+      case FormSectionFieldTypeEnum.MODEL: {
         const modelName = getRelationalObjectKey(name)
         const modelLabel = injectedLabel || startCase(modelName)
 
@@ -158,39 +161,40 @@ const renderField = (props: RenderFieldProps) => {
           )
         const modelTitle =
           multiple && Array.isArray(modelValue)
-            ? modelValue.map(getModelTitle)
+            ? modelValue.map((modelVal) => getModelTitle(modelVal))
             : getModelTitle(modelValue)
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
-            item,
-            name,
-            module,
-            label: modelLabel,
-            value: modelValue,
             title: modelTitle,
+            item,
+            label: modelLabel,
+            module,
+            name,
+            value: modelValue,
           })
         }
         return (
           <FormSectionReadOnlyStack
             label={modelLabel}
-            title={modelTitle}
             sx={readOnlySx}
+            title={modelTitle}
           />
         )
+      }
       case FormSectionFieldTypeEnum.IMAGE:
       case FormSectionFieldTypeEnum.IMAGES:
-      case FormSectionFieldTypeEnum.FILES:
+      case FormSectionFieldTypeEnum.FILES: {
         const files = get(item, name)
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
-            item,
-            name,
-            module,
-            label,
-            value: files,
             title: label,
+            item,
+            label,
+            module,
+            name,
+            value: files,
           })
         }
 
@@ -202,36 +206,38 @@ const renderField = (props: RenderFieldProps) => {
         )
         return (
           <FormSectionReadOnlyFiles
-            label={label}
-            sx={readOnlySx}
-            files={files}
             fileProps={{
               bucketName,
             }}
+            files={files}
+            label={label}
+            sx={readOnlySx}
           />
         )
-      case FormSectionFieldTypeEnum.CHIP:
+      }
+      case FormSectionFieldTypeEnum.CHIP: {
         const joinedTitle = get(item, name)?.join(', ')
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
-            item,
-            name,
-            module,
-            label,
-            value: joinedTitle,
             title: joinedTitle,
+            item,
+            label,
+            module,
+            name,
+            value: joinedTitle,
           })
         }
 
         return (
           <FormSectionReadOnlyStack
             label={label}
-            title={joinedTitle}
             sx={readOnlySx}
+            title={joinedTitle}
           />
         )
-      case FormSectionFieldTypeEnum.HTML:
+      }
+      case FormSectionFieldTypeEnum.HTML: {
         const html = get(item, name)
 
         const DynamicHtml = dynamic(() =>
@@ -241,52 +247,55 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <FormSectionReadOnlyStack
             label={label}
-            title={typeof html === 'string' ? <DynamicHtml html={html} /> : '-'}
             sx={readOnlySx}
+            title={typeof html === 'string' ? <DynamicHtml html={html} /> : '-'}
           />
         )
-      case FormSectionFieldTypeEnum.PERCENTAGE:
+      }
+      case FormSectionFieldTypeEnum.PERCENTAGE: {
         const percentage = printPercentage(get(item, name), { dp: 2 })
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
-            item,
-            name,
-            module,
-            label,
-            value: percentage,
             title: percentage,
+            item,
+            label,
+            module,
+            name,
+            value: percentage,
           })
         }
 
         return (
           <FormSectionReadOnlyStack
             label={label}
-            title={percentage}
             sx={readOnlySx}
+            title={percentage}
           />
         )
-      default:
+      }
+      default: {
         const title = get(item, name)
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
-            item,
-            name,
-            module,
-            label,
-            value: title, // Set value as title
             title,
+            item,
+            label,
+            module,
+            name,
+            value: title, // Set value as title
           })
         }
 
         return (
           <FormSectionReadOnlyStack
             label={label}
-            title={title}
             sx={readOnlySx}
+            title={title}
           />
         )
+      }
     }
   }
 
@@ -295,7 +304,7 @@ const renderField = (props: RenderFieldProps) => {
   // ==============================
   const getChildrenJsx = () => {
     switch (type) {
-      case FormSectionFieldTypeEnum.CHECKBOX_TABLE:
+      case FormSectionFieldTypeEnum.CHECKBOX_TABLE: {
         const DynamicControlledCheckboxTable = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledCheckboxTable
@@ -303,12 +312,13 @@ const renderField = (props: RenderFieldProps) => {
         )
         return (
           <DynamicControlledCheckboxTable
-            control={control}
             checkboxTableProps={checkboxTableProps}
+            control={control}
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.RADIO:
+      }
+      case FormSectionFieldTypeEnum.RADIO: {
         const DynamicControlledRadioGroup = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledRadioGroup
@@ -321,7 +331,8 @@ const renderField = (props: RenderFieldProps) => {
             options={(commonProps.options || []) as RadioGroupProps['options']}
           />
         )
-      case FormSectionFieldTypeEnum.JSON:
+      }
+      case FormSectionFieldTypeEnum.JSON: {
         const DynamicControlledJsonField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledJsonField
@@ -334,7 +345,8 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.CHECKBOX:
+      }
+      case FormSectionFieldTypeEnum.CHECKBOX: {
         const DynamicControlledCheckboxGroup = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledCheckboxGroup
@@ -349,14 +361,16 @@ const renderField = (props: RenderFieldProps) => {
             }
           />
         )
-      case FormSectionFieldTypeEnum.DATE:
+      }
+      case FormSectionFieldTypeEnum.DATE: {
         const DynamicControlledDateField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledDateField
           )
         )
         return <DynamicControlledDateField control={control} {...commonProps} />
-      case FormSectionFieldTypeEnum.DATE_TIME:
+      }
+      case FormSectionFieldTypeEnum.DATE_TIME: {
         const DynamicControlledDateTimeField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledDateTimeField
@@ -365,14 +379,16 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <DynamicControlledDateTimeField control={control} {...commonProps} />
         )
-      case FormSectionFieldTypeEnum.TIME:
+      }
+      case FormSectionFieldTypeEnum.TIME: {
         const DynamicControlledTimeField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledTimeField
           )
         )
         return <DynamicControlledTimeField control={control} {...commonProps} />
-      case FormSectionFieldTypeEnum.TIME_RANGE:
+      }
+      case FormSectionFieldTypeEnum.TIME_RANGE: {
         const DynamicControlledTimeRangeField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledTimeRangeField
@@ -381,7 +397,8 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <DynamicControlledTimeRangeField control={control} {...commonProps} />
         )
-      case FormSectionFieldTypeEnum.AMOUNT:
+      }
+      case FormSectionFieldTypeEnum.AMOUNT: {
         const DynamicControlledAmountField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledAmountField
@@ -390,7 +407,8 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <DynamicControlledAmountField control={control} {...commonProps} />
         )
-      case FormSectionFieldTypeEnum.PERCENTAGE:
+      }
+      case FormSectionFieldTypeEnum.PERCENTAGE: {
         const DynamicControlledPercentageField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledPercentageField
@@ -402,14 +420,16 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.RATE:
+      }
+      case FormSectionFieldTypeEnum.RATE: {
         const DynamicControlledRateField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledRateField
           )
         )
         return <DynamicControlledRateField control={control} {...commonProps} />
-      case FormSectionFieldTypeEnum.SWITCH:
+      }
+      case FormSectionFieldTypeEnum.SWITCH: {
         const DynamicControlledSwitchField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledSwitchField
@@ -418,7 +438,8 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <DynamicControlledSwitchField control={control} {...commonProps} />
         )
-      case FormSectionFieldTypeEnum.FILES:
+      }
+      case FormSectionFieldTypeEnum.FILES: {
         const DynamicStorageFiles = dynamic(() =>
           import('@gravis-os/storage').then((module) => module.StorageFiles)
         )
@@ -437,7 +458,8 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.IMAGES:
+      }
+      case FormSectionFieldTypeEnum.IMAGES: {
         const DynamicStorageGallery = dynamic(() =>
           import('@gravis-os/storage').then((module) => module.StorageGallery)
         )
@@ -456,7 +478,8 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.IMAGE:
+      }
+      case FormSectionFieldTypeEnum.IMAGE: {
         const DynamicStorageAvatarWithUpload = dynamic(() =>
           import('@gravis-os/storage').then(
             (module) => module.StorageAvatarWithUpload
@@ -480,7 +503,8 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.MODEL:
+      }
+      case FormSectionFieldTypeEnum.MODEL: {
         const DynamicControlledModelField = dynamic(
           () => import('../fields/ControlledModelField')
         )
@@ -492,7 +516,8 @@ const renderField = (props: RenderFieldProps) => {
             {...modelFieldProps}
           />
         )
-      case FormSectionFieldTypeEnum.CHIP:
+      }
+      case FormSectionFieldTypeEnum.CHIP: {
         const DynamicControlledChipField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledChipField
@@ -505,7 +530,8 @@ const renderField = (props: RenderFieldProps) => {
             {...chipFieldProps}
           />
         )
-      case FormSectionFieldTypeEnum.PASSWORD:
+      }
+      case FormSectionFieldTypeEnum.PASSWORD: {
         const DynamicControlledPasswordField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledPasswordField
@@ -514,14 +540,16 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <DynamicControlledPasswordField control={control} {...commonProps} />
         )
-      case FormSectionFieldTypeEnum.HTML:
+      }
+      case FormSectionFieldTypeEnum.HTML: {
         const DynamicControlledHtmlField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledHtmlField
           )
         )
         return <DynamicControlledHtmlField control={control} {...commonProps} />
-      case FormSectionFieldTypeEnum.COUNTRY_CODE:
+      }
+      case FormSectionFieldTypeEnum.COUNTRY_CODE: {
         const DynamicControlledCountryCodeField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledCountryCodeField
@@ -533,7 +561,8 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
-      case FormSectionFieldTypeEnum.COUNTRY:
+      }
+      case FormSectionFieldTypeEnum.COUNTRY: {
         const DynamicControlledCountryField = dynamic(() =>
           import('@gravis-os/fields').then(
             (module) => module.ControlledCountryField
@@ -542,7 +571,8 @@ const renderField = (props: RenderFieldProps) => {
         return (
           <DynamicControlledCountryField control={control} {...commonProps} />
         )
-      case FormSectionFieldTypeEnum.EMAIL:
+      }
+      case FormSectionFieldTypeEnum.EMAIL: {
         return (
           <ControlledTextField
             control={control}
@@ -550,19 +580,21 @@ const renderField = (props: RenderFieldProps) => {
             type="email"
           />
         )
-      case FormSectionFieldTypeEnum.MOBILE:
+      }
+      case FormSectionFieldTypeEnum.MOBILE: {
         return (
           <ControlledTextField
             control={control}
             {...commonProps}
-            type="tel"
             inputProps={{
-              pattern: '^[0-9]*$',
               title: 'Please enter numbers only.',
+              pattern: '^[0-9]*$',
             }}
+            type="tel"
           />
         )
-      case FormSectionFieldTypeEnum.TEXTAREA:
+      }
+      case FormSectionFieldTypeEnum.TEXTAREA: {
         return (
           <ControlledTextField
             control={control}
@@ -571,16 +603,18 @@ const renderField = (props: RenderFieldProps) => {
             {...commonProps}
           />
         )
+      }
       case FormSectionFieldTypeEnum.TEXT:
       case FormSectionFieldTypeEnum.INPUT:
-      default:
+      default: {
         return <ControlledTextField control={control} {...commonProps} />
+      }
     }
   }
 
   const childrenJsx = getChildrenJsx()
 
-  return render ? render({ formContext, children: childrenJsx }) : childrenJsx
+  return render ? render({ children: childrenJsx, formContext }) : childrenJsx
 }
 
 export default renderField

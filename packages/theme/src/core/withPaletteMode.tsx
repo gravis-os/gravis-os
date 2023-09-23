@@ -1,22 +1,23 @@
 import React from 'react'
+
+import { useGravis } from '@gravis-os/config'
 import { Theme } from '@mui/material'
 import { ThemeProvider, createTheme } from '@mui/material/styles'
-import { useGravis } from '@gravis-os/config'
 
 const defaultLightTheme = createTheme({ palette: { mode: 'light' } })
 const defaultDarkTheme = createTheme({ palette: { mode: 'dark' } })
 
 export interface WithPaletteModeProps {
   /**
+   * Shorthand method for mode
+   */
+  dark?: boolean
+  /**
    * Force a palette mode. Otherwise use the global mode
    * This allows us to get certain wrapped children to ignore the global palette
    *
    */
-  mode?: 'light' | 'dark' | string
-  /**
-   * Shorthand method for mode
-   */
-  dark?: boolean
+  mode?: 'dark' | 'light' | string
 }
 
 const withPaletteMode = (props: WithPaletteModeProps) => {
@@ -47,6 +48,9 @@ const withPaletteMode = (props: WithPaletteModeProps) => {
             ...outerTheme,
             palette: {
               ...outerTheme.palette,
+              action: nextThemePalette?.action,
+              background: nextThemePalette?.background,
+              divider: nextThemePalette?.divider,
               /**
                * Set to dark mode with the default changes to dark mode palette
                * @link https://mui.com/material-ui/customization/dark-mode/#dark-mode-by-default
@@ -54,9 +58,6 @@ const withPaletteMode = (props: WithPaletteModeProps) => {
                */
               mode,
               text: nextThemePalette?.text,
-              background: nextThemePalette?.background,
-              divider: nextThemePalette?.divider,
-              action: nextThemePalette?.action,
             },
           }
 

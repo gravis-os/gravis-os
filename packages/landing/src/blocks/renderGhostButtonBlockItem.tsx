@@ -1,31 +1,33 @@
 import React from 'react'
-import { Box, Typography, ButtonProps } from '@gravis-os/ui'
-import TrendingFlatOutlinedIcon from '@mui/icons-material/TrendingFlatOutlined'
+
 import { withPaletteMode } from '@gravis-os/theme'
+import { Box, ButtonProps, Typography } from '@gravis-os/ui'
+import TrendingFlatOutlinedIcon from '@mui/icons-material/TrendingFlatOutlined'
 import { useTheme } from '@mui/material'
+
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderGhostButtonBlockItemProps
   extends Omit<ButtonProps, 'size'> {
-  overline?: React.ReactNode
-  title?: ButtonProps['title']
   boxProps?: BlockItemProps['boxProps']
-  size?: 'sm' | 'md' | 'lg' | ButtonProps['size']
-  isCta?: boolean
   children?: JSX.Element
+  isCta?: boolean
+  overline?: React.ReactNode
+  size?: 'lg' | 'md' | 'sm' | ButtonProps['size']
+  title?: ButtonProps['title']
 }
 
 const renderGhostButtonBlockItem = (
   props: RenderGhostButtonBlockItemProps
 ): BlockItemProps => {
   const {
-    isCta,
-    overline,
     title,
     boxProps,
-    sx,
-    size = 'md',
     children = <></>,
+    isCta,
+    overline,
+    size = 'md',
+    sx,
     ...rest
   } = props
   const isLarge = size === 'lg'
@@ -36,49 +38,49 @@ const renderGhostButtonBlockItem = (
   )
 
   return {
-    type: 'button',
     title: (
       <Box sx={{ width: '100%' }}>
         <Typography
-          variant="overline2"
-          lineHeight={1.75}
           color="text.secondary"
+          lineHeight={1.75}
+          variant="overline2"
         >
           {overline}
         </Typography>
         <Typography variant="button2">{title}</Typography>
       </Box>
     ),
+    boxProps,
     titleProps: {
-      variant: 'ghost',
-      size: 'large',
-      fullWidthOnMobile: isLarge,
       disableBorderRadius: true,
       disableRipple: true,
       endIcon: <TrendingFlatOutlinedIcon sx={{ color: 'text.secondary' }} />,
+      fullWidthOnMobile: isLarge,
+      size: 'large',
       sx: {
-        textAlign: 'left',
-        padding: {
-          xs: isLarge ? '1.125em 1.75em' : '0.95em 2em',
-          sm: isLarge ? '1.5em 2.5em' : '1.125em 2.5em',
-        },
         minWidth: {
           xs: isLarge ? '22em' : '20em',
           sm: isLarge ? '25em' : '27em',
         },
+        padding: {
+          xs: isLarge ? '1.125em 1.75em' : '0.95em 2em',
+          sm: isLarge ? '1.5em 2.5em' : '1.125em 2.5em',
+        },
+        textAlign: 'left',
         ...sx,
       },
+      variant: 'ghost',
       ...(isCta && {
         dialogProps: {
-          fullScreen: true,
-          disableTitle: true,
-          transitionVariant: 'fade' as const,
           children: dialogChildrenJsx,
+          disableTitle: true,
+          fullScreen: true,
+          transitionVariant: 'fade' as const,
         },
       }),
       ...rest,
     },
-    boxProps,
+    type: 'button',
   }
 }
 

@@ -1,10 +1,11 @@
 import { CrudModule } from '@gravis-os/types'
+
 import fetchWithSupabaseFromMiddleware from './fetchWithSupabaseFromMiddleware'
 
 export interface FetchDbUserFromMiddlewareProps {
   authUser: { id?: string; sub: string }
-  userModule: CrudModule // The app's userModule
   userAuthColumnKey?: string
+  userModule: CrudModule // The app's userModule
 }
 
 /**
@@ -13,14 +14,14 @@ export interface FetchDbUserFromMiddlewareProps {
 const fetchDbUserFromMiddleware = async (
   props: FetchDbUserFromMiddlewareProps
 ) => {
-  const { userModule, authUser, userAuthColumnKey = 'id' } = props
+  const { authUser, userAuthColumnKey = 'id', userModule } = props
 
   if (!authUser) return
 
   const { data } = await fetchWithSupabaseFromMiddleware({
     from: userModule.table.name,
-    select: userModule.select.detail,
     match: { [userAuthColumnKey]: authUser.sub || authUser.id },
+    select: userModule.select.detail,
   })
 
   return data?.[0]

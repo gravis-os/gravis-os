@@ -1,6 +1,10 @@
 import React from 'react'
-import CancelIcon from '@mui/icons-material/Cancel'
-import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
+
+import {
+  PaginatedQueryViewVariantEnum,
+  UseFilterDefsReturn,
+  UseSortDefsReturn,
+} from '@gravis-os/query'
 import {
   AppBar,
   Button,
@@ -10,49 +14,46 @@ import {
   Stack,
   Typography,
 } from '@gravis-os/ui'
-import { ToggleButton, ToggleButtonGroup, Toolbar } from '@mui/material'
-import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined'
+import CancelIcon from '@mui/icons-material/Cancel'
 import FormatListBulletedOutlinedIcon from '@mui/icons-material/FormatListBulletedOutlined'
+import GridViewOutlinedIcon from '@mui/icons-material/GridViewOutlined'
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined'
-import {
-  PaginatedQueryViewVariantEnum,
-  UseFilterDefsReturn,
-  UseSortDefsReturn,
-} from '@gravis-os/query'
+import TuneOutlinedIcon from '@mui/icons-material/TuneOutlined'
+import { ToggleButton, ToggleButtonGroup, Toolbar } from '@mui/material'
 
 export interface FilterAppBarProps {
-  useFilterDefsProps?: UseFilterDefsReturn
-  useSortDefsProps?: UseSortDefsReturn
-  title?: string
-  subtitle?: string
   directoryVariant: PaginatedQueryViewVariantEnum
   setDirectoryVariant: React.Dispatch<
     React.SetStateAction<PaginatedQueryViewVariantEnum>
   >
-  showMap?: boolean
   setShowMap?: React.Dispatch<React.SetStateAction<boolean>>
+  showMap?: boolean
+  subtitle?: string
+  title?: string
+  useFilterDefsProps?: UseFilterDefsReturn
+  useSortDefsProps?: UseSortDefsReturn
 }
 
 const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
   const {
     title,
+    directoryVariant,
+    setDirectoryVariant,
+    setShowMap,
+    showMap,
     subtitle,
     useFilterDefsProps,
     useSortDefsProps,
-    directoryVariant,
-    setDirectoryVariant,
-    showMap,
-    setShowMap,
   } = props
 
   const {
-    isFilterDrawerOpen,
-    handleToggleIsFilterDrawerOpen,
     filterChips,
     handleDeleteFilterChip,
+    handleToggleIsFilterDrawerOpen,
+    isFilterDrawerOpen,
   } = useFilterDefsProps
 
-  const { currentSortDef, sortDefs, handleSortDefClick } = useSortDefsProps
+  const { currentSortDef, handleSortDefClick, sortDefs } = useSortDefsProps
 
   return (
     <AppBar
@@ -65,22 +66,22 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
         zIndex: (theme) => theme.zIndex.appBar - 1,
       }}
     >
-      <Container maxWidth={false} disableGutters>
+      <Container disableGutters maxWidth={false}>
         <Toolbar
-          variant="dense"
           sx={{
             justifyContent: 'space-between',
           }}
+          variant="dense"
         >
           <Stack
-            direction="row"
             alignItems="center"
+            direction="row"
             spacing={0.5}
             sx={{ width: 'initial' }}
           >
             {title && <Typography variant="h5">{title}</Typography>}
             {subtitle && (
-              <Typography variant="body1" color="text.secondary">
+              <Typography color="text.secondary" variant="body1">
                 {subtitle}
               </Typography>
             )}
@@ -93,19 +94,16 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
               spacing={1}
               sx={{
                 flexGrow: 1,
-                width: 'initial',
-                ml: 2,
                 justifyContent: 'flex-start',
+                ml: 2,
+                width: 'initial',
               }}
             >
               {filterChips?.map((filterChip) => {
                 const { key, label } = filterChip
                 return (
                   <Chip
-                    size="small"
-                    key={key}
-                    label={label}
-                    onDelete={() => handleDeleteFilterChip(filterChip)}
+                    color="secondary"
                     deleteIcon={
                       <CancelIcon
                         sx={{
@@ -116,7 +114,10 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
                         }}
                       />
                     }
-                    color="secondary"
+                    key={key}
+                    label={label}
+                    onDelete={() => handleDeleteFilterChip(filterChip)}
+                    size="small"
                     sx={{
                       backgroundColor: 'secondary.light',
                       color: 'primary.main',
@@ -130,8 +131,8 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
           {/* Filter + Sort */}
           <div>
             <Stack
-              direction="row"
               alignItems="center"
+              direction="row"
               spacing={1}
               sx={{
                 '& > *': { flexShrink: 0 },
@@ -140,33 +141,33 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
               {/* Filter */}
               <Button
                 color="inherit"
-                startIcon={<TuneOutlinedIcon />}
                 onClick={() => handleToggleIsFilterDrawerOpen()}
+                startIcon={<TuneOutlinedIcon />}
               >
                 {isFilterDrawerOpen ? 'Hide' : 'Show'} Filters
               </Button>
 
               {/* Sort */}
               <HeaderButtonWithMenu
+                disableBackdrop
+                items={sortDefs.map((sortDef) => ({
+                  ...sortDef,
+                  onClick: () => handleSortDefClick(sortDef),
+                }))}
                 key="sort-by"
+                popperProps={{ placement: 'auto-end' }}
                 title={
                   currentSortDef
                     ? `Sort By: ${currentSortDef.label}`
                     : 'Sort By'
                 }
-                disableBackdrop
-                popperProps={{ placement: 'auto-end' }}
-                items={sortDefs.map((sortDef) => ({
-                  ...sortDef,
-                  onClick: () => handleSortDefClick(sortDef),
-                }))}
               />
 
               {/* View */}
               <ToggleButtonGroup
                 exclusive
-                size="small"
                 onChange={(e, value) => setDirectoryVariant(value)}
+                size="small"
                 value={directoryVariant}
               >
                 <ToggleButton value={PaginatedQueryViewVariantEnum.Grid}>

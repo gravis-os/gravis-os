@@ -18,7 +18,7 @@ module.exports = {
     'plugin:unicorn/recommended',
     'plugin:fp/recommended',
     'plugin:promise/recommended',
-    'plugin:perfectionist/recommended-natural'
+    'plugin:perfectionist/recommended-natural',
   ],
   globals: {
     Atomics: 'readonly',
@@ -160,6 +160,7 @@ module.exports = {
     ],
     'fp/no-nil': 1,
     'fp/no-rest-parameters': 0,
+    'fp/no-throw': 1,
     'fp/no-unused-expression': 0,
     // import
     'import/extensions': [
@@ -296,6 +297,7 @@ module.exports = {
     'unicorn/no-null': 1,
     'unicorn/no-useless-switch-case': 0,
     'unicorn/prefer-module': 1,
+    'unicorn/prefer-spread': 1,
     'unicorn/prevent-abbreviations': 0,
     // Unused-imports
     'unused-imports/no-unused-imports': 'error',

@@ -1,12 +1,14 @@
 import React from 'react'
-import { Container, Box, List, Stack, Typography } from '@gravis-os/ui'
+
+import { Box, Container, List, Stack, Typography } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
+import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined'
+import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
-import CreditCardOutlinedIcon from '@mui/icons-material/CreditCardOutlined'
-import AttachMoneyOutlinedIcon from '@mui/icons-material/AttachMoneyOutlined'
-import { usePos } from './PosProvider'
+
 import posConfig from './posConfig'
+import { usePos } from './PosProvider'
 
 export interface PosPaymentListProps {
   showMorePaymentMethods?: boolean
@@ -19,31 +21,31 @@ const PosPaymentList: React.FC<PosPaymentListProps> = (props) => {
 
   const commonIconSx = { color: 'text.secondary' }
   const renderTitle = (title) => (
-    <Typography variant="h5" gutterBottom>
+    <Typography gutterBottom variant="h5">
       {title}
     </Typography>
   )
 
   const listItems = [
     {
-      key: 'cash',
-      startIcon: <MoneyOutlinedIcon sx={commonIconSx} />,
       title: renderTitle('Cash'),
       href: posConfig.routes.PAYMENT_CASH,
+      key: 'cash',
+      startIcon: <MoneyOutlinedIcon sx={commonIconSx} />,
     },
     ...(showMorePaymentMethods && [
       {
-        key: 'credit_card',
-        startIcon: <CreditCardOutlinedIcon sx={commonIconSx} />,
         title: renderTitle('Credit Card'),
         href: posConfig.routes.PAYMENT_CREDIT_CARD,
+        key: 'credit_card',
+        startIcon: <CreditCardOutlinedIcon sx={commonIconSx} />,
       },
       {
-        key: 'bank_transfer',
-        startIcon: <AttachMoneyOutlinedIcon sx={commonIconSx} />,
         title: renderTitle('Bank Transfer'),
         href: posConfig.routes.PAYMENT_BANK_TRANSFER,
-      }
+        key: 'bank_transfer',
+        startIcon: <AttachMoneyOutlinedIcon sx={commonIconSx} />,
+      },
     ]),
   ].map((item) => ({
     ...item,
@@ -54,7 +56,7 @@ const PosPaymentList: React.FC<PosPaymentListProps> = (props) => {
 
   return (
     <Stack spacing={2}>
-      <Box sx={{ textAlign: 'center', p: 2 }}>
+      <Box sx={{ p: 2, textAlign: 'center' }}>
         <Typography variant="h1">Total {printAmount(cart.total)}</Typography>
       </Box>
 

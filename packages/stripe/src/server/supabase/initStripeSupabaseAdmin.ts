@@ -1,6 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
-import { Customer, UserDetails, StripePrice, StripeProduct } from '../../types'
+
+import { Customer, StripePrice, StripeProduct, UserDetails } from '../../types'
 import toDateTime from '../../utils/toDateTime'
 import initStripeNode from '../stripe/initStripeNode'
 
@@ -28,10 +29,10 @@ const initStripeSupabaseAdmin = (
     const productData: StripeProduct = {
       id: product.id,
       active: product.active,
-      name: product.name,
       description: product.description ?? undefined,
       image: product.images?.[0] ?? null,
       metadata: product.metadata,
+      name: product.name,
     }
     const { error } = await supabaseAdmin
       .from<StripeProduct>('stripe_product')
@@ -41,16 +42,16 @@ const initStripeSupabaseAdmin = (
   const upsertPriceRecord = async (price: Stripe.Price) => {
     const priceData: StripePrice = {
       id: price.id,
-      product_id: typeof price.product === 'string' ? price.product : '',
       active: price.active,
       currency: price.currency,
       description: price.nickname ?? undefined,
-      type: price.type,
-      unit_amount: price.unit_amount ?? undefined,
       interval: price.recurring?.interval,
       interval_count: price.recurring?.interval_count,
-      trial_period_days: price.recurring?.trial_period_days,
       metadata: price.metadata,
+      product_id: typeof price.product === 'string' ? price.product : '',
+      trial_period_days: price.recurring?.trial_period_days,
+      type: price.type,
+      unit_amount: price.unit_amount ?? undefined,
     }
 
     const { error } = await supabaseAdmin
@@ -74,14 +75,14 @@ const initStripeSupabaseAdmin = (
     if (!error && data && !data.stripe_customer_id) {
       // No customer record found, let's create one.
       const customerData: {
-        metadata: { supabaseUUID: string }
         email?: string
+        metadata: { supabaseUUID: string }
       } = {
         metadata: {
           supabaseUUID: uuid,
         },
+        ...(email && { email }),
       }
-      if (email) customerData.email = email
 
       const customer = await StripeNode.customers.create(customerData)
 
@@ -106,15 +107,15 @@ const initStripeSupabaseAdmin = (
   ) => {
     // TODO: check this assertion
     const customer = payment_method.customer as string
-    const { name, phone, address } = payment_method.billing_details
+    const { address, name, phone } = payment_method.billing_details
 
     if (!name || !phone || !address) return
 
     await StripeNode.customers.update(customer, {
-      name,
-      phone,
       // @ts-ignore
       address,
+      name,
+      phone,
     })
     const { error } = await supabaseAdmin
       .from<UserDetails>('user')
@@ -149,32 +150,32 @@ const initStripeSupabaseAdmin = (
     // Upsert the latest status of the subscription object.
     const subscriptionData = {
       id: subscription.id,
-      user_id: uuid,
-      metadata: subscription.metadata,
-      status: subscription.status,
-      price_id: subscription.items.data[0].price.id,
-      // TODO check quantity on subscription
-      // @ts-ignore
-      quantity: subscription.quantity,
-      cancel_at_period_end: subscription.cancel_at_period_end,
       cancel_at: subscription.cancel_at
         ? toDateTime(subscription.cancel_at)
         : null,
+      cancel_at_period_end: subscription.cancel_at_period_end,
       canceled_at: subscription.canceled_at
         ? toDateTime(subscription.canceled_at)
         : null,
-      current_period_start: toDateTime(subscription.current_period_start),
-      current_period_end: toDateTime(subscription.current_period_end),
       created: toDateTime(subscription.created),
+      // TODO check quantity on subscription
+      current_period_end: toDateTime(subscription.current_period_end),
+      current_period_start: toDateTime(subscription.current_period_start),
       ended_at: subscription.ended_at
         ? toDateTime(subscription.ended_at)
+        : null,
+      metadata: subscription.metadata,
+      price_id: subscription.items.data[0].price.id,
+      // @ts-ignore
+      quantity: subscription.quantity,
+      status: subscription.status,
+      trial_end: subscription.trial_end
+        ? toDateTime(subscription.trial_end)
         : null,
       trial_start: subscription.trial_start
         ? toDateTime(subscription.trial_start)
         : null,
-      trial_end: subscription.trial_end
-        ? toDateTime(subscription.trial_end)
-        : null,
+      user_id: uuid,
     }
 
     const { error } = await supabaseAdmin
@@ -196,10 +197,10 @@ const initStripeSupabaseAdmin = (
   // Return
   // ==============================
   return {
-    upsertProductRecord,
-    upsertPriceRecord,
     createOrRetrieveCustomer,
     manageSubscriptionStatusChange,
+    upsertPriceRecord,
+    upsertProductRecord,
   }
 }
 

@@ -1,27 +1,39 @@
 import React, { useEffect } from 'react'
-import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/router'
-import { CircularProgress } from '@gravis-os/ui'
-import { isPathMatch, getGuestPaths } from '@gravis-os/utils'
-import { useQuery, useQueryClient, QueryOptions } from 'react-query'
+import { QueryOptions, useQuery, useQueryClient } from 'react-query'
+
 import { DbUser } from '@gravis-os/types'
+import { CircularProgress } from '@gravis-os/ui'
+import { getGuestPaths, isPathMatch } from '@gravis-os/utils'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
+import { useRouter } from 'next/router'
+
 import UserContext, { UserContextInterface } from './UserContext'
 
+// Strip out /_workspaces/[workspace] prefix to accurately get the pathname
+const getSaasRoutePathname = ({ pathname: injectedPathname, query }) => {
+  const pathname = injectedPathname
+    .replace('/_workspaces/[workspace]', '')
+    .replace(`/_workspaces/${query.workspace}`, '')
+
+  // Fallback to '/' if we're on the workspaces' home route
+  return pathname || '/'
+}
+
 export interface UserProviderProps {
-  select?: string // supabaseClient query selector
   authColumnKey?: string
-  children?: React.ReactNode
-  loader?: React.ReactElement
-  guestPaths?: string[]
   authRoutes?: UserContextInterface['authRoutes']
+  children?: React.ReactNode
+  dbUser?: DbUser
+  guestPaths?: string[]
+  loader?: React.ReactElement
+  queryOptions?: QueryOptions<DbUser>
+  select?: string // supabaseClient query selector
   setUser?: ({
     user,
   }: {
     user?: UserContextInterface['user']
   }) => UserContextInterface['user']
-  queryOptions?: QueryOptions<DbUser>
-  dbUser?: DbUser
 }
 
 /**
@@ -31,15 +43,15 @@ export interface UserProviderProps {
  */
 const UserProvider: React.FC<UserProviderProps> = (props) => {
   const {
-    dbUser: injectedDbUser,
-    select = '*',
     authColumnKey = 'id',
-    children,
-    loader: injectedLoader,
-    guestPaths: injectedGuestPaths = [],
     authRoutes,
-    setUser,
+    children,
+    dbUser: injectedDbUser,
+    guestPaths: injectedGuestPaths = [],
+    loader: injectedLoader,
     queryOptions,
+    select = '*',
+    setUser,
     ...rest
   } = props
 
@@ -68,15 +80,15 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     () => fetchDbUserFromAuthUser({ authUser }),
     {
       enabled: Boolean(authUser),
-      staleTime: 60000, // 60s
+      staleTime: 60_000, // 60s
       ...queryOptions,
     }
   )
   const {
     data: fetchedDbUser,
-    refetch: refetchDbUserQuery,
-    isLoading: dbUserLoading,
     isFetching: dbUserFetching,
+    isLoading: dbUserLoading,
+    refetch: refetchDbUserQuery,
   } = dbUserQueryResult
   /**
    * Fetch dbUser when authUser is available.
@@ -106,17 +118,8 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
    */
   const isSaaSRoute = injectedPathname.includes('/_workspaces')
 
-  // Strip out /_workspaces/[workspace] prefix to accurately get the pathname
-  const getSaaSRoutePathname = ({ pathname: injectedPathname, query }) => {
-    const pathname = injectedPathname
-      .replace('/_workspaces/[workspace]', '')
-      .replace(`/_workspaces/${query.workspace}`, '')
-
-    // Fallback to '/' if we're on the workspaces' home route
-    return pathname || '/'
-  }
   const pathname = isSaaSRoute
-    ? getSaaSRoutePathname({ pathname: injectedPathname, query })
+    ? getSaasRoutePathname({ pathname: injectedPathname, query })
     : injectedPathname
 
   const guestPaths = getGuestPaths(injectedGuestPaths)
@@ -158,28 +161,28 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     <UserContext.Provider
       value={{
         ...onUseAuthUser,
-        // Users
-        authUser,
-        authUserLoading,
-
-        user: nextUser,
-
-        dbUser,
-        dbUserLoading,
-        dbUserFetching,
-        dbUserQueryResult,
-        refetchDbUserQuery,
-
-        // Methods
-        logout,
         // Routes
         authRoutes: {
-          authenticationSuccessRedirect: '/admin',
           authenticationFailureRedirect: '/auth/login',
-          authorizationSuccessRedirect: '/admin',
+          authenticationSuccessRedirect: '/admin',
           authorizationFailureRedirect: '/auth/unauthorized',
+          authorizationSuccessRedirect: '/admin',
           ...authRoutes,
         },
+        // Users
+        authUser,
+
+        authUserLoading,
+
+        dbUser,
+        dbUserFetching,
+        dbUserLoading,
+        dbUserQueryResult,
+        // Methods
+        logout,
+
+        refetchDbUserQuery,
+        user: nextUser,
       }}
       {...rest}
     >

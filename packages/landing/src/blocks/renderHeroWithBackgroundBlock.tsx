@@ -1,65 +1,56 @@
 import { BlockProps } from '../web/Block/Block'
-
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'
 
 export interface RenderHeroWithBackgroundBlockProps
   extends Omit<BlockProps, 'items'> {
-  overline?: string
-  title: string
-  subtitle?: string
-  hero_src?: string
-  hero_alt?: string
   buttonProps?: RenderGhostButtonBlockItemProps
+  hero_alt?: string
+  hero_src?: string
+  overline?: string
   secondaryButtonProps?: RenderGhostButtonBlockItemProps
+  subtitle?: string
+  title: string
 }
 
 const renderHeroWithBackgroundBlock = (
   props: RenderHeroWithBackgroundBlockProps
 ) => {
   const {
-    overline,
     title,
-    subtitle,
-    hero_src,
-    hero_alt,
     buttonProps,
     center = true,
+    hero_alt,
+    hero_src,
+    overline,
     secondaryButtonProps,
+    subtitle,
     ...rest
   } = props
 
   return {
     id: 'hero-with-background',
-    py: { xs: 15, md: 30 },
-    dark: true,
     center,
+    dark: true,
     maxWidth: 'md',
+    py: { xs: 15, md: 30 },
     ...(hero_src && {
-      backgroundImageProps: { src: hero_src, alt: hero_alt, priority: true },
+      backgroundImageProps: { alt: hero_alt, priority: true, src: hero_src },
     }),
     items: [
-      { type: 'overline', title: overline },
+      { title: overline, type: 'overline' },
       {
-        type: 'h1',
         title,
         titleProps: { gutterBottom: true, maxWidth: !center && '60%' },
+        type: 'h1',
       },
       {
-        type: 'subtitle1',
         title: subtitle,
         titleProps: { color: 'text.secondary', maxWidth: center || '45%' },
+        type: 'subtitle1',
       },
       (buttonProps || secondaryButtonProps) && {
-        type: 'stack',
-        sx: { mt: 4 },
-        stackProps: {
-          spacing: 0,
-          center,
-          direction: 'row' as const,
-          reverseDirectionOnMobile: true,
-        },
         stackItems: [
           {
             items: [renderGhostButtonBlockItem(buttonProps)],
@@ -68,6 +59,14 @@ const renderHeroWithBackgroundBlock = (
             items: [renderGhostButtonBlockItem(secondaryButtonProps)],
           },
         ],
+        stackProps: {
+          center,
+          direction: 'row' as const,
+          reverseDirectionOnMobile: true,
+          spacing: 0,
+        },
+        sx: { mt: 4 },
+        type: 'stack',
       },
     ],
     ...rest,

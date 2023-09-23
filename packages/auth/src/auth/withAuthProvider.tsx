@@ -1,9 +1,10 @@
 import React from 'react'
+
 import AuthProvider from './AuthProvider'
 
 const withAuthProvider =
   (props = {}) =>
-  Component =>
+  (Component) =>
   () => {
     return (
       <AuthProvider {...props}>

@@ -1,6 +1,14 @@
 import React, { useEffect, useState } from 'react'
-import { Chip, Stack, Typography } from '@gravis-os/ui'
+
 import { TextField } from '@gravis-os/fields'
+import {
+  FilterDef,
+  FilterDefOptionValue,
+  FilterDefTypeEnum,
+  UseFilterDefsReturn,
+  useRouterQuery,
+} from '@gravis-os/query'
+import { Chip, Stack, Typography } from '@gravis-os/ui'
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
 import {
   Accordion,
@@ -11,56 +19,49 @@ import {
   FormControlLabel,
   FormGroup,
 } from '@mui/material'
-import {
-  useRouterQuery,
-  FilterDef,
-  FilterDefOptionValue,
-  FilterDefTypeEnum,
-  UseFilterDefsReturn,
-} from '@gravis-os/query'
 import startCase from 'lodash/startCase'
 
 export interface FilterAccordionOptionInterface {
   key: string
-  value: FilterDefOptionValue
   label: string
+  value: FilterDefOptionValue
 }
 
 export interface FilterAccordionProps extends FilterDef {
+  accordionProps?: Omit<AccordionProps, 'children'>
   activeOptionLabels?: unknown[]
   useFilterDefsProps?: UseFilterDefsReturn
-  accordionProps?: Omit<AccordionProps, 'children'>
 }
 
 export interface CommonRenderProps extends Omit<FilterDef, 'key'> {
   filterChips?: UseFilterDefsReturn['filterChips']
 }
 export interface RenderOptionProps extends CommonRenderProps {
-  options: FilterAccordionOptionInterface[]
   activeOptionLabels: FilterAccordionProps['activeOptionLabels']
   handleCheckboxChange: (option: FilterAccordionOptionInterface) => void
+  options: FilterAccordionOptionInterface[]
 }
 const renderCheckboxes = (props: RenderOptionProps) => {
-  const { activeOptionLabels, handleCheckboxChange, options, op } = props
+  const { activeOptionLabels, handleCheckboxChange, op, options } = props
   if (!options?.length) return null
   return (
     <FormGroup>
       {options.map((option) => {
-        const { key, value, label } = option
+        const { key, label, value } = option
         const isChecked = activeOptionLabels.includes(`${op}.${value}`)
         return (
           <FormControlLabel
             checked={isChecked}
-            key={key}
-            onChange={() => handleCheckboxChange(option)}
-            control={<Checkbox size="small" />}
-            label={label}
             componentsProps={{
               typography: { variant: 'body2' },
             }}
+            control={<Checkbox size="small" />}
+            key={key}
+            label={label}
+            onChange={() => handleCheckboxChange(option)}
             sx={{
-              '&:hover': { backgroundColor: 'action.hover' },
               '&:active': { backgroundColor: 'action.selected' },
+              '&:hover': { backgroundColor: 'action.hover' },
             }}
           />
         )
@@ -73,7 +74,7 @@ export interface RenderInputProps extends CommonRenderProps {
   handleInputChange: (inputValue: string) => void
 }
 const renderInput = (props: RenderInputProps) => {
-  const { name, label, handleInputChange, filterChips } = props
+  const { filterChips, handleInputChange, label, name } = props
 
   const currentFilterChip = filterChips?.find(
     (filterChip) => filterChip.key === name
@@ -97,13 +98,13 @@ const renderInput = (props: RenderInputProps) => {
   return (
     <form onSubmit={handleSubmit}>
       <TextField
+        defaultValue={defaultValue}
+        disableLabel
         // Add a key to force re-render when the defaultValue changes
         key={defaultValue}
         name={name}
-        disableLabel
-        defaultValue={defaultValue}
-        size="small"
         placeholder={startCase(typeof label === 'string' ? label : name)}
+        size="small"
       />
     </form>
   )
@@ -111,14 +112,14 @@ const renderInput = (props: RenderInputProps) => {
 
 const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
   const {
+    accordionProps = {},
     activeOptionLabels,
     label,
-    type = 'checkbox',
-    options,
     name,
-    useFilterDefsProps,
     op,
-    accordionProps = {},
+    options,
+    type = 'checkbox',
+    useFilterDefsProps,
   } = props
   const { defaultExpanded } = accordionProps
 
@@ -130,7 +131,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
   }, [defaultExpanded])
 
   // Methods
-  const { toggleQueryString, replaceQueryString } = useRouterQuery()
+  const { replaceQueryString, toggleQueryString } = useRouterQuery()
 
   const handleInputChange = (inputValue) => {
     if (!inputValue) return
@@ -145,7 +146,7 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
   }
 
   const { filterChips } = useFilterDefsProps || {}
-  const commonRenderProps = { name, op, label, filterChips }
+  const commonRenderProps = { filterChips, label, name, op }
   const renderInputProps = {
     ...commonRenderProps,
     handleInputChange,
@@ -153,61 +154,63 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
   const renderOptionProps = {
     ...commonRenderProps,
     activeOptionLabels,
-    options,
     handleCheckboxChange,
+    options,
   }
 
   const renderChildren = () => {
     switch (type) {
-      case FilterDefTypeEnum.Input:
+      case FilterDefTypeEnum.Input: {
         return renderInput(renderInputProps)
+      }
       case FilterDefTypeEnum.Checkbox:
-      default:
+      default: {
         return renderCheckboxes(renderOptionProps)
+      }
     }
   }
 
   return (
     <Accordion
+      disableGutters
       expanded={isExpanded}
       onChange={handleChange}
-      disableGutters
       {...accordionProps}
     >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon sx={{ fontSize: 'overline.fontSize' }} />}
         sx={{
-          px: { xs: 2, md: 3 },
-          '&:hover': { backgroundColor: 'action.hover' },
           '&:active': { backgroundColor: 'action.selected' },
+          '&:hover': { backgroundColor: 'action.hover' },
+          px: { xs: 2, md: 3 },
         }}
       >
         <Stack
-          direction="row"
           alignItems="center"
+          direction="row"
           justifyContent="space-between"
           sx={{
-            width: '100%',
             pr: 1,
+            width: '100%',
           }}
         >
           <Typography variant="overline">{label}</Typography>
           {activeOptionLabels.length > 0 && (
             <Chip
-              label={activeOptionLabels.length}
               color="primary"
+              label={activeOptionLabels.length}
               size="small"
               sx={{
-                width: (theme) =>
-                  theme.spacing(activeOptionLabels.length >= 10 ? 2.5 : 2),
-                height: (theme) =>
-                  theme.spacing(activeOptionLabels.length >= 10 ? 2.5 : 2),
-                fontSize: 'caption.fontSize',
-                fontWeight: 'bold',
                 '& .MuiChip-label': {
                   pl: 0,
                   pr: 0,
                 },
+                fontSize: 'caption.fontSize',
+                fontWeight: 'bold',
+                height: (theme) =>
+                  theme.spacing(activeOptionLabels.length >= 10 ? 2.5 : 2),
+                width: (theme) =>
+                  theme.spacing(activeOptionLabels.length >= 10 ? 2.5 : 2),
               }}
             />
           )}

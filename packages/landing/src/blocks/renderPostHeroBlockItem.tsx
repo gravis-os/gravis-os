@@ -1,28 +1,29 @@
 import { Post, PressRelease } from '@gravis-os/types'
 import { useMediaQuery, useTheme } from '@mui/material'
+
 import { BlockProps } from '../web/Block/Block'
 import { BlockItemProps } from '../web/Block/BlockItem'
 import renderPostAuthorBlock from './renderPostAuthorBlock'
 
 export interface RenderPostHeroBlockItemProps extends BlockProps {
+  disableAuthorDetails?: boolean
+  item: Post | PressRelease
   overline?: string
   overlineProps?: BlockItemProps['titleProps']
-  item: PressRelease | Post
-  disableAuthorDetails?: boolean
 }
 
 const renderPostHeroBlockItem = (props: RenderPostHeroBlockItemProps) => {
-  const { item, disableAuthorDetails, overline, overlineProps, ...rest } = props
+  const { disableAuthorDetails, item, overline, overlineProps, ...rest } = props
   const {
     title,
-    subtitle,
-    hero_src,
-    hero_alt,
-    author_avatar_src,
     author_avatar_alt,
-    author_title,
+    author_avatar_src,
     author_job_title,
+    author_title,
+    hero_alt,
+    hero_src,
     published_at,
+    subtitle,
   } = item || {}
 
   const theme = useTheme()
@@ -36,42 +37,42 @@ const renderPostHeroBlockItem = (props: RenderPostHeroBlockItemProps) => {
     ...rest,
     items: [
       overline && {
-        type: 'link',
         title: overline,
         titleProps: {
-          variant: 'overline',
-          sx: { mb: 2 },
           color: 'text.secondary',
+          sx: { mb: 2 },
+          variant: 'overline',
           ...overlineProps,
         },
+        type: 'link',
       },
-      { type: 'h2', title, titleProps: { component: 'h1' } },
+      { title, titleProps: { component: 'h1' }, type: 'h2' },
       ...(!disableAuthorDetails && !isDesktop
         ? renderPostAuthorBlock({
-            author_avatar_src,
             author_avatar_alt,
-            author_title,
+            author_avatar_src,
             author_job_title,
+            author_title,
             published_at,
           }).items
         : []),
       {
-        type: 'subtitle1',
         title: subtitle,
         titleProps: {
+          color: 'text.secondary',
           maxWidth: true,
           sx: { mt: 4 },
-          color: 'text.secondary',
         },
+        type: 'subtitle1',
       },
       {
-        type: 'image',
         title: hero_src,
         titleProps: {
           alt: hero_alt,
           ar: '16:9',
           boxSx: { mt: 3 },
         },
+        type: 'image',
       },
     ],
   }

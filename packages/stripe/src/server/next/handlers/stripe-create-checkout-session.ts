@@ -1,5 +1,6 @@
 import { getUser, withApiAuth } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import initStripeNode from '../../stripe/initStripeNode'
 import initStripeSupabaseAdmin from '../../supabase/initStripeSupabaseAdmin'
 
@@ -10,11 +11,11 @@ const handleCreateStripeCheckoutSession = async (
 ) => {
   if (req.method === 'POST') {
     // StripePrice
-    const { id: priceId, quantity = 1, metadata = {} } = req.body
+    const { id: priceId, metadata = {}, quantity = 1 } = req.body
 
     try {
       const { user } = await getUser({ req, res })
-      if (!user) throw Error('Could not get user')
+      if (!user) throw new Error('Could not get user')
 
       const StripeNode = initStripeNode(process.env.STRIPE_SECRET_KEY)
       const StripeSupabaseAdmin = initStripeSupabaseAdmin(
@@ -23,29 +24,31 @@ const handleCreateStripeCheckoutSession = async (
       )
 
       const customer = await StripeSupabaseAdmin.createOrRetrieveCustomer({
-        uuid: user?.id || '',
         email: user?.email || '',
+        uuid: user?.id || '',
       })
 
       const session = await StripeNode.checkout.sessions.create({
-        payment_method_types: ['card'],
+        allow_promotion_codes: true,
         billing_address_collection: 'required',
+        cancel_url: stripeConfig.cancelUrl,
         customer,
         line_items: [{ price: priceId, quantity }],
         mode: 'subscription',
-        allow_promotion_codes: true,
+        payment_method_types: ['card'],
         subscription_data: {
-          trial_from_plan: true,
           metadata,
+          trial_from_plan: true,
         },
         success_url: stripeConfig.successUrl,
-        cancel_url: stripeConfig.cancelUrl,
       })
 
       return res.status(200).json({ sessionId: session.id })
-    } catch (err: any) {
-      console.error(err)
-      res.status(500).json({ error: { statusCode: 500, message: err.message } })
+    } catch (error: any) {
+      console.error(error)
+      res
+        .status(500)
+        .json({ error: { message: error.message, statusCode: 500 } })
     }
   } else {
     res.setHeader('Allow', 'POST')

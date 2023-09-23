@@ -2,7 +2,7 @@ import { FormSectionFieldRenderProps } from './getFormSectionFieldRenderProps'
 
 export type FormSectionFieldWithFunctionType = (
   renderProps: FormSectionFieldRenderProps
-) => string | number | readonly string[]
+) => number | readonly string[] | string
 
 const getFormSectionFieldWithFunctionType = (
   userDefinedProp,

@@ -1,6 +1,7 @@
 import React from 'react'
-import SeoProvider from './SeoProvider'
+
 import LayoutProvider, { LayoutProviderProps } from './LayoutProvider'
+import SeoProvider from './SeoProvider'
 
 export interface PageProviderProps {
   children?: React.ReactNode

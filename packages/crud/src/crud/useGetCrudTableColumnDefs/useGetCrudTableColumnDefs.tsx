@@ -1,61 +1,63 @@
 import React from 'react'
-import { useTheme } from '@mui/material/styles'
-import { useMediaQuery } from '@mui/material'
-import merge from 'lodash/merge'
-import flowRight from 'lodash/flowRight'
-import { ColDef } from 'ag-grid-community'
+
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
+import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { ColDef } from 'ag-grid-community'
+import flowRight from 'lodash/flowRight'
+import merge from 'lodash/merge'
+
+import { CrudTableColumnDef } from '../../types'
 import CrudTableActionsColumnCellRenderer, {
   CrudTableActionsColumnCellRendererProps,
 } from '../CrudTableActionsColumnCellRenderer'
+import { UsePreviewDrawerReturn } from '../usePreviewDrawer'
 import {
+  withCheckboxSelection,
+  withFallbackPlaceholder,
   withHeaderNames,
   withHide,
   withPreview,
   withTimestampFormat,
   withTitle,
-  withFallbackPlaceholder,
-  withCheckboxSelection,
 } from './hocs'
-import { UsePreviewDrawerReturn } from '../usePreviewDrawer'
-import { CrudTableColumnDef } from '../../types'
 
 export interface UseGetCrudTableColumnDefsProps {
+  actionsCellRendererParams?: Partial<
+    Omit<CrudTableActionsColumnCellRendererProps, 'data' | 'module'>
+  >
   columnDefs?: CrudTableColumnDef[]
-  module?: CrudModule
-  previewFormSections?: FormSectionsProps['sections']
-  setPreview?: UsePreviewDrawerReturn['setPreview']
+  disableActions?: boolean
   disableDelete?: boolean
+  disableFallbackPlaceholder?: boolean
   disableManage?: boolean
   disablePreview?: boolean
   disableTitle?: boolean
-  disableActions?: boolean
-  disableFallbackPlaceholder?: boolean
   fallbackPlaceholder?: React.ReactNode
+  module?: CrudModule
+  previewFormSections?: FormSectionsProps['sections']
+  setPreview?: UsePreviewDrawerReturn['setPreview']
   user?: Record<string, unknown> | any
-  actionsCellRendererParams?: Partial<
-    Omit<CrudTableActionsColumnCellRendererProps, 'module' | 'data'>
-  >
 }
 
 const useGetCrudTableColumnDefs = (
   props: UseGetCrudTableColumnDefsProps
 ): ColDef[] => {
   const {
+    actionsCellRendererParams,
     columnDefs: injectedColumnDefs,
-    module,
-    previewFormSections,
-    setPreview,
+    disableActions,
     disableDelete,
+    disableFallbackPlaceholder,
     disableManage,
     disablePreview,
     disableTitle,
-    disableActions,
-    disableFallbackPlaceholder,
     fallbackPlaceholder = '-',
+    module,
+    previewFormSections,
+    setPreview,
     user,
-    actionsCellRendererParams,
   } = props
 
   // Responsive
@@ -76,18 +78,18 @@ const useGetCrudTableColumnDefs = (
     return flowRight([
       withCheckboxSelection(),
       withFallbackPlaceholder({
-        fallbackPlaceholder,
         disableFallbackPlaceholder,
+        fallbackPlaceholder,
       }),
       withTimestampFormat(),
       withPreview({
-        setPreview,
+        disablePreview,
         module,
         previewFormSections,
-        disablePreview,
+        setPreview,
       }),
       withHeaderNames(),
-      withTitle({ isDesktop, disableTitle }),
+      withTitle({ disableTitle, isDesktop }),
       withHide({ user }),
     ])(injectedColumnDefs).filter(({ field }) => field !== 'actions')
   }, columnDefsUseMemoDeps)
@@ -104,20 +106,20 @@ const useGetCrudTableColumnDefs = (
     : merge(
         {},
         {
-          field: 'actions',
-          pinned: isDesktop && 'right',
-          editable: false,
-          maxWidth: 100,
           cellRenderer: CrudTableActionsColumnCellRenderer,
           cellRendererParams: {
-            module,
             disableDelete,
             disableManage,
             disablePreview,
+            module,
             previewFormSections,
             setPreview,
             ...actionsCellRendererParams,
           },
+          editable: false,
+          field: 'actions',
+          maxWidth: 100,
+          pinned: isDesktop && 'right',
         },
         hasInjectedActionsColumnDef ? injectedActionsColumnDef : null
       )

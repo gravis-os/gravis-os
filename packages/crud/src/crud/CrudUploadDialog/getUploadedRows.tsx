@@ -10,11 +10,11 @@ export const getUploadedRows = (
   tableHeaderRenameMapping?: Record<string, string>
 ): unknown => {
   // Used if tableHeaderRenameMapping is provided to change the renamed headers back from the csv.
-  const reverseTableHeaderRenameMapping = !isNil(tableHeaderRenameMapping)
-    ? Object.fromEntries(
+  const reverseTableHeaderRenameMapping = isNil(tableHeaderRenameMapping)
+    ? null
+    : Object.fromEntries(
         map(entries(tableHeaderRenameMapping), ([key, value]) => [value, key])
       )
-    : null
   return !isNil(reverseTableHeaderRenameMapping) && isArray(uploadedRows)
     ? map(uploadedRows, (row) => {
         return assign(

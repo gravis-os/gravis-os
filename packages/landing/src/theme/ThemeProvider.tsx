@@ -1,11 +1,13 @@
 import React from 'react'
+
 import {
   ThemeProvider as GvsThemeProvider,
   ThemeProviderProps as GvsThemeProviderProps,
   useUserPreferences,
 } from '@gravis-os/theme'
-import importedLightTheme from './lightTheme'
+
 import importedDarkTheme from './darkTheme'
+import importedLightTheme from './lightTheme'
 
 export interface ThemeProviderProps extends GvsThemeProviderProps {
   darkTheme?: GvsThemeProviderProps['theme']
@@ -14,10 +16,10 @@ export interface ThemeProviderProps extends GvsThemeProviderProps {
 
 const ThemeProvider: React.FC<ThemeProviderProps> = (props) => {
   const {
-    darkTheme = importedDarkTheme,
-    lightTheme = importedLightTheme,
     children,
+    darkTheme = importedDarkTheme,
     emotionCache,
+    lightTheme = importedLightTheme,
   } = props
 
   // User Preferences

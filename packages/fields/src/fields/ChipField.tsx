@@ -1,23 +1,27 @@
 import React from 'react'
+
 import { Autocomplete } from '@mui/material'
+
 import TextField, { TextFieldProps } from './TextField'
 
 export interface ChipFieldProps extends TextFieldProps {
+  disableCloseOnSelect?: boolean
+  onChange?: (data) => void
   options?: string[]
   value?: any
-  onChange?: (data) => void
-  disableCloseOnSelect?: boolean
 }
 
 const ChipField: React.FC<ChipFieldProps> = (props) => {
-  const { options, onChange, value, disableCloseOnSelect, ...rest } = props
+  const { disableCloseOnSelect, onChange, options, value, ...rest } = props
 
   const nextValue = value || []
 
   return (
     <Autocomplete
+      disableCloseOnSelect={disableCloseOnSelect}
       freeSolo
       multiple
+      onChange={(e, data) => onChange?.(data)}
       options={options || []}
       renderInput={(params) => (
         <TextField
@@ -26,9 +30,7 @@ const ChipField: React.FC<ChipFieldProps> = (props) => {
           {...rest}
         />
       )}
-      onChange={(e, data) => onChange?.(data)}
       value={nextValue}
-      disableCloseOnSelect={disableCloseOnSelect}
     />
   )
 }

@@ -1,24 +1,26 @@
 import React, { useEffect, useState } from 'react'
-import { Box, Container } from '@gravis-os/ui'
-import { useMediaQuery, useTheme } from '@mui/material'
+
 import {
-  PaginatedQueryViewVariantEnum,
-  PaginatedQueryViewPaginationTypeEnum,
   PAGINATED_QUERY_VIEW_GRID_ITEM_MIN_WIDTH,
+  PaginatedQueryViewPaginationTypeEnum,
+  PaginatedQueryViewVariantEnum,
   UseFilterDefsReturn,
   UseSortDefsReturn,
 } from '@gravis-os/query'
-import FilterAppBar from './FilterAppBar'
+import { Box, Container } from '@gravis-os/ui'
+import { useMediaQuery, useTheme } from '@mui/material'
+
+import BottomDrawer from './BottomDrawer'
 import DirectoryDrawer from './DirectoryDrawer'
 import FilterAccordions from './FilterAccordions'
-import PaginatedListings, { PaginatedListingsProps } from './PaginatedListings'
-import BottomDrawer from './BottomDrawer'
+import FilterAppBar from './FilterAppBar'
 import MapDrawer from './MapDrawer'
+import PaginatedListings, { PaginatedListingsProps } from './PaginatedListings'
 
 export interface DirectoryTemplateProps extends PaginatedListingsProps {
-  title?: string
   enableMap?: boolean
   filterDrawerWidth?: number
+  title?: string
   useFilterDefsProps?: UseFilterDefsReturn
   useSortDefsProps?: UseSortDefsReturn
 }
@@ -32,24 +34,24 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const {
     title,
     enableMap,
-    items,
-    variant: injectedVariant = PaginatedQueryViewVariantEnum.Grid,
+    filterDrawerWidth = 240,
+    gridItemProps,
+    gridProps,
     itemProps,
+    items,
     pagination,
-    renderItem,
     paginationType = PaginatedQueryViewPaginationTypeEnum.Pagination,
+    queryResult,
+    renderItem,
     useFilterDefsProps,
     useSortDefsProps,
-    gridProps,
-    gridItemProps,
-    filterDrawerWidth = 240,
-    queryResult,
+    variant: injectedVariant = PaginatedQueryViewVariantEnum.Grid,
   } = props
 
   const itemsCount = pagination?.count || items?.length
 
   // Effect: Hide drawer on mobile, switch to overlay drawer
-  const { setFilterDrawerOpen, isFilterDrawerOpen } = useFilterDefsProps
+  const { isFilterDrawerOpen, setFilterDrawerOpen } = useFilterDefsProps
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
   useEffect(() => {
@@ -70,14 +72,14 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   // State: Bottom drawer
   const directoryListingsJsx = (
     <PaginatedListings
-      gridProps={gridProps}
       gridItemProps={gridItemProps}
-      items={items}
+      gridProps={gridProps}
       itemProps={itemProps}
-      paginationType={paginationType}
-      renderItem={renderItem}
+      items={items}
       pagination={pagination}
+      paginationType={paginationType}
       queryResult={queryResult}
+      renderItem={renderItem}
       variant={variant}
     />
   )
@@ -86,7 +88,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
 
   const renderPaginatedListings = () => {
     switch (true) {
-      case enableMap:
+      case enableMap: {
         return (
           <>
             {isDesktop ? (
@@ -94,10 +96,10 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
                 component="main"
                 sx={{
                   flexGrow: 1,
+                  height: { xs: '100%', md: 'inherit' },
                   minWidth: PAGINATED_QUERY_VIEW_GRID_ITEM_MIN_WIDTH,
                   // Mobile view for map
                   position: { xs: 'absolute', md: 'static' },
-                  height: { xs: '100%', md: 'inherit' },
                   zIndex: { xs: 1, md: 'initial' },
                 }}
               >
@@ -105,44 +107,46 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
               </Box>
             ) : (
               <BottomDrawer
-                title={`${itemsCount} Results`}
                 open={showBottomDrawer}
                 setOpen={setShowBottomDrawer}
+                title={`${itemsCount} Results`}
               >
                 {directoryListingsJsx}
               </BottomDrawer>
             )}
           </>
         )
-      default:
+      }
+      default: {
         return (
           <Box component="main" sx={{ flexGrow: 1 }}>
             {directoryListingsJsx}
           </Box>
         )
+      }
     }
   }
 
   return (
     <>
       <FilterAppBar
-        title={title}
-        subtitle={`(${itemsCount} results)`}
-        useFilterDefsProps={useFilterDefsProps}
-        useSortDefsProps={useSortDefsProps}
         directoryVariant={variant}
         setDirectoryVariant={setVariant}
-        {...(enableMap && { showMap, setShowMap })}
+        subtitle={`(${itemsCount} results)`}
+        title={title}
+        useFilterDefsProps={useFilterDefsProps}
+        useSortDefsProps={useSortDefsProps}
+        {...(enableMap && { setShowMap, showMap })}
       />
 
       <Box>
-        <Container maxWidth={false} disableGutters>
+        <Container disableGutters maxWidth={false}>
           {/* Directory */}
           <Box
             sx={{
               display: 'flex',
-              position: 'relative',
               minHeight: { xs: '100vh', md: 'initial' },
+              position: 'relative',
             }}
           >
             {/* Filter Drawer */}
@@ -160,13 +164,13 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
             {/* Map Drawer */}
             {enableMap && (
               <MapDrawer
+                expandMap={expandMap}
+                items={items}
+                setExpandMap={setExpandMap}
+                setShowMap={setShowMap}
+                showMap={showMap}
                 useFilterDefsProps={useFilterDefsProps}
                 width={filterDrawerWidth}
-                showMap={showMap}
-                setShowMap={setShowMap}
-                expandMap={expandMap}
-                setExpandMap={setExpandMap}
-                items={items}
               />
             )}
           </Box>

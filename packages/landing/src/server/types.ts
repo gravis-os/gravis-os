@@ -1,30 +1,30 @@
 import {
-  Site,
-  ClientLogo,
   ClientHighlight,
+  ClientLogo,
   ClientTestimonial,
   Industry,
   Page,
   PostCategory,
-  ServiceCategory,
   Service,
+  ServiceCategory,
+  Showcase,
+  Site,
   Technology,
   Workspace,
-  Showcase,
 } from '@gravis-os/types'
 
 export interface LayoutConfig {
-  routeConfig?: Record<string, string>
-  site?: Site
-  clientLogos?: ClientLogo[]
   clientHighlights?: ClientHighlight[]
+  clientLogos?: ClientLogo[]
   clientTestimonials?: ClientTestimonial[]
   industrys?: Industry[]
   pages?: Page[]
   postCategorys?: PostCategory[]
+  routeConfig?: Record<string, string>
   serviceCategorys?: ServiceCategory[]
   services?: Service[]
-  technologys?: Technology[]
   showcases?: Showcase[]
+  site?: Site
+  technologys?: Technology[]
   workspaces?: Workspace[]
 }

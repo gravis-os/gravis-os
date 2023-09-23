@@ -1,8 +1,8 @@
 import React from 'react'
 
 export type ReactNodeOrElement =
-  | React.ReactNode
   | React.JSXElementConstructor<unknown>
+  | React.ReactNode
 
 /**
  * Move to gravis

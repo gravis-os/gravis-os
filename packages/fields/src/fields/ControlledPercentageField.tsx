@@ -1,5 +1,6 @@
 import React from 'react'
 import { Controller, UseControllerProps } from 'react-hook-form'
+
 import PercentageField, { PercentageFieldProps } from './PercentageField'
 
 export type ControlledPercentageFieldProps = UseControllerProps &

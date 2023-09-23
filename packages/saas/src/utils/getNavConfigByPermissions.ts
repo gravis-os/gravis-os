@@ -1,9 +1,10 @@
-import { Permission, NavConfigItem } from '@gravis-os/types'
+import { NavConfigItem, Permission } from '@gravis-os/types'
+
 import getIsValidPermissions from './getIsValidPermissions'
 
 export interface GetNavConfigByPermissionsProps {
-  permissions?: Permission[]
   navConfig: NavConfigItem[]
+  permissions?: Permission[]
 }
 
 /**
@@ -19,13 +20,15 @@ const getNavConfigByPermissions = (
   if (!permissions?.length || !navConfig?.length) return []
 
   const mapPermittedNavItem = (navConfigItem) => {
-    const { key, items } = navConfigItem
+    const { items, key } = navConfigItem
 
     const isNestedMenu = Boolean(items?.length)
     switch (true) {
       // isNestedMenu, recurse.
-      case isNestedMenu:
-        const permittedNestedNavItems = items.map(mapPermittedNavItem)
+      case isNestedMenu: {
+        const permittedNestedNavItems = items.map((item) =>
+          mapPermittedNavItem(item)
+        )
         const hasAtLeastOneAuthorizedNestedNavItem =
           permittedNestedNavItems.some(Boolean)
         return (
@@ -34,16 +37,18 @@ const getNavConfigByPermissions = (
             items: permittedNestedNavItems,
           }
         )
+      }
       // Default Case
-      default:
+      default: {
         const isAuthorized = getIsValidPermissions({
-          // permissions e.g. ['company.create', 'product.*']
-          permissions: permissions?.map(({ title }) => title),
           // key is the tableName e.g. 'company'
           moduleTableName: key,
+          // permissions e.g. ['company.create', 'product.*']
+          permissions: permissions?.map(({ title }) => title),
         })
 
         return isAuthorized && navConfigItem
+      }
     }
   }
 

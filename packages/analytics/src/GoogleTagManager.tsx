@@ -1,14 +1,15 @@
+/* eslint-disable fp/no-mutating-methods, fp/no-mutation */
+
 import React, { useEffect } from 'react'
+
 import { useRouter } from 'next/router'
 
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
 
 export const addGtmDataLayer = (data = {}) => {
   if (typeof window === 'undefined') return
-  // eslint-disable-next-line
-  (window as any).dataLayer = (window as any).dataLayer || [] as any
-  // eslint-disable-next-line
-  (window as any).dataLayer.push(data)
+  ;(window as any).dataLayer = (window as any).dataLayer || ([] as any)
+  ;(window as any).dataLayer.push(data)
 }
 
 export const setPageview = (url, options = {}) => {
@@ -22,7 +23,7 @@ export const setPageview = (url, options = {}) => {
 
 export const useGtmPageViewOnRouteChange = (
   props: {
-    userId?: string | number
+    userId?: number | string
   } = {}
 ) => {
   const { userId } = props
@@ -46,7 +47,6 @@ export const renderGtmScriptTag = () => {
   return (
     <script
       async
-      id="gtag-base"
       dangerouslySetInnerHTML={{
         __html: `
             (function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
@@ -56,6 +56,7 @@ export const renderGtmScriptTag = () => {
             })(window,document,'script','dataLayer', '${GTM_ID}');
           `,
       }}
+      id="gtag-base"
     />
   )
 }
@@ -64,8 +65,8 @@ export const renderGtmPreconnectLinkTags = () => {
   if (!GTM_ID) return null
   return (
     <>
-      <link rel="preconnect" href="https://www.googletagmanager.com" />
-      <link rel="preconnect" href="https://www.google-analytics.com" />
+      <link href="https://www.googletagmanager.com" rel="preconnect" />
+      <link href="https://www.google-analytics.com" rel="preconnect" />
     </>
   )
 }
@@ -81,11 +82,11 @@ export const renderGtmNoScriptTag = () => {
   if (!GTM_ID) return null
   return (
     <iframe
-      title="Google Tag Manager"
-      src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
       height="0"
-      width="0"
+      src={`https://www.googletagmanager.com/ns.html?id=${GTM_ID}`}
       style={{ display: 'none', visibility: 'hidden' }}
+      title="Google Tag Manager"
+      width="0"
     />
   )
 }

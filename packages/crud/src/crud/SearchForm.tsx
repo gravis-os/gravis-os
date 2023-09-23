@@ -1,7 +1,5 @@
 import React from 'react'
-import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
-import { InputAdornment } from '@mui/material'
-import { Stack, Button } from '@gravis-os/ui'
+
 import {
   Form,
   FormProps,
@@ -10,8 +8,12 @@ import {
   FormSectionsProps,
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import useSearchForm, { UseSearchFormArgs } from './useSearchForm'
+import { Button, Stack } from '@gravis-os/ui'
+import SearchOutlinedIcon from '@mui/icons-material/SearchOutlined'
+import { InputAdornment } from '@mui/material'
+
 import getFieldsFromFormSections from './getFieldsFromFormSections'
+import useSearchForm, { UseSearchFormArgs } from './useSearchForm'
 
 const getDefaultValuesFromFields = (fields) =>
   fields.reduce((acc, field) => {
@@ -20,23 +22,23 @@ const getDefaultValuesFromFields = (fields) =>
   }, {})
 
 export interface SearchFormProps {
-  item?: CrudItem
-  formSectionsProps?: FormSectionsProps
-  sections: FormSectionsProps['sections']
-  module: CrudModule
-  useSearchFormProps?: Partial<UseSearchFormArgs>
-  onSubmit?: UseSearchFormArgs['onSubmit']
   children?: FormProps<any>['children']
+  formSectionsProps?: FormSectionsProps
+  item?: CrudItem
+  module: CrudModule
+  onSubmit?: UseSearchFormArgs['onSubmit']
+  sections: FormSectionsProps['sections']
+  useSearchFormProps?: Partial<UseSearchFormArgs>
 }
 
 const SearchForm: React.FC<SearchFormProps> = (props) => {
   const {
-    onSubmit,
-    useSearchFormProps,
-    sections,
+    children,
     formSectionsProps,
     module,
-    children,
+    onSubmit,
+    sections,
+    useSearchFormProps,
   } = props
 
   const fields = getFieldsFromFormSections(sections)
@@ -44,17 +46,16 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
 
   // useSearchForm
   const { form, handleSubmit } = useSearchForm({
+    defaultValues,
     module,
     onSubmit,
     resetOnSubmit: true,
-    defaultValues,
     ...useSearchFormProps,
   })
 
   return (
     <Form
       formContext={form}
-      onSubmit={handleSubmit}
       formJsx={
         <FormSections
           disableCard
@@ -65,7 +66,6 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
               fields: sections[0].fields.map((field) => {
                 return {
                   disableLabel: true,
-                  placeholder: 'Search',
                   InputProps: {
                     startAdornment: (
                       <InputAdornment position="start">
@@ -73,6 +73,7 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                       </InputAdornment>
                     ),
                   },
+                  placeholder: 'Search',
                   size: 'small',
                   ...field,
                   sx: {
@@ -83,18 +84,19 @@ const SearchForm: React.FC<SearchFormProps> = (props) => {
                 }
               }),
             },
-            ...sections.slice(0, sections.length - 1),
+            ...sections.slice(0, -1),
           ]}
           {...formSectionsProps}
         />
       }
+      onSubmit={handleSubmit}
     >
       {(renderProps) => (
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack alignItems="center" direction="row" spacing={1}>
           {typeof children === 'function'
             ? children(renderProps)
             : renderProps.formJsx}
-          <Button variant="contained" type="submit">
+          <Button type="submit" variant="contained">
             Search
           </Button>
         </Stack>

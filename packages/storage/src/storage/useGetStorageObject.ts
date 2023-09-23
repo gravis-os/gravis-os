@@ -1,24 +1,25 @@
 import { useEffect, useState } from 'react'
-import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { QueryObserverOptions, useQuery } from 'react-query'
 
+import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
+
 type UseGetStorageObject = (props: {
-  value?: string // Typically the form value
-  filePath?: string
   bucketName?: string
   client?: SupabaseClient
-  skip?: boolean
+  filePath?: string
   queryOptions?: QueryObserverOptions<string>
+  skip?: boolean
+  value?: string // Typically the form value
 }) => { src: string }
 
 const useGetStorageObject: UseGetStorageObject = (props) => {
   const {
-    filePath: injectedFilePath, // The S3 file path
-    value,
-    client = supabaseClient,
     bucketName = 'public',
-    skip,
+    client = supabaseClient,
+    filePath: injectedFilePath, // The S3 file path
     queryOptions,
+    skip,
+    value,
   } = props
 
   // States
@@ -38,7 +39,7 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
     // Escape the first `public/` in the path
     const pathWithoutPublicPrefix = path.split('public/')[1]
 
-    const { publicURL: objectUrl, error } = client.storage
+    const { error, publicURL: objectUrl } = client.storage
       .from(bucketName)
       .getPublicUrl(pathWithoutPublicPrefix)
 

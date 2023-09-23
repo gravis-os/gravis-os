@@ -1,6 +1,6 @@
 export interface ModelFieldDataItem {
   [key: string]: unknown
-  id?: string | number
+  id?: number | string
 }
 
 export type AutocompleteListDataItem = [

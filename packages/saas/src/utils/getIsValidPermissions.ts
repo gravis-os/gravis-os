@@ -1,16 +1,14 @@
 const getIsValidPermissions = ({
-  permissions,
   moduleTableName,
+  permissions,
 }: {
-  permissions?: string[] // e.g. ['company.create', 'user.*']
   moduleTableName?: string // e.g. 'contact'
+  permissions?: string[] // e.g. ['company.create', 'user.*']
 }) => {
   if (!permissions?.length || !moduleTableName) return false
 
   // Check if user has all permissions
-  const hasWildcardPermission = permissions.some(
-    (permission) => permission === '*'
-  )
+  const hasWildcardPermission = permissions.includes('*')
   if (hasWildcardPermission) return true
 
   // Check individual permissions by module

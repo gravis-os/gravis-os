@@ -1,15 +1,17 @@
 import React from 'react'
+
 import { Grid, GridProps } from '@gravis-os/ui'
+
 import FormSection from './FormSection'
 import { FormSectionProps } from './types'
 
 export interface FormSectionsProps extends Partial<FormSectionProps> {
-  sections: FormSectionProps[]
   containerProps?: GridProps
+  sections: FormSectionProps[]
 }
 
 const FormSections: React.FC<FormSectionsProps> = (props) => {
-  const { sections, containerProps = {}, ...rest } = props
+  const { containerProps = {}, sections, ...rest } = props
   if (!sections?.length) return null
 
   return (

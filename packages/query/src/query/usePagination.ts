@@ -1,40 +1,40 @@
-import qs from 'qs'
 import { useRouter } from 'next/router'
+
 import useRouterQuery from './useRouterQuery'
 
 export interface UsePaginationProps {
-  pageSize: number
   count: number
+  pageSize: number
 }
 
 export interface UsePaginationReturn {
+  /**
+   * The total number of items
+   */
+  count: number
+  hasNextPage: boolean
+  hasPrevPage: boolean
+  nextPage: () => void
   /**
    * The current page number
    * Default: 1
    */
   page: number
   /**
-   * The total number of items per page
-   */
-  pageSize: number
-  /**
-   * The total number of items
-   */
-  count: number
-  /**
    * The total number of pages = total items / items per page
    */
   pageCount: number
+  /**
+   * The total number of items per page
+   */
+  pageSize: number
+  prevPage: () => void
   range: [number, number]
   setPage: (newPage: number) => void
-  nextPage: () => void
-  prevPage: () => void
-  hasPrevPage: boolean
-  hasNextPage: boolean
 }
 
 const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
-  const { pageSize, count } = props
+  const { count, pageSize } = props
 
   const router = useRouter()
   const { pathname, query } = router
@@ -58,16 +58,16 @@ const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
   const prevPage = () => hasPrevPage && setPage(page - 1)
 
   return {
-    page,
-    pageSize,
     count,
+    hasNextPage,
+    hasPrevPage,
+    nextPage,
+    page,
     pageCount,
+    pageSize,
+    prevPage,
     range,
     setPage,
-    nextPage,
-    prevPage,
-    hasPrevPage,
-    hasNextPage,
   }
 }
 

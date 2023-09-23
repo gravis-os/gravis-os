@@ -1,4 +1,5 @@
 import React, { ElementType, useState } from 'react'
+
 import { useGetItem } from '@gravis-os/crud'
 import { CrudModule } from '@gravis-os/types'
 import {
@@ -14,13 +15,14 @@ import {
 } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
-import { useRouter } from 'next/router'
 import toString from 'lodash/toString'
+import { useRouter } from 'next/router'
+
+import { getReceiptFileName } from '.'
+import posConfig from './posConfig'
 import PosPaymentReceiptEmailDialog from './PosPaymentReceiptEmailDialog'
 import { usePos } from './PosProvider'
-import posConfig from './posConfig'
 import { Customer, Receipt } from './types'
-import { getReceiptFileName } from '.'
 
 export interface GetPdfMakeGeneratorResult {
   download(cb?: () => void, options?: any): void
@@ -28,26 +30,26 @@ export interface GetPdfMakeGeneratorResult {
   getBlob(cb: (result: Blob) => void, options?: any): void
 }
 export interface PosPaymentSuccessProps {
-  getPdfMakeGenerator?: (reportType: string, item) => GetPdfMakeGeneratorResult
-  receiptModule?: CrudModule
-  emailReceiptDialog?: React.ReactNode
   contactModule?: CrudModule
+  emailReceiptDialog?: React.ReactNode
+  getPdfMakeGenerator?: (reportType: string, item) => GetPdfMakeGeneratorResult
   receiptLogo?: ElementType<any>
+  receiptModule?: CrudModule
 }
 
 const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
   const {
-    receiptModule,
     emailReceiptDialog: injectedEmailReceiptDialog,
     getPdfMakeGenerator,
+    receiptModule,
     ...rest
   } = props
   const { resetCart } = usePos()
   const router = useRouter()
   const onUseGetItem = useGetItem({ module: receiptModule })
   const { item: receipt }: { item: Receipt } = onUseGetItem
-  const { payment_method, total, paid, customer } = receipt || {}
-  const { full_name, email } = (customer as any as Customer) || {}
+  const { customer, paid, payment_method, total } = receipt || {}
+  const { email, full_name } = (customer as any as Customer) || {}
 
   const handleDone = () => {
     resetCart()
@@ -56,29 +58,29 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
 
   const commonIconSx = { color: 'text.secondary' }
   const renderTitle = (title) => (
-    <Typography variant="h5" gutterBottom>
+    <Typography gutterBottom variant="h5">
       {title}
     </Typography>
   )
 
   const listItems = [
     {
-      key: 'payment-method',
-      startIcon: <MoneyOutlinedIcon sx={commonIconSx} />,
       title: renderTitle(payment_method),
       href: posConfig.routes.PAYMENT,
+      key: 'payment-method',
       right: (
-        <Typography variant="h5" gutterBottom>
+        <Typography gutterBottom variant="h5">
           {printAmount(total)}
         </Typography>
       ),
+      startIcon: <MoneyOutlinedIcon sx={commonIconSx} />,
     },
   ]
 
   const commonSectionTitleProps = {
-    variant: 'overline',
     color: 'text.secondary',
     sx: { mb: 1 },
+    variant: 'overline',
   } as TypographyProps
 
   const handleOnClickPrintReceipt = async () => {
@@ -93,9 +95,9 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
 
   const emailReceiptDialogJsx = injectedEmailReceiptDialog || (
     <PosPaymentReceiptEmailDialog
-      open={isEmailDialogOpen}
-      onClose={handleCloseEmailDialog}
       getPdfMakeGenerator={getPdfMakeGenerator}
+      onClose={handleCloseEmailDialog}
+      open={isEmailDialogOpen}
       receipt={receipt}
       {...rest}
     />
@@ -103,20 +105,20 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
 
   const receiptOptionItems = [
     {
-      key: 'print-receipt',
       title: 'Print Receipt',
+      key: 'print-receipt',
       onClick: handleOnClickPrintReceipt,
     },
     {
-      key: 'email-receipt',
       title: 'Email Receipt',
+      key: 'email-receipt',
       onClick: handleOpenEmailDialog,
     },
   ]
 
   return (
     <Stack spacing={2}>
-      <Box sx={{ textAlign: 'center', p: 2 }}>
+      <Box sx={{ p: 2, textAlign: 'center' }}>
         <Typography variant="h1">
           Change Due: {printAmount((paid || 0) - (total || 0))}
         </Typography>
@@ -131,10 +133,10 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
               <div>
                 {full_name ? (
                   <>
-                    <Typography variant="h4" gutterBottom>
+                    <Typography gutterBottom variant="h4">
                       {full_name}
                     </Typography>
-                    <Typography variant="body1" gutterBottom>
+                    <Typography gutterBottom variant="body1">
                       {email}
                     </Typography>
                   </>
@@ -154,13 +156,13 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
                   return (
                     <Grid
                       item
-                      xs={12}
-                      md={12 / (receiptOptionItems?.length || 1)}
                       key={receiptOptionItem.key}
+                      md={12 / (receiptOptionItems?.length || 1)}
+                      xs={12}
                     >
                       <Button
-                        fullWidth
                         color="inherit"
+                        fullWidth
                         variant="outlined"
                         {...receiptOptionItem}
                       />
@@ -179,7 +181,7 @@ const PosPaymentSuccess: React.FC<PosPaymentSuccessProps> = (props) => {
             <Stack spacing={2}>
               <Button fullWidth>Add Order Note</Button>
               <Divider />
-              <Button fullWidth color="primary" onClick={handleDone}>
+              <Button color="primary" fullWidth onClick={handleDone}>
                 Done
               </Button>
             </Stack>

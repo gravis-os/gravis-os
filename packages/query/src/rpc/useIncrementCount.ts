@@ -1,22 +1,24 @@
 import { useEffect, useState } from 'react'
+
 import { CrudItem, CrudModule } from '@gravis-os/types'
+
 import fetchIncrementCountRpc from './fetchIncrementCountRpc'
 
 export interface UseIncrementCountProps {
+  countColumnName?: string
   item: CrudItem
   module: CrudModule
-  countColumnName?: string
 }
 
 const useIncrementCount = (props: UseIncrementCountProps) => {
-  const { item, module, countColumnName = 'view_count' } = props
+  const { countColumnName = 'view_count', item, module } = props
 
   const [isIncremented, setIsIncremented] = useState(false)
 
   const incrementCount = async () => {
     if (!item || !module) return
 
-    await fetchIncrementCountRpc({ item, module, countColumnName })
+    await fetchIncrementCountRpc({ countColumnName, item, module })
 
     setIsIncremented(true)
   }

@@ -1,6 +1,7 @@
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import toast from 'react-hot-toast'
+
 import { AuthUser } from '@gravis-os/types'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 
 interface SupabaseAuthOptions {}
 
@@ -15,7 +16,7 @@ export type HandleSignUp = (
 
 export const handleSignUp: HandleSignUp = async (
   values,
-  authOptions = { redirectTo: '' },
+  authOptions = {},
   submitOptions = {}
 ) => {
   const { email, password } = values
@@ -38,8 +39,8 @@ export const handleSignUp: HandleSignUp = async (
     toast.success(submitOptions.toastSuccessMessage || 'Successfully Signed Up')
 
     return authUser
-  } catch (err) {
-    console.error('Error caught:', err)
+  } catch (error) {
+    console.error('Error caught:', error)
   }
 }
 
@@ -51,10 +52,7 @@ export type HandleSignIn = (
   authOptions?: SupabaseAuthOptions
 ) => Promise<AuthUser>
 
-export const handleSignIn: HandleSignIn = async (
-  values,
-  authOptions = { redirectTo: '' }
-) => {
+export const handleSignIn: HandleSignIn = async (values, authOptions = {}) => {
   const { email, password } = values
 
   try {
@@ -65,7 +63,7 @@ export const handleSignIn: HandleSignIn = async (
       },
       authOptions
     )
-    const { user: authUser, error } = onSignIn
+    const { error, user: authUser } = onSignIn
 
     if (error) {
       toast.error('Authentication failed')
@@ -74,8 +72,8 @@ export const handleSignIn: HandleSignIn = async (
     }
 
     return authUser
-  } catch (err) {
-    console.error('Error caught:', err)
+  } catch (error) {
+    console.error('Error caught:', error)
   }
 }
 
@@ -89,7 +87,7 @@ export type HandleResetPassword = (
 
 export const handleResetPassword: HandleResetPassword = async (
   values,
-  authOptions = { redirectTo: '' }
+  authOptions = {}
 ) => {
   const { email } = values
 
@@ -113,8 +111,8 @@ export const handleResetPassword: HandleResetPassword = async (
     }
     toast.success('Success')
     return user
-  } catch (err) {
-    console.error('Error caught:', err)
+  } catch (error) {
+    console.error('Error caught:', error)
   }
 }
 
@@ -149,7 +147,7 @@ export const handleRecoverPassword: HandleRecoverPassword = async (values) => {
     toast.success('Success')
 
     return user
-  } catch (err) {
-    console.error('Error caught:', err)
+  } catch (error) {
+    console.error('Error caught:', error)
   }
 }

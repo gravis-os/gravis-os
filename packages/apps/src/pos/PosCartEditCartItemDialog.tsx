@@ -1,4 +1,7 @@
+import type { TransitionProps } from '@mui/material/transitions'
+
 import React, { useEffect, useState } from 'react'
+
 import { UseListReturn } from '@gravis-os/query'
 import { StorageAvatar } from '@gravis-os/storage'
 import {
@@ -10,23 +13,23 @@ import {
   Stack,
 } from '@gravis-os/ui'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
-import type { TransitionProps } from '@mui/material/transitions'
 import set from 'lodash/set'
+
 import PosEditPricingFields from './PosEditPricingFields'
 import { usePos } from './PosProvider'
 import QuantityButtonGroup from './QuantityButtonGroup'
 
 export interface PosCartEditCartItemDialogProps {
-  open: boolean
-  onClose: VoidFunction
   cartIndex: number
+  onClose: VoidFunction
+  open: boolean
   productSpecImagesQueryResult?: UseListReturn
 }
 
 const PosCartEditCartItemDialog: React.FC<PosCartEditCartItemDialogProps> = (
   props
 ) => {
-  const { open, onClose, cartIndex, productSpecImagesQueryResult, ...rest } =
+  const { cartIndex, onClose, open, productSpecImagesQueryResult, ...rest } =
     props
   const { cart, removeFromCart, setCart } = usePos()
 
@@ -45,7 +48,7 @@ const PosCartEditCartItemDialog: React.FC<PosCartEditCartItemDialogProps> = (
       ({ product_id: image_product_id }) => image_product_id === product_id
     ) || {}
 
-  const { src, alt } = (productSpecImage?.[0] as any) || {}
+  const { alt, src } = (productSpecImage?.[0] as any) || {}
 
   const [quantity, setQuantity] = useState(item?.quantity || 1)
 
@@ -68,26 +71,26 @@ const PosCartEditCartItemDialog: React.FC<PosCartEditCartItemDialogProps> = (
 
   const listItemProps = {
     title: item?.title,
-    subtitle: item?.subtitle,
     avatar: (
-      <StorageAvatar size={90} src={src} alt={alt} sx={{ borderRadius: 0 }} />
+      <StorageAvatar alt={alt} size={90} src={src} sx={{ borderRadius: 0 }} />
     ),
     spacing: 2,
+    subtitle: item?.subtitle,
   }
 
   return (
     <Dialog
-      open={open}
-      onClose={handleClose}
-      fullScreen
       TransitionComponent={Slide}
       TransitionProps={{ direction: 'up' } as TransitionProps}
+      fullScreen
+      onClose={handleClose}
+      open={open}
     >
       <DialogTitle>
         <Stack
+          alignItems="center"
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
         >
           Edit Item
         </Stack>
@@ -97,14 +100,14 @@ const PosCartEditCartItemDialog: React.FC<PosCartEditCartItemDialogProps> = (
         <Stack spacing={3}>
           <ListItem
             {...listItemProps}
-            titleProps={{
-              variant: 'h1',
-            }}
             subtitleProps={{
               variant: 'body1',
             }}
             sx={{
               px: 0,
+            }}
+            titleProps={{
+              variant: 'h1',
             }}
           />
 
@@ -121,7 +124,7 @@ const PosCartEditCartItemDialog: React.FC<PosCartEditCartItemDialogProps> = (
         <Button color="inherit" variant="outlined">
           View product detail
         </Button>
-        <Button color="error" variant="contained" onClick={handleOnClickRemove}>
+        <Button color="error" onClick={handleOnClickRemove} variant="contained">
           Remove from cart
         </Button>
       </DialogActions>

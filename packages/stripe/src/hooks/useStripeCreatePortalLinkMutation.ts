@@ -1,5 +1,7 @@
-import axios from 'axios'
 import { useMutation } from 'react-query'
+
+import axios from 'axios'
+
 import stripeConfig from '../config/stripeConfig'
 
 const stripeCreatePortalLinkMutationFn = () => {
@@ -8,14 +10,14 @@ const stripeCreatePortalLinkMutationFn = () => {
 
 const useStripeCreatePortalLinkMutation = () => {
   return useMutation(stripeCreatePortalLinkMutationFn, {
+    onError: (error) => {
+      if (error) return window.alert((error as Error).message)
+    },
     onSuccess: ({ data }) => {
-      const { url, error } = data
+      const { error, url } = data
 
       // Redirect user out with the checkout url
       return window.location.assign(url)
-    },
-    onError: (error) => {
-      if (error) return window.alert((error as Error).message)
     },
   })
 }

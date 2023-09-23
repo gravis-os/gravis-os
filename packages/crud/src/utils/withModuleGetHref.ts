@@ -2,8 +2,8 @@ import { CrudItem, CrudModule } from '@gravis-os/types'
 import capitalize from 'lodash/capitalize'
 
 export interface MakeGetModuleHrefProps {
-  prefix?: string
   modules: CrudModule[]
+  prefix?: string
 }
 
 /**
@@ -13,10 +13,10 @@ export interface MakeGetModuleHrefProps {
  * @param modules
  */
 export const makeGetModuleHref = ({
-  prefix,
   modules,
+  prefix,
 }: MakeGetModuleHrefProps) => {
-  return (injectedItems: CrudItem[] | CrudItem) => {
+  return (injectedItems: CrudItem | CrudItem[]) => {
     const items = (
       Array.isArray(injectedItems) ? injectedItems : [injectedItems]
     ).filter(Boolean)
@@ -43,7 +43,7 @@ export interface WithModuleGetHrefProps
   prefixModules?: CrudModule[]
 }
 
-export type GetModuleHrefFunction = (items: CrudItem[] | CrudItem) => string
+export type GetModuleHrefFunction = (items: CrudItem | CrudItem[]) => string
 
 export type WithModuleGetHrefReturn<T> = CrudModule & {
   [key in keyof T]: GetModuleHrefFunction

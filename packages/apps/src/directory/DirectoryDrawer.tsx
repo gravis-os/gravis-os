@@ -1,24 +1,24 @@
 import React from 'react'
+
 import {
   SwipeableDrawer,
   SwipeableDrawerProps,
-  SxProps,
   useMediaQuery,
   useTheme,
 } from '@mui/material'
 
 export interface DirectoryDrawerProps {
+  children?: React.ReactNode
+  height?: number | string
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  width: number | string
-  height?: number | string
-  children?: React.ReactNode
   sx?: SwipeableDrawerProps['sx']
   variant?: SwipeableDrawerProps['variant']
+  width: number | string
 }
 
 const DirectoryDrawer: React.FC<DirectoryDrawerProps> = (props) => {
-  const { variant, open, setOpen, width, height = '100%', sx, children } = props
+  const { children, height = '100%', open, setOpen, sx, variant, width } = props
 
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
@@ -37,17 +37,17 @@ const DirectoryDrawer: React.FC<DirectoryDrawerProps> = (props) => {
             width: '100%',
             ...(isDesktop && {
               height,
-              width: open ? width : 0,
-              top: 48, // FilterAppBar height is always at 48
               position: 'sticky',
+              top: 48, // FilterAppBar height is always at 48
               transition: (theme) =>
                 theme.transitions.create(['width'], {
-                  easing: theme.transitions.easing[open ? 'sharp' : 'easeOut'],
                   duration:
                     theme.transitions.duration[
                       open ? 'leavingScreen' : 'enteringScreen'
                     ],
+                  easing: theme.transitions.easing[open ? 'sharp' : 'easeOut'],
                 }),
+              width: open ? width : 0,
             }),
             ...sx,
           },

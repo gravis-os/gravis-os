@@ -1,5 +1,6 @@
 import { getUser, withApiAuth } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
+
 import initStripeNode from '../../stripe/initStripeNode'
 import initStripeSupabaseAdmin from '../../supabase/initStripeSupabaseAdmin'
 
@@ -11,7 +12,7 @@ const handleCreateStripePortalLink = async (
   if (req.method === 'POST') {
     try {
       const { user } = await getUser({ req, res })
-      if (!user) throw Error('Could not get user')
+      if (!user) throw new Error('Could not get user')
 
       const StripeNode = initStripeNode(process.env.STRIPE_SECRET_KEY)
       const StripeSupabaseAdmin = initStripeSupabaseAdmin(
@@ -20,11 +21,11 @@ const handleCreateStripePortalLink = async (
       )
 
       const customer = await StripeSupabaseAdmin.createOrRetrieveCustomer({
-        uuid: user.id || '',
         email: user.email || '',
+        uuid: user.id || '',
       })
 
-      if (!customer) throw Error('Could not get customer')
+      if (!customer) throw new Error('Could not get customer')
 
       const { url } = await StripeNode.billingPortal.sessions.create({
         customer,
@@ -32,9 +33,11 @@ const handleCreateStripePortalLink = async (
       })
 
       return res.status(200).json({ url })
-    } catch (err: any) {
-      console.error(err)
-      res.status(500).json({ error: { statusCode: 500, message: err.message } })
+    } catch (error: any) {
+      console.error(error)
+      res
+        .status(500)
+        .json({ error: { message: error.message, statusCode: 500 } })
     }
   } else {
     res.setHeader('Allow', 'POST')

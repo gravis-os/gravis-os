@@ -1,20 +1,20 @@
-import { SupabaseClient } from '@supabase/auth-helpers-nextjs'
 import { CrudModule } from '@gravis-os/types'
+import { SupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 const getWorkspaceStaticPathsByRoute = async ({
-  supabaseClient,
-  route,
-  workspaceModule,
+  fallback = false, // By default generate all paths, else 404.
   locales,
   params: injectedParams,
-  fallback = false, // By default generate all paths, else 404.
+  route,
+  supabaseClient,
+  workspaceModule,
 }: {
-  supabaseClient: SupabaseClient
-  route: string
-  workspaceModule: CrudModule
+  fallback?: boolean
   locales?: string[]
   params?: Record<string, string>
-  fallback?: boolean
+  route: string
+  supabaseClient: SupabaseClient
+  workspaceModule: CrudModule
 }) => {
   const workspaceModuleSk = workspaceModule.sk
 
@@ -25,22 +25,22 @@ const getWorkspaceStaticPathsByRoute = async ({
   const nextLocales = !process.env.DISABLE_LOCALES && locales
 
   return {
+    fallback,
     paths: nextLocales
       ? workspaces
           ?.map((workspace) =>
             nextLocales.map((locale) => ({
+              locale,
               params: {
                 workspace: `${workspace[workspaceModuleSk]}`,
                 ...injectedParams,
               },
-              locale,
             }))
           )
           .flat()
       : workspaces?.map(
           (workspace) => `/_workspaces/${workspace[workspaceModuleSk]}${route}`
         ),
-    fallback,
   }
 }
 

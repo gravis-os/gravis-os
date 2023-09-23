@@ -1,7 +1,7 @@
 const styleConfig = {
-  searchWidth: 460,
-  rightAsideWidth: 480,
   rightAsideBoxShadow: 3,
+  rightAsideWidth: 480,
+  searchWidth: 460,
 }
 
 export default styleConfig

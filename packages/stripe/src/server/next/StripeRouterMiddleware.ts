@@ -1,4 +1,5 @@
 import type { NextApiRequest, NextApiResponse } from 'next'
+
 import defaultStripeConfig from '../../config/stripeConfig'
 import handleStripeCreateCheckoutSession from './handlers/stripe-create-checkout-session'
 import handleStripeCreatePortalLink from './handlers/stripe-create-portal-link'

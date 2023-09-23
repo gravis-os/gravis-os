@@ -11,7 +11,7 @@ export type FormSectionFieldBooleanFunction = (
  * @param renderProps
  */
 const getFormSectionFieldBooleanFunction = (
-  booleanOrFunctionProp: boolean | FormSectionFieldBooleanFunction,
+  booleanOrFunctionProp: FormSectionFieldBooleanFunction | boolean,
   renderProps: FormSectionFieldRenderProps
 ): boolean => {
   return Boolean(

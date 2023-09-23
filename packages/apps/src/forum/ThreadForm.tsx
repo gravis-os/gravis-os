@@ -1,29 +1,30 @@
 import React from 'react'
-import { Button, ButtonProps, Stack } from '@gravis-os/ui'
 import { useForm } from 'react-hook-form'
+
 import {
+  ControlledAutocompleteField,
   ControlledHtmlField,
   ControlledTextField,
-  ControlledAutocompleteField,
 } from '@gravis-os/fields'
 import { CrudItem } from '@gravis-os/types'
+import { Button, ButtonProps, Stack } from '@gravis-os/ui'
 
 export type ThreadFormValues = Record<string, unknown> & {
   forum_category_id?: number
 }
 
 export interface ThreadFormProps {
-  onSubmit?: (values: any) => void
-  forumCategorys?: CrudItem[]
   defaultValues?: ThreadFormValues
+  forumCategorys?: CrudItem[]
+  onSubmit?: (values: any) => void
   submitButtonProps?: ButtonProps
 }
 
 const ThreadForm: React.FC<ThreadFormProps> = (props) => {
   const {
     defaultValues: injectedDefaultValues,
-    onSubmit: injectedOnSubmit,
     forumCategorys,
+    onSubmit: injectedOnSubmit,
     submitButtonProps,
   } = props
 
@@ -47,29 +48,29 @@ const ThreadForm: React.FC<ThreadFormProps> = (props) => {
     <form onSubmit={handleSubmit(onSubmit)}>
       <Stack spacing={1}>
         <ControlledTextField
-          name="title"
           control={control}
-          placeholder="What is your question?"
           disableLabel
+          name="title"
+          placeholder="What is your question?"
           required
-          variant="standard"
           sx={{ mb: 1 }}
+          variant="standard"
         />
 
         {!defaultValues?.forum_category_id && forumCategorys && (
           <ControlledAutocompleteField
-            name="forum_category_id"
             control={control}
+            name="forum_category_id"
             options={forumCategoryOptions}
             required
           />
         )}
 
         <ControlledHtmlField
-          name="content"
-          control={control}
-          placeholder="Tell us more"
           basic
+          control={control}
+          name="content"
+          placeholder="Tell us more"
         />
 
         <Button type="submit" variant="action" {...submitButtonProps}>

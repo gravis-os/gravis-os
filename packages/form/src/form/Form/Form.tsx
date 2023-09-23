@@ -2,12 +2,14 @@ import React, { useEffect } from 'react'
 import {
   FormProvider,
   SubmitHandler,
-  useForm,
   UseFormProps,
   UseFormReturn,
+  useForm,
 } from 'react-hook-form'
-import { Box, BoxProps, Button, ButtonProps } from '@gravis-os/ui'
+
 import { RenderPropsFunction } from '@gravis-os/types'
+import { Box, BoxProps, Button, ButtonProps } from '@gravis-os/ui'
+
 import getFormRenderProps, {
   FormRenderPropsInterface,
 } from './getFormRenderProps'
@@ -15,48 +17,48 @@ import getFormRenderProps, {
 export interface FormProps<TFormValues>
   extends Omit<
     React.FormHTMLAttributes<HTMLFormElement>,
-    'onSubmit' | 'children'
+    'children' | 'onSubmit'
   > {
-  formJsx: React.ReactElement // The layout of the form
-  onSubmit: SubmitHandler<TFormValues> // Submit action of the form
+  buttonProps?: ButtonProps // Shared button props
+  cancelButtonProps?: ButtonProps
+
+  children?: React.ReactNode | RenderPropsFunction<FormRenderPropsInterface>
+  defaultValues?: Record<string, any>
+  editButtonProps?: ButtonProps
 
   formContext?: UseFormReturn<TFormValues> // Rhf form object
-  useFormProps?: UseFormProps<any>
-  children?: React.ReactNode | RenderPropsFunction<FormRenderPropsInterface>
-
+  formJsx: React.ReactElement // The layout of the form
   formRenderProps?: any
   isReadOnly?: boolean
+  onSubmit: SubmitHandler<TFormValues> // Submit action of the form
   resetOnSubmitSuccess?: boolean
-  defaultValues?: Record<string, any>
   setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>
   submitButtonProps?: ButtonProps
-  cancelButtonProps?: ButtonProps
-  editButtonProps?: ButtonProps
-  buttonProps?: ButtonProps // Shared button props
   sx?: BoxProps['sx']
+  useFormProps?: UseFormProps<any>
 }
 
 const Form: React.FC<FormProps<any>> = (props) => {
   const {
-    onSubmit,
-    formContext: injectedFormContext,
-    useFormProps = {},
-    formJsx,
-    children,
-    formRenderProps: injectedFormRenderProps,
-    resetOnSubmitSuccess,
-    defaultValues: injectedDefaultValues,
-    sx,
     buttonProps,
+    children,
+    defaultValues: injectedDefaultValues,
+    formContext: injectedFormContext,
+    formJsx,
+    formRenderProps: injectedFormRenderProps,
+    onSubmit,
+    resetOnSubmitSuccess,
     submitButtonProps,
+    sx,
+    useFormProps = {},
     ...rest
   } = props
 
   const defaultForm = useForm(useFormProps)
   const formContext = injectedFormContext || defaultForm
-  const { handleSubmit, reset, formState } = formContext
+  const { formState, handleSubmit, reset } = formContext
   const defaultValues = injectedDefaultValues || useFormProps?.defaultValues
-  const { isSubmitSuccessful } = formState
+  const { isSubmitSuccessful, isSubmitting } = formState
 
   // Reset form values when defaultValues change
   useEffect(() => {
@@ -71,7 +73,7 @@ const Form: React.FC<FormProps<any>> = (props) => {
   const isChildrenRenderProp = typeof children === 'function'
   const renderChildren = (): React.ReactNode => {
     switch (true) {
-      case isChildrenRenderProp:
+      case isChildrenRenderProp: {
         const formRenderProps = getFormRenderProps({
           ...props,
           formContext,
@@ -80,10 +82,13 @@ const Form: React.FC<FormProps<any>> = (props) => {
         return (children as RenderPropsFunction<FormRenderPropsInterface>)(
           formRenderProps
         )
-      case children:
+      }
+      case children: {
         return children as React.ReactNode
-      default:
+      }
+      default: {
         return formJsx
+      }
     }
   }
 
@@ -98,8 +103,8 @@ const Form: React.FC<FormProps<any>> = (props) => {
         {renderChildren()}
         {!isChildrenRenderProp && submitButtonProps && (
           <Button
+            disabled={isSubmitting || submitButtonProps?.loading}
             type="submit"
-            disabled={formState.isSubmitting || submitButtonProps?.loading}
             {...buttonProps}
             {...submitButtonProps}
           />

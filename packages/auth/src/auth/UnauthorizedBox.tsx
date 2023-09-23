@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { Box, BoxProps, Button, Typography } from '@gravis-os/ui'
+
 import useUser from './useUser'
 
 export interface UnauthorizedBoxProps extends BoxProps {}

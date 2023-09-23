@@ -1,7 +1,5 @@
 import React from 'react'
-import { Collapse, CollapseProps, SvgIconProps } from '@mui/material'
-import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+
 import {
   Box,
   BoxProps,
@@ -10,41 +8,44 @@ import {
   Typography,
   TypographyProps,
 } from '@gravis-os/ui'
+import ExpandLessIcon from '@mui/icons-material/ExpandLess'
+import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
+import { Collapse, CollapseProps, SvgIconProps } from '@mui/material'
 
 export interface AuthBoxProps extends BoxProps {
-  disableHeader?: boolean
-  title: string
-  titleProps?: TypographyProps
-  subtitle?: string
-  subtitleProps?: TypographyProps
-  collapseProps?: Omit<CollapseProps, 'in'>
   children: React.ReactNode
-  icon?: React.ReactNode
-
+  collapseProps?: Omit<CollapseProps, 'in'>
   // Collapse
   collapsible?: boolean
+  disableHeader?: boolean
   expand?: boolean
-  toggleExpand?: VoidFunction
   expandIconButtonProps?: Omit<IconButtonProps, 'onClick'>
   expandIconProps?: SvgIconProps
+  icon?: React.ReactNode
+
+  subtitle?: string
+  subtitleProps?: TypographyProps
+  title: string
+  titleProps?: TypographyProps
+  toggleExpand?: VoidFunction
 }
 
 const AuthBox: React.FC<AuthBoxProps> = (props) => {
   const {
     title,
-    subtitle,
     children,
-    titleProps,
-    subtitleProps,
     collapseProps,
-    icon,
-    disableHeader,
-
     collapsible,
+    disableHeader,
     expand = true,
-    toggleExpand,
     expandIconButtonProps,
     expandIconProps,
+
+    icon,
+    subtitle,
+    subtitleProps,
+    titleProps,
+    toggleExpand,
     ...rest
   } = props
 
@@ -56,14 +57,14 @@ const AuthBox: React.FC<AuthBoxProps> = (props) => {
           {icon}
           <div>
             {title && (
-              <Typography variant="h4" gutterBottom {...titleProps}>
+              <Typography gutterBottom variant="h4" {...titleProps}>
                 {title}
               </Typography>
             )}
             {subtitle && (
               <Typography
-                variant="body2"
                 color="text.secondary"
+                variant="body2"
                 {...subtitleProps}
               >
                 {subtitle}

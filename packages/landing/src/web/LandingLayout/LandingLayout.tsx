@@ -1,70 +1,72 @@
 import React from 'react'
-import NextNProgress from 'nextjs-progressbar'
-import { NextSeo, NextSeoProps } from 'next-seo'
+
 import {
   Box,
   BoxProps,
-  Stack,
-  StackProps,
-  Header,
-  HeaderProps,
-  Footer,
-  FooterProps,
   Breadcrumbs,
   BreadcrumbsProps,
+  Footer,
+  FooterProps,
+  Header,
+  HeaderProps,
+  Stack,
+  StackProps,
 } from '@gravis-os/ui'
+import { NextSeo, NextSeoProps } from 'next-seo'
 import { useRouter } from 'next/router'
+import NextNProgress from 'nextjs-progressbar'
+
 import { useLayout } from '../../providers/LayoutProvider'
 
 export interface LandingLayoutProps extends StackProps {
-  headerProps?: HeaderProps
-  footerProps?: FooterProps
-  bodyProps?: BoxProps
+  autoBreadcrumbs?: boolean
   backgroundColor?: string
-
-  // Header styles
-  darkHeader?: boolean
-  transparentHeader?: boolean
-
+  bodyProps?: BoxProps
   // Breadcrumbs
   breadcrumbs?: BreadcrumbsProps['items']
-  breadcrumbsProps?: Omit<BreadcrumbsProps, 'items'>
-  autoBreadcrumbs?: boolean
 
+  breadcrumbsProps?: Omit<BreadcrumbsProps, 'items'>
+  // Header styles
+  darkHeader?: boolean
+
+  disableGutterBottom?: boolean
+  disableGutterTop?: boolean
   // Gutters (vertical)
   disableGutters?: boolean
-  disableGutterTop?: boolean
-  disableGutterBottom?: boolean
-  gutterSize?: number
 
+  footerProps?: FooterProps
+  gutterSize?: number
+  headerProps?: HeaderProps
   // Next-seo
   seo?: NextSeoProps
+
+  transparentHeader?: boolean
 }
 
 const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
   const {
-    headerProps: injectedHeaderProps,
-    footerProps,
-    children,
-    sx,
-    bodyProps,
-    backgroundColor,
-    disableGutters,
-    disableGutterTop,
-    disableGutterBottom,
-    gutterSize = 2,
-
-    // Header styles
-    darkHeader,
-    transparentHeader,
-
     // Breadcrumbs
     autoBreadcrumbs,
+    backgroundColor,
+    bodyProps,
     breadcrumbs,
     breadcrumbsProps: injectedBreadcrumbsProps,
+    children,
+    // Header styles
+    darkHeader,
+    disableGutterBottom,
+    disableGutters,
+    disableGutterTop,
 
+    footerProps,
+    gutterSize = 2,
+
+    headerProps: injectedHeaderProps,
     // seo
     seo,
+    sx,
+
+    transparentHeader,
 
     ...rest
   } = props
@@ -73,31 +75,31 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
     ...injectedHeaderProps,
     ...(darkHeader && {
       dark: true,
-      translucent: true,
       position: 'fixed' as const,
+      translucent: true,
     }),
     ...(transparentHeader && {
-      transparent: true,
       position: 'fixed' as const,
       textColor: 'common.white',
+      transparent: true,
     }),
   }
 
   const breadcrumbsProps = {
-    disableHomeBreadcrumb: true,
-    container: true,
     autoBreadcrumbs,
+    container: true,
+    disableHomeBreadcrumb: true,
     ...injectedBreadcrumbsProps,
     sx: { my: 0.5, ...injectedBreadcrumbsProps?.sx },
   }
 
-  const { site, routeConfig } = useLayout()
+  const { routeConfig, site } = useLayout()
 
   const router = useRouter()
   const isHomeRoute = router.pathname === routeConfig?.HOME
 
   return (
-    <Stack sx={{ minHeight: '100vh', backgroundColor, ...sx }} {...rest}>
+    <Stack sx={{ backgroundColor, minHeight: '100vh', ...sx }} {...rest}>
       <NextNProgress />
 
       {/* SEO */}
@@ -119,8 +121,8 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
         <Header
           {...{
             accordionProps: { titleProps: { variant: 'h5' } },
-            drawerWidth: '100vw',
             disableBoxShadow: true,
+            drawerWidth: '100vw',
             ...headerProps,
           }}
         />
@@ -161,15 +163,15 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
         <Footer
           {...{
             ...footerProps,
-            companyName: site?.company_title,
             accordionProps: {
-              titleProps: { variant: 'h7' },
               itemTitleProps: {
-                variant: 'body2',
                 color: 'text.secondary',
                 hoverColor: 'inherit',
+                variant: 'body2',
               },
+              titleProps: { variant: 'h7' },
             },
+            companyName: site?.company_title,
           }}
         />
       )}

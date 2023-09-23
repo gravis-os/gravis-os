@@ -1,25 +1,27 @@
 import React, { useMemo, useState } from 'react'
-import { Form, FormSections } from '@gravis-os/form'
-import { Alert } from '@gravis-os/ui'
 import toast from 'react-hot-toast'
-import { useRouter } from 'next/router'
+
+import { Form, FormSections } from '@gravis-os/form'
 import { FormCategoryEnum } from '@gravis-os/types'
-import freeEmailDomains from 'free-email-domains'
-import * as yup from 'yup'
+import { Alert } from '@gravis-os/ui'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { parsePhoneNumber } from 'awesome-phonenumber'
-import { postEnquiry } from '../enquiries/common/postEnquiry'
+import freeEmailDomains from 'free-email-domains'
+import { useRouter } from 'next/router'
+import * as yup from 'yup'
+
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
+import { postEnquiry } from '../enquiries/common/postEnquiry'
 import { useLayout } from '../providers/LayoutProvider'
 
 export interface ContactFormProps {
-  onSubmit?: (values: any) => void
   contactSuccessRoute?: string
+  onSubmit?: (values: any) => void
   submitValues?: Record<string, string>
 }
 
 const ContactForm: React.FC<ContactFormProps> = (props) => {
-  const { onSubmit, contactSuccessRoute, submitValues } = props
+  const { contactSuccessRoute, onSubmit, submitValues } = props
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false)
   const router = useRouter()
@@ -56,8 +58,8 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
     if (onSubmit) return onSubmit(values)
     setIsLoading(true)
     await postEnquiry({
-      type: EnquiryTypeEnum.ENQUIRY,
       origin: window.location.href,
+      type: EnquiryTypeEnum.ENQUIRY,
       ...submitValues,
       ...values,
     })
@@ -81,31 +83,17 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
       )}
 
       <Form
-        id={FormCategoryEnum.CONTACT}
-        resetOnSubmitSuccess
         defaultValues={{
-          name: '',
           email: '',
-          mobile: '',
           message: '',
+          mobile: '',
+          name: '',
         }}
-        onSubmit={handleSubmit}
-        submitButtonProps={{
-          title: 'Send Message',
-          variant: 'contained',
-          size: 'large',
-          sx: { mt: 2 },
-          fullWidthOnMobile: true,
-          boxProps: { display: 'flex', justifyContent: 'flex-end' },
-          loading: isLoading,
-        }}
-        useFormProps={{ resolver: yupResolver(contactFormSchema) }}
         formJsx={
           <FormSections
             disableCard
             sections={[
               {
-                key: 'contact',
                 title: 'Contact',
                 fields: [
                   {
@@ -117,30 +105,44 @@ const ContactForm: React.FC<ContactFormProps> = (props) => {
                   {
                     key: 'email',
                     name: 'email',
-                    type: 'email',
                     placeholder: 'What is your email address?',
                     required: true,
+                    type: 'email',
                   },
                   {
                     key: 'mobile',
                     name: 'mobile',
-                    type: 'mobile',
                     placeholder: 'What is your mobile number?',
                     required: true,
+                    type: 'mobile',
                   },
                   {
                     key: 'message',
-                    name: 'message',
-                    type: 'textarea',
                     label: 'Message',
+                    name: 'message',
                     placeholder: 'How may we help you?',
                     required: true,
+                    type: 'textarea',
                   },
                 ],
+                key: 'contact',
               },
             ]}
           />
         }
+        id={FormCategoryEnum.CONTACT}
+        onSubmit={handleSubmit}
+        resetOnSubmitSuccess
+        submitButtonProps={{
+          title: 'Send Message',
+          boxProps: { display: 'flex', justifyContent: 'flex-end' },
+          fullWidthOnMobile: true,
+          loading: isLoading,
+          size: 'large',
+          sx: { mt: 2 },
+          variant: 'contained',
+        }}
+        useFormProps={{ resolver: yupResolver(contactFormSchema) }}
         {...props}
       />
     </div>

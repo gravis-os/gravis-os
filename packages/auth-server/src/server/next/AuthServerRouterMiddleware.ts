@@ -1,8 +1,10 @@
 import type { NextApiHandler } from 'next'
+
 import camelCase from 'lodash/camelCase'
-import withApiAuthAndAuthz from '../utils/withApiAuthAndAuthz'
+
 import config from '../../config/config'
 import initSupabaseAdminClient from '../supabase/initSupabaseAdminClient'
+import withApiAuthAndAuthz from '../utils/withApiAuthAndAuthz'
 
 export interface AuthServerMiddlewareProps {}
 
@@ -21,6 +23,7 @@ const AuthServerRouterMiddleware = (
 ): NextApiHandler => {
   return async (req, res) => {
     const {
+      body,
       method,
       query: { supabase: injectedRoute },
     } = req
@@ -51,13 +54,21 @@ const AuthServerRouterMiddleware = (
 
     try {
       const functionKey = camelCase(route)
-      const result = await SupabaseAdminClient[`${functionKey}`](req.body)
+      const result = await SupabaseAdminClient[`${functionKey}`](body)
       const { data, error } = result
-      if (error) throw new Error(error.message) // Throw the error out for bottom catch
+      if (error) {
+        // Instead of throwing, handle the error functionally
+        console.error('Error at result.error:', error.message)
+        return res
+          .status(500)
+          .json({ error: { message: error.message, statusCode: 500 } })
+      }
       res.status(200).json({ data })
-    } catch (err) {
-      console.error('Error caught:', err.message)
-      res.status(500).json({ error: { statusCode: 500, message: err.message } })
+    } catch (error) {
+      console.error('Error caught:', error.message)
+      res
+        .status(500)
+        .json({ error: { message: error.message, statusCode: 500 } })
     }
   }
 }

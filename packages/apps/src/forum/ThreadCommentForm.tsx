@@ -1,7 +1,8 @@
 import React from 'react'
-import { Button, Card, Stack } from '@gravis-os/ui'
 import { useForm } from 'react-hook-form'
+
 import { ControlledHtmlField } from '@gravis-os/fields'
+import { Button, Card, Stack } from '@gravis-os/ui'
 
 export interface ThreadCommentFormProps {
   onSubmit?: (values: any) => void
@@ -22,9 +23,9 @@ const ThreadCommentForm: React.FC<ThreadCommentFormProps> = (props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={1}>
           <ControlledHtmlField
-            name="content"
-            control={control}
             basic
+            control={control}
+            name="content"
             placeholder="What are your thoughts?"
           />
 

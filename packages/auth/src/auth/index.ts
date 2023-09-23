@@ -1,6 +1,6 @@
-export { withPageAuth } from '@supabase/auth-helpers-nextjs'
-
 export { default as AuthProvider } from './AuthProvider'
+
+export { withPageAuth } from '@supabase/auth-helpers-nextjs'
 export * from './AuthProvider'
 
 export { default as AuthForm } from './SupabaseUIAuthForm'

@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/consistent-function-scoping */
+
 import {
   getObjectWithGroupedKeyFromPrefix,
   getObjectWithReplacedValues,
@@ -9,7 +11,7 @@ import flowRight from 'lodash/flowRight'
 // ==============================
 const withSiteVariablesReplacement =
   (routeConfig: Record<string, string>) => (props) => {
-    const { page, site, context } = props
+    const { context, page, site } = props
     const { locale } = context
 
     const localeTitle = site?.locales?.find(

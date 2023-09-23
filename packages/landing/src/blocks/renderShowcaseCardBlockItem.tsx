@@ -1,28 +1,29 @@
 import { Showcase } from '@gravis-os/types'
+
 import { useLayout } from '../providers/LayoutProvider'
 import { BlockProps } from '../web/Block/Block'
 import renderGhostButtonBlockItem from './renderGhostButtonBlockItem'
 
 export interface RenderShowcaseCardBlockItemProps
   extends Omit<BlockProps, 'items' | 'title'> {
-  item: Showcase
   isHero?: boolean
+  item: Showcase
 }
 
 const renderShowcaseCardBlockItem = (
   props: RenderShowcaseCardBlockItemProps
 ) => {
-  const { item, isHero, ...rest } = props
+  const { isHero, item, ...rest } = props
   const {
+    title,
     slug,
     backgroundColor,
-    mode,
-    hero_src,
-    title,
-    subtitle,
-    reverse,
     hero_alt,
+    hero_src,
+    mode,
+    reverse,
     sections,
+    subtitle,
   } = item || {}
   const { routeConfig } = useLayout()
 
@@ -31,28 +32,28 @@ const renderShowcaseCardBlockItem = (
       // Image
       md: 6,
       lg: 7,
-      sx: {
-        height: { xs: 300, md: 'auto' },
-        position: 'relative',
-        overflow: 'hidden',
-      },
       items: [
         {
-          type: 'image',
           title: hero_src,
           boxProps: { sx: { display: 'flex', justifyContent: 'center' } },
           titleProps: {
             alt: hero_alt || 'image-src',
             background: true,
+            boxSx: {
+              bottom: -8,
+              height: '100%',
+            },
             fixedBackground: true,
             scaleOnHover: true,
-            boxSx: {
-              height: '100%',
-              bottom: -8,
-            },
           },
+          type: 'image',
         },
       ],
+      sx: {
+        height: { xs: 300, md: 'auto' },
+        overflow: 'hidden',
+        position: 'relative',
+      },
     },
     {
       // Text
@@ -60,8 +61,8 @@ const renderShowcaseCardBlockItem = (
       lg: 5,
       boxProps: {
         sx: {
-          mt: { xs: 2, md: 4, lg: 5 },
           mb: { xs: 2, md: 7, lg: 8 },
+          mt: { xs: 2, md: 4, lg: 5 },
           mx: { xs: 3, md: 0, lg: 0 },
           [reverse ? 'ml' : 'mr']: {
             xs: 3,
@@ -72,52 +73,53 @@ const renderShowcaseCardBlockItem = (
       },
       items: [
         {
-          type: isHero ? 'h2' : 'h3',
           title,
           titleProps: {
             color: 'text.primary',
-            gutterBottom: true,
             component: isHero ? 'h1' : 'h3',
+            gutterBottom: true,
           },
+          type: isHero ? 'h2' : 'h3',
         },
         {
-          type: 'subtitle3',
           title: subtitle,
-          titleProps: {
-            color: 'text.secondary',
-          },
           boxProps: {
             minHeight: 110,
           },
+          titleProps: {
+            color: 'text.secondary',
+          },
+          type: 'subtitle3',
         },
         !isHero &&
           (sections.leftGridSticky?.items?.length ||
             sections.rightGridSticky?.items?.length ||
             sections.gallery?.items?.length) &&
           renderGhostButtonBlockItem({
-            overline: 'Showcase',
             title: 'Read more',
-            boxProps: { mt: 5, mb: { xs: 5, md: 0 } },
+            boxProps: { mb: { xs: 5, md: 0 }, mt: 5 },
             href: `${routeConfig?.SHOWCASES}/${slug || ''}`,
+            overline: 'Showcase',
           }),
       ],
     },
   ]
 
-  const nextGridItems = reverse ? gridItems.slice().reverse() : gridItems
+  // eslint-disable-next-line fp/no-mutating-methods
+  const nextGridItems = reverse ? [...gridItems].reverse() : [...gridItems]
 
   return {
-    type: 'grid',
-    maxWidth: 'xl',
-    sx: { mt: { xs: isHero ? 4 : 6, md: isHero ? 6 : 8 } },
-    mode,
     boxProps: { sx: { backgroundColor, borderRadius: 1 } },
+    gridItems: nextGridItems,
     gridProps: {
       reverse: { xs: !reverse, md: reverse },
       spacing: 3,
       sx: { textAlign: { xs: 'center', md: 'left' } },
     },
-    gridItems: nextGridItems,
+    maxWidth: 'xl',
+    mode,
+    sx: { mt: { xs: isHero ? 4 : 6, md: isHero ? 6 : 8 } },
+    type: 'grid',
     ...rest,
   }
 }

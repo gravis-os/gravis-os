@@ -1,7 +1,8 @@
 import React, { createContext, useContext } from 'react'
-import merge from 'lodash/merge'
+
 import { GravisConfig } from '@gravis-os/types'
 import { createTheme } from '@mui/material/styles'
+import merge from 'lodash/merge'
 
 const defaultLightTheme = createTheme({ palette: { mode: 'light' } })
 const defaultDarkTheme = createTheme({ palette: { mode: 'dark' } })
@@ -10,16 +11,16 @@ const defaultDarkTheme = createTheme({ palette: { mode: 'dark' } })
 // Context
 // ==============================
 const gravisConfigInitialState = {
+  mui: {
+    theme: {
+      dark: defaultDarkTheme,
+      light: defaultLightTheme,
+    },
+  },
   next: {
     version: process.env.NEXT_PUBLIC_GRAVIS_NEXTJS_VERSION
       ? Number(process.env.NEXT_PUBLIC_GRAVIS_NEXTJS_VERSION)
       : 12,
-  },
-  mui: {
-    theme: {
-      light: defaultLightTheme,
-      dark: defaultDarkTheme,
-    },
   },
 } as GravisConfig
 

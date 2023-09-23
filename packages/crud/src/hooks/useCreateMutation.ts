@@ -1,13 +1,14 @@
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { PostgrestResponse } from '@supabase/postgrest-js'
 import {
   MutationFunction,
-  useMutation,
   UseMutationOptions,
   UseMutationResult,
+  useMutation,
   useQueryClient,
 } from 'react-query'
+
 import { CrudModule } from '@gravis-os/types'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { PostgrestResponse } from '@supabase/postgrest-js'
 
 export interface UseCreateActionArg<
   TData = unknown,
@@ -71,7 +72,7 @@ const useCreateMutation = <
     mutationFn: createMutationFunction,
     ...options,
     onSuccess: async (...args) => {
-      queryClient.invalidateQueries([module.table.name])
+      queryClient.invalidateQueries([table.name])
       if (options?.onSuccess) options.onSuccess(...args)
     },
   }

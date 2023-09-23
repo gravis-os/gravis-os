@@ -1,5 +1,6 @@
-import merge from 'lodash/merge'
 import { baseTheme } from '@gravis-os/ui'
+import merge from 'lodash/merge'
+
 import landingTheme from './landingTheme'
 
 const headerFontFamily =
@@ -9,11 +10,11 @@ const subtitleFontFamily = headerFontFamily
 const vercelLandingThemeConfig = {
   typography: {
     h1: {
-      fontFamily: headerFontFamily,
       [baseTheme.light.breakpoints.up('lg')]: {
         fontSize: baseTheme.light.typography.pxToRem(64),
         letterSpacing: '-.04em',
       },
+      fontFamily: headerFontFamily,
     },
     h2: { fontFamily: headerFontFamily },
     h3: { fontFamily: headerFontFamily },
@@ -23,8 +24,8 @@ const vercelLandingThemeConfig = {
 }
 
 const vercelLandingTheme = {
-  light: merge({}, landingTheme.light, vercelLandingThemeConfig),
   dark: merge({}, landingTheme.dark, vercelLandingThemeConfig),
+  light: merge({}, landingTheme.light, vercelLandingThemeConfig),
 }
 
 export default vercelLandingTheme

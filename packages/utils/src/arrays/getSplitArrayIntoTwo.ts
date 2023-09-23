@@ -1,4 +1,4 @@
-function getSplitArrayIntoTwo<T>(arr: T[]): [T[], T[]] | [] {
+function getSplitArrayIntoTwo<T>(arr: T[]): [] | [T[], T[]] {
   if (!Array.isArray(arr)) return []
   const arrayLength = arr.length
   const halfLength = Math.ceil(arrayLength / 2)

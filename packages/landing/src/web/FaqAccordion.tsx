@@ -1,3 +1,5 @@
+import React from 'react'
+
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import {
@@ -6,12 +8,11 @@ import {
   AccordionSummary,
   Typography,
 } from '@mui/material'
-import React from 'react'
 
 export interface FaqAccordionProps {
   items: Array<{
-    title: string
     content: React.ReactNode
+    title: string
   }>
 }
 
@@ -35,27 +36,27 @@ const FaqAccordion: React.FC<FaqAccordionProps> = (props) => {
 
         return (
           <Accordion
-            expanded={isExpanded}
-            onChange={handleChange(title)}
-            key={item.title}
-            square
             disableGutters
+            expanded={isExpanded}
+            key={title}
+            onChange={handleChange(title)}
+            square
             sx={{
-              boxShadow: 'none',
               '&.Mui-expanded': {
                 borderTop: (theme) => `1px solid ${theme.palette.divider}`,
               },
+              boxShadow: 'none',
             }}
           >
             <AccordionSummary
               expandIcon={<ExpansionIcon />}
               sx={{
+                '& .MuiAccordionSummary-content': {
+                  marginBottom: 2,
+                  marginTop: 2,
+                },
                 '&:hover': {
                   backgroundColor: 'background.default',
-                },
-                '& .MuiAccordionSummary-content': {
-                  marginTop: 2,
-                  marginBottom: 2,
                 },
               }}
             >

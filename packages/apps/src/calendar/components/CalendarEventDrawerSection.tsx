@@ -1,6 +1,8 @@
 import React, { FC } from 'react'
+
 import { Box, BoxProps, Typography } from '@gravis-os/ui'
 import get from 'lodash/get'
+
 import type { CalendarEventApi, CalendarEventDrawerDef } from '../types'
 
 interface CalendarEventDrawerSectionProps extends BoxProps {
@@ -14,7 +16,7 @@ const CalendarEventDrawerSection: FC<CalendarEventDrawerSectionProps> = (
   props
 ) => {
   const { event, eventDrawerDef, ...rest } = props
-  const { render, name, title } = eventDrawerDef
+  const { title, name, render } = eventDrawerDef
 
   const { extendedProps } = event
   const { data } = extendedProps

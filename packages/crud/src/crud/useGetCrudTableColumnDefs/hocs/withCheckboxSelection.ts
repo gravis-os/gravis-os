@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/consistent-function-scoping */
+
 const withCheckboxSelection = () => (columnDefs) => {
   return columnDefs.map((columnDef) => {
     const { hasCheckboxSelection } = columnDef

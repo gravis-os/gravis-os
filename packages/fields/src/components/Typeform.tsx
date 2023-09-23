@@ -1,6 +1,6 @@
 import React from 'react'
-import { create } from 'zustand'
-import { useForm, UseFormReturn } from 'react-hook-form'
+import { UseFormReturn, useForm } from 'react-hook-form'
+
 import {
   Box,
   BoxProps,
@@ -10,18 +10,18 @@ import {
   Typography,
   TypographyProps,
 } from '@gravis-os/ui'
+import { create } from 'zustand'
 
 // ==============================
 // State
 // ==============================
 export interface TypeformState {
-  values: Record<string, unknown>
   add: (newItems: Record<string, unknown>) => void
   reset: () => void
+  values: Record<string, unknown>
 }
 
 export const useTypeformStore = create<TypeformState>((set) => ({
-  values: {},
   add: (newValues) =>
     set((state) => ({
       values: {
@@ -30,6 +30,7 @@ export const useTypeformStore = create<TypeformState>((set) => ({
       },
     })),
   reset: () => set({ values: {} }),
+  values: {},
 }))
 
 // ==============================
@@ -37,48 +38,48 @@ export const useTypeformStore = create<TypeformState>((set) => ({
 // ==============================
 export interface TypeformItemRenderProps {
   form: UseFormReturn
+  slider: SliderRenderItemProps
   store: TypeformState
   values: TypeformState['values']
-  slider: SliderRenderItemProps
 }
 
 export interface TypeformItemProps {
-  key: string
-
-  icon?: React.ReactNode
-  title?: React.ReactNode
-  titleProps?: TypographyProps
-  subtitle?: React.ReactNode
-  subtitleProps?: TypographyProps
-
   commonProps?: {
-    titleProps?: TypographyProps
     subtitleProps?: TypographyProps
+    titleProps?: TypographyProps
   }
 
-  render: (renderProps: TypeformItemRenderProps) => React.ReactNode
+  containerSx?: BoxProps['sx']
+  icon?: React.ReactNode
+  key: string
   onSubmit?: (
     values: TypeformState['values'],
     renderProps: TypeformItemRenderProps
   ) => Promise<void> | void
+  render: (renderProps: TypeformItemRenderProps) => React.ReactNode
 
-  containerSx?: BoxProps['sx']
+  subtitle?: React.ReactNode
+
+  subtitleProps?: TypographyProps
+  title?: React.ReactNode
+
+  titleProps?: TypographyProps
 }
 
 const renderTypeformItem =
   (props: TypeformItemProps) => (sliderProps: SliderRenderItemProps) => {
     const {
-      icon,
       title,
-      titleProps,
-      subtitle,
-      subtitleProps,
-
-      render,
-      onSubmit: injectedOnSubmit,
-
       commonProps = {},
       containerSx,
+      icon,
+      onSubmit: injectedOnSubmit,
+
+      render,
+      subtitle,
+
+      subtitleProps,
+      titleProps,
     } = props
     const { next } = sliderProps
 
@@ -91,7 +92,7 @@ const renderTypeformItem =
     const { add, values } = store
 
     // Render Props
-    const renderProps = { values, form, store, slider: sliderProps }
+    const renderProps = { form, slider: sliderProps, store, values }
 
     // Methods
     const onSubmit = (newValues) => {
@@ -120,8 +121,8 @@ const renderTypeformItem =
         {/* Title */}
         {title && (
           <Typography
-            variant="h3"
             gutterBottom
+            variant="h3"
             {...commonProps.titleProps}
             {...titleProps}
           >
@@ -132,8 +133,8 @@ const renderTypeformItem =
         {/* Subtitle */}
         {subtitle && (
           <Typography
-            variant="body1"
             color="text.secondary"
+            variant="body1"
             {...commonProps.subtitleProps}
             {...subtitleProps}
           >
@@ -156,18 +157,18 @@ const renderTypeformItem =
   }
 
 export interface TypeformProps {
+  center?: boolean
+  height?: number | string
+
   items: TypeformItemProps[]
+  minHeight?: number | string
   sliderProps?: Omit<SliderProps, 'items'>
+  subtitleProps?: TypographyProps
 
   // Container
   sx?: BoxProps['sx']
-  height?: string | number
-  minHeight?: string | number
-  center?: boolean
-
   // Shared title props
   titleProps?: TypographyProps
-  subtitleProps?: TypographyProps
 }
 
 /**
@@ -177,14 +178,14 @@ export interface TypeformProps {
  */
 const Typeform: React.FC<TypeformProps> = (props) => {
   const {
-    items,
-    titleProps,
-    subtitleProps,
     center,
-    minHeight,
     height,
-    sx,
+    items,
+    minHeight,
     sliderProps,
+    subtitleProps,
+    sx,
+    titleProps,
   } = props
 
   const nextItems = items.map((item) =>
@@ -193,8 +194,8 @@ const Typeform: React.FC<TypeformProps> = (props) => {
 
       // Common Props
       commonProps: {
-        titleProps,
         subtitleProps,
+        titleProps,
       },
 
       // Container of the box
@@ -202,9 +203,9 @@ const Typeform: React.FC<TypeformProps> = (props) => {
         height,
         minHeight,
         ...(center && {
+          alignItems: 'center',
           display: 'flex',
           flexDirection: 'column',
-          alignItems: 'center',
           justifyContent: 'center',
         }),
         ...sx,
@@ -212,7 +213,7 @@ const Typeform: React.FC<TypeformProps> = (props) => {
     })
   )
 
-  return <Slider items={nextItems} disableDrag {...sliderProps} />
+  return <Slider disableDrag items={nextItems} {...sliderProps} />
 }
 
 export default Typeform

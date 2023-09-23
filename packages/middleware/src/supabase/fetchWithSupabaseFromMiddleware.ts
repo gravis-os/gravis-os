@@ -7,15 +7,15 @@
  * So, we're constructing our own light-weight fetcher here.
  */
 const fetchWithSupabaseFromMiddleware = async ({
-  from,
-  select = '*',
-  match,
   config,
+  from,
+  match,
+  select = '*',
 }: {
-  from: string // table.name
-  select?: string
-  match?: Record<string, string>
   config?: Record<string, unknown> & { headers?: Record<string, unknown> }
+  from: string // table.name
+  match?: Record<string, string>
+  select?: string
 }) => {
   const matchString =
     match &&
@@ -32,8 +32,8 @@ const fetchWithSupabaseFromMiddleware = async ({
     {
       ...config,
       headers: {
-        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
         apiKey: `${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
         ...config?.headers,
       },
     }

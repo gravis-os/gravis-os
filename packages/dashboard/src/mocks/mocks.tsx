@@ -1,13 +1,14 @@
 import React from 'react'
+
 import { Box, Stack, Typography } from '@gravis-os/ui'
-import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
 import ChevronRightOutlinedIcon from '@mui/icons-material/ChevronRightOutlined'
+import ReceiptOutlinedIcon from '@mui/icons-material/ReceiptOutlined'
 
 export const MOCK_LOGO_JSX = (
   <Typography
-    fontWeight="bold"
-    sx={{ lineHeight: 1, letterSpacing: 1 }}
     color="inherit"
+    fontWeight="bold"
+    sx={{ letterSpacing: 1, lineHeight: 1 }}
   >
     LOGO
   </Typography>
@@ -15,46 +16,43 @@ export const MOCK_LOGO_JSX = (
 
 export const MOCK_LIST_ITEMS = [
   {
-    key: 'quotations',
     title: '3 Quotations Pending',
+    key: 'quotations',
     startIcon: <ReceiptOutlinedIcon />,
   },
   {
-    key: 'delivery-orders',
     title: '3 Delivery Orders Pending',
+    key: 'delivery-orders',
     startIcon: <ReceiptOutlinedIcon />,
   },
   {
-    key: 'sales-orders',
     title: '3 Sales Orders Pending',
+    key: 'sales-orders',
     startIcon: <ReceiptOutlinedIcon />,
   },
   {
-    key: 'purchase-orders',
     title: '3 Purchase Orders Pending',
+    key: 'purchase-orders',
     startIcon: <ReceiptOutlinedIcon />,
   },
-  { key: 'divider', divider: true },
+  { divider: true, key: 'divider' },
   {
-    key: 'view-all-orders',
     title: 'View All Orders',
-    startIcon: <ReceiptOutlinedIcon />,
     endIcon: <ChevronRightOutlinedIcon />,
+    key: 'view-all-orders',
+    startIcon: <ReceiptOutlinedIcon />,
   },
 ]
 
 export const MOCK_TABS = [
   {
-    key: 'finance',
-    value: 'finance',
-    label: 'Finance',
     children: (
       <Box p={3}>
         <Stack spacing={2}>
           {/* Header */}
           <Box>
             <Typography variant="h4">Finance Overview</Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography color="text.secondary" variant="body1">
               View finance progress
             </Typography>
           </Box>
@@ -94,41 +92,44 @@ export const MOCK_TABS = [
         </Stack>
       </Box>
     ),
+    key: 'finance',
+    label: 'Finance',
+    value: 'finance',
   },
   {
-    key: 'sales',
-    value: 'sales',
-    label: 'Sales',
     children: (
       <Box p={3}>
         <Stack spacing={2}>
           {/* Header */}
           <Box>
             <Typography variant="h4">Sales Overview</Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography color="text.secondary" variant="body1">
               View sales progress
             </Typography>
           </Box>
         </Stack>
       </Box>
     ),
+    key: 'sales',
+    label: 'Sales',
+    value: 'sales',
   },
   {
-    key: 'procurement',
-    value: 'procurement',
-    label: 'Procurement',
     children: (
       <Box p={3}>
         <Stack spacing={2}>
           {/* Header */}
           <Box>
             <Typography variant="h4">Procurement Overview</Typography>
-            <Typography variant="body1" color="text.secondary">
+            <Typography color="text.secondary" variant="body1">
               View procurement progress
             </Typography>
           </Box>
         </Stack>
       </Box>
     ),
+    key: 'procurement',
+    label: 'Procurement',
+    value: 'procurement',
   },
 ]

@@ -1,16 +1,17 @@
 import React from 'react'
-import { Box, Stack, Link, Typography } from '@gravis-os/ui'
+
 import { CrudItem } from '@gravis-os/types'
+import { Box, Link, Stack, Typography } from '@gravis-os/ui'
 
 export interface CategorysAppBarProps {
-  items: CrudItem[]
   getHref: (item: Record<string, any>) => string
-  size?: 'small' | 'medium'
+  items: CrudItem[]
+  size?: 'medium' | 'small'
   title?: React.ReactNode
 }
 
 const CategorysAppBar: React.FC<CategorysAppBarProps> = (props) => {
-  const { title, size = 'medium', items, getHref } = props
+  const { title, getHref, items, size = 'medium' } = props
 
   if (!items?.length) return null
 
@@ -18,14 +19,14 @@ const CategorysAppBar: React.FC<CategorysAppBarProps> = (props) => {
 
   return (
     <Stack
-      verticalDividers
-      spacing={isSmall ? 2 : 3}
-      direction="row"
       alignItems="center"
+      direction="row"
+      spacing={isSmall ? 2 : 3}
       sx={{
-        overflowX: 'scroll',
         '&::-webkit-scrollbar': { display: 'none' },
+        overflowX: 'scroll',
       }}
+      verticalDividers
     >
       {title}
       {items?.map((item) => {

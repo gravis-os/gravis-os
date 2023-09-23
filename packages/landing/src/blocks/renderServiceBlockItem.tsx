@@ -6,27 +6,27 @@ export interface RenderServiceBlockItemProps {
 
 const renderServiceBlockItem = (props: RenderServiceBlockItemProps) => {
   const { item } = props
-  const { title, subtitle, href } = item || {}
+  const { title, href, subtitle } = item || {}
 
   return {
     sm: 6,
     md: 4,
     items: [
-      { type: 'link', title, titleProps: { href, variant: 'h5' } },
+      { title, titleProps: { href, variant: 'h5' }, type: 'link' },
       {
-        type: 'body1',
         title: subtitle,
         titleProps: {
+          color: 'text.secondary',
           maxLines: 2,
           maxWidth: true,
-          color: 'text.secondary',
-          sx: { mt: 1, mb: 2 },
+          sx: { mb: 2, mt: 1 },
         },
+        type: 'body1',
       },
       {
-        type: 'link',
         title: 'Learn more',
         titleProps: { href, rightCaret: true, variant: 'body2' },
+        type: 'link',
       },
     ],
   }

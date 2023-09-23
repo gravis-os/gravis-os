@@ -1,27 +1,25 @@
 import React, { useState } from 'react'
+
 import startCase from 'lodash/startCase'
+
 import useRouterQuery from './useRouterQuery'
 
 export interface FilterChip {
   key: string
-  value: unknown
   label: React.ReactNode
+  value: unknown
 }
 
-export type FilterDefOptionValue = string | number | boolean
+export type FilterDefOptionValue = boolean | number | string
 
 export enum FilterDefTypeEnum {
-  Input = 'input',
   Checkbox = 'checkbox',
+  Input = 'input',
 }
 
 export interface FilterDef {
   key: string
-  /**
-   * @default 'checkbox'
-   */
-  type?: FilterDefTypeEnum
-  placeholder?: string
+  label: React.ReactNode
   /**
    * The name of the column to filter on
    */
@@ -30,18 +28,22 @@ export interface FilterDef {
    * The postgrest operator to use
    */
   op: string
-  label: React.ReactNode
   /**
    * An array of option values to filter on
    */
   options?: Array<{
     key: string
+    label: string
     /**
      * The value to filter on
      */
     value: FilterDefOptionValue
-    label: string
   }>
+  placeholder?: string
+  /**
+   * @default 'checkbox'
+   */
+  type?: FilterDefTypeEnum
 }
 
 export interface UseFilterDefsProps {
@@ -49,14 +51,17 @@ export interface UseFilterDefsProps {
 }
 
 export interface UseFilterDefsReturn {
-  filterDefs: FilterDef[]
   filterChips: FilterChip[]
-  isFilterDrawerOpen: boolean
+  filterDefs: FilterDef[]
   getHasFilterChip: (key: string) => boolean
   handleDeleteFilterChip: (filterChipToDelete: FilterChip) => Promise<boolean>
   handleToggleIsFilterDrawerOpen: () => void
+  isFilterDrawerOpen: boolean
   setFilterDrawerOpen: React.Dispatch<React.SetStateAction<boolean>>
 }
+
+const getFilterDefByName = (filterDefs: FilterDef[], name: string): FilterDef =>
+  filterDefs?.find((filterDef) => filterDef.name === name)
 
 export const useFilterDefs = (
   props: UseFilterDefsProps
@@ -70,12 +75,6 @@ export const useFilterDefs = (
 
   // Router
   const { parsedQs, removeQueryString } = useRouterQuery()
-
-  // Methods
-  const getFilterDefByName = (
-    filterDefs: FilterDef[],
-    name: string
-  ): FilterDef => filterDefs?.find((filterDef) => filterDef.name === name)
 
   const getFilterChipLabel = (
     name: FilterDef['name'],
@@ -92,9 +91,10 @@ export const useFilterDefs = (
       if (!filterValue) return
 
       switch (currentFilterDef.type) {
-        case FilterDefTypeEnum.Input:
+        case FilterDefTypeEnum.Input: {
           return filterValue?.replaceAll('%', '')
-        default:
+        }
+        default: {
           const currentOption = currentFilterDef.options.find((option) => {
             return Array.isArray(parsedQsValue)
               ? parsedQsValue.includes(String(option.value))
@@ -102,6 +102,7 @@ export const useFilterDefs = (
           })
           if (!currentOption) return
           return currentOption.label
+        }
       }
     }
 
@@ -135,7 +136,7 @@ export const useFilterDefs = (
         const filterChipLabel = getFilterChipLabel(name, value)
         if (!filterChipLabel) return
 
-        return { key: name, value, label: filterChipLabel }
+        return { key: name, label: filterChipLabel, value }
       })
       .filter(Boolean)
   }
@@ -153,13 +154,13 @@ export const useFilterDefs = (
     setIsFilterDrawerOpen(!isFilterDrawerOpen)
 
   return {
-    filterDefs,
     filterChips,
-    isFilterDrawerOpen,
-    setFilterDrawerOpen: setIsFilterDrawerOpen,
+    filterDefs,
     getHasFilterChip,
     handleDeleteFilterChip,
     handleToggleIsFilterDrawerOpen,
+    isFilterDrawerOpen,
+    setFilterDrawerOpen: setIsFilterDrawerOpen,
   }
 }
 

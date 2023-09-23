@@ -1,6 +1,8 @@
 import React from 'react'
+
 import { StorageAvatar } from '@gravis-os/storage'
-import { Box, Typography, Card, CardProps, Stack } from '@gravis-os/ui'
+import { Box, Card, CardProps, Stack, Typography } from '@gravis-os/ui'
+
 import { Contact } from './types'
 
 export enum ContactBioDirectionEnum {
@@ -9,21 +11,21 @@ export enum ContactBioDirectionEnum {
 }
 
 export interface ContactBioProps {
-  item: Contact
   cardProps?: CardProps
   direction?: ContactBioDirectionEnum
+  item: Contact
 }
 
 const ContactBio: React.FC<ContactBioProps> = (props) => {
   const {
-    item,
     cardProps,
     direction = ContactBioDirectionEnum.Vertical,
+    item,
   } = props
 
   if (!item) return null
 
-  const { avatar_src, avatar_alt, full_name, title, role, mobile, email } = item
+  const { title, avatar_alt, avatar_src, email, full_name, mobile, role } = item
   const displayTitle = full_name || email || title
 
   const avatarSize = 80
@@ -35,21 +37,21 @@ const ContactBio: React.FC<ContactBioProps> = (props) => {
         direction={isHorizontal ? 'row' : 'column'}
         spacing={1}
         sx={{
-          justifyContent: isHorizontal ? 'flex-start' : 'center',
           alignItems: 'center',
+          justifyContent: isHorizontal ? 'flex-start' : 'center',
         }}
       >
         {/* Image */}
         <StorageAvatar
-          src={avatar_src}
           alt={avatar_alt || displayTitle}
           size={isHorizontal ? avatarSize / 2 : avatarSize}
+          src={avatar_src}
         />
 
         {/* Text */}
         <Box>
           <Typography variant="h3">{displayTitle}</Typography>
-          <Typography variant="body1" color="text.secondary">
+          <Typography color="text.secondary" variant="body1">
             {role?.title}
           </Typography>
         </Box>

@@ -1,5 +1,5 @@
-import { useRouter } from 'next/router'
 import { getRelationalObjectKey } from '@gravis-os/form'
+import { useRouter } from 'next/router'
 
 /**
  * useRouterQueryFilters
@@ -63,11 +63,11 @@ const useRouterQueryFilters = (args) => {
     }, {})
 
   const getValidFilters = (filters) => {
-    const filterFieldKeys = filterFields.map((field) => field.key)
+    const filterFieldKeys = new Set(filterFields.map((field) => field.key))
     return (
       Object.entries(filters).reduce((acc, filter) => {
         const [key, value] = filter
-        const isFilterKeyFoundInFilterFields = filterFieldKeys.includes(key)
+        const isFilterKeyFoundInFilterFields = filterFieldKeys.has(key)
         if (!isFilterKeyFoundInFilterFields) return acc
         return { ...acc, [key]: value }
       }, {}) || {}
@@ -89,9 +89,9 @@ const useRouterQueryFilters = (args) => {
   const filters = getValidFilters(routerQuery)
 
   return {
+    filters,
     getRouterQueryFromFilters,
     getValidFilters,
-    filters,
     setFilters,
   }
 }

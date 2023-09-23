@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   Accordion,
   Card,
@@ -7,10 +8,11 @@ import {
   Stack,
   Typography,
 } from '@gravis-os/ui'
-import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
 import { printAddress } from '@gravis-os/utils'
-import { Contact } from './types'
+import InfoOutlinedIcon from '@mui/icons-material/InfoOutlined'
+
 import ContactBio from './ContactBio'
+import { Contact } from './types'
 
 export interface ContactLeafletProps extends CardProps {
   item: Contact
@@ -20,7 +22,7 @@ export interface ContactLeafletProps extends CardProps {
 const ContactLeaflet: React.FC<ContactLeafletProps> = (props) => {
   const { item, showLeadStatus = false, ...rest } = props
 
-  const { title, mobile, email } = item
+  const { title, company, email, lead_status, mobile } = item || {}
 
   return (
     <Card disablePadding {...rest}>
@@ -31,11 +33,10 @@ const ContactLeaflet: React.FC<ContactLeafletProps> = (props) => {
           defaultExpandedKeys={['profile']}
           items={[
             {
-              key: 'profile',
               title: (
                 <Typography
-                  variant="subtitle1"
                   startIcon={<InfoOutlinedIcon color="primary" />}
+                  variant="subtitle1"
                 >
                   Profile
                 </Typography>
@@ -43,27 +44,28 @@ const ContactLeaflet: React.FC<ContactLeafletProps> = (props) => {
               children: (
                 <DescriptionList
                   items={[
-                    { key: 'name', value: title, label: 'Name' },
-                    { key: 'mobile', value: mobile, label: 'Mobile' },
-                    { key: 'email', value: email, label: 'Email' },
+                    { key: 'name', label: 'Name', value: title },
+                    { key: 'mobile', label: 'Mobile', value: mobile },
+                    { key: 'email', label: 'Email', value: email },
                     {
                       key: 'company',
-                      value: item.company?.title,
                       label: 'Company',
+                      value: company?.title,
                     },
                     {
                       key: 'address',
-                      value: printAddress(item),
                       label: 'Address',
+                      value: printAddress(item),
                     },
                     showLeadStatus && {
                       key: 'lead_status',
-                      value: item?.lead_status,
                       label: 'Lead Status',
+                      value: lead_status,
                     },
                   ]}
                 />
               ),
+              key: 'profile',
             },
           ]}
         />

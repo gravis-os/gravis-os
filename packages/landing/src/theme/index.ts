@@ -9,6 +9,6 @@ export * from './ThemeProvider'
 
 export {
   UserPreferencesProvider,
-  useUserPreferences,
   createEmotionCache,
+  useUserPreferences,
 } from '@gravis-os/theme'

@@ -1,6 +1,6 @@
 export type AppProps = {
-  text?: string
   description?: string
+  text?: string
 }
 
 export type RenderPropsFunction<RenderProps> = (
@@ -11,8 +11,8 @@ export type RenderPropsFunction<RenderProps> = (
 // Nav
 // ==============================
 export interface NavConfigItem {
-  key: string
   items?: NavConfigItem[]
+  key: string
 }
 
 export interface Option<T = string> {

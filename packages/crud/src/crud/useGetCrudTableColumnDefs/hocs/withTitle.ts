@@ -1,5 +1,5 @@
 const withTitle =
-  ({ isDesktop, disableTitle }) =>
+  ({ disableTitle, isDesktop }) =>
   (columnDefs) =>
     disableTitle
       ? columnDefs

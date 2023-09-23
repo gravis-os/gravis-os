@@ -16,8 +16,8 @@ const fetchWorkspaceByCustomDomainFromMiddleware = async (
 
   const { data } = await fetchWithSupabaseFromMiddleware({
     from: 'workspace',
-    select: 'id, title, slug, custom_domain',
     match: { custom_domain: customDomain },
+    select: 'id, title, slug, custom_domain',
   })
 
   return data?.[0]

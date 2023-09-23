@@ -1,15 +1,16 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles'
-import typography from './typography'
-import lightPalette from './lightPalette'
-import components from './components'
+
 import breakpoints from './breakpoints'
+import components from './components'
+import lightPalette from './lightPalette'
+import typography from './typography'
 
 const lightTheme = responsiveFontSizes(
   createTheme({
+    breakpoints,
+    components,
     palette: lightPalette,
     typography,
-    components,
-    breakpoints,
   })
 )
 

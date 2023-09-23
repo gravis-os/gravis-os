@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/consistent-function-scoping */
+
 import { CrudItem } from '@gravis-os/types'
 
 const withExclusiveLocales =
@@ -20,7 +22,7 @@ const withExclusiveLocales =
     }
 
     return isArrayItems
-      ? itemOrItems.filter(filterByExclusiveLocales)
+      ? itemOrItems.filter((item) => filterByExclusiveLocales(item))
       : filterByExclusiveLocales(itemOrItems)
   }
 

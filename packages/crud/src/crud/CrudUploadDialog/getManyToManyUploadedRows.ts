@@ -14,7 +14,6 @@ const getManyToManyUploadedRows = (
     )
 
     return {
-      tableName: relationTableName,
       rows:
         flatten(
           uploadedRows?.map((row, index) => {
@@ -23,13 +22,14 @@ const getManyToManyUploadedRows = (
 
             const nextRows =
               foreignTableIds?.map((foreignTableId) => ({
-                [`${mainTableName}_id`]: mainTableId,
                 [`${foreignTableName}_id`]: Number(foreignTableId),
+                [`${mainTableName}_id`]: mainTableId,
               })) || []
 
             return nextRows
           })
         ) || [],
+      tableName: relationTableName,
     }
   })
 

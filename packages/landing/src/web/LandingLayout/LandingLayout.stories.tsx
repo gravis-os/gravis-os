@@ -1,26 +1,15 @@
+import React from 'react'
+
 import { MOCK_HEADER_PROPS } from '@gravis-os/ui'
 import { CssBaseline } from '@mui/material'
-import { createTheme, ThemeProvider } from '@mui/material/styles'
-import React from 'react'
+import { ThemeProvider, createTheme } from '@mui/material/styles'
 import { useDarkMode } from 'storybook-dark-mode'
+
+import InterBold from '../../../public/fonts/Inter/Inter-Bold.ttf'
+import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
 import PublicoHeadlineLight from '../../../public/fonts/Publico/PublicoHeadline-Light-Web.woff2'
 import PublicoTextRoman from '../../../public/fonts/Publico/PublicoText-Roman-Web.woff2'
 import PublicoTextSemibold from '../../../public/fonts/Publico/PublicoText-Semibold-Web.woff2'
-import {
-  MOCK_BLOCK_ALTERNATE_WING_GRID,
-  MOCK_BLOCK_HERO,
-  MOCK_FOOTER_PROPS,
-} from '../../mocks'
-import {
-  appleLandingTheme,
-  gravisLandingTheme,
-  publicoLandingTheme,
-  vercelLandingTheme,
-} from '../../themes'
-import { BlockItemTypeEnum } from '../Block'
-import Blocks from '../Block/Blocks'
-import LandingLayout from './LandingLayout'
-
 // Gravis Theme Images
 import automate_business_hero from '../../../public/Landing/gravisLanding/automate_business_hero.png'
 import feature_1_left_column from '../../../public/Landing/gravisLanding/feature_1_left_column.png'
@@ -44,20 +33,31 @@ import PartnerImdaIcon from '../../../public/Landing/gravisLanding/partner_imda.
 import PartnerMasterCardIcon from '../../../public/Landing/gravisLanding/partner_mastercard.svg'
 import PartnerPaypalIcon from '../../../public/Landing/gravisLanding/partner_paypal.svg'
 import PartnerVisaIcon from '../../../public/Landing/gravisLanding/partner_visa.svg'
-
-import InterBold from '../../../public/fonts/Inter/Inter-Bold.ttf'
-import InterRegular from '../../../public/fonts/Inter/Inter-Regular.ttf'
+import {
+  MOCK_BLOCK_ALTERNATE_WING_GRID,
+  MOCK_BLOCK_HERO,
+  MOCK_FOOTER_PROPS,
+} from '../../mocks'
+import {
+  appleLandingTheme,
+  gravisLandingTheme,
+  publicoLandingTheme,
+  vercelLandingTheme,
+} from '../../themes'
 import getStorybookTitle from '../../utils/getStorybookTitle'
+import { BlockItemTypeEnum } from '../Block'
+import Blocks from '../Block/Blocks'
+import LandingLayout from './LandingLayout'
 
 export default {
   title: getStorybookTitle(LandingLayout.name),
+  args: {
+    blocks: [MOCK_BLOCK_HERO, MOCK_BLOCK_ALTERNATE_WING_GRID],
+    footerProps: MOCK_FOOTER_PROPS,
+    headerProps: MOCK_HEADER_PROPS,
+  },
   component: LandingLayout,
   parameters: { layout: 'fullscreen' },
-  args: {
-    headerProps: MOCK_HEADER_PROPS,
-    footerProps: MOCK_FOOTER_PROPS,
-    blocks: [MOCK_BLOCK_HERO, MOCK_BLOCK_ALTERNATE_WING_GRID],
-  },
 }
 
 export const Basic = ({ blocks, ...rest }) => (
@@ -74,10 +74,10 @@ const useTheme = (theme) => {
   const darkTheme = createTheme(selectedTheme.dark)
 
   return {
-    theme: isDarkMode ? darkTheme : lightTheme,
+    darkTheme,
     isDarkMode,
     lightTheme,
-    darkTheme,
+    theme: isDarkMode ? darkTheme : lightTheme,
   }
 }
 
@@ -94,165 +94,153 @@ export const GravisTheme = (args) => {
   )
 }
 GravisTheme.args = {
-  headerProps: {
-    ...MOCK_HEADER_PROPS,
-    transparent: true,
-    dark: true,
-  },
   blocks: [
     {
-      key: 'hero',
-      maxWidth: 'md',
       center: true,
-      pb: 10,
       items: [
         {
-          type: BlockItemTypeEnum.OVERLINE,
           title: 'Gravis - operating system for modern enterprises',
           titleProps: { color: 'text.primary' },
+          type: BlockItemTypeEnum.OVERLINE,
         },
         {
-          type: BlockItemTypeEnum.H1,
           title: 'Build powerful ERPs faster than ever with Gravis ',
           titleProps: { gutterBottom: true },
+          type: BlockItemTypeEnum.H1,
         },
         {
-          type: BlockItemTypeEnum.SUBTITLE1,
           title:
             'Power next-generation business operations with all the modules you need in one place.',
           titleProps: {
             color: 'text.secondary',
             maxWidth: '60%',
           },
+          type: BlockItemTypeEnum.SUBTITLE1,
         },
 
         {
-          type: BlockItemTypeEnum.STACK,
-          sx: { mt: 3 },
+          stackItems: [
+            {
+              items: [
+                {
+                  title: 'Get Started',
+                  titleProps: {
+                    color: 'secondary',
+                    fullWidthOnMobile: true,
+                    size: 'large',
+                    variant: 'outlined',
+                  },
+                  type: BlockItemTypeEnum.BUTTON,
+                },
+              ],
+            },
+            {
+              items: [
+                {
+                  title: 'Schedule a demo',
+                  titleProps: {
+                    fullWidthOnMobile: true,
+                    size: 'large',
+                    variant: 'contained',
+                  },
+                  type: BlockItemTypeEnum.BUTTON,
+                },
+              ],
+            },
+          ],
           stackProps: {
             center: true,
             direction: 'row',
             reverseDirectionOnMobile: true,
           },
-          stackItems: [
-            {
-              items: [
-                {
-                  type: BlockItemTypeEnum.BUTTON,
-                  title: 'Get Started',
-                  titleProps: {
-                    variant: 'outlined',
-                    size: 'large',
-                    color: 'secondary',
-                    fullWidthOnMobile: true,
-                  },
-                },
-              ],
-            },
-            {
-              items: [
-                {
-                  type: BlockItemTypeEnum.BUTTON,
-                  title: 'Schedule a demo',
-                  titleProps: {
-                    variant: 'contained',
-                    size: 'large',
-                    fullWidthOnMobile: true,
-                  },
-                },
-              ],
-            },
-          ],
+          sx: { mt: 3 },
+          type: BlockItemTypeEnum.STACK,
         },
 
         {
-          maxWidth: 'lg',
-          type: BlockItemTypeEnum.IMAGE,
           title: home_hero,
-          titleProps: {
-            sx: {
-              display: 'flex',
-              alignItems: 'center',
-              justifyContent: 'center',
-              '& > span': { maxHeight: 691 },
-              '& > span > span': { maxHeight: 'inherit' },
-              '& > span > img': { objectFit: 'contain' },
-            },
-          },
           boxProps: {
             mt: 6,
           },
+          maxWidth: 'lg',
+          titleProps: {
+            sx: {
+              '& > span': { maxHeight: 691 },
+              '& > span > img': { objectFit: 'contain' },
+              '& > span > span': { maxHeight: 'inherit' },
+              alignItems: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+            },
+          },
+          type: BlockItemTypeEnum.IMAGE,
         },
 
         {
-          type: BlockItemTypeEnum.GRID,
-          maxWidth: 'lg',
-          sx: { mt: { md: -13 } },
-          gridProps: { alignItems: 'center' },
           gridItems: [
-            { src: PartnerImdaIcon, maxHeight: 31 },
-            { src: PartnerDigitalIndustryIcon, maxHeight: 36 },
-            { src: PartnerEsgIcon, maxHeight: 31 },
-            { src: PartnerVisaIcon, maxHeight: 22 },
-            { src: PartnerMasterCardIcon, maxHeight: 36.72 },
-            { src: PartnerPaypalIcon, maxHeight: 35 },
-          ].map(({ src, maxHeight }) => ({
+            { maxHeight: 31, src: PartnerImdaIcon },
+            { maxHeight: 36, src: PartnerDigitalIndustryIcon },
+            { maxHeight: 31, src: PartnerEsgIcon },
+            { maxHeight: 22, src: PartnerVisaIcon },
+            { maxHeight: 36.72, src: PartnerMasterCardIcon },
+            { maxHeight: 35, src: PartnerPaypalIcon },
+          ].map(({ maxHeight, src }) => ({
             xs: 6,
             md: 4,
             lg: 2,
-            sx: {
-              display: 'flex',
-              justifyContent: 'center',
-              alignItems: 'center',
-            },
             items: [
               {
-                type: BlockItemTypeEnum.SVG,
                 title: src,
                 titleProps: {
                   sx: {
-                    display: 'flex',
-                    alignItems: 'center',
                     '& > svg': { height: maxHeight },
+                    alignItems: 'center',
+                    display: 'flex',
                   },
                 },
+                type: BlockItemTypeEnum.SVG,
               },
             ],
+            sx: {
+              alignItems: 'center',
+              display: 'flex',
+              justifyContent: 'center',
+            },
           })),
+          gridProps: { alignItems: 'center' },
+          maxWidth: 'lg',
+          sx: { mt: { md: -13 } },
+          type: BlockItemTypeEnum.GRID,
         },
       ],
+      key: 'hero',
+      maxWidth: 'md',
+      pb: 10,
     },
     {
-      key: 'features-with-two-columns',
-      maxWidth: 'md',
       center: true,
       dark: true,
-      sx: { backgroundColor: GRAVIS_DEFAULT_BACKGROUND_DARK_MODE },
       items: [
         {
-          type: BlockItemTypeEnum.OVERLINE,
-          titleProps: { color: 'text.primary' },
           title: 'Features',
+          titleProps: { color: 'text.primary' },
+          type: BlockItemTypeEnum.OVERLINE,
         },
         {
-          type: BlockItemTypeEnum.H2,
           title: 'A Powerful All-in-One Platform for Retailers & Distributors',
           titleProps: { gutterBottom: true },
+          type: BlockItemTypeEnum.H2,
         },
         {
-          type: BlockItemTypeEnum.SUBTITLE2,
           title:
             'Answer a few short questions and we’ll help you find the right services for your business.',
           titleProps: {
             color: 'text.secondary',
             maxWidth: true,
           },
+          type: BlockItemTypeEnum.SUBTITLE2,
         },
         {
-          type: BlockItemTypeEnum.GRID,
-          maxWidth: 'lg',
-          sx: { mt: { xs: 5, md: 9 } },
-          gridProps: { spacing: { xs: 5, md: 9 } },
           gridItems: [
             {
               title: 'Omnichannel Retail Management',
@@ -284,20 +272,16 @@ GravisTheme.args = {
               body: 'Sync orders from multiple sales channels with inventory and accounting to boost business efficiency.',
               src: feature_3_right_column,
             },
-          ].map(({ src, title, body }) => ({
-            key: body,
-            type: BlockItemTypeEnum.GRID,
+          ].map(({ title, body, src }) => ({
             md: 6,
-            sx: { textAlign: { xs: 'center', md: 'left' } },
-            gridProps: { spacing: { xs: 3 } },
             gridItems: [
               {
                 sm: 4,
                 items: [
                   {
-                    type: BlockItemTypeEnum.IMAGE,
                     title: src,
                     titleProps: { gutterBottom: true },
+                    type: BlockItemTypeEnum.IMAGE,
                   },
                 ],
               },
@@ -305,446 +289,439 @@ GravisTheme.args = {
                 sm: 8,
                 items: [
                   {
-                    type: BlockItemTypeEnum.H5,
                     title,
                     titleProps: { gutterBottom: true },
+                    type: BlockItemTypeEnum.H5,
                   },
                   {
-                    type: BlockItemTypeEnum.BODY1,
                     title: body,
                     titleProps: { color: 'text.secondary' },
+                    type: BlockItemTypeEnum.BODY1,
                   },
                 ],
               },
             ],
+            gridProps: { spacing: { xs: 3 } },
+            key: body,
+            sx: { textAlign: { xs: 'center', md: 'left' } },
+            type: BlockItemTypeEnum.GRID,
           })),
+          gridProps: { spacing: { xs: 5, md: 9 } },
+          maxWidth: 'lg',
+          sx: { mt: { xs: 5, md: 9 } },
+          type: BlockItemTypeEnum.GRID,
         },
       ],
+      key: 'features-with-two-columns',
+      maxWidth: 'md',
+      sx: { backgroundColor: GRAVIS_DEFAULT_BACKGROUND_DARK_MODE },
     },
     {
-      key: 'integrated-workflows',
-      maxWidth: 'lg',
       items: [
         {
-          type: BlockItemTypeEnum.GRID,
-          gridProps: {
-            spacing: 0,
-            sx: {
-              borderRadius: 4,
-              backgroundImage: `url("${integrated_workflows_background?.src}")`,
-              backgroundSize: 'cover',
-            },
-          },
           gridItems: [
             {
-              maxWidth: 'md',
-              gridProps: { spacing: 0 },
               gridItems: [
                 {
                   xs: 0,
                   sm: 6,
                   md: 5,
-                  sx: {
-                    pt: { md: 4.75 },
-                    display: { xs: 'none', sm: 'flex' },
-                    alignItems: 'flex-end',
-                  },
                   items: [
                     {
-                      type: BlockItemTypeEnum.IMAGE,
                       title: integrated_workflows_hero,
                       titleProps: {
                         sx: {
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
                           '& > span': { maxHeight: 365 },
-                          '& > span > span': { maxHeight: 'inherit' },
                           '& > span > img': { objectFit: 'cover' },
+                          '& > span > span': { maxHeight: 'inherit' },
+                          alignItems: 'center',
+                          display: 'flex',
+                          justifyContent: 'center',
                         },
                       },
+                      type: BlockItemTypeEnum.IMAGE,
                     },
                   ],
+                  sx: {
+                    alignItems: 'flex-end',
+                    display: { xs: 'none', sm: 'flex' },
+                    pt: { md: 4.75 },
+                  },
                 },
                 {
                   xs: 12,
                   sm: 6,
                   md: 7,
-                  sx: {
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    justifyContent: 'center',
-                    textAlign: 'left',
-                    py: { xs: 3, sm: 4, md: 0 },
-                    px: { xs: 4, sm: 0 },
-                  },
                   items: [
                     {
-                      type: BlockItemTypeEnum.OVERLINE,
                       title: 'Integrated Workflows',
+                      type: BlockItemTypeEnum.OVERLINE,
                     },
                     {
-                      type: BlockItemTypeEnum.H3,
                       title: 'Build your custom ERP platform today',
-                      titleProps: { gutterBottom: true, color: 'common.white' },
+                      titleProps: { color: 'common.white', gutterBottom: true },
+                      type: BlockItemTypeEnum.H3,
                     },
                     {
-                      type: BlockItemTypeEnum.BODY1,
                       title:
                         'No hefty development fees and long lead times. Get your system up and running in a matter of  weeks.',
                       titleProps: { color: 'text.secondary' },
+                      type: BlockItemTypeEnum.BODY1,
                     },
                     {
-                      type: BlockItemTypeEnum.BUTTON,
                       title: 'Schedule a demo',
                       titleProps: {
-                        variant: 'contained',
                         color: 'secondary',
                         size: 'large',
                         sx: { mt: 2 },
+                        variant: 'contained',
                       },
+                      type: BlockItemTypeEnum.BUTTON,
                     },
                   ],
+                  sx: {
+                    alignItems: 'flex-start',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    px: { xs: 4, sm: 0 },
+                    py: { xs: 3, sm: 4, md: 0 },
+                    textAlign: 'left',
+                  },
                 },
               ],
+              gridProps: { spacing: 0 },
+              maxWidth: 'md',
             },
           ],
+          gridProps: {
+            spacing: 0,
+            sx: {
+              backgroundImage: `url("${integrated_workflows_background?.src}")`,
+              backgroundSize: 'cover',
+              borderRadius: 4,
+            },
+          },
+          type: BlockItemTypeEnum.GRID,
         },
       ],
+      key: 'integrated-workflows',
+      maxWidth: 'lg',
     },
     {
-      key: 'industries',
-      maxWidth: 'md',
-      pt: 0,
       center: true,
       items: [
         {
-          type: BlockItemTypeEnum.OVERLINE,
-          titleProps: { color: 'text.primary' },
           title: 'Industries',
+          titleProps: { color: 'text.primary' },
+          type: BlockItemTypeEnum.OVERLINE,
         },
         {
-          type: BlockItemTypeEnum.H2,
           title:
             'The all-in-one platform builder for Products, Sales, Finance and more',
           titleProps: { gutterBottom: true },
+          type: BlockItemTypeEnum.H2,
         },
         {
-          type: BlockItemTypeEnum.SUBTITLE2,
           title: 'We handle the admin while you focus on growth.',
           titleProps: {
             color: 'text.secondary',
             maxWidth: true,
           },
+          type: BlockItemTypeEnum.SUBTITLE2,
         },
         {
-          maxWidth: 'lg',
-          sx: { mt: 8 },
-          gridProps: { spacing: 3 },
-          type: BlockItemTypeEnum.GRID,
           gridItems: [
             {
               title: 'Simplify scheduling',
+              button: 'See top features',
+              imageBoxProps: { mb: -0.875 },
+              src: industry_thumbnail_1,
               subtitle:
                 'Manage your availability from the app, let customers book online, and send reminders.',
-              button: 'See top features',
-              src: industry_thumbnail_1,
-              imageBoxProps: { mb: -0.875 },
             },
             {
               title: 'Manage Workflows',
-              subtitle:
-                'Manage your availability from the app, let customers book online, and send reminders.',
               button: 'See top features',
+              imageBoxProps: { mb: -0.875, mr: -8 },
               src: industry_thumbnail_2,
-              imageBoxProps: { mr: -8, mb: -0.875 },
+              subtitle:
+                'Manage your availability from the app, let customers book online, and send reminders.',
             },
             {
               title: 'Simplify scheduling',
-              subtitle:
-                'Manage your availability from the app, let customers book online, and send reminders.',
               button: 'See top features',
-              src: industry_thumbnail_3,
               imageBoxProps: { ml: -8 },
+              src: industry_thumbnail_3,
+              subtitle:
+                'Manage your availability from the app, let customers book online, and send reminders.',
             },
             {
               title: 'Simplify scheduling',
+              button: 'See top features',
+              imageBoxProps: { mb: -0.875 },
+              src: industry_thumbnail_1,
               subtitle:
                 'Manage your availability from the app, let customers book online, and send reminders.',
-              button: 'See top features',
-              src: industry_thumbnail_1,
-              imageBoxProps: { mb: -0.875 },
             },
-          ].map(({ src, title, subtitle, button, imageBoxProps }) => ({
+          ].map(({ title, button, imageBoxProps, src, subtitle }) => ({
             md: 6,
             boxProps: {
-              height: { xs: 500, sm: 600 },
-              textAlign: 'center',
               border: '1px solid #EBEBEE',
               borderRadius: 4,
-              pt: { xs: 3, sm: 6 },
-              px: { xs: 3, sm: 6 },
-              pb: -2,
-              overflow: 'hidden',
               display: 'flex',
               flexDirection: 'column',
+              height: { xs: 500, sm: 600 },
+              overflow: 'hidden',
+              pb: -2,
+              pt: { xs: 3, sm: 6 },
+              px: { xs: 3, sm: 6 },
+              textAlign: 'center',
             },
             items: [
               {
-                type: BlockItemTypeEnum.H3,
                 title,
                 titleProps: { gutterBottom: true },
+                type: BlockItemTypeEnum.H3,
               },
               {
-                type: BlockItemTypeEnum.BODY1,
                 title: subtitle,
+                type: BlockItemTypeEnum.BODY1,
               },
               {
-                type: BlockItemTypeEnum.BUTTON,
                 title: button,
                 titleProps: { color: 'secondary', sx: { mt: 2.5 } },
+                type: BlockItemTypeEnum.BUTTON,
               },
               {
-                type: BlockItemTypeEnum.IMAGE,
                 title: src,
                 boxProps: {
                   ...imageBoxProps,
-                  flex: 1,
-                  display: 'flex',
                   alignItems: 'flex-end',
+                  display: 'flex',
+                  flex: 1,
                 },
                 titleProps: {
-                  textAlign: { xs: 'center', md: 'left' },
                   sx: {
                     '& > span > img': { objectFit: 'contain' },
                   },
+                  textAlign: { xs: 'center', md: 'left' },
                 },
+                type: BlockItemTypeEnum.IMAGE,
               },
             ],
           })),
+          gridProps: { spacing: 3 },
+          maxWidth: 'lg',
+          sx: { mt: 8 },
+          type: BlockItemTypeEnum.GRID,
         },
       ],
+      key: 'industries',
+      maxWidth: 'md',
+      pt: 0,
     },
     {
-      key: 'integrated-workflows-alt',
-      maxWidth: 'lg',
       center: true,
       items: [
         {
-          type: BlockItemTypeEnum.GRID,
-          gridProps: {
-            spacing: 0,
-            sx: {
-              borderRadius: 4,
-              backgroundImage: `url("${integrated_workflows_background?.src}")`,
-              backgroundSize: 'cover',
-            },
-          },
           gridItems: [
             {
-              maxWidth: 'md',
-              gridProps: { spacing: 0 },
               gridItems: [
                 {
                   xs: 0,
                   sm: 6,
                   md: 5,
-                  sx: {
-                    pt: { md: 4.75 },
-                    display: { xs: 'none', sm: 'flex' },
-                    alignItems: 'flex-end',
-                  },
                   items: [
                     {
-                      type: BlockItemTypeEnum.IMAGE,
                       title: integrated_workflows_hero,
                       titleProps: {
                         sx: {
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
                           '& > span': { maxHeight: 365 },
-                          '& > span > span': { maxHeight: 'inherit' },
                           '& > span > img': { objectFit: 'cover' },
+                          '& > span > span': { maxHeight: 'inherit' },
+                          alignItems: 'center',
+                          display: 'flex',
+                          justifyContent: 'center',
                         },
                       },
+                      type: BlockItemTypeEnum.IMAGE,
                     },
                   ],
+                  sx: {
+                    alignItems: 'flex-end',
+                    display: { xs: 'none', sm: 'flex' },
+                    pt: { md: 4.75 },
+                  },
                 },
                 {
                   xs: 12,
                   sm: 6,
                   md: 7,
-                  sx: {
-                    display: 'flex',
-                    flexDirection: 'column',
-                    alignItems: 'flex-start',
-                    justifyContent: 'center',
-                    textAlign: 'left',
-                    py: { xs: 3, sm: 4, md: 0 },
-                    px: { xs: 4, sm: 0 },
-                  },
                   items: [
                     {
-                      type: BlockItemTypeEnum.OVERLINE,
                       title: 'Integrated Workflows',
+                      type: BlockItemTypeEnum.OVERLINE,
                     },
                     {
-                      type: BlockItemTypeEnum.H3,
                       title: 'Build your custom ERP platform today',
-                      titleProps: { gutterBottom: true, color: 'common.white' },
+                      titleProps: { color: 'common.white', gutterBottom: true },
+                      type: BlockItemTypeEnum.H3,
                     },
                     {
-                      type: BlockItemTypeEnum.BODY1,
                       title:
                         'No hefty development fees and long lead times. Get your system up and running in a matter of  weeks.',
                       titleProps: { color: 'text.secondary' },
+                      type: BlockItemTypeEnum.BODY1,
                     },
                     {
-                      type: BlockItemTypeEnum.BUTTON,
                       title: 'Schedule a demo',
                       titleProps: {
-                        variant: 'contained',
                         color: 'secondary',
                         size: 'large',
                         sx: { mt: 2 },
+                        variant: 'contained',
                       },
+                      type: BlockItemTypeEnum.BUTTON,
                     },
                   ],
+                  sx: {
+                    alignItems: 'flex-start',
+                    display: 'flex',
+                    flexDirection: 'column',
+                    justifyContent: 'center',
+                    px: { xs: 4, sm: 0 },
+                    py: { xs: 3, sm: 4, md: 0 },
+                    textAlign: 'left',
+                  },
                 },
               ],
+              gridProps: { spacing: 0 },
+              maxWidth: 'md',
             },
           ],
+          gridProps: {
+            spacing: 0,
+            sx: {
+              backgroundImage: `url("${integrated_workflows_background?.src}")`,
+              backgroundSize: 'cover',
+              borderRadius: 4,
+            },
+          },
+          type: BlockItemTypeEnum.GRID,
         },
       ],
+      key: 'integrated-workflows-alt',
+      maxWidth: 'lg',
     },
     {
-      key: 'industries-alt',
-      maxWidth: 'md',
-      pt: 0,
       center: true,
       items: [
         {
-          type: BlockItemTypeEnum.OVERLINE,
-          titleProps: { color: 'text.primary' },
           title: 'Industries',
+          titleProps: { color: 'text.primary' },
+          type: BlockItemTypeEnum.OVERLINE,
         },
         {
-          type: BlockItemTypeEnum.H2,
           title: 'Building incredible platforms doesn’t need to be hard',
           titleProps: { gutterBottom: true },
+          type: BlockItemTypeEnum.H2,
         },
         {
-          type: BlockItemTypeEnum.SUBTITLE2,
           title:
             'Our vision is to help enterprises meet the need for platforms across their business. Here’s what you get with Gravis:',
           titleProps: {
             color: 'text.secondary',
             maxWidth: true,
           },
+          type: BlockItemTypeEnum.SUBTITLE2,
         },
         {
-          maxWidth: 'lg',
-          sx: { mt: 8 },
-          gridProps: { spacing: { xs: 10, md: 3 } },
-          type: BlockItemTypeEnum.GRID,
           gridItems: [
             {
-              icon: IndustryIconFirst,
               title: 'Continuous Delivery',
+              icon: IndustryIconFirst,
               subtitle:
                 'Ship faster and more often with mobile CI/CD products that make building and shipping mobile apps a breeze.',
             },
             {
-              icon: IndustryIconSecond,
               title: 'Better apps, faster',
+              icon: IndustryIconSecond,
               subtitle:
                 'Slash your development time and costs with a platform that lets you write once and deploy anywhere—iOS, Android, and Web.',
             },
             {
-              icon: IndustryIconThird,
               title: 'Continuous Delivery',
+              icon: IndustryIconThird,
               subtitle:
                 'Ship faster and more often with mobile CI/CD products that make building and shipping mobile apps a breeze.',
             },
-          ].map(({ icon, title, subtitle }) => ({
+          ].map(({ title, icon, subtitle }) => ({
             md: 4,
             boxProps: {
               textAlign: { xs: 'center', md: 'left' },
             },
             items: [
               {
-                type: BlockItemTypeEnum.SVG,
                 title: icon,
                 titleProps: {
-                  textAlign: { xs: 'center', md: 'left' },
                   height: 64,
                   sx: {
                     '& > svg': { objectFit: 'contain' },
                   },
+                  textAlign: { xs: 'center', md: 'left' },
                 },
+                type: BlockItemTypeEnum.SVG,
               },
               {
-                type: BlockItemTypeEnum.H4,
                 title,
                 titleProps: { gutterBottom: true, sx: { mt: 4 } },
+                type: BlockItemTypeEnum.H4,
               },
               {
-                type: BlockItemTypeEnum.BODY1,
                 title: subtitle,
                 titleProps: { color: 'text.secondary' },
+                type: BlockItemTypeEnum.BODY1,
               },
             ],
           })),
+          gridProps: { spacing: { xs: 10, md: 3 } },
+          maxWidth: 'lg',
+          sx: { mt: 8 },
+          type: BlockItemTypeEnum.GRID,
         },
       ],
+      key: 'industries-alt',
+      maxWidth: 'md',
+      pt: 0,
     },
     {
-      key: 'automate-business',
-      dark: true,
       center: true,
-      pt: 10,
-      pb: 0,
-      sx: { backgroundColor: 'none' },
-      maxWidth: false,
       containerProps: {
         disableGutters: true,
       },
+      dark: true,
       items: [
         {
-          type: BlockItemTypeEnum.GRID,
-          gridProps: { spacing: 0 },
           gridItems: [
             {
               md: 7,
               lg: 8,
               xl: 7,
+              items: [],
               sx: {
-                height: { xs: BANNER_HEIGHT_XS, sm: BANNER_HEIGHT_SM },
-                backgroundColor: GRAVIS_DEFAULT_BACKGROUND_DARK_MODE,
                 '& > .MuiBox-root': { height: '100%' },
                 '& > .MuiBox-root > .MuiContainer-root': { maxWidth: 680 },
+                backgroundColor: GRAVIS_DEFAULT_BACKGROUND_DARK_MODE,
+                height: { xs: BANNER_HEIGHT_XS, sm: BANNER_HEIGHT_SM },
               },
-              items: [],
             },
             {
               md: 5,
               lg: 4,
               xl: 5,
-              sx: {
-                height: { xs: BANNER_HEIGHT_XS, sm: BANNER_HEIGHT_SM },
-                background: 'linear-gradient(#9FCCF7, #3E9AEF)',
-                display: {
-                  xs: 'none',
-                  md: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                },
-              },
               items: [
                 {
-                  type: BlockItemTypeEnum.IMAGE,
                   title: automate_business_hero,
                   titleProps: {
                     sx: {
@@ -752,24 +729,24 @@ GravisTheme.args = {
                       '& > span > img': { objectFit: 'contain' },
                     },
                   },
+                  type: BlockItemTypeEnum.IMAGE,
                 },
               ],
+              sx: {
+                background: 'linear-gradient(#9FCCF7, #3E9AEF)',
+                display: {
+                  xs: 'none',
+                  md: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                },
+                height: { xs: BANNER_HEIGHT_XS, sm: BANNER_HEIGHT_SM },
+              },
             },
             {
               xs: 12,
-              sx: {
-                position: 'absolute',
-                top: 0,
-                left: 0,
-                width: '100%',
-                height: { xs: BANNER_HEIGHT_XS, sm: BANNER_HEIGHT_SM },
-              },
               containerProps: {
                 maxWidth: 'lg',
-                sx: { height: '100%' },
-              },
-              gridProps: {
-                spacing: 0,
                 sx: { height: '100%' },
               },
               gridItems: [
@@ -777,48 +754,71 @@ GravisTheme.args = {
                   md: 7,
                   lg: 8,
                   xl: 7,
-                  sx: {
-                    textAlign: { xs: 'center', md: 'left' },
-                    display: 'flex',
-                    alignItems: 'center',
-                    px: { xs: 5, lg: 0 },
-                    py: { xs: 5, sm: 0 },
-                  },
                   items: [
                     {
-                      type: BlockItemTypeEnum.OVERLINE,
                       title: 'Retail Beyond Borders',
                       titleProps: { gutterBottom: true },
+                      type: BlockItemTypeEnum.OVERLINE,
                     },
                     {
-                      type: BlockItemTypeEnum.H2,
                       title: 'Automate business processes across the world',
                       titleProps: { gutterBottom: true },
+                      type: BlockItemTypeEnum.H2,
                     },
                     {
-                      type: BlockItemTypeEnum.SUBTITLE2,
                       title:
                         'Multi-currency and country preferences developed for regional expansion. Go regional from Day 1.',
+                      type: BlockItemTypeEnum.SUBTITLE2,
                     },
                     {
-                      type: BlockItemTypeEnum.BUTTON,
                       title: 'Schedule a demo',
                       titleProps: {
-                        variant: 'contained',
                         color: 'secondary',
                         size: 'large',
                         sx: { mt: 6 },
+                        variant: 'contained',
                       },
+                      type: BlockItemTypeEnum.BUTTON,
                     },
                   ],
+                  sx: {
+                    alignItems: 'center',
+                    display: 'flex',
+                    px: { xs: 5, lg: 0 },
+                    py: { xs: 5, sm: 0 },
+                    textAlign: { xs: 'center', md: 'left' },
+                  },
                 },
               ],
+              gridProps: {
+                spacing: 0,
+                sx: { height: '100%' },
+              },
+              sx: {
+                height: { xs: BANNER_HEIGHT_XS, sm: BANNER_HEIGHT_SM },
+                left: 0,
+                position: 'absolute',
+                top: 0,
+                width: '100%',
+              },
             },
           ],
+          gridProps: { spacing: 0 },
+          type: BlockItemTypeEnum.GRID,
         },
       ],
+      key: 'automate-business',
+      maxWidth: false,
+      pb: 0,
+      pt: 10,
+      sx: { backgroundColor: 'none' },
     },
   ],
+  headerProps: {
+    ...MOCK_HEADER_PROPS,
+    dark: true,
+    transparent: true,
+  },
 }
 
 export const PublicoTheme = (args) => {

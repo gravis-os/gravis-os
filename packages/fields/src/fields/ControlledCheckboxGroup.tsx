@@ -1,18 +1,19 @@
 import React from 'react'
 import { Controller, ControllerProps } from 'react-hook-form'
+
 import CheckboxGroup, { CheckboxGroupProps } from './CheckboxGroup'
 
 export interface ControlledCheckboxGroupProps
   extends Omit<CheckboxGroupProps, 'formState'> {
-  name: string
   control: ControllerProps['control']
   controllerProps?: Partial<ControllerProps>
+  name: string
 }
 
 const ControlledCheckboxGroup: React.FC<ControlledCheckboxGroupProps> = (
   props
 ) => {
-  const { name, controllerProps, ...rest } = props
+  const { controllerProps, name, ...rest } = props
   const { required } = rest
   return (
     <Controller

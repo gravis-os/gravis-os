@@ -4,45 +4,43 @@ import renderGhostButtonBlockItem from './renderGhostButtonBlockItem'
 
 export interface RenderCtaBlockProps extends BlockProps {
   item: {
-    title: string
+    hero_alt?: string
+    hero_src?: string
     overline?: string
     subtitle?: string
-    hero_src?: string
-    hero_alt?: string
+    title: string
   }
 }
 
 const renderCtaBlock = (props: RenderCtaBlockProps) => {
   const { item, ...rest } = props
-  const { overline, title, subtitle, hero_src, hero_alt } = item || {}
+  const { title, hero_alt, hero_src, overline, subtitle } = item || {}
   const { routeConfig } = useLayout()
 
   return {
     id: title,
     center: true,
-    maxWidth: 'md',
     items: [
-      { type: 'overline', title: overline },
+      { title: overline, type: 'overline' },
       {
-        type: 'h3',
         title,
-        titleProps: { type: 'h3', maxWidth: 'xl', gutterBottom: true },
+        titleProps: { gutterBottom: true, maxWidth: 'xl', type: 'h3' },
+        type: 'h3',
       },
       {
-        type: 'body1',
         title: subtitle,
         titleProps: {
           color: 'text.secondary',
         },
+        type: 'body1',
       },
       renderGhostButtonBlockItem({
-        boxProps: { mt: 3 },
-        overline: 'Contact Us',
         title: 'Get in Touch',
+        boxProps: { mt: 3 },
         href: `/${routeConfig?.CONTACT}`,
+        overline: 'Contact Us',
       }),
       {
-        type: 'image',
         title: hero_src,
         disableContainer: true,
         titleProps: {
@@ -51,8 +49,10 @@ const renderCtaBlock = (props: RenderCtaBlockProps) => {
           backgroundHeight: { xs: 480, md: 640 },
           backgroundSx: { mt: { xs: 4, md: 8 } },
         },
+        type: 'image',
       },
     ],
+    maxWidth: 'md',
     ...rest,
   }
 }

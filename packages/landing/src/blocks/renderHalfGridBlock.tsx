@@ -5,45 +5,42 @@ import renderGhostButtonBlockItem, {
 } from './renderGhostButtonBlockItem'
 
 export interface RenderHalfGridBlockProps {
-  hero_src?: string
-  hero_alt?: string
-  overline?: string
-  title: string
-  subtitle?: string
-  fullHeight?: boolean
-  reverse?: boolean
   buttonProps?: RenderGhostButtonBlockItemProps
+  fullHeight?: boolean
+  hero_alt?: string
+  hero_src?: string
   items?: BlockProps['items']
+  overline?: string
+  reverse?: boolean
+  subtitle?: string
+  title: string
 }
 
 const renderHalfGridBlock = (props: RenderHalfGridBlockProps) => {
   const {
-    hero_src,
-    hero_alt,
-    overline,
     title,
-    subtitle,
-    fullHeight,
-    reverse,
     buttonProps,
+    fullHeight,
+    hero_alt,
+    hero_src,
     items = [],
+    overline,
+    reverse,
+    subtitle,
   } = props
   const { routeConfig } = useLayout()
 
   return {
     id: title,
-    py: 0,
     disableContainerOnMobile: true,
     items: [
       {
-        type: 'grid',
-        gridProps: { spacing: 0, rowReverse: reverse, overflowX: 'hidden' },
         gridItemProps: {
           xs: 12,
           md: 6,
           sx: {
-            display: 'flex',
             alignItems: 'center',
+            display: 'flex',
             justifyContent: { xs: 'center', md: 'flex-start' },
             textAlign: { xs: 'center', md: 'left' },
           },
@@ -51,64 +48,67 @@ const renderHalfGridBlock = (props: RenderHalfGridBlockProps) => {
         gridItems: [
           // Text
           {
-            sx: {
-              my: { xs: 5, md: 15, xl: 20 },
-              ...(reverse && { pl: { md: 6, lg: 8, xl: 10 } }),
-            },
             items: [
-              { type: 'overline', title: overline },
+              { title: overline, type: 'overline' },
               {
-                type: 'h3',
                 title,
                 titleProps: { gutterBottom: true },
+                type: 'h3',
               },
               {
-                type: 'subtitle1',
                 title: subtitle,
                 titleProps: {
                   color: 'text.secondary',
                   maxWidth: !reverse,
                 },
+                type: 'subtitle1',
               },
               buttonProps &&
                 renderGhostButtonBlockItem({
-                  overline: 'Our Mission',
                   title: 'Enabling Smarter Businesses',
-                  href: routeConfig?.MISSION,
                   boxProps: { mt: 3 },
+                  href: routeConfig?.MISSION,
+                  overline: 'Our Mission',
                   ...buttonProps,
                 }),
               ...items,
             ],
+            sx: {
+              my: { xs: 5, md: 15, xl: 20 },
+              ...(reverse && { pl: { md: 6, lg: 8, xl: 10 } }),
+            },
           },
           // Image
           {
+            items: [
+              {
+                title: hero_src,
+                titleProps: { alt: hero_alt, fill: true },
+                type: 'image',
+              },
+            ],
             sx: {
               ...(fullHeight && {
+                '& .MuiBox-root': { height: '100%', width: '100%' },
+                height: '100%',
                 // Breakout image out of container
                 margin: {
                   md: '0 calc(50% - 50vw)',
                   xxl: '0 calc(50% - 50vw + 8px)',
                 },
-                width: '100%',
-                height: '100%',
                 position: { md: 'absolute' },
                 [reverse ? 'left' : 'right']: 0,
 
-                '& .MuiBox-root': { width: '100%', height: '100%' },
+                width: '100%',
               }),
             },
-            items: [
-              {
-                type: 'image',
-                title: hero_src,
-                titleProps: { alt: hero_alt, fill: true },
-              },
-            ],
           },
         ],
+        gridProps: { overflowX: 'hidden', rowReverse: reverse, spacing: 0 },
+        type: 'grid',
       },
     ],
+    py: 0,
   }
 }
 

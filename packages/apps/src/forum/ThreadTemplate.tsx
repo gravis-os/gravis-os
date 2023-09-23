@@ -1,69 +1,71 @@
 import React from 'react'
-import { Box, Container, Grid, Link, Stack, Typography } from '@gravis-os/ui'
-import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined'
+
 import { useIncrementCount } from '@gravis-os/query'
 import { CrudModuleWithGetWebHref } from '@gravis-os/types'
-import ThreadCard from './ThreadCard'
-import ThreadListItem from './ThreadListItem'
-import ThreadCommentCard from './ThreadCommentCard'
-import { Thread, ThreadComment } from './types'
-import { Listing, ListingListItem } from '../directory'
+import { Box, Container, Grid, Link, Stack, Typography } from '@gravis-os/ui'
+import ArrowRightOutlinedIcon from '@mui/icons-material/ArrowRightOutlined'
+
 import { AdOrder, AdOrderProps } from '../ads'
+import { Listing, ListingListItem } from '../directory'
+import ThreadCard from './ThreadCard'
+import ThreadCommentCard from './ThreadCommentCard'
 import ThreadCommentForm, { ThreadCommentFormProps } from './ThreadCommentForm'
+import ThreadListItem from './ThreadListItem'
+import { Thread, ThreadComment } from './types'
 
 export interface ThreadTemplateProps {
-  item?: Thread
-  threadComments?: ThreadComment[]
-
-  // Modules
-  forumModule: CrudModuleWithGetWebHref
-  forumCategoryModule: CrudModuleWithGetWebHref
-  threadModule: CrudModuleWithGetWebHref
-  threadCommentModule: CrudModuleWithGetWebHref
-  brandModule: CrudModuleWithGetWebHref
-  listingModule: CrudModuleWithGetWebHref
-
-  rightAside?: React.ReactNode
-
-  // Related
-  relatedThreads?: Thread[]
-  relatedThreadsByTag?: Thread[]
-  relatedListingsByTag?: Listing[]
-
   // AdOrderProps
   adOrderProps?: AdOrderProps
+  brandModule: CrudModuleWithGetWebHref
 
+  forumCategoryModule: CrudModuleWithGetWebHref
+  // Modules
+  forumModule: CrudModuleWithGetWebHref
+  item?: Thread
+  listingModule: CrudModuleWithGetWebHref
+  relatedListingsByTag?: Listing[]
+  // Related
+  relatedThreads?: Thread[]
+
+  relatedThreadsByTag?: Thread[]
+
+  rightAside?: React.ReactNode
   // ThreadCommentFormProps
   threadCommentFormProps?: ThreadCommentFormProps
+  threadCommentModule: CrudModuleWithGetWebHref
+
+  threadComments?: ThreadComment[]
+
+  threadModule: CrudModuleWithGetWebHref
 }
 
 const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
   const {
-    item: thread,
-    threadComments,
-    // Modules
-    forumModule,
-    forumCategoryModule,
-    threadModule,
-    threadCommentModule,
-    brandModule,
-    listingModule,
-    // Related
-    relatedThreads,
-    relatedListingsByTag,
-    relatedThreadsByTag,
     // AdOrder
     adOrderProps,
+    brandModule,
+    forumCategoryModule,
+    // Modules
+    forumModule,
+    item: thread,
+    listingModule,
+    relatedListingsByTag,
+    // Related
+    relatedThreads,
+    relatedThreadsByTag,
     // ThreadCommentForm
     threadCommentFormProps,
+    threadCommentModule,
+    threadComments,
+    threadModule,
   } = props
   const forumCategory = thread?.forum_category
   const forum = forumCategory?.forum
 
   useIncrementCount({
+    countColumnName: 'view_count',
     item: thread,
     module: threadModule,
-    countColumnName: 'view_count',
   })
 
   return (
@@ -73,11 +75,11 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
           {/* Breadcrumbs */}
           <Box sx={{ position: 'relative', zIndex: 1 }}>
             <Stack
-              direction="row"
               alignItems="center"
+              direction="row"
+              divider={<ArrowRightOutlinedIcon fontSize="small" />}
               spacing={1}
               verticalDividers
-              divider={<ArrowRightOutlinedIcon fontSize="small" />}
             >
               <Link href={forumModule.getWebHref([forum])}>
                 <Typography variant="overline">{forum?.title}</Typography>
@@ -98,23 +100,23 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
             {/* Main */}
             <Grid item md={8}>
               {/* Title */}
-              <Typography variant="h3" component="h1" sx={{ my: 1 }}>
+              <Typography component="h1" sx={{ my: 1 }} variant="h3">
                 {thread?.title}
               </Typography>
 
               {/* ThreadDetail */}
               <ThreadCard
+                disableTitle
+                forumCategoryModule={forumCategoryModule}
+                isDetail
                 item={thread}
                 threadModule={threadModule}
-                forumCategoryModule={forumCategoryModule}
-                disableTitle
-                isDetail
               />
 
               {/* ThreadCommentForm */}
               {threadCommentFormProps && (
                 <Box sx={{ mt: 3 }}>
-                  <Typography variant="h5" gutterBottom>
+                  <Typography gutterBottom variant="h5">
                     Contribute
                   </Typography>
                   <ThreadCommentForm {...threadCommentFormProps} />
@@ -124,7 +126,7 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
               {/* ThreadComments */}
               {Boolean(threadComments?.length) && (
                 <Box sx={{ mt: 3 }}>
-                  <Typography variant="h5" gutterBottom>
+                  <Typography gutterBottom variant="h5">
                     {threadComments.length} Comments
                   </Typography>
 
@@ -133,12 +135,12 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
                       if (!threadComment) return null
                       return (
                         <ThreadCommentCard
-                          size="small"
-                          key={threadComment.id}
-                          item={threadComment}
-                          threadModule={threadModule}
-                          threadCommentModule={threadCommentModule}
                           forumCategoryModule={forumCategoryModule}
+                          item={threadComment}
+                          key={threadComment.id}
+                          size="small"
+                          threadCommentModule={threadCommentModule}
+                          threadModule={threadModule}
                         />
                       )
                     })}
@@ -152,7 +154,7 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
                 {/* Related listings by tag */}
                 {Boolean(relatedListingsByTag?.length) && (
                   <Box>
-                    <Typography variant="h5" gutterBottom>
+                    <Typography gutterBottom variant="h5">
                       Related Listings
                     </Typography>
                     <Stack spacing={1}>
@@ -160,11 +162,11 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
                         if (!relatedListingByTag) return null
                         return (
                           <ListingListItem
-                            size="small"
-                            key={relatedListingByTag.id}
-                            item={relatedListingByTag}
-                            listingModule={listingModule}
                             brandModule={brandModule}
+                            item={relatedListingByTag}
+                            key={relatedListingByTag.id}
+                            listingModule={listingModule}
+                            size="small"
                           />
                         )
                       })}
@@ -175,7 +177,7 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
                 {/* Related threads by tag */}
                 {Boolean(relatedThreadsByTag?.length) && (
                   <Box>
-                    <Typography variant="h5" gutterBottom>
+                    <Typography gutterBottom variant="h5">
                       Related Threads
                     </Typography>
                     <Stack spacing={1}>
@@ -183,9 +185,9 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
                         if (!relatedThreadByTag) return null
                         return (
                           <ThreadListItem
-                            size="small"
-                            key={relatedThreadByTag.id}
                             item={relatedThreadByTag}
+                            key={relatedThreadByTag.id}
+                            size="small"
                             threadModule={threadModule}
                           />
                         )
@@ -204,19 +206,19 @@ const ThreadTemplate: React.FC<ThreadTemplateProps> = (props) => {
 
       {/* Related Threads */}
       {Boolean(relatedThreads?.length) && (
-        <Box sx={{ py: 4, backgroundColor: 'background.muted' }}>
+        <Box sx={{ backgroundColor: 'background.muted', py: 4 }}>
           <Container>
             <Grid container spacing={2}>
               {relatedThreads.map((relatedThread) => {
                 if (!relatedThread) return null
                 return (
-                  <Grid item md={4} key={relatedThread.id}>
+                  <Grid item key={relatedThread.id} md={4}>
                     <ThreadCard
+                      forumCategoryModule={forumCategoryModule}
+                      item={relatedThread}
                       size="small"
                       stretch
-                      item={relatedThread}
                       threadModule={threadModule}
-                      forumCategoryModule={forumCategoryModule}
                     />
                   </Grid>
                 )

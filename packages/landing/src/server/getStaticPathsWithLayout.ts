@@ -1,6 +1,8 @@
-import { GetStaticPathsResult } from 'next/types'
+/* eslint-disable unicorn/consistent-function-scoping */
+
 import { withLocalesToStaticPaths } from '@gravis-os/utils'
 import flowRight from 'lodash/flowRight'
+import { GetStaticPathsResult } from 'next/types'
 
 const withFallback = (context) => (staticPathsResult: GetStaticPathsResult) => {
   return {

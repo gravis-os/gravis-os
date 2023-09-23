@@ -1,24 +1,26 @@
+/* eslint-disable unicorn/consistent-function-scoping, fp/no-loops, no-continue */
+
 import { useEffect } from 'react'
 import {
   QueryClient,
-  useInfiniteQuery,
   UseInfiniteQueryResult,
+  useInfiniteQuery,
   useQuery,
   useQueryClient,
 } from 'react-query'
-import { useRouter } from 'next/router'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import flowRight from 'lodash/flowRight'
-import uniqBy from 'lodash/uniqBy'
-import pick from 'lodash/pick'
-import partition from 'lodash/partition'
-import isEmpty from 'lodash/isEmpty'
-import groupBy from 'lodash/groupBy'
-import { getObjectWithGetters } from '@gravis-os/utils'
+
 import { getRelationalObjectKey } from '@gravis-os/form'
 import { CrudItem } from '@gravis-os/types'
-import usePagination from './usePagination'
-import useRouterQuery from './useRouterQuery'
+import { getObjectWithGetters } from '@gravis-os/utils'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import flowRight from 'lodash/flowRight'
+import groupBy from 'lodash/groupBy'
+import isEmpty from 'lodash/isEmpty'
+import partition from 'lodash/partition'
+import pick from 'lodash/pick'
+import uniqBy from 'lodash/uniqBy'
+import { useRouter } from 'next/router'
+
 import {
   SupabasePostgrestBuilderFiltersType,
   SupabasePostgrestFilterOperator,
@@ -27,6 +29,8 @@ import {
   UseListProps,
   UseListReturn,
 } from './types'
+import usePagination from './usePagination'
+import useRouterQuery from './useRouterQuery'
 
 // ==============================
 // Constants
@@ -39,7 +43,7 @@ const DEFAULT_PAGE_SIZE = 12
 // Get only 'workspace' to 'workspace.slug' for .match({ 'workspace.slug': workspaceValue })
 const withGetWorkspaceAndRenameWorkspaceToWorkspaceSlug =
   () => (props: UseListProps & UseListFilters) => {
-    const { params, match } = props
+    const { match, params } = props
 
     if (!params?.workspace) return props
 
@@ -53,7 +57,7 @@ const withGetWorkspaceAndRenameWorkspaceToWorkspaceSlug =
   }
 
 const withLocale = () => (props: UseListProps & UseListFilters) => {
-  const { module, locale, ors } = props
+  const { locale, module, ors } = props
   const { hasLocales } = module
 
   if (!locale || !hasLocales) return props
@@ -87,7 +91,7 @@ const withPaginate = () => (props: UseListProps & UseListFilters) => {
 }
 
 const getSort = (props) => {
-  const { parsedQs, defaultSortOrder } = props
+  const { defaultSortOrder, parsedQs } = props
 
   // @example: { order: 'id.desc' }
   const { order: routerOrder } = parsedQs || {}
@@ -105,11 +109,11 @@ const getSort = (props) => {
   return [sortKey || defaultSortKey, sortDirection]
 }
 const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
-  const { pagination = {}, order, limit } = props
+  const { limit, order, pagination = {} } = props
   const {
-    paginationType = UseListPaginationType.Infinite,
-    pageSize = DEFAULT_PAGE_SIZE,
     pageParam,
+    pageSize = DEFAULT_PAGE_SIZE,
+    paginationType = UseListPaginationType.Infinite,
   } = pagination
 
   const isInfinitePagination = paginationType === UseListPaginationType.Infinite
@@ -118,18 +122,16 @@ const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
 
   const [sortKey, sortDirection] = getSort(props)
   const isAscending = sortDirection === 'asc'
-  const isInitialPageParam = typeof pageParam === 'undefined'
+  const isInitialPageParam = pageParam === undefined
   const isDateSortKey = sortKey.endsWith('_at')
   /// Set an arbitrary large number for the initial limit.
-  const initialNumberPageParam = isAscending ? 0 : 99999999
+  const initialNumberPageParam = isAscending ? 0 : 99_999_999
   // Set an arbitrary early date in the past if asc, else today's date if desc.
   const initialDatePageParam = isAscending
     ? '1900-01-01'
     : // Do not set time here or it will run into infinite loop.
       // Get tomorrow to ensure we capture the correct values.
-      new Date(new Date().getTime() + 24 * 60 * 60 * 1000)
-        .toISOString()
-        .split('T')[0]
+      new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString().split('T')[0]
   const initialPageParam = isDateSortKey
     ? initialDatePageParam
     : initialNumberPageParam
@@ -137,11 +139,11 @@ const withInfinitePaginate = () => (props: UseListProps & UseListFilters) => {
 
   return {
     ...props,
-    range: null,
-    limit: limit || pageSize,
     // Set the location of the next cursor with this where clause
     [isAscending ? 'gte' : 'lte']: [sortKey, nextPageParam],
+    limit: limit || pageSize,
     order: order || [sortKey, { ascending: isAscending, nullsFirst: true }],
+    range: null,
   }
 }
 const withSort = () => (props: UseListProps & UseListFilters) => {
@@ -176,7 +178,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
   }
 
   // TODO: find all array based filters
-  const arrayBasedOps = ['in', 'not.in']
+  const arrayBasedOps = new Set(['in', 'not.in'])
 
   const getPartitionedFilters = (
     key: string,
@@ -186,7 +188,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
     // filter = [{ key: 'price', op: 'lt', value: '500' }, { key: 'brand', op: 'in', value: '(1,5)' }]
 
     const [arrayBasedFilters, otherFilters] = partition(filters, (filter) =>
-      arrayBasedOps.includes(filter.op)
+      arrayBasedOps.has(filter.op)
     )
 
     const groupedArrayBasedFilters = groupBy(
@@ -218,7 +220,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
         const parsedQsValueArr = parsedQsValue.split('.')
         return [
           parsedQsValueArr.slice(0, -1).join('.'),
-          parsedQsValueArr[parsedQsValueArr.length - 1],
+          parsedQsValueArr.at(-1),
         ]
       }
 
@@ -262,7 +264,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       const newFilter = {
         key,
         op,
-        value: arrayBasedOps.includes(op)
+        value: arrayBasedOps.has(op)
           ? getArrayBasedFilterValue([filterValue])
           : filterValue,
       } as unknown as SupabasePostgrestBuilderFiltersType
@@ -283,7 +285,7 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
 // ==============================
 // Matcher
 export const getUseListFilters = (props: UseListProps): UseListFilters => {
-  const { plugins = [], disableWorkspacePlugin } = props
+  const { disableWorkspacePlugin, plugins = [] } = props
   return pick(
     flowRight(
       [
@@ -297,19 +299,19 @@ export const getUseListFilters = (props: UseListProps): UseListFilters => {
           withGetWorkspaceAndRenameWorkspaceToWorkspaceSlug(),
       ].filter(Boolean)
     )({
+      contains: null,
+      filters: [],
+      gt: null,
+      gte: null,
+      limit: null,
+      lt: null,
+      lte: null,
       // Initialize defaults here
       match: {},
-      filters: [],
-      ors: [],
-      limit: null,
-      range: [0, 1000],
-      order: null,
-      gt: null,
-      lt: null,
-      gte: null,
-      lte: null,
       not: null,
-      contains: null,
+      order: null,
+      ors: [],
+      range: [0, 1000],
       ...props,
     }),
     [
@@ -338,7 +340,7 @@ export const getFetchListQueryKey = (props: UseListProps) => {
 
 // Fetcher
 export const getFetchListQueryFn = (props: UseListProps) => {
-  const { setQuery, module, pagination = {} } = props
+  const { module, pagination = {}, setQuery } = props
 
   const { countOnly } = pagination
   const countProps = countOnly ? { head: true } : {}
@@ -355,19 +357,19 @@ export const getFetchListQueryFn = (props: UseListProps) => {
     })
 
     const {
-      match,
-      filters,
-      ors,
-      limit,
-      range,
-      order,
-      gt,
-      lt,
-      gte,
-      lte,
-      not,
-      select,
       contains,
+      filters,
+      gt,
+      gte,
+      limit,
+      lt,
+      lte,
+      match,
+      not,
+      order,
+      ors,
+      range,
+      select,
     } = listFilters
 
     const getSelectString = () => {
@@ -397,33 +399,42 @@ export const getFetchListQueryFn = (props: UseListProps) => {
     // Apply filters
     if (match) query.match(match)
     if (filters?.length) {
-      const relationalObjectKeys = filters
-        .filter((filter) => filter && filter.key.endsWith('_id'))
-        .flatMap((filter) => {
-          const relationalObjectKey = getRelationalObjectKey(filter.key, false)
+      const relationalObjectKeys = new Set(
+        filters
+          .filter((filter) => filter && filter.key.endsWith('_id'))
+          .flatMap((filter) => {
+            const relationalObjectKey = getRelationalObjectKey(
+              filter.key,
+              false
+            )
 
-          // the relational object key might not be direct e.g
-          // lines.order_form_line.order_form.sales_order.project_id=2&project_id=2&project=Fusheng+House
-          // we need to remove the query params that are only there to support FilterForm: project and project_id
-          if (`${relationalObjectKey}_id` !== filter.key) {
-            return [relationalObjectKey, `${relationalObjectKey}_id`]
-          }
+            // the relational object key might not be direct e.g
+            // lines.order_form_line.order_form.sales_order.project_id=2&project_id=2&project=Fusheng+House
+            // we need to remove the query params that are only there to support FilterForm: project and project_id
+            if (`${relationalObjectKey}_id` !== filter.key) {
+              return [relationalObjectKey, `${relationalObjectKey}_id`]
+            }
 
-          return [relationalObjectKey]
-        })
-      filters.forEach((filter) => {
-        if (filter && !relationalObjectKeys.includes(filter.key)) {
+            return [relationalObjectKey]
+          })
+      )
+      for (const filter of filters) {
+        if (filter && !relationalObjectKeys.has(filter.key)) {
           // eslint-disable-next-line @typescript-eslint/ban-ts-comment
           // @ts-ignore
           query.filter(filter.key, filter.op, filter.value)
         }
-      })
+      }
     }
     if (ors?.length) {
-      ors.forEach((or) => {
-        if (Array.isArray(or)) return query.or(or[0], or[1])
-        return query.or(or)
-      })
+      for (const or of ors) {
+        if (Array.isArray(or)) {
+          query.or(or[0], or[1])
+          continue
+        }
+        query.or(or)
+        continue
+      }
     }
     if (gt) query.gt(gt[0], gt[1])
     if (lt) query.lt(lt[0], lt[1])
@@ -466,14 +477,20 @@ export const prefetchListQuery = async (
   )
 }
 
+const getItemsFromPages = (pages) => {
+  if (!pages) return
+  const data = pages?.reduce((acc, { data }) => acc.concat(data), [])
+  return uniqBy(data, 'id')
+}
+
 // Hook
 const useList = (props: UseListProps): UseListReturn => {
   const {
-    params: injectedParams,
-    pagination = {},
-    queryOptions,
     disablePagination,
     module,
+    pagination = {},
+    params: injectedParams,
+    queryOptions,
   } = props
   const {
     pageSize = DEFAULT_PAGE_SIZE,
@@ -485,7 +502,7 @@ const useList = (props: UseListProps): UseListReturn => {
     paginationType === UseListPaginationType.Pagination
 
   const router = useRouter()
-  const { query, defaultLocale, locale, locales } = router
+  const { defaultLocale, locale, locales, query } = router
   const params = injectedParams || query
   const page = query?.page ? Number(query?.page) : 1
   const { parsedQs } = useRouterQuery()
@@ -493,17 +510,17 @@ const useList = (props: UseListProps): UseListReturn => {
   // Pass through router props to simulate getStaticPropsContext on the client
   const nextProps = {
     ...props,
-    params,
     defaultLocale,
     locale,
     locales,
-    router,
-    parsedQs,
     pagination: {
       ...props.pagination,
       page,
       pageSize,
     },
+    params,
+    parsedQs,
+    router,
   }
 
   const listQueryKey = getFetchListQueryKey(nextProps)
@@ -543,13 +560,8 @@ const useList = (props: UseListProps): UseListReturn => {
   const {
     data,
   }: {
-    data: { pages?: unknown; data?: any; count?: number }
+    data: { count?: number; data?: any; pages?: unknown }
   } = onUseQuery
-  const getItemsFromPages = (pages) => {
-    if (!pages) return
-    const data = pages?.reduce((acc, { data }) => acc.concat(data), [])
-    return uniqBy(data, 'id')
-  }
   const items =
     (isInfinitePagination ? getItemsFromPages(data?.pages) : data?.data) || []
   const count = (isInfinitePagination ? countFromCountQuery : data?.count) || 0
@@ -581,7 +593,7 @@ const useList = (props: UseListProps): UseListReturn => {
   const getInfinitePaginationFetchNextPage = (
     onUseQuery: UseInfiniteQueryResult
   ) => {
-    const { isFetching, fetchNextPage } = onUseQuery
+    const { fetchNextPage, isFetching } = onUseQuery
     const isQueryDisabled = queryOptions?.enabled === false
     // Fetch next page when query is not disabled and not currently fetching
     const shouldFetchNextPage = !isQueryDisabled && !isFetching
@@ -597,9 +609,9 @@ const useList = (props: UseListProps): UseListReturn => {
     ...(isInfinitePagination &&
       getInfinitePaginationFetchNextPage(onUseQuery as UseInfiniteQueryResult)),
 
+    count: countFromCountQuery,
     // Aliases
     items: itemsWithVirtuals,
-    count: countFromCountQuery,
   }
 }
 

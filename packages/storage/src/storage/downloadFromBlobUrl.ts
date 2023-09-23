@@ -1,4 +1,5 @@
 import download from 'downloadjs'
+
 import { File } from './types'
 
 /**
@@ -7,7 +8,7 @@ import { File } from './types'
  * @link https://theflyingmantis.medium.com/blog-and-mime-type-a3a2aa9b7264
  */
 const downloadFromBlobUrl = async (file: File) => {
-  const { url, name, type } = file
+  const { name, type, url } = file
   const blob = await fetch(url).then((r) => r.blob())
   download(blob, name, type)
 }

@@ -1,4 +1,5 @@
 import { Service, ServiceCategory } from '@gravis-os/types'
+
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderServiceCategoryBlockItemProps {
@@ -11,48 +12,48 @@ const renderServiceCategoryBlockItem = (
   props: RenderServiceCategoryBlockItemProps
 ) => {
   const { item } = props
-  const { title, subtitle, href, items } = item || {}
+  const { title, href, items, subtitle } = item || {}
 
   return {
     sm: 12,
     md: 6,
     items: [
       {
-        type: 'link',
         title,
         titleProps: {
-          variant: 'h3' as const,
           href,
-          underline: 'none',
           sx: { mb: 1 },
+          underline: 'none',
+          variant: 'h3' as const,
         },
+        type: 'link',
       },
       {
-        type: 'subtitle1',
         title: subtitle,
         titleProps: {
-          maxLines: 2,
           color: 'text.secondary',
+          maxLines: 2,
           maxWidth: true,
           sx: { mb: 2 },
         },
+        type: 'subtitle1',
       },
       ...(items.map((item) => ({
-        type: 'link',
         title: item.title,
         titleProps: {
           href: item.href,
-          variant: 'h6',
           rightCaretFullWidth: true,
-          underline: 'none',
           sx: {
-            py: 2.5,
-            px: 2,
+            '&:hover': { backgroundColor: 'action.hover' },
             borderBottom: 1,
             borderColor: 'divider',
-            '&:hover': { backgroundColor: 'action.hover' },
+            px: 2,
+            py: 2.5,
           },
+          underline: 'none',
+          variant: 'h6',
         },
+        type: 'link',
         ...item,
       })) as BlockItemProps[]),
     ],

@@ -1,5 +1,5 @@
-import startCase from 'lodash/startCase'
 import chunk from 'lodash/chunk'
+import startCase from 'lodash/startCase'
 
 /**
  * Get Slack formats for both text and blocks given an intro string and object payload
@@ -11,42 +11,45 @@ const getSlackFormats = (
   introText: string,
   payload: Record<string, string>
 ): {
-  payloadAsText: string
   payloadAsBlocks: Array<{
-    type: string
+    fields?: Array<{ text: string; type: string }>
     text?: Record<string, string>
-    fields?: Array<{ type: string; text: string }>
+    type: string
   }>
+  payloadAsText: string
 } => {
   const payloadAsTextArr = [
     introText,
     ...Object.entries(payload).reduce((acc, [key, value]) => {
-      return acc.concat(`- ${startCase(key)}: ${value}`)
+      return [...acc, `- ${startCase(key)}: ${value}`]
     }, []),
   ].filter(Boolean)
   const payloadAsText = payloadAsTextArr.join('\n')
   const payloadAsBlockFields = Object.entries(payload).reduce(
     (acc, [key, value]) => {
-      return acc.concat({
-        type: 'mrkdwn',
-        text: `*${startCase(key)}*\n${value || '-'}\n`,
-      })
+      return [
+        ...acc,
+        {
+          text: `*${startCase(key)}*\n${value || '-'}\n`,
+          type: 'mrkdwn',
+        },
+      ]
     },
     []
   )
   const payloadAsBlocks = [
     {
+      text: { text: introText, type: 'mrkdwn' },
       type: 'section',
-      text: { type: 'mrkdwn', text: introText },
     },
     ...chunk(payloadAsBlockFields, 2).map((payloadArrChunk) => {
       return {
-        type: 'section',
         fields: payloadArrChunk,
+        type: 'section',
       }
     }),
   ]
-  return { payloadAsText, payloadAsBlocks }
+  return { payloadAsBlocks, payloadAsText }
 }
 
 export default getSlackFormats

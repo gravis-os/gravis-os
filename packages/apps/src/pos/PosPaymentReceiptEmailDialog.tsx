@@ -1,4 +1,6 @@
 import React, { useState } from 'react'
+import toast from 'react-hot-toast'
+
 import { TextField } from '@gravis-os/fields'
 import { ModelField } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
@@ -14,28 +16,28 @@ import {
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import noop from 'lodash/noop'
 import toString from 'lodash/toString'
-import toast from 'react-hot-toast'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+
 import getReceiptFileName from '../utils/getReceiptFileName'
-import { usePos } from './PosProvider'
 import posConfig from './posConfig'
-import { Receipt } from './types'
 import { GetPdfMakeGeneratorResult } from './PosPaymentSuccess'
+import { usePos } from './PosProvider'
+import { Receipt } from './types'
 
 interface PosPaymentReceiptEmailDialogProps {
-  open: boolean
-  onClose: VoidFunction
-  getPdfMakeGenerator?: (reportType: string, item) => GetPdfMakeGeneratorResult // pdfDocGenerator from pdfMake
   contactModule?: CrudModule
+  getPdfMakeGenerator?: (reportType: string, item) => GetPdfMakeGeneratorResult // pdfDocGenerator from pdfMake
+  onClose: VoidFunction
+  open: boolean
   receipt?: Receipt
 }
 
 const PosPaymentReceiptEmailDialog: React.FC<
   PosPaymentReceiptEmailDialogProps
 > = (props) => {
-  const { open, onClose, contactModule, getPdfMakeGenerator, receipt } = props
+  const { contactModule, getPdfMakeGenerator, onClose, open, receipt } = props
   const { cart } = usePos()
   const [contact, setContact] = useState(cart?.customer)
   const [contactEmail, setContactEmail] = useState<string>(
@@ -57,19 +59,17 @@ const PosPaymentReceiptEmailDialog: React.FC<
       .upload(filepath, blob)
     if (uploadError) throw uploadError
 
-    return process.env.NEXT_PUBLIC_SUPABASE_URL.concat(
-      `/storage/v1/object/public/${data?.Key}`
-    )
+    return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data?.Key}`
   }
 
   const sendEmail = async (pdfUrl: string) => {
     const res = await fetch(posConfig.routes.SEND_PAYMENT_RECEIPT, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         email: contactEmail,
         link: pdfUrl,
       }),
+      headers: { 'Content-Type': 'application/json' },
+      method: 'POST',
     })
     if (!res.ok) throw new Error('Something went wrong')
     await toast.success('Your payment receipt email has been sent!')
@@ -87,14 +87,16 @@ const PosPaymentReceiptEmailDialog: React.FC<
           throw error
         }
         if (paymentReceiptPdf?.length && cart?.receipt_id) {
-          const pdfUrl = process.env.NEXT_PUBLIC_SUPABASE_URL.concat(
-            `/storage/v1/object/public/public/${posConfig.receipt_bucket}/${paymentReceiptPdf[0].name}`
-          )
+          const pdfUrl = `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/public/${posConfig.receipt_bucket}/${paymentReceiptPdf[0].name}`
           sendEmail(pdfUrl)
         } else {
-          getNewPdfUrl(blob).then(async (pdfUrl) => {
-            sendEmail(pdfUrl)
-          })
+          getNewPdfUrl(blob)
+            .then(async (pdfUrl) => {
+              return sendEmail(pdfUrl)
+            })
+            .catch((error_) =>
+              console.error('Error cuaght at getNewPdfUrl blob', error_)
+            )
         }
       })
     } catch (error) {
@@ -105,17 +107,17 @@ const PosPaymentReceiptEmailDialog: React.FC<
 
   return (
     <Dialog
-      open={open}
-      fullScreen
       TransitionComponent={Slide}
       TransitionProps={{ direction: 'up' } as TransitionProps}
       disableTitle
+      fullScreen
+      open={open}
     >
       <DialogTitle>
         <Stack
+          alignItems="center"
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
         >
           <Typography variant="h6">Send Payment Receipt Email</Typography>
           <IconButton onClick={onClose}>
@@ -127,26 +129,26 @@ const PosPaymentReceiptEmailDialog: React.FC<
       <DialogContent>
         <Stack spacing={2}>
           <ModelField
+            label="Contact"
             module={contactModule}
             name="contact_id"
-            setValue={noop}
             onChange={handleOnChangeContact}
-            value={contact}
-            label="Contact"
             optionLabelKey="title"
-            select="id, full_name, title, email"
             renderOption={({ option }) => (
               <>{option.full_name || option.title || option.email}</>
             )}
+            select="id, full_name, title, email"
+            setValue={noop}
+            value={contact}
           />
           <TextField
-            name="email"
             defaultValue={contact?.email || ''}
-            value={contactEmail}
-            onChange={(e) => setContactEmail(e.target.value)}
+            name="email"
             onBlur={(e) => {
               if (!e.target.value) setContactEmail(contact?.email || '')
             }}
+            onChange={(e) => setContactEmail(e.target.value)}
+            value={contactEmail}
           />
         </Stack>
       </DialogContent>
@@ -156,7 +158,7 @@ const PosPaymentReceiptEmailDialog: React.FC<
         <Button color="inherit" onClick={onClose}>
           Back
         </Button>
-        <Button variant="contained" onClick={handleSendEmailReceipt}>
+        <Button onClick={handleSendEmailReceipt} variant="contained">
           Send
         </Button>
       </DialogActions>

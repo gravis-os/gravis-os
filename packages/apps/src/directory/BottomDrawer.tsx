@@ -1,20 +1,22 @@
 import React from 'react'
+
 import { Box, Typography } from '@gravis-os/ui'
-import { SwipeableDrawer, Fab } from '@mui/material'
 import KeyboardDoubleArrowUpOutlinedIcon from '@mui/icons-material/KeyboardDoubleArrowUpOutlined'
 import MapOutlinedIcon from '@mui/icons-material/MapOutlined'
+import { Fab, SwipeableDrawer } from '@mui/material'
+
 import { BOTTOM_DRAWER_EXPANDED_HEIGHT } from './constants'
 
 export interface BottomDrawerProps {
-  title?: React.ReactNode
+  children?: React.ReactNode
+  drawerBleeding?: number
   open: boolean
   setOpen: React.Dispatch<React.SetStateAction<boolean>>
-  drawerBleeding?: number
-  children?: React.ReactNode
+  title?: React.ReactNode
 }
 
 const BottomDrawer: React.FC<BottomDrawerProps> = (props) => {
-  const { title, open, setOpen, drawerBleeding = 56, children } = props
+  const { title, children, drawerBleeding = 56, open, setOpen } = props
 
   const FabIcon = open ? MapOutlinedIcon : KeyboardDoubleArrowUpOutlinedIcon
 
@@ -22,19 +24,19 @@ const BottomDrawer: React.FC<BottomDrawerProps> = (props) => {
     <>
       <Box
         sx={{
-          width: '100%',
-          position: 'fixed',
-          zIndex: 'modal',
+          alignItems: 'flex-end',
           bottom: '16px',
           display: 'flex',
-          alignItems: 'flex-end',
           justifyContent: 'center',
+          position: 'fixed',
+          width: '100%',
+          zIndex: 'modal',
         }}
       >
         <Fab
-          variant="extended"
           onClick={() => setOpen(!open)}
           size={open ? 'medium' : 'small'}
+          variant="extended"
         >
           <FabIcon fontSize="small" sx={{ mr: open ? 0.5 : 0 }} />
           {open ? 'Map' : ''}
@@ -42,13 +44,13 @@ const BottomDrawer: React.FC<BottomDrawerProps> = (props) => {
       </Box>
 
       <SwipeableDrawer
+        ModalProps={{ keepMounted: true }}
         anchor="bottom"
-        open={open}
+        disableSwipeToOpen={false}
         onClose={() => setOpen(false)}
         onOpen={() => setOpen(true)}
+        open={open}
         swipeAreaWidth={drawerBleeding}
-        disableSwipeToOpen={false}
-        ModalProps={{ keepMounted: true }}
         sx={{
           '&.MuiDrawer-root > .MuiPaper-root': {
             height: `calc(${BOTTOM_DRAWER_EXPANDED_HEIGHT} - ${drawerBleeding}px)`,
@@ -58,33 +60,33 @@ const BottomDrawer: React.FC<BottomDrawerProps> = (props) => {
       >
         <Box
           sx={{
-            position: 'absolute',
-            top: -drawerBleeding,
+            backgroundColor: 'background.paper',
             borderTopLeftRadius: 8,
             borderTopRightRadius: 8,
-            visibility: 'visible',
-            right: 0,
             left: 0,
-            backgroundColor: 'background.paper',
+            position: 'absolute',
+            right: 0,
+            top: -drawerBleeding,
+            visibility: 'visible',
           }}
         >
           {/* Puller */}
           <Box
             sx={{
-              width: 30,
-              height: 6,
+              backgroundColor: 'background.muted',
               borderRadius: 3,
+              height: 6,
+              left: 'calc(50% - 15px)',
               position: 'absolute',
               top: 8,
-              left: 'calc(50% - 15px)',
-              backgroundColor: 'background.muted',
+              width: 30,
             }}
           />
 
           {/* Preview portion */}
           {title &&
             (typeof title === 'string' ? (
-              <Typography sx={{ p: 2, color: 'text.secondary' }}>
+              <Typography sx={{ color: 'text.secondary', p: 2 }}>
                 {title}
               </Typography>
             ) : (
@@ -96,10 +98,10 @@ const BottomDrawer: React.FC<BottomDrawerProps> = (props) => {
         <Box
           sx={{
             backgroundColor: 'background.paper',
-            px: 2,
-            pb: 2,
             height: '100%',
             overflow: 'auto',
+            pb: 2,
+            px: 2,
           }}
         >
           {children}

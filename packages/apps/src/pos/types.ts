@@ -1,55 +1,55 @@
 import { CrudItem } from '@gravis-os/types'
 
 export type Customer = {
+  company: null | string
+  email: null | string
+  full_name: null | string
   id: number
-  full_name: string | null
-  email: string | null
-  mobile: string | null
-  company: string | null
-  shipping_address_line_1: string | null
-  shipping_address_line_2: string | null
-  shipping_address_postal_code: string | null
-  shipping_address_city: string | null
-  shipping_address_country: string | null
+  mobile: null | string
+  shipping_address_city: null | string
+  shipping_address_country: null | string
+  shipping_address_line_1: null | string
+  shipping_address_line_2: null | string
+  shipping_address_postal_code: null | string
 }
 
 export type Salesperson = {
-  id: string
   full_name: string
+  id: string
 }
 export interface CartItem extends CrudItem {
-  price: number
   brand: { id: string; title: string }
-  quantity: number
   discount: number
   discountType: string
+  price: number
+  quantity: number
   staff: Salesperson
 }
 
 export interface Cart {
+  customer: Customer | null
   items: CartItem[]
+  note: null | string
+  paid: number
+  paymentMethod: string
+  receipt_id: null | number
   subtotal: number
   tax: number
   total: number
-  paymentMethod: string
-  paid: number
-  receipt_id: number | null
-  customer: Customer | null
-  note: string | null
 }
 
 export type Receipt = {
-  id: number
-  created_at: Date | null
-  updated_at: Date | null
-  created_by: string | null
-  updated_by: string | null
   cart_items: JSON | null
-  subtotal: number | null
-  tax: number | null
-  total: number | null
-  payment_method: string | null
-  paid: number | null
+  created_at: Date | null
+  created_by: null | string
   customer: JSON | null
-  src: string | null
+  id: number
+  paid: null | number
+  payment_method: null | string
+  src: null | string
+  subtotal: null | number
+  tax: null | number
+  total: null | number
+  updated_at: Date | null
+  updated_by: null | string
 }

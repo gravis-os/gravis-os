@@ -2,12 +2,12 @@ import { ApiRequestQuery } from '../types'
 import getQueryKey from '../utils/getQueryKey'
 
 const getWhereClauseValues = (props: {
-  query: ApiRequestQuery
   columnKeys: string[]
+  query: ApiRequestQuery
 }): any[] => {
-  const { query, columnKeys } = props
+  const { columnKeys, query } = props
   return columnKeys
-    .map((columnKey) => query[getQueryKey({ query, columnKey })])
+    .map((columnKey) => query[getQueryKey({ columnKey, query })])
     .filter(Boolean)
 }
 

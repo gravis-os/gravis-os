@@ -1,12 +1,15 @@
 import React from 'react'
+
 import { Box, Divider } from '@gravis-os/ui'
 import CategoryIcon from '@mui/icons-material/Category'
 import DirectionsCarIcon from '@mui/icons-material/DirectionsCar'
 import ElectricalServicesIcon from '@mui/icons-material/ElectricalServices'
 import SearchIcon from '@mui/icons-material/Search'
+
+import type { MegaSearchAutocompleteProps } from './MegaSearchAutocomplete'
+
 import MegaSearch from './MegaSearch'
 import MegaSearchTabs from './MegaSearchTabs'
-import type { MegaSearchAutocompleteProps } from './MegaSearchAutocomplete'
 
 export default {
   component: MegaSearch,
@@ -18,82 +21,82 @@ const defaultMegaSearchProps = {
 
 const MOCK_DROPDOWNS: MegaSearchAutocompleteProps[] = [
   {
-    key: 'brand',
-    name: 'brand',
     Icon: CategoryIcon,
+    key: 'brand',
     label: 'EV Brands',
+    name: 'brand',
+    options: [
+      { label: 'The Shawshank Redemption', value: 'foo' },
+      { label: 'The Godfather', value: 'bar' },
+      { label: 'The Godfather: Part II', value: 'baz' },
+    ],
     placeholder: 'Browse EV Brands',
-    options: [
-      { value: 'foo', label: 'The Shawshank Redemption' },
-      { value: 'bar', label: 'The Godfather' },
-      { value: 'baz', label: 'The Godfather: Part II' },
-    ],
   },
   {
-    key: 'vehicle-type',
-    name: 'vehicleType',
     Icon: DirectionsCarIcon,
+    key: 'vehicle-type',
     label: 'Vehicle Type',
-    placeholder: 'Browse Vehicle Type',
+    name: 'vehicleType',
     options: [
-      { value: 'foo', label: 'The Shawshank Redemption' },
-      { value: 'bar', label: 'The Godfather' },
-      { value: 'baz', label: 'The Godfather: Part II' },
+      { label: 'The Shawshank Redemption', value: 'foo' },
+      { label: 'The Godfather', value: 'bar' },
+      { label: 'The Godfather: Part II', value: 'baz' },
     ],
+    placeholder: 'Browse Vehicle Type',
   },
   {
-    key: 'ev-type',
-    name: 'evType',
     Icon: ElectricalServicesIcon,
+    key: 'ev-type',
     label: 'EV Type',
-    placeholder: 'Browse EV Type',
+    name: 'evType',
     options: [
-      { value: 'foo', label: 'The Shawshank Redemption' },
-      { value: 'bar', label: 'The Godfather' },
-      { value: 'baz', label: 'The Godfather: Part II' },
+      { label: 'The Shawshank Redemption', value: 'foo' },
+      { label: 'The Godfather', value: 'bar' },
+      { label: 'The Godfather: Part II', value: 'baz' },
     ],
+    placeholder: 'Browse EV Type',
   },
 ]
 
 const tabs = [
   {
-    value: 'name',
-    label: 'Find By Name',
     children: (
       <MegaSearch
         dropdowns={[
           {
-            key: 'search',
-            name: 'search',
+            autocompleteProps: { disableClearable: true, freeSolo: true },
             Icon: SearchIcon,
+            key: 'search',
             label: 'Agent Search',
-            placeholder: 'Search by Name',
-            autocompleteProps: { freeSolo: true, disableClearable: true },
+            name: 'search',
             options: [
               {
-                value: 'The Shawshank Redemption',
                 label: 'The Shawshank Redemption',
+                value: 'The Shawshank Redemption',
               },
-              { value: 'The Godfather', label: 'The Godfather' },
+              { label: 'The Godfather', value: 'The Godfather' },
               {
-                value: 'The Godfather: Part II',
                 label: 'The Godfather: Part II',
+                value: 'The Godfather: Part II',
               },
             ],
+            placeholder: 'Search by Name',
           },
         ]}
       />
     ),
+    label: 'Find By Name',
+    value: 'name',
   },
   {
-    value: 'category',
+    children: <MegaSearch dropdowns={MOCK_DROPDOWNS} />,
     label: 'Find By Category',
-    children: <MegaSearch dropdowns={MOCK_DROPDOWNS} />,
+    value: 'category',
   },
   {
-    value: 'type',
-    label: 'Find By Type',
     children: <MegaSearch dropdowns={MOCK_DROPDOWNS} />,
+    label: 'Find By Type',
+    value: 'type',
   },
 ]
 

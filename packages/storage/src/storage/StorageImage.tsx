@@ -1,10 +1,12 @@
 import React from 'react'
+
 import { Image, ImageProps } from '@gravis-os/ui'
+
 import useGetStorageObject from './useGetStorageObject'
 
 interface StorageImageProps extends Omit<ImageProps, 'alt' | 'src'> {
-  src?: string | null // defaultValue to render the image. Storage filepath where image is currently stored
-  alt?: string | null
+  alt?: null | string
+  src?: null | string // defaultValue to render the image. Storage filepath where image is currently stored
   value?: string // Typically, the form value
 }
 
@@ -16,21 +18,21 @@ interface StorageImageProps extends Omit<ImageProps, 'alt' | 'src'> {
  * @example <StorageImage src={item.hero_src} alt={item.hero_alt} />
  */
 const StorageImage: React.FC<StorageImageProps> = (props) => {
-  const { src: injectedSrc, value, alt, ...rest } = props
+  const { alt, src: injectedSrc, value, ...rest } = props
 
   const isBucketPath =
     typeof injectedSrc === 'string' && injectedSrc.startsWith('public')
 
   const { src } = useGetStorageObject({
     filePath: injectedSrc,
-    value,
     skip: !isBucketPath,
+    value,
   })
 
   return (
     <Image
-      src={isBucketPath ? src : injectedSrc}
       alt={alt || (src ? 'Image' : 'No image')}
+      src={isBucketPath ? src : injectedSrc}
       {...rest}
     />
   )

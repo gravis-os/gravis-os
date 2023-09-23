@@ -1,4 +1,7 @@
 import React from 'react'
+
+import { StorageImage } from '@gravis-os/storage'
+import { CrudModule } from '@gravis-os/types'
 import {
   Box,
   Card,
@@ -8,34 +11,34 @@ import {
   Stack,
   Typography,
 } from '@gravis-os/ui'
-import { CrudModule } from '@gravis-os/types'
-import { StorageImage } from '@gravis-os/storage'
+
 import { Listing } from './types'
 
 export interface ListingCardProps extends CardProps {
-  item: Listing
   brandModule: CrudModule | any
+  item: Listing
   listingModule: CrudModule | any
 }
 
 const ListingCard: React.FC<ListingCardProps> = (props) => {
-  const { item, brandModule, listingModule, sx, ...rest } = props
+  const { brandModule, item, listingModule, sx, ...rest } = props
 
   if (!item) return null
 
   const {
+    id,
     title,
-    avatar_src,
     avatar_alt,
+    avatar_src,
     brand,
     directory_category,
     priceText,
   } = item
   const { directory } = directory_category
   const {
+    is_listing_brand_image_enabled,
     is_listing_image_enabled,
     is_listing_price_enabled,
-    is_listing_brand_image_enabled,
   } = directory
   const listingHref = listingModule.getWebHref([
     directory,
@@ -45,8 +48,8 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
 
   return (
     <Card
-      key={item.id}
       disableCardContent
+      key={id}
       square
       sx={{ height: '100%', ...sx }}
       {...rest}
@@ -54,29 +57,29 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
       {is_listing_image_enabled && (
         <Link href={listingHref}>
           <StorageImage
+            alt={avatar_alt || title}
             fill
             fixed
-            src={avatar_src}
-            alt={avatar_alt || title}
             scaleOnHover
+            src={avatar_src}
           />
         </Link>
       )}
 
       <CardContent disableGutterBottom sx={{ height: '100%' }}>
-        <Stack direction="row" gap={2} alignItems="center">
+        <Stack alignItems="center" direction="row" gap={2}>
           {is_listing_brand_image_enabled && (
-            <StorageImage src={brand?.avatar_src} width={50} height={50} />
+            <StorageImage height={50} src={brand?.avatar_src} width={50} />
           )}
           <Box>
             <Link
-              variant="overline"
-              href={brandModule.getWebHref([brand])}
               color="secondary"
+              href={brandModule.getWebHref([brand])}
+              variant="overline"
             >
               {brand?.title}
             </Link>
-            <Link variant="h6" href={listingHref}>
+            <Link href={listingHref} variant="h6">
               {title}
             </Link>
             {is_listing_price_enabled && priceText && (

@@ -1,22 +1,22 @@
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderHeaderMenuBlockItemProps {
-  title: BlockItemProps['title']
-  slug?: string
-  subtitle?: BlockItemProps['title']
   href?: BlockItemProps['boxProps']['href']
   hrefProps?: BlockItemProps['boxProps']['hrefProps']
   items?: BlockItemProps[]
+  slug?: string
+  subtitle?: BlockItemProps['title']
+  title: BlockItemProps['title']
 }
 
 const renderHeaderMenuBlockItem = (props: RenderHeaderMenuBlockItemProps) => {
   const {
+    title,
     slug,
     href: injectedHref,
     hrefProps,
-    title,
-    subtitle,
     items = [],
+    subtitle,
   } = props
 
   const href = injectedHref || (slug && `/${slug}`)
@@ -26,38 +26,38 @@ const renderHeaderMenuBlockItem = (props: RenderHeaderMenuBlockItemProps) => {
       href,
       hrefProps,
       sx: {
-        py: 1.5,
-        px: 2,
-        mt: -1.5,
         borderRadius: 1,
+        mt: -1.5,
+        px: 2,
+        py: 1.5,
         ...(href && {
-          '&:hover': {
-            cursor: 'pointer',
-            backgroundColor: 'action.hover',
-          },
           '&:active': {
             backgroundColor: 'action.selected',
+          },
+          '&:hover': {
+            backgroundColor: 'action.hover',
+            cursor: 'pointer',
           },
         }),
       },
     },
     items: [
       {
-        type: 'h6',
         title,
         titleProps: {
           mb: 0.5,
           ...(!href && { sx: { color: 'text.disabled' } }),
         },
+        type: 'h6',
       },
       {
-        type: 'caption',
         title: subtitle,
         titleProps: {
           color: 'text.secondary',
           maxLines: 2,
           ...(!href && { sx: { color: 'text.disabled' } }),
         },
+        type: 'caption',
       },
       ...items,
     ],

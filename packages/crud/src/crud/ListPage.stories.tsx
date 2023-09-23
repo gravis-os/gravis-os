@@ -1,4 +1,5 @@
 import React from 'react'
+
 import {
   MOCK_COLUMN_DEFS,
   MOCK_FORM_SECTIONS,
@@ -9,12 +10,12 @@ import ListPageComponent from './ListPage'
 
 export default {
   title: getStorybookTitle(ListPageComponent.name),
-  component: ListPageComponent,
   args: {
-    module: MOCK_MODULE,
     columnDefs: MOCK_COLUMN_DEFS,
     filterFormSections: MOCK_FORM_SECTIONS,
+    module: MOCK_MODULE,
   },
+  component: ListPageComponent,
 }
 
 export const Basic = (args) => <ListPageComponent {...args} />

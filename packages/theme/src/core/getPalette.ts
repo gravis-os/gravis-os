@@ -1,21 +1,22 @@
-import merge from 'lodash/merge'
 import { PaletteOptions, ThemeOptions } from '@mui/material/styles'
+import merge from 'lodash/merge'
+
 import getPaletteColorWithAugmentation from './getPaletteColorWithAugmentation'
 
 export interface GetPaletteProps {
-  themeOptions?: ThemeOptions
   paletteOptions?: PaletteOptions
-
   primaryColorOverride?: string
+
   secondaryColorOverride?: string
+  themeOptions?: ThemeOptions
 }
 
 const getPalette = (props: GetPaletteProps) => {
   const {
-    themeOptions,
     paletteOptions = {},
     primaryColorOverride,
     secondaryColorOverride,
+    themeOptions,
   } = props
 
   return merge(themeOptions, {
@@ -30,10 +31,10 @@ const getPalette = (props: GetPaletteProps) => {
       primary: {
         ...paletteOptions.primary,
         ...getPaletteColorWithAugmentation({
-          themeOptions,
-          paletteOptions,
-          paletteKey: 'primary',
           mainColor: primaryColorOverride,
+          paletteKey: 'primary',
+          paletteOptions,
+          themeOptions,
         }),
       },
 
@@ -41,10 +42,10 @@ const getPalette = (props: GetPaletteProps) => {
       secondary: {
         ...paletteOptions.secondary,
         ...getPaletteColorWithAugmentation({
-          themeOptions,
-          paletteOptions,
-          paletteKey: 'secondary',
           mainColor: secondaryColorOverride,
+          paletteKey: 'secondary',
+          paletteOptions,
+          themeOptions,
         }),
       },
     },

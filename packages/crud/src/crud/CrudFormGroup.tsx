@@ -1,10 +1,12 @@
 import React from 'react'
+
 import { Card, Grid, Typography } from '@gravis-os/ui'
+
 import CrudForm, { CrudFormProps } from './CrudForm'
 
 export interface CrudFormGroupProps extends CrudFormProps {
-  title?: React.ReactNode
   subtitle?: React.ReactNode
+  title?: React.ReactNode
 }
 
 const CrudFormGroup: React.FC<CrudFormGroupProps> = (props) => {
@@ -30,25 +32,25 @@ const CrudFormGroup: React.FC<CrudFormGroupProps> = (props) => {
 
         return (
           <Grid container>
-            <Grid item xs={12} md={4} xl={3}>
+            <Grid item md={4} xl={3} xs={12}>
               <Card sx={{ backgroundColor: 'transparent', boxShadow: 'none' }}>
                 <Typography variant="h4">{title}</Typography>
-                <Typography variant="body1" color="text.secondary">
+                <Typography color="text.secondary" variant="body1">
                   {subtitle}
                 </Typography>
               </Card>
             </Grid>
-            <Grid item xs={12} md={8} xl={9}>
+            <Grid item md={8} xl={9} xs={12}>
               <Card
-                disableLastGutterBottom
-                actions={[
-                  { key: 'cancel', children: cancelButtonJsx },
-                  { key: 'edit-or-submit', children: editOrSubmitButtonJsx },
-                ]}
-                sx={{ pt: 1 }}
                 actionProps={{
-                  sx: { justifyContent: 'flex-end', px: 2, pb: 1 },
+                  sx: { justifyContent: 'flex-end', pb: 1, px: 2 },
                 }}
+                actions={[
+                  { children: cancelButtonJsx, key: 'cancel' },
+                  { children: editOrSubmitButtonJsx, key: 'edit-or-submit' },
+                ]}
+                disableLastGutterBottom
+                sx={{ pt: 1 }}
               >
                 {formJsx}
               </Card>

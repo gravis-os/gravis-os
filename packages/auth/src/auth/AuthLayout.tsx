@@ -1,5 +1,5 @@
 import React, { ReactNode } from 'react'
-import { StaticImageData } from 'next/image'
+
 import {
   Box,
   type BoxProps,
@@ -7,54 +7,55 @@ import {
   Card,
   Container,
   Divider,
-  Link,
   Grid,
   Image,
   type ImageProps,
+  Link,
   Stack,
   Typography,
 } from '@gravis-os/ui'
+import { StaticImageData } from 'next/image'
 
 export interface AuthLayoutProps extends BoxProps {
   actions?: React.ReactElement
-  children?: React.ReactElement
-  disableResetPasswordButton?: boolean
-  disableDivider?: boolean
-  disableCard?: boolean
   authRoutes?: {
     resetPassword?: string
   }
+  backgroundImgProps?: Omit<ImageProps, 'src'>
+  backgroundImgSrc?: StaticImageData | string
+  children?: React.ReactElement
+  copyright?: ReactNode | string
+  disableCard?: boolean
+  disableDivider?: boolean
+  disableResetPasswordButton?: boolean
+  fullScreen?: boolean
   logo?: React.ReactElement
   logoProps?: BoxProps
-  fullScreen?: boolean
-  backgroundImgSrc?: string | StaticImageData
-  backgroundImgProps?: Omit<ImageProps, 'src'>
-  copyright?: string | ReactNode
 }
 
 const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
   const {
+    actions,
+    authRoutes,
+    backgroundImgProps = {},
+    backgroundImgSrc,
+    children,
+    copyright,
+    disableCard,
+    disableDivider,
+    disableResetPasswordButton,
+    fullScreen,
     logo,
     logoProps,
-    actions,
-    children,
-    disableResetPasswordButton,
-    disableDivider,
-    disableCard,
-    authRoutes,
     sx,
-    fullScreen,
-    backgroundImgSrc,
-    backgroundImgProps = {},
-    copyright,
     ...rest
   } = props
 
   // JSX
   const actionsJsx = (
     <Stack
-      direction="row"
       alignItems="center"
+      direction="row"
       spacing={1}
       sx={{ width: 'auto' }}
     >
@@ -65,7 +66,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
     </Stack>
   )
   const copyrightJsx = (
-    <Typography variant="caption" sx={{ color: 'text.disabled' }}>
+    <Typography sx={{ color: 'text.disabled' }} variant="caption">
       {copyright}
     </Typography>
   )
@@ -74,9 +75,9 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
   if (fullScreen) {
     return (
       <Box component="main" {...rest} sx={sx}>
-        <Grid container spacing={0} sx={{ width: '100vw', height: '100vh' }}>
+        <Grid container spacing={0} sx={{ height: '100vh', width: '100vw' }}>
           {/* Left Children */}
-          <Grid item xs sx={{ height: '100%' }}>
+          <Grid item sx={{ height: '100%' }} xs>
             <Stack
               justifyContent="center"
               sx={{ height: '100%', position: 'relative' }}
@@ -90,10 +91,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
               {actionsJsx}
               {copyright && (
                 <Box
-                  width="100%"
-                  textAlign="center"
-                  position="absolute"
                   bottom={0}
+                  position="absolute"
+                  textAlign="center"
+                  width="100%"
                 >
                   {copyrightJsx}
                 </Box>
@@ -103,10 +104,10 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
 
           {/* Right Background */}
           {Boolean(backgroundImgSrc) && (
-            <Grid item xs={false} md={5} sx={{ height: '100%' }}>
+            <Grid item md={5} sx={{ height: '100%' }} xs={false}>
               <Image
-                src={backgroundImgSrc}
                 boxSx={{ height: '100%', pb: 0 }}
+                src={backgroundImgSrc}
                 {...backgroundImgProps}
               />
             </Grid>
@@ -144,7 +145,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
 
       {actionsJsx}
       {copyright && (
-        <Box width="100%" textAlign="center" mt={3}>
+        <Box mt={3} textAlign="center" width="100%">
           {copyrightJsx}
         </Box>
       )}

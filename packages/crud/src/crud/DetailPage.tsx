@@ -1,22 +1,24 @@
 import React from 'react'
+
+import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
 import {
   CircularProgress,
   Container,
   Divider,
-  Tabs,
   TabContent,
-  useTabs,
+  Tabs,
   TabsProps,
   UseTabsProps,
+  useTabs,
 } from '@gravis-os/ui'
 import { ContainerProps } from '@mui/material'
-import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
 import omit from 'lodash/omit'
-import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
+
+import CrudForm, { CrudFormProps } from './CrudForm'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
+import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import getIsNew from './getIsNew'
 import useGetItem, { UseGetItemProps } from './useGetItem'
-import CrudForm, { CrudFormProps } from './CrudForm'
 
 interface DetailPageRenderProps {
   item: CrudItem
@@ -26,44 +28,44 @@ interface DetailPageRenderProps {
 export interface DetailPageProps {
   bannerProps?: Partial<DetailBannerProps>
   children?: React.ReactNode | RenderPropsFunction<DetailPageRenderProps>
-  headerProps?: Omit<DetailPageHeaderProps, 'module'>
-  module: CrudModule
-  formSections?: CrudFormProps['sections']
-  crudFormProps?: Partial<CrudFormProps>
   containerProps?: ContainerProps
-  useGetItemProps?: UseGetItemProps
+  crudFormProps?: Partial<CrudFormProps>
+  disableBanner?: boolean
+  disableHeader?: boolean
+  formSections?: CrudFormProps['sections']
+  headerProps?: Omit<DetailPageHeaderProps, 'module'>
 
+  module: CrudModule
   // Tabs
   tabs?: TabsProps['items']
   tabsProps?: TabsProps
-  useTabsProps?: UseTabsProps
 
-  disableBanner?: boolean
-  disableHeader?: boolean
+  useGetItemProps?: UseGetItemProps
+  useTabsProps?: UseTabsProps
 }
 
 const DetailPage: React.FC<DetailPageProps> = (props) => {
   const {
-    module,
-    children: injectedChildren,
-    formSections,
-    crudFormProps,
     bannerProps,
-    headerProps,
+    children: injectedChildren,
     containerProps,
-    useGetItemProps,
+    crudFormProps,
+    disableBanner,
+    disableHeader,
+    formSections,
+    headerProps,
+    module,
     // Tabs
     tabs: injectedTabs,
     tabsProps,
-    useTabsProps,
 
-    disableBanner,
-    disableHeader,
+    useGetItemProps,
+    useTabsProps,
   } = props
 
   // Get Item
   const onUseGetItem = useGetItem({ module, ...useGetItemProps })
-  const { item, isLoading } = onUseGetItem
+  const { isLoading, item } = onUseGetItem
 
   // renderProps for injection later
   const renderProps = { module, ...omit(onUseGetItem, 'refetch') }
@@ -91,7 +93,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   // Tabs
   // ==============================
   const onUseTabs = useTabs({ tabs: injectedTabs, ...useTabsProps })
-  const { hasTabs, currentTab, items: tabs } = onUseTabs
+  const { currentTab, hasTabs, items: tabs } = onUseTabs
 
   // Manage loading
   if (!hasTabs && isLoading) return <CircularProgress fullScreen />
@@ -104,9 +106,9 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
           {/* Breadcrumbs */}
           {!disableHeader && (
             <DetailPageHeader
+              disableTitle={!isNew}
               item={item}
               module={module}
-              disableTitle={!isNew}
               {...headerProps}
             />
           )}

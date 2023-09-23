@@ -1,10 +1,10 @@
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { CrudModule } from '@gravis-os/types'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 
 // along with https://github.com/onextech/wmc/blob/develop/packages/dashboard/src/lib/useFetch/initUseFetch.tsx
 export interface MakeFetchCrudItemProps {
   module: CrudModule
-  skValue: string | number | boolean
+  skValue: boolean | number | string
 }
 
 /**

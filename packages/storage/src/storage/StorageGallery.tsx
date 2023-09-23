@@ -1,31 +1,34 @@
-import React, { useEffect, useState } from 'react'
 import type { DropzoneOptions } from 'react-dropzone'
-import startCase from 'lodash/startCase'
+
+import React, { useEffect, useState } from 'react'
+import { UseFormReturn } from 'react-hook-form'
+
 import {
-  Box,
-  Typography,
   Avatar,
+  Box,
   BoxProps,
   ConfirmationDialog,
   Sortable,
   SortableLayout,
   Stack,
+  Typography,
 } from '@gravis-os/ui'
-import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
 import AddCircleOutlineOutlinedIcon from '@mui/icons-material/AddCircleOutlineOutlined'
-import { UseFormReturn } from 'react-hook-form'
+import CancelOutlinedIcon from '@mui/icons-material/CancelOutlined'
+import startCase from 'lodash/startCase'
+
+import FieldLabel from './FieldLabel'
 import useMultiStorageDropzone, {
   UseMultiStorageDropzoneProps,
 } from './useMultiStorageDropzone'
-import FieldLabel from './FieldLabel'
 
 const StorageGalleryAvatar = (props) => {
   const {
     active,
-    onRemove,
+    dragProps,
     hidden = false,
     item,
-    dragProps,
+    onRemove,
     size = 60,
     ...rest
   } = props
@@ -44,25 +47,25 @@ const StorageGalleryAvatar = (props) => {
     >
       <Avatar
         alt={title}
-        src={url || src}
         size={size}
+        src={url || src}
         {...dragProps}
         {...rest}
       />
 
       {!active && onRemove && !hidden && (
         <ConfirmationDialog
-          onConfirm={() => onRemove(item)}
-          icon={<CancelOutlinedIcon fontSize="small" />}
-          tooltip="Delete"
           buttonProps={{
             sx: {
+              '&:hover': { color: 'error.main', display: 'block' },
               position: 'absolute',
-              top: 0,
               right: 0,
-              '&:hover': { display: 'block', color: 'error.main' },
+              top: 0,
             },
           }}
+          icon={<CancelOutlinedIcon fontSize="small" />}
+          onConfirm={() => onRemove(item)}
+          tooltip="Delete"
         />
       )}
     </Box>
@@ -72,39 +75,39 @@ const StorageGalleryAvatar = (props) => {
 export interface StorageGalleryProps
   extends Omit<UseMultiStorageDropzoneProps, 'setFormValue'>,
     BoxProps {
-  name: string // The field name
   dropzoneProps?: DropzoneOptions
-  label?: string // The field label
-  setValue?: UseFormReturn['setValue']
   hidden?: boolean
+  label?: string // The field label
+  name: string // The field name
+  setValue?: UseFormReturn['setValue']
 }
 
 const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
   const {
-    name, // 'gallery_images
+    dropzoneProps,
+    hidden = false,
     item, // product
+    label,
     module, // e.g. The primary table that stores these files e.g. `product`
+    name, // 'gallery_images
+    setValue,
     storageModule, // The foreign table where we save the images e.g. `product_gallery_images`
     storageRecords,
-    dropzoneProps,
-    label,
-    setValue,
-    hidden = false,
     ...rest
   } = props
 
-  const { files, onRemove, dropzone, dropzoneOptions } =
+  const { dropzone, dropzoneOptions, files, onRemove } =
     useMultiStorageDropzone({
-      item,
-      storageRecords,
-      module,
-      storageModule,
-      setFormValue: (value) => setValue(name, value, { shouldDirty: true }),
       dropzoneProps,
+      item,
+      module,
+      setFormValue: (value) => setValue(name, value, { shouldDirty: true }),
+      storageModule,
+      storageRecords,
     })
-  const { getRootProps, getInputProps, isDragActive } = dropzone
+  const { getInputProps, getRootProps, isDragActive } = dropzone
   const { maxFiles } = dropzoneOptions
-  const hasFiles = Boolean(files.length)
+  const hasFiles = files.length > 0
 
   // TODO: Handle sorting and repositioning in DB
   const [sortKeys, setSortKeys] = useState(() => files.map(({ id }) => id))
@@ -121,28 +124,24 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
       {/* Label */}
       <FieldLabel>{label || startCase(name)}</FieldLabel>
 
-      <Stack direction="row" alignItems="flex-start" spacing={avatarSpacing}>
+      <Stack alignItems="flex-start" direction="row" spacing={avatarSpacing}>
         {/* Sortable Files */}
         {hasFiles && (
           <Box
             sx={{
-              overflowY: 'hidden',
-              overflowX: 'scroll',
               '&::-webkit-scrollbar': {
-                width: 0,
                 background: 'transparent',
+                width: 0,
               },
+              overflowX: 'scroll',
+              overflowY: 'hidden',
             }}
           >
             <Sortable
-              layout={SortableLayout.Horizontal}
-              spacing={avatarSpacing}
-              sortKeys={sortKeys}
-              setSortKeys={setSortKeys}
               items={files as any}
+              layout={SortableLayout.Horizontal}
               renderItem={({ onRemove: onRemoveSortableItem, ...rest }) => (
                 <StorageGalleryAvatar
-                  size={avatarSize}
                   hidden={hidden}
                   onRemove={async (item) => {
                     // Remove from db
@@ -150,9 +149,13 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
                     // Remove from ui
                     onRemoveSortableItem()
                   }}
+                  size={avatarSize}
                   {...rest}
                 />
               )}
+              setSortKeys={setSortKeys}
+              sortKeys={sortKeys}
+              spacing={avatarSpacing}
             />
           </Box>
         )}
@@ -167,28 +170,28 @@ const StorageGallery: React.FC<StorageGalleryProps> = (props) => {
         {!hidden && (
           <Avatar
             size={avatarSize}
-            variant="rounded"
             sx={{
-              border: '1px dashed',
-              borderColor: 'divider',
-              backgroundColor: 'transparent',
-              color: 'primary.main',
+              '&:active': { backgroundColor: 'background.default' },
               '&:hover': {
-                cursor: 'pointer',
                 borderColor: 'primary.main',
                 borderStyle: 'solid',
+                cursor: 'pointer',
               },
-              '&:active': { backgroundColor: 'background.default' },
+              backgroundColor: 'transparent',
+              border: '1px dashed',
+              borderColor: 'divider',
+              color: 'primary.main',
               ...(isDragActive && {
                 borderColor: 'primary.main',
                 borderStyle: 'solid',
               }),
             }}
+            variant="rounded"
             {...getRootProps()}
           >
             <Box sx={{ textAlign: 'center' }}>
               <AddCircleOutlineOutlinedIcon />
-              <Typography variant="subtitle2" color="primary.main">
+              <Typography color="primary.main" variant="subtitle2">
                 {isDragActive ? 'Upload Photo' : 'Add Photo'}
                 {maxFiles && maxFiles === 1 ? '' : 's'}
               </Typography>

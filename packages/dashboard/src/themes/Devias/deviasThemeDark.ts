@@ -14,50 +14,50 @@ const neutral = {
 }
 const background = {
   default: '#0B0F19', // Body background color
-  paper: neutral[800],
   muted: neutral[900],
+  paper: neutral[800],
 }
 const divider = '#2D3748'
 const primary = {
-  main: '#36a1cf',
-  light: '#f5fcff',
-  dark: '#134B63',
   contrastText: '#fff',
+  dark: '#134B63',
+  light: '#f5fcff',
+  main: '#36a1cf',
 }
 const secondary = {
-  main: '#10B981',
-  light: '#3FC79A',
-  dark: '#0B815A',
   contrastText: '#fff',
+  dark: '#0B815A',
+  light: '#3FC79A',
+  main: '#10B981',
 }
 const success = {
-  main: '#14B8A6',
-  light: '#43C6B7',
-  dark: '#0E8074',
   contrastText: neutral[900],
+  dark: '#0E8074',
+  light: '#43C6B7',
+  main: '#14B8A6',
 }
 const info = {
-  main: '#2196F3',
-  light: '#64B6F7',
-  dark: '#0B79D0',
   contrastText: neutral[900],
+  dark: '#0B79D0',
+  light: '#64B6F7',
+  main: '#2196F3',
 }
 const warning = {
-  main: '#FFB020',
-  light: '#FFBF4C',
-  dark: '#B27B16',
   contrastText: neutral[900],
+  dark: '#B27B16',
+  light: '#FFBF4C',
+  main: '#FFB020',
 }
 const error = {
-  main: '#D14343',
-  light: '#DA6868',
-  dark: '#922E2E',
   contrastText: neutral[900],
+  dark: '#922E2E',
+  light: '#DA6868',
+  main: '#D14343',
 }
 const text = {
+  disabled: 'rgba(255, 255, 255, 0.48)',
   primary: '#edf2f7',
   secondary: '#A0AEC0',
-  disabled: 'rgba(255, 255, 255, 0.48)',
 }
 
 const deviasThemeDark: ThemeOptions = {
@@ -74,16 +74,9 @@ const deviasThemeDark: ThemeOptions = {
       styleOverrides: {
         input: {
           '&::placeholder': {
-            opacity: 1,
             color: text.secondary,
+            opacity: 1,
           },
-        },
-      },
-    },
-    MuiOutlinedInput: {
-      styleOverrides: {
-        notchedOutline: {
-          borderColor: divider,
         },
       },
     },
@@ -93,6 +86,13 @@ const deviasThemeDark: ThemeOptions = {
           borderColor: divider,
           borderStyle: 'solid',
           borderWidth: 1,
+        },
+      },
+    },
+    MuiOutlinedInput: {
+      styleOverrides: {
+        notchedOutline: {
+          borderColor: divider,
         },
       },
     },
@@ -126,10 +126,10 @@ const deviasThemeDark: ThemeOptions = {
     MuiTableHead: {
       styleOverrides: {
         root: {
-          backgroundColor: neutral[800],
           '.MuiTableCell-root': {
             color: neutral[300],
           },
+          backgroundColor: neutral[800],
         },
       },
     },
@@ -137,10 +137,10 @@ const deviasThemeDark: ThemeOptions = {
   palette: {
     action: {
       active: neutral[400],
+      disabled: 'rgba(255, 255, 255, 0.26)',
+      disabledBackground: 'rgba(255, 255, 255, 0.12)',
       hover: 'rgba(255, 255, 255, 0.04)',
       selected: 'rgba(255, 255, 255, 0.08)',
-      disabledBackground: 'rgba(255, 255, 255, 0.12)',
-      disabled: 'rgba(255, 255, 255, 0.26)',
     },
     background,
     divider,

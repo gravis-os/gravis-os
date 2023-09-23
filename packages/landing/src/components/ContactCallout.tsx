@@ -1,39 +1,30 @@
 import React from 'react'
-import { useLayout } from '../providers/LayoutProvider'
+
 import renderContactCalloutButtonBlockItem from '../blocks/renderContactCalloutButtonBlockItem'
+import { useLayout } from '../providers/LayoutProvider'
 import Block from '../web/Block/Block'
 
 export interface ContactCalloutProps {
-  size?: 'medium' | 'large'
   page?: JSX.Element
+  size?: 'large' | 'medium'
 }
 
 const ContactCallout: React.FC<ContactCalloutProps> = (props) => {
   const { site } = useLayout()
-  const { cta_title, cta_button_title } = site || {}
-  const { size = 'large', page = <></> } = props
+  const { cta_button_title, cta_title } = site || {}
+  const { page = <></>, size = 'large' } = props
 
   const footerCalloutBlockProps = {
-    py: size === 'medium' ? 3 : 8,
-    sx: {
-      backgroundColor: 'background.paper',
-      borderTop: 1,
-      borderBottom: 1,
-      borderColor: 'divider',
-    },
-    reveal: false,
     items: [
       {
-        type: 'grid',
-        gridProps: { spacing: size === 'medium' ? { xs: 1, md: 2 } : 3 },
         gridItems: [
           {
             md: size === 'medium' ? 8 : 12,
             boxProps: {
               sx: {
-                height: '100%',
-                display: 'flex',
                 alignItems: 'center',
+                display: 'flex',
+                height: '100%',
                 justifyContent:
                   size === 'medium'
                     ? { xs: 'center', md: 'flex-start' }
@@ -42,17 +33,17 @@ const ContactCallout: React.FC<ContactCalloutProps> = (props) => {
             },
             items: [
               {
-                type: size === 'medium' ? 'h5' : 'h4',
                 title: cta_title,
                 titleProps: {
+                  component: 'h5',
                   sx: {
                     textAlign:
                       size === 'medium'
                         ? { xs: 'center', md: 'left' }
                         : 'center',
                   },
-                  component: 'h5',
                 },
+                type: size === 'medium' ? 'h5' : 'h4',
               },
             ],
           },
@@ -72,8 +63,18 @@ const ContactCallout: React.FC<ContactCalloutProps> = (props) => {
             ],
           },
         ],
+        gridProps: { spacing: size === 'medium' ? { xs: 1, md: 2 } : 3 },
+        type: 'grid',
       },
     ],
+    py: size === 'medium' ? 3 : 8,
+    reveal: false,
+    sx: {
+      backgroundColor: 'background.paper',
+      borderBottom: 1,
+      borderColor: 'divider',
+      borderTop: 1,
+    },
   }
 
   return <Block {...footerCalloutBlockProps} />

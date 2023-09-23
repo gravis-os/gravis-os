@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-let, fp/no-loops, fp/no-mutation */
+
 import React, {
   forwardRef,
   useCallback,
@@ -5,6 +7,8 @@ import React, {
   useMemo,
   useState,
 } from 'react'
+
+import { TextField, TextFieldProps } from '@gravis-os/fields'
 import { CrudModule } from '@gravis-os/types'
 import { CircularProgress } from '@gravis-os/ui'
 import {
@@ -18,25 +22,25 @@ import {
   PostgrestResponse,
 } from '@supabase/postgrest-js'
 import debounce from 'lodash/debounce'
+import filter from 'lodash/filter'
+import get from 'lodash/get'
 import has from 'lodash/has'
+import identity from 'lodash/identity'
+import isEqual from 'lodash/isEqual'
+import isNil from 'lodash/isNil'
+import negate from 'lodash/negate'
+import orderBy from 'lodash/orderBy'
 import partition from 'lodash/partition'
 import startCase from 'lodash/startCase'
 import uniqBy from 'lodash/uniqBy'
-import isEqual from 'lodash/isEqual'
-import isNil from 'lodash/isNil'
-import get from 'lodash/get'
-import filter from 'lodash/filter'
-import identity from 'lodash/identity'
-import negate from 'lodash/negate'
-import orderBy from 'lodash/orderBy'
-import { TextField, TextFieldProps } from '@gravis-os/fields'
-import getRelationalObjectKey from '../../utils/getRelationalObjectKey'
-import { ModelFieldDataItem } from './types'
-import { getIsCreateOption } from './getIsCreateOption'
-import { VirtualizedAutocompleteList } from './VirtualizedAutocompleteList'
-import { renderOptionFromListDataItem } from './renderModelFieldOption'
 
-type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
+import getRelationalObjectKey from '../../utils/getRelationalObjectKey'
+import { getIsCreateOption } from './getIsCreateOption'
+import { renderOptionFromListDataItem } from './renderModelFieldOption'
+import { ModelFieldDataItem } from './types'
+import { VirtualizedAutocompleteList } from './VirtualizedAutocompleteList'
+
+export type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
 /**
  * delayFunction
@@ -44,6 +48,12 @@ type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
  * @see https://stackoverflow.com/questions/25991367/difference-between-throttling-and-debouncing-a-function
  */
 const delayFunction = debounce
+
+const getCreateOption = ({ option, pk }) => {
+  if (!get(option, pk)) return
+  // e.g. 'Add "New Item"' -> 'New Item'
+  return option && pk && get(option, pk).toString().split('"')[1]
+}
 
 /**
  * Client-side filter
@@ -53,11 +63,11 @@ const delayFunction = debounce
 const getClientSideFilterOptions = createFilterOptions<ModelFieldDataItem>()
 
 const getWithCreateOptions =
-  ({ pk, inputValue }: { pk: string; inputValue: string }) =>
+  ({ inputValue, pk }: { inputValue: string; pk: string }) =>
   (options: ModelFieldDataItem[]) => {
     const isExisting = options.some((option) => inputValue === get(option, pk))
     if (inputValue !== '' && !isExisting) {
-      return options.concat({ [pk]: `Add "${inputValue}"` })
+      return [...options, { [pk]: `Add "${inputValue}"` }]
     }
     return options
   }
@@ -71,35 +81,10 @@ export type SetModelFieldQuery = ({
 }) => Promise<PostgrestResponse<ModelFieldDataItem>>
 
 export interface ModelFieldProps {
-  pk?: string
-  module: CrudModule
-  name: string
-  label?: string | false
-  multiple?: boolean
-  error?: TextFieldProps['error']
-  required?: boolean
-  helperText?: TextFieldProps['helperText']
-  textFieldProps?: TextFieldProps
-  sx?: ModelAutocompleteProps['sx']
-  isVirtualized?: boolean
-
   // Mui
   disableClearable?: ModelAutocompleteProps['disableClearable']
-  fullWidth?: ModelAutocompleteProps['fullWidth']
-
-  // Selector
-  select?: string
-
-  // RHF
-  onChange: (value: any) => void
-  setValue: (name: string, value: any) => void
-  value: any
-
-  // withCreate
-  withCreate?: boolean
-  onCreateClick?: (e, value: any) => void
-
   disableDefaultPrimaryOrFilter?: boolean
+  error?: TextFieldProps['error']
   /**
    * `filters`
    * Setting this filter will switch the component to use
@@ -112,28 +97,47 @@ export interface ModelFieldProps {
    * ]
    */
   filters?: Array<{
-    pk: string
-    op?: string // FilterOperator
-    value?: string | number
     foreignTable?: string // foreignTableName
+    op?: string // FilterOperator
+    pk: string
+    value?: number | string
   }>
-  /**
-   * setQuery
-   * Allow downstream to override the server-side query
-   */
-  setQuery?: SetModelFieldQuery
-  /**
-   * orderBy
-   * Allow ordering of options with the 2nd and 3rd parameters of lodash.orderBy
-   */
-  orderBy?:
-    | [Parameters<typeof orderBy>[1]]
-    | [Parameters<typeof orderBy>[1], Parameters<typeof orderBy>[2]]
+  fullWidth?: ModelAutocompleteProps['fullWidth']
   /**
    * getOptionLabel
    * Expose option label to downstream
    */
   getOptionLabel?: ModelAutocompleteProps['getOptionLabel']
+  /**
+   * Group options by the returned string of the groupBy function
+   */
+  groupBy?: ModelAutocompleteProps['groupBy']
+  helperText?: TextFieldProps['helperText']
+  isVirtualized?: boolean
+  label?: false | string
+  module: CrudModule
+
+  multiple?: boolean
+  name: string
+
+  // RHF
+  onChange: (value: any) => void
+
+  onCreateClick?: (e, value: any) => void
+  /**
+   * Option label key which will be used to render the tag component when an option is selected.
+   * If not provided, the main primary key will be used.
+   */
+  optionLabelKey?: string
+  /**
+   * orderBy
+   * Allow ordering of options with the 2nd and 3rd parameters of lodash.orderBy
+   */
+  orderBy?:
+    | [Parameters<typeof orderBy>[1], Parameters<typeof orderBy>[2]]
+    | [Parameters<typeof orderBy>[1]]
+
+  pk?: string
   /**
    * renderOption
    * Expose option item rendering to downstream
@@ -146,61 +150,67 @@ export interface ModelFieldProps {
     pk: string
   }) => React.ReactNode
 
+  required?: boolean
+  // Selector
+  select?: string
   /**
-   * Option label key which will be used to render the tag component when an option is selected.
-   * If not provided, the main primary key will be used.
+   * setQuery
+   * Allow downstream to override the server-side query
    */
-  optionLabelKey?: string
+  setQuery?: SetModelFieldQuery
+  setValue: (name: string, value: any) => void
+  sx?: ModelAutocompleteProps['sx']
+  textFieldProps?: TextFieldProps
 
-  /**
-   * Group options by the returned string of the groupBy function
-   */
-  groupBy?: ModelAutocompleteProps['groupBy']
+  value: any
+
+  // withCreate
+  withCreate?: boolean
 }
 
 const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const {
-    name,
+    disableDefaultPrimaryOrFilter,
+    // Error
+    error,
+
+    filters: injectedFilters,
+    helperText,
+    isVirtualized = false,
+
     label,
+    module,
+    // Extensions
+    multiple,
+
+    name,
+    // RHF
+    onChange: injectedOnChange,
+
+    onCreateClick,
+    // Tags
+    optionLabelKey: injectedOptionLabelKey,
+    orderBy: injectedOrderBy,
 
     // Query
     pk = 'title',
-    select: injectedSelect,
-    module,
-
-    // Extensions
-    multiple,
-    filters: injectedFilters,
-    disableDefaultPrimaryOrFilter,
-
-    // withCreate
-    withCreate,
-    onCreateClick,
-
-    // Component
-    setQuery,
     renderOption,
-    orderBy: injectedOrderBy,
-
-    // RHF
-    onChange: injectedOnChange,
-    setValue: setFormValue,
-    value: formValue,
-
-    // Error
-    error,
-    helperText,
-
     // Required
     required,
 
-    // Tags
-    optionLabelKey: injectedOptionLabelKey,
+    select: injectedSelect,
+    // Component
+    setQuery,
+
+    setValue: setFormValue,
 
     // TextField
     textFieldProps,
 
-    isVirtualized = false,
+    value: formValue,
+
+    // withCreate
+    withCreate,
     ...rest
   } = props
   const { table } = module
@@ -224,7 +234,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   // ==============================
   const loading = open && options.length === 0
   // Reverse lookup object if given a primitive value e.g. id
-  const isPrimitiveValue = ['string', 'number'].includes(typeof displayValue)
+  const isPrimitiveValue = ['number', 'string'].includes(typeof displayValue)
   const optionLabelKey = injectedOptionLabelKey || pk
 
   // ==============================
@@ -249,17 +259,17 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   const fetchData = useCallback(
     async (
       args: {
-        inputValue?: string
-        formValue?: any
         filters?: Array<{
-          pk: string
-          op?: string // FilterOperator
-          value?: string | number
           foreignTable?: string // foreignTableName
+          op?: string // FilterOperator
+          pk: string
+          value?: number | string
         }>
+        formValue?: any
+        inputValue?: string
       } = {}
     ) => {
-      const { inputValue, filters, formValue } = args
+      const { filters, formValue, inputValue } = args
 
       // Handle degenerate case
       const isValidInputValue = typeof inputValue === 'string'
@@ -296,7 +306,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
         // Add any additional server-side filters in the or query
         const injectedPrimaryOrFiltersArray =
           primaryTableFiltersWithoutValue.map((filter) => {
-            const { pk, op = 'ilike' } = filter
+            const { op = 'ilike', pk } = filter
             return `${pk}.${op}.${fuzzyInputValue}`
           })
 
@@ -313,8 +323,8 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
          * executed as (1) .orP() && (2) .or()
          */
         if (foreignTableFilters) {
-          foreignTableFilters.forEach((filter) => {
-            const { pk, op = 'ilike', foreignTable, value } = filter
+          for (const filter of foreignTableFilters) {
+            const { foreignTable, op = 'ilike', pk, value } = filter
 
             /**
              * Set QueryFilterBuilder on the foreignTable imperatively
@@ -327,7 +337,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
                 foreignTable,
               }
             )
-          })
+          }
         }
 
         /**
@@ -337,8 +347,8 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
          * executed as (1) .orP() && (2) .or()
          */
         if (primaryTableFiltersWithValue) {
-          primaryTableFiltersWithValue.forEach((filter) => {
-            const { pk, op = 'ilike', value } = filter
+          for (const filter of primaryTableFiltersWithValue) {
+            const { op = 'ilike', pk, value } = filter
 
             if (value) {
               /**
@@ -347,11 +357,11 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
                */
               query = query.or(`${pk}.${op}.${value}`)
             }
-          })
+          }
         }
 
         // Set QueryFilterBuilder imperatively
-        if (primaryOrFilterArray.length) {
+        if (primaryOrFilterArray.length > 0) {
           query = query.or(primaryOrFilterArray.join(','))
         }
       }
@@ -369,13 +379,17 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
           ? [displayValue as ModelFieldDataItem]
           : []
 
-      const nextOptions = (injectedOrderBy ? orderBy : identity).apply(null, [
-        filter(
-          dbItems ? uniqBy([...dbItems, ...newOptions], pk) : newOptions,
-          negate(isNil)
-        ),
-        ...(injectedOrderBy || []),
-      ])
+      const nextOptions = Reflect.apply(
+        injectedOrderBy ? orderBy : identity,
+        null,
+        [
+          filter(
+            dbItems ? uniqBy([...dbItems, ...newOptions], pk) : newOptions,
+            negate(isNil)
+          ),
+          ...(injectedOrderBy || []),
+        ]
+      )
 
       // Set options
       setOptions(nextOptions)
@@ -416,7 +430,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
   // Fetch data onChange as the user types
   useEffect(() => {
     // Fetch data
-    fetchDataWithDelay({ inputValue, filters })
+    fetchDataWithDelay({ filters, inputValue })
   }, [inputValue])
 
   // Fetch data onOpen so that some options will be populated
@@ -424,7 +438,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     if (!loading) return
     // onOpen, fetch all data for client-side filter
     // whereby client-side filtering: e.g. `fetch-all + instant-filter`
-    fetchDataWithDelay({ inputValue, filters })
+    fetchDataWithDelay({ filters, inputValue })
   }, [loading])
 
   // Fetch data when filters change
@@ -433,44 +447,31 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
     setFilters(injectedFilters)
     // inputValue has to be empty, else the [pk] filter will cause the query to returns no result
     // Hence, won't reset the field
-    fetchDataWithDelay({ inputValue: '', filters: injectedFilters, formValue })
+    fetchDataWithDelay({ filters: injectedFilters, formValue, inputValue: '' })
   }, [injectedFilters])
 
   // Fetch data when there is a value to populate options. Reverse look-up object from id
   useEffect(() => {
     if (displayValue && isPrimitiveValue)
-      fetchDataWithDelay({ inputValue, filters })
+      fetchDataWithDelay({ filters, inputValue })
   }, [])
 
   // ==============================
   // withCreate: Ability to create new item from an option
   // ==============================
   const withCreateOptions = withCreate && { freeSolo: true }
-  const getCreateOption = ({ option, pk }) => {
-    if (!get(option, pk)) return
-    // e.g. 'Add "New Item"' -> 'New Item'
-    return option && pk && get(option, pk).toString().split('"')[1]
-  }
 
   return (
     <>
       <Autocomplete
         {...withCreateOptions}
-        multiple={multiple}
-        open={open}
-        options={options}
-        value={displayValue}
-        inputValue={inputValue}
-        onOpen={() => setOpen(true)}
-        onClose={() => setOpen(false)}
         autoComplete
-        includeInputInList
         filterOptions={(options: ModelFieldDataItem[], params) => {
           const { inputValue } = params
 
           // Suggest the creation of a new value
           const withCreateOptions = withCreate
-            ? getWithCreateOptions({ pk, inputValue })
+            ? getWithCreateOptions({ inputValue, pk })
             : identity
 
           /**
@@ -498,6 +499,16 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
           return nextClientSideFilteredOptions
         }}
+        getOptionLabel={(option) => {
+          if (!option) return ''
+          // Fallback primary key value if the injected primary key returns null or undefined
+          return typeof option === 'string'
+            ? option
+            : get(option, optionLabelKey) ?? ''
+        }}
+        includeInputInList
+        inputValue={inputValue}
+        multiple={multiple}
         onChange={(
           e,
           newValue: ModelFieldDataItem | ModelFieldDataItem[] | null
@@ -528,6 +539,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             setFormValue(relationalObjectKey, nextFormValue)
           }
         }}
+        onClose={() => setOpen(false)}
         onInputChange={(event, newInputValue) => {
           if (newInputValue === '') {
             setDisplayValue(multiple ? [] : null)
@@ -540,18 +552,13 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
           setInputValue(newInputValue)
         }}
-        getOptionLabel={(option) => {
-          if (!option) return ''
-          // Fallback primary key value if the injected primary key returns null or undefined
-          return typeof option === 'string'
-            ? option
-            : get(option, optionLabelKey) ?? ''
-        }}
+        onOpen={() => setOpen(true)}
+        open={open}
+        options={options}
         renderInput={(params) => {
           return (
             <TextField
               inputRef={ref}
-              multiline
               label={
                 label === false
                   ? null
@@ -560,6 +567,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
                       name.endsWith('_id') ? name.split('_id')[0] : name
                     )}`
               }
+              multiline
               {...params}
               InputProps={{
                 ...params.InputProps,
@@ -586,6 +594,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
             />
           )
         }}
+        value={displayValue}
         {...(isVirtualized && {
           disableListWrap: true,
           ListboxComponent: VirtualizedAutocompleteList,

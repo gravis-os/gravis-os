@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { UseListReturn } from '@gravis-os/query'
 import { StorageAvatar } from '@gravis-os/storage'
 import {
@@ -11,6 +12,7 @@ import {
 } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
+
 import getDiscountedPriceFromItem, {
   getDiscountAmount,
 } from '../utils/getDiscountedPriceFromItem'
@@ -24,7 +26,7 @@ export interface PosProductListItemProps extends ListItemProps {
 
 const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
   const { item, itemProps, productSpecImagesQueryResult, ...rest } = props
-  const { id: product_id, quantity, price, discount, discountType } = item || {}
+  const { id: product_id, discount, discountType, price, quantity } = item || {}
 
   const { items: productSpecImages } = productSpecImagesQueryResult || {}
 
@@ -34,36 +36,34 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
         image_product_id === product_id
     ) || {}
 
-  const { src, alt } = productSpecImage?.[0] || {}
+  const { alt, src } = productSpecImage?.[0] || {}
 
   const listItemProps = {
+    title: (
+      <Typography gutterBottom variant="h5">
+        {item.title}
+      </Typography>
+    ),
     avatar: (
       <Badge
         badgeContent={quantity}
         color="secondary"
         invisible={quantity <= 1}
       >
-        <StorageAvatar src={src} alt={alt} sx={{ borderRadius: 0 }} />
+        <StorageAvatar alt={alt} src={src} sx={{ borderRadius: 0 }} />
       </Badge>
     ),
-    title: (
-      <Typography variant="h5" gutterBottom>
-        {item.title}
-      </Typography>
-    ),
-    subtitle: (
-      <Typography variant="body1" color="text.secondary">
-        {item.brand.title}
-      </Typography>
+    endIcon: (
+      <KeyboardArrowRightOutlinedIcon sx={{ color: 'text.secondary' }} />
     ),
     right: (
       <Stack>
         {discount && discountType && (
           <>
-            <Typography variant="subtitle2" color="red">
+            <Typography color="red" variant="subtitle2">
               {printAmount(price * quantity)}
             </Typography>
-            <Typography variant="subtitle2" color="red">
+            <Typography color="red" variant="subtitle2">
               {getDiscountAmount(item)}
             </Typography>
           </>
@@ -73,8 +73,10 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
         </Typography>
       </Stack>
     ),
-    endIcon: (
-      <KeyboardArrowRightOutlinedIcon sx={{ color: 'text.secondary' }} />
+    subtitle: (
+      <Typography color="text.secondary" variant="body1">
+        {item.brand.title}
+      </Typography>
     ),
     ...rest,
     ...itemProps,

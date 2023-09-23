@@ -1,12 +1,12 @@
+import differenceBy from 'lodash/differenceBy'
+import isEmpty from 'lodash/isEmpty'
 import omit from 'lodash/omit'
 import omitBy from 'lodash/omitBy'
-import pick from 'lodash/pick'
-import isEmpty from 'lodash/isEmpty'
 import partition from 'lodash/partition'
-import differenceBy from 'lodash/differenceBy'
+import pick from 'lodash/pick'
 
 const saveOneToManyValues = async (props) => {
-  const { data, item, values: oneToManyPairs, client, module } = props
+  const { client, data, item, module, values: oneToManyPairs } = props
 
   // `product`
   const primaryTableName = module.table.name

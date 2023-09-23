@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { TextField } from '@gravis-os/fields'
 import { Button, Stack, Typography } from '@gravis-os/ui'
 import isNan from 'lodash/isNaN'
@@ -22,33 +23,33 @@ const QuantityButtonGroup = ({ quantity, setQuantity }) => {
   return (
     <Stack>
       <Typography
-        variant="overline"
         fontSize={16}
         sx={{ color: 'text.secondary' }}
+        variant="overline"
       >
         Quantity
       </Typography>
       <Stack
+        alignItems="center"
         direction="row"
         justifyContent="space-between"
-        alignItems="center"
-        sx={{ mt: 2 }}
         spacing={2}
+        sx={{ mt: 2 }}
       >
-        <Button size="large" fullWidth onClick={onDecrement}>
+        <Button fullWidth onClick={onDecrement} size="large">
           <Typography variant="h1">-</Typography>
         </Button>
         <TextField
           fullWidth
-          value={quantity}
-          sx={{ height: '100%' }}
           inputProps={{
-            sx: { height: 32, fontSize: 'h1.fontSize', textAlign: 'center' },
+            sx: { fontSize: 'h1.fontSize', height: 32, textAlign: 'center' },
           }}
           onChange={(e) => handleOnChange(e)}
+          sx={{ height: '100%' }}
+          value={quantity}
         />
-        <Button size="large" color="primary" fullWidth onClick={onIncrement}>
-          <Typography variant="h1" color="white">
+        <Button color="primary" fullWidth onClick={onIncrement} size="large">
+          <Typography color="white" variant="h1">
             +
           </Typography>
         </Button>

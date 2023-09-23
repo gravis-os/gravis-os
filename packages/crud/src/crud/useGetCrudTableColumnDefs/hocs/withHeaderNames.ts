@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/consistent-function-scoping */
+
 import startCase from 'lodash/startCase'
 
 const withHeaderNames = () => (columnDefs) =>

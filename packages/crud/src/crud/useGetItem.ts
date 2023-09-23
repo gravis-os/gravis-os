@@ -1,29 +1,30 @@
-import { useRouter } from 'next/router'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { QueryObserverOptions, useQuery, UseQueryResult } from 'react-query'
-import { CrudItem, CrudModule } from '@gravis-os/types'
+import { QueryObserverOptions, UseQueryResult, useQuery } from 'react-query'
+
 import { useUser } from '@gravis-os/auth'
+import { CrudItem, CrudModule } from '@gravis-os/types'
 import {
   getObjectWithGetters,
   getQueryWithRouteParamsOnly,
 } from '@gravis-os/utils'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import isNil from 'lodash/isNil'
+import { useRouter } from 'next/router'
 
 export interface UseGetItemProps {
   module: CrudModule
-  slug?: string | null
   options?: QueryObserverOptions
+  slug?: null | string
 }
 
 export interface UseGetItemResult extends Omit<UseQueryResult, 'error'> {
+  error: unknown
   item: any
   loading: boolean
-  error: unknown
 }
 
 const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
-  const { module, slug: injectedSlug, options: queryOptions } = props
-  const { table, select } = module
+  const { slug: injectedSlug, module, options: queryOptions } = props
+  const { select, sk, table, virtuals } = module
 
   // User
   const { user } = useUser()
@@ -31,8 +32,8 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
   // Router
   const router = useRouter()
   const queryWithRouteParamsOnly = getQueryWithRouteParamsOnly(router)
-  const querySlug = queryWithRouteParamsOnly[module.sk] as string
-  const routerSlug = querySlug !== 'new' ? querySlug : null
+  const querySlug = queryWithRouteParamsOnly[sk] as string
+  const routerSlug = querySlug === 'new' ? null : querySlug
 
   // Slug value to match
   const slug = injectedSlug ?? routerSlug
@@ -44,13 +45,13 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
     const onItemQuery = await supabaseClient
       .from(table.name)
       .select(select?.detail || '*')
-      .match({ [module.sk]: slug })
+      .match({ [sk]: slug })
       .limit(1)
       .single()
 
     const { data, error } = onItemQuery
 
-    if (error) throw new Error(error.message)
+    if (error) return new Error(error.message)
 
     return data
   }
@@ -60,26 +61,23 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
   const isDetailPage = !isNil(injectedSlug)
   const queryKey = isDetailPage
     ? [table.name, 'detail', { slug }]
-    : [table.name, 'detail', { routerSlug, slug }]
+    : [table.name, 'detail', { slug, routerSlug }]
 
   // Fetch
   const onUseQuery = useQuery(queryKey, () => fetchItem({ slug }), {
     enabled: Boolean(user && !isNil(slug)),
     ...queryOptions,
   })
-  const { data: item, isLoading: loading, isError: error } = onUseQuery
+  const { data: item, isError: error, isLoading: loading } = onUseQuery
 
   // Add virtuals
-  const itemWithVirtuals = getObjectWithGetters(
-    item as CrudItem,
-    module.virtuals
-  )
+  const itemWithVirtuals = getObjectWithGetters(item as CrudItem, virtuals)
 
   return {
     ...onUseQuery,
+    error,
     item: itemWithVirtuals,
     loading,
-    error,
   }
 }
 

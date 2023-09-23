@@ -1,5 +1,6 @@
 import React from 'react'
-import dynamic from 'next/dynamic'
+
+import { WithPaletteModeProps, withPaletteMode } from '@gravis-os/theme'
 import {
   AccordionProps,
   Box,
@@ -24,103 +25,108 @@ import {
   VideoProps,
 } from '@gravis-os/ui'
 import merge from 'lodash/merge'
-import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
+import dynamic from 'next/dynamic'
+
 import { BlockItemTypeEnum } from './constants'
 
 const DynamicDialog = dynamic(() =>
   import('@gravis-os/ui').then((module) => module.Dialog)
 )
 
-export interface BlockItemProps extends Omit<BoxProps, 'title' | 'maxWidth'> {
+export interface BlockItemProps extends Omit<BoxProps, 'maxWidth' | 'title'> {
+  // Background Video
+  backgroundVideoProps?: VideoProps
+
   // BoxProps - Wrapper of a BlockItem
   boxProps?: BoxProps
 
+  // Card
+  cardItems?: BlockItemProps[]
+  cardProps?: CardProps
+  containerProps?: ContainerProps
   // DialogProps (only applicable in gridItems)
   dialogProps?: DialogProps
 
   // Container
   disableContainer?: boolean
   disableContainerOnMobile?: boolean
-  containerProps?: ContainerProps
-  maxWidth?: string | boolean // ContainerProps['maxWidth']
+  gridItemProps?: GridProps
 
-  // Grid
-  gridProps?: GridProps
   gridItems?: Array<
     GridProps & { boxProps?: BoxProps; items: BlockItemProps[] }
   >
-  gridItemProps?: GridProps
-
-  // Stack
-  stackProps?: StackProps
-  stackItems?: Array<
-    StackProps & { boxProps?: BoxProps; items: BlockItemProps[] }
-  >
-  stackItemProps?: StackProps
-
-  // Card
-  cardItems?: BlockItemProps[]
-  cardProps?: CardProps
+  // Grid
+  gridProps?: GridProps
+  maxWidth?: boolean | string // ContainerProps['maxWidth']
 
   // Palette
   mode?: WithPaletteModeProps['mode']
+  stackItemProps?: StackProps
 
+  stackItems?: Array<
+    StackProps & { boxProps?: BoxProps; items: BlockItemProps[] }
+  >
+
+  // Stack
+  stackProps?: StackProps
   // Core
-  title?: React.ReactNode | React.ReactElement | any // Fix issue with Icon type
+  title?: React.ReactElement | React.ReactNode | any // Fix issue with Icon type
   titleProps?:
-    | TypographyProps
-    | Omit<Partial<ImageProps>, 'src'>
-    | ButtonProps
-    | LinkProps
-    | DividerProps
     | AccordionProps
-  type?: BlockItemTypeEnum | string
+    | ButtonProps
+    | DividerProps
+    | LinkProps
+    | Omit<Partial<ImageProps>, 'src'>
+    | TypographyProps
 
-  // Background Video
-  backgroundVideoProps?: VideoProps
+  type?: BlockItemTypeEnum | string
 }
 
 const renderBlockItem = (props) => {
-  const { boxProps, type, title, titleProps } = props
+  const { title, boxProps, titleProps, type } = props
 
   const renderChildrenJsx = () => {
     if (!title) return null
 
     switch (type) {
       case BlockItemTypeEnum.OVERLINE:
-      case BlockItemTypeEnum.OVERLINE2:
+      case BlockItemTypeEnum.OVERLINE2: {
         return (
           <Box {...boxProps}>
             <Typography
-              variant={type}
               color="text.secondary"
               gutterBottom
+              variant={type}
               {...titleProps}
             >
               {title}
             </Typography>
           </Box>
         )
-      case BlockItemTypeEnum.ICON:
+      }
+      case BlockItemTypeEnum.ICON: {
         const Icon = title
         return (
           <Box {...boxProps}>
             <Icon {...titleProps} />
           </Box>
         )
-      case BlockItemTypeEnum.FA_ICON:
+      }
+      case BlockItemTypeEnum.FA_ICON: {
         return (
           <Box {...boxProps}>
-            <Box component="i" className={title} {...titleProps} />
+            <Box className={title} component="i" {...titleProps} />
           </Box>
         )
-      case BlockItemTypeEnum.DIVIDER:
+      }
+      case BlockItemTypeEnum.DIVIDER: {
         return (
           <Box {...boxProps}>
             <Divider {...titleProps} />
           </Box>
         )
-      case BlockItemTypeEnum.BUTTON:
+      }
+      case BlockItemTypeEnum.BUTTON: {
         const DynamicButton = dynamic(() =>
           import('@gravis-os/ui').then((module) => module.Button)
         )
@@ -129,7 +135,8 @@ const renderBlockItem = (props) => {
             <DynamicButton {...titleProps}>{title}</DynamicButton>
           </Box>
         )
-      case BlockItemTypeEnum.LINK:
+      }
+      case BlockItemTypeEnum.LINK: {
         return (
           <Box {...boxProps}>
             <Link displayBlock {...titleProps}>
@@ -137,7 +144,8 @@ const renderBlockItem = (props) => {
             </Link>
           </Box>
         )
-      case BlockItemTypeEnum.IMAGE:
+      }
+      case BlockItemTypeEnum.IMAGE: {
         // If it's absolute path, this is a local src, so don't fetch from network.
         const isBucketPath =
           typeof title === 'string' && title.startsWith('public')
@@ -156,7 +164,8 @@ const renderBlockItem = (props) => {
             <DynamicStorageImage src={title} {...titleProps} />
           </Box>
         )
-      case BlockItemTypeEnum.SVG:
+      }
+      case BlockItemTypeEnum.SVG: {
         const InlineSvgComponent = title
         return (
           <Box {...boxProps}>
@@ -165,6 +174,7 @@ const renderBlockItem = (props) => {
             </Box>
           </Box>
         )
+      }
       case BlockItemTypeEnum.H1:
       case BlockItemTypeEnum.H2:
       case BlockItemTypeEnum.H3:
@@ -177,7 +187,7 @@ const renderBlockItem = (props) => {
       case BlockItemTypeEnum.SUBTITLE3:
       case BlockItemTypeEnum.BODY1:
       case BlockItemTypeEnum.BODY2:
-      case BlockItemTypeEnum.CAPTION:
+      case BlockItemTypeEnum.CAPTION: {
         return (
           <Box {...boxProps}>
             <Typography variant={type} {...titleProps}>
@@ -185,7 +195,8 @@ const renderBlockItem = (props) => {
             </Typography>
           </Box>
         )
-      case BlockItemTypeEnum.HTML:
+      }
+      case BlockItemTypeEnum.HTML: {
         const DynamicHtml = dynamic(() =>
           import('@gravis-os/ui').then((module) => module.Html)
         )
@@ -194,22 +205,27 @@ const renderBlockItem = (props) => {
             {title && <DynamicHtml html={title} {...titleProps} />}
           </Box>
         )
+      }
       // Accordion
-      case BlockItemTypeEnum.ACCORDION:
+      case BlockItemTypeEnum.ACCORDION: {
         const DynamicAccordion = dynamic(() =>
           import('@gravis-os/ui').then((module) => module.Accordion)
         )
-        return <DynamicAccordion transparent items={title} {...titleProps} />
+        return <DynamicAccordion items={title} transparent {...titleProps} />
+      }
       // List
-      case BlockItemTypeEnum.LIST:
+      case BlockItemTypeEnum.LIST: {
         const DynamicList = dynamic(() =>
           import('@gravis-os/ui').then((module) => module.List)
         )
         return <DynamicList items={title} {...titleProps} />
-      case BlockItemTypeEnum.JSX:
+      }
+      case BlockItemTypeEnum.JSX: {
         return <Box {...boxProps}>{title}</Box>
-      default:
+      }
+      default: {
         return null
+      }
     }
   }
 
@@ -221,35 +237,35 @@ const renderBlockItem = (props) => {
 const renderGrid = (props) => {
   const {
     boxProps,
-    sx,
-    gridItems,
-    gridItemProps: injectedGridItemProps,
-    gridProps,
-    maxWidth,
     containerProps,
     disableContainer,
     disableContainerOnMobile,
+    gridItemProps: injectedGridItemProps,
+    gridItems,
+    gridProps,
+    maxWidth,
+    sx,
     titleProps, // Common title props
   } = props
   return (
     <Box sx={sx}>
       <Container
-        maxWidth={maxWidth}
         disableContainer={disableContainer}
         disableContainerOnMobile={disableContainerOnMobile}
+        maxWidth={maxWidth}
         {...containerProps}
       >
         <Box {...boxProps}>
           <Grid container spacing={{ xs: 2, md: 4 }} {...gridProps}>
             {gridItems.map((gridItem, i) => {
-              const { items, dialogProps, boxProps, ...rest } = gridItem
+              const { boxProps, dialogProps, items, ...rest } = gridItem
 
               // Wrapper gridItem props abstracted for common use
               const gridItemProps = {
-                key: `grid-item-${i}`,
-                item: true,
                 xs: 12,
                 md: true,
+                item: true,
+                key: `grid-item-${i}`,
                 ...injectedGridItemProps, // Spread to all grid items
                 ...rest,
                 sx: {
@@ -260,7 +276,7 @@ const renderGrid = (props) => {
 
               // Inform dev to provide Griditem.items as it is required.
               if (!Array.isArray(items)) {
-                throw new Error(
+                throw new TypeError(
                   `GridItem.items need to be defined as an array for title: "${gridItem.title}".`
                 )
               }
@@ -319,18 +335,18 @@ const renderGrid = (props) => {
 
 const renderStack = (props) => {
   const {
-    type,
-    sx,
-
-    stackItems: injectedStackItems,
-    stackItemProps: injectedStackItemProps,
-    stackProps,
-
+    containerProps,
     // Container
     maxWidth,
-    containerProps,
 
+    stackItemProps: injectedStackItemProps,
+    stackItems: injectedStackItems,
+    stackProps,
+
+    sx,
     titleProps,
+
+    type,
   } = props
 
   const stackItems = injectedStackItems.filter(Boolean) || []
@@ -338,7 +354,7 @@ const renderStack = (props) => {
   return (
     <Box sx={sx}>
       <Container maxWidth={maxWidth} {...containerProps}>
-        <Stack spacing={1} direction="row" {...stackProps}>
+        <Stack direction="row" spacing={1} {...stackProps}>
           {stackItems.map((stackItem, i) => {
             const { items, ...rest } = stackItem
 
@@ -352,7 +368,7 @@ const renderStack = (props) => {
 
             // Inform dev to provide Stackitem.items as it is required.
             if (!Array.isArray(items)) {
-              throw new Error(
+              throw new TypeError(
                 `StackItem.items need to be defined as an array for title: "${stackItem.title}".`
               )
             }
@@ -400,71 +416,75 @@ const renderStack = (props) => {
  */
 const BlockItem: React.FC<BlockItemProps> = (props) => {
   const {
-    type,
-    sx,
+    // Card
+    cardItems,
+    containerProps,
 
-    // Palette
-    mode,
+    disableContainer,
+
+    disableContainerOnMobile,
+    gridItemProps,
+    gridItems,
 
     // Grid
     gridProps,
-    gridItems,
-    gridItemProps,
+    maxWidth,
+    // Palette
+    mode,
 
-    // Stack
-    stackProps,
-    stackItems,
     stackItemProps,
 
-    // Card
-    cardItems,
-
-    maxWidth,
-    containerProps,
-    disableContainer,
-    disableContainerOnMobile,
+    stackItems,
+    // Stack
+    stackProps,
+    sx,
+    type,
   } = props
 
   const renderChildren = () => {
     switch (true) {
-      case Boolean(type === BlockItemTypeEnum.STACK && stackItems):
+      case Boolean(type === BlockItemTypeEnum.STACK && stackItems): {
         return renderStack(props)
-      case Boolean(type === BlockItemTypeEnum.GRID && gridItems):
+      }
+      case Boolean(type === BlockItemTypeEnum.GRID && gridItems): {
         return renderGrid(props)
+      }
       // Extension of GridItem actually, just with presets. Apple-like cards
-      case Boolean(type === BlockItemTypeEnum.CARD && cardItems):
+      case Boolean(type === BlockItemTypeEnum.CARD && cardItems): {
         return renderGrid({
           ...props,
-          gridProps: { spacing: { xs: 3 }, ...gridProps },
           gridItems: cardItems.map((cardItem) => ({
             boxProps: {
               stretch: true,
               ...cardItem.cardProps,
               sx: {
-                position: 'relative',
                 backgroundColor: 'background.paper',
                 borderRadius: 5,
-                pt: 6,
-                pb: 4,
                 overflow: 'hidden',
+                pb: 4,
+                position: 'relative',
+                pt: 6,
                 ...cardItem.cardProps?.sx,
               },
             },
             ...cardItem,
           })),
+          gridProps: { spacing: { xs: 3 }, ...gridProps },
         })
-      default:
+      }
+      default: {
         const childrenJsx = renderBlockItem(props as BlockItemProps)
         return (
           <Container
-            maxWidth={maxWidth as ContainerProps['maxWidth']}
             disableContainer={disableContainer}
             disableContainerOnMobile={disableContainerOnMobile}
+            maxWidth={maxWidth as ContainerProps['maxWidth']}
             {...containerProps}
           >
             {childrenJsx}
           </Container>
         )
+      }
     }
   }
 

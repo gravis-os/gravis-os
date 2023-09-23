@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
   Card,
   Grid,
@@ -8,7 +10,7 @@ import {
   Typography,
   useTabs,
 } from '@gravis-os/ui'
-import React from 'react'
+
 import { MOCK_LIST_ITEMS, MOCK_LOGO_JSX, MOCK_TABS } from '../../mocks'
 import getStorybookTitle from '../../utils/getStorybookTitle'
 import DashboardLayout from './DashboardLayout'
@@ -25,17 +27,17 @@ const DashboardLayoutChildren = () => {
 }
 
 export default {
-  component: DashboardLayout,
   title: getStorybookTitle('DashboardLayout'),
-  parameters: { layout: 'fullscreen' },
   args: {
-    logo: MOCK_LOGO_JSX,
+    children: <DashboardLayoutChildren />,
     disablePadding: true,
     headerProps: MOCK_DASHBOARD_HEADER_PROPS,
     leftAsideListItems: MOCK_LIST_ITEMS,
+    logo: MOCK_LOGO_JSX,
     rightAsideListItems: MOCK_LIST_ITEMS,
-    children: <DashboardLayoutChildren />,
   },
+  component: DashboardLayout,
+  parameters: { layout: 'fullscreen' },
 }
 
 export const Basic = (props) => <DashboardLayout {...props} />
@@ -51,10 +53,10 @@ MinivariantWithNestedList.args = {
   leftAsideListItems: [
     {
       ...MOCK_LIST_ITEMS[0],
-      key: 'nested-quotations',
       title: 'All Quotations',
       defaultOpen: false,
       items: [MOCK_LIST_ITEMS[1], MOCK_LIST_ITEMS[2]],
+      key: 'nested-quotations',
     },
     ...MOCK_LIST_ITEMS,
   ],
@@ -81,14 +83,11 @@ export const MinivariantWithDisableClipUnderAppBarAndGrid = (props) => (
 )
 MinivariantWithDisableClipUnderAppBarAndGrid.args = {
   ...MinivariantWithNestedList.args,
-  defaultLeftAsideOpen: false,
-  defaultRightAsideOpen: false,
-  disableClipUnderAppBar: true,
   children: (
     <>
       <Grid container spacing={0}>
         <Grid item sm={3}>
-          <Card square sx={{ minHeight: { md: '100vh' }, height: '100%' }}>
+          <Card square sx={{ height: '100%', minHeight: { md: '100vh' } }}>
             <Typography variant="h5">Welcome back!</Typography>
             <List items={MOCK_LIST_ITEMS} />
           </Card>
@@ -99,6 +98,9 @@ MinivariantWithDisableClipUnderAppBarAndGrid.args = {
       </Grid>
     </>
   ),
+  defaultLeftAsideOpen: false,
+  defaultRightAsideOpen: false,
+  disableClipUnderAppBar: true,
 }
 
 export const DarkMinivariantWithDisableClipUnderAppBarAndGrid = (props) => (
@@ -119,22 +121,22 @@ export const MinivariantWithSecondaryLeftAside = (props) => (
 )
 MinivariantWithSecondaryLeftAside.args = {
   ...Minivariant.args,
-  disableHeaderMenuToggleOnMobile: true,
-  showSecondaryLeftAside: true,
   defaultLeftAsideOpen: false,
   defaultSecondaryLeftAsideOpen: false,
+  disableHeaderMenuToggleOnMobile: true,
   headerProps: MOCK_DASHBOARD_HEADER_PROPS,
   leftAsideListItems: [
     {
       ...MOCK_LIST_ITEMS[0],
-      key: 'nested-quotations',
       title: 'All Quotations',
       defaultOpen: false,
-      selected: true,
       items: [MOCK_LIST_ITEMS[1], { ...MOCK_LIST_ITEMS[2], selected: true }],
+      key: 'nested-quotations',
+      selected: true,
     },
     ...MOCK_LIST_ITEMS.slice(0, 4),
   ],
+  showSecondaryLeftAside: true,
 }
 
 export const MinivariantWithSecondaryLeftAsideWithDisableClipUnderAppBar = (

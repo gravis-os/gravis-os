@@ -2,13 +2,13 @@ import { FormSectionFieldProps } from '@gravis-os/form'
 import get from 'lodash/get'
 
 const getValueWithoutOp = ({
+  fieldDefs,
   key,
   value,
-  fieldDefs,
 }: {
+  fieldDefs: Record<string, FormSectionFieldProps>
   key: string
   value: unknown
-  fieldDefs: Record<string, FormSectionFieldProps>
 }) => {
   // Remove operator from display value if operator exists
   const op = get(fieldDefs, key)?.op

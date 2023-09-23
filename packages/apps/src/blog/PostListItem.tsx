@@ -1,4 +1,7 @@
 import React from 'react'
+
+import { StorageImage } from '@gravis-os/storage'
+import { CrudModule } from '@gravis-os/types'
 import {
   Box,
   BoxProps,
@@ -8,25 +11,24 @@ import {
   Link,
   Typography,
 } from '@gravis-os/ui'
-import { StorageImage } from '@gravis-os/storage'
-import { CrudModule } from '@gravis-os/types'
+
 import { Post } from './types'
 
 export interface PostListItemProps extends CardProps {
+  blogCategoryModule: CrudModule | any
+  cardContentProps?: BoxProps
   item: Post
   postModule: CrudModule | any
-  blogCategoryModule: CrudModule | any
-  size?: 'small' | 'medium' | 'large'
-  cardContentProps?: BoxProps
+  size?: 'large' | 'medium' | 'small'
 }
 
 const PostListItem: React.FC<PostListItemProps> = (props) => {
   const {
-    item,
-    size = 'medium',
-    postModule,
     blogCategoryModule,
     cardContentProps,
+    item,
+    postModule,
+    size = 'medium',
     sx,
     ...rest
   } = props
@@ -36,7 +38,7 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
   const isSmall = size === 'small'
   const isLarge = size === 'large'
 
-  const { title, subtitle, avatar_src, avatar_alt, blog_category } = item
+  const { id, title, avatar_alt, avatar_src, blog_category, subtitle } = item
 
   const postHref = postModule.getWebHref([
     blog_category?.blog,
@@ -45,23 +47,23 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
   ])
 
   return (
-    <Card key={item.id} disableCardContent square sx={{ ...sx }} {...rest}>
+    <Card disableCardContent key={id} square sx={{ ...sx }} {...rest}>
       <Grid container spacing={2}>
-        <Grid item xs={3} lg={isSmall ? 4 : 3}>
+        <Grid item lg={isSmall ? 4 : 3} xs={3}>
           <Link href={postHref}>
             <StorageImage
-              src={avatar_src}
               alt={avatar_alt || title}
-              scaleOnHover
               ar="4:3"
               rounded
+              scaleOnHover
+              src={avatar_src}
             />
           </Link>
         </Grid>
-        <Grid item xs={9} lg={isSmall ? 8 : 9}>
+        <Grid item lg={isSmall ? 8 : 9} xs={9}>
           <Box
-            py={2}
             mr={2}
+            py={2}
             stretch
             sx={{
               display: 'flex',
@@ -77,21 +79,22 @@ const PostListItem: React.FC<PostListItemProps> = (props) => {
                 blog_category,
               ])}
             >
-              <Typography variant="overline" gutterBottom>
+              <Typography gutterBottom variant="overline">
                 {blog_category.title}
               </Typography>
             </Link>
             <Link
-              variant={isLarge ? 'h4' : isSmall ? 'h6' : 'h5'}
               href={postHref}
+              // prettier-ignore
+              variant={isLarge ? 'h4' : (isSmall ? 'h6' : 'h5')}
             >
               {title}
             </Link>
             {subtitle && (
               <Typography
-                variant={isSmall ? 'body2' : 'body1'}
                 color="text.secondary"
                 maxLines={3}
+                variant={isSmall ? 'body2' : 'body1'}
               >
                 {subtitle}
               </Typography>

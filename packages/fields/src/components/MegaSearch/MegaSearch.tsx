@@ -1,6 +1,8 @@
-import { Button, ButtonProps, Divider, Stack, StackProps } from '@mui/material'
 import React from 'react'
 import { Controller } from 'react-hook-form'
+
+import { Button, ButtonProps, Divider, Stack, StackProps } from '@mui/material'
+
 import MegaSearchAutocomplete, {
   MegaSearchAutocompleteProps,
 } from './MegaSearchAutocomplete'
@@ -10,20 +12,20 @@ import MegaSearchTextField, {
 
 export interface MegaSearchProps extends Omit<StackProps, 'onChange'> {
   buttonProps?: ButtonProps
+  disableButton?: boolean
   dropdowns?: MegaSearchAutocompleteProps[]
   textFields?: MegaSearchTextFieldProps[]
-  disableButton?: boolean
 }
 
 const MegaSearch: React.FC<MegaSearchProps> = (props) => {
-  const { dropdowns, textFields, buttonProps, sx, disableButton, ...rest } =
+  const { buttonProps, disableButton, dropdowns, sx, textFields, ...rest } =
     props
 
   return (
     <Stack
-      direction={{ xs: 'column', md: 'row' }}
       alignItems="center"
-      divider={<Divider orientation="vertical" flexItem />}
+      direction={{ xs: 'column', md: 'row' }}
+      divider={<Divider flexItem orientation="vertical" />}
       sx={{ background: 'white', borderRadius: 2, ...sx }}
       {...rest}
     >
@@ -43,9 +45,9 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
 
         return (
           <Controller
+            control={control}
             key={name}
             name={name}
-            control={control}
             render={(renderProps) => {
               const { field } = renderProps
               return (
@@ -78,9 +80,9 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
 
         return (
           <Controller
+            control={control}
             key={name}
             name={name}
-            control={control}
             render={(renderProps) => {
               const { field } = renderProps
               return (
@@ -101,11 +103,11 @@ const MegaSearch: React.FC<MegaSearchProps> = (props) => {
       {/* Button */}
       {!disableButton && (
         <Button
-          variant="contained"
           color="primary"
           fullWidth
           size="large"
           type="submit"
+          variant="contained"
           {...buttonProps}
           sx={{
             height: '100%',

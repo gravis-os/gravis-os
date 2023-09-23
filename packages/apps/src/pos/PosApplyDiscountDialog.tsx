@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+
 import {
   Button,
   Dialog,
   DialogTitle,
   Divider,
-  Typography,
   Stack,
+  Typography,
 } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import {
@@ -19,22 +20,24 @@ import {
 import { TransitionProps } from '@mui/material/transitions'
 import set from 'lodash/set'
 import startCase from 'lodash/startCase'
-import { getDiscountedPrice } from '../utils/getDiscountedPriceFromItem'
-import { usePos } from './PosProvider'
+
 import type { CartItem } from './types'
 
+import { getDiscountedPrice } from '../utils/getDiscountedPriceFromItem'
+import { usePos } from './PosProvider'
+
 export interface PosApplyDiscountDialogProps {
-  open: boolean
-  onClose: VoidFunction
   cartIndex: number
+  onClose: VoidFunction
+  open: boolean
 }
 
 const PosApplyDiscountDialog: React.FC<PosApplyDiscountDialogProps> = (
   props
 ) => {
-  const { open, onClose, cartIndex } = props
+  const { cartIndex, onClose, open } = props
   const { cart, setCart } = usePos()
-  const item = cart?.items?.[cartIndex] ?? {} as CartItem
+  const item = cart?.items?.[cartIndex] ?? ({} as CartItem)
 
   const [selectedDiscountType, setSelectedDiscountType] = useState(
     item?.discountType || 'amount'
@@ -65,17 +68,17 @@ const PosApplyDiscountDialog: React.FC<PosApplyDiscountDialogProps> = (
 
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
-      fullScreen
       TransitionComponent={Slide}
       TransitionProps={{ direction: 'left' } as TransitionProps}
+      fullScreen
+      onClose={onClose}
+      open={open}
     >
       <DialogTitle>
         <Stack
+          alignItems="center"
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
         >
           Apply Discount to Item
         </Stack>
@@ -84,18 +87,18 @@ const PosApplyDiscountDialog: React.FC<PosApplyDiscountDialogProps> = (
       <DialogContent sx={{ pt: 2 }}>
         <Stack spacing={3}>
           <Typography
-            variant="overline"
             fontSize={16}
             sx={{ color: 'text.secondary' }}
+            variant="overline"
           >
             Discount
           </Typography>
           <ToggleButtonGroup
-            fullWidth
-            exclusive
-            value={selectedDiscountType}
-            onChange={handleSelectDiscountType}
             color="primary"
+            exclusive
+            fullWidth
+            onChange={handleSelectDiscountType}
+            value={selectedDiscountType}
           >
             <ToggleButton value="amount">Amount ($)</ToggleButton>
             <ToggleButton value="percentage">Percentage (%)</ToggleButton>
@@ -104,8 +107,8 @@ const PosApplyDiscountDialog: React.FC<PosApplyDiscountDialogProps> = (
           <TextField
             fullWidth
             label={startCase(selectedDiscountType)}
-            value={nextCartItem?.discount}
             onChange={(e) => handleChangeItemDiscount(e.target.value)}
+            value={nextCartItem?.discount}
           />
           <TextField
             fullWidth
@@ -122,7 +125,7 @@ const PosApplyDiscountDialog: React.FC<PosApplyDiscountDialogProps> = (
       </DialogContent>
       <Divider />
       <DialogActions>
-        <Button variant="contained" onClick={handleSaveDiscount}>
+        <Button onClick={handleSaveDiscount} variant="contained">
           Save
         </Button>
       </DialogActions>

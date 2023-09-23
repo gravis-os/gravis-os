@@ -1,5 +1,6 @@
-import orderBy from 'lodash/orderBy'
 import { PressRelease } from '@gravis-os/types'
+import orderBy from 'lodash/orderBy'
+
 import { useLayout } from '../providers/LayoutProvider'
 import { BlockProps } from '../web/Block/Block'
 import renderPostBlockItem, {
@@ -21,12 +22,11 @@ const renderOtherPressReleasesBlock = (
     id: 'other-press-releases',
     items: [
       {
-        type: 'h4',
         title: 'Other News',
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
+        type: 'h4',
       },
       {
-        type: 'grid',
         gridItems: orderBy(items, 'published_at', 'desc').map((item) => {
           return renderPostBlockItem({
             item: {
@@ -35,6 +35,7 @@ const renderOtherPressReleasesBlock = (
             },
           })
         }),
+        type: 'grid',
       },
     ],
     ...rest,

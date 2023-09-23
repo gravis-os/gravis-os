@@ -1,5 +1,5 @@
 const withFallbackPlaceholder =
-  ({ fallbackPlaceholder, disableFallbackPlaceholder }) =>
+  ({ disableFallbackPlaceholder, fallbackPlaceholder }) =>
   (columnDefs) => {
     return disableFallbackPlaceholder
       ? columnDefs

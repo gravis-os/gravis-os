@@ -1,108 +1,111 @@
-import React, { useEffect, useRef } from 'react'
-import { useUser } from '@gravis-os/auth'
 import type { FormSectionsProps } from '@gravis-os/form'
+
+import React, { useEffect, useRef } from 'react'
+
+import { useUser } from '@gravis-os/auth'
+import { UseListProps, useList } from '@gravis-os/query'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
-import { useList, UseListProps } from '@gravis-os/query'
-import size from 'lodash/size'
 import { RowModelType } from 'ag-grid-community'
-import DataTable, { DataTableProps } from './DataTable'
-import getFieldsFromFormSections from './getFieldsFromFormSections'
+import size from 'lodash/size'
+
+import { CrudTableColumnDef } from '../types'
+import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
+import { CrudFormProps } from './CrudForm'
+import CrudPreviewDrawer from './CrudPreviewDrawer'
+import CrudTableFilterTabs, {
+  CrudTableFilterTabsProps,
+} from './CrudTableFilterTabs'
 import CrudTableHeader, { CrudTableHeaderProps } from './CrudTableHeader'
-import useRouterQueryFilters from './useRouterQueryFilters'
+import DataTable, { DataTableProps } from './DataTable'
+import { FilterFormProps } from './FilterForm'
+import getFieldsFromFormSections from './getFieldsFromFormSections'
+import useCrud from './useCrud'
 import useGetCrudTableColumnDefs, {
   UseGetCrudTableColumnDefsProps,
 } from './useGetCrudTableColumnDefs/useGetCrudTableColumnDefs'
 import usePreviewDrawer from './usePreviewDrawer'
-import { CrudFormProps } from './CrudForm'
-import CrudPreviewDrawer from './CrudPreviewDrawer'
-import { CrudTableColumnDef } from '../types'
-import useCrud from './useCrud'
-import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
-import CrudTableFilterTabs, {
-  CrudTableFilterTabsProps,
-} from './CrudTableFilterTabs'
-import { FilterFormProps } from './FilterForm'
+import useRouterQueryFilters from './useRouterQueryFilters'
 
 export interface CrudTableProps {
-  module: CrudModule
+  actions?: React.ReactNode
+  addFormProps?: Partial<CrudFormProps>
+  addFormSections?: FormSectionsProps['sections']
   addModule?: CrudModule
   columnDefs?: CrudTableColumnDef[]
-  setQuery?: UseListProps['setQuery']
-  headerProps?: Partial<CrudTableHeaderProps>
+  crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
+  dataTableProps?: Partial<DataTableProps>
+  disableActions?: boolean
   disableAdd?: boolean
   disableDelete?: boolean
   disableManage?: boolean
   disablePreview?: boolean
-  disableTitle?: boolean
-  disableActions?: boolean
   disableServerSideRowModel?: boolean
-  isListPage?: boolean
+  disableTitle?: boolean
   disableUpload?: CrudTableHeaderProps['disableUpload']
-  uploadFields?: string[]
-  manyToManyKeys?: string[]
-  getUploadValues?: (rows: unknown) => unknown
+  filterFormProps?: Partial<FilterFormProps>
+  filterFormSections?: FormSectionsProps['sections']
 
   filterTabs?: CrudTableFilterTabsProps['items']
   filterTabsProps?: CrudTableFilterTabsProps
 
-  previewFormSections?: FormSectionsProps['sections']
-  filterFormSections?: FormSectionsProps['sections']
-  searchFormSections?: FormSectionsProps['sections']
-  addFormSections?: FormSectionsProps['sections']
+  getUploadValues?: (rows: unknown) => unknown
+  headerProps?: Partial<CrudTableHeaderProps>
+  isListPage?: boolean
+  manyToManyKeys?: string[]
+  module: CrudModule
   previewFormProps?: Partial<CrudFormProps>
-  addFormProps?: Partial<CrudFormProps>
-  dataTableProps?: Partial<DataTableProps>
+  previewFormSections?: FormSectionsProps['sections']
+  searchFormSections?: FormSectionsProps['sections']
+  setQuery?: UseListProps['setQuery']
+  uploadFields?: string[]
   useGetCrudTableColumnDefsProps?: UseGetCrudTableColumnDefsProps
-  crudDeleteDialogProps?: Omit<CrudDeleteDialogProps, 'module'>
-  useListProps?: Partial<UseListProps>
-  filterFormProps?: Partial<FilterFormProps>
 
-  actions?: React.ReactNode
+  useListProps?: Partial<UseListProps>
 }
 
 const CrudTable: React.FC<CrudTableProps> = (props) => {
   const {
+    addFormProps,
+    addFormSections = [],
     module,
     addModule = module,
     columnDefs: injectedColumnDefs,
-    isListPage,
-    disableUpload,
 
-    // Data
-    setQuery,
+    crudDeleteDialogProps,
 
+    dataTableProps: injectedDataTableProps,
+    disableActions,
     // Disables
     disableAdd,
     disableDelete,
     disableManage,
     disablePreview,
-    disableTitle,
-    disableActions,
     disableServerSideRowModel,
 
+    disableTitle,
+    disableUpload,
+
+    filterFormProps,
+    filterFormSections = [],
     // Tabs
     filterTabs = [],
     filterTabsProps,
-
-    // Form Sections
-    previewFormSections: injectedPreviewFormSections = [],
-    filterFormSections = [],
-    searchFormSections = [],
-    addFormSections = [],
-    uploadFields,
-    manyToManyKeys,
     getUploadValues,
-
     // Props
     headerProps,
+    isListPage,
+
+    manyToManyKeys,
     previewFormProps,
-    addFormProps,
-    dataTableProps: injectedDataTableProps,
+    // Form Sections
+    previewFormSections: injectedPreviewFormSections = [],
+    searchFormSections = [],
+    // Data
+    setQuery,
+    uploadFields,
     useGetCrudTableColumnDefsProps,
-    crudDeleteDialogProps,
     useListProps,
-    filterFormProps,
   } = props
   // Contexts
   const { user } = useUser()
@@ -118,21 +121,22 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
   // List Query
   const onUseList = useList({
-    module,
+    defaultSortOrder: 'id.desc',
     disableWorkspacePlugin: true,
     filterByQueryString: true,
-    defaultSortOrder: 'id.desc',
+    module,
     ...useListProps,
     pagination: { pageSize: 100, ...useListProps?.pagination },
     queryOptions: { enabled: Boolean(user), ...useListProps?.queryOptions },
     setQuery,
   })
   const {
-    items: fetchedItems,
-    refetch,
-    pagination,
+    count,
     fetchNextPage,
     isFetching,
+    items: fetchedItems,
+    pagination,
+    refetch,
   } = onUseList
 
   // Add virtuals
@@ -145,7 +149,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     module,
     previewFormSections: injectedPreviewFormSections,
   })
-  const { setPreview, previewFormSections } = usePreviewDrawerProps
+  const { previewFormSections, setPreview } = usePreviewDrawerProps
 
   // AgGrid Ref
   const gridRef = useRef(null)
@@ -176,10 +180,10 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     // By default, fetch data from server-side paginated
     ...(!disableServerSideRowModel && {
-      rowModelType: 'externalServerSide' as RowModelType,
       height: '60vh',
-      serverSideRowModelProps: { pagination, fetchNextPage },
-      serverSideRowCount: onUseList?.count,
+      rowModelType: 'externalServerSide' as RowModelType,
+      serverSideRowCount: count,
+      serverSideRowModelProps: { fetchNextPage, pagination },
     }),
     ...injectedDataTableProps,
   }
@@ -187,16 +191,16 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   // ColumnDefs
   const columnDefs = useGetCrudTableColumnDefs({
     columnDefs: injectedColumnDefs,
-    module,
+    disableActions,
     disableDelete,
     disableManage,
     disablePreview,
     disableTitle,
-    disableActions,
-    user,
+    module,
+    previewFormSections,
     // For Preview
     setPreview,
-    previewFormSections,
+    user,
     // Expose extension
     ...useGetCrudTableColumnDefsProps,
   })
@@ -205,18 +209,18 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     <div>
       {/* Search + Add Row */}
       <CrudTableHeader
-        module={module}
-        disableUpload={disableUpload}
-        uploadFields={uploadFields}
-        manyToManyKeys={manyToManyKeys}
-        getUploadValues={getUploadValues}
-        disableAdd={disableAdd}
-        addModule={addModule}
-        filters={filters}
-        setFilters={setFilters}
-        searchFormSections={searchFormSections}
-        filterFormSections={filterFormSections}
         addFormSections={addFormSections}
+        addModule={addModule}
+        disableAdd={disableAdd}
+        disableUpload={disableUpload}
+        filterFormSections={filterFormSections}
+        filters={filters}
+        getUploadValues={getUploadValues}
+        manyToManyKeys={manyToManyKeys}
+        module={module}
+        searchFormSections={searchFormSections}
+        setFilters={setFilters}
+        uploadFields={uploadFields}
         {...headerProps}
         addDialogProps={{
           crudFormProps: addFormProps,
@@ -232,10 +236,10 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
       {/* DataTable + Toolbar Row */}
       <DataTable
+        columnDefs={columnDefs}
         module={module}
         ref={gridRef}
         rowData={items}
-        columnDefs={columnDefs}
         {...dataTableProps}
       />
 

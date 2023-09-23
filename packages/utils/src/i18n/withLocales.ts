@@ -1,7 +1,8 @@
-import flowRight from 'lodash/flowRight'
 import { CrudItem } from '@gravis-os/types'
-import withExclusiveLocales from './withExclusiveLocales'
+import flowRight from 'lodash/flowRight'
+
 import withBlockedLocales from './withBlockedLocales'
+import withExclusiveLocales from './withExclusiveLocales'
 
 /**
  * Accepts the current locale and filters out CrudItems based on it

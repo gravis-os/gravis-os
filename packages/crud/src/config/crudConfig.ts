@@ -1,7 +1,7 @@
 const crudConfig = {
-  searchWidth: 560,
-  rightAsideWidth: 480,
   rightAsideBoxShadow: 3,
+  rightAsideWidth: 480,
+  searchWidth: 560,
 }
 
 export default crudConfig

@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { useGtmPageViewOnRouteChange } from './GoogleTagManager'
 
 export interface AnalyticsProviderProps {

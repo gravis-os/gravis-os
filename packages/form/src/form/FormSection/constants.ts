@@ -1,41 +1,41 @@
 export enum FormSectionFieldTypeEnum {
-  // String
-  HTML = 'html',
-  INPUT = 'input',
-  EMAIL = 'email',
-  MOBILE = 'mobile',
-  PASSWORD = 'password',
-  TEXTAREA = 'textarea',
-  TEXT = 'text', // alias for input
-  RADIO = 'radio',
-  CHECKBOX = 'checkbox',
-
-  // Dropdown
-  COUNTRY_CODE = 'country_code',
-  COUNTRY = 'country',
-
   // Number
   AMOUNT = 'amount',
-  PERCENTAGE = 'percentage',
-  RATE = 'rate',
-
-  // Boolean
-  SWITCH = 'switch',
-
-  // Blob
-  FILES = 'files',
-  IMAGES = 'images',
-  IMAGE = 'image',
-
-  // Objects/Arrays
-  MODEL = 'model',
-  CHIP = 'chip',
+  CHECKBOX = 'checkbox',
   CHECKBOX_TABLE = 'CHECKBOX_TABLE',
-  JSON = 'json',
-
+  CHIP = 'chip',
+  COUNTRY = 'country',
+  // Dropdown
+  COUNTRY_CODE = 'country_code',
   // Date
   DATE = 'date',
   DATE_TIME = 'date_time',
+  EMAIL = 'email',
+
+  // Blob
+  FILES = 'files',
+  // String
+  HTML = 'html',
+
+  IMAGE = 'image',
+  IMAGES = 'images',
+  INPUT = 'input',
+
+  JSON = 'json',
+
+  MOBILE = 'mobile',
+  // Objects/Arrays
+  MODEL = 'model',
+  PASSWORD = 'password',
+
+  PERCENTAGE = 'percentage',
+  RADIO = 'radio',
+  RATE = 'rate',
+  // Boolean
+  SWITCH = 'switch',
+
+  TEXT = 'text', // alias for input
+  TEXTAREA = 'textarea',
   TIME = 'time',
   TIME_RANGE = 'time_range',
 }

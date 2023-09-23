@@ -1,3 +1,5 @@
+/* eslint-disable fp/no-let, fp/no-mutation */
+
 import createCache from '@emotion/cache'
 
 const isBrowser = typeof document !== 'undefined'
@@ -15,5 +17,5 @@ export default function createEmotionCache() {
     insertionPoint = emotionInsertionPoint ?? undefined
   }
 
-  return createCache({ key: 'mui-style', insertionPoint })
+  return createCache({ insertionPoint, key: 'mui-style' })
 }

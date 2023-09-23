@@ -1,19 +1,20 @@
 import { green, grey } from '@mui/material/colors'
+
 import lightPalette from './lightPalette'
 
 const darkPalette = {
   ...lightPalette,
+  background: {
+    default: '#000',
+    paper: '#101013',
+  },
   mode: 'dark' as const,
   primary: {
-    main: grey.A100,
     contrastText: grey['900'],
+    main: grey.A100,
   },
   secondary: {
     main: green.A400,
-  },
-  background: {
-    paper: '#101013',
-    default: '#000',
   },
   text: {
     secondary: 'rgba(255,255,255,0.5)',

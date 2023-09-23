@@ -1,4 +1,5 @@
 import { CrudItem } from '@gravis-os/types'
+
 import withLocales from './withLocales'
 
 /**

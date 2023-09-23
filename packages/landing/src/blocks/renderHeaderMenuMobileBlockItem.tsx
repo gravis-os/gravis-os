@@ -1,60 +1,60 @@
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderHeaderMenuMobileBlockItemProps {
-  title: BlockItemProps['title']
-  slug?: string
-  subtitle?: BlockItemProps['title']
   href?: BlockItemProps['boxProps']['href']
   hrefProps?: BlockItemProps['boxProps']['hrefProps']
   items?: BlockItemProps[]
+  slug?: string
+  subtitle?: BlockItemProps['title']
+  title: BlockItemProps['title']
 }
 
 const renderHeaderMenuMobileBlockItem = (
   props: RenderHeaderMenuMobileBlockItemProps
 ) => {
-  const { slug, href: injectedHref, hrefProps, title, items = [] } = props
+  const { title, slug, href: injectedHref, hrefProps, items = [] } = props
   const href = injectedHref || (slug && `/${slug}`)
 
   const hasChildren = Boolean(items?.length)
 
   return {
-    py: 0,
-    reveal: false,
     disableContainer: true,
-    sx: { backgroundColor: 'transparent' },
     items: [
       {
-        type: 'h6',
         title,
         titleProps: {
           href,
           hrefProps: {
-            sx: { display: 'block', ...hrefProps?.sx },
             linkProps: { underline: 'hover', ...hrefProps?.linkProps },
+            sx: { display: 'block', ...hrefProps?.sx },
             ...hrefProps,
           },
           sx: {
-            ...(hasChildren && { mb: 0.5, fontWeight: 'bold' }),
+            ...(hasChildren && { fontWeight: 'bold', mb: 0.5 }),
             ...(!href && { color: 'text.disabled' }),
           },
         },
+        type: 'h6',
       },
       ...(items.map((item, i) => ({
+        title: item.title,
         key:
           typeof item.title === 'string'
             ? `${item.title}-${i}`
             : `header-menu-mobile-${i}`,
-        type: 'link',
-        title: item.title,
         titleProps: {
-          href: item.href,
-          variant: 'body2',
           gutterBottom: true,
+          href: item.href,
           sx: { mb: 0.5 },
+          variant: 'body2',
         },
+        type: 'link',
         ...item,
       })) as BlockItemProps[]),
     ],
+    py: 0,
+    reveal: false,
+    sx: { backgroundColor: 'transparent' },
   }
 }
 

@@ -1,9 +1,10 @@
 import React from 'react'
-import { DatePicker, DatePickerProps } from '@mui/x-date-pickers'
+
 import { TextFieldProps } from '@mui/material'
+import { DatePicker, DatePickerProps } from '@mui/x-date-pickers'
 
 export interface DateFieldProps
-  extends Partial<Omit<TextFieldProps, 'variant' | 'onChange'>> {
+  extends Partial<Omit<TextFieldProps, 'onChange' | 'variant'>> {
   datePickerProps?: Partial<DatePickerProps<Date>>
   onChange: DatePickerProps<Date>['onChange']
 }
@@ -13,12 +14,12 @@ const DateField: React.FC<DateFieldProps> = (props) => {
 
   return (
     <DatePicker
+      format="dd MMM yyyy"
+      onChange={onChange}
       // @ts-ignore
       slotProps={{
         textField: { ...rest },
       }}
-      format="dd MMM yyyy"
-      onChange={onChange}
       // v6 does not allow value to be string anymore
       value={typeof value === 'string' ? new Date(value) : value}
       {...datePickerProps}

@@ -1,47 +1,51 @@
+/* eslint-disable fp/no-mutating-assign */
+
 import { useEffect } from 'react'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import toast from 'react-hot-toast'
 import { DropzoneOptions, DropzoneState, useDropzone } from 'react-dropzone'
+import toast from 'react-hot-toast'
+
 import { CrudItem } from '@gravis-os/types'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import isEmpty from 'lodash/isEmpty'
+
 import getFileMetaFromFile from './getFileMetaFromFile'
-import useFiles from './useFiles'
 import { File } from './types'
+import useFiles from './useFiles'
 
 export interface UseMultiStorageDropzoneProps {
-  name?: string
+  attachToNewRecord?: boolean
   bucketName?: string
+  dropzoneProps?: DropzoneOptions
   item?: CrudItem // The primary module instance (e.g. Product) instance, possibly undefined for a new product
-  storageRecords?: Record<string, unknown>[]
   module: { table: { name } } // Product module
-  storageModule: { table: { name } } // ProductImage module
+  name?: string
   setFormValue?: (value: any) => void
   setUpsertRowsValue?: (
     rows: Record<string, unknown>[]
   ) => Record<string, unknown>[]
-  dropzoneProps?: DropzoneOptions
-  attachToNewRecord?: boolean
+  storageModule: { table: { name } } // ProductImage module
+  storageRecords?: Record<string, unknown>[]
 }
 
 export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
-  files: File[]
-  onRemove: (file: File) => void
   dropzone: DropzoneState
   dropzoneOptions: DropzoneOptions
+  files: File[]
+  onRemove: (file: File) => void
 }
 
 const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const {
-    name = '',
+    attachToNewRecord = false,
     bucketName = 'public',
+    dropzoneProps,
     item,
-    storageRecords,
     module,
-    storageModule,
+    name = '',
     setFormValue,
     setUpsertRowsValue,
-    dropzoneProps,
-    attachToNewRecord = false
+    storageModule,
+    storageRecords,
   } = props
 
   // Vars
@@ -54,12 +58,15 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     item?.[name] ?? // `attachment_files` instance instead of `quotation_attachment_file` foreignTableName
     []
   // State
-  const { files, setFiles } = useFiles({ items: foreignRecords, bucketName })
+  const { files, setFiles } = useFiles({ bucketName, items: foreignRecords })
 
   // Effects
   useEffect(() => {
     // Make sure to revoke the data uris to avoid memory leaks, will run on unmount
-    return () => files.forEach((file) => URL.revokeObjectURL(file.url))
+    return () => {
+      // eslint-disable-next-line fp/no-loops
+      for (const file of files) URL.revokeObjectURL(file.url)
+    }
   }, [])
 
   // Methods
@@ -73,7 +80,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
 
       const uploadedFileMetas = await Promise.all(fileUploadPromises)
 
-      if (!uploadedFileMetas.length) return
+      if (uploadedFileMetas.length === 0) return
 
       // If uploaded successfully, prepare to save the S3 keys to db
       const defaultForeignTableRows = uploadedFileMetas.map(
@@ -81,12 +88,12 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           const savedFileKey = uploadedFileMeta.data.Key
           const file = files[i]
           return {
-            src: savedFileKey,
             alt: file.name,
             name: file.name,
+            position: file.position || 0,
             size: file.size,
+            src: savedFileKey,
             type: file.type,
-            position: file.position || 0
           }
         }
       )
@@ -109,15 +116,15 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           // The relation_id e.g. product_id
           [`${primaryTableName}_id`]: primaryRecord.id,
           ...(primaryRecord.workspace_id && {
-            workspace_id: primaryRecord.workspace_id
-          })
+            workspace_id: primaryRecord.workspace_id,
+          }),
         }))
       )
 
       return savedRows
-    } catch (err) {
+    } catch (error) {
       toast.error('Error')
-      console.error('Error caught:', err)
+      console.error('Error caught:', error)
     }
   }
   const handleDrop = async (newFiles: File[]): Promise<any> => {
@@ -154,8 +161,8 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       })
 
       toast.success('Success')
-    } catch (err) {
-      console.error('Error caught:', err)
+    } catch (error) {
+      console.error('Error caught:', error)
     }
   }
   const handleRemove = async (file): Promise<void> => {
@@ -182,47 +189,47 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       setFormValue(files)
 
       // Don't toast here because we let confirmation dialog handle toast for us
-    } catch (err) {
+    } catch (error) {
       toast.error('Error')
-      console.error('Error caught:', err)
+      console.error('Error caught:', error)
     }
   }
 
   // Init Dropzone
   const dropzoneOptions = {
     accept: {
+      'application/msword': ['.doc'],
+      'application/pdf': ['.pdf'],
+      'application/rtf': ['.rtf'],
+      'application/vnd.ms-excel': ['.xls'],
+      'application/vnd.ms-powerpoint': ['.ppt'],
+      'application/vnd.oasis.opendocument.text': ['.odt'],
+      'application/vnd.openxmlformats-officedocument.presentationml.presentation':
+        ['.pptx'],
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
+        '.xlsx',
+      ],
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
+        ['.docx'],
+      'image/avif': ['.avif'],
       'image/jpeg': ['.jpeg', '.jpg'],
       'image/png': ['.png'],
       'image/svg+xml': ['.svg'],
-      'image/avif': ['.avif'],
       'image/webp': ['.webp'],
-      'application/pdf': ['.pdf'],
-      'application/msword': ['.doc'],
-      'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
-        ['.docx'],
-      'application/vnd.ms-excel': ['.xls'],
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
-        '.xlsx'
-      ],
       'text/csv': ['.csv'],
-      'application/vnd.ms-powerpoint': ['.ppt'],
-      'application/vnd.openxmlformats-officedocument.presentationml.presentation':
-        ['.pptx'],
-      'application/vnd.oasis.opendocument.text': ['.odt'],
-      'application/rtf': ['.rtf']
     } as DropzoneOptions['accept'],
     onDrop: handleDrop,
-    ...dropzoneProps
+    ...dropzoneProps,
   }
   const dropzone = useDropzone(dropzoneOptions)
 
   return {
-    files,
-    setFiles,
-    onUpload: handleUpload,
-    onRemove: handleRemove,
     dropzone,
-    dropzoneOptions
+    dropzoneOptions,
+    files,
+    onRemove: handleRemove,
+    onUpload: handleUpload,
+    setFiles,
   }
 }
 

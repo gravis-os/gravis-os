@@ -25,7 +25,7 @@ const initSupabaseAdminClient = (
   const deleteUser = async ({ id }) => supabaseAdmin.auth.api.deleteUser(id)
   const inviteUserByEmail = async ({ email, options }) =>
     supabaseAdmin.auth.api.inviteUserByEmail(email, options)
-  const generateLink = async ({ type, email, options }) =>
+  const generateLink = async ({ email, options, type }) =>
     supabaseAdmin.auth.api.generateLink(type, email, options)
 
   // ==============================
@@ -33,10 +33,10 @@ const initSupabaseAdminClient = (
   // ==============================
   return {
     createUser,
-    updateUser,
     deleteUser,
-    inviteUserByEmail,
     generateLink,
+    inviteUserByEmail,
+    updateUser,
   }
 }
 

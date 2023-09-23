@@ -1,19 +1,21 @@
 import React from 'react'
+import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
+
+import { StorageAvatarWithUpload } from '@gravis-os/storage'
+import { CrudModule, Page } from '@gravis-os/types'
+import { Box, Divider, Grid, GridProps, Typography } from '@mui/material'
 import capitalize from 'lodash/capitalize'
 import sortBy from 'lodash/sortBy'
-import { GridProps, Box, Divider, Grid, Typography } from '@mui/material'
-import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
-import { CrudModule, Page } from '@gravis-os/types'
-import { StorageAvatarWithUpload } from '@gravis-os/storage'
+
 import ControlledHtmlField from './ControlledHtmlField'
 import ControlledTextField from './ControlledTextField'
 
 export interface JsonFieldProps {
-  name: string
   control: Control
-  value?: string | Page['sections']
   module: CrudModule
+  name: string
   setValue: UseFormSetValue<FieldValues>
+  value?: Page['sections'] | string
 }
 
 export interface RenderJSONSectionArgs
@@ -22,7 +24,7 @@ export interface RenderJSONSectionArgs
 }
 
 const renderJSONSection = (args: RenderJSONSectionArgs) => {
-  const { name, control, sections, module, setValue } = args
+  const { control, module, name, sections, setValue } = args
 
   const SORT_ORDER = [
     'key',
@@ -54,14 +56,17 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
     // Calculate column information
     const getColumnWidth = () => {
       switch (true) {
-        case isNestedItems:
+        case isNestedItems: {
           return 12
-        case isItems:
+        }
+        case isItems: {
           const columnsBySection = 12 / sectionEntries.length
           const isColumnTooSmall = columnsBySection < 3
           return isColumnTooSmall ? 6 : columnsBySection
-        default:
+        }
+        default: {
           return 12
+        }
       }
     }
     const getColumnLabel = () => {
@@ -83,9 +88,9 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
     const columnGridSpacing = getColumnGridSpacing()
 
     return (
-      <Grid item xs={columnWidth as GridProps['xs']} key={key}>
+      <Grid item key={key} xs={columnWidth as GridProps['xs']}>
         <Box mt={columnMarginTop}>
-          <Typography variant={isItems ? 'h6' : 'h5'} align="center">
+          <Typography align="center" variant={isItems ? 'h6' : 'h5'}>
             {columnLabel}
           </Typography>
 
@@ -99,7 +104,7 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
               const renderFieldContent = (sectionKey: string) => {
                 switch (sectionKey) {
                   case 'avatar_src':
-                  case 'hero_src':
+                  case 'hero_src': {
                     return (
                       <StorageAvatarWithUpload
                         editable
@@ -111,41 +116,45 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
                         }
                       />
                     )
-                  case 'items':
+                  }
+                  case 'items': {
                     return (
                       <Grid container spacing={1}>
                         {renderJSONSection({
-                          name: sectionName,
                           control,
-                          sections: sectionValue,
                           module,
+                          name: sectionName,
+                          sections: sectionValue,
                           setValue,
                         })}
                       </Grid>
                     )
-                  case 'html':
+                  }
+                  case 'html': {
                     return (
                       <ControlledHtmlField
                         control={control}
                         name={sectionName}
                       />
                     )
-                  default:
+                  }
+                  default: {
                     return (
                       <ControlledTextField
                         control={control}
-                        name={sectionName}
-                        label={capitalize(sectionKey)}
                         defaultValue={sectionValue}
                         hidden={sectionKey === 'key'}
+                        label={capitalize(sectionKey)}
+                        name={sectionName}
                         rows={null}
                       />
                     )
+                  }
                 }
               }
 
               return (
-                <Grid item xs={12} key={sectionValue}>
+                <Grid item key={sectionValue} xs={12}>
                   {renderFieldContent(sectionKey)}
                 </Grid>
               )
@@ -164,7 +173,7 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
 }
 
 export const JsonField: React.FC<JsonFieldProps> = (props) => {
-  const { name, control, value = '{}', module, setValue } = props
+  const { control, module, name, setValue, value = '{}' } = props
 
   const sections = typeof value === 'string' ? JSON.parse(value) : value
 
@@ -176,7 +185,7 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
 
   return (
     <Grid container spacing={3}>
-      {renderJSONSection({ name, control, sections, module, setValue })}
+      {renderJSONSection({ control, module, name, sections, setValue })}
     </Grid>
   )
 }

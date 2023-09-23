@@ -1,20 +1,22 @@
 import React from 'react'
-import { Grid } from '@gravis-os/ui'
 import { UseFormReturn } from 'react-hook-form'
+
+import { Grid } from '@gravis-os/ui'
+
 import FieldEffectProvider, {
   FieldEffectProviderProps,
 } from './FieldEffectProvider'
-import renderField, { RenderFieldProps } from './renderField'
-import { FormSectionFieldProps } from './types'
 import getFormSectionFieldBooleanFunction from './getFormSectionFieldBooleanFunction'
 import getFormSectionFieldRenderProps from './getFormSectionFieldRenderProps'
+import renderField, { RenderFieldProps } from './renderField'
+import { FormSectionFieldProps } from './types'
 
 export interface FormSectionJsxFieldProps {
   formContext: UseFormReturn
-  item: RenderFieldProps['sectionProps']['item']
   isNew: RenderFieldProps['sectionProps']['isNew']
-  isReadOnly: RenderFieldProps['sectionProps']['isReadOnly']
   isPreview: RenderFieldProps['sectionProps']['isPreview']
+  isReadOnly: RenderFieldProps['sectionProps']['isReadOnly']
+  item: RenderFieldProps['sectionProps']['item']
 }
 
 /**
@@ -32,8 +34,9 @@ export interface RenderFieldWithWrapperProps
 }
 
 const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
-  const { formContext, sectionProps, fieldProps } = props
-  const { isNew, isPreview, item, isReadOnly, disableEdit } = sectionProps
+  const { fieldProps, formContext, sectionProps } = props
+  const { disableEdit, gridProps, isNew, isPreview, isReadOnly, item } =
+    sectionProps
 
   /**
    * Handle Recursion case
@@ -48,11 +51,11 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
     return fields.map((field) =>
       renderFieldWithWrapper({
         ...props,
-        sectionProps,
         fieldProps: {
           ...field,
           gridProps: { md: 12 / gridFieldColumns, ...field?.gridProps },
         },
+        sectionProps,
       })
     )
   }
@@ -65,27 +68,22 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const isJsxField = React.isValidElement(fieldProps)
   if (isJsxField) {
     return (
-      <Grid
-        item
-        xs={12}
-        {...sectionProps.gridProps}
-        sx={{ mb: 3, ...sectionProps.gridProps?.sx }}
-      >
+      <Grid item xs={12} {...gridProps} sx={{ mb: 3, ...gridProps?.sx }}>
         {React.cloneElement<FormSectionJsxFieldProps>(
           fieldProps as React.ReactElement,
           {
             formContext,
-            item,
             isNew,
-            isReadOnly: isReadOnly || disableEdit,
             isPreview,
+            isReadOnly: isReadOnly || disableEdit,
+            item,
           }
         )}
       </Grid>
     )
   }
 
-  const { key, fieldEffect, hidden } = fieldProps as FormSectionFieldProps
+  const { fieldEffect, hidden, key } = fieldProps as FormSectionFieldProps
   const fieldJsx = renderField(props as RenderFieldProps)
 
   // Calculate hidden field, still render the field for hidden prop to take effect and store the form value
@@ -100,8 +98,8 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const fieldJsxWithGrid = (
     <Grid
       item
-      xs={12}
       key={key}
+      xs={12}
       {...(fieldProps as FormSectionFieldProps).gridProps}
     >
       {fieldJsx}
@@ -113,14 +111,15 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   const fieldEffectProviderProps: FieldEffectProviderProps = {
     item,
     ...(fieldProps as FormSectionFieldProps),
-    fieldEffect,
-    // Manage hidden fields with fieldEffect
     // TODO: Refactor to compose the wrappers with plugins instead
+    // prettier-ignore
     children: isHidden
-      ? isReadOnly || disableEdit
+      ? (isReadOnly || disableEdit
         ? null
-        : fieldJsx
+        : fieldJsx)
       : fieldJsxWithGrid,
+    // Manage hidden fields with fieldEffect
+    fieldEffect,
     formContext,
   }
 
@@ -128,14 +127,18 @@ const renderFieldWithWrapper = (props: RenderFieldWithWrapperProps) => {
   // Render
   // ==============================
   switch (true) {
-    case hasFieldEffect:
+    case hasFieldEffect: {
       return <FieldEffectProvider {...fieldEffectProviderProps} />
-    case (isReadOnly || disableEdit) && isHidden:
+    }
+    case (isReadOnly || disableEdit) && isHidden: {
       return null
-    case isHidden:
+    }
+    case isHidden: {
       return fieldJsx
-    default:
+    }
+    default: {
       return fieldJsxWithGrid
+    }
   }
 }
 

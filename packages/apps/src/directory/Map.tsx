@@ -1,28 +1,29 @@
-import React, { useRef, useEffect, useState } from 'react'
+/* eslint-disable fp/no-let, fp/no-mutation, fp/no-loops, fp/no-mutating-methods, import/no-unresolved, import/no-webpack-loader-syntax */
+
+import React, { useEffect, useRef, useState } from 'react'
+
+// @ts-ignore
+import mapboxgl from '!mapbox-gl'
 import { Box } from '@gravis-os/ui'
 import { useTheme } from '@mui/material/styles'
 import xor from 'lodash/xor'
-// @ts-ignore
-// eslint-disable-next-line import/no-unresolved,import/no-webpack-loader-syntax
-import mapboxgl from '!mapbox-gl'
 
-mapboxgl.accessToken =
-  'pk.eyJ1IjoiZGV2MXh0IiwiYSI6ImNsOTMwZHIxMTBhZmE0MW52dGM0MXN3NWUifQ.kJvt1dnjnb3apHqAkCIdfA'
+mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN
 
 export interface MapProps {
-  shouldResize?: boolean
   markers?: Array<{
-    id: number
-    type: string // 'Feature'
     geometry: {
-      type: string // 'Point'
       coordinates: number[] // Lng, Lat
+      type: string // 'Point'
     }
+    id: number
     properties: {
-      title?: string
       subtitle?: string
+      title?: string
     }
+    type: string // 'Feature'
   }>
+  shouldResize?: boolean
 }
 
 /**
@@ -44,7 +45,7 @@ export interface MapProps {
 let mapMarkers = []
 
 const Map = (props: MapProps) => {
-  const { shouldResize, markers: injectedMarkers } = props
+  const { markers: injectedMarkers, shouldResize } = props
 
   const theme = useTheme()
   const mapContainerRef = useRef(null)
@@ -53,9 +54,9 @@ const Map = (props: MapProps) => {
   // Effect: Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({
+      center: [103.809_676_230_792_66, 1.353_937_636_282_964_3],
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v11',
-      center: [103.80967623079266, 1.3539376362829643],
       zoom: 11,
     })
 
@@ -81,93 +82,94 @@ const Map = (props: MapProps) => {
   // Effect: Add/Remove markers when data changes
   const injectedMarkerIds = injectedMarkers.map(({ id }) => id)
   const mapMarkerIds = mapMarkers.map(({ id }) => id)
-  const hasMarkersChanged = Boolean(xor(injectedMarkerIds, mapMarkerIds).length)
+  const hasMarkersChanged = xor(injectedMarkerIds, mapMarkerIds).length > 0
   useEffect(() => {
     if (!mapInstance) return
 
     // Clear all markers. We have to do this imperatively.
     // @link https://stackoverflow.com/a/55917076/3532313
-    mapMarkers.forEach(({ instance }) => instance.remove())
+    for (const { instance } of mapMarkers) instance.remove()
     mapMarkers = []
 
     // Add the new markers
-    injectedMarkers?.forEach((feature) => {
-      // create a HTML element for each feature
-      const el = document.createElement('div')
-      el.className = 'marker'
+    if (injectedMarkers)
+      for (const feature of injectedMarkers) {
+        // create a HTML element for each feature
+        const el = document.createElement('div')
+        el.className = 'marker'
 
-      // Make a marker for each feature and add it to the map
-      const newMapMarker = new mapboxgl.Marker({
-        color: theme.palette.primary.main,
-      })
-        .setLngLat(feature.geometry.coordinates)
-        .setPopup(
-          new mapboxgl.Popup({ offset: 25 }) // add popups
-            .setHTML(
-              [
-                `<h3>${feature.properties.title}</h3>`,
-                feature.properties.subtitle &&
-                  `<p>${feature.properties.subtitle}</p>`,
-              ]
-                .filter(Boolean)
-                .join('')
-            )
-        )
-        .addTo(mapInstance)
+        // Make a marker for each feature and add it to the map
+        const newMapMarker = new mapboxgl.Marker({
+          color: theme.palette.primary.main,
+        })
+          .setLngLat(feature.geometry.coordinates)
+          .setPopup(
+            new mapboxgl.Popup({ offset: 25 }) // add popups
+              .setHTML(
+                [
+                  `<h3>${feature.properties.title}</h3>`,
+                  feature.properties.subtitle &&
+                    `<p>${feature.properties.subtitle}</p>`,
+                ]
+                  .filter(Boolean)
+                  .join('')
+              )
+          )
+          .addTo(mapInstance)
 
-      // Add to cache to remove later
-      mapMarkers.push({ id: feature.id, instance: newMapMarker })
-    })
+        // Add to cache to remove later
+        mapMarkers.push({ id: feature.id, instance: newMapMarker })
+      }
   }, [hasMarkersChanged])
 
   return (
     <div>
       <Box
+        className="map-container"
+        ref={mapContainerRef}
         sx={{
-          '&.map-container': {
-            position: 'absolute',
-            top: 0,
-            bottom: 0,
-            left: 0,
-            right: 0,
-          },
           '& .mapboxgl-marker': {
-            position: 'absolute',
-            top: 0,
-            width: 20,
-            height: 20,
             '&:hover svg': {
               cursor: 'pointer',
               transform: 'scale(1.1)',
               transition: (theme) => theme.transitions.create(['transform']),
             },
+            height: 20,
+            position: 'absolute',
+            top: 0,
+            width: 20,
           },
           '& .mapboxgl-popup': {
+            '& .mapboxgl-popup-close-button': {
+              '&:hover': { color: 'primary.main', cursor: 'pointer' },
+              background: 'transparent',
+              border: '0',
+              borderRadius: '0',
+              padding: 1,
+              position: 'absolute',
+              right: '0',
+              top: '0',
+            },
+            '& h3, p': { margin: 0 },
+            backgroundColor: 'white',
+            borderRadius: 1,
+            boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
+            color: '#222',
+            fontSize: '0.8rem',
             maxWidth: '240px',
-            transform: 'translate(-50%, -100%) translate(363px, 565px)',
+            padding: 1,
             position: 'absolute',
             top: '0',
-            backgroundColor: 'white',
-            padding: 1,
-            borderRadius: 1,
-            color: '#222',
-            boxShadow: '0 1px 3px rgba(0,0,0,0.15)',
-            fontSize: '0.8rem',
-            '& h3, p': { margin: 0 },
-            '& .mapboxgl-popup-close-button': {
-              position: 'absolute',
-              top: '0',
-              right: '0',
-              padding: 1,
-              background: 'transparent',
-              borderRadius: '0',
-              border: '0',
-              '&:hover': { cursor: 'pointer', color: 'primary.main' },
-            },
+            transform: 'translate(-50%, -100%) translate(363px, 565px)',
+          },
+          '&.map-container': {
+            bottom: 0,
+            left: 0,
+            position: 'absolute',
+            right: 0,
+            top: 0,
           },
         }}
-        className="map-container"
-        ref={mapContainerRef}
       />
     </div>
   )

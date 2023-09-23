@@ -1,7 +1,9 @@
-import { ControllerProps } from 'react-hook-form'
-import { IconProps } from '@mui/material'
 import React from 'react'
+import { ControllerProps } from 'react-hook-form'
+
+import { IconProps } from '@mui/material'
 import { SxProps } from '@mui/system'
+
 import TextField, { TextFieldProps } from '../../fields/TextField'
 
 // Constants
@@ -10,39 +12,39 @@ const paddingXInTextField = 2
 const marginTopInTextField = 5
 
 export interface MegaSearchTextFieldProps {
-  key: string
-  control?: ControllerProps['control']
-  name: string
   Icon?: React.JSXElementConstructor<IconProps>
-  sx?: SxProps
   TextFieldProps?: Partial<TextFieldProps>
+  control?: ControllerProps['control']
+  key: string
   label: string
-  placeholder: string
-  title?: React.ReactNode
+  name: string
   onChange?: any
+  placeholder: string
+  sx?: SxProps
+  title?: React.ReactNode
   value?: any
 }
 
 const MegaSearchTextField: React.FC<MegaSearchTextFieldProps> = (props) => {
-  const { name, title, Icon, sx, TextFieldProps, onChange, value, ...rest } =
+  const { title, Icon, name, onChange, sx, TextFieldProps, value, ...rest } =
     props
 
   const iconSpacing = Icon ? 4 : 0
 
   return (
     <TextField
-      onChange={onChange}
-      value={value}
+      InputLabelProps={{ sx: { px: 2.5 } }}
       fullWidth
-      variant="standard"
+      onChange={onChange}
       sx={{
-        px: 2,
         '& .MuiInputBase-root::after, & .MuiInputBase-root::before': {
           display: 'none',
         },
+        px: 2,
         ...sx,
       }}
-      InputLabelProps={{ sx: { px: 2.5 } }}
+      value={value}
+      variant="standard"
       {...rest}
     />
   )
