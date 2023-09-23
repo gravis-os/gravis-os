@@ -1,33 +1,33 @@
-import qs, { ParsedQs } from 'qs'
-import { NextRouter, useRouter } from 'next/router'
-import pick from 'lodash/pick'
 import omit from 'lodash/omit'
+import pick from 'lodash/pick'
+import { NextRouter, useRouter } from 'next/router'
+import qs, { ParsedQs } from 'qs'
 
 export interface UseRouterQueryReturn {
-  queryParams: NextRouter['query']
-  parsedQs: ParsedQs
   addQueryString: (newQsItem: NextRouter['query']) => Promise<boolean>
+  parsedQs: ParsedQs
+  queryParams: NextRouter['query']
   removeQueryString: (qsItemKey: string) => Promise<boolean>
-  toggleQueryString: (newQsItem: NextRouter['query']) => Promise<boolean>
   replaceQueryString: UseRouterQueryReturn['addQueryString']
   resetQueryString: () => void
+  toggleQueryString: (newQsItem: NextRouter['query']) => Promise<boolean>
+}
+
+// pathname = "/_workspaces/[workspace]/directories/[directorySlug]"
+// We want to get ['workspace', 'directorySlug']
+const getQueryParamKeysFromPathname = (pathname: string) => {
+  return pathname
+    .split('/')
+    .filter((param) => param.startsWith('[') && param.endsWith(']'))
+    .map((param) => param.replace('[', '').replace(']', ''))
 }
 
 const useRouterQuery = (): UseRouterQueryReturn => {
   const router = useRouter()
-  const { query, asPath, pathname } = router
+  const { asPath, pathname, query } = router
 
   const getQueryParams = () => {
-    // pathname = "/_workspaces/[workspace]/directories/[directorySlug]"
-    // We want to get ['workspace', 'directorySlug']
-    const getQueryParamKeysFromPathname = (pathname: string) => {
-      return pathname
-        .split('/')
-        .filter((param) => param.startsWith('[') && param.endsWith(']'))
-        .map((param) => param.replace('[', '').replace(']', ''))
-    }
-
-    const queryParamKeys = getQueryParamKeysFromPathname(router.pathname)
+    const queryParamKeys = getQueryParamKeysFromPathname(pathname)
 
     return pick(query, queryParamKeys)
   }
@@ -110,13 +110,13 @@ const useRouterQuery = (): UseRouterQueryReturn => {
   const replaceQueryString = addQueryString
 
   return {
-    queryParams,
-    parsedQs: qsItems,
     addQueryString,
+    parsedQs: qsItems,
+    queryParams,
     removeQueryString,
     replaceQueryString,
-    toggleQueryString,
     resetQueryString,
+    toggleQueryString,
   }
 }
 

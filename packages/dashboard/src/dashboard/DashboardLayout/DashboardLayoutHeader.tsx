@@ -1,7 +1,8 @@
 import React from 'react'
+
 import { Header, HeaderProps, IconButton } from '@gravis-os/ui'
-import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined'
 import MenuIcon from '@mui/icons-material/Menu'
+import MenuOpenOutlinedIcon from '@mui/icons-material/MenuOpenOutlined'
 
 export interface DashboardLayoutHeaderProps extends HeaderProps {
   showLeftMenuToggle?: boolean
@@ -9,10 +10,10 @@ export interface DashboardLayoutHeaderProps extends HeaderProps {
 
 const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
   const {
-    navItems,
     containerProps,
-    toolbarProps,
+    navItems,
     showLeftMenuToggle,
+    toolbarProps,
     ...rest
   } = props
 
@@ -20,51 +21,55 @@ const DashboardLayoutHeader: React.FC<DashboardLayoutHeaderProps> = (props) => {
   const injectedCenterNavItems = navItems?.center || []
   const injectedRightNavItems = navItems?.right || []
 
-  const leftNavItems = injectedLeftNavItems.length
-    ? [
-        ...(Boolean(injectedLeftNavItems.length) && [
-          ...(showLeftMenuToggle
-            ? [
-                {
-                  key: 'left-aside-menu-toggle',
-                  render: (props) => {
-                    const { setLeftAsideOpen, leftAsideOpen, isLeftAsideOpen } =
-                      props
-                    return (
-                      <IconButton
-                        color="inherit"
-                        edge="start"
-                        onClick={() => setLeftAsideOpen(!leftAsideOpen)}
-                        sx={{ mr: 1 }}
-                      >
-                        {isLeftAsideOpen ? (
-                          <MenuOpenOutlinedIcon />
-                        ) : (
-                          <MenuIcon />
-                        )}
-                      </IconButton>
-                    )
+  const leftNavItems =
+    injectedLeftNavItems.length > 0
+      ? [
+          ...(injectedLeftNavItems.length > 0 && [
+            ...(showLeftMenuToggle
+              ? [
+                  {
+                    key: 'left-aside-menu-toggle',
+                    render: (props) => {
+                      const {
+                        isLeftAsideOpen,
+                        leftAsideOpen,
+                        setLeftAsideOpen,
+                      } = props
+                      return (
+                        <IconButton
+                          color="inherit"
+                          edge="start"
+                          onClick={() => setLeftAsideOpen(!leftAsideOpen)}
+                          sx={{ mr: 1 }}
+                        >
+                          {isLeftAsideOpen ? (
+                            <MenuOpenOutlinedIcon />
+                          ) : (
+                            <MenuIcon />
+                          )}
+                        </IconButton>
+                      )
+                    },
+                    showOnMobileBar: true,
                   },
-                  showOnMobileBar: true,
-                },
-              ]
-            : []),
-        ]),
-        ...injectedLeftNavItems,
-      ]
-    : []
+                ]
+              : []),
+          ]),
+          ...injectedLeftNavItems,
+        ]
+      : []
 
   return (
     <Header
-      position="fixed"
       disableScrollTrigger
+      position="fixed"
       {...rest}
+      containerProps={{ maxWidth: false, ...containerProps }}
       navItems={{
-        left: leftNavItems,
         center: injectedCenterNavItems,
+        left: leftNavItems,
         right: injectedRightNavItems,
       }}
-      containerProps={{ maxWidth: false, ...containerProps }}
       toolbarProps={{
         variant: 'regular',
         ...toolbarProps,

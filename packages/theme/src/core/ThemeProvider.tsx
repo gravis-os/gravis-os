@@ -1,12 +1,14 @@
 import React, { ReactNode, useMemo } from 'react'
-import CssBaseline from '@mui/material/CssBaseline'
+
 import { CacheProvider, EmotionCache } from '@emotion/react'
+import CssBaseline from '@mui/material/CssBaseline'
 import {
-  createTheme,
-  ThemeOptions,
   ThemeProvider as MuiThemeProvider,
   PaletteOptions,
+  ThemeOptions,
+  createTheme,
 } from '@mui/material/styles'
+
 import getPalette from './getPalette'
 
 const defaultTheme = createTheme()
@@ -14,57 +16,58 @@ const defaultTheme = createTheme()
 export interface ThemeProviderProps {
   // Infra
   children?: ReactNode | ReactNode[]
+  darkPalette?: PaletteOptions
+
   /**
    * Initialised on client-side by default.
    * But pass in server-side cache for SSR styles
    */
   emotionCache?: EmotionCache
 
+  lightPalette?: PaletteOptions
+  /**
+   * Palette mode
+   * @default 'light'
+   */
+  mode?: 'dark' | 'light'
+  primaryColor?: string
+  secondaryColor?: string
   /**
    * ThemeOptions not Theme
    * as Theme will be constructed from ThemeOptions
    */
   theme?: ThemeOptions
-
-  /**
-   * Palette mode
-   * @default 'light'
-   */
-  mode?: 'light' | 'dark'
-  primaryColor?: string
-  secondaryColor?: string
-  lightPalette?: PaletteOptions
-  darkPalette?: PaletteOptions
 }
 
 const ThemeProvider: React.FC<ThemeProviderProps> = (props) => {
   const {
     // Infra
     children,
+    darkPalette,
+
     emotionCache,
 
-    // Theme
-    theme: themeOptions = defaultTheme,
-
+    lightPalette,
     // Palette
     mode = 'light',
-    lightPalette,
-    darkPalette,
     primaryColor,
     secondaryColor,
+    // Theme
+    theme: themeOptions = defaultTheme,
   } = props
 
   const theme = useMemo(() => {
     const themeWithPalette = getPalette({
-      themeOptions,
       paletteOptions:
+        // prettier-ignore
         !lightPalette && !darkPalette
           ? (themeOptions.palette as PaletteOptions)
-          : mode === 'light'
+          : (mode === 'light'
           ? lightPalette
-          : darkPalette,
+          : darkPalette),
       primaryColorOverride: primaryColor,
       secondaryColorOverride: secondaryColor,
+      themeOptions,
     })
 
     return createTheme(themeWithPalette)

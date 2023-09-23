@@ -1,31 +1,34 @@
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
-import { withMiddlewareAuth } from '@supabase/auth-helpers-nextjs/dist/middleware'
+/* eslint-disable fp/no-mutation */
+
 import {
+  GetMiddlewareRouteBreakdownOptions,
   fetchDbUserFromMiddleware,
   getMiddlewareRouteBreakdown,
-  GetMiddlewareRouteBreakdownOptions,
 } from '@gravis-os/middleware'
 import { isPathMatch } from '@gravis-os/utils/edge'
+import { withMiddlewareAuth } from '@supabase/auth-helpers-nextjs/dist/middleware'
+import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
+
+import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 import getIsPermittedInSaaSMiddleware, {
   GetIsPermittedInSaaSMiddlewareProps,
 } from './getIsPermittedInSaaSMiddleware'
-import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 
 const isDebug = process.env.DEBUG === 'true'
 
 const PUBLIC_FILE = /\.(.*)$/
 
 export interface SaasRouterMiddlewareProps {
-  authenticationSuccessRedirectTo: string
   authenticationFailureRedirectTo: string
+  authenticationSuccessRedirectTo: string
   authorizationFailureRedirectTo: string
-  modulesConfig: GetIsPermittedInSaaSMiddlewareProps['modulesConfig']
-  userAuthColumnKey?: string
-  userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
   guestPaths?: GetIsPermittedInSaaSMiddlewareProps['guestPaths']
-  validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
+  modulesConfig: GetIsPermittedInSaaSMiddlewareProps['modulesConfig']
   reservedSubdomains?: string[]
   subdomainOverride?: GetMiddlewareRouteBreakdownOptions['subdomainOverride']
+  userAuthColumnKey?: string
+  userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
+  validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
 }
 
 /**
@@ -40,16 +43,16 @@ export interface SaasRouterMiddlewareProps {
  */
 const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
   const {
-    authenticationSuccessRedirectTo,
     authenticationFailureRedirectTo,
+    authenticationSuccessRedirectTo,
     authorizationFailureRedirectTo,
-    modulesConfig,
-    userAuthColumnKey = 'id',
-    userModule,
     guestPaths = [],
-    validRoles = [],
+    modulesConfig,
     reservedSubdomains: injectedReservedSubdomains = [],
     subdomainOverride,
+    userAuthColumnKey = 'id',
+    userModule,
+    validRoles = [],
   } = props
 
   return async (req: NextRequest, event: NextFetchEvent) => {
@@ -73,44 +76,44 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     })
 
     const {
-      url,
-      pathname,
+      authUser,
       hostname,
-      protocol,
-      subdomain,
-      nakedDomain,
-      workspacesPathnamePrefix,
       // Checks
       isApiRoute,
       isAuthRoute,
-      isLoginRoute,
       isBaseRoute,
+      isCustomDomain,
+      isLoggedIn,
+      isLoginRoute,
       isWorkspace,
       isWorkspaceBaseRoute,
-      isLoggedIn,
-      isCustomDomain,
-      authUser,
+      nakedDomain,
+      pathname,
+      protocol,
+      subdomain,
+      url,
+      workspacesPathnamePrefix,
     } = middlewareRouteBreakdown
 
     const isReservedSubdomain = [
-      // Default
-      'www',
       'api',
+      'app',
       'auth',
       'dashboard',
-      'app',
+      // Default
+      'www',
       // User-defined
       ...injectedReservedSubdomains,
     ].includes(subdomain)
 
     const SCENARIOS = {
-      isLoggedInAndAtLoginPage: isLoggedIn && isLoginRoute,
       isApiOrAuthRoute: isApiRoute || isAuthRoute,
-      isNakedDomainBaseRoute: isBaseRoute,
-      isGuestAtWorkspacePage: !isLoggedIn && isWorkspaceBaseRoute,
-      isWorkspaceRoute: isWorkspace,
       isCustomDomain,
+      isGuestAtWorkspacePage: !isLoggedIn && isWorkspaceBaseRoute,
+      isLoggedInAndAtLoginPage: isLoggedIn && isLoginRoute,
+      isNakedDomainBaseRoute: isBaseRoute,
       isReservedSubdomain,
+      isWorkspaceRoute: isWorkspace,
     }
 
     if (!isApiRoute && isDebug) {
@@ -123,7 +126,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
     // The sequence of these checks is important.
     switch (true) {
-      case SCENARIOS.isLoggedInAndAtLoginPage:
+      case SCENARIOS.isLoggedInAndAtLoginPage: {
         /**
          * We need to get the dbUser here to correctly redirect
          * users that are currently logged into the app but are not
@@ -136,11 +139,11 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
          * This case only happens when the user is logged in but gets redirected out.
          */
         const dbUser = await fetchDbUserFromMiddleware({
-          userModule,
           authUser,
           userAuthColumnKey,
+          userModule,
         })
-        const { workspace, role, isAdmin } =
+        const { isAdmin, role, workspace } =
           getPersonRelationsFromDbUser(dbUser)
 
         // Redirect user to the correct workspace
@@ -150,15 +153,15 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
           console.log(
             `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin Redirect`,
             {
-              pathname,
-              isLoginRoute,
-              isLoggedIn,
-              loginRedirectUrl: url.pathname,
-              hostname,
               authUser,
               dbUser,
-              workspace,
+              hostname,
+              isLoggedIn,
+              isLoginRoute,
+              loginRedirectUrl: url.pathname,
+              pathname,
               role,
+              workspace,
             }
           )
         }
@@ -169,10 +172,10 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
               console.log(
                 `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin > Wrong Workspace > isAdmin Redirect`,
                 {
-                  pathname,
-                  workspace,
-                  role,
                   loggedInButIncorrectWorkspaceUrl,
+                  pathname,
+                  role,
+                  workspace,
                 }
               )
             }
@@ -186,10 +189,10 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
             console.log(
               `♻️ [DEBUG] Middleware isLoginRoute && isLoggedin > Wrong Workspace Not Admin > Redirect`,
               {
-                pathname,
-                workspace,
-                role,
                 loggedInButIncorrectWorkspaceUrl,
+                pathname,
+                role,
+                workspace,
               }
             )
           }
@@ -204,23 +207,28 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
         url.pathname = authenticationSuccessRedirectRoute
         return NextResponse.redirect(url)
-      case SCENARIOS.isApiOrAuthRoute:
+      }
+      case SCENARIOS.isApiOrAuthRoute: {
         // Allow auth routes and api routes to pass through
         return NextResponse.next()
-      case SCENARIOS.isReservedSubdomain:
+      }
+      case SCENARIOS.isReservedSubdomain: {
         // Terminate reserved subdomains directly out to the main page.
         if (isDebug) {
           console.log(`♻️ [DEBUG] Middleware isReservedSubdomain Redirect`)
         }
         return NextResponse.next()
-      case SCENARIOS.isNakedDomainBaseRoute:
+      }
+      case SCENARIOS.isNakedDomainBaseRoute: {
         // Terminate baseRoute directly out to the main page.
         if (isDebug) console.log(`♻️ [DEBUG] Middleware isBaseRoute Redirect`)
         return NextResponse.next()
-      case SCENARIOS.isGuestAtWorkspacePage:
+      }
+      case SCENARIOS.isGuestAtWorkspacePage: {
         url.pathname = workspacesPathnamePrefix // Redirect to the workspace home
         return NextResponse.rewrite(url)
-      case SCENARIOS.isWorkspaceRoute:
+      }
+      case SCENARIOS.isWorkspaceRoute: {
         /**
          * Allow visitors to pass through guestPaths in a workspace
          * e.g. ['/about*] in workspaces e.g. evfy.marketbolt.io/about
@@ -240,7 +248,6 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
         // Check for authc and authz if this is not a guest path
         const middlewareAuth = await withMiddlewareAuth({
-          redirectTo: authenticationFailureRedirectTo, // Invalid Authentication
           authGuard: {
             /**
              * Any throws here will be caught by the auth-helpers middleware
@@ -251,13 +258,13 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
               // Check if the user is permitted to access the route
               await getIsPermittedInSaaSMiddleware({
                 authUser,
-                modulesConfig,
-                userModule,
-                userAuthColumnKey,
-                subdomain,
-                pathname,
-                validRoles,
                 guestPaths,
+                modulesConfig,
+                pathname,
+                subdomain,
+                userAuthColumnKey,
+                userModule,
+                validRoles,
               })(req)
 
               // Final: Only allow the user to pass through if all checks pass
@@ -265,6 +272,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
             },
             redirectTo: authorizationFailureRedirectTo, // Invalid Authorisation
           },
+          redirectTo: authenticationFailureRedirectTo, // Invalid Authentication
         })(req, event)
 
         // Block the user if they are not authorised to access this workspace
@@ -290,10 +298,12 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
           console.log(`♻️ [DEBUG] Middleware isWorkspace Rewrite`, url.pathname)
         }
         return NextResponse.rewrite(url)
+      }
 
-      default:
+      default: {
         if (isDebug) console.log(`♻️ [DEBUG] Middleware -> Default`)
         return NextResponse.next()
+      }
     }
   }
 }

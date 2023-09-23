@@ -1,20 +1,24 @@
 import React from 'react'
+
 import {
   PaginatedQueryView,
   PaginatedQueryViewProps,
   PaginatedQueryViewVariantEnum,
 } from '@gravis-os/query'
+
 import ThreadCard, { ThreadCardProps } from './ThreadCard'
 import ThreadListItem, { ThreadListItemProps } from './ThreadListItem'
 
 const renderItemByVariant = (props) => {
   const { variant } = props
   switch (variant) {
-    case PaginatedQueryViewVariantEnum.List:
+    case PaginatedQueryViewVariantEnum.List: {
       return <ThreadListItem {...(props as unknown as ThreadListItemProps)} />
+    }
     case PaginatedQueryViewVariantEnum.Grid:
-    default:
+    default: {
       return <ThreadCard {...(props as unknown as ThreadCardProps)} />
+    }
   }
 }
 

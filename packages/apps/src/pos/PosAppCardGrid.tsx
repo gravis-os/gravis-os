@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { Grid } from '@gravis-os/ui'
+
 import PosAppCard, { PosAppCardProps } from './PosAppCard'
 
 export interface PosAppCardGridProps {
@@ -13,7 +15,7 @@ const PosAppCardGrid: React.FC<PosAppCardGridProps> = (props) => {
     <Grid container spacing={2}>
       {items.map((item) => {
         return (
-          <Grid item xs={12} sm={6} key={item.key}>
+          <Grid item key={item.key} sm={6} xs={12}>
             <PosAppCard {...item} />
           </Grid>
         )

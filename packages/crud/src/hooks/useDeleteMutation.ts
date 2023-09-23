@@ -1,16 +1,17 @@
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { PostgrestResponse } from '@supabase/postgrest-js'
 import {
   MutationFunction,
-  useMutation,
   UseMutationOptions,
   UseMutationResult,
+  useMutation,
 } from 'react-query'
+
 import { CrudModule } from '@gravis-os/types'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { PostgrestResponse } from '@supabase/postgrest-js'
 
 export interface UseDeleteActionArg<TData, TError, TVariables, TContext> {
-  module: CrudModule
   item: unknown
+  module: CrudModule
   options?: UseMutationOptions<
     PostgrestResponse<TData>,
     TError,
@@ -41,7 +42,7 @@ const useDeleteMutation = <
 >(
   args: UseDeleteActionArg<TData, TError, TVariables, TContext>
 ): UseDeleteActionReturn<TData, TError, TVariables, TContext> => {
-  const { module, item, options } = args
+  const { item, module, options } = args
   const { sk, table } = module
   const deleteMutationFunction: MutationFunction<
     PostgrestResponse<TData>,

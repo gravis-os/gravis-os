@@ -8,12 +8,12 @@ const renderTechnologyBlockItem = (props: RenderTechnologyBlockItemProps) => {
   const { item } = props
   const {
     title,
-    subtitle,
-    href,
-    avatar_src,
     avatar_alt,
-    avatar_width = 56,
     avatar_height = 56,
+    avatar_src,
+    avatar_width = 56,
+    href,
+    subtitle,
   } = item || {}
 
   return {
@@ -22,30 +22,30 @@ const renderTechnologyBlockItem = (props: RenderTechnologyBlockItemProps) => {
     lg: 3,
     items: [
       {
-        type: 'image',
         title: avatar_src,
         titleProps: {
           alt: avatar_alt,
-          width: avatar_width,
           height: avatar_height,
           sx: { mb: 1 },
+          width: avatar_width,
         },
+        type: 'image',
       },
-      { type: 'link', title, titleProps: { href, variant: 'subtitle2' } },
+      { title, titleProps: { href, variant: 'subtitle2' }, type: 'link' },
       {
-        type: 'body1',
         title: subtitle,
         titleProps: {
+          color: 'text.secondary',
           maxLines: 2,
           maxWidth: true,
-          color: 'text.secondary',
-          sx: { mt: 1, mb: 2 },
+          sx: { mb: 2, mt: 1 },
         },
+        type: 'body1',
       },
       {
-        type: 'link',
         title: 'Learn more',
         titleProps: { href, rightCaret: true, variant: 'body2' },
+        type: 'link',
       },
     ],
   }

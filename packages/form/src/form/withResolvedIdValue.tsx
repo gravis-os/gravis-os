@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/consistent-function-scoping */
+
 const withResolvedIdValue = () => (values) => {
   return Object.entries(values).reduce(
     (acc, [key, value]: [key: string, value: any]) => {

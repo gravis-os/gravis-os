@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Typography, TypographyProps } from '@gravis-os/ui'
 
 export interface FieldLabelProps extends TypographyProps {}
@@ -8,9 +9,9 @@ const FieldLabel: React.FC<FieldLabelProps> = (props) => {
 
   return (
     <Typography
-      variant="overline"
       color="text.secondary"
-      sx={{ mb: 1, display: 'block', ...sx }}
+      sx={{ display: 'block', mb: 1, ...sx }}
+      variant="overline"
       {...rest}
     >
       {children}

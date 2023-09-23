@@ -1,10 +1,11 @@
 import React from 'react'
-import { TimePicker, TimePickerProps } from '@mui/x-date-pickers'
+
 import { SxProps, TextFieldProps } from '@mui/material'
+import { TimePicker, TimePickerProps } from '@mui/x-date-pickers'
 
 export interface TimeFieldProps extends TimePickerProps<Date> {
-  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
   sx?: SxProps
+  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
 }
 
 const TimeField: React.FC<TimeFieldProps> = (props) => {

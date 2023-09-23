@@ -1,56 +1,50 @@
 import React from 'react'
+
 import { Box, Slider, Typography } from '@gravis-os/ui'
+
+import { BlockProps } from '../web/Block/Block'
+import BlockItem, { BlockItemProps } from '../web/Block/BlockItem'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'
-import BlockItem, { BlockItemProps } from '../web/Block/BlockItem'
-import { BlockProps } from '../web/Block/Block'
 
 export interface RenderHeroWithVideoSliderItem {
-  title?: React.ReactNode
-  subtitle?: React.ReactNode
   buttonProps?: RenderGhostButtonBlockItemProps
+  subtitle?: React.ReactNode
+  title?: React.ReactNode
 }
 
 export interface RenderHeroWithVideoSliderProps extends BlockProps {
-  video_src?: BlockItemProps['backgroundVideoProps']['poster']
-  video_poster_src?: BlockItemProps['backgroundVideoProps']['poster']
   items?: RenderHeroWithVideoSliderItem[]
+  video_poster_src?: BlockItemProps['backgroundVideoProps']['poster']
+  video_src?: BlockItemProps['backgroundVideoProps']['poster']
 }
 
 const renderHeroWithVideoSlider = (props: RenderHeroWithVideoSliderProps) => {
-  const { video_src, video_poster_src, items } = props
+  const { items, video_poster_src, video_src } = props
   return {
     id: 'hero-with-video-slider',
-    dark: true,
-    py: 0,
-    backgroundVideoProps: {
-      src: video_src,
-      poster: video_poster_src,
-    },
     backgroundOverlayOpacity: 0.5,
+    backgroundVideoProps: {
+      poster: video_poster_src,
+      src: video_src,
+    },
+    dark: true,
     items: [
       {
-        type: 'jsx',
         title: (
           <Slider
             autoplay
-            progress
             disableCenter
-            middle
-            loop
             height={{ xs: 600, sm: 700, md: 800, xxl: 820 }}
-            tabs={items.map(({ title }) => title)}
-            tabsProps={{ fullWidthOnDesktop: true }}
-            tabProps={{ sx: { p: 3 } }}
             items={items.map((item, i) => {
-              const { title, subtitle, buttonProps } = item
+              const { title, buttonProps, subtitle } = item
               return (
                 <Box key={`slide-item-${i}`} sx={{ maxWidth: { md: '50%' } }}>
                   <Typography
-                    variant="overline"
-                    gutterBottom
                     color="text.secondary"
+                    gutterBottom
+                    variant="overline"
                   >
                     {title}
                   </Typography>
@@ -66,10 +60,18 @@ const renderHeroWithVideoSlider = (props: RenderHeroWithVideoSliderProps) => {
                 </Box>
               )
             })}
+            loop
+            middle
+            progress
+            tabProps={{ sx: { p: 3 } }}
+            tabs={items.map(({ title }) => title)}
+            tabsProps={{ fullWidthOnDesktop: true }}
           />
         ),
+        type: 'jsx',
       },
     ],
+    py: 0,
   }
 }
 

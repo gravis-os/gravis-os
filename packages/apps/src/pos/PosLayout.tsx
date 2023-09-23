@@ -1,29 +1,31 @@
 import React, { useState } from 'react'
+
 import { DashboardLayout, DashboardLayoutProps } from '@gravis-os/dashboard'
 import { Typography } from '@gravis-os/ui'
+
 import PosCart, { PosCartProps } from './PosCart'
 import posConfig from './posConfig'
 
 export interface PosLayoutProps extends DashboardLayoutProps {
-  navItemLeftTitle?: string
-  navItemCenterTitle?: string
-  navItemRightTitle?: string
   cartProps?: PosCartProps
+  navItemCenterTitle?: string
+  navItemLeftTitle?: string
+  navItemRightTitle?: string
 }
 
 const PosLayout: React.FC<PosLayoutProps> = (props) => {
   const {
-    navItemLeftTitle,
-    navItemCenterTitle,
-    navItemRightTitle,
     cartProps,
+    navItemCenterTitle,
+    navItemLeftTitle,
+    navItemRightTitle,
     ...rest
   } = props
   const [isPosCartDrawerOpen, setIsPosCartDrawerOpen] = useState(true)
   return (
     <DashboardLayout
-      disablePadding
       defaultLeftAsideOpen={false}
+      disablePadding
       disableResponsiveCollapse
       // Header
       headerHeight={posConfig.appBarHeight}
@@ -34,36 +36,36 @@ const PosLayout: React.FC<PosLayoutProps> = (props) => {
           ...(navItemLeftTitle && {
             left: [
               {
-                key: 'left',
                 children: (
-                  <Typography variant="h4" color="inherit">
+                  <Typography color="inherit" variant="h4">
                     {navItemLeftTitle}
                   </Typography>
                 ),
+                key: 'left',
               },
             ],
           }),
           ...(navItemCenterTitle && {
             center: [
               {
-                key: 'center',
                 children: (
-                  <Typography variant="h4" color="inherit">
+                  <Typography color="inherit" variant="h4">
                     {navItemCenterTitle}
                   </Typography>
                 ),
+                key: 'center',
               },
             ],
           }),
           ...(navItemRightTitle && {
             right: [
               {
-                key: 'right',
                 children: (
-                  <Typography variant="h4" color="inherit">
+                  <Typography color="inherit" variant="h4">
                     {navItemRightTitle}
                   </Typography>
                 ),
+                key: 'right',
               },
             ],
           }),
@@ -72,8 +74,8 @@ const PosLayout: React.FC<PosLayoutProps> = (props) => {
       // Right Aside
       rightAside={<PosCart {...cartProps} />}
       rightAsideOpen={isPosCartDrawerOpen}
-      setRightAsideOpen={setIsPosCartDrawerOpen}
       rightAsideWidth={posConfig.cartDrawerMaxWidth}
+      setRightAsideOpen={setIsPosCartDrawerOpen}
       {...rest}
     />
   )

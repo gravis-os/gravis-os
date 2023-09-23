@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+
 import CrudContext from './CrudContext'
 
 export interface CrudProviderProps {
@@ -22,16 +23,16 @@ const CrudProvider: React.FC<CrudProviderProps> = (props) => {
   return (
     <CrudContext.Provider
       value={{
+        // Delete Dialog
+        deleteDialogOpen,
+        handleDeleteDialogClose,
+        handleDeleteDialogOpen,
+        hasMultipleSelectedItems: selectedItems?.length > 1,
+
+        hasSelectedItems: Boolean(selectedItems?.length),
         // Selected Items
         selectedItems,
         setSelectedItems,
-        hasSelectedItems: Boolean(selectedItems?.length),
-        hasMultipleSelectedItems: selectedItems?.length > 1,
-
-        // Delete Dialog
-        deleteDialogOpen,
-        handleDeleteDialogOpen,
-        handleDeleteDialogClose,
       }}
       {...rest}
     >

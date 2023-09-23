@@ -1,9 +1,11 @@
 import React from 'react'
-import { Skeleton } from '@gravis-os/ui'
+
 import { CrudItem, CrudModule, RenderPropsFunction } from '@gravis-os/types'
+import { Skeleton } from '@gravis-os/ui'
 import get from 'lodash/get'
-import PageHeader, { PageHeaderProps } from './PageHeader'
+
 import getIsNew from './getIsNew'
+import PageHeader, { PageHeaderProps } from './PageHeader'
 
 const getTitlePrefix = (props: {
   isNew?: boolean
@@ -13,47 +15,50 @@ const getTitlePrefix = (props: {
   const { isNew, isPreview, isReadOnly } = props
 
   switch (true) {
-    case isNew:
+    case isNew: {
       return 'Add'
-    case isReadOnly:
+    }
+    case isReadOnly: {
       return 'Preview'
-    default:
+    }
+    default: {
       return 'Edit'
+    }
   }
 }
 
 type RenderProps = {
-  state?: { isNew?: boolean; isPreview?: boolean; isReadOnly?: boolean }
   item?: Record<string, any>
+  state?: { isNew?: boolean; isPreview?: boolean; isReadOnly?: boolean }
 }
 
 export interface DetailPageHeaderProps extends PageHeaderProps {
-  item?: CrudItem
-  module: CrudModule
-  disableTitle?: boolean
   disableSubtitle?: boolean
-  loading?: boolean
+  disableTitle?: boolean
   isPreview?: boolean
   isReadOnly?: boolean
-  renderTitle?: RenderPropsFunction<RenderProps>
+  item?: CrudItem
+  loading?: boolean
+  module: CrudModule
   renderSubtitle?: RenderPropsFunction<RenderProps>
+  renderTitle?: RenderPropsFunction<RenderProps>
 }
 
 const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
   const {
-    isReadOnly,
-    isPreview,
-    loading,
-    disableTitle,
     disableSubtitle,
+    disableTitle,
+    isPreview,
+    isReadOnly,
     item: injectedItem,
+    loading,
     module,
-    renderTitle,
     renderSubtitle,
+    renderTitle,
     subtitle: injectedSubtitle,
     ...rest
   } = props
-  const { pk = 'title', sk = 'slug', name, route } = module
+  const { name, pk = 'title', route, sk = 'slug' } = module
 
   const item = injectedItem || {}
 
@@ -61,12 +66,12 @@ const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
   const isNew = getIsNew(item)
 
   const renderProps = {
+    item: injectedItem,
     state: {
       isNew,
       isPreview,
       isReadOnly,
     },
-    item: injectedItem,
   }
 
   // Title
@@ -87,16 +92,16 @@ const DetailPageHeader: React.FC<DetailPageHeaderProps> = (props) => {
 
   return (
     <PageHeader
-      title={title}
-      subtitle={subtitle}
       breadcrumbs={[
-        { key: name.plural, title: name.plural, href: route.plural },
+        { title: name.plural, href: route.plural, key: name.plural },
         {
-          key: name.singular,
           title: isNew ? 'New' : get(item, pk),
           href: `${route.plural}/${isNew ? 'new' : get(item, sk)}`,
+          key: name.singular,
         },
       ]}
+      subtitle={subtitle}
+      title={title}
       {...rest}
     />
   )

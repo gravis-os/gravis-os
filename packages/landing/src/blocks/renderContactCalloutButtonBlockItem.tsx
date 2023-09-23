@@ -1,10 +1,11 @@
 import React from 'react'
+
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderContactCalloutButtonBlockItemProps
   extends BlockItemProps {
-  title?: string
   children?: JSX.Element
+  title?: string
 }
 
 const renderContactCalloutButtonBlockItem = (
@@ -12,18 +13,18 @@ const renderContactCalloutButtonBlockItem = (
 ) => {
   const { title = 'Get Started', children = <></> } = props
   return {
-    type: 'button',
     title,
     titleProps: {
-      variant: 'contained' as const,
       color: 'primary' as const,
       dialogProps: {
-        fullScreen: true,
-        disableTitle: true,
-        transitionVariant: 'fade' as const,
         children,
+        disableTitle: true,
+        fullScreen: true,
+        transitionVariant: 'fade' as const,
       },
+      variant: 'contained' as const,
     },
+    type: 'button',
   }
 }
 

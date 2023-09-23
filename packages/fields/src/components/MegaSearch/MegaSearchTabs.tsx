@@ -1,13 +1,14 @@
 import React from 'react'
-import { Box, Tab, TabProps } from '@mui/material'
+
 import TabContext from '@mui/lab/TabContext'
 import TabList from '@mui/lab/TabList'
 import TabPanel from '@mui/lab/TabPanel'
+import { Box, Tab, TabProps } from '@mui/material'
 
 interface MegaSearchTabInterface {
-  value: string
-  label: string
   children: React.ReactNode
+  label: string
+  value: string
 }
 
 export interface MegaSearchTabsProps {
@@ -32,17 +33,17 @@ const MegaSearchTabs: React.FC<MegaSearchTabsProps> = (props) => {
   }
   const tabProps: TabProps = {
     sx: {
-      textTransform: 'none',
-      backgroundColor: 'grey.200',
       '&.Mui-selected': {
+        backgroundColor: 'white',
         borderTopLeftRadius: borderRadius,
         borderTopRightRadius: borderRadius,
-        backgroundColor: 'white',
       },
+      backgroundColor: 'grey.200',
+      textTransform: 'none',
     },
   }
   const tabPanelProps = {
-    sx: { padding: 0, '&& > *': { borderTopLeftRadius: 0 } },
+    sx: { '&& > *': { borderTopLeftRadius: 0 }, padding: 0 },
   }
 
   return (
@@ -50,13 +51,13 @@ const MegaSearchTabs: React.FC<MegaSearchTabsProps> = (props) => {
       <TabContext value={value}>
         <TabList onChange={handleChange} variant="scrollable" {...tabListProps}>
           {tabs.map((tab) => {
-            const { value, label } = tab
-            return <Tab key={value} value={value} label={label} {...tabProps} />
+            const { label, value } = tab
+            return <Tab key={value} label={label} value={value} {...tabProps} />
           })}
         </TabList>
 
         {tabs.map((tab) => {
-          const { value, children } = tab
+          const { children, value } = tab
           return (
             <TabPanel key={value} value={value} {...tabPanelProps}>
               {children}

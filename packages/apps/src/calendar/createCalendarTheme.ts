@@ -1,5 +1,5 @@
-import { alpha } from '@mui/material/styles'
 import { Theme } from '@mui/material'
+import { alpha } from '@mui/material/styles'
 
 interface CreateCalendarThemeArgs {
   theme: Theme
@@ -8,10 +8,6 @@ interface CreateCalendarThemeArgs {
 export const DEFAULT_DRAWER_WIDTH = '25%'
 
 export const createCalendarTheme = ({ theme }: CreateCalendarThemeArgs) => ({
-  height: '100%',
-  '& .fc-license-message': {
-    display: 'none',
-  },
   '& .fc': {
     '--fc-bg-event-opacity': 1,
     '--fc-border-color': theme.palette.divider,
@@ -24,33 +20,30 @@ export const createCalendarTheme = ({ theme }: CreateCalendarThemeArgs) => ({
     color: theme.palette.text.primary,
     fontFamily: theme.typography.fontFamily,
   },
-  '& th': { textAlign: 'left' },
-  '& .fc-timegrid-slot': { height: theme.spacing(6) },
-  '& .fc-timegrid-slot-minor': { border: 'none' },
-  '& .fc-timegrid-slot-label': { verticalAlign: 'top' },
-  '& .fc-timegrid-event': {
-    background: 'transparent',
-    border: 'none',
-    '& .fc-event-main': { cursor: 'pointer', padding: 0 },
-  },
-  '& .fc-theme-standard .fc-scrollgrid': { border: 'none' },
-  '& .fc-scrollgrid-section > *': { border: 'none' },
   '& .fc .fc-col-header-cell-cushion': {
-    paddingBottom: '10px',
-    paddingTop: '10px',
     fontSize: theme.typography.overline.fontSize,
     fontWeight: theme.typography.overline.fontWeight,
     letterSpacing: theme.typography.overline.letterSpacing,
     lineHeight: theme.typography.overline.lineHeight,
+    paddingBottom: '10px',
+    paddingTop: '10px',
     textTransform: theme.typography.overline.textTransform,
   },
   '& .fc .fc-day-other .fc-daygrid-day-top': {
     color: theme.palette.text.secondary,
   },
+  '& .fc-daygrid-block-event .fc-event-time': {
+    fontSize: theme.typography.body2.fontSize,
+    fontWeight: theme.typography.body2.fontWeight,
+    lineHeight: theme.typography.body2.lineHeight,
+  },
   '& .fc-daygrid-day-events': {
     display: 'flex',
     flexDirection: 'column',
     gap: 4,
+  },
+  '& .fc-daygrid-day-frame': {
+    padding: '12px',
   },
   '& .fc-daygrid-event': {
     borderRadius: theme.shape.borderRadius,
@@ -60,12 +53,19 @@ export const createCalendarTheme = ({ theme }: CreateCalendarThemeArgs) => ({
     lineHeight: theme.typography.subtitle2.lineHeight,
     whiteSpace: 'normal',
   },
-  '& .fc-daygrid-block-event .fc-event-time': {
-    fontSize: theme.typography.body2.fontSize,
-    fontWeight: theme.typography.body2.fontWeight,
-    lineHeight: theme.typography.body2.lineHeight,
+  '& .fc-license-message': {
+    display: 'none',
   },
-  '& .fc-daygrid-day-frame': {
-    padding: '12px',
+  '& .fc-scrollgrid-section > *': { border: 'none' },
+  '& .fc-theme-standard .fc-scrollgrid': { border: 'none' },
+  '& .fc-timegrid-event': {
+    '& .fc-event-main': { cursor: 'pointer', padding: 0 },
+    background: 'transparent',
+    border: 'none',
   },
+  '& .fc-timegrid-slot': { height: theme.spacing(6) },
+  '& .fc-timegrid-slot-label': { verticalAlign: 'top' },
+  '& .fc-timegrid-slot-minor': { border: 'none' },
+  '& th': { textAlign: 'left' },
+  height: '100%',
 })

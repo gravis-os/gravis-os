@@ -1,15 +1,17 @@
 import React, { useState } from 'react'
+
 import { Box, Button, ButtonProps, Dialog, DialogProps } from '@gravis-os/ui'
 import SendIcon from '@mui/icons-material/Send'
+
 import SendEnquiryForm, { SendEnquiryFormProps } from './SendEnquiryForm'
 
 export interface SendEnquiryFormDialogButtonProps
   extends Omit<DialogProps, 'open'> {
-  onConfirm?: () => Promise<void> | void
-  icon?: React.ReactElement
-  buttonProps?: ButtonProps
   buttonComponent?: React.ElementType
+  buttonProps?: ButtonProps
   formProps?: SendEnquiryFormProps
+  icon?: React.ReactElement
+  onConfirm?: () => Promise<void> | void
 }
 
 const SendEnquiryFormDialogButton: React.FC<
@@ -17,10 +19,10 @@ const SendEnquiryFormDialogButton: React.FC<
 > = (props) => {
   const {
     buttonComponent: ButtonComponent,
-    icon,
-    onConfirm,
     buttonProps: injectedButtonProps,
     formProps,
+    icon,
+    onConfirm,
     ...rest
   } = props
 
@@ -33,26 +35,26 @@ const SendEnquiryFormDialogButton: React.FC<
   const title = 'Send Enquiry'
 
   const buttonProps = {
-    onClick: openDialog,
     children: title,
+    onClick: openDialog,
     ...injectedButtonProps,
   }
 
   return (
     <>
       <Button
+        color="primary"
         fullWidth
         size="large"
-        variant="contained"
-        color="primary"
         startIcon={<SendIcon />}
+        variant="contained"
         {...buttonProps}
       >
         {title}
       </Button>
 
       {/* Dialog */}
-      <Dialog open={confirmationDialogOpen} onClose={closeDialog} {...rest}>
+      <Dialog onClose={closeDialog} open={confirmationDialogOpen} {...rest}>
         <Box sx={{ p: 2 }}>
           {/* Form */}
           <SendEnquiryForm

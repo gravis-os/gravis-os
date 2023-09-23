@@ -1,4 +1,5 @@
 import Stripe from 'stripe'
+
 import stripeConfig from '../../config/stripeConfig'
 
 const initStripeNode = (stripeSecretKey = '') => {

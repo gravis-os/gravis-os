@@ -3,6 +3,7 @@
  * https://github.com/vercel/next.js/tree/canary/examples/with-facebook-pixel/_pages
  */
 import React, { useEffect } from 'react'
+
 import { useRouter } from 'next/router'
 import Script from 'next/script'
 
@@ -17,7 +18,7 @@ export const event = (name, options = {}) => {
   ;(window as any).fbq('track', name, options)
 }
 
-export const facebookPixel = { FB_PIXEL_ID, pageview, event }
+export const facebookPixel = { event, FB_PIXEL_ID, pageview }
 
 /**
  * For SSR purposes
@@ -31,9 +32,9 @@ export const renderFacebookPixelNoScriptTag = () => {
   return (
     <img
       height="1"
-      width="1"
-      style={{ display: 'none' }}
       src={`https://www.facebook.com/tr?id=${FB_PIXEL_ID}&ev=PageView&noscript=1`}
+      style={{ display: 'none' }}
+      width="1"
     />
   )
 }
@@ -61,8 +62,6 @@ export const FacebookPixel = () => {
     <>
       {/* Global Site Code Pixel - Facebook Pixel */}
       <Script
-        id="fb-pixel"
-        strategy="afterInteractive"
         dangerouslySetInnerHTML={{
           __html: `
             !function(f,b,e,v,n,t,s)
@@ -76,6 +75,8 @@ export const FacebookPixel = () => {
             fbq('init', ${FB_PIXEL_ID});
           `,
         }}
+        id="fb-pixel"
+        strategy="afterInteractive"
       />
     </>
   )

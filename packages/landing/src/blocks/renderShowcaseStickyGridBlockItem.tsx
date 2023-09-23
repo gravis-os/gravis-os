@@ -1,18 +1,18 @@
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderShowcaseStickyGridBlockItemProps {
-  mode?: 'light' | 'dark'
-  title: BlockItemProps['title']
-  subtitle?: BlockItemProps['title']
-  hero_src?: string
   hero_alt?: string
+  hero_src?: string
+  mode?: 'dark' | 'light'
   reverse?: boolean
+  subtitle?: BlockItemProps['title']
+  title: BlockItemProps['title']
 }
 
 const renderShowcaseStickyGridBlockItem = (
   props: RenderShowcaseStickyGridBlockItemProps
 ) => {
-  const { mode, hero_src, hero_alt, title, subtitle, reverse } = props
+  const { title, hero_alt, hero_src, mode, reverse, subtitle } = props
 
   const gridItems = [
     {
@@ -20,14 +20,14 @@ const renderShowcaseStickyGridBlockItem = (
       lg: 7,
       items: [
         hero_src && {
-          type: 'image',
           title: hero_src,
           boxProps: { sx: { display: 'flex', justifyContent: 'center' } },
           titleProps: {
             alt: hero_alt,
-            fill: true,
             boxSx: { width: '100%' },
+            fill: true,
           },
+          type: 'image',
         },
       ],
     },
@@ -37,43 +37,44 @@ const renderShowcaseStickyGridBlockItem = (
       boxProps: {
         sx: {
           position: 'sticky',
-          top: 0,
           pt: { xs: 4, md: 7, lg: 9 },
+          top: 0,
         },
       },
       items: [
         {
-          type: 'h3',
           title,
           titleProps: {
             color: 'text.primary',
             mb: 1,
           },
+          type: 'h3',
         },
         subtitle && {
-          type: 'subtitle1',
           title: subtitle,
           titleProps: {
             color: 'text.secondary',
             maxWidth: true,
           },
+          type: 'subtitle1',
         },
       ],
     },
   ]
 
-  const nextGridItems = reverse ? gridItems.slice().reverse() : gridItems
+  // eslint-disable-next-line fp/no-mutating-methods
+  const nextGridItems = reverse ? [...gridItems].reverse() : [...gridItems]
 
   return {
-    type: 'grid',
     boxProps: { sx: { backgroundColor: 'background.default' } },
-    mode,
+    gridItems: nextGridItems,
     gridProps: {
       reverse: { xs: !reverse, md: reverse },
       spacing: 6,
       sx: { textAlign: { xs: 'center', md: 'left' } },
     },
-    gridItems: nextGridItems,
+    mode,
+    type: 'grid',
   }
 }
 

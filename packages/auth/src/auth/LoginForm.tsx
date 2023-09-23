@@ -1,5 +1,7 @@
 import React from 'react'
+
 import { FormProps } from '@gravis-os/form'
+
 import AuthBox, { AuthBoxProps } from './AuthBox'
 import AuthForm from './AuthForm'
 import { handleSignIn } from './SupabaseAuth'
@@ -17,8 +19,8 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
 
   return (
     <AuthBox
-      title="Login"
       subtitle="Please log in using your existing credentials."
+      title="Login"
       {...boxProps}
     >
       <AuthForm
@@ -26,10 +28,10 @@ const LoginForm: React.FC<LoginFormProps> = (props) => {
         {...rest}
         submitButtonProps={{
           title: 'Login',
-          variant: 'contained',
           color: 'primary',
           fullWidth: true,
           sx: { mt: 3 },
+          variant: 'contained',
           ...rest?.submitButtonProps,
         }}
       />

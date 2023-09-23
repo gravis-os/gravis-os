@@ -1,37 +1,39 @@
 import { Post } from '@gravis-os/types'
+
 import type { BlockItemProps } from '../web/Block/BlockItem'
-import renderPostsBlockItem from './renderPostsBlockItem'
+
 import { BlockProps } from '../web/Block/Block'
+import renderPostsBlockItem from './renderPostsBlockItem'
 
 export interface RenderFeaturedPostsBlockProps
   extends Omit<BlockProps, 'items'> {
+  fromStorage?: boolean
+  gridItemProps?: BlockItemProps['gridItemProps']
+  gridProps?: BlockItemProps['gridProps']
   items?: Post[]
   title?: string
-  fromStorage?: boolean
-  gridProps?: BlockItemProps['gridProps']
-  gridItemProps?: BlockItemProps['gridItemProps']
 }
 
 const renderFeaturedPostsBlock = (props: RenderFeaturedPostsBlockProps) => {
   const {
     title = 'Featured Insights',
-    items,
     fromStorage,
-    gridProps,
     gridItemProps,
+    gridProps,
+    items,
     ...rest
   } = props
   if (!items?.length) return
   return {
     id: 'featured-posts',
     items: [
-      { type: 'overline', title: 'Insights' },
+      { title: 'Insights', type: 'overline' },
       {
-        type: 'h4',
         title,
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
+        type: 'h4',
       },
-      renderPostsBlockItem({ items, fromStorage, gridItemProps, gridProps }),
+      renderPostsBlockItem({ fromStorage, gridItemProps, gridProps, items }),
     ],
     ...rest,
   }

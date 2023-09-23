@@ -1,31 +1,34 @@
 import React from 'react'
 import { useFormContext } from 'react-hook-form'
+
 import { Card, Grid } from '@gravis-os/ui'
-import renderFieldWithWrapper from './renderFieldWithWrapper'
+
 import type { FormSectionProps } from './types'
+
+import renderFieldWithWrapper from './renderFieldWithWrapper'
 
 const FormSection: React.FC<FormSectionProps> = (props) => {
   const {
-    disabledFields,
+    // Contexts
+    crudContext,
     disableCard,
 
-    item,
-    isNew,
-    isPreview,
-    gridProps,
+    disabledFields,
+    disableEdit,
     fields: injectedFields,
+    gridProps,
+    isNew,
 
+    isPreview,
     // isReadOnly
     isReadOnly,
+    item,
     readOnlySx,
+
     renderReadOnly,
     renderReadOnlySection,
 
-    // Contexts
-    crudContext,
     userContext,
-
-    disableEdit,
     ...rest
   } = props
   const { title } = rest
@@ -46,10 +49,10 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
     <Grid container spacing={2}>
       {fields.map((field) =>
         renderFieldWithWrapper({
+          crudContext,
+          fieldProps: field,
           formContext,
           sectionProps: props,
-          fieldProps: field,
-          crudContext,
           userContext,
         })
       )}
@@ -58,10 +61,12 @@ const FormSection: React.FC<FormSectionProps> = (props) => {
 
   const renderChildren = () => {
     switch (true) {
-      case disableCard:
+      case disableCard: {
         return childrenJsx
-      default:
+      }
+      default: {
         return <Card {...rest}>{childrenJsx}</Card>
+      }
     }
   }
 

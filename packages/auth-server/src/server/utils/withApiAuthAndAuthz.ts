@@ -1,14 +1,14 @@
-import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
-import {
-  CookieOptions,
-  COOKIE_OPTIONS,
-  TOKEN_REFRESH_MARGIN,
-  User,
-} from '@supabase/auth-helpers-shared'
 import {
   getUser as getAuthUser,
   withApiAuth,
 } from '@supabase/auth-helpers-nextjs'
+import {
+  COOKIE_OPTIONS,
+  CookieOptions,
+  TOKEN_REFRESH_MARGIN,
+  User,
+} from '@supabase/auth-helpers-shared'
+import { NextApiHandler, NextApiRequest, NextApiResponse } from 'next'
 
 export type AuthorizerFunction = (params: {
   context: { req: NextApiRequest; res: NextApiResponse }
@@ -50,9 +50,9 @@ export type AuthorizerFunction = (params: {
 export default function withApiAuthAndAuthz(
   handler: NextApiHandler,
   options: {
+    authorizer?: AuthorizerFunction
     cookieOptions?: CookieOptions
     tokenRefreshMargin?: number
-    authorizer?: AuthorizerFunction
   } = {}
 ) {
   // If don't have the authorizer function, then return the default supabase withApiAuth function
@@ -65,7 +65,7 @@ export default function withApiAuthAndAuthz(
         options.tokenRefreshMargin ?? TOKEN_REFRESH_MARGIN
 
       // Use supabase's getUser to check for authentication instead
-      const { user: authUser, accessToken } = await getAuthUser(context, {
+      const { accessToken, user: authUser } = await getAuthUser(context, {
         cookieOptions,
         tokenRefreshMargin,
       })
@@ -75,11 +75,11 @@ export default function withApiAuthAndAuthz(
       if (!isAuthorized) throw new Error('Unauthorized')
 
       await handler(req, res)
-    } catch (error) {
+    } catch {
       res.status(401).json({
-        error: 'not_authenticated',
         description:
           'The user does not have an active session or is not authenticated',
+        error: 'not_authenticated',
       })
     }
   }

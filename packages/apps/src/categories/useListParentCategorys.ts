@@ -1,21 +1,21 @@
-import { CrudModule } from '@gravis-os/types'
 import { useList } from '@gravis-os/query'
+import { CrudModule } from '@gravis-os/types'
 
 export interface UseListParentCategorysProps {
   categoryModule: CrudModule
-  categoryTypeModule: CrudModule
   categoryTypeId?: number
+  categoryTypeModule: CrudModule
 }
 
 const useListParentCategorys = (props: UseListParentCategorysProps) => {
-  const { categoryModule, categoryTypeModule, categoryTypeId } = props
+  const { categoryModule, categoryTypeId, categoryTypeModule } = props
 
   const categoryType = categoryTypeModule.table.name
 
   const onUseList = useList({
-    module: categoryModule,
     filters: [{ key: 'parent_id', op: 'is', value: null }],
     match: { [`${categoryType}_id`]: categoryTypeId },
+    module: categoryModule,
     queryOptions: { enabled: Boolean(categoryTypeId) },
   })
 

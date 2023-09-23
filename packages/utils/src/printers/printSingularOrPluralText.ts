@@ -1,5 +1,5 @@
 const printSingularOrPluralText = (
-  items: unknown[] | number,
+  items: number | unknown[],
   singularText,
   pluralText = ''
 ) => {

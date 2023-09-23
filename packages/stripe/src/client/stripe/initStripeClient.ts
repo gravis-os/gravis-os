@@ -1,4 +1,6 @@
-import { loadStripe, Stripe } from '@stripe/stripe-js'
+/* eslint-disable fp/no-let, fp/no-mutation */
+
+import { Stripe, loadStripe } from '@stripe/stripe-js'
 
 let stripePromise: Promise<Stripe | null>
 

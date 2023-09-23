@@ -8,9 +8,9 @@ export type GetCrudItemsByCategoryReturn = Array<
 const getCrudItemsByCategory = (
   items: CrudItem[],
   categorys: CrudItem[],
-  options = { relationKey: 'category_id' }
+  options: { relationKey?: string } = {}
 ): GetCrudItemsByCategoryReturn => {
-  const { relationKey } = options
+  const { relationKey = 'category_id' } = options
   return Object.entries(groupBy(items, relationKey)).reduce(
     (acc, [categoryId, categoryItems]) => {
       const category = categorys.find(({ id }) => id === Number(categoryId))

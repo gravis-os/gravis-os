@@ -1,40 +1,41 @@
 import { Showcase } from '@gravis-os/types'
+
 import { BlockProps } from '../web/Block/Block'
 import renderShowcaseCardBlockItem from './renderShowcaseCardBlockItem'
 
 export interface RenderShowcasesBlockProps
   extends Omit<BlockProps, 'items' | 'title'> {
   items: Showcase[]
-  title?: React.ReactNode
-  subtitle?: React.ReactNode
   overline?: React.ReactNode
+  subtitle?: React.ReactNode
+  title?: React.ReactNode
 }
 
 const renderShowcasesBlock = (props: RenderShowcasesBlockProps) => {
-  const { overline, title, subtitle, items, ...rest } = props
+  const { title, items, overline, subtitle, ...rest } = props
   return {
     id: 'showcases',
-    maxWidth: 'xl',
     items: [
       overline && {
-        type: 'overline',
         title: overline,
+        type: 'overline',
       },
       title && {
-        type: 'h3',
         title,
         titleProps: { gutterBottom: true, maxWidth: '60%' },
+        type: 'h3',
       },
       subtitle && {
-        type: 'body1',
         title: subtitle,
         titleProps: {
           color: 'text.secondary',
           maxWidth: '45%',
         },
+        type: 'body1',
       },
       ...items.map((item) => renderShowcaseCardBlockItem({ item })),
     ],
+    maxWidth: 'xl',
     ...rest,
   }
 }

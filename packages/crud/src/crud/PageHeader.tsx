@@ -1,58 +1,60 @@
 import React, { ReactNode } from 'react'
-import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
+
 import {
-  Stack,
   Box,
-  Breadcrumbs,
-  Typography,
-  Button,
-  IconButton,
-  Divider,
-  ButtonProps,
   BoxProps,
+  Breadcrumbs,
   BreadcrumbsProps,
+  Button,
+  ButtonProps,
+  Divider,
+  IconButton,
+  Stack,
+  Typography,
 } from '@gravis-os/ui'
+import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
+
 import useCrudFormContext from '../hooks/useCrudFormContext'
 import { UseCrudFormReturn } from './useCrudForm'
 
 export interface PageHeaderProps
-  extends Omit<BoxProps, 'title' | 'borderBottom'> {
-  actions?: React.ReactNode
+  extends Omit<BoxProps, 'borderBottom' | 'title'> {
   actionButtons?: ButtonProps[]
+  actions?: React.ReactNode
+  borderBottom?: boolean
   breadcrumbs?: BreadcrumbsProps['items']
   breadcrumbsProps?: Omit<BreadcrumbsProps, 'items'>
-  borderBottom?: boolean
-  buttonProps?: ButtonProps
   button?: React.ReactElement
-  renderButton?: (params: UseCrudFormReturn) => React.ReactNode
-  disableGutterBottom?: boolean
+  buttonProps?: ButtonProps
   disableBreadcrumbs?: boolean
+  disableGutterBottom?: boolean
   divider?: boolean
-  size?: 'small' | 'medium' | 'large'
-  title?: ReactNode
-  subtitle?: ReactNode
-  rightTitle?: ReactNode
   onClose?: () => void
+  renderButton?: (params: UseCrudFormReturn) => React.ReactNode
+  rightTitle?: ReactNode
+  size?: 'large' | 'medium' | 'small'
+  subtitle?: ReactNode
+  title?: ReactNode
 }
 
 const PageHeader: React.FC<PageHeaderProps> = (props) => {
   const {
-    actions,
-    actionButtons,
-    renderButton,
-    button,
-    buttonProps,
     title,
-    subtitle,
-    rightTitle,
+    actionButtons,
+    actions,
+    borderBottom,
     breadcrumbs,
     breadcrumbsProps,
-    borderBottom,
+    button,
+    buttonProps,
     disableBreadcrumbs,
     disableGutterBottom,
     divider,
     onClose,
+    renderButton,
+    rightTitle,
     size = 'medium',
+    subtitle,
     sx,
     ...rest
   } = props
@@ -65,7 +67,7 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
   return (
     <Box
       sx={{
-        pb: !disableGutterBottom ? 2 : undefined,
+        pb: disableGutterBottom ? undefined : 2,
         ...(borderBottom && {
           borderBottom: '1px solid',
           borderColor: 'divider',
@@ -75,8 +77,8 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
       {...rest}
     >
       <Stack
-        flexDirection="row"
         alignItems="center"
+        flexDirection="row"
         justifyContent="space-between"
       >
         {/* Breadcrumbs */}
@@ -93,16 +95,16 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
 
       {/* Title + Actions */}
       <Stack
-        direction="row"
         alignItems="flex-end"
-        spacing={1}
+        direction="row"
         justifyContent="space-between"
+        spacing={1}
         sx={{ flexDirection: { xs: 'column', md: 'row' } }}
       >
         {/* Left */}
-        <Stack direction="row" alignItems="center" spacing={spacing}>
+        <Stack alignItems="center" direction="row" spacing={spacing}>
           {onClose && (
-            <IconButton size={size} onClick={onClose}>
+            <IconButton onClick={onClose} size={size}>
               <CloseOutlinedIcon />
             </IconButton>
           )}
@@ -116,8 +118,8 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
             {subtitle &&
               (typeof subtitle === 'string' ? (
                 <Typography
-                  variant={isSmall ? 'body2' : 'body1'}
                   sx={{ mt: 1 }}
+                  variant={isSmall ? 'body2' : 'body1'}
                 >
                   {subtitle}
                 </Typography>
@@ -129,24 +131,24 @@ const PageHeader: React.FC<PageHeaderProps> = (props) => {
 
         {/* Right */}
         <Stack
-          direction="row"
           alignItems="center"
+          direction="row"
           justifyContent="flex-end"
           spacing={spacing}
         >
           {actions}
 
           {actionButtons?.map((action) => (
-            <Button size={size} key={action.key} {...action} />
+            <Button key={action.key} size={size} {...action} />
           ))}
 
           {renderButton?.(crudFormContext) ??
             (button ||
               (buttonProps && (
                 <Button
+                  color="primary"
                   size={size}
                   variant="contained"
-                  color="primary"
                   {...buttonProps}
                 />
               )))}

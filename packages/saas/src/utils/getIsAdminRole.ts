@@ -1,4 +1,5 @@
 import { Role } from '@gravis-os/types'
+
 import saasConfig from '../config/saasConfig'
 
 const getIsAdminRole = (role: Role): boolean => {

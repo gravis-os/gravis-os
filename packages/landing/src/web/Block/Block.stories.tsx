@@ -1,4 +1,5 @@
 import React from 'react'
+
 import MOCK_DARK_BLUE_GRADIENT_1_IMAGE from '../../../public/images/mock_dark_blue_gradient_1.jpg'
 import MOCK_RAINBOW_GRADIENT_1_IMAGE from '../../../public/images/mock_rainbow_gradient_1.jpg'
 import { MOCK_BLOCK, MOCK_BLOCK_ITEM_TYPES } from '../../mocks'
@@ -7,11 +8,10 @@ import Block from './Block'
 import { BlockItemTypeEnum } from './constants'
 
 export default {
-  component: Block,
-  args: MOCK_BLOCK,
   title: getStorybookTitle(Block.name),
+  args: MOCK_BLOCK,
+  component: Block,
   parameters: {
-    layout: 'fullscreen',
     backgrounds: {
       default: 'light',
       values: [
@@ -21,6 +21,7 @@ export default {
         },
       ],
     },
+    layout: 'fullscreen',
   },
 }
 
@@ -33,8 +34,8 @@ export const Shorthands = Template.bind({})
 Shorthands.args = {
   items: [
     {
-      type: BlockItemTypeEnum.H4,
       title: 'This is the extended version (no shorthand)',
+      type: BlockItemTypeEnum.H4,
     },
     {
       subtitle1: {
@@ -69,9 +70,9 @@ DynamicContent.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
-      type: BlockItemTypeEnum.OVERLINE,
       title: 'Custom Business Software Made for Market Leaders',
       sx: { mt: 2 },
+      type: BlockItemTypeEnum.OVERLINE,
     },
   ],
 }
@@ -84,8 +85,8 @@ WithImage.args = {
 export const BackgroundImage = Template.bind({})
 BackgroundImage.args = {
   backgroundImageProps: {
-    src: MOCK_RAINBOW_GRADIENT_1_IMAGE,
     alt: 'MOCK_RAINBOW_GRADIENT_1_IMAGE',
+    src: MOCK_RAINBOW_GRADIENT_1_IMAGE,
   },
 }
 
@@ -97,8 +98,8 @@ DarkModeWithBackgroundColor.args = {
 export const DarkModeWithBackgroundImage = Template.bind({})
 DarkModeWithBackgroundImage.args = {
   backgroundImageProps: {
-    src: MOCK_DARK_BLUE_GRADIENT_1_IMAGE,
     alt: 'MOCK_DARK_BLUE_GRADIENT_1_IMAGE',
+    src: MOCK_DARK_BLUE_GRADIENT_1_IMAGE,
   },
   dark: true,
 }
@@ -109,25 +110,25 @@ Grid.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
-      type: BlockItemTypeEnum.GRID,
-      sx: { mt: 10 },
-      gridProps: { spacing: { xs: 5, md: 20 } },
       gridItems: [
         {
-          sx: { textAlign: 'left' },
           items: [
             ...MOCK_BLOCK.items,
             { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY1 },
           ],
+          sx: { textAlign: 'left' },
         },
         {
-          sx: { textAlign: 'left' },
           items: [
             ...MOCK_BLOCK.items,
             { sx: { mt: 2 }, ...MOCK_BLOCK_ITEM_TYPES.BODY1 },
           ],
+          sx: { textAlign: 'left' },
         },
       ],
+      gridProps: { spacing: { xs: 5, md: 20 } },
+      sx: { mt: 10 },
+      type: BlockItemTypeEnum.GRID,
     },
   ],
 }
@@ -138,36 +139,36 @@ GridWithFeatures.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
-      type: BlockItemTypeEnum.GRID,
-      maxWidth: 'lg',
-      sx: { mt: { xs: 5, md: 7.5 } },
-      gridProps: { spacing: { xs: 5 } },
       gridItems: [
         {
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.IMAGE,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.IMAGE,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.IMAGE,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
       ],
+      gridProps: { spacing: { xs: 5 } },
+      maxWidth: 'lg',
+      sx: { mt: { xs: 5, md: 7.5 } },
+      type: BlockItemTypeEnum.GRID,
     },
   ],
 }
@@ -178,43 +179,43 @@ GridWithIconsOnSingleRow.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
-      type: BlockItemTypeEnum.GRID,
-      sx: { mt: { xs: 5, md: 10 } },
-      gridProps: { spacing: { xs: 5 } },
       gridItems: [
         {
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
       ],
+      gridProps: { spacing: { xs: 5 } },
+      sx: { mt: { xs: 5, md: 10 } },
+      type: BlockItemTypeEnum.GRID,
     },
   ],
 }
@@ -225,65 +226,65 @@ GridWithIconsOnDoubleRow.args = {
   items: [
     ...MOCK_BLOCK.items,
     {
-      type: BlockItemTypeEnum.GRID,
-      sx: { mt: { xs: 5, md: 10 } },
-      gridProps: { spacing: { xs: 5 } },
       gridItems: [
         {
           md: 4,
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
           md: 4,
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
           md: 4,
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
           md: 4,
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
           md: 4,
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         {
           md: 4,
-          sx: { textAlign: { xs: 'center', md: 'left' } },
           items: [
             MOCK_BLOCK_ITEM_TYPES.ICON,
             { ...MOCK_BLOCK_ITEM_TYPES.H5, titleProps: { gutterBottom: true } },
             MOCK_BLOCK_ITEM_TYPES.BODY1,
           ],
+          sx: { textAlign: { xs: 'center', md: 'left' } },
         },
       ],
+      gridProps: { spacing: { xs: 5 } },
+      sx: { mt: { xs: 5, md: 10 } },
+      type: BlockItemTypeEnum.GRID,
     },
   ],
 }
@@ -292,17 +293,17 @@ export const HalfGrid = Template.bind({})
 HalfGrid.args = {
   items: [
     {
-      type: BlockItemTypeEnum.GRID,
       gridItems: [
         {
-          sx: { textAlign: 'right' },
           items: [...MOCK_BLOCK.items],
+          sx: { textAlign: 'right' },
         },
         {
-          sx: { textAlign: 'left' },
           items: [...MOCK_BLOCK.items],
+          sx: { textAlign: 'left' },
         },
       ],
+      type: BlockItemTypeEnum.GRID,
     },
   ],
 }
@@ -311,11 +312,11 @@ export const LeftWingGrid = Template.bind({})
 LeftWingGrid.args = {
   items: [
     {
-      type: BlockItemTypeEnum.GRID,
       gridItems: [
         { md: 7, items: MOCK_BLOCK.items },
         { md: 5, items: MOCK_BLOCK.items },
       ],
+      type: BlockItemTypeEnum.GRID,
     },
   ],
 }
@@ -324,11 +325,11 @@ export const RightWingGrid = Template.bind({})
 RightWingGrid.args = {
   items: [
     {
-      type: BlockItemTypeEnum.GRID,
       gridItems: [
         { md: 5, items: MOCK_BLOCK.items },
         { md: 7, items: MOCK_BLOCK.items },
       ],
+      type: BlockItemTypeEnum.GRID,
     },
   ],
 }

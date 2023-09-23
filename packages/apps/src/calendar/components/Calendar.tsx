@@ -1,48 +1,52 @@
-import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 import type { EventClickArg } from '@fullcalendar/react'
-import FullCalendar from '@fullcalendar/react'
+import type { Theme } from '@mui/material'
+
+import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
+
+import { CalendarOptions } from '@fullcalendar/common'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
+import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import timelinePlugin from '@fullcalendar/timeline'
-import type { Theme } from '@mui/material'
+import { Box, Stack } from '@gravis-os/ui'
 import { useMediaQuery } from '@mui/material'
 import { styled } from '@mui/material/styles'
-import { Box, Stack } from '@gravis-os/ui'
-import { CalendarOptions } from '@fullcalendar/common'
 import isEmpty from 'lodash/isEmpty'
-import {
-  createCalendarTheme,
-  DEFAULT_DRAWER_WIDTH,
-} from '../createCalendarTheme'
-import CalendarEventDrawer from './CalendarEventDrawer'
-import CalendarHeaderField from './CalendarHeaderField'
-import CalendarTimeField from './CalenderTimeField'
-import CalendarEventContent from './CalendarEventContent'
-import { CalendarToolbar } from './CalendarToolbar'
+
 import type {
   CalendarEvent,
   CalendarEventDrawerDefs,
   CalendarView,
 } from '../types'
+
 import { DAY_VIEW, WEEK_VIEW } from '../constants'
+import {
+  DEFAULT_DRAWER_WIDTH,
+  createCalendarTheme,
+} from '../createCalendarTheme'
+import CalendarEventContent from './CalendarEventContent'
+import CalendarEventDrawer from './CalendarEventDrawer'
+import CalendarHeaderField from './CalendarHeaderField'
+import { CalendarToolbar } from './CalendarToolbar'
+import CalendarTimeField from './CalenderTimeField'
 
 interface CalendarDrawerState {
-  isOpen: boolean
   eventId?: string
+  isOpen: boolean
 }
 
 interface CalendarProps extends Omit<CalendarOptions, 'events' | 'height'> {
-  height: number | string
-  events: CalendarEvent[]
   eventDrawerDefs: CalendarEventDrawerDefs
+  events: CalendarEvent[]
+  height: number | string
 }
 
 const FullCalendarWrapper = styled('div')(createCalendarTheme)
 
 const Calendar: FC<CalendarProps> = (props) => {
-  const { events, eventDrawerDefs, height, ...calendarProps } = props
+  const { eventDrawerDefs, events, height, ...calendarProps } = props
 
   const smDown = useMediaQuery((theme: Theme) => theme.breakpoints.down('sm'))
 
@@ -104,7 +108,7 @@ const Calendar: FC<CalendarProps> = (props) => {
   }
 
   const handleEventSelect = (arg: EventClickArg) =>
-    setDrawer({ isOpen: true, eventId: arg.event.id })
+    setDrawer({ eventId: arg.event.id, isOpen: true })
 
   const handleCloseDialog = () => setDrawer({ isOpen: false })
 
@@ -113,30 +117,26 @@ const Calendar: FC<CalendarProps> = (props) => {
       <Box sx={{ flexBasis: `calc(100% - ${drawerWidth})` }}>
         <CalendarToolbar
           date={date}
+          mobile={smDown}
           onDateNext={handleDateNext}
           onDatePrev={handleDatePrev}
           onDateToday={handleDateToday}
           onViewChange={handleViewChange}
-          view={view}
-          mobile={smDown}
           sx={{ mb: 2, mr: drawer.isOpen ? 3 : 0 }}
+          view={view}
         />
         <FullCalendarWrapper>
           <FullCalendar
-            weekends
             allDaySlot={false}
-            headerToolbar={false}
+            dayHeaderContent={CalendarHeaderField}
             dayMaxEventRows={3}
             eventClick={handleEventSelect}
-            events={events}
             eventContent={CalendarEventContent}
+            events={events}
+            headerToolbar={false}
+            height="100%"
             initialDate={date}
             initialView={view}
-            dayHeaderContent={CalendarHeaderField}
-            slotLabelContent={CalendarTimeField}
-            rerenderDelay={10}
-            height="100%"
-            ref={calendarRef}
             plugins={[
               dayGridPlugin,
               interactionPlugin,
@@ -144,6 +144,10 @@ const Calendar: FC<CalendarProps> = (props) => {
               timeGridPlugin,
               timelinePlugin,
             ]}
+            ref={calendarRef}
+            rerenderDelay={10}
+            slotLabelContent={CalendarTimeField}
+            weekends
             {...calendarProps}
           />
         </FullCalendarWrapper>

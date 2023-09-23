@@ -1,11 +1,13 @@
 import React from 'react'
-import { renderStatefulChildren, Timeline } from '@gravis-os/ui'
 import { UseQueryResult } from 'react-query'
-import { Memo } from './types'
+
+import { Timeline, renderStatefulChildren } from '@gravis-os/ui'
+
 import MemoCard, { MemoCardProps } from './MemoCard'
+import { Memo } from './types'
 
 export interface MemoTimelineProps
-  extends Omit<MemoCardProps, 'item' | 'actions'> {
+  extends Omit<MemoCardProps, 'actions' | 'item'> {
   items?: Memo[]
   queryResult: UseQueryResult
   showContact?: boolean
@@ -14,22 +16,22 @@ export interface MemoTimelineProps
 const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
   const { items, queryResult, ...rest } = props
 
-  const { isLoading, isError } = queryResult
+  const { isError, isLoading } = queryResult
 
   const memosJsx = (
     <Timeline
       items={items?.map((item) => {
         if (!item) return null
         return {
-          key: String(item.id),
           children: (
             <MemoCard
               {...rest}
               item={{ ...item, title: item?.title ?? 'Note' }}
             />
           ),
-          dotColor: 'primary',
           connectorColor: 'primary',
+          dotColor: 'primary',
+          key: String(item.id),
         }
       })}
     />
@@ -38,9 +40,9 @@ const MemoTimeline: React.FC<MemoTimelineProps> = (props) => {
   return (
     <div>
       {renderStatefulChildren(memosJsx, {
-        isLoading,
-        isError,
         isEmpty: items?.length === 0,
+        isError,
+        isLoading,
       })}
     </div>
   )

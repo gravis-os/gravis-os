@@ -1,34 +1,31 @@
 import { getCrudItemsByCategory, withLocales } from '@gravis-os/utils'
+
 import { LayoutConfig } from './types'
 
 const makeGetLayoutProviderProps =
   (layoutConfig: LayoutConfig) =>
   ({ context }) => {
     const {
-      routeConfig = {},
-      site = {},
-      clientLogos = [],
       clientHighlights = [],
+      clientLogos = [],
       clientTestimonials = [],
       industrys = [],
       pages = [],
       postCategorys = [],
+      routeConfig = {},
       serviceCategorys = [],
       services = [],
-      technologys = [],
       showcases = [],
+      site = {},
+      technologys = [],
       workspaces = [],
     } = layoutConfig
     return {
-      // Configs
-      routeConfig,
-
-      // Site
-      site,
+      clientHighlights,
 
       // Modules
       clientLogos,
-      clientHighlights,
+
       clientTestimonials,
       industrys: industrys
         ?.filter(({ is_hidden_from_nav }) => !is_hidden_from_nav)
@@ -41,6 +38,8 @@ const makeGetLayoutProviderProps =
         ...postCategory,
         href: `${routeConfig.POSTS}/${postCategory.slug}`,
       })),
+      // Configs
+      routeConfig,
       serviceCategorys,
       services: getCrudItemsByCategory(
         services.filter(({ is_hidden_from_nav }) => !is_hidden_from_nav),
@@ -55,13 +54,15 @@ const makeGetLayoutProviderProps =
           }))
         ),
       })),
+      showcases,
+      // Site
+      site,
       technologys: technologys
         .filter(({ is_hidden_from_nav }) => !is_hidden_from_nav)
         .map((technology) => ({
           ...technology,
           href: `${routeConfig.TECHNOLOGYS}/${technology.slug}`,
         })),
-      showcases,
       workspaces,
     }
   }

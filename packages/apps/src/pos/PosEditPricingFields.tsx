@@ -1,24 +1,26 @@
 import React, { useState } from 'react'
+
 import { Divider, IconButton, Stack, Typography } from '@gravis-os/ui'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
+
 import { getDiscountedPrice } from '../utils/getDiscountedPriceFromItem'
 import PosAddStaffDialog, { PosAddStaffDialogProps } from './PosAddStaffDialog'
 import PosApplyDiscountDialog from './PosApplyDiscountDialog'
-import { usePos } from './PosProvider'
 import posConfig from './posConfig'
+import { usePos } from './PosProvider'
 import { CartItem } from './types'
 
 export interface PosEditPricingFieldsProps {
+  addStaffProps?: PosAddStaffDialogProps
   cartIndex: number
   quantity: number
-  addStaffProps?: PosAddStaffDialogProps
 }
 
 const PosEditPricingFields: React.FC<PosEditPricingFieldsProps> = (props) => {
-  const { cartIndex, quantity, addStaffProps } = props
+  const { addStaffProps, cartIndex, quantity } = props
   const { cart } = usePos()
   const item = cart?.items?.[cartIndex] as CartItem
-  const { price, discount, discountType } = item || {}
+  const { discount, discountType, price } = item || {}
 
   const [isApplyDiscountDialogOpen, setIsApplyDiscountDialogOpen] =
     useState(false)
@@ -35,34 +37,34 @@ const PosEditPricingFields: React.FC<PosEditPricingFieldsProps> = (props) => {
 
   const editPricingFields = [
     {
-      key: 'price',
-      label: 'Price',
       action: (
-        <Typography variant="subtitle1" fontSize={18}>
+        <Typography fontSize={18} variant="subtitle1">
           {`${posConfig.default_currency} 
           ${
             getDiscountedPrice(price, discount, discountType) * (quantity ?? 1)
           }`}
         </Typography>
       ),
+      key: 'price',
+      label: 'Price',
     },
     {
-      key: 'apply-discount',
-      label: 'Apply Discount',
       action: (
         <IconButton onClick={handleOnClickApplyDiscount}>
           <KeyboardArrowRightOutlinedIcon sx={{ fontSize: 36 }} />
         </IconButton>
       ),
+      key: 'apply-discount',
+      label: 'Apply Discount',
     },
     {
-      key: 'add-staff',
-      label: 'Add staff who sold item',
       action: (
         <IconButton onClick={handleOnClickAddStaff}>
           <KeyboardArrowRightOutlinedIcon sx={{ fontSize: 36 }} />
         </IconButton>
       ),
+      key: 'add-staff',
+      label: 'Add staff who sold item',
     },
   ]
 
@@ -70,24 +72,24 @@ const PosEditPricingFields: React.FC<PosEditPricingFieldsProps> = (props) => {
     <>
       <Stack>
         <Typography
-          variant="overline"
           fontSize={16}
           sx={{ color: 'text.secondary' }}
+          variant="overline"
         >
           Pricing
         </Typography>
-        <Stack spacing={2} mt={3}>
+        <Stack mt={3} spacing={2}>
           {editPricingFields.map((field) => (
             <React.Fragment key={field.key}>
               <Stack
+                alignItems="center"
                 direction="row"
                 justifyContent="space-between"
-                alignItems="center"
               >
-                <Typography variant="h1" fontSize={18}>
+                <Typography fontSize={18} variant="h1">
                   {field.label}
                 </Typography>
-                {field?.action ? field?.action : null}
+                {field?.action ?? null}
               </Stack>
               <Divider />
             </React.Fragment>
@@ -95,14 +97,14 @@ const PosEditPricingFields: React.FC<PosEditPricingFieldsProps> = (props) => {
         </Stack>
       </Stack>
       <PosApplyDiscountDialog
-        open={isApplyDiscountDialogOpen}
-        onClose={handleCloseApplyDiscountDialog}
         cartIndex={cartIndex}
+        onClose={handleCloseApplyDiscountDialog}
+        open={isApplyDiscountDialogOpen}
       />
       <PosAddStaffDialog
-        open={isAddStaffDialogOpen}
-        onClose={handleCloseAddStaffDialog}
         cartIndex={cartIndex}
+        onClose={handleCloseAddStaffDialog}
+        open={isAddStaffDialogOpen}
         {...addStaffProps}
       />
     </>

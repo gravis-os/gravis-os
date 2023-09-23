@@ -11,22 +11,22 @@ const renderClientLogoCardBlockItem = (
   const { title, titleProps } = props
 
   return {
-    items: [
-      {
-        type: 'image',
-        title,
-        titleProps,
-      },
-    ],
     boxProps: {
+      center: true,
       sx: {
         backgroundColor: 'background.paper',
-        p: 3,
-        minHeight: { xs: 150, md: 260 },
         lineHeight: 1,
+        minHeight: { xs: 150, md: 260 },
+        p: 3,
       },
-      center: true,
     },
+    items: [
+      {
+        title,
+        titleProps,
+        type: 'image',
+      },
+    ],
   }
 }
 

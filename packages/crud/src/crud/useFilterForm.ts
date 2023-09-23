@@ -1,24 +1,25 @@
 import { useEffect } from 'react'
 import { useForm } from 'react-hook-form'
-import { SupabaseClient } from '@supabase/auth-helpers-nextjs'
+
 import { getFilterFormValues } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
+import { SupabaseClient } from '@supabase/auth-helpers-nextjs'
 
 interface UseFilterFormValues {
-  values: Record<string, any>
   rawValues: Record<string, any>
+  values: Record<string, any>
 }
 
 export interface UseFilterFormArgs {
-  module: CrudModule
-  item?: Record<string, unknown>
   client?: SupabaseClient
-  setFormValues?: ({ values }: UseFilterFormValues) => Record<string, any>
+  item?: Record<string, unknown>
+  module: CrudModule
   onSubmit?: (obj: Omit<UseFilterFormValues, 'rawValues'>) => void
+  setFormValues?: ({ values }: UseFilterFormValues) => Record<string, any>
 }
 
 const useFilterForm = (args: UseFilterFormArgs) => {
-  const { onSubmit, setFormValues, item = {} } = args
+  const { item = {}, onSubmit, setFormValues } = args
 
   // ==============================
   // Form
@@ -36,11 +37,11 @@ const useFilterForm = (args: UseFilterFormArgs) => {
     try {
       const filterFormValues = getFilterFormValues({ values })
       const nextValues = setFormValues
-        ? setFormValues({ values: filterFormValues, rawValues: values })
+        ? setFormValues({ rawValues: values, values: filterFormValues })
         : filterFormValues
       if (onSubmit) onSubmit({ values: nextValues })
-    } catch (err) {
-      console.error('Error caught:', err)
+    } catch (error) {
+      console.error('Error caught:', error)
     }
   }
 

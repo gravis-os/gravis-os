@@ -1,6 +1,8 @@
-import { BlockItemTypeEnum } from './constants'
-import { BlockItemProps } from './BlockItem'
+/* eslint-disable unicorn/consistent-function-scoping */
+
 import { BlockProps } from './Block'
+import { BlockItemProps } from './BlockItem'
+import { BlockItemTypeEnum } from './constants'
 
 export interface BlockItemShortHandProps {
   [key: string]:
@@ -30,7 +32,7 @@ const withBlockItemShorthand = () => (items: BlockItemProps[]) => {
         ...acc,
 
         ...Object.entries(item).reduce(
-          (itemAcc, [type, value]: [string, string | BlockItemProps]) => {
+          (itemAcc, [type, value]: [string, BlockItemProps | string]) => {
             // Only allow valid types
             const isValidType = (
               Object.values(BlockItemTypeEnum) as string[]
@@ -39,11 +41,11 @@ const withBlockItemShorthand = () => (items: BlockItemProps[]) => {
 
             // @example - items: [{ body1: 'Body1 in string syntax' }],
             if (typeof value === 'string') {
-              return [...itemAcc, { type, title: value }]
+              return [...itemAcc, { title: value, type }]
             }
 
             // Take stackItems or gridItems, and resolve them recursively
-            const { stackItems, gridItems } = value as BlockItemProps
+            const { gridItems, stackItems } = value as BlockItemProps
             const recursiveItems = stackItems || gridItems
             const hasRecursiveItems = Boolean(recursiveItems)
             if (hasRecursiveItems) {

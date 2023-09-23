@@ -1,67 +1,69 @@
+import type { RenderPropsFunction } from '@gravis-os/types'
+
 import React, { useState } from 'react'
+
 import {
   Box,
+  Button,
   Card,
   Chip,
   IconButton,
   Stack,
   Typography,
-  Button,
 } from '@gravis-os/ui'
-import Popover from '@mui/material/Popover'
 import { printDateTime, printHtml } from '@gravis-os/utils'
-import type { RenderPropsFunction } from '@gravis-os/types'
-import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined'
-import PersonIcon from '@mui/icons-material/Person'
 import FormatListNumberedOutlinedIcon from '@mui/icons-material/FormatListNumberedOutlined'
-import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
+import LibraryBooksOutlinedIcon from '@mui/icons-material/LibraryBooksOutlined'
 import LocationOnOutlinedIcon from '@mui/icons-material/LocationOnOutlined'
+import MoreHorizOutlinedIcon from '@mui/icons-material/MoreHorizOutlined'
+import PersonIcon from '@mui/icons-material/Person'
+import Popover from '@mui/material/Popover'
 
 export interface MemoCardProps {
-  item: {
-    title: React.ReactNode
-    content?: string
-    user?: { full_name?: string; title?: string }
-    created_at?: string | Date
-    project?: Record<string, string>
-    priority?: string
-    contact?: Record<string, string>
-    location?: string
-    assignee?: { full_name?: string; title?: string }
-  }
   actions?: React.ReactNode
-  showContact?: boolean
   isMutable?: boolean
+  item: {
+    assignee?: { full_name?: string; title?: string }
+    contact?: Record<string, string>
+    content?: string
+    created_at?: Date | string
+    location?: string
+    priority?: string
+    project?: Record<string, string>
+    title: React.ReactNode
+    user?: { full_name?: string; title?: string }
+  }
+  onDelete?: (item) => Promise<void>
+  onSave?: (item) => Promise<void>
   renderEditComponent?: RenderPropsFunction<{
-    item
     finishEdit
     handleClose
+    item
   }>
-  onSave?: (item) => Promise<void>
-  onDelete?: (item) => Promise<void>
+  showContact?: boolean
 }
 
 const MemoCard: React.FC<MemoCardProps> = (props) => {
   const {
-    item,
     actions,
-    showContact = false,
     isMutable,
-    renderEditComponent,
-    onSave,
+    item,
     onDelete,
+    onSave,
+    renderEditComponent,
+    showContact = false,
   } = props
 
   const {
     title,
-    content,
-    user,
-    created_at,
-    project = {},
-    priority = '',
-    location = null,
-    contact = null,
     assignee = null,
+    contact = null,
+    content,
+    created_at,
+    location = null,
+    priority = '',
+    project = {},
+    user,
   } = item
 
   const [isEditing, setIsEditing] = useState<boolean>(false)
@@ -89,14 +91,14 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
   return (
     <Card
       overline={
-        <Typography variant="body2" color="text.secondary" gutterBottom>
+        <Typography color="text.secondary" gutterBottom variant="body2">
           {printDateTime(created_at)}
         </Typography>
       }
     >
       <Stack spacing={1}>
         {isEditing ? (
-          <>{renderEditComponent({ item, handleClose, finishEdit })}</>
+          <>{renderEditComponent({ finishEdit, handleClose, item })}</>
         ) : (
           <Stack flexDirection="row">
             <Stack spacing={1}>
@@ -112,9 +114,9 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                       {' '}
                       by{' '}
                       <Typography
+                        color="text.secondary"
                         display="inline-block"
                         variant="body1"
-                        color="text.secondary"
                       >
                         {user.full_name || user.title}
                       </Typography>
@@ -129,12 +131,12 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                 <Stack flexDirection="row" gap={1}>
                   {project?.title && (
                     <Chip
+                      color="primary"
                       icon={
                         !showContact && (
                           <LibraryBooksOutlinedIcon fontSize="small" />
                         )
                       }
-                      color="primary"
                       label={
                         showContact
                           ? `Project: ${project?.title}`
@@ -144,30 +146,30 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                   )}
                   {priority && (
                     <Chip
+                      color="primary"
                       icon={
                         !showContact && (
                           <FormatListNumberedOutlinedIcon fontSize="small" />
                         )
                       }
-                      color="primary"
                       label={showContact ? `Priority: ${priority}` : priority}
                     />
                   )}
                   {location && (
                     <Chip
+                      color="primary"
                       icon={
                         !showContact && (
                           <LocationOnOutlinedIcon fontSize="small" />
                         )
                       }
-                      color="primary"
                       label={showContact ? `Location: ${location}` : location}
                     />
                   )}
                   {assignee && (
                     <Chip
-                      icon={!showContact && <PersonIcon fontSize="small" />}
                       color="primary"
+                      icon={!showContact && <PersonIcon fontSize="small" />}
                       label={
                         showContact
                           ? `Assignee: ${assignee.full_name}`
@@ -215,14 +217,14 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                   <MoreHorizOutlinedIcon />
                 </IconButton>
                 <Popover
-                  id="memo-card-popover"
-                  open={Boolean(anchorEl)}
                   anchorEl={anchorEl}
-                  onClose={handleClose}
                   anchorOrigin={{
-                    vertical: 'bottom',
                     horizontal: 'left',
+                    vertical: 'bottom',
                   }}
+                  id="memo-card-popover"
+                  onClose={handleClose}
+                  open={Boolean(anchorEl)}
                 >
                   <Stack>
                     {shouldEdit && (
@@ -238,11 +240,11 @@ const MemoCard: React.FC<MemoCardProps> = (props) => {
                     )}
                     <Button
                       aria-label="Delete item"
+                      color="error"
                       onClick={async () => {
                         await onDelete?.(item)
                         handleClose()
                       }}
-                      color="error"
                     >
                       Delete
                     </Button>

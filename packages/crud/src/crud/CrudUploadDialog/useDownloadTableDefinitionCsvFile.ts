@@ -1,17 +1,19 @@
-import { CrudModule } from '@gravis-os/types'
 import { useEffect, useState } from 'react'
+
+import { CrudModule } from '@gravis-os/types'
 import downloadjs from 'downloadjs'
-import useGetTableDefinitionByTableName from './useGetTableDefinitionByTableName'
+
 import getCsvUri from './getCsvUri'
 import getTableColumnNames from './getTableColumnNames'
+import useGetTableDefinitionByTableName from './useGetTableDefinitionByTableName'
 
 const useDownloadTableDefinitionCsvFile = (props: {
+  hasUploadTemplate?: boolean
+  manyToManyKeys?: string[]
   module: CrudModule
   uploadFields?: string[]
-  manyToManyKeys?: string[]
-  hasUploadTemplate?: boolean
 }) => {
-  const { module, uploadFields, manyToManyKeys, hasUploadTemplate } = props
+  const { hasUploadTemplate, manyToManyKeys, module, uploadFields } = props
   const { tableHeaderRenameMapping } = module ?? {}
 
   // Get table names for downloading the color
@@ -46,10 +48,10 @@ const useDownloadTableDefinitionCsvFile = (props: {
 
   return {
     handleDownload: () => setShouldDownload(true),
-    tableDefinition,
-    tableColumnNames,
     isDownloaded,
     resetIsDownloaded: () => setIsDownloaded(false),
+    tableColumnNames,
+    tableDefinition,
   }
 }
 

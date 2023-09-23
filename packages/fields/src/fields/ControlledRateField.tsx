@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react'
 import { Control, Controller } from 'react-hook-form'
 import NumberFormat from 'react-number-format'
+
 import TextField from './TextField'
 
 export interface ControlledRateFieldProps {
@@ -20,10 +21,9 @@ const NumberFormatField = (props) => {
     <NumberFormat
       customInput={TextField}
       {...rest}
-      value={displayValue}
-      fullWidth
-      thousandSeparator
       decimalScale={2}
+      fullWidth
+      isNumericString
       onValueChange={(target) => {
         setDisplayValue(target.floatValue)
         if (target.floatValue !== value) {
@@ -31,7 +31,8 @@ const NumberFormatField = (props) => {
           onChange(target.floatValue)
         }
       }}
-      isNumericString
+      thousandSeparator
+      value={displayValue}
     />
   )
 }

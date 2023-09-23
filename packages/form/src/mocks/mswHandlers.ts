@@ -2,18 +2,6 @@
 import { rest } from 'msw'
 
 const handlers = {
-  auth: [
-    rest.get('/api/auth/user', (req, res, ctx) => {
-      return res(
-        ctx.json({
-          isLoading: false,
-          error: false,
-          accessToken: '',
-          user: { id: 1, name: 'John Doe' },
-        })
-      )
-    }),
-  ],
   api: [
     rest.get('/rest/v1/contact', (req, res, ctx) => {
       return res(
@@ -24,6 +12,18 @@ const handlers = {
             slug: 'tim-cook',
           },
         ])
+      )
+    }),
+  ],
+  auth: [
+    rest.get('/api/auth/user', (req, res, ctx) => {
+      return res(
+        ctx.json({
+          accessToken: '',
+          error: false,
+          isLoading: false,
+          user: { id: 1, name: 'John Doe' },
+        })
       )
     }),
   ],

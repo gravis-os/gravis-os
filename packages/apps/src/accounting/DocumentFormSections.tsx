@@ -1,3 +1,5 @@
+import React from 'react'
+
 import { CrudFormJsxProps } from '@gravis-os/crud'
 import {
   FormSection,
@@ -25,21 +27,21 @@ import ModeEditOutlineOutlinedIcon from '@mui/icons-material/ModeEditOutlineOutl
 import PhoneIphoneOutlinedIcon from '@mui/icons-material/PhoneIphoneOutlined'
 import SaveOutlinedIcon from '@mui/icons-material/SaveOutlined'
 import { SxProps } from '@mui/material'
-import React from 'react'
+
 import { DocumentItem } from './types'
 
 const AddressReadOnlyFormSection: React.FC<{
-  title?: React.ReactNode
-  label?: React.ReactNode
   icon?: React.ReactElement
   item?: DocumentItem
+  label?: React.ReactNode
   prefix?: string
+  title?: React.ReactNode
 }> = (props) => {
   const {
-    icon,
     title,
-    label,
+    icon,
     item: injectedItem,
+    label,
     prefix: injectedPrefix,
   } = props
 
@@ -53,14 +55,14 @@ const AddressReadOnlyFormSection: React.FC<{
   ].filter(Boolean)
 
   return (
-    <Stack direction="row" alignItems="center" spacing={5}>
+    <Stack alignItems="center" direction="row" spacing={5}>
       <div>
         {(title || label) && (
           <Typography
-            variant="subtitle1"
             color="primary"
-            startIcon={icon}
             gutterBottom
+            startIcon={icon}
+            variant="subtitle1"
           >
             {label ?? title}
           </Typography>
@@ -82,25 +84,25 @@ const AddressReadOnlyFormSection: React.FC<{
 const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
   props
 ) => {
-  const { label, title, value } = props
+  const { title, label, value } = props
 
   return (
-    <FormSectionReadOnlyStack title={title} label={label}>
+    <FormSectionReadOnlyStack label={label} title={title}>
       <Stack spacing={0.5}>
         <Typography
           spacing={1}
-          variant="body2"
           startIcon={
             <PhoneIphoneOutlinedIcon color="primary" fontSize="small" />
           }
+          variant="body2"
         >
           {value?.mobile}
         </Typography>
 
         <Typography
           spacing={1}
-          variant="body2"
           startIcon={<EmailOutlinedIcon color="primary" fontSize="small" />}
+          variant="body2"
         >
           {value?.email}
         </Typography>
@@ -111,33 +113,33 @@ const ContactReadOnlyFormSection: React.FC<FormSectionRenderReadOnlyProps> = (
 
 export interface DocumentFormSectionsProps extends CrudFormJsxProps {
   actionButtons?: ButtonProps[]
+  disableEdit?: boolean
   onPrint?: () => void
   printMode?: boolean
   printModeOptions?: { pageBreak?: boolean }
-  disableEdit?: boolean
 }
 
 const DocumentFormSections: React.FC<any> = (props) => {
   const {
-    formContext,
-    onSubmit,
-    onDelete,
-    isReadOnly,
-    setIsReadOnly,
-    sections,
-    item,
     actionButtons: injectedActionButtons = [],
+    disableEdit = false,
+    formContext,
+    isReadOnly,
+    item,
+    onDelete,
     onPrint,
+    onSubmit,
     printMode,
     printModeOptions,
-    disableEdit = false,
+    sections,
+    setIsReadOnly,
     ...rest
   } = props
   const { pageBreak } = printModeOptions || {}
 
   if (!sections?.length) return null
 
-  const formSectionProps = { isReadOnly, disableCard: true, item, ...rest }
+  const formSectionProps = { disableCard: true, isReadOnly, item, ...rest }
 
   const getSectionPropsByKey = (key: string) =>
     sections.find((section) => section.key === key)
@@ -172,20 +174,16 @@ const DocumentFormSections: React.FC<any> = (props) => {
     'signature',
   ]
   const sectionsPropsByKey: Record<string, FormSectionProps> =
-    sectionKeys.reduce(
-      (acc, key) => ({ ...acc, [key]: getSectionPropsByKey(key) }),
-      {}
+    Object.fromEntries(
+      sectionKeys.map((key) => [key, getSectionPropsByKey(key)])
     )
 
   const actionButtons = [
     {
-      key: 'edit',
       children: isReadOnly ? 'Edit' : 'Save',
-      startIcon: isReadOnly ? (
-        <ModeEditOutlineOutlinedIcon />
-      ) : (
-        <SaveOutlinedIcon />
-      ),
+      color: 'primary',
+      disabled: disableEdit,
+      key: 'edit',
       onClick: async () => {
         if (isReadOnly) return setIsReadOnly(!isReadOnly)
 
@@ -194,23 +192,26 @@ const DocumentFormSections: React.FC<any> = (props) => {
           setIsReadOnly(true)
         })()
       },
-      color: 'primary',
-      disabled: disableEdit,
+      startIcon: isReadOnly ? (
+        <ModeEditOutlineOutlinedIcon />
+      ) : (
+        <SaveOutlinedIcon />
+      ),
     },
     {
-      key: 'print',
       children: 'Print',
-      startIcon: <LocalPrintshopOutlinedIcon />,
+      key: 'print',
       onClick: onPrint,
+      startIcon: <LocalPrintshopOutlinedIcon />,
     },
     <ConfirmationDialog
       buttonComponent={Button}
       buttonProps={{
-        key: 'delete',
         children: 'Delete',
+        color: 'inherit',
+        key: 'delete',
         startIcon: <DeleteOutlineOutlinedIcon />,
         tooltip: 'Delete',
-        color: 'inherit',
       }}
       disableToastSuccess
       onConfirm={() => onDelete(item)}
@@ -229,21 +230,21 @@ const DocumentFormSections: React.FC<any> = (props) => {
     <Stack spacing={2} sx={containerSx}>
       {/* Toolbar */}
       <Card
-        square
+        contentProps={{ sx: { pl: 1, pr: 3, py: 1 } }}
         disableLastGutterBottom
-        contentProps={{ sx: { py: 1, pl: 1, pr: 3 } }}
+        square
       >
         <Stack
-          direction="row"
           alignItems="center"
-          spacing={1}
+          direction="row"
           justifyContent="space-between"
+          spacing={1}
         >
           {/* Left */}
           <Stack
-            display={printMode ? 'none' : 'flex'}
-            direction="row"
             alignItems="center"
+            direction="row"
+            display={printMode ? 'none' : 'flex'}
             spacing={0.5}
           >
             {actionButtons?.map((actionButton) => {
@@ -295,10 +296,10 @@ const DocumentFormSections: React.FC<any> = (props) => {
           <Stack spacing={4}>
             {/* Header */}
             <Stack
-              direction="row"
               alignItems="center"
-              spacing={1}
+              direction="row"
               justifyContent="space-between"
+              spacing={1}
             >
               {Boolean(sectionsPropsByKey.title) && (
                 <FormSection
@@ -326,13 +327,13 @@ const DocumentFormSections: React.FC<any> = (props) => {
 
             {/* Letter Head */}
             <Stack
-              direction="row"
               alignItems="center"
-              spacing={1}
+              direction="row"
               justifyContent="space-between"
+              spacing={1}
             >
               <Grid container>
-                <Grid item xs={printMode ? 7 : 12} md={7}>
+                <Grid item md={7} xs={printMode ? 7 : 12}>
                   <Grid container spacing={5}>
                     {/* Project + Amount */}
                     {Boolean(sectionsPropsByKey.project) && (
@@ -387,14 +388,14 @@ const DocumentFormSections: React.FC<any> = (props) => {
                           <FormSection
                             gridProps={{ md: true }}
                             renderReadOnlySection={(props: {
-                              label: React.ReactNode
                               item?: DocumentItem
+                              label: React.ReactNode
                             }) => (
                               <AddressReadOnlyFormSection
-                                prefix="shipping"
                                 icon={
                                   <LocalShippingOutlinedIcon fontSize="small" />
                                 }
+                                prefix="shipping"
                                 title="Ship to"
                                 {...props}
                               />
@@ -407,14 +408,14 @@ const DocumentFormSections: React.FC<any> = (props) => {
                           <FormSection
                             gridProps={{ md: true }}
                             renderReadOnlySection={(props: {
-                              label: React.ReactNode
                               item?: DocumentItem
+                              label: React.ReactNode
                             }) => (
                               <AddressReadOnlyFormSection
-                                prefix="billing"
                                 icon={
                                   <ApartmentOutlinedIcon fontSize="small" />
                                 }
+                                prefix="billing"
                                 title="Bill to"
                                 {...props}
                               />
@@ -428,9 +429,9 @@ const DocumentFormSections: React.FC<any> = (props) => {
                   </Grid>
                 </Grid>
 
-                <Grid xs={0} md={1} />
+                <Grid md={1} xs={0} />
 
-                <Grid item xs={printMode ? 5 : 12} md={4}>
+                <Grid item md={4} xs={printMode ? 5 : 12}>
                   <Grid container spacing={5}>
                     {/* Total */}
                     {Boolean(sectionsPropsByKey.total) && (
@@ -455,7 +456,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
                       />
                     )}
                     <Grid container spacing={printMode ? 1.5 : 2}>
-                      <Grid item xs={12} md={6}>
+                      <Grid item md={6} xs={12}>
                         {Boolean(sectionsPropsByKey.ready_at) && (
                           <FormSection
                             readOnlySx={{ textAlign: 'right' }}
@@ -464,7 +465,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
                           />
                         )}
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item md={6} xs={12}>
                         {Boolean(sectionsPropsByKey.arrived_at) && (
                           <FormSection
                             readOnlySx={{ textAlign: 'right' }}
@@ -473,7 +474,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
                           />
                         )}
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item md={6} xs={12}>
                         {Boolean(sectionsPropsByKey.ship_via) && (
                           <FormSection
                             readOnlySx={{ textAlign: 'right' }}
@@ -482,7 +483,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
                           />
                         )}
                       </Grid>
-                      <Grid item xs={12} md={6}>
+                      <Grid item md={6} xs={12}>
                         {Boolean(sectionsPropsByKey.shipped_at) && (
                           <FormSection
                             readOnlySx={{ textAlign: 'right' }}
@@ -491,7 +492,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
                           />
                         )}
                       </Grid>
-                      <Grid item xs={12} md={12}>
+                      <Grid item md={12} xs={12}>
                         {Boolean(sectionsPropsByKey.driver) && (
                           <FormSection
                             readOnlySx={{ textAlign: 'right' }}
@@ -500,7 +501,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
                           />
                         )}
                       </Grid>
-                      <Grid item xs={12} md={12}>
+                      <Grid item md={12} xs={12}>
                         {Boolean(sectionsPropsByKey.delivery_at) && (
                           <FormSection
                             readOnlySx={{ textAlign: 'right' }}
@@ -528,9 +529,9 @@ const DocumentFormSections: React.FC<any> = (props) => {
 
         <Card disableBorderRadiusTop>
           {/* Summary */}
-          <Stack direction="row" spacing={1} justifyContent="space-between">
+          <Stack direction="row" justifyContent="space-between" spacing={1}>
             <Grid container spacing={1}>
-              <Grid item xs={printMode ? 6 : 12} md={6}>
+              <Grid item md={6} xs={printMode ? 6 : 12}>
                 <Grid container spacing={4}>
                   {/* Notes */}
                   {Boolean(sectionsPropsByKey.notes) && (
@@ -551,17 +552,17 @@ const DocumentFormSections: React.FC<any> = (props) => {
                 </Grid>
               </Grid>
 
-              <Grid item xs={printMode ? 6 : 12} md={6}>
+              <Grid item md={6} xs={printMode ? 6 : 12}>
                 <Grid container>
                   {/* Pricing */}
                   {Boolean(sectionsPropsByKey.pricing) && (
                     <FormSection
+                      gridProps={{ spacing: 0.5 }}
                       readOnlySx={{
-                        flexDirection: 'row',
                         alignItems: 'center',
+                        flexDirection: 'row',
                         justifyContent: 'space-between',
                       }}
-                      gridProps={{ spacing: 0.5 }}
                       {...formSectionProps}
                       {...sectionsPropsByKey.pricing}
                     />
@@ -569,8 +570,8 @@ const DocumentFormSections: React.FC<any> = (props) => {
                   {/* Delivered On */}
                   {Boolean(sectionsPropsByKey.delivery_details) && (
                     <FormSection
-                      readOnlySx={{ textAlign: 'right' }}
                       gridProps={{ spacing: 1 }}
+                      readOnlySx={{ textAlign: 'right' }}
                       {...formSectionProps}
                       {...sectionsPropsByKey.delivery_details}
                     />

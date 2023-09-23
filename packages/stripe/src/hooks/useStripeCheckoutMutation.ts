@@ -1,7 +1,9 @@
-import axios from 'axios'
 import { useMutation } from 'react-query'
-import { StripePrice } from '../types'
+
+import axios from 'axios'
+
 import stripeConfig from '../config/stripeConfig'
+import { StripePrice } from '../types'
 
 const stripeCheckoutMutationFn = (stripePrice: StripePrice) => {
   return axios.post(stripeConfig.apiRoutes.createCheckoutSession, stripePrice)

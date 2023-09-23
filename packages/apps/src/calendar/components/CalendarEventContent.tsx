@@ -1,7 +1,9 @@
 import React, { FC } from 'react'
+
 import { Box, Typography, TypographyProps } from '@gravis-os/ui'
-import dayjs from 'dayjs'
 import { darken } from '@mui/system'
+import dayjs from 'dayjs'
+
 import type { CalendarEventApi } from '../types'
 
 interface CalendarEventContentProps {
@@ -15,13 +17,13 @@ const CalendarEvenTypography = ({
 }: TypographyProps) => (
   <Typography
     color={color}
-    variant="subtitle2"
     sx={{
+      lineHeight: 1.4,
       overflow: 'inherit',
       textOverflow: 'inherit',
-      lineHeight: 1.4,
       ...sx,
     }}
+    variant="subtitle2"
   >
     {children}
   </Typography>
@@ -29,20 +31,20 @@ const CalendarEvenTypography = ({
 
 const CalendarEventContent: FC<CalendarEventContentProps> = (props) => {
   const { event } = props
-  const { backgroundColor, extendedProps, start, title } = event
+  const { title, backgroundColor, extendedProps, start } = event
   const { subtitle } = extendedProps
 
   return (
     <Box
       sx={{
         backgroundColor,
-        borderRadius: 1,
         borderLeft: '4px solid',
         borderLeftColor: darken(backgroundColor, 0.3),
+        borderRadius: 1,
+        overflow: 'hidden',
         p: 1,
         textOverflow: 'ellipsis',
         width: '100%',
-        overflow: 'hidden',
       }}
     >
       <CalendarEvenTypography color="neutral.200">

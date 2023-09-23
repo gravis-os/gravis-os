@@ -1,5 +1,6 @@
 import dayjs from 'dayjs'
 import padStart from 'lodash/padStart'
+
 import posConfig from '../pos/posConfig'
 
 const getReceiptFileName = (receipt_id: string) => {

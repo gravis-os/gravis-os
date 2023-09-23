@@ -1,4 +1,8 @@
 import React from 'react'
+import Truncate from 'react-truncate-html'
+
+import { useUpdateIncrementCount } from '@gravis-os/query'
+import { CrudModule, CrudModuleWithGetWebHref } from '@gravis-os/types'
 import {
   Box,
   Button,
@@ -8,45 +12,40 @@ import {
   Html,
   Link,
   Stack,
-  Typography,
 } from '@gravis-os/ui'
 import { printHtml } from '@gravis-os/utils'
-import { StorageAvatar } from '@gravis-os/storage'
-import { CrudModule, CrudModuleWithGetWebHref } from '@gravis-os/types'
-import dayjs from 'dayjs'
-import Truncate from 'react-truncate-html'
 import ArrowUpwardOutlinedIcon from '@mui/icons-material/ArrowUpwardOutlined'
-import { useUpdateIncrementCount } from '@gravis-os/query'
-import { Thread } from './types'
+
 import ThreadAuthorLine from './ThreadAuthorLine'
+import { Thread } from './types'
 
 export interface ThreadCardProps extends CardProps {
-  item: Thread
-  threadModule: CrudModuleWithGetWebHref
-  forumCategoryModule: CrudModuleWithGetWebHref
-  size?: 'small' | 'medium' | 'large'
   cardContentProps?: CardContentProps
   disableTitle?: boolean
+  forumCategoryModule: CrudModuleWithGetWebHref
   isDetail?: boolean
+  item: Thread
+  size?: 'large' | 'medium' | 'small'
+  threadModule: CrudModuleWithGetWebHref
 }
 
 const ThreadCard: React.FC<ThreadCardProps> = (props) => {
   const {
-    item,
-    size = 'medium',
-    threadModule,
-    forumCategoryModule,
     cardContentProps,
     disableTitle,
+    forumCategoryModule,
     isDetail,
-    sx,
+    item,
+    size = 'medium',
     stretch,
+    sx,
+    threadModule,
     ...rest
   } = props
 
   if (!item) return null
 
-  const { title, content, person, forum_category, upvote_count } = item
+  const { id, title, content, forum_category, person, upvote_count } = item
 
   const threadHref = threadModule.getWebHref([
     forum_category?.forum,
@@ -56,8 +55,8 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
 
   const { updateIncrementCount: updateThreadUpvoteCount } =
     useUpdateIncrementCount({
-      module: threadModule as CrudModule,
       countColumnName: 'upvote_count',
+      module: threadModule as CrudModule,
     })
   const handleUpvoteClick = async () => updateThreadUpvoteCount(item)
 
@@ -65,26 +64,25 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
     <Box
       sx={{
         ...(stretch && {
-          height: '100%',
           display: 'flex',
           flexDirection: 'column',
+          height: '100%',
         }),
       }}
     >
       <Box sx={{ mb: 1 }}>
         <ThreadAuthorLine
-          person={person}
-          item={item}
           forumCategory={forum_category}
           forumCategoryModule={forumCategoryModule}
+          item={item}
+          person={person}
         />
       </Box>
 
-      <Card key={item.id} border sx={sx} stretch={stretch} {...rest}>
+      <Card border key={id} stretch={stretch} sx={sx} {...rest}>
         {/* Title */}
         {!disableTitle && (
           <Link
-            variant="h4"
             href={threadHref}
             sx={{
               mb: 1,
@@ -92,6 +90,7 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
                 height: '100%',
               }),
             }}
+            variant="h4"
           >
             {title}
           </Link>
@@ -106,19 +105,19 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
             {isDetail ? (
               <Html html={content} />
             ) : (
-              <Box sx={{ mt: 1, '& p': { my: 0 } }}>
+              <Box sx={{ '& p': { my: 0 }, mt: 1 }}>
                 {printHtml(content) && (
                   <Truncate
-                    lines={3}
                     dangerouslySetInnerHTML={{ __html: printHtml(content) }}
+                    lines={3}
                   />
                 )}
                 {printHtml(content).length > 150 && (
                   <Link
+                    color="text.secondary"
                     href={threadHref}
                     sx={{ mt: 1 }}
                     variant="subtitle2"
-                    color="text.secondary"
                   >
                     Read more
                   </Link>
@@ -129,14 +128,14 @@ const ThreadCard: React.FC<ThreadCardProps> = (props) => {
         )}
 
         {/* Actions */}
-        <Stack direction="row" alignItems="center" spacing={1} sx={{ mt: 2 }}>
+        <Stack alignItems="center" direction="row" spacing={1} sx={{ mt: 2 }}>
           <Button
             disableLineHeight
             disableMinWidth
-            variant="action"
+            onClick={handleUpvoteClick}
             size="small"
             startIcon={<ArrowUpwardOutlinedIcon fontSize="small" />}
-            onClick={handleUpvoteClick}
+            variant="action"
           >
             {upvote_count}
           </Button>

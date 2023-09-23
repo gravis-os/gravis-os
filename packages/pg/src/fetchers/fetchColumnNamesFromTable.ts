@@ -1,10 +1,10 @@
 import type { Pool } from 'pg'
 
 const fetchColumnNamesFromTable = async (props: {
-  table: string
   pool: Pool
+  table: string
 }) => {
-  const { table, pool } = props
+  const { pool, table } = props
 
   const getColumnNamesQuery = {
     name: `get-column-names-from-${table}`,

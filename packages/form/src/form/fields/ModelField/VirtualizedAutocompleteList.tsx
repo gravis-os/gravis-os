@@ -1,15 +1,17 @@
 import React from 'react'
-import { VariableSizeList, ListChildComponentProps } from 'react-window'
+import { ListChildComponentProps, VariableSizeList } from 'react-window'
+
 import get from 'lodash/get'
-import { useResetCache } from './hooks/useResetCache'
+
 import {
   CHARACTERS_PER_LINE,
   LISTBOX_PADDING,
   MAX_VISIBLE_ITEM_COUNT,
   VIRTUALIZED_LIST_ITEM_SIZE,
 } from './constants'
-import { AutocompleteListDataItem } from './types'
+import { useResetCache } from './hooks/useResetCache'
 import { renderOptionFromListDataItem } from './renderModelFieldOption'
+import { AutocompleteListDataItem } from './types'
 
 // for MUI Autocomplete to pass renderOption props to
 // this virtualized list' renderOption function
@@ -66,15 +68,15 @@ export const VirtualizedAutocompleteList = React.forwardRef<
     <div ref={ref}>
       <OuterElementContext.Provider value={other}>
         <VariableSizeList
-          itemData={itemData}
           height={getHeight() + 2 * LISTBOX_PADDING}
-          width="100%"
-          ref={gridRef}
-          outerElementType={OuterElementType}
           innerElementType="ul"
-          itemSize={getItemSize}
-          overscanCount={5}
           itemCount={itemCount}
+          itemData={itemData}
+          itemSize={getItemSize}
+          outerElementType={OuterElementType}
+          overscanCount={5}
+          ref={gridRef}
+          width="100%"
         >
           {renderOption}
         </VariableSizeList>

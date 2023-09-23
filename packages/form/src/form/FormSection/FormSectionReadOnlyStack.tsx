@@ -1,32 +1,37 @@
 import React from 'react'
+
 import { Stack, StackProps, Typography } from '@gravis-os/ui'
 
 export interface FormSectionFileProps {
-  isFiles?: boolean
   /**
    * @default 'public'
    */
   bucketName?: string
+  isFiles?: boolean
 }
 
 export interface FormSectionReadOnlyStackProps
   extends Omit<StackProps, 'title'> {
-  title?: React.ReactNode
-  label: React.ReactNode
   disableTitle?: boolean
   fileProps?: FormSectionFileProps
+  label: React.ReactNode
+  title?: React.ReactNode
 }
 
 const getDisplayTitle = (title) => {
   switch (true) {
-    case typeof title === 'boolean':
+    case typeof title === 'boolean': {
       return title ? 'Yes' : 'No'
-    case typeof title === 'string' || React.isValidElement(title):
+    }
+    case typeof title === 'string' || React.isValidElement(title): {
       return title
-    case typeof title === 'number' && !Number.isNaN(title):
+    }
+    case typeof title === 'number' && !Number.isNaN(title): {
       return title
-    default:
+    }
+    default: {
       return '-'
+    }
   }
 }
 
@@ -38,7 +43,7 @@ const getDisplayTitles = (titles) =>
 const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
   props
 ) => {
-  const { disableTitle, title, label, children, ...rest } = props
+  const { title, children, disableTitle, label, ...rest } = props
 
   const displayTitles = getDisplayTitles(title)
 
@@ -46,7 +51,7 @@ const FormSectionReadOnlyStack: React.FC<FormSectionReadOnlyStackProps> = (
     <Stack spacing={1}>
       <Stack spacing={0.5} {...rest}>
         {/* Overline */}
-        <Typography variant="overline" color="text.secondary">
+        <Typography color="text.secondary" variant="overline">
           {label}
         </Typography>
 

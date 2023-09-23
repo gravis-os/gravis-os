@@ -1,12 +1,13 @@
-const getMathMode = (arr: unknown[]): unknown | undefined => {
+const getMathMode = (arr: unknown[]): undefined | unknown => {
   if (!Array.isArray(arr)) return
 
-  return arr
+  // eslint-disable-next-line fp/no-mutating-methods
+  return [...arr]
     .sort(
       (a, b) =>
         arr.filter((v) => v === a).length - arr.filter((v) => v === b).length
     )
-    .pop()
+    .at(-1)
 }
 
 export default getMathMode

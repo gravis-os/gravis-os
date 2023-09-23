@@ -1,44 +1,46 @@
 import React from 'react'
+import { UseFormReturn } from 'react-hook-form'
+
 import { Button, ButtonProps } from '@gravis-os/ui'
 import { Stack } from '@mui/material'
-import { UseFormReturn } from 'react-hook-form'
+
 import { FormSectionsProps } from '../FormSection/FormSections'
 
 export interface GetFormRenderPropsInput {
-  formContext: UseFormReturn<any>
-  formJsx: React.ReactElement
   buttonProps?: ButtonProps
-  submitButtonProps?: ButtonProps
   cancelButtonProps?: ButtonProps
   editButtonProps?: ButtonProps
+  formContext: UseFormReturn<any>
+  formJsx: React.ReactElement
+  formRenderProps?: any
   isReadOnly?: boolean
   setIsReadOnly?: React.Dispatch<React.SetStateAction<boolean>>
-  formRenderProps?: any
+  submitButtonProps?: ButtonProps
 }
 
 export interface FormRenderPropsInterface {
-  formJsx: React.ReactElement // The title and fields
-  formControlJsx: React.ReactElement // The submit and edit buttons
-  editOrSubmitButtonJsx: React.ReactElement // The edit button only
-  submitButtonJsx: React.ReactElement // The submit button only
   cancelButtonJsx: React.ReactElement // The cancel button only
+  editOrSubmitButtonJsx: React.ReactElement // The edit button only
   formContext: UseFormReturn<any>
+  formControlJsx: React.ReactElement // The submit and edit buttons
+  formJsx: React.ReactElement // The title and fields
   sections: FormSectionsProps['sections']
+  submitButtonJsx: React.ReactElement // The submit button only
 }
 
 const getFormRenderProps = (
   props: GetFormRenderPropsInput
 ): FormRenderPropsInterface => {
   const {
-    formContext,
-    formJsx,
     buttonProps,
-    submitButtonProps: injectedSubmitButtonProps,
     cancelButtonProps: injectedCancelButtonProps,
     editButtonProps: injectedEditButtonProps,
+    formContext,
+    formJsx,
+    formRenderProps,
     isReadOnly,
     setIsReadOnly,
-    formRenderProps,
+    submitButtonProps: injectedSubmitButtonProps,
   } = props
 
   const cancelButtonProps = {
@@ -48,18 +50,18 @@ const getFormRenderProps = (
   } as ButtonProps
   const editButtonProps = {
     ...buttonProps,
-    type: 'button',
     title: 'Edit',
     onClick: (e) => {
       e.preventDefault()
       if (setIsReadOnly) setIsReadOnly(!isReadOnly)
     },
+    type: 'button',
     ...injectedEditButtonProps,
   } as ButtonProps
   const submitButtonProps = {
     ...buttonProps,
-    type: 'submit',
     title: 'Save',
+    type: 'submit',
     ...injectedSubmitButtonProps,
   } as ButtonProps
 
@@ -69,29 +71,29 @@ const getFormRenderProps = (
 
   const submitButtonJsx = (
     <Button
-      variant="contained"
       color="primary"
-      fullWidth
       disabled={isSubmitting || submitButtonProps?.loading}
+      fullWidth
+      variant="contained"
       {...submitButtonProps}
     />
   )
 
   const cancelButtonJsx = !isReadOnly && (
     <Button
-      variant="muted"
-      onClick={() => setIsReadOnly?.(true)}
       fullWidth
+      onClick={() => setIsReadOnly?.(true)}
       title="Cancel"
+      variant="muted"
       {...cancelButtonProps}
     />
   )
 
   const editOrSubmitButtonJsx = (
     <Button
-      variant={isReadOnly ? 'muted' : 'contained'}
       color="primary"
       fullWidth
+      variant={isReadOnly ? 'muted' : 'contained'}
       {...(isReadOnly ? editButtonProps : submitButtonProps)}
     />
   )
@@ -106,12 +108,12 @@ const getFormRenderProps = (
   )
 
   return {
-    formJsx,
-    formControlJsx,
-    submitButtonJsx,
-    editOrSubmitButtonJsx,
     cancelButtonJsx,
+    editOrSubmitButtonJsx,
     formContext,
+    formControlJsx,
+    formJsx,
+    submitButtonJsx,
     ...formRenderProps,
   }
 }

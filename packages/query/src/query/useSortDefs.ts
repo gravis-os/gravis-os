@@ -2,11 +2,11 @@ import useRouterQuery from './useRouterQuery'
 
 export interface SortDef {
   key: string
+  label: string
   value: Record<
     string,
-    string | Array<string | string | Record<string, unknown>>
+    Array<Record<string, unknown> | string | string> | string
   >
-  label: string
 }
 
 export interface UseSortDefsProps {
@@ -14,9 +14,9 @@ export interface UseSortDefsProps {
 }
 
 export interface UseSortDefsReturn {
-  sortDefs: SortDef[]
   currentSortDef?: SortDef
   handleSortDefClick: (sortDef: SortDef) => Promise<boolean>
+  sortDefs: SortDef[]
 }
 
 export const useSortDefs = (props: UseSortDefsProps): UseSortDefsReturn => {
@@ -53,7 +53,7 @@ export const useSortDefs = (props: UseSortDefsProps): UseSortDefsReturn => {
         sortDef.value.order[0] === String(parsedQs.order).split('.')[0]
     )
 
-  return { currentSortDef, sortDefs, handleSortDefClick }
+  return { currentSortDef, handleSortDefClick, sortDefs }
 }
 
 export default useSortDefs

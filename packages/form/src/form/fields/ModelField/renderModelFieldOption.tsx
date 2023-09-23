@@ -1,10 +1,12 @@
 import React from 'react'
+
 import { Stack, Typography } from '@gravis-os/ui'
-import isEmpty from 'lodash/isEmpty'
-import get from 'lodash/get'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
-import { AutocompleteListDataItem } from './types'
+import get from 'lodash/get'
+import isEmpty from 'lodash/isEmpty'
+
 import { getIsCreateOption } from './getIsCreateOption'
+import { AutocompleteListDataItem } from './types'
 
 export const renderOptionFromListDataItem = (
   dataSet: AutocompleteListDataItem
@@ -27,11 +29,11 @@ export const renderOptionFromListDataItem = (
     : (get(option, pk) as string)
 
   switch (true) {
-    case isCreateOption:
+    case isCreateOption: {
       return (
         <Stack
-          direction="row"
           alignItems="center"
+          direction="row"
           spacing={0.5}
           sx={{ color: 'primary.main' }}
         >
@@ -39,7 +41,9 @@ export const renderOptionFromListDataItem = (
           <Typography color="inherit">{primitiveOptionValue}</Typography>
         </Stack>
       )
-    default:
+    }
+    default: {
       return primitiveOptionValue
+    }
   }
 }

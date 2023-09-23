@@ -1,59 +1,63 @@
-import React, { useRef, useEffect, useState, InputHTMLAttributes } from 'react'
-import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
+import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react'
+
+import { Avatar, AvatarProps, Button, IconButton, Stack } from '@gravis-os/ui'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import { Avatar, AvatarProps, Button, IconButton, Stack } from '@gravis-os/ui'
+import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
 import download from 'downloadjs'
 import startCase from 'lodash/startCase'
-import getFileMetaFromFile from './getFileMetaFromFile'
+
 import FieldLabel from './FieldLabel'
+import getFileMetaFromFile from './getFileMetaFromFile'
 import { cleanPath } from './utils'
 
 export interface StorageAvatarWithUploadProps extends AvatarProps {
-  module?: any
+  alt?: string
+  altKey?: string
   bucketName?: string
   client?: SupabaseClient
-  onUpload?: (savedFilePath: string) => void
-  src?: string // defaultValue to render the image. Storage filepath where image is currently stored
-  fallbackSrc?: string // fallback image src
-  size?: number // Image size
-  value?: string // Typically the form value
-  name?: string // The database key to save this src to
-  item?: any // The database record to save the image key to
-  editable?: boolean // Whether the image has upload capabilities
-  alt?: string
-  inputProps?: InputHTMLAttributes<HTMLInputElement>
-  label?: string
   disableLabel?: boolean
-  altKey?: string
   disablePublic?: boolean
+  editable?: boolean // Whether the image has upload capabilities
+  fallbackSrc?: string // fallback image src
+  inputProps?: InputHTMLAttributes<HTMLInputElement>
+  item?: any // The database record to save the image key to
+  label?: string
+  module?: any
+  name?: string // The database key to save this src to
+  onUpload?: (savedFilePath: string) => void
+  size?: number // Image size
+  src?: string // defaultValue to render the image. Storage filepath where image is currently stored
+  value?: string // Typically the form value
 }
 
 const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
   props
 ) => {
   const {
-    name = 'avatar_src',
-    src: injectedFilePath,
-    fallbackSrc,
-    size = 64,
-    inputProps,
-    onUpload,
-    client = supabaseClient,
-    disablePublic = false,
-    bucketName = disablePublic ? 'private ' : 'public',
-    module,
-    value,
-    item,
-    editable,
     alt,
-    sx,
-    label: injectedLabel,
-    disableLabel,
     altKey: injectedAltKey,
+    bucketName: injectedBucketName,
+    client = supabaseClient,
+    disableLabel,
+    disablePublic = false,
+    editable,
+    fallbackSrc,
+    inputProps,
+    item,
+    label: injectedLabel,
+    module,
+    name = 'avatar_src',
+    onUpload,
+    size = 64,
+    src: injectedFilePath,
+    sx,
+    value,
     ...rest
   } = props
   const { src } = props
+  const bucketName =
+    injectedBucketName || (disablePublic ? 'private ' : 'public')
 
   // States
   const [savedFileInfo, setSavedFileInfo] = useState<any>()
@@ -75,7 +79,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
       const url = URL.createObjectURL(data)
       if (url) setAvatarUrl(url)
     } catch (error) {
-      console.error('Error downloading image: ', error.message)
+      console.error('Error downloading image:', error.message)
     }
   }
 
@@ -114,7 +118,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
         const altKey = injectedAltKey || name.replace('_src', '_alt')
         await client
           .from(module.table.name)
-          .update([{ [name]: savedFileKey, [altKey]: file.name }])
+          .update([{ [altKey]: file.name, [name]: savedFileKey }])
           .match({ [module.sk]: item[module.sk] })
       }
     } catch (error) {
@@ -132,11 +136,11 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
   const documentAlt = item?.[`${name}_alt`] || alt || 'Document'
   if (hasDocument) {
     return (
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Stack alignItems="center" direction="row" spacing={1}>
         <Button
-          variant="outlined"
           fullWidth
           onClick={() => download(avatarUrl)}
+          variant="outlined"
         >
           {documentAlt}
         </Button>
@@ -157,43 +161,43 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
       {hasLabel && <FieldLabel>{label}</FieldLabel>}
 
       <Avatar
-        src={avatarUrl || fallbackSrc}
         alt={alt || (avatarUrl ? 'Avatar' : 'No image')}
         onClick={() => {
           if (!fileInputRef.current || !editable) return
           fileInputRef.current.click()
         }}
         size={size}
+        src={avatarUrl || fallbackSrc}
         sx={{
           // Color
           backgroundColor: 'transparent',
+          borderColor: avatarUrl ? 'transparent' : 'primary.main',
+          borderStyle: avatarUrl ? 'solid' : 'dashed',
           borderWidth: '1px',
           color: 'primary.main',
-          borderStyle: avatarUrl ? 'solid' : 'dashed',
-          borderColor: avatarUrl ? 'transparent' : 'primary.main',
 
           ...(editable && {
-            '&:hover': {
-              cursor: 'pointer',
-              '&:after': { opacity: 1 },
-            },
-
             '&:after': {
+              alignItems: 'center',
+              backgroundColor: 'rgba(0, 0, 0, 0.5)',
+              bottom: 0,
+              color: 'common.white',
               content: '"Upload"',
+              display: 'flex',
               fontSize: 'body2.fontSize',
               fontWeight: 'bold',
-              backgroundColor: 'rgba(0, 0, 0, 0.5)',
-              color: 'common.white',
-              position: 'absolute',
-              top: 0,
-              bottom: 0,
-              left: 0,
-              right: 0,
-              opacity: 0,
-              transition: 'opacity 0.3s ease',
-              display: 'flex',
               justifyContent: 'center',
-              alignItems: 'center',
+              left: 0,
+              opacity: 0,
+              position: 'absolute',
+              right: 0,
+              top: 0,
+              transition: 'opacity 0.3s ease',
+            },
+
+            '&:hover': {
+              '&:after': { opacity: 1 },
+              cursor: 'pointer',
             },
           }),
 
@@ -205,13 +209,13 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
       </Avatar>
 
       <input
-        ref={fileInputRef}
-        type="file"
-        id="single"
         accept="image/*"
-        onChange={uploadAvatar}
         disabled={uploading}
         hidden
+        id="single"
+        onChange={uploadAvatar}
+        ref={fileInputRef}
+        type="file"
         {...inputProps}
       />
     </div>

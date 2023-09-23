@@ -1,8 +1,9 @@
 import { CrudItem } from '@gravis-os/types'
+
+import getCategoryFromCrudItem from './getCategoryFromCrudItem'
 import getCrudItemsByCategory, {
   GetCrudItemsByCategoryReturn,
 } from './getCrudItemsByCategory'
-import getCategoryFromCrudItem from './getCategoryFromCrudItem'
 
 function getCategoryWithItemsAndHref<
   Item extends CrudItem,

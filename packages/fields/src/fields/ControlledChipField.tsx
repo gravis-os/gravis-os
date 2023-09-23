@@ -1,12 +1,13 @@
 import React from 'react'
 import { Controller, UseControllerProps } from 'react-hook-form'
+
 import ChipField, { ChipFieldProps } from './ChipField'
 
 export interface ControlledChipFieldProps
   extends UseControllerProps,
     Omit<
       ChipFieldProps,
-      'onChange' | 'value' | 'defaultValue' | 'name' | 'options'
+      'defaultValue' | 'name' | 'onChange' | 'options' | 'value'
     > {}
 
 const ControlledChipField: React.FC<ControlledChipFieldProps> = (props) => {

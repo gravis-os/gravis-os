@@ -1,23 +1,26 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React, { ReactNode, useEffect, useState } from 'react'
-import sortBy from 'lodash/sortBy'
+
+import { Autocomplete, AutocompleteProps } from '@mui/material'
+import codes from 'country-calling-code'
 import isEqual from 'lodash/isEqual'
+import sortBy from 'lodash/sortBy'
 import startCase from 'lodash/startCase'
 import uniqBy from 'lodash/uniqBy'
-import codes from 'country-calling-code'
-import { Autocomplete, AutocompleteProps } from '@mui/material'
+
 import TextField, { TextFieldProps } from './TextField'
 
-export const COUNTRY_OPTIONS = sortBy(codes.map(code => ({
-    countryName: code.country,
+export const COUNTRY_OPTIONS = sortBy(
+  codes.map((code) => ({
     countryCode: code.isoCode2,
-  })), 
+    countryName: code.country,
+  })),
   'countryName'
 )
 
 export type GetOptionLabelArgs = {
-  countryName: string
   countryCode: string
+  countryName: string
 }
 
 export interface CountryFieldProps
@@ -27,26 +30,26 @@ export interface CountryFieldProps
       'getOptionLabel' | 'onChange'
     >
   > {
-  name: string
-  label?: ReactNode
-  priorityCountries?: string[]
   getOptionLabel?: (args: GetOptionLabelArgs) => string
-  onChange?: (data: string | null) => void
-  textFieldProps?: TextFieldProps
+  label?: ReactNode
+  name: string
+  onChange?: (data: null | string) => void
+  priorityCountries?: string[]
   required?: boolean
+  textFieldProps?: TextFieldProps
 }
 
 const CountryField: React.FC<CountryFieldProps> = (props) => {
   const {
-    name,
-    label: injectedlabel,
-    required,
-    priorityCountries,
-    getOptionLabel,
     defaultValue: injectedDefaultValue,
-    value: injectedValue,
+    getOptionLabel,
+    label: injectedlabel,
+    name,
     onChange: injectedOnChange,
+    priorityCountries,
+    required,
     textFieldProps,
+    value: injectedValue,
     ...rest
   } = props
 
@@ -110,26 +113,26 @@ const CountryField: React.FC<CountryFieldProps> = (props) => {
   return (
     <Autocomplete
       {...rest}
-      value={selectedOption}
-      options={options}
       onChange={(e, data) => handleOnChange(data)}
+      options={options}
       renderInput={(params) => {
         return (
           <TextField
             {...params}
-            name={name}
-            label={label}
             inputProps={
               {
                 ...params?.inputProps,
                 ...(required && { required: true }),
               } as TextFieldProps['inputProps']
             }
+            label={label}
+            name={name}
             {...(required && { required: true })}
             {...textFieldProps}
           />
         )
       }}
+      value={selectedOption}
     />
   )
 }

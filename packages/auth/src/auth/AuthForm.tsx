@@ -1,26 +1,27 @@
 import React from 'react'
-import pick from 'lodash/pick'
 import { useForm } from 'react-hook-form'
-import { Stack } from '@gravis-os/ui'
+
 import {
   Form,
   FormProps,
   FormSectionFieldProps,
   FormSections,
 } from '@gravis-os/form'
+import { Stack } from '@gravis-os/ui'
+import pick from 'lodash/pick'
 
 const authFormFields = {
   email: {
     key: 'email',
     name: 'email',
-    type: 'input',
     required: true,
+    type: 'input',
   },
   password: {
     key: 'password',
     name: 'password',
-    type: 'password',
     required: true,
+    type: 'password',
   },
 }
 
@@ -41,12 +42,12 @@ const AuthForm: React.FC<AuthFormProps> = (props) => {
           disableCard
           sections={[
             {
-              key: 'account',
               title: 'Account',
-              subtitle: 'Enter your credentials',
               fields: Object.values(
                 pick(authFormFields, fields)
               ) as FormSectionFieldProps[],
+              key: 'account',
+              subtitle: 'Enter your credentials',
             },
           ]}
         />

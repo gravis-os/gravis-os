@@ -1,7 +1,9 @@
 import React from 'react'
+
+import { Job } from '@gravis-os/types'
 import { Box, useOpen } from '@gravis-os/ui'
 import { printPaddedNumber } from '@gravis-os/utils'
-import { Job } from '@gravis-os/types'
+
 import { useLayout } from '../providers/LayoutProvider'
 import Block from '../web/Block/Block'
 
@@ -11,60 +13,50 @@ export interface RenderJobCardBlockItemProps {
 }
 
 const renderJobCardBlockItem = (props: RenderJobCardBlockItemProps) => {
-  const { job, index } = props
-  const { title, subtitle, html } = job
+  const { index, job } = props
+  const { title, html, subtitle } = job
   const { routeConfig } = useLayout()
 
-  const [isOpen, { open, close }] = useOpen()
+  const [isOpen, { close, open }] = useOpen()
 
   return {
     boxProps: {
       onClick: open,
       sx: {
-        backgroundColor: 'background.paper',
-        p: 3,
-        '&:hover': {
-          cursor: 'pointer',
-          backgroundColor: 'action.hover',
-        },
         '&:active': {
           backgroundColor: 'action.selected',
         },
+        '&:hover': {
+          backgroundColor: 'action.hover',
+          cursor: 'pointer',
+        },
+        backgroundColor: 'background.paper',
+        p: 3,
       },
     },
     dialogProps: {
-      open: isOpen,
-      onClose: close,
-      maxWidth: 'xl',
-      fullScreenOnMobile: true,
       title: 'Careers',
-      titleProps: { variant: 'overline', sx: { pl: { xs: 4, md: 5 } } },
       children: (
         <Box sx={{ p: 2 }}>
           <Block
-            py={0}
-            reveal={false}
-            sx={{ backgroundColor: 'background.paper' }}
             items={[
               {
-                type: 'grid',
-                gridProps: { spacing: 4 },
                 gridItems: [
                   {
                     md: 8,
                     items: [
                       {
-                        type: 'h4',
                         title,
                         titleProps: { sx: { mb: 1 } },
+                        type: 'h4',
                       },
                       {
-                        type: 'subtitle1',
                         title: subtitle,
+                        type: 'subtitle1',
                       },
                       {
-                        type: 'html',
                         title: html,
+                        type: 'html',
                       },
                     ],
                   },
@@ -73,47 +65,57 @@ const renderJobCardBlockItem = (props: RenderJobCardBlockItemProps) => {
                     boxProps: { sx: { position: 'sticky', top: 16 } },
                     items: [
                       {
-                        type: 'body1',
                         title: subtitle,
                         titleProps: { color: 'text.secondary' },
+                        type: 'body1',
                       },
                       {
-                        type: 'button',
                         title: 'Apply',
                         titleProps: {
-                          href: routeConfig?.CONTACT,
-                          hrefProps: { targetBlank: true },
-                          variant: 'contained',
                           color: 'primary',
                           fullWidth: true,
+                          href: routeConfig?.CONTACT,
+                          hrefProps: { targetBlank: true },
                           size: 'large',
                           sx: { mt: 2 },
+                          variant: 'contained',
                         },
+                        type: 'button',
                       },
                     ],
                   },
                 ],
+                gridProps: { spacing: 4 },
+                type: 'grid',
               },
             ]}
+            py={0}
+            reveal={false}
+            sx={{ backgroundColor: 'background.paper' }}
           />
         </Box>
       ),
+      fullScreenOnMobile: true,
+      maxWidth: 'xl',
+      onClose: close,
+      open: isOpen,
+      titleProps: { sx: { pl: { xs: 4, md: 5 } }, variant: 'overline' },
     },
     items: [
       {
-        type: 'subtitle2',
         title: printPaddedNumber(index),
         titleProps: { color: 'text.secondary', sx: { mb: 3 } },
+        type: 'subtitle2',
       },
       {
-        type: 'subtitle2',
         title,
         titleProps: { gutterBottom: true },
+        type: 'subtitle2',
       },
       {
-        type: 'body1',
         title: subtitle,
         titleProps: { color: 'text.secondary' },
+        type: 'body1',
       },
     ],
   }

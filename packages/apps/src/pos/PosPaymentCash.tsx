@@ -1,10 +1,12 @@
 import React, { useEffect } from 'react'
+
 import { Box, Button, Container, Grid, Stack, Typography } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import isNumber from 'lodash/isNumber'
 import { useRouter } from 'next/router'
-import { usePos } from './PosProvider'
+
 import posConfig from './posConfig'
+import { usePos } from './PosProvider'
 
 export interface PosPaymentCashProps {}
 
@@ -12,12 +14,12 @@ const PosPaymentCash: React.FC<PosPaymentCashProps> = () => {
   const { cart, setPaymentMethodAndPaidAmount } = usePos()
   const router = useRouter()
 
-  const cashOptionItems = [...new Array(6)].map((_, i) => {
+  const cashOptionItems = Array.from({ length: 6 }).map((_, i) => {
     const value = Math.ceil(cart.total / 50) * 50 + 50 * i
     return {
+      title: printAmount(value),
       key: `cash-option-${i}`,
       value,
-      title: printAmount(value),
     }
   })
 
@@ -36,7 +38,7 @@ const PosPaymentCash: React.FC<PosPaymentCashProps> = () => {
     <div>
       <Container>
         <Stack spacing={2}>
-          <Box sx={{ textAlign: 'center', p: 2 }}>
+          <Box sx={{ p: 2, textAlign: 'center' }}>
             <Typography variant="h1">
               Total: {printAmount(cart.total)}
             </Typography>
@@ -46,12 +48,12 @@ const PosPaymentCash: React.FC<PosPaymentCashProps> = () => {
             <Grid container spacing={2}>
               {cashOptionItems.map((cashOptionItem) => {
                 return (
-                  <Grid item xs={12} md={6} lg={3} key={cashOptionItem.key}>
+                  <Grid item key={cashOptionItem.key} lg={3} md={6} xs={12}>
                     <Button
-                      fullWidth
                       color="inherit"
-                      variant="outlined"
+                      fullWidth
                       onClick={() => handlePaidAmount(cashOptionItem.value)}
+                      variant="outlined"
                     >
                       {cashOptionItem.title}
                     </Button>

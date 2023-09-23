@@ -11,5 +11,5 @@ export const DEFAULT_BUCKET_NAME = 'public'
 export const cleanPath = (path: string, bucketName: string): string => {
   return path.startsWith(DEFAULT_BUCKET_NAME)
     ? path
-    : path.substring(bucketName.length + 1)
+    : path.slice(Math.max(0, bucketName.length + 1))
 }

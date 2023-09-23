@@ -7,14 +7,14 @@ export interface AttributeOption {
 
 export interface Attribute {
   id: number
-  title: string
   options: AttributeOption[]
+  title: string
 }
 
 export interface AttributeValue {
-  id: number
   attribute: Attribute
   attribute_option: AttributeOption
+  id: number
 }
 
 export interface Variant extends CrudItem {
@@ -22,35 +22,35 @@ export interface Variant extends CrudItem {
 }
 
 export interface Brand extends CrudItem {
-  description?: string
   code?: string
   company_id?: number
-  is_active?: boolean
   created_by?: number | string
-  updated_by?: number | string
+  description?: string
+  is_active?: boolean
   sales_email?: string
   sales_mobile?: string
   sales_whatsapp?: string
+  updated_by?: number | string
 }
 
 export interface Listing extends CrudItem {
-  id: number
   attribute_value?: AttributeValue[]
-  avatar_src?: string
   avatar_alt?: string
-  title: string
-  subtitle?: string
-  lat?: number
-  lng?: number
+  avatar_src?: string
   // Relations
   brand: any
+  default_variant?: Variant
+  default_variant_id?: number
   directory_category: {
     directory: any
   }
-  default_variant?: Variant
-  default_variant_id?: number
-  variants?: Variant[]
+  id: number
+  lat?: number
+  lng?: number
   // Virtuals
   price?: number
   priceText?: string
+  subtitle?: string
+  title: string
+  variants?: Variant[]
 }

@@ -1,28 +1,33 @@
+/* eslint-disable unicorn/consistent-function-scoping */
+
+import type { CrudModule } from '@gravis-os/types'
 import type { QueryClient } from 'react-query'
+
 import { useQuery } from 'react-query'
-import { useRouter } from 'next/router'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import type { CrudItem, CrudModule } from '@gravis-os/types'
+
 import { getObjectWithGetters } from '@gravis-os/utils'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import camelCase from 'lodash/camelCase'
 import capitalize from 'lodash/capitalize'
+import flowRight from 'lodash/flowRight'
 import omit from 'lodash/omit'
 import snakeCase from 'lodash/snakeCase'
-import flowRight from 'lodash/flowRight'
-import useRouterQuery from './useRouterQuery'
+import { useRouter } from 'next/router'
+
 import {
-  UseDetailProps,
   FetchDetailFilters,
-  UseDetailOptions,
   SupabasePostgrestBuilderMatchType,
+  UseDetailOptions,
+  UseDetailProps,
   UseDetailReturn,
 } from './types'
+import useRouterQuery from './useRouterQuery'
 
 // Matcher
 export const getFetchDetailFilters = (
   props: UseDetailProps
 ): FetchDetailFilters => {
-  const { module, params, options = {} } = props
+  const { module, options = {}, params } = props
 
   if (!params) return {}
 
@@ -129,7 +134,7 @@ const useDetail = <T = any>(props: UseDetailProps): UseDetailReturn<T> => {
   const { module, params: injectedParams } = props
 
   const router = useRouter()
-  const { query, defaultLocale, locale, locales } = router
+  const { defaultLocale, locale, locales, query } = router
 
   const { queryParams } = useRouterQuery()
 
@@ -143,7 +148,7 @@ const useDetail = <T = any>(props: UseDetailProps): UseDetailReturn<T> => {
   const params = injectedParams || queryParams
 
   // Pass through router props to simulate getStaticPropsContext on the client
-  const nextProps = { ...props, params, defaultLocale, locale, locales }
+  const nextProps = { ...props, defaultLocale, locale, locales, params }
 
   const detailQueryKey = getFetchDetailQueryKey(nextProps)
   const detailFilters = getFetchDetailFilters(nextProps)

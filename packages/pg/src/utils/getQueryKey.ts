@@ -1,7 +1,7 @@
 import { ApiRequestQuery } from '../types'
 
-const getQueryKey = (props: { query: ApiRequestQuery; columnKey: string }) => {
-  const { query, columnKey } = props
+const getQueryKey = (props: { columnKey: string; query: ApiRequestQuery }) => {
+  const { columnKey, query } = props
   return Object.keys(query).find((queryKey) => queryKey.startsWith(columnKey))
 }
 

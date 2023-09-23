@@ -8,13 +8,14 @@ const getTableColumnNames = (
   tableHeaderRenameMapping?: Record<string, string>,
   uploadFields?: string[],
   manyToManyKeys?: string[]
-): string[] | never[] => {
+): never[] | string[] => {
   if (!tableDefinition) return []
 
   // Remove unwanted columns
-  const columns = Object.keys(tableDefinition.properties).concat(
-    manyToManyKeys || []
-  )
+  const columns = [
+    ...Object.keys(tableDefinition.properties),
+    ...(manyToManyKeys || []),
+  ]
 
   const processedColumns = columns.reduce((acc, key) => {
     const isPrimaryKey = key === 'id'
@@ -29,13 +30,13 @@ const getTableColumnNames = (
   }, [])
 
   // Map column names if tableHeaderRenameMapping is given
-  return !isNil(tableHeaderRenameMapping)
-    ? map(processedColumns, (column) => {
+  return isNil(tableHeaderRenameMapping)
+    ? processedColumns
+    : map(processedColumns, (column) => {
         return has(tableHeaderRenameMapping, column)
           ? tableHeaderRenameMapping[column]
           : column
       })
-    : processedColumns
 }
 
 export default getTableColumnNames

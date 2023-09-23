@@ -1,73 +1,73 @@
 import { printPaddedNumber } from '@gravis-os/utils'
 
 export interface RenderLeftThreeColumnGridBlockItemProps {
+  items: Array<{ fa_icon: string; subtitle: string; title: string }>
   overline?: string
-  title: string
   subtitle?: string
-  items: Array<{ fa_icon: string; title: string; subtitle: string }>
+  title: string
 }
 
 const renderLeftThreeColumnGridBlockItem = (
   props: RenderLeftThreeColumnGridBlockItemProps
 ) => {
-  const { overline, title, subtitle, items } = props
+  const { title, items, overline, subtitle } = props
 
   return {
     id: title,
     center: false,
     items: [
-      { type: 'overline', title: overline },
+      { title: overline, type: 'overline' },
       {
-        type: 'h3',
         title,
         titleProps: { gutterBottom: true, textAlign: 'left' },
+        type: 'h3',
       },
       {
-        type: 'subtitle1',
         title: subtitle,
         titleProps: {
           color: 'text.secondary',
           maxWidth: true,
         },
+        type: 'subtitle1',
       },
       {
-        type: 'grid',
-        sx: { mt: { xs: 5, md: 12 } },
-        gridProps: { spacing: 6 },
         gridItemProps: {
           xs: 6,
           md: 4,
           sx: { textAlign: { xs: 'center', md: 'left' } },
         },
         gridItems: items.map((item, i) => {
-          const { fa_icon, title, subtitle } = item
+          const { title, fa_icon, subtitle } = item
           return {
             items: [
               {
-                type: 'fa-icon',
                 title: `fa-4x fa-thin ${fa_icon}`,
+                type: 'fa-icon',
               },
               {
-                type: 'subtitle2',
                 title: printPaddedNumber(i + 1),
                 titleProps: {
                   color: 'text.secondary',
-                  sx: { mt: 4, mb: 3 },
+                  sx: { mb: 3, mt: 4 },
                 },
+                type: 'subtitle2',
               },
               {
-                type: 'subtitle2',
                 title,
                 titleProps: { gutterBottom: true },
+                type: 'subtitle2',
               },
               {
-                type: 'body1',
                 title: subtitle,
                 titleProps: { color: 'text.secondary' },
+                type: 'body1',
               },
             ],
           }
         }),
+        gridProps: { spacing: 6 },
+        sx: { mt: { xs: 5, md: 12 } },
+        type: 'grid',
       },
     ],
   }

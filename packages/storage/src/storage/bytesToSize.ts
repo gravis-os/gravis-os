@@ -9,7 +9,9 @@ const bytesToSize = (bytes: number, decimals = 2): string => {
   const i = Math.floor(Math.log(bytes) / Math.log(k))
 
   // eslint-disable-next-line no-restricted-properties
-  return `${parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${sizes[i]}`
+  return `${Number.parseFloat((bytes / Math.pow(k, i)).toFixed(dm))} ${
+    sizes[i]
+  }`
 }
 
 export default bytesToSize

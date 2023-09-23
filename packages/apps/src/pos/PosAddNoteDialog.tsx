@@ -1,29 +1,31 @@
 import React, { useState } from 'react'
+
 import { TextField } from '@gravis-os/fields'
 import { Button, Dialog, DialogTitle, Divider, Stack } from '@gravis-os/ui'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
+
 import { usePos } from './PosProvider'
 
 export interface PosAddNoteDialogProps {
-  open: boolean
-  onClose: VoidFunction
   addNoteFields?: React.ReactNode
+  onClose: VoidFunction
+  open: boolean
 }
 
 const PosAddNoteDialog: React.FC<PosAddNoteDialogProps> = (props) => {
-  const { open, onClose, addNoteFields: injectedAddNoteFields } = props || {}
+  const { addNoteFields: injectedAddNoteFields, onClose, open } = props || {}
   const { cart, setCart } = usePos()
 
-  const [note, setNote] = useState<string | null>(cart?.note ?? null)
+  const [note, setNote] = useState<null | string>(cart?.note ?? null)
 
   const addNoteFieldsJsx = injectedAddNoteFields || (
     <TextField
       label="Note"
-      value={note}
-      onChange={(e) => setNote(e.target.value)}
-      multiline
       minRows={8}
+      multiline
+      onChange={(e) => setNote(e.target.value)}
+      value={note}
     />
   )
 
@@ -37,17 +39,17 @@ const PosAddNoteDialog: React.FC<PosAddNoteDialogProps> = (props) => {
 
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
-      fullScreen
       TransitionComponent={Slide}
       TransitionProps={{ direction: 'left' } as TransitionProps}
+      fullScreen
+      onClose={onClose}
+      open={open}
     >
       <DialogTitle>
         <Stack
+          alignItems="center"
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
         >
           Add Note
         </Stack>
@@ -58,7 +60,7 @@ const PosAddNoteDialog: React.FC<PosAddNoteDialogProps> = (props) => {
       </DialogContent>
       <Divider />
       <DialogActions>
-        <Button variant="contained" onClick={handleOnSaveNote}>
+        <Button onClick={handleOnSaveNote} variant="contained">
           Save
         </Button>
       </DialogActions>

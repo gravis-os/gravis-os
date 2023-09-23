@@ -1,4 +1,5 @@
 import React from 'react'
+
 import BallotOutlinedIcon from '@mui/icons-material/BallotOutlined'
 
 export const MOCK_ITEM = {
@@ -9,13 +10,10 @@ export const MOCK_ITEM = {
 }
 
 export const MOCK_MODULE = {
-  sk: 'slug',
-  table: {
-    name: 'contact',
-  },
+  Icon: BallotOutlinedIcon,
   name: {
-    singular: 'Contact',
     plural: 'Contacts',
+    singular: 'Contact',
   },
   route: {
     plural: '/contacts',
@@ -24,33 +22,36 @@ export const MOCK_MODULE = {
     detail: '*',
     list: '*',
   },
-  Icon: BallotOutlinedIcon,
+  sk: 'slug',
+  table: {
+    name: 'contact',
+  },
 }
 
 export const MOCK_FORM_SECTIONS = [
   {
-    key: 'general',
     title: 'General',
-    subtitle: 'Fill up general info',
+    fields: [{ key: 'title', name: 'title', required: true, type: 'input' }],
     icon: <BallotOutlinedIcon />,
-    fields: [{ key: 'title', name: 'title', type: 'input', required: true }],
+    key: 'general',
+    subtitle: 'Fill up general info',
   },
   {
-    key: 'details',
     title: 'Details',
-    subtitle: 'Fill up details',
-    icon: <BallotOutlinedIcon />,
     fields: [
       { key: 'subtitle', name: 'subtitle', type: 'input' },
       { key: 'description', name: 'description', type: 'html' },
       {
         key: 'is_active',
-        name: 'is_active',
-        type: 'switch',
         label: 'Active',
+        name: 'is_active',
         subtitle: 'Manage item active state',
+        type: 'switch',
       },
     ],
+    icon: <BallotOutlinedIcon />,
+    key: 'details',
+    subtitle: 'Fill up details',
   },
 ]
 

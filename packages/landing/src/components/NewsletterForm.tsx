@@ -1,10 +1,12 @@
 import React, { useState } from 'react'
-import { Form, FormSections } from '@gravis-os/form'
 import toast from 'react-hot-toast'
-import { Alert } from '@gravis-os/ui'
+
+import { Form, FormSections } from '@gravis-os/form'
 import { FormCategoryEnum } from '@gravis-os/types'
-import { postEnquiry } from '../enquiries/common/postEnquiry'
+import { Alert } from '@gravis-os/ui'
+
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
+import { postEnquiry } from '../enquiries/common/postEnquiry'
 
 export interface NewsletterFormProps {
   onSubmit?: (values: any) => void
@@ -20,8 +22,8 @@ const NewsletterForm: React.FC<NewsletterFormProps> = (props) => {
     if (onSubmit) return onSubmit(values)
     setIsLoading(true)
     await postEnquiry({
-      type: EnquiryTypeEnum.NEWSLETTER,
       origin: window.location.href,
+      type: EnquiryTypeEnum.NEWSLETTER,
       ...values,
     })
     setIsLoading(false)
@@ -38,51 +40,51 @@ const NewsletterForm: React.FC<NewsletterFormProps> = (props) => {
       )}
 
       <Form
-        id={FormCategoryEnum.NEWSLETTER}
-        resetOnSubmitSuccess
         defaultValues={{
           email: '',
-        }}
-        onSubmit={handleSubmit}
-        submitButtonProps={{
-          title: 'Get Started',
-          variant: 'paper',
-          size: 'large',
-          fullWidthOnMobile: true,
-          sx: { py: 1.75, px: 3 },
-          boxProps: {
-            display: 'flex',
-            justifyContent: 'flex-end',
-            flex: '1 0 auto',
-            ml: 1,
-          },
-          loading: isLoading,
-        }}
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          flexDirection: 'row',
         }}
         formJsx={
           <FormSections
             disableCard
             sections={[
               {
-                key: 'contact',
                 title: 'Contact',
                 fields: [
                   {
                     key: 'email',
                     name: 'email',
-                    type: 'email',
                     placeholder: 'What is your email address?',
                     required: true,
+                    type: 'email',
                   },
                 ],
+                key: 'contact',
               },
             ]}
           />
         }
+        id={FormCategoryEnum.NEWSLETTER}
+        onSubmit={handleSubmit}
+        resetOnSubmitSuccess
+        submitButtonProps={{
+          title: 'Get Started',
+          boxProps: {
+            display: 'flex',
+            flex: '1 0 auto',
+            justifyContent: 'flex-end',
+            ml: 1,
+          },
+          fullWidthOnMobile: true,
+          loading: isLoading,
+          size: 'large',
+          sx: { px: 3, py: 1.75 },
+          variant: 'paper',
+        }}
+        sx={{
+          alignItems: 'center',
+          display: 'flex',
+          flexDirection: 'row',
+        }}
         {...props}
       />
     </div>

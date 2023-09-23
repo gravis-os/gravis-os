@@ -1,111 +1,111 @@
-import { BlockItemProps } from '../web/Block/BlockItem'
 import { BlockProps } from '../web/Block/Block'
+import { BlockItemProps } from '../web/Block/BlockItem'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'
 
 export interface RenderLeftHeroWithBackgroundBlockProps
   extends Omit<BlockProps, 'items'> {
+  buttonProps?: RenderGhostButtonBlockItemProps
+  hero_alt?: string
+  hero_src?: string
+  image_alt?: string
+  image_src?: string
+  imageProps?: BlockItemProps['titleProps']
   overline?: string
+  overlineProps?: BlockItemProps['titleProps']
+  subtitle?: string
   title: string
   titleProps?: BlockItemProps['titleProps']
-  subtitle?: string
-  hero_src?: string
-  hero_alt?: string
-  image_src?: string
-  image_alt?: string
-  imageProps?: BlockItemProps['titleProps']
-  buttonProps?: RenderGhostButtonBlockItemProps
-  overlineProps?: BlockItemProps['titleProps']
 }
 
 const renderLeftHeroWithBackgroundBlock = (
   props: RenderLeftHeroWithBackgroundBlockProps
 ) => {
   const {
-    overline,
     title,
-    titleProps,
-    subtitle,
-    hero_src,
-    hero_alt,
-    image_src,
-    image_alt,
-    imageProps,
     buttonProps,
-    overlineProps,
     center = false,
+    hero_alt,
+    hero_src,
+    image_alt,
+    image_src,
+    imageProps,
+    overline,
+    overlineProps,
     pb,
+    subtitle,
+    titleProps,
     ...rest
   } = props
 
   return {
     id: 'hero-with-background',
-    pt: 30,
-    pb: 0,
+    center,
     centerOnMobile: true,
     dark: true,
-    center,
+    pb: 0,
+    pt: 30,
     ...(hero_src && {
-      backgroundImageProps: { src: hero_src, alt: hero_alt, priority: true },
+      backgroundImageProps: { alt: hero_alt, priority: true, src: hero_src },
     }),
     items: [
       {
-        type: 'grid',
-        gridProps: {
-          sx: { position: 'relative' },
-          spacing: 2,
-        },
         gridItems: [
           {
             xs: 12,
             md: 6,
-            sx: { pb },
             items: [
-              { type: 'overline', title: overline, titleProps: overlineProps },
+              { title: overline, titleProps: overlineProps, type: 'overline' },
               {
-                type: 'h1',
                 title,
                 titleProps: { gutterBottom: true, ...titleProps },
+                type: 'h1',
               },
               {
-                type: 'subtitle1',
                 title: subtitle,
                 titleProps: {
                   color: 'text.secondary',
-                  sx: { mb: 4 },
                   maxWidth: '90%',
+                  sx: { mb: 4 },
                 },
+                type: 'subtitle1',
               },
               buttonProps && renderGhostButtonBlockItem(buttonProps),
             ],
+            sx: { pb },
           },
           {
             xs: 12,
             md: 6,
-            sx: {
-              width: '100%',
-              display: 'flex',
-              justifyContent: { xs: 'center', md: 'flex-end' },
-              position: { lg: 'absolute' },
-              bottom: -16,
-              right: 0,
-              mb: { xs: -2, md: 0 },
-            },
             boxProps: { width: { xs: '95%', md: '100%' } },
             items: [
               {
-                type: 'image',
                 title: image_src,
                 titleProps: {
                   alt: image_alt,
                   priority: true,
                   ...imageProps,
                 },
+                type: 'image',
               },
             ],
+            sx: {
+              bottom: -16,
+              display: 'flex',
+              justifyContent: { xs: 'center', md: 'flex-end' },
+              mb: { xs: -2, md: 0 },
+              position: { lg: 'absolute' },
+              right: 0,
+              width: '100%',
+            },
           },
         ],
+        gridProps: {
+          spacing: 2,
+          sx: { position: 'relative' },
+        },
+        type: 'grid',
       },
     ],
     ...rest,

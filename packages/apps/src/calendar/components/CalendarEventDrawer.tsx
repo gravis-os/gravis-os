@@ -1,10 +1,13 @@
 import React, { FC } from 'react'
+
 import { IconButton, Stack, StackProps, Typography } from '@gravis-os/ui'
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import dayjs from 'dayjs'
+
+import type { CalendarEventApi, CalendarEventDrawerDefs } from '../types'
+
 import CalendarEventContent from './CalendarEventContent'
 import CalendarEventDrawerSection from './CalendarEventDrawerSection'
-import type { CalendarEventApi, CalendarEventDrawerDefs } from '../types'
 
 interface CalendarDrawerProps extends StackProps {
   event?: CalendarEventApi
@@ -19,7 +22,7 @@ const CalendarEventDrawer: FC<CalendarDrawerProps> = (props) => {
   return (
     <Stack
       {...rest}
-      sx={{ borderLeft: '1px solid', borderColor: 'divider', ...rest?.sx }}
+      sx={{ borderColor: 'divider', borderLeft: '1px solid', ...rest?.sx }}
     >
       <Stack
         sx={{
@@ -28,11 +31,11 @@ const CalendarEventDrawer: FC<CalendarDrawerProps> = (props) => {
           borderColor: 'divider',
           flexDirection: 'row',
           justifyContent: 'space-between',
-          py: 2.75,
           px: 2,
+          py: 2.75,
         }}
       >
-        <Typography variant="h3" sx={{ ml: 1 }}>
+        <Typography sx={{ ml: 1 }} variant="h3">
           {dayjs(start).format('D MMMM YY, HH:mm A')}
         </Typography>
         <IconButton onClick={onClose}>
@@ -45,9 +48,9 @@ const CalendarEventDrawer: FC<CalendarDrawerProps> = (props) => {
             <CalendarEventContent event={event} />
             {eventDrawerDefs.map((eventDrawerDef) => (
               <CalendarEventDrawerSection
-                key={eventDrawerDef.name}
                 event={event}
                 eventDrawerDef={eventDrawerDef}
+                key={eventDrawerDef.name}
                 sx={{ px: 0.5 }}
               />
             ))}

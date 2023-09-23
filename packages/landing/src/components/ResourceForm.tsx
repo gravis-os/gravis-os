@@ -1,162 +1,164 @@
 import React, { useState } from 'react'
+
 import { Form, FormSections } from '@gravis-os/form'
-import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
-import { useRouter } from 'next/router'
 import { FormCategoryEnum } from '@gravis-os/types'
-import {
-  getNames as getCountryNames,
-  getCode as getCountryCode,
-} from 'country-list'
-import * as yup from 'yup'
-import { parsePhoneNumber } from 'awesome-phonenumber'
-import freeEmailDomains from 'free-email-domains'
 import { yupResolver } from '@hookform/resolvers/yup'
-import { postEnquiry } from '../enquiries/common/postEnquiry'
+import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
+import { parsePhoneNumber } from 'awesome-phonenumber'
+import {
+  getCode as getCountryCode,
+  getNames as getCountryNames,
+} from 'country-list'
+import freeEmailDomains from 'free-email-domains'
+import { useRouter } from 'next/router'
+import * as yup from 'yup'
+
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
+import { postEnquiry } from '../enquiries/common/postEnquiry'
 
 const INDUSTRY_OPTIONS = [
   {
     key: 'Advertising/Media/Publishing',
-    value: 'Advertising/Media/Publishing',
     label: 'Advertising/Media/Publishing',
+    value: 'Advertising/Media/Publishing',
   },
   {
     key: 'Aerospace and Aviation',
-    value: 'Aerospace and Aviation',
     label: 'Aerospace and Aviation',
+    value: 'Aerospace and Aviation',
   },
   {
     key: 'Agriculture and Forestry',
-    value: 'Agriculture and Forestry',
     label: 'Agriculture and Forestry',
+    value: 'Agriculture and Forestry',
   },
   {
     key: 'Automotive',
-    value: 'Automotive',
     label: 'Automotive',
+    value: 'Automotive',
   },
   {
     key: 'Banking/Accounting/Financial',
-    value: 'Banking/Accounting/Financial',
     label: 'Banking/Accounting/Financial',
+    value: 'Banking/Accounting/Financial',
   },
   {
     key: 'Computer and Technology',
-    value: 'Computer and Technology',
     label: 'Computer and Technology',
+    value: 'Computer and Technology',
   },
   {
     key: 'Education and Training',
-    value: 'Education and Training',
     label: 'Education and Training',
+    value: 'Education and Training',
   },
   {
     key: 'Engineering and Construction',
-    value: 'Engineering and Construction',
     label: 'Engineering and Construction',
+    value: 'Engineering and Construction',
   },
   {
     key: 'Entertainment/Travel/Hospitality',
-    value: 'Entertainment/Travel/Hospitality',
     label: 'Entertainment/Travel/Hospitality',
+    value: 'Entertainment/Travel/Hospitality',
   },
   {
     key: 'Food and Beverage',
-    value: 'Food and Beverage',
     label: 'Food and Beverage',
+    value: 'Food and Beverage',
   },
   {
     key: 'Government and Public Administration',
-    value: 'Government and Public Administration',
     label: 'Government and Public Administration',
+    value: 'Government and Public Administration',
   },
   {
     key: 'Healthcare',
-    value: 'Healthcare',
     label: 'Healthcare',
+    value: 'Healthcare',
   },
   {
     key: 'Insurance',
-    value: 'Insurance',
     label: 'Insurance',
+    value: 'Insurance',
   },
   {
     key: 'Legal Solutions',
-    value: 'Legal Solutions',
     label: 'Legal Solutions',
+    value: 'Legal Solutions',
   },
   {
     key: 'Manufacturing',
-    value: 'Manufacturing',
     label: 'Manufacturing',
+    value: 'Manufacturing',
   },
   {
     key: 'Marketing',
-    value: 'Marketing',
     label: 'Marketing',
+    value: 'Marketing',
   },
   {
     key: 'Non profit Organizations',
-    value: 'Non profit Organizations',
     label: 'Non profit Organizations',
+    value: 'Non profit Organizations',
   },
   {
     key: 'Other Industry Not Listed',
-    value: 'Other Industry Not Listed',
     label: 'Other Industry Not Listed',
+    value: 'Other Industry Not Listed',
   },
   {
     key: 'Pharmaceutical',
-    value: 'Pharmaceutical',
     label: 'Pharmaceutical',
+    value: 'Pharmaceutical',
   },
   {
     key: 'Public Relations',
-    value: 'Public Relations',
     label: 'Public Relations',
+    value: 'Public Relations',
   },
   {
     key: 'Real Estate',
-    value: 'Real Estate',
     label: 'Real Estate',
+    value: 'Real Estate',
   },
   {
     key: 'Retail and Wholesale',
-    value: 'Retail and Wholesale',
     label: 'Retail and Wholesale',
+    value: 'Retail and Wholesale',
   },
   {
     key: 'Scientific',
-    value: 'Scientific',
     label: 'Scientific',
+    value: 'Scientific',
   },
   {
     key: 'Telecommunications',
-    value: 'Telecommunications',
     label: 'Telecommunications',
+    value: 'Telecommunications',
   },
   {
     key: 'Transportation and Shipping',
-    value: 'Transportation and Shipping',
     label: 'Transportation and Shipping',
+    value: 'Transportation and Shipping',
   },
   {
     key: 'Utilities',
-    value: 'Utilities',
     label: 'Utilities',
+    value: 'Utilities',
   },
 ]
 
 const SOURCE_OPTIONS = [
-  { key: 'email', value: 'Email', label: 'Email' },
-  { key: 'google', value: 'Google', label: 'Google' },
-  { key: 'linkedin', value: 'LinkedIn', label: 'LinkedIn' },
+  { key: 'email', label: 'Email', value: 'Email' },
+  { key: 'google', label: 'Google', value: 'Google' },
+  { key: 'linkedin', label: 'LinkedIn', value: 'LinkedIn' },
   {
     key: 'social-media',
-    value: 'Social Media',
     label: 'Social Media',
+    value: 'Social Media',
   },
-  { key: 'referral', value: 'Referral', label: 'Referral' },
+  { key: 'referral', label: 'Referral', value: 'Referral' },
 ]
 
 export interface ResourceFormProps {
@@ -170,7 +172,7 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
   const router = useRouter()
 
   const resourceFormSchema = yup.lazy((values) => {
-    const { mobile, email, country } = values
+    const { country, email, mobile } = values
 
     const { valid: isMobileValid } = parsePhoneNumber(mobile, {
       regionCode: getCountryCode(country),
@@ -179,13 +181,6 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     const emailDomain = email.split('@')[1]
     const isEmailValid = !freeEmailDomains.includes(emailDomain)
     return yup.object({
-      mobile: yup
-        .mixed()
-        .test(
-          'isMobileValid',
-          'Please select a valid mobile phone number based on the country selected.',
-          () => isMobileValid
-        ),
       email: yup
         .mixed()
         .test(
@@ -193,18 +188,25 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
           'Please enter a valid work email.',
           () => isEmailValid
         ),
+      mobile: yup
+        .mixed()
+        .test(
+          'isMobileValid',
+          'Please select a valid mobile phone number based on the country selected.',
+          () => isMobileValid
+        ),
     })
   })
-  const { query } = router
+  const { asPath, query } = router
   const {
-    email = '',
-    name = '',
-    industry = '',
     country = '',
-    mobile = '',
-    source = '',
+    email = '',
+    industry = '',
     job_department = '',
     job_role = '',
+    mobile = '',
+    name = '',
+    source = '',
   } = query
 
   const handleSubmit = async (values) => {
@@ -213,54 +215,39 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
     setIsLoading(true)
 
     await postEnquiry({
-      type: EnquiryTypeEnum.RESOURCE,
       origin: window.location.href,
+      type: EnquiryTypeEnum.RESOURCE,
       ...values,
     })
 
     setIsLoading(false)
 
-    const nextPath = router.asPath.split('?')[0]
+    const nextPath = asPath.split('?')[0]
     return router.push(`${nextPath}/success`)
   }
 
   return (
     <div>
       <Form
-        id={FormCategoryEnum.HONEYPOT}
-        resetOnSubmitSuccess
         defaultValues={{
-          name,
-          email,
-          mobile,
-          job_role,
-          job_department,
-          industry,
           country,
+          email,
+          industry,
+          job_department,
+          job_role,
+          mobile,
+          name,
           source:
             SOURCE_OPTIONS.find(
               ({ value }) =>
                 value.toLowerCase() === String(source).toLowerCase()
             )?.value || '',
         }}
-        onSubmit={handleSubmit}
-        submitButtonProps={{
-          title: 'Download Guide',
-          variant: 'contained',
-          size: 'large',
-          sx: { mt: 1 },
-          fullWidth: true,
-          startIcon: <FileDownloadOutlinedIcon />,
-          boxProps: { display: 'flex', justifyContent: 'flex-end' },
-          loading: isLoading,
-        }}
-        useFormProps={{ resolver: yupResolver(resourceFormSchema) }}
         formJsx={
           <FormSections
             disableCard
             sections={[
               {
-                key: 'contact',
                 title: 'Contact',
                 fields: [
                   {
@@ -271,33 +258,31 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                   },
                   {
                     key: 'email',
-                    name: 'email',
-                    type: 'email',
                     label: 'Work Email',
+                    name: 'email',
                     placeholder: 'What is your work email address?',
                     required: true,
+                    type: 'email',
                   },
                   {
                     key: 'country',
                     name: 'country',
-                    required: true,
+                    options: getCountryNames(),
                     placeholder: 'Where are you from?',
                     props: { disableFirstOptionAsDefaultValue: true },
-                    options: getCountryNames(),
+                    required: true,
                   },
                   {
                     key: 'industry',
                     name: 'industry',
-                    required: true,
+                    options: INDUSTRY_OPTIONS,
                     placeholder: 'Which industry are you from?',
                     props: { disableFirstOptionAsDefaultValue: true },
-                    options: INDUSTRY_OPTIONS,
+                    required: true,
                   },
                   {
                     key: 'job_department',
                     name: 'job_department',
-                    required: true,
-                    props: { disableFirstOptionAsDefaultValue: true },
                     options: [
                       'IT',
                       'HR',
@@ -309,22 +294,22 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                       'Operations',
                       'Others',
                     ],
+                    props: { disableFirstOptionAsDefaultValue: true },
+                    required: true,
                   },
                   {
                     key: 'job_role',
                     name: 'job_role',
-                    required: true,
-                    props: { disableFirstOptionAsDefaultValue: true },
                     options: [
                       {
                         key: 'partner-director-founder',
-                        value: 'Partner, Director, or Founder',
                         label: 'Partner, Director, or Founder',
+                        value: 'Partner, Director, or Founder',
                       },
                       {
                         key: 'cto-cio-it-manager',
-                        value: 'CTO, CIO, or IT Manager',
                         label: 'CTO, CIO, or IT Manager',
+                        value: 'CTO, CIO, or IT Manager',
                       },
                       'Product Manager',
                       'Project Manager',
@@ -334,28 +319,45 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
                       'UI/UX Designer',
                       'Others',
                     ],
+                    props: { disableFirstOptionAsDefaultValue: true },
+                    required: true,
                   },
                   {
                     key: 'mobile',
                     name: 'mobile',
-                    required: true,
                     placeholder: 'Phone',
+                    required: true,
                     type: 'mobile',
                   },
                   {
-                    key: 'source',
-                    name: 'source',
-                    label: 'How did you hear about us?',
-                    type: 'radio',
-                    required: true,
                     compact: true,
+                    key: 'source',
+                    label: 'How did you hear about us?',
+                    name: 'source',
                     options: SOURCE_OPTIONS,
+                    required: true,
+                    type: 'radio',
                   },
                 ].map((field) => ({ disabled: isLoading, ...field })),
+                key: 'contact',
               },
             ]}
           />
         }
+        id={FormCategoryEnum.HONEYPOT}
+        onSubmit={handleSubmit}
+        resetOnSubmitSuccess
+        submitButtonProps={{
+          title: 'Download Guide',
+          boxProps: { display: 'flex', justifyContent: 'flex-end' },
+          fullWidth: true,
+          loading: isLoading,
+          size: 'large',
+          startIcon: <FileDownloadOutlinedIcon />,
+          sx: { mt: 1 },
+          variant: 'contained',
+        }}
+        useFormProps={{ resolver: yupResolver(resourceFormSchema) }}
         {...props}
       />
     </div>

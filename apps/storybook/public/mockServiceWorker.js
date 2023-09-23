@@ -1,5 +1,19 @@
-/* eslint-disable */
-/* tslint:disable */
+/* eslint-disable
+  no-restricted-globals,
+  prefer-arrow-callback,
+  default-case,
+  fp/no-throw,
+  fp/no-mutation,
+  fp/no-delete,
+  fp/no-loops,
+  no-bitwise,
+  no-restricted-syntax,
+  unicorn/prefer-math-trunc,
+  unicorn/prefer-spread,
+  unicorn/prefer-add-event-listener,
+  no-return-await,
+  eqeqeq,
+*/
 
 /**
  * Mock Service Worker (0.39.2).

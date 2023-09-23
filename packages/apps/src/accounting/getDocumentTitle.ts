@@ -13,15 +13,15 @@
  * @returns {string} document title
  */
 const getDocumentTitle = ({
-  prefix,
-  year = new Date().getFullYear(),
   counter = 1,
+  prefix,
   version = 1,
+  year = new Date().getFullYear(),
 }: {
+  counter?: null | number
   prefix: string
-  year?: number | null
-  counter?: number | null
-  version?: number | null
+  version?: null | number
+  year?: null | number
 }): string => {
   return [
     prefix,

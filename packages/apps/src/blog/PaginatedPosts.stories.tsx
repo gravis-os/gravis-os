@@ -1,25 +1,27 @@
-import { PaginatedQueryViewVariantEnum } from '@gravis-os/query'
 import React from 'react'
+
+import { PaginatedQueryViewVariantEnum } from '@gravis-os/query'
+
 import getStorybookTitle from '../utils/getStorybookTitle'
 import PaginatedPosts from './PaginatedPosts'
 
 export default {
   title: getStorybookTitle(PaginatedPosts.name),
-  component: PaginatedPosts,
   args: {
-    variant: PaginatedQueryViewVariantEnum.List,
-    queryResult: {},
-    items: [...new Array(10)].map((_, i) => ({
+    itemProps: {
+      blogCategoryModule: { getWebHref: () => '' },
+      postModule: { getWebHref: () => '' },
+    },
+    items: Array.from({ length: 10 }).map((_, i) => ({
       id: i,
       title: `Post ${i}`,
       slug: `post-${i}`,
       blog_category: { blog: {} },
     })),
-    itemProps: {
-      postModule: { getWebHref: () => '' },
-      blogCategoryModule: { getWebHref: () => '' },
-    },
+    queryResult: {},
+    variant: PaginatedQueryViewVariantEnum.List,
   },
+  component: PaginatedPosts,
 }
 
 const Template = (args) => <PaginatedPosts {...args} />

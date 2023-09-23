@@ -1,6 +1,7 @@
 import React from 'react'
-import { Ratings } from '@gravis-os/ui'
+
 import { ClientTestimonial } from '@gravis-os/types'
+import { Ratings } from '@gravis-os/ui'
 
 export interface RenderTestimonialBlockItemProps {
   item: ClientTestimonial
@@ -10,23 +11,23 @@ const renderTestimonialBlockItem = (props: RenderTestimonialBlockItemProps) => {
   const { item } = props
   const {
     title,
-    author_title,
-    author_job_title,
     author_company_title,
+    author_job_title,
+    author_title,
     rating_count,
   } = item || {}
   return [
     {
-      type: 'subtitle2',
       title: `"${title}"`,
       titleProps: { maxWidth: '70%' },
+      type: 'subtitle2',
     },
     {
+      title: <Ratings disableText sx={{ my: 1 }} value={rating_count} />,
       type: 'jsx',
-      title: <Ratings value={rating_count} disableText sx={{ my: 1 }} />,
     },
-    { type: 'body1', title: author_title },
-    { type: 'body1', title: `${author_job_title}, ${author_company_title}` },
+    { title: author_title, type: 'body1' },
+    { title: `${author_job_title}, ${author_company_title}`, type: 'body1' },
   ]
 }
 

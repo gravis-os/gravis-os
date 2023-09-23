@@ -1,4 +1,5 @@
 import { Showcase } from '@gravis-os/types'
+
 import { BlockProps } from '../web/Block/Block'
 import renderShowcaseSlider from './renderShowcaseSlider'
 
@@ -12,11 +13,11 @@ const renderOtherShowcasesBlock = (props: RenderOtherShowcasesBlockProps) => {
   if (!items?.length) return
   return {
     id: 'other-showcases',
-    sx: { backgroundColor: 'background.paper' },
     items: [
-      { type: 'h4', title: 'Other Showcases' },
+      { title: 'Other Showcases', type: 'h4' },
       renderShowcaseSlider({ items }),
     ],
+    sx: { backgroundColor: 'background.paper' },
     ...rest,
   }
 }

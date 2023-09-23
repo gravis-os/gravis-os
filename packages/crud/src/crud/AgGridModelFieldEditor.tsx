@@ -1,32 +1,33 @@
 import React, { forwardRef } from 'react'
-import { ModelField } from '@gravis-os/form'
 import { useController } from 'react-hook-form'
+
+import { ModelField } from '@gravis-os/form'
 import { GridOptions } from 'ag-grid-community'
 
 const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
   const {
     api,
-    module,
     column,
-    rowIndex,
-    options,
-    value: injectedValue,
-    setValue,
+    control,
     fieldArray,
     filters,
-    control,
+    module,
     name: injectedName = 'lines',
+    options,
+    rowIndex,
+    setValue,
+    value: injectedValue,
     ...rest
   } = props
   const { field } = column.userProvidedColDef
   const name = `${injectedName}.${rowIndex}.${field}`
 
   const {
-    field: { onChange, onBlur, value },
+    field: { onBlur, onChange, value },
   } = useController({
-    name,
     control,
     defaultValue: injectedValue,
+    name,
   })
 
   const gridOptions = api.gridOptionsWrapper.gridOptions as GridOptions
@@ -34,18 +35,18 @@ const AgGridModelFieldEditor = forwardRef((props: any, ref) => {
 
   return (
     <ModelField
-      disabled={disabled}
-      ref={ref}
-      module={module}
-      value={value}
-      setValue={setValue}
-      onChange={onChange}
-      onBlur={onBlur}
-      name={name}
-      select={module.select.list}
-      filters={filters}
       disableClearable
+      disabled={disabled}
+      filters={filters}
       fullWidth
+      module={module}
+      name={name}
+      onBlur={onBlur}
+      onChange={onChange}
+      ref={ref}
+      select={module.select.list}
+      setValue={setValue}
+      value={value}
       {...rest}
     />
   )

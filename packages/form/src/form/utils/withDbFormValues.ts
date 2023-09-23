@@ -1,4 +1,5 @@
 import omit from 'lodash/omit'
+
 import getIsArrayColumn from './getIsArrayColumn'
 import getRelationalObjectKey from './getRelationalObjectKey'
 
@@ -12,7 +13,9 @@ const getIdValuesWithRelationalKeysFromRelationalObjects = (values) => {
     if (Array.isArray(value) && !getIsArrayColumn(value)) {
       return {
         ...acc,
-        [key]: value.map(getIdValuesWithRelationalKeysFromRelationalObjects),
+        [key]: value.map((val) =>
+          getIdValuesWithRelationalKeysFromRelationalObjects(val)
+        ),
       }
     }
 
@@ -38,7 +41,7 @@ const omitRelationalObjects = (obj) => {
       // Remove belongs to relations
       if (key.endsWith('_id')) {
         const relationalObjectKey = getRelationalObjectKey(key)
-        return acc.concat(relationalObjectKey)
+        return [...acc, relationalObjectKey]
       }
 
       return acc

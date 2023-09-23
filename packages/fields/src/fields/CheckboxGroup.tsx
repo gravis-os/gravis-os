@@ -1,10 +1,6 @@
 import React from 'react'
-import startCase from 'lodash/startCase'
-import FormLabel from '@mui/material/FormLabel'
-import FormControl from '@mui/material/FormControl'
-import FormGroup from '@mui/material/FormGroup'
-import FormControlLabel from '@mui/material/FormControlLabel'
-import Checkbox, { CheckboxProps } from '@mui/material/Checkbox'
+import { FormState } from 'react-hook-form'
+
 import {
   FormHelperText,
   FormLabelProps,
@@ -12,44 +8,49 @@ import {
   Typography,
   TypographyProps,
 } from '@mui/material'
-import { FormState } from 'react-hook-form'
+import Checkbox, { CheckboxProps } from '@mui/material/Checkbox'
+import FormControl from '@mui/material/FormControl'
+import FormControlLabel from '@mui/material/FormControlLabel'
+import FormGroup from '@mui/material/FormGroup'
+import FormLabel from '@mui/material/FormLabel'
+import startCase from 'lodash/startCase'
 
 export interface CheckboxGroupProps {
   checkboxProps?: CheckboxProps
   disableLabel?: boolean
-  row?: boolean
-  required?: boolean
   error?: boolean
-  label?: string
-  name: string
-  options: Array<{ key: string; value: any; label: string } | string>
-  onChange?: (option, { e, params, isChecked }: any) => void
-  value?: any[]
-  sx?: SxProps
-  typographyProps?: TypographyProps
-  titleProps?: TypographyProps
-  labelProps?: Omit<FormLabelProps, 'ref'>
   // Required when using in Controller
   formState?: FormState<any>
+  label?: string
+  labelProps?: Omit<FormLabelProps, 'ref'>
+  name: string
+  onChange?: (option, { e, isChecked, params }: any) => void
+  options: Array<{ key: string; label: string; value: any } | string>
+  required?: boolean
+  row?: boolean
+  sx?: SxProps
+  titleProps?: TypographyProps
+  typographyProps?: TypographyProps
+  value?: any[]
 }
 
 const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
   const {
-    formState,
     checkboxProps,
     disableLabel,
-    label: injectedLabel,
-    onChange: injectedOnChange,
-    typographyProps,
-    labelProps,
-    titleProps,
-    options,
-    value: injectedValue = [],
-    name,
-    row,
-    required,
     error,
+    formState,
+    label: injectedLabel,
+    labelProps,
+    name,
+    onChange: injectedOnChange,
+    options,
+    required,
+    row,
     sx,
+    titleProps,
+    typographyProps,
+    value: injectedValue = [],
   } = props
 
   const { errors } = formState || {}
@@ -57,11 +58,11 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
 
   return (
     <FormControl
-      required={required}
-      error={error}
       component="fieldset"
-      variant="standard"
+      error={error}
+      required={required}
       sx={sx}
+      variant="standard"
     >
       {!disableLabel && (
         <FormLabel component="legend" {...labelProps}>
@@ -77,22 +78,16 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
             typeof injectedOption === 'string'
               ? {
                   key: injectedOption,
-                  value: injectedOption,
                   label: injectedOption,
+                  value: injectedOption,
                 }
               : injectedOption
-          const { key, value, label: injectedLabel } = option
+          const { key, label: injectedLabel, value } = option
 
           const isChecked = injectedValue.some((item) => item.value === value)
 
           return (
             <FormControlLabel
-              key={key}
-              label={
-                <Typography variant="body1" {...typographyProps}>
-                  {injectedLabel || startCase(key)}
-                </Typography>
-              }
               control={
                 <Checkbox
                   checked={isChecked}
@@ -104,6 +99,7 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
 
                     const nextValue = isExistingValue
                       ? injectedValue.filter(
+                          // eslint-disable-next-line unicorn/consistent-destructuring
                           ({ value }) => value !== option.value
                         )
                       : [...injectedValue, option]
@@ -112,8 +108,8 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
                     // If this is not the case, we will pass the event and params along in the second argument.
                     return injectedOnChange(nextValue, {
                       e,
-                      params: { key, checked: e.target.checked, event: e },
                       isChecked,
+                      params: { checked: e.target.checked, event: e, key },
                     })
                   }}
                   {...checkboxProps}
@@ -122,6 +118,12 @@ const CheckboxGroup: React.FC<CheckboxGroupProps> = (props) => {
                     ...checkboxProps?.sx,
                   }}
                 />
+              }
+              key={key}
+              label={
+                <Typography variant="body1" {...typographyProps}>
+                  {injectedLabel || startCase(key)}
+                </Typography>
               }
             />
           )

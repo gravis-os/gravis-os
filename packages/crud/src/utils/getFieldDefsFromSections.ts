@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { FormSectionFieldProps, FormSectionsProps } from '@gravis-os/form'
 
 // Gets field definitions from section fields recursively in a dictionary

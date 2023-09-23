@@ -1,16 +1,17 @@
 import React from 'react'
-import { Card, CardProps, Stack, Typography } from '@gravis-os/ui'
+
 import { StorageAvatarWithUpload } from '@gravis-os/storage'
 import { CrudItem, CrudModule } from '@gravis-os/types'
+import { Card, CardProps, Stack, Typography } from '@gravis-os/ui'
 
 export interface DetailBannerProps {
   cardProps?: CardProps
-  module: CrudModule
   item: CrudItem
+  module: CrudModule
 }
 
 const DetailBanner: React.FC<DetailBannerProps> = (props) => {
-  const { item, module, cardProps } = props
+  const { cardProps, item, module } = props
   const { title, subtitle } = item || {}
 
   // Show avatar only when crud item has avatar_src
@@ -18,22 +19,22 @@ const DetailBanner: React.FC<DetailBannerProps> = (props) => {
 
   return (
     <Card square {...cardProps}>
-      <Stack direction="row" alignItems="center" spacing={1}>
+      <Stack alignItems="center" direction="row" spacing={1}>
         {/* Left */}
-        <Stack direction="row" alignItems="center" spacing={1}>
+        <Stack alignItems="center" direction="row" spacing={1}>
           {hasAvatar && (
             <StorageAvatarWithUpload
+              editable
               item={item}
               module={module}
               src={item.avatar_src}
-              editable
             />
           )}
 
           <div>
             <Typography variant="h3">{title}</Typography>
             {subtitle && (
-              <Typography variant="body1" color="text.secondary">
+              <Typography color="text.secondary" variant="body1">
                 {subtitle}
               </Typography>
             )}

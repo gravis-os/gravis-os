@@ -1,4 +1,5 @@
 import React, { ReactNode } from 'react'
+
 import {
   FormControl,
   FormControlLabel,
@@ -8,61 +9,61 @@ import {
   FormHelperTextProps,
   FormLabel,
   FormLabelProps,
-  Radio,
   RadioGroup as MuiRadioGroup,
   RadioGroupProps as MuiRadioGroupProps,
+  Radio,
   RadioProps,
 } from '@mui/material'
 import pick from 'lodash/pick'
 import startCase from 'lodash/startCase'
 
 export interface RadioGroupProps extends MuiRadioGroupProps {
-  name: string
-  label?: string | ReactNode | ReactNode[]
+  compact?: boolean
   disableLabel?: boolean
-  options:
-    | string[]
-    | {
-        key: string
-        label: string
-        value: MuiRadioGroupProps['value']
-        formControlLabelProps?: Omit<
-          FormControlLabelProps,
-          'control' | 'label' | 'value'
-        >
-        radioProps?: Omit<RadioProps, 'value'>
-      }[]
+  disabled?: boolean
   error?: boolean
-  helperText?: string | ReactNode | ReactNode[]
-
   formControlLabelProps?: Omit<
     FormControlLabelProps,
     'control' | 'label' | 'value'
   >
-  radioProps?: Omit<RadioProps, 'value'>
   formControlProps?: FormControlProps
-  formLabelProps?: FormLabelProps
+
   formHelperTextProps?: FormHelperTextProps
-  compact?: boolean
-  disabled?: boolean
+  formLabelProps?: FormLabelProps
+  helperText?: ReactNode | ReactNode[] | string
+  label?: ReactNode | ReactNode[] | string
+  name: string
+  options:
+    | {
+        formControlLabelProps?: Omit<
+          FormControlLabelProps,
+          'control' | 'label' | 'value'
+        >
+        key: string
+        label: string
+        radioProps?: Omit<RadioProps, 'value'>
+        value: MuiRadioGroupProps['value']
+      }[]
+    | string[]
+  radioProps?: Omit<RadioProps, 'value'>
 }
 
 const RadioGroup: React.FC<RadioGroupProps> = (props) => {
   const {
-    name,
-    label: injectedLabel,
-    disableLabel,
-    options = [],
-    sx,
     compact,
-    error,
-    helperText,
-    formControlLabelProps: injectedFormControlLabelProps,
-    radioProps: injectedRadioProps,
-    formControlProps,
-    formLabelProps,
-    formHelperTextProps,
     disabled,
+    disableLabel,
+    error,
+    formControlLabelProps: injectedFormControlLabelProps,
+    formControlProps,
+    formHelperTextProps,
+    formLabelProps,
+    helperText,
+    label: injectedLabel,
+    name,
+    options = [],
+    radioProps: injectedRadioProps,
+    sx,
     ...rest
   } = props
 

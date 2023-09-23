@@ -1,7 +1,9 @@
 import React, { FC } from 'react'
+
+import { DayHeaderContentArg } from '@fullcalendar/common'
 import { Box, Stack, Typography } from '@gravis-os/ui'
 import dayjs from 'dayjs'
-import { DayHeaderContentArg } from '@fullcalendar/common'
+
 import { MONTH_VIEW } from '../constants'
 
 interface CalendarHeaderColumnProps extends DayHeaderContentArg {}
@@ -29,10 +31,12 @@ const CalendarHeaderField: React.FC<CalendarHeaderColumnProps> = (
   const { view } = props
 
   switch (view.type) {
-    case MONTH_VIEW:
+    case MONTH_VIEW: {
       return <CalendarMonthViewHeaderField {...props} />
-    default:
+    }
+    default: {
       return <CalendarDefaultHeaderField {...props} />
+    }
   }
 }
 

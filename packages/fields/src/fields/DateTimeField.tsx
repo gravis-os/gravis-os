@@ -1,10 +1,11 @@
 import React from 'react'
-import { DateTimePicker, DateTimePickerProps } from '@mui/x-date-pickers'
+
 import { SxProps, TextFieldProps } from '@mui/material'
+import { DateTimePicker, DateTimePickerProps } from '@mui/x-date-pickers'
 
 export interface DateTimeFieldProps extends DateTimePickerProps<Date> {
-  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
   sx: SxProps
+  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
 }
 
 const DateTimeField: React.FC<DateTimeFieldProps> = (props) => {

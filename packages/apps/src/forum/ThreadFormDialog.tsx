@@ -1,27 +1,29 @@
 import React, { useState } from 'react'
-import { Box, Button, ButtonProps, Dialog, DialogProps } from '@gravis-os/ui'
+
 import { CrudItem } from '@gravis-os/types'
+import { Box, Button, ButtonProps, Dialog, DialogProps } from '@gravis-os/ui'
+
 import ThreadForm, { ThreadFormProps } from './ThreadForm'
 
 export interface ThreadFormDialogProps extends Omit<DialogProps, 'open'> {
-  onConfirm?: () => Promise<void> | void
-  icon?: React.ReactElement
-  buttonProps?: ButtonProps
   buttonComponent?: React.ElementType
-  threadFormProps?: ThreadFormProps
-  forumCategorys?: CrudItem[]
+  buttonProps?: ButtonProps
   forumCategory?: CrudItem
+  forumCategorys?: CrudItem[]
+  icon?: React.ReactElement
+  onConfirm?: () => Promise<void> | void
+  threadFormProps?: ThreadFormProps
 }
 
 const ThreadFormDialog: React.FC<ThreadFormDialogProps> = (props) => {
   const {
     buttonComponent: ButtonComponent,
+    buttonProps: injectedButtonProps,
+    forumCategory,
+    forumCategorys,
     icon,
     onConfirm,
-    buttonProps: injectedButtonProps,
     threadFormProps,
-    forumCategorys,
-    forumCategory,
     ...rest
   } = props
 
@@ -33,8 +35,8 @@ const ThreadFormDialog: React.FC<ThreadFormDialogProps> = (props) => {
   const title = 'Ask a Question'
 
   const buttonProps = {
-    onClick: openDialog,
     children: title,
+    onClick: openDialog,
     ...injectedButtonProps,
   }
 
@@ -44,10 +46,10 @@ const ThreadFormDialog: React.FC<ThreadFormDialogProps> = (props) => {
 
       {/* Dialog */}
       <Dialog
-        title={title}
-        open={confirmationDialogOpen}
-        onClose={closeDialog}
         fullWidth
+        onClose={closeDialog}
+        open={confirmationDialogOpen}
+        title={title}
         {...rest}
       >
         <Box sx={{ p: 2 }}>

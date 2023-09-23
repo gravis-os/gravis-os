@@ -1,18 +1,20 @@
 import type { ReactNode } from 'react'
+
 import { EventApi } from '@fullcalendar/common'
+
 import { DAY_VIEW, MONTH_VIEW, WEEK_VIEW } from './constants'
 
 export type CalendarEventApiExtendedProps = {
-  subtitle?: string
   data?: unknown
+  subtitle?: string
 }
 
 export interface CalendarEvent extends CalendarEventApiExtendedProps {
-  id?: string
   allDay?: boolean
   color?: string
-  end?: string | Date
-  start: string | Date
+  end?: Date | string
+  id?: string
+  start: Date | string
   title: string
 }
 
@@ -24,7 +26,6 @@ export interface CalendarEventData {}
 
 export interface CalendarEventDrawerDef {
   name?: string
-  title: string
   render?: ({
     data,
     value,
@@ -32,11 +33,12 @@ export interface CalendarEventDrawerDef {
     data: CalendarEventData
     value: unknown
   }) => ReactNode
+  title: string
 }
 
 export type CalendarEventDrawerDefs = CalendarEventDrawerDef[]
 
 export type CalendarView =
+  | typeof DAY_VIEW
   | typeof MONTH_VIEW
   | typeof WEEK_VIEW
-  | typeof DAY_VIEW

@@ -4,7 +4,7 @@ import intersectionBy from 'lodash/intersectionBy'
 const getRelatedCrudItemsByTagTitles = (
   items: CrudItem[],
   tagTitles: string[]
-): CrudItem[] | [] => {
+): [] | CrudItem[] => {
   if (!tagTitles?.length) return items || []
 
   return intersectionBy(

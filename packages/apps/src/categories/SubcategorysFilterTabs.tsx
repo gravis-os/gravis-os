@@ -1,21 +1,22 @@
 import React from 'react'
-import { Tab, Tabs, TabsProps } from '@gravis-os/ui'
+
 import { useRouterQuery } from '@gravis-os/query'
 import { CrudItem } from '@gravis-os/types'
+import { Tab, Tabs, TabsProps } from '@gravis-os/ui'
 
 export interface SubcategorysFilterTabsProps extends Omit<TabsProps, 'items'> {
-  items?: CrudItem[]
   // @example 'forum_category_id'
   filterKey: string
+  items?: CrudItem[]
   op?: string
 }
 
 const SubcategorysFilterTabs: React.FC<SubcategorysFilterTabsProps> = (
   props
 ) => {
-  const { items, filterKey, op = 'eq', ...rest } = props
+  const { filterKey, items, op = 'eq', ...rest } = props
 
-  const { replaceQueryString, removeQueryString, parsedQs } = useRouterQuery()
+  const { parsedQs, removeQueryString, replaceQueryString } = useRouterQuery()
 
   // Current value
   const defaultValue = 0
@@ -39,17 +40,17 @@ const SubcategorysFilterTabs: React.FC<SubcategorysFilterTabsProps> = (
     <Tabs
       disableCard
       disableMinHeight
-      value={currentTabValue}
       onChange={handleChange}
-      variant="scrollable"
       scrollButtons="auto"
+      value={currentTabValue}
+      variant="scrollable"
       {...rest}
     >
-      <Tab value={defaultValue} label="All" />
+      <Tab label="All" value={defaultValue} />
       {items.map((item) => {
         if (!item) return null
-        const { title, id } = item
-        return <Tab key={id} value={id} label={title} />
+        const { id, title } = item
+        return <Tab key={id} label={title} value={id} />
       })}
     </Tabs>
   )

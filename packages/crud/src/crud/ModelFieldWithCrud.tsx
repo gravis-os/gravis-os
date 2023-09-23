@@ -1,28 +1,30 @@
 import React from 'react'
+
 import { FormSectionProps, ModelFieldProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import useAddDialog from './useAddDialog'
+
 import CrudAddDialog, { CrudAddDialogProps } from './CrudAddDialog'
+import useAddDialog from './useAddDialog'
 
 export interface RenderModelFieldWithCrudProps {
+  addFormSections: FormSectionProps[]
   children: any // Something's wrong with the React.ReactNode here
   crudAddDialogProps?: CrudAddDialogProps
-  module: CrudModule
-  addFormSections: FormSectionProps[]
   modelFieldProps?: ModelFieldProps
+  module: CrudModule
 }
 
 const ModelFieldWithCrud: React.FC<RenderModelFieldWithCrudProps> = (props) => {
   const {
-    children,
-    module,
     addFormSections,
+    children,
     crudAddDialogProps,
     modelFieldProps,
+    module,
   } = props
   const useAddDialogProps = useAddDialog({
-    module,
     addFormSections,
+    module,
   })
   const { setAddDialogOpen } = useAddDialogProps
 

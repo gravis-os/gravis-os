@@ -4,26 +4,27 @@ Sendgrid.setApiKey(process.env.SENDGRID_API_KEY)
 
 const CustomSendgrid = {
   send: async (props: {
-    to: string
-    from: string
-    subject: string
-    html: string
-    headers?: Record<string, string>
-    replyTo?: MailDataRequired['replyTo']
-    text?: string
     attachments?: MailDataRequired['attachments']
+    from: string
+    headers?: Record<string, string>
+    html: string
+    replyTo?: MailDataRequired['replyTo']
+    subject: string
+    text?: string
+    to: string
   }) => {
-    const { from, to, subject, html, text, attachments, headers, replyTo } = props
+    const { attachments, from, headers, html, replyTo, subject, text, to } =
+      props
 
     const onSend = await Sendgrid.send({
-      headers,
+      attachments,
       from: from || process.env.SENDGRID_FROM_EMAIL,
-      to,
+      headers,
+      html,
       replyTo,
       subject,
-      html,
       text,
-      attachments,
+      to,
     })
 
     return onSend

@@ -1,10 +1,12 @@
 import React, { ElementType } from 'react'
+
 import { DataTable } from '@gravis-os/crud'
 import { Box, Card, Divider, Grid, Stack, Typography } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import { SxProps } from '@mui/system'
 import dayjs from 'dayjs'
 import padStart from 'lodash/padStart'
+
 import getDiscountedPriceFromItem from '../utils/getDiscountedPriceFromItem'
 import { CartItem, Customer, Receipt } from './types'
 
@@ -15,17 +17,32 @@ export interface PosPaymentReceiptProps {
   receiptLogo?: ElementType<any>
 }
 
+const printCustomerCountry = (
+  shipping_address_city,
+  shipping_address_country
+) => {
+  if (shipping_address_city && shipping_address_country) {
+    return `${shipping_address_city}, ${shipping_address_country}`
+  }
+  if (shipping_address_city) {
+    return `${shipping_address_city}`
+  }
+  if (shipping_address_country) {
+    return `${shipping_address_country}`
+  }
+}
+
 const PosPaymentReceipt: React.FC<PosPaymentReceiptProps> = (props) => {
   const { item, receiptLogo } = props
   const {
-    payment_method,
-    paid,
-    subtotal,
-    tax,
-    total,
     id,
     cart_items,
     customer,
+    paid,
+    payment_method,
+    subtotal,
+    tax,
+    total,
   } = item || {}
 
   const today = dayjs().format('MMM DD, YYYY')
@@ -54,8 +71,8 @@ const PosPaymentReceipt: React.FC<PosPaymentReceiptProps> = (props) => {
     {
       title: 'Receipt number',
       key: 'receipt-number',
-      value: `${padStart(`${id}`, 6, '0')}`,
       TypographyProps: { fontWeight: 'bold' },
+      value: `${padStart(`${id}`, 6, '0')}`,
     },
     {
       title: 'Date paid',
@@ -88,8 +105,8 @@ const PosPaymentReceipt: React.FC<PosPaymentReceiptProps> = (props) => {
     {
       title: 'Amount Paid',
       key: 'paid',
-      value: printAmount(paid || ''),
       TypographyProps: { fontWeight: 'bold' },
+      value: printAmount(paid || ''),
     },
   ]
 
@@ -122,32 +139,18 @@ const PosPaymentReceipt: React.FC<PosPaymentReceiptProps> = (props) => {
   }
 
   const BillingDetails: React.FC<{
-    title?: string
     customer?: Customer
+    title?: string
   }> = ({ title, customer }) => {
     const {
-      full_name,
       email,
+      full_name,
+      shipping_address_city,
+      shipping_address_country,
       shipping_address_line_1,
       shipping_address_line_2,
-      shipping_address_country,
-      shipping_address_city,
       shipping_address_postal_code,
     } = (customer as Customer) || {}
-    const printCustomerCountry = (
-      shipping_address_city,
-      shipping_address_country
-    ) => {
-      if (shipping_address_city && shipping_address_country) {
-        return `${shipping_address_city}, ${shipping_address_country}`
-      }
-      if (shipping_address_city) {
-        return `${shipping_address_city}`
-      }
-      if (shipping_address_country) {
-        return `${shipping_address_country}`
-      }
-    }
     const billingDetailValues = [
       full_name,
       email,
@@ -172,7 +175,7 @@ const PosPaymentReceipt: React.FC<PosPaymentReceiptProps> = (props) => {
   }
 
   return (
-    <Stack spacing={2} px={2} sx={containerSx}>
+    <Stack px={2} spacing={2} sx={containerSx}>
       <Card>
         <Stack direction="row" justifyContent="space-between" pt={2}>
           <Typography variant="h1">Receipt</Typography>
@@ -189,8 +192,8 @@ const PosPaymentReceipt: React.FC<PosPaymentReceiptProps> = (props) => {
           <Grid container>
             <Grid item xs={6}>
               <BillingDetails
-                title="Bill to"
                 customer={customer as any as Customer}
+                title="Bill to"
               />
             </Grid>
           </Grid>
@@ -201,15 +204,15 @@ const PosPaymentReceipt: React.FC<PosPaymentReceiptProps> = (props) => {
 
           <Box>
             <DataTable
-              rowData={cart_items as any as Partial<CartItem>[]}
               columnDefs={columnDefs}
               disableHeader
+              domLayout="print"
+              rowData={cart_items as any as Partial<CartItem>[]}
               sx={{
+                breakInside: 'avoid',
                 height: '100%',
                 width: PRINT_PDF_A4_WIDTH,
-                breakInside: 'avoid',
               }}
-              domLayout="print"
             />
           </Box>
 

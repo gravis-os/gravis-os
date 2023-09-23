@@ -1,12 +1,14 @@
+import React from 'react'
+
 import { getRelationalObjectKey } from '@gravis-os/form'
 import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
 import startCase from 'lodash/startCase'
 import { useRouter } from 'next/router'
-import React from 'react'
+
 import getValueWithoutOp from './getValueWithoutOp'
 
-const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
+const getChipsFromFilters = ({ fieldDefs, filters, setFilters }) => {
   const router = useRouter()
   const { query: routerQuery } = router
 
@@ -27,7 +29,7 @@ const getChipsFromFilters = ({ filters, setFilters, fieldDefs }) => {
         return
 
       const nextKey = fieldDefs?.[key]?.filterLabel ?? key
-      const nextValue = getValueWithoutOp({ key, value, fieldDefs })
+      const nextValue = getValueWithoutOp({ fieldDefs, key, value })
 
       if (key.endsWith('_id')) {
         const relationalObjectKey = getRelationalObjectKey(key, false)

@@ -10,7 +10,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint --parallel --continue",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "commit": "git-cz",
     "yalc:push": "turbo run yalc:push",

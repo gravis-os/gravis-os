@@ -3,7 +3,7 @@ import { getRelationalObjectKey } from '@gravis-os/form'
 import pick from 'lodash/pick'
 
 const saveManyToManyValues = async (args) => {
-  const { data, item, values, client, module, fieldDefs } = args
+  const { client, data, fieldDefs, item, module, values } = args
 
   const getHelpers = ({ key, value }) => {
     const relationalObjectKey = getRelationalObjectKey(key)
@@ -20,13 +20,13 @@ const saveManyToManyValues = async (args) => {
       : `${module.table.name}_${relationalObjectKey}`
 
     const helpers = {
-      relationalObjectKey,
-      joinTableName,
       currentColumnName: `${module.table.name}_id`,
-      opposingColumnName: `${relationalObjectKey}_id`,
-      joinKey,
-      prevValueIds: item?.[joinKey]?.map((v) => v.id) || [],
       currentValueIds: value.map((v) => v.id),
+      joinKey,
+      joinTableName,
+      opposingColumnName: `${relationalObjectKey}_id`,
+      prevValueIds: item?.[joinKey]?.map((v) => v.id) || [],
+      relationalObjectKey,
     }
 
     return helpers
@@ -35,7 +35,7 @@ const saveManyToManyValues = async (args) => {
   const deletePromises = Object.entries(values).map(([key, value]) => {
     if (!Array.isArray(value)) return
 
-    const { joinTableName, opposingColumnName, prevValueIds, currentValueIds } =
+    const { currentValueIds, joinTableName, opposingColumnName, prevValueIds } =
       getHelpers({ key, value })
 
     // Find difference in prevValue and currentValue arrays
@@ -43,7 +43,7 @@ const saveManyToManyValues = async (args) => {
       (prevValueId) => !currentValueIds.includes(prevValueId)
     )
 
-    if (!opposingTableIdsToDelete.length) return
+    if (opposingTableIdsToDelete.length === 0) return
 
     return client
       .from(joinTableName)
@@ -55,11 +55,11 @@ const saveManyToManyValues = async (args) => {
     if (!Array.isArray(value)) return
 
     const {
-      joinTableName,
       currentColumnName,
+      currentValueIds,
+      joinTableName,
       opposingColumnName,
       prevValueIds,
-      currentValueIds,
     } = getHelpers({
       key,
       value,
@@ -84,7 +84,7 @@ const saveManyToManyValues = async (args) => {
       })
       .filter(Boolean)
 
-    if (!joinTableRecords.length) return
+    if (joinTableRecords.length === 0) return
 
     return client.from(joinTableName).upsert(joinTableRecords)
   })

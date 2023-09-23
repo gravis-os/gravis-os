@@ -1,24 +1,26 @@
 import React from 'react'
-import { Card, CardProps, Link, Typography } from '@gravis-os/ui'
+
 import { CrudModuleWithGetWebHref } from '@gravis-os/types'
+import { Card, CardProps, Link, Typography } from '@gravis-os/ui'
+
 import { Thread } from './types'
 
 export interface ThreadListItemProps extends CardProps {
-  item: Thread
-  threadModule: CrudModuleWithGetWebHref
-  size?: 'small' | 'medium' | 'large'
   cardProps?: CardProps
+  item: Thread
+  size?: 'large' | 'medium' | 'small'
+  threadModule: CrudModuleWithGetWebHref
 }
 
 const ThreadListItem: React.FC<ThreadListItemProps> = (props) => {
-  const { item, size = 'medium', threadModule, cardProps, sx } = props
+  const { cardProps, item, size = 'medium', sx, threadModule } = props
 
   if (!item) return null
 
   const isSmall = size === 'small'
   const isLarge = size === 'large'
 
-  const { title, subtitle, forum_category } = item
+  const { id, title, forum_category, subtitle } = item
 
   const threadHref = threadModule.getWebHref([
     forum_category?.forum,
@@ -28,22 +30,23 @@ const ThreadListItem: React.FC<ThreadListItemProps> = (props) => {
 
   return (
     <Card
+      key={id}
       size={size}
-      key={item.id}
       sx={{ ...sx, ...cardProps?.sx } as CardProps['sx']}
       {...cardProps}
     >
       <Link
-        variant={isLarge ? 'h3' : isSmall ? 'body2' : 'h4'}
         href={threadHref}
+        // prettier-ignore
+        variant={isLarge ? 'h3' : (isSmall ? 'body2' : 'h4')}
       >
         {title}
       </Link>
       {subtitle && (
         <Typography
-          variant={isSmall ? 'body2' : 'body1'}
           color="text.secondary"
           maxLines={3}
+          variant={isSmall ? 'body2' : 'body1'}
         >
           {subtitle}
         </Typography>

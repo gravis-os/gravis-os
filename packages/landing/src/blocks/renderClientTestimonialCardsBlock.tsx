@@ -1,12 +1,13 @@
 import { ClientTestimonial } from '@gravis-os/types'
-import renderClientTestimonialCardBlockItem from './renderClientTestimonialCardBlockItem'
+
 import { BlockProps } from '../web/Block/Block'
+import renderClientTestimonialCardBlockItem from './renderClientTestimonialCardBlockItem'
 
 export interface RenderClientTestimonialCardsBlockProps
   extends Omit<BlockProps, 'items' | 'title'> {
   items: ClientTestimonial[]
-  title?: React.ReactNode
   subtitle?: React.ReactNode
+  title?: React.ReactNode
 }
 
 const renderClientTestimonialCardsBlock = (
@@ -14,32 +15,29 @@ const renderClientTestimonialCardsBlock = (
 ) => {
   const {
     title = 'Trusted by Frontend Development Teams',
-    subtitle = '',
     items,
+    subtitle = '',
     ...rest
   } = props
 
   return {
     id: 'client-testimonials',
     items: [
-      { type: 'overline', title: 'Client Testimonials' },
+      { title: 'Client Testimonials', type: 'overline' },
       {
-        type: 'h3',
         title,
         titleProps: { gutterBottom: true },
+        type: 'h3',
       },
       {
-        type: 'body1',
         title: subtitle,
         titleProps: {
           color: 'text.secondary',
           maxWidth: '50%',
         },
+        type: 'body1',
       },
       {
-        type: 'grid',
-        sx: { mt: { xs: 3, md: 6 } },
-        gridProps: { spacing: 3 },
         gridItems: items.map((item) => {
           return {
             xs: 12,
@@ -47,15 +45,18 @@ const renderClientTestimonialCardsBlock = (
             md: 4,
             boxProps: {
               sx: {
-                py: 4,
-                px: 3,
                 backgroundColor: 'background.paper',
                 borderRadius: 1,
+                px: 3,
+                py: 4,
               },
             },
             items: renderClientTestimonialCardBlockItem({ item }),
           }
         }),
+        gridProps: { spacing: 3 },
+        sx: { mt: { xs: 3, md: 6 } },
+        type: 'grid',
       },
     ],
     ...rest,

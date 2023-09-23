@@ -1,67 +1,58 @@
 import { BlockProps } from '../web/Block/Block'
-
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'
 
 export interface RenderHeroWithVideoBackgroundBlockProps
   extends Omit<BlockProps, 'items'> {
-  overline?: string
-  title: string
-  subtitle?: string
-  video_src?: string
-  video_poster_src?: string
   buttonProps?: RenderGhostButtonBlockItemProps
+  overline?: string
   secondaryButtonProps?: RenderGhostButtonBlockItemProps
+  subtitle?: string
+  title: string
+  video_poster_src?: string
+  video_src?: string
 }
 
 const renderHeroWithVideoBackgroundBlock = (
   props: RenderHeroWithVideoBackgroundBlockProps
 ) => {
   const {
-    overline,
     title,
-    subtitle,
-    video_src,
-    video_poster_src,
     buttonProps,
     center = true,
+    overline,
     secondaryButtonProps,
+    subtitle,
+    video_poster_src,
+    video_src,
     ...rest
   } = props
 
   return {
     id: 'hero-with-background',
-    pt: 30,
-    pb: 30,
-    dark: true,
     center,
+    dark: true,
     maxWidth: 'md',
+    pb: 30,
+    pt: 30,
     ...(video_src && {
-      backgroundVideoProps: { src: video_src, poster: video_poster_src },
       backgroundOverlayOpacity: 0.5,
+      backgroundVideoProps: { poster: video_poster_src, src: video_src },
     }),
     items: [
-      { type: 'overline', title: overline },
+      { title: overline, type: 'overline' },
       {
-        type: 'h1',
         title,
         titleProps: { gutterBottom: true, maxWidth: !center && '60%' },
+        type: 'h1',
       },
       {
-        type: 'subtitle1',
         title: subtitle,
         titleProps: { color: 'text.secondary', maxWidth: center || '45%' },
+        type: 'subtitle1',
       },
       {
-        type: 'stack',
-        sx: { mt: 4 },
-        stackProps: {
-          spacing: 0,
-          center,
-          direction: 'row' as const,
-          reverseDirectionOnMobile: true,
-        },
         stackItems: [
           {
             items: [renderGhostButtonBlockItem(buttonProps)],
@@ -70,6 +61,14 @@ const renderHeroWithVideoBackgroundBlock = (
             items: [renderGhostButtonBlockItem(secondaryButtonProps)],
           },
         ],
+        stackProps: {
+          center,
+          direction: 'row' as const,
+          reverseDirectionOnMobile: true,
+          spacing: 0,
+        },
+        sx: { mt: 4 },
+        type: 'stack',
       },
     ],
     ...rest,

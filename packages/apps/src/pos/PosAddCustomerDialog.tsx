@@ -1,26 +1,28 @@
 import React, { useState } from 'react'
+
 import { ModelField } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
 import { Button, Dialog, DialogTitle, Divider, Stack } from '@gravis-os/ui'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
 import noop from 'lodash/noop'
+
 import { usePos } from './PosProvider'
 import { Customer } from './types'
 
 export interface PosAddCustomerDialogProps {
-  open: boolean
-  onClose: VoidFunction
-  customerModule?: CrudModule
   addCustomerFields?: React.ReactNode
+  customerModule?: CrudModule
+  onClose: VoidFunction
+  open: boolean
 }
 
 const PosAddCustomerDialog: React.FC<PosAddCustomerDialogProps> = (props) => {
   const {
-    open,
-    onClose,
-    customerModule: injectedCustomerModule,
     addCustomerFields: injectedAddCustomerFields,
+    customerModule: injectedCustomerModule,
+    onClose,
+    open,
     ...rest
   } = props || {}
   const { cart, setCart } = usePos()
@@ -33,14 +35,14 @@ const PosAddCustomerDialog: React.FC<PosAddCustomerDialogProps> = (props) => {
 
   const addCustomerFieldsJsx = injectedAddCustomerFields || (
     <ModelField
+      label="Contact"
       module={customerModule}
       name="contact_id"
-      setValue={noop}
       onChange={setCustomer}
-      value={customer}
-      label="Contact"
       optionLabelKey="full_name"
       select={customerModule.select.detail}
+      setValue={noop}
+      value={customer}
       {...rest}
     />
   )
@@ -55,17 +57,17 @@ const PosAddCustomerDialog: React.FC<PosAddCustomerDialogProps> = (props) => {
 
   return (
     <Dialog
-      open={open}
-      onClose={onClose}
-      fullScreen
       TransitionComponent={Slide}
       TransitionProps={{ direction: 'left' } as TransitionProps}
+      fullScreen
+      onClose={onClose}
+      open={open}
     >
       <DialogTitle>
         <Stack
+          alignItems="center"
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
         >
           Add Customer
         </Stack>
@@ -76,7 +78,7 @@ const PosAddCustomerDialog: React.FC<PosAddCustomerDialogProps> = (props) => {
       </DialogContent>
       <Divider />
       <DialogActions>
-        <Button variant="contained" onClick={handleOnSaveCustomer}>
+        <Button onClick={handleOnSaveCustomer} variant="contained">
           Save
         </Button>
       </DialogActions>

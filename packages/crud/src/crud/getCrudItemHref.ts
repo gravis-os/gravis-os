@@ -1,11 +1,11 @@
 import { CrudItem, CrudModule } from '@gravis-os/types'
 
 export interface GetCrudItemHrefParams {
-  module: CrudModule
   item?: CrudItem
+  module: CrudModule
 }
 
-const getCrudItemHref = ({ module, item }: GetCrudItemHrefParams) =>
+const getCrudItemHref = ({ item, module }: GetCrudItemHrefParams) =>
   `${module.route.plural}/${item?.[module.sk]}`
 
 export default getCrudItemHref

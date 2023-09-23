@@ -1,32 +1,33 @@
-import { NextRequest } from 'next/server'
-import { CrudModule } from '@gravis-os/types'
 import { fetchDbUserFromMiddleware } from '@gravis-os/middleware'
-import { isPathMatch, getGuestPaths } from '@gravis-os/utils/edge'
+import { CrudModule } from '@gravis-os/types'
+import { getGuestPaths, isPathMatch } from '@gravis-os/utils/edge'
+import { NextRequest } from 'next/server'
+
 import saasConfig from '../config/saasConfig'
-import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
-import getIsValidPermissions from '../utils/getIsValidPermissions'
 import getIsAdminRole from '../utils/getIsAdminRole'
+import getIsValidPermissions from '../utils/getIsValidPermissions'
+import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 
 export interface GetIsPermittedInSaaSMiddlewareProps {
   authUser: { id?: string; sub: string }
-  userModule: CrudModule // The app's userModule
-  userAuthColumnKey?: string // The column key in the userModule table that matches the authUser id
-  modulesConfig: CrudModule[] // List of the app's modules
-
-  // Get parts of the route needed to calculate the permissions
-  pathname?: string
-  subdomain?: string
-
-  /**
-   * A list of role.titles that are defined in the database
-   * @default []
-   */
-  validRoles?: string[]
   /**
    * A list of paths that are accessible to guests
    * @default []
    */
   guestPaths?: string[]
+  modulesConfig: CrudModule[] // List of the app's modules
+  // Get parts of the route needed to calculate the permissions
+  pathname?: string
+
+  subdomain?: string
+  userAuthColumnKey?: string // The column key in the userModule table that matches the authUser id
+
+  userModule: CrudModule // The app's userModule
+  /**
+   * A list of role.titles that are defined in the database
+   * @default []
+   */
+  validRoles?: string[]
 }
 
 /**
@@ -38,14 +39,14 @@ const getIsPermittedInSaaSMiddleware = (
   props: GetIsPermittedInSaaSMiddlewareProps
 ) => {
   const {
-    validRoles = [],
-    guestPaths = [],
     authUser,
-    userModule,
-    userAuthColumnKey = 'id',
+    guestPaths = [],
     modulesConfig,
     pathname,
     subdomain,
+    userAuthColumnKey = 'id',
+    userModule,
+    validRoles = [],
   } = props
 
   return async (req: NextRequest): Promise<boolean> => {
@@ -54,9 +55,9 @@ const getIsPermittedInSaaSMiddleware = (
 
     // 1. Check if the user is permitted to access the dashboard
     const dbUser = await fetchDbUserFromMiddleware({
-      userModule,
-      userAuthColumnKey,
       authUser,
+      userAuthColumnKey,
+      userModule,
     })
     if (!dbUser) throw new Error('No db user found!')
 
@@ -94,8 +95,8 @@ const getIsPermittedInSaaSMiddleware = (
     )
     const moduleTableName = module?.table?.name
     const isValidPermissions = getIsValidPermissions({
-      permissions: permissions?.map(({ title }) => title),
       moduleTableName,
+      permissions: permissions?.map(({ title }) => title),
     })
     // Only check for permissions if this pathname is a module
     if (!isValidPermissions && module) {

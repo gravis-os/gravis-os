@@ -1,7 +1,7 @@
 interface Options {
+  fields?: Record<string, unknown>[]
   isNew?: boolean
   user?: Record<string, unknown> | any
-  fields?: Record<string, unknown>[]
 }
 
 type Values = Record<string, unknown>

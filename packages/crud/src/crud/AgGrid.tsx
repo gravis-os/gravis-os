@@ -1,9 +1,11 @@
 import React from 'react'
-import { AgGridReact, AgGridReactProps } from 'ag-grid-react'
-import 'ag-grid-enterprise'
+
 import { Box, BoxProps } from '@gravis-os/ui'
-import { useTheme } from '@mui/material/styles'
 import { useMediaQuery } from '@mui/material'
+import { useTheme } from '@mui/material/styles'
+import { AgGridReact, AgGridReactProps } from 'ag-grid-react'
+
+import 'ag-grid-enterprise'
 
 /**
  * Import the following in downstream app to get styles
@@ -22,19 +24,20 @@ const wrapTextStyles: any = {
 const baseFontSize = 15
 
 const gridWrapperSx = {
-  '&.ag-grid .ag-root-wrapper': { border: 0 },
-  '&.ag-grid, &.ag-grid .ag-row': {
-    fontSize: {
-      xs: baseFontSize - 2,
-      sm: baseFontSize - 1,
-      md: baseFontSize,
-    },
+  // ==============================
+  '&.ag-grid .ag-header': {
+    borderBottomColor: 'divider',
+  },
+  // Font sizes
+  '&.ag-grid .ag-header-cell *': {
+    ...wrapTextStyles,
+    fontSize: baseFontSize - 1,
   },
   '&.ag-grid .ag-header-cell, &.ag-grid .ag-cell': {
-    display: 'flex',
     alignItems: 'center',
-    px: 2,
+    display: 'flex',
     lineHeight: 1.2,
+    px: 2,
     ...wrapTextStyles,
   },
   '&.ag-grid .ag-header, &.ag-grid .ag-header-cell-resize::after': {
@@ -44,21 +47,20 @@ const gridWrapperSx = {
 
   // ==============================
   // Row
-  // ==============================
-  '&.ag-grid .ag-row-hover': {
-    backgroundColor: 'action.hover',
-  },
+  '&.ag-grid .ag-root-wrapper': { border: 0 },
 
   // ==============================
   // Header
   // ==============================
-  '&.ag-grid .ag-header': {
-    borderBottomColor: 'divider',
+  '&.ag-grid .ag-row-hover': {
+    backgroundColor: 'action.hover',
   },
-  // Font sizes
-  '&.ag-grid .ag-header-cell *': {
-    ...wrapTextStyles,
-    fontSize: baseFontSize - 1,
+  '&.ag-grid, &.ag-grid .ag-row': {
+    fontSize: {
+      xs: baseFontSize - 2,
+      sm: baseFontSize - 1,
+      md: baseFontSize,
+    },
   },
 }
 
@@ -74,17 +76,17 @@ export interface AgGridProps extends AgGridReactProps {
 const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
   (props, ref) => {
     const {
-      height: injectedHeight,
       children,
-      sx,
-      disableSizeColumnsToFit,
       disableResizeGrid,
+      disableSizeColumnsToFit,
       enableExport,
       exportProject,
+      height: injectedHeight,
       onGridReady: injectedOnGridReady,
+      sx,
       ...rest
     } = props
-    const { rowData } = rest
+    const { defaultColDef = {}, rowData, statusBar } = rest
 
     // Height
     const isLargeData = rowData && rowData?.length > 800
@@ -102,9 +104,10 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
     const resizeGrid = (params) => {
       if (disableResizeGrid) return
       switch (true) {
-        case isDesktop && !disableSizeColumnsToFit:
+        case isDesktop && !disableSizeColumnsToFit: {
           return params.api.sizeColumnsToFit()
-        default:
+        }
+        default: {
           const allColumnIds = params.columnApi
             .getAllColumns()
             ?.map((column) => {
@@ -117,14 +120,17 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
             allColumnIds as string[],
             true
           )
+        }
       }
     }
 
     return (
       <Box
+        className={`ag-grid ag-theme-alpine${isDarkMode ? '-dark' : ''}`}
+        id="grid-wrapper"
         sx={{
-          width: '100%',
           height,
+          width: '100%',
           ...gridWrapperSx,
           // ==============================
           // Css Variables
@@ -132,21 +138,19 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
           '&': { '--ag-border-color': theme.palette.divider },
           ...sx,
         }}
-        className={`ag-grid ag-theme-alpine${isDarkMode ? '-dark' : ''}`}
-        id="grid-wrapper"
       >
         <AgGridReact
           {...rest}
           defaultColDef={{
             autoHeight: true,
-            sortable: true,
             filter: true,
-            resizable: true,
-            floatingFilter: false,
-            suppressMenu: false,
             flex: 1,
+            floatingFilter: false,
             minWidth: 150,
-            ...rest.defaultColDef,
+            resizable: true,
+            sortable: true,
+            suppressMenu: false,
+            ...defaultColDef,
           }}
           domLayout={isFixedHeight ? 'normal' : 'autoHeight'}
           onFirstDataRendered={(params) => {
@@ -160,10 +164,10 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
           }}
           ref={ref}
           statusBar={{
-            ...rest.statusBar,
+            ...statusBar,
             statusPanels: enableExport
               ? [
-                  ...(rest.statusBar?.statusPanels || []),
+                  ...(statusBar?.statusPanels || []),
                   {
                     statusPanel: 'statusBarDownloadButton',
                     statusPanelParams: {
@@ -171,7 +175,7 @@ const AgGrid = React.forwardRef<any, React.PropsWithChildren<AgGridProps>>(
                     },
                   },
                 ]
-              : rest.statusBar?.statusPanels || [],
+              : statusBar?.statusPanels || [],
           }}
           suppressContextMenu={enableExport}
         >

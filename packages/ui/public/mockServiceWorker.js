@@ -11,6 +11,8 @@
   unicorn/prefer-math-trunc,
   unicorn/prefer-spread,
   unicorn/prefer-add-event-listener,
+  no-return-await,
+  eqeqeq,
 */
 
 /**

@@ -1,27 +1,27 @@
 interface GetAsideWidthArgs {
-  primaryAsideWidth?: number
-  secondaryAsideWidth?: number
-  miniVariantWidth?: number
-  secondaryMiniVariantWidth?: number
-
+  hasSecondaryLeftAside?: boolean
+  isMiniVariant?: boolean
   isPrimaryAsideOpen?: boolean
   isSecondaryAsideOpen?: boolean
 
-  isMiniVariant?: boolean
-  hasSecondaryLeftAside?: boolean
+  miniVariantWidth?: number
+  primaryAsideWidth?: number
+
+  secondaryAsideWidth?: number
+  secondaryMiniVariantWidth?: number
 }
 
 const getAsideWidth = ({
-  primaryAsideWidth,
-  secondaryAsideWidth,
-  miniVariantWidth,
-  secondaryMiniVariantWidth,
-
+  hasSecondaryLeftAside,
+  isMiniVariant,
   isPrimaryAsideOpen,
   isSecondaryAsideOpen,
 
-  isMiniVariant,
-  hasSecondaryLeftAside,
+  miniVariantWidth,
+  primaryAsideWidth,
+
+  secondaryAsideWidth,
+  secondaryMiniVariantWidth,
 }: GetAsideWidthArgs): number => {
   const nextMiniVariantWidth =
     isMiniVariant && !isPrimaryAsideOpen ? miniVariantWidth : 0

@@ -1,147 +1,149 @@
 import React, { ReactNode, useEffect, useState } from 'react'
-import { SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
+
 import {
-  ResponsiveDrawer,
-  ResponsiveDrawerProps,
   Box,
-  List,
-  ListItemProps,
-  ListProps,
   BoxProps,
   Breadcrumbs,
   BreadcrumbsProps,
+  List,
+  ListItemProps,
+  ListProps,
+  ResponsiveDrawer,
+  ResponsiveDrawerProps,
   Typography,
   TypographyProps,
 } from '@gravis-os/ui'
+import { SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
 import { useRouter } from 'next/router'
 import NextNProgress from 'nextjs-progressbar'
+
 import dashboardLayoutConfig from './dashboardLayoutConfig'
 import DashboardLayoutHeader, {
   DashboardLayoutHeaderProps,
 } from './DashboardLayoutHeader'
-import getListItemsWithActiveStateFromRouter from './getListItemsWithActiveStateFromRouter'
 import getAsideWidth from './getAsideWidth'
+import getListItemsWithActiveStateFromRouter from './getListItemsWithActiveStateFromRouter'
 
 const {
-  miniVariantWidth: defaultMiniVariantWidth,
-  secondaryMiniVariantWidth,
   headerHeight: defaultHeaderHeight,
+  miniVariantWidth: defaultMiniVariantWidth,
   primaryLeftAsideItemMinHeight,
+  secondaryMiniVariantWidth,
 } = dashboardLayoutConfig
 
 export interface DashboardLayoutProps {
-  // Default states
-  defaultLeftAsideOpen?: boolean
-  defaultSecondaryLeftAsideOpen?: boolean
-  defaultRightAsideOpen?: boolean
-
-  // Disables
-  disablePadding?: boolean
-  disableGutters?: boolean
-  disableResponsiveCollapse?: boolean
-  disableLeftAsideToggleButton?: boolean
-
-  // Minivariant
-  isMiniVariant?: boolean
-  miniVariantWidth?: number
-  disableClipUnderAppBar?: boolean
+  breadcrumbs?: BreadcrumbsProps['items']
+  breadcrumbsProps?: BreadcrumbsProps
+  // Other elements
+  children?: React.ReactNode
 
   // Dark mode
   darkLeftAside?: boolean
   darkSecondaryLeftAside?: boolean
+  // Default states
+  defaultLeftAsideOpen?: boolean
+  defaultRightAsideOpen?: boolean
 
+  defaultSecondaryLeftAsideOpen?: boolean
+  disableClipUnderAppBar?: boolean
+  disableGutters?: boolean
+
+  disableLeftAsideToggleButton?: boolean
+  // Disables
+  disablePadding?: boolean
+
+  disableResponsiveCollapse?: boolean
+  disableRightAside?: boolean
+  headerHeight?: number
+  // Header
+  headerProps?: DashboardLayoutHeaderProps
+  // Minivariant
+  isMiniVariant?: boolean
+  leftAsideBottomActions?: ReactNode | ReactNode[]
+  leftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
+
+  leftAsideListItemProps?: Omit<ListItemProps, 'key'>
+  leftAsideListItems?: ListItemProps['items']
+  leftAsideListProps?: Omit<ListProps, 'items' | 'listItemProps'>
+  leftAsideMiniVariantPersistClosedState?: boolean
   // Left Aside Props
   leftAsideWidth?: number
-  leftAsideListProps?: Omit<ListProps, 'items' | 'listItemProps'>
-  leftAsideListItems?: ListItemProps['items']
-  leftAsideListItemProps?: Omit<ListItemProps, 'key'>
-  leftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
-  leftAsideBottomActions?: ReactNode | ReactNode[]
-  leftAsideMiniVariantPersistClosedState?: boolean
 
-  // Secondary Left Aside Props
-  showSecondaryLeftAside?: boolean
-  secondaryLeftAsideWidth?: number
-  secondaryLeftAsideListProps?: Omit<ListProps, 'items' | 'listItemProps'>
-  secondaryLeftAsideListItemProps?: Omit<ListItemProps, 'key'>
-  secondaryLeftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
-
+  miniVariantWidth?: number
   // Right Aside
   rightAside?: React.ReactNode
   rightAsideListItems?: ListItemProps['items']
-  rightAsideWidth?: number
   rightAsideOpen?: boolean
-  disableRightAside?: boolean
-  setRightAsideOpen?: React.Dispatch<React.SetStateAction<boolean>>
+  rightAsideWidth?: number
+  secondaryLeftAsideDrawerProps?: Omit<ResponsiveDrawerProps, 'width'>
 
-  // Header
-  headerProps?: DashboardLayoutHeaderProps
-  headerHeight?: number
+  secondaryLeftAsideListItemProps?: Omit<ListItemProps, 'key'>
+  secondaryLeftAsideListProps?: Omit<ListProps, 'items' | 'listItemProps'>
+  secondaryLeftAsideWidth?: number
+
+  setRightAsideOpen?: React.Dispatch<React.SetStateAction<boolean>>
   showHeaderLeftMenuToggle?: boolean
 
-  // Other elements
-  children?: React.ReactNode
+  // Secondary Left Aside Props
+  showSecondaryLeftAside?: boolean
   sx?: BoxProps['sx']
-
   // Hero
   title?: React.ReactNode
   titleProps?: TypographyProps
-  breadcrumbs?: BreadcrumbsProps['items']
-  breadcrumbsProps?: BreadcrumbsProps
 }
 
 const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   const {
-    children,
-    disableGutters,
-    disablePadding,
-    isMiniVariant: injectedIsMiniVariant,
-    miniVariantWidth: injectedMiniVariantWidth,
-    disableClipUnderAppBar,
-    disableResponsiveCollapse,
-    disableLeftAsideToggleButton,
-
-    // Header
-    showHeaderLeftMenuToggle = false,
-    headerProps,
-
-    defaultLeftAsideOpen: injectedDefaultLeftAsideOpen = true,
-    defaultSecondaryLeftAsideOpen = false,
-
-    // Left Aside
-    leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
-    leftAsideListProps,
-    leftAsideListItems: injectedLeftAsideListItems,
-    leftAsideListItemProps,
-    leftAsideDrawerProps,
-    leftAsideBottomActions,
-    leftAsideMiniVariantPersistClosedState = false,
-    darkLeftAside,
-
-    // Left Secondary Aside
-    secondaryLeftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
-    secondaryLeftAsideListProps,
-    showSecondaryLeftAside,
-    secondaryLeftAsideListItemProps,
-    secondaryLeftAsideDrawerProps,
-    darkSecondaryLeftAside,
-
-    // Right Aside
-    rightAside,
-    disableRightAside,
-    defaultRightAsideOpen = false,
-    rightAsideOpen: injectedRightAsideOpen,
-    setRightAsideOpen: injectedSetRightAsideOpen,
-    rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
-    rightAsideListItems,
-
-    headerHeight: injectedHeaderHeight,
-    sx,
-
+    title,
     // Hero
     breadcrumbs,
     breadcrumbsProps,
-    title,
+    children,
+    darkLeftAside,
+    darkSecondaryLeftAside,
+    defaultLeftAsideOpen: injectedDefaultLeftAsideOpen = true,
+    defaultRightAsideOpen = false,
+
+    defaultSecondaryLeftAsideOpen = false,
+    disableClipUnderAppBar,
+
+    disableGutters,
+    disableLeftAsideToggleButton,
+
+    disablePadding,
+    disableResponsiveCollapse,
+    disableRightAside,
+    headerHeight: injectedHeaderHeight,
+    headerProps,
+    isMiniVariant: injectedIsMiniVariant,
+    leftAsideBottomActions,
+    leftAsideDrawerProps,
+
+    leftAsideListItemProps,
+    leftAsideListItems: injectedLeftAsideListItems,
+    leftAsideListProps,
+    leftAsideMiniVariantPersistClosedState = false,
+    // Left Aside
+    leftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
+    miniVariantWidth: injectedMiniVariantWidth,
+
+    // Right Aside
+    rightAside,
+    rightAsideListItems,
+    rightAsideOpen: injectedRightAsideOpen,
+    rightAsideWidth = dashboardLayoutConfig.rightAsideWidth,
+    secondaryLeftAsideDrawerProps,
+    secondaryLeftAsideListItemProps,
+    secondaryLeftAsideListProps,
+
+    // Left Secondary Aside
+    secondaryLeftAsideWidth = dashboardLayoutConfig.leftAsideWidth,
+    setRightAsideOpen: injectedSetRightAsideOpen,
+
+    // Header
+    showHeaderLeftMenuToggle = false,
+    showSecondaryLeftAside,
+    sx,
     titleProps,
   } = props
 
@@ -180,13 +182,13 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
     defaultRightAsideOpen
   )
   const rightAsideOpen =
-    typeof injectedRightAsideOpen !== 'undefined'
-      ? injectedRightAsideOpen
-      : localRightAsideOpen
+    injectedRightAsideOpen === undefined
+      ? localRightAsideOpen
+      : injectedRightAsideOpen
   const setRightAsideOpen =
-    typeof injectedSetRightAsideOpen !== 'undefined'
-      ? injectedSetRightAsideOpen
-      : setLocalRightAsideOpen
+    injectedSetRightAsideOpen === undefined
+      ? setLocalRightAsideOpen
+      : injectedSetRightAsideOpen
 
   // Collapse asides below desktop breakpoint
   // Effects
@@ -217,36 +219,36 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
   // Calculated
   const totalLeftAsideWidth = getAsideWidth({
-    primaryAsideWidth: leftAsideWidth,
-    secondaryAsideWidth: secondaryLeftAsideWidth,
-    miniVariantWidth,
-    secondaryMiniVariantWidth,
+    hasSecondaryLeftAside,
+    isMiniVariant,
     isPrimaryAsideOpen: isLeftAsideOpen,
     isSecondaryAsideOpen: isSecondaryLeftAsideOpen,
-    isMiniVariant,
-    hasSecondaryLeftAside,
+    miniVariantWidth,
+    primaryAsideWidth: leftAsideWidth,
+    secondaryAsideWidth: secondaryLeftAsideWidth,
+    secondaryMiniVariantWidth,
   })
 
   const layoutProps = {
-    leftAsideOpen,
-    setLeftAsideOpen,
     isLeftAsideOpen,
-
-    secondaryLeftAsideOpen,
-    setSecondaryLeftAsideOpen,
+    isRightAsideOpen,
     isSecondaryLeftAsideOpen,
 
+    leftAsideOpen,
     rightAsideOpen,
+    secondaryLeftAsideOpen,
+
+    setLeftAsideOpen,
     setRightAsideOpen,
-    isRightAsideOpen,
+    setSecondaryLeftAsideOpen,
   }
 
   // Styling
   const responsiveDrawerSx: SxProps<Theme> = {
     overflowX: 'hidden',
     transition: theme.transitions.create(['width'], {
-      easing: theme.transitions.easing.sharp,
       duration: theme.transitions.duration.leavingScreen,
+      easing: theme.transitions.easing.sharp,
     }),
   }
 
@@ -265,11 +267,11 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         sx={{
           ...(disableClipUnderAppBar && {
             left: { md: totalLeftAsideWidth },
-            width: { md: `calc(100% - ${totalLeftAsideWidth}px)` },
             transition: theme.transitions.create(['left', 'width'], {
-              easing: theme.transitions.easing.sharp,
               duration: theme.transitions.duration.leavingScreen,
+              easing: theme.transitions.easing.sharp,
             }),
+            width: { md: `calc(100% - ${totalLeftAsideWidth}px)` },
           }),
           ...headerProps?.sx,
         }}
@@ -278,17 +280,17 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
       {/* Body */}
       <Box
         sx={{
-          // Left aside offset to prevent overflowX
-          ml: { md: `${totalLeftAsideWidth}px` },
-          width: { md: `calc(100% - ${totalLeftAsideWidth}px)` },
-
-          zIndex: (theme) => theme.zIndex.appBar - 1,
           display: 'flex',
           flex: '1 1 auto',
-          maxWidth: '100%',
+
           marginTop: `${
             headerHeight + (disablePadding || disableGutters ? 0 : 24)
           }px`,
+          maxWidth: '100%',
+          // Left aside offset to prevent overflowX
+          ml: { md: `${totalLeftAsideWidth}px` },
+          width: { md: `calc(100% - ${totalLeftAsideWidth}px)` },
+          zIndex: (theme) => theme.zIndex.appBar - 1,
 
           // Right drawer
           ...(Boolean(rightAside || rightAsideListItems?.length) &&
@@ -297,8 +299,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
 
           // Animations
           transition: theme.transitions.create(['margin'], {
-            easing: theme.transitions.easing.sharp,
             duration: theme.transitions.duration.leavingScreen,
+            easing: theme.transitions.easing.sharp,
           }),
 
           ...sx,
@@ -309,63 +311,57 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           <ResponsiveDrawer
             {...secondaryLeftAsideDrawerProps}
             dark={darkSecondaryLeftAside}
-            width={secondaryLeftAsideWidth}
+            desktopDrawerProps={{
+              ...secondaryLeftAsideDrawerProps?.desktopDrawerProps,
+              PaperProps: {
+                sx: {
+                  // prettier-ignore
+                  left: isLeftAsideOpen
+                    ? leftAsideWidth
+                    : (isMiniVariant
+                    ? miniVariantWidth
+                    : 0),
+                  transition: theme.transitions.create(['left'], {
+                    duration: theme.transitions.duration.leavingScreen,
+                    easing: theme.transitions.easing.sharp,
+                  }),
+                },
+              },
+              variant: 'persistent',
+            }}
+            onClose={() => setSecondaryLeftAsideOpen(false)}
+            onOpen={() => setSecondaryLeftAsideOpen(true)}
+            open={isSecondaryLeftAsideOpen}
+            showToggleBar
             sx={{
               ...responsiveDrawerSx,
               ...secondaryLeftAsideDrawerProps?.sx,
               marginTop: {
-                // eslint-disable-next-line no-nested-ternary
+                // prettier-ignore
                 xs: isSecondaryMiniVariantLeftAsideClosed
-                  ? disableClipUnderAppBar
+                  ? (disableClipUnderAppBar
                     ? 0
-                    : `${headerHeight}px`
+                    : `${headerHeight}px`)
                   : 0,
                 sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
               },
             }}
-            open={isSecondaryLeftAsideOpen}
-            onOpen={() => setSecondaryLeftAsideOpen(true)}
-            onClose={() => setSecondaryLeftAsideOpen(false)}
-            desktopDrawerProps={{
-              ...secondaryLeftAsideDrawerProps?.desktopDrawerProps,
-              variant: 'persistent',
-              PaperProps: {
-                sx: {
-                  // eslint-disable-next-line no-nested-ternary
-                  left: isLeftAsideOpen
-                    ? leftAsideWidth
-                    : isMiniVariant
-                    ? miniVariantWidth
-                    : 0,
-                  transition: theme.transitions.create(['left'], {
-                    easing: theme.transitions.easing.sharp,
-                    duration: theme.transitions.duration.leavingScreen,
-                  }),
-                },
-              },
-            }}
-            showToggleBar
             toggleBarBoxProps={{
               left:
-                // eslint-disable-next-line no-nested-ternary
+                // prettier-ignore
                 (isLeftAsideOpen
                   ? leftAsideWidth
-                  : isMiniVariant
+                  : (isMiniVariant
                   ? miniVariantWidth
-                  : 0) +
+                  : 0)) +
                 (isSecondaryLeftAsideOpen ? secondaryLeftAsideWidth : 0),
             }}
+            width={secondaryLeftAsideWidth}
           >
             <List
               {...secondaryLeftAsideListProps}
               items={secondaryLeftAsideListItems}
               listItemProps={{
-                disableGutters: true,
-                hasTooltip: isSecondaryMiniVariantLeftAsideClosed,
-                disableText: isSecondaryMiniVariantLeftAsideClosed,
-                textProps: {
-                  primaryTypographyProps: { variant: 'subtitle2' },
-                },
                 buttonProps: {
                   sx: {
                     flexShrink: 0,
@@ -382,6 +378,12 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                     }),
                   },
                 },
+                disableGutters: true,
+                disableText: isSecondaryMiniVariantLeftAsideClosed,
+                hasTooltip: isSecondaryMiniVariantLeftAsideClosed,
+                textProps: {
+                  primaryTypographyProps: { variant: 'subtitle2' },
+                },
                 ...secondaryLeftAsideListItemProps,
               }}
             />
@@ -395,44 +397,40 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
           }
           {...leftAsideDrawerProps}
           dark={darkLeftAside}
-          width={
-            // eslint-disable-next-line no-nested-ternary
-            isMiniVariant
-              ? isLeftAsideOpen
-                ? leftAsideWidth
-                : miniVariantWidth
-              : leftAsideWidth
-          }
-          sx={{
-            ...responsiveDrawerSx,
-            ...leftAsideDrawerProps?.sx,
-            marginTop: {
-              // eslint-disable-next-line no-nested-ternary
-              xs: isMiniVariantLeftAsideClosed
-                ? disableClipUnderAppBar
-                  ? 0
-                  : `${headerHeight}px`
-                : 0,
-              sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
-            },
-          }}
-          open={isLeftAsideOpen}
-          onOpen={() => setLeftAsideOpen(true)}
-          onClose={() => setLeftAsideOpen(false)}
           desktopDrawerProps={{
             ...leftAsideDrawerProps?.desktopDrawerProps,
             variant: isMiniVariant ? 'permanent' : 'persistent',
           }}
+          onClose={() => setLeftAsideOpen(false)}
+          onOpen={() => setLeftAsideOpen(true)}
+          open={isLeftAsideOpen}
+          sx={{
+            ...responsiveDrawerSx,
+            ...leftAsideDrawerProps?.sx,
+            marginTop: {
+              // prettier-ignore
+              xs: isMiniVariantLeftAsideClosed
+                ? (disableClipUnderAppBar
+                  ? 0
+                  : `${headerHeight}px`)
+                : 0,
+              sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
+            },
+          }}
+          width={
+            // prettier-ignore
+            isMiniVariant
+              ? (isLeftAsideOpen
+                ? leftAsideWidth
+                : miniVariantWidth)
+              : leftAsideWidth
+          }
         >
           {hasPrimaryLeftAsideListItems && (
             <List
               {...leftAsideListProps}
               items={primaryLeftAsideListItems}
               listItemProps={{
-                disableGutters: true,
-                hasTooltip: isMiniVariantLeftAsideClosed,
-                disableText: isMiniVariantLeftAsideClosed,
-                textProps: { primaryTypographyProps: { variant: 'subtitle2' } },
                 buttonProps: {
                   sx: {
                     ...(isMiniVariant && { flexShrink: 0, px: 2.5 }),
@@ -457,15 +455,19 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
                     }),
                   },
                 },
+                disableGutters: true,
+                disableText: isMiniVariantLeftAsideClosed,
+                hasTooltip: isMiniVariantLeftAsideClosed,
+                textProps: { primaryTypographyProps: { variant: 'subtitle2' } },
                 ...leftAsideListItemProps,
               }}
               sx={{
                 marginBottom: {
-                  // eslint-disable-next-line no-nested-ternary
+                  // prettier-ignore
                   xs: isMiniVariantLeftAsideClosed
-                    ? disableClipUnderAppBar
+                    ? (disableClipUnderAppBar
                       ? 0
-                      : `${headerHeight}px`
+                      : `${headerHeight}px`)
                     : 0,
                   sm: disableClipUnderAppBar ? 0 : `${headerHeight}px`,
                 },
@@ -481,8 +483,8 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         <Box
           component="main"
           sx={{
-            width: '100%',
             flexGrow: 1,
+            width: '100%',
             ...(!disablePadding && { p: 3 }),
             ...(disableGutters && { px: 0 }), // Remove horizontal padding
           }}
@@ -507,10 +509,10 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
         {!disableRightAside && (
           <ResponsiveDrawer
             anchor="right"
-            width={rightAsideWidth}
-            open={isRightAsideOpen}
             onClose={() => setRightAsideOpen(false)}
+            open={isRightAsideOpen}
             sx={{ marginTop: `${headerHeight}px` }}
+            width={rightAsideWidth}
           >
             {rightAside}
             {Boolean(rightAsideListItems?.length) && (

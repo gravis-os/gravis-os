@@ -1,5 +1,5 @@
-import kebabCase from 'lodash/kebabCase'
 import { CrudModule } from '@gravis-os/types'
+import kebabCase from 'lodash/kebabCase'
 
 export interface WithSlugFromTitleProps {
   module?: CrudModule

@@ -1,3 +1,5 @@
+import React from 'react'
+
 import {
   Form,
   FormProps,
@@ -8,27 +10,27 @@ import {
 import { CrudModule } from '@gravis-os/types'
 import { Box, Divider, Stack, Typography } from '@gravis-os/ui'
 import isEmpty from 'lodash/isEmpty'
-import React from 'react'
+
 import getValueWithoutOp from './getValueWithoutOp'
 import useFilterForm, { UseFilterFormArgs } from './useFilterForm'
 
 export interface FilterFormProps {
-  item?: Record<string, unknown>
-  formSectionsProps?: FormSectionsProps
-  sections: FormSectionsProps['sections']
-  module: CrudModule
-  useFilterFormProps?: Partial<UseFilterFormArgs>
-  onSubmit?: UseFilterFormArgs['onSubmit']
   children?: FormProps<any>['children']
   fieldDefs?: Record<string, FormSectionFieldProps>
+  formSectionsProps?: FormSectionsProps
+  item?: Record<string, unknown>
+  module: CrudModule
+  onSubmit?: UseFilterFormArgs['onSubmit']
+  sections: FormSectionsProps['sections']
+  useFilterFormProps?: Partial<UseFilterFormArgs>
 }
 
 const getItemWithOpRemovedFromValue = ({
-  item,
   fieldDefs,
+  item,
 }: {
-  item: Record<string, unknown>
   fieldDefs: Record<string, FormSectionFieldProps>
+  item: Record<string, unknown>
 }) => {
   if (isEmpty(item)) {
     return item
@@ -36,7 +38,7 @@ const getItemWithOpRemovedFromValue = ({
 
   // process all the filters to keep FilterForm's state consistent
   return Object.entries(item).reduce((nextItem, [key, value]) => {
-    const nextValue = getValueWithoutOp({ key, value, fieldDefs })
+    const nextValue = getValueWithoutOp({ fieldDefs, key, value })
 
     return {
       ...nextItem,
@@ -47,17 +49,17 @@ const getItemWithOpRemovedFromValue = ({
 
 const FilterForm: React.FC<FilterFormProps> = (props) => {
   const {
-    onSubmit,
-    useFilterFormProps,
-    sections,
+    children,
+    fieldDefs,
     formSectionsProps,
     item,
     module,
-    children,
-    fieldDefs,
+    onSubmit,
+    sections,
+    useFilterFormProps,
   } = props
 
-  const nextItem = getItemWithOpRemovedFromValue({ item, fieldDefs })
+  const nextItem = getItemWithOpRemovedFromValue({ fieldDefs, item })
 
   // useFilterForm
   const { form, handleSubmit } = useFilterForm({
@@ -70,13 +72,13 @@ const FilterForm: React.FC<FilterFormProps> = (props) => {
   return (
     <Form
       formContext={form}
-      onSubmit={handleSubmit}
       formJsx={
         <FormSections disableCard sections={sections} {...formSectionsProps} />
       }
+      onSubmit={handleSubmit}
     >
       {(renderProps) => {
-        const { submitButtonJsx } = renderProps
+        const { formJsx, submitButtonJsx } = renderProps
         return (
           <>
             <Box sx={{ mt: 2, px: 2 }}>
@@ -86,9 +88,7 @@ const FilterForm: React.FC<FilterFormProps> = (props) => {
             <Divider sx={{ my: 2 }} />
 
             <Stack spacing={2} sx={{ px: 2 }}>
-              {typeof children === 'function'
-                ? children(renderProps)
-                : renderProps.formJsx}
+              {typeof children === 'function' ? children(renderProps) : formJsx}
               {submitButtonJsx}
             </Stack>
           </>

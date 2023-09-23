@@ -1,6 +1,7 @@
 import { Service } from '@gravis-os/types'
-import renderServicesBlockItem from './renderServicesBlockItem'
+
 import { BlockProps } from '../web/Block/Block'
+import renderServicesBlockItem from './renderServicesBlockItem'
 
 export interface RenderRelatedServicesBlockProps
   extends Omit<BlockProps, 'items'> {
@@ -14,9 +15,9 @@ const renderRelatedServicesBlock = (props: RenderRelatedServicesBlockProps) => {
     id: 'related-services',
     items: [
       {
-        type: 'h4',
         title: 'Related Services',
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
+        type: 'h4',
       },
       renderServicesBlockItem({ items }),
     ],

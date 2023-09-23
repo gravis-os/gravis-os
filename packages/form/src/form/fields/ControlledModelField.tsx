@@ -1,14 +1,15 @@
 import React from 'react'
 import { Controller, UseControllerProps } from 'react-hook-form'
-import ModelField, { ModelFieldProps } from './ModelField'
+
 import withInterceptedHandlerProps from '../utils/withInterceptedHandlerProps'
+import ModelField, { ModelFieldProps } from './ModelField'
 
 export interface ControlledModelFieldProps
   extends UseControllerProps,
     Omit<ModelFieldProps, 'onChange' | 'value'> {}
 
 const ControlledModelField: React.FC<ControlledModelFieldProps> = (props) => {
-  const { control, setValue, module, ...rest } = props
+  const { control, module, setValue, ...rest } = props
 
   return (
     <Controller

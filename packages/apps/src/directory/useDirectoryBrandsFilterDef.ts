@@ -1,9 +1,26 @@
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useQuery } from 'react-query'
 import type { FilterDef } from '@gravis-os/query'
+
+import { useQuery } from 'react-query'
+
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 
 export interface useDirectoryBrandsFilterDefProps {
   directory_id?: number
+}
+
+const getBrandFilterDef = (brands): FilterDef => {
+  if (!brands?.length) return
+  return {
+    key: 'brands',
+    label: 'Brands',
+    name: 'brand_id',
+    op: 'in',
+    options: brands.map((brand) => ({
+      key: brand.id,
+      label: brand.title,
+      value: brand.id,
+    })),
+  }
 }
 
 const useDirectoryBrandsFilterDef = (
@@ -25,20 +42,6 @@ const useDirectoryBrandsFilterDef = (
     fetchBrandsWithListingsFromDirectory,
     { enabled: Boolean(directory_id) }
   )
-  const getBrandFilterDef = (brands): FilterDef => {
-    if (!brands?.length) return
-    return {
-      key: 'brands',
-      label: 'Brands',
-      name: 'brand_id',
-      op: 'in',
-      options: brands.map((brand) => ({
-        key: brand.id,
-        value: brand.id,
-        label: brand.title,
-      })),
-    }
-  }
   const brandFilterDef = getBrandFilterDef(fetchedBrands.data?.data)
 
   return brandFilterDef

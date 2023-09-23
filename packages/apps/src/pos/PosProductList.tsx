@@ -1,29 +1,31 @@
 import React from 'react'
+
 import { UseListReturn } from '@gravis-os/query'
 import { CrudModule } from '@gravis-os/types'
 import { Box, CircularProgress, Stack } from '@gravis-os/ui'
+
 import PosProductListItem from './PosProductListItem'
 
 export interface PosProductListProps {
-  queryResult?: UseListReturn
+  disableEndIcon?: boolean
+  disableImage?: boolean
+  disableRight?: boolean
   items?: any[]
   onClick?: (e: React.SyntheticEvent, item: any, i: number) => void
-  disableEndIcon?: boolean
-  disableRight?: boolean
-  disableImage?: boolean
-  productSpecImagesQueryResult?: UseListReturn
   productSpecImageModule?: CrudModule
+  productSpecImagesQueryResult?: UseListReturn
+  queryResult?: UseListReturn
 }
 
 const PosProductList: React.FC<PosProductListProps> = (props) => {
   const {
-    disableImage,
     disableEndIcon,
+    disableImage,
     disableRight,
-    onClick,
     items: injectedItems,
-    queryResult,
+    onClick,
     productSpecImagesQueryResult,
+    queryResult,
     ...rest
   } = props
 
@@ -34,11 +36,11 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
     <>
       {isLoading ? (
         <Box
-          minHeight="50vh"
-          justifyContent="center"
           alignItems="center"
-          textAlign="center"
           display="flex"
+          justifyContent="center"
+          minHeight="50vh"
+          textAlign="center"
         >
           <CircularProgress />
         </Box>
@@ -46,8 +48,8 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
         <Stack horizontalDividers>
           {items?.map((item, i) => (
             <PosProductListItem
-              key={item?.id}
               item={item}
+              key={item?.id}
               {...queryResult}
               {...(onClick && { onClick: (e) => onClick(e, item, i) })}
               itemProps={{

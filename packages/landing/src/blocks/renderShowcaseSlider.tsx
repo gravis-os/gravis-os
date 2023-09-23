@@ -1,50 +1,47 @@
-import { Box, Slider } from '@gravis-os/ui'
 import React from 'react'
+
 import { Showcase } from '@gravis-os/types'
+import { Box, Slider } from '@gravis-os/ui'
+
 import Block, { BlockProps } from '../web/Block/Block'
 import renderShowcaseCardBlockItem from './renderShowcaseCardBlockItem'
 
 export interface RenderShowcaseSliderProps
   extends Omit<BlockProps, 'items' | 'title'> {
   items: Showcase[]
-  title?: React.ReactNode
-  subtitle?: React.ReactNode
   overline?: React.ReactNode
+  subtitle?: React.ReactNode
+  title?: React.ReactNode
 }
 
 const renderShowcaseSlider = (props: RenderShowcaseSliderProps) => {
-  const { overline, title, subtitle, items, ...rest } = props
+  const { title, items, overline, subtitle, ...rest } = props
 
   return {
     id: 'showcase-slider',
-    maxWidth: 'xl',
     items: [
       overline && {
-        type: 'overline',
         title: overline,
+        type: 'overline',
       },
       title && {
-        type: 'h3',
         title,
         titleProps: { gutterBottom: true, maxWidth: '60%' },
+        type: 'h3',
       },
       subtitle && {
-        type: 'body1',
         title: subtitle,
         titleProps: {
           color: 'text.secondary',
           maxWidth: '45%',
         },
+        type: 'body1',
       },
       {
-        type: 'jsx',
         title: (
           <Slider
-            autoplay
-            loop
             arrows
-            sx={{ mt: { xs: 0, md: 4 } }}
-            options={{ slides: { perView: 1, spacing: 12 } }}
+            autoplay
             dotProps={{ color: 'secondary.main' }}
             height={{ md: 600 }}
             items={items.map((item) => {
@@ -53,8 +50,8 @@ const renderShowcaseSlider = (props: RenderShowcaseSliderProps) => {
                   <Block
                     items={[
                       renderShowcaseCardBlockItem({
-                        item,
                         disableContainer: true,
+                        item,
                         sx: { mt: 0 },
                       }),
                     ]}
@@ -62,10 +59,15 @@ const renderShowcaseSlider = (props: RenderShowcaseSliderProps) => {
                 </Box>
               )
             })}
+            loop
+            options={{ slides: { perView: 1, spacing: 12 } }}
+            sx={{ mt: { xs: 0, md: 4 } }}
           />
         ),
+        type: 'jsx',
       },
     ],
+    maxWidth: 'xl',
     ...rest,
   }
 }

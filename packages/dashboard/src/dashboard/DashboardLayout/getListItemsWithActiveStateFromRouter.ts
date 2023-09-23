@@ -13,7 +13,7 @@ const getListItemsWithActiveStateFromRouter = (
   if (!listItems?.length) return []
 
   const mapListItemWithActiveStateFromRouter = (listItem) => {
-    const { key, href, items } = listItem
+    const { href, items, key } = listItem
 
     const isNestedMenu = Boolean(items?.length)
     const isCurrentPath = router.pathname.endsWith(href)
@@ -25,8 +25,10 @@ const getListItemsWithActiveStateFromRouter = (
 
     switch (true) {
       // isNestedMenu, recurse.
-      case isNestedMenu:
-        const nextItems = items.map(mapListItemWithActiveStateFromRouter)
+      case isNestedMenu: {
+        const nextItems = items.map((item) =>
+          mapListItemWithActiveStateFromRouter(item)
+        )
 
         // Open the nested menu if its children is selected
         const hasActiveStateInNestedMenuItems = nextItems.some(
@@ -35,12 +37,14 @@ const getListItemsWithActiveStateFromRouter = (
 
         return {
           ...nextListItem,
-          open: hasActiveStateInNestedMenuItems,
           items: nextItems,
+          open: hasActiveStateInNestedMenuItems,
         }
+      }
       // Default Case
-      default:
+      default: {
         return nextListItem
+      }
     }
   }
 

@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/consistent-function-scoping */
+
 import { printShortDateTime } from '@gravis-os/utils'
 
 const withTimestampFormat = () => (columnDefs) =>

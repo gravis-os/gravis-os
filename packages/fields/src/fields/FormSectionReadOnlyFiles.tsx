@@ -1,8 +1,9 @@
 import React from 'react'
+
+import { File, downloadFromBlobUrl, useFiles } from '@gravis-os/storage'
 import { Link, Stack, StackProps, Typography } from '@gravis-os/ui'
-import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 import FileCopyOutlinedIcon from '@mui/icons-material/FileCopyOutlined'
-import { useFiles, File, downloadFromBlobUrl } from '@gravis-os/storage'
+import { List, ListItem, ListItemIcon, ListItemText } from '@mui/material'
 
 export interface FormSectionFileProps {
   /**
@@ -13,51 +14,51 @@ export interface FormSectionFileProps {
 
 export interface FormSectionReadOnlyFilesProps
   extends Omit<StackProps, 'title'> {
+  fileProps?: FormSectionFileProps
   files: File[]
   label: React.ReactNode
-  fileProps?: FormSectionFileProps
 }
 
 const FormSectionReadOnlyFiles: React.FC<FormSectionReadOnlyFilesProps> = (
   props
 ) => {
   const {
-    files: injectedFiles,
-    label,
     children,
     fileProps = {},
+    files: injectedFiles,
+    label,
     ...rest
   } = props
 
   const { bucketName } = fileProps
   const { files } = useFiles({
+    bucketName,
     items: injectedFiles ?? [],
-    bucketName
   })
 
   return (
     <Stack spacing={1}>
       <Stack spacing={0.5} {...rest}>
         {/* Overline */}
-        <Typography variant="overline" color="text.secondary">
+        <Typography color="text.secondary" variant="overline">
           {label}
         </Typography>
 
         {files.length > 0 ? (
           <List>
             {files.map((file) => {
-              const { path, name, alt }: File = file
+              const { alt, name, path }: File = file
               const handleDownloadClick = async () => downloadFromBlobUrl(file)
               return (
                 <ListItem
                   key={path}
                   sx={{
+                    '& + &': {
+                      mt: 1,
+                    },
                     border: 1,
                     borderColor: 'divider',
                     borderRadius: 1,
-                    '& + &': {
-                      mt: 1
-                    }
                   }}
                 >
                   <ListItemIcon>
@@ -65,13 +66,13 @@ const FormSectionReadOnlyFiles: React.FC<FormSectionReadOnlyFilesProps> = (
                   </ListItemIcon>
                   <ListItemText
                     primary={
-                      <Link pointer onClick={handleDownloadClick}>
+                      <Link onClick={handleDownloadClick} pointer>
                         {name || alt}
                       </Link>
                     }
                     primaryTypographyProps={{
                       color: 'textPrimary',
-                      variant: 'subtitle2'
+                      variant: 'subtitle2',
                     }}
                   />
                 </ListItem>

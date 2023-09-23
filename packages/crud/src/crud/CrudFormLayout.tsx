@@ -1,4 +1,5 @@
 import React from 'react'
+
 import { Card, Layout, LayoutProps } from '@gravis-os/ui'
 
 export interface CrudFormLayoutProps extends LayoutProps {}
@@ -10,7 +11,7 @@ const CrudFormLayout: React.FC<CrudFormLayoutProps> = (props) => {
     <Layout
       {...(rightAside && {
         rightAside: (
-          <Card title="Actions" padding={2}>
+          <Card padding={2} title="Actions">
             {rightAside}
           </Card>
         ),

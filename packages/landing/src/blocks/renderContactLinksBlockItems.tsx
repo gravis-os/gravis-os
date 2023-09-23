@@ -1,7 +1,9 @@
 import React from 'react'
+
 import EmailOutlinedIcon from '@mui/icons-material/EmailOutlined'
 import LocalPhoneOutlinedIcon from '@mui/icons-material/LocalPhoneOutlined'
 import WhatsAppIcon from '@mui/icons-material/WhatsApp'
+
 import { useLayout } from '../providers/LayoutProvider'
 
 export interface RenderContactLinksBlockItemsProps {}
@@ -12,51 +14,49 @@ const renderContactLinksBlockItems = () => {
 
   return [
     {
-      type: 'h5',
       title: 'Reach Us',
-      titleProps: { sx: { mt: 8, mb: 2 } },
+      titleProps: { sx: { mb: 2, mt: 8 } },
+      type: 'h5',
     },
     ...[
       {
-        startIcon: <EmailOutlinedIcon color="action" />,
-        overline: 'Submit a general inquiry',
         title: general_email,
         href: `mailto:${general_email}`,
+        overline: 'Submit a general inquiry',
+        startIcon: <EmailOutlinedIcon color="action" />,
       },
       {
-        startIcon: <LocalPhoneOutlinedIcon color="action" />,
-        overline: 'General hotline',
         title: general_phone,
         href: `tel:${general_phone?.replaceAll(' ', '')}`,
+        overline: 'General hotline',
+        startIcon: <LocalPhoneOutlinedIcon color="action" />,
       },
       {
-        startIcon: <WhatsAppIcon style={{ fill: 'green' }} />,
-        overline: 'WhatsApp',
         title: general_whatsapp,
         href: `https://wa.me/${general_whatsapp?.replaceAll(' ', '')}`,
+        overline: 'WhatsApp',
+        startIcon: <WhatsAppIcon style={{ fill: 'green' }} />,
         titleProps: { targetBlank: true },
       },
-    ]
-      .map(({ startIcon, title, titleProps, overline, href }) => {
-        return [
-          {
-            type: 'body1',
-            title: overline,
-            titleProps: { mt: 2 },
+    ].flatMap(({ title, href, overline, startIcon, titleProps }) => {
+      return [
+        {
+          title: overline,
+          titleProps: { mt: 2 },
+          type: 'body1',
+        },
+        {
+          title,
+          titleProps: {
+            href,
+            startIcon,
+            underline: 'hover',
+            ...titleProps,
           },
-          {
-            type: 'link',
-            title,
-            titleProps: {
-              startIcon,
-              href,
-              underline: 'hover',
-              ...titleProps,
-            },
-          },
-        ]
-      })
-      .flat(),
+          type: 'link',
+        },
+      ]
+    }),
   ]
 }
 

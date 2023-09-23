@@ -1,15 +1,16 @@
 import { Post } from '@gravis-os/types'
+
 import type { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderPostBlockItemProps {
-  item: Post & { href: string }
   fromStorage?: boolean
+  item: Post & { href: string }
   itemProps?: BlockItemProps['gridItemProps']
 }
 
 const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
   const { item, itemProps } = props
-  const { title, subtitle, href, avatar_src, avatar_alt, hero_src, hero_alt } =
+  const { title, avatar_alt, avatar_src, hero_alt, hero_src, href, subtitle } =
     item || {}
 
   return {
@@ -18,29 +19,29 @@ const renderPostBlockItem = (props: RenderPostBlockItemProps) => {
     md: 4,
     items: [
       {
-        type: 'image',
         title: hero_src || avatar_src,
         titleProps: {
           alt: hero_alt || avatar_alt,
           ar: '16:9',
+          boxProps: { href, sx: { mb: 2 } },
           scaleOnHover: true,
-          boxProps: { sx: { mb: 2 }, href },
         },
+        type: 'image',
       },
-      { type: 'link', title, titleProps: { href, variant: 'h5' } },
+      { title, titleProps: { href, variant: 'h5' }, type: 'link' },
       {
-        type: 'body1',
         title: subtitle,
         titleProps: {
-          maxLines: 2,
           color: 'text.secondary',
-          sx: { mt: 1, mb: 2 },
+          maxLines: 2,
+          sx: { mb: 2, mt: 1 },
         },
+        type: 'body1',
       },
       {
-        type: 'link',
         title: 'Read more',
         titleProps: { href, rightCaret: true, variant: 'body2' },
+        type: 'link',
       },
     ],
     ...itemProps,

@@ -1,22 +1,24 @@
-import React, { useState, useEffect, ReactNode } from 'react'
-import { useRouter } from 'next/router'
-import { CircularProgress, ButtonProps } from '@gravis-os/ui'
+import React, { ReactNode, useEffect, useState } from 'react'
+
+import { UserContextInterface, useUser } from '@gravis-os/auth'
 import {
-  FormSections,
   Form,
   FormProps,
-  FormSectionsProps,
   FormRenderPropsInterface,
+  FormSections,
+  FormSectionsProps,
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import { UserContextInterface, useUser } from '@gravis-os/auth'
-import useCrudForm, { UseCrudFormArgs, UseCrudFormReturn } from './useCrudForm'
+import { ButtonProps, CircularProgress } from '@gravis-os/ui'
+import { useRouter } from 'next/router'
+
+import CrudFormProvider from '../providers/CrudFormProvider'
+import { CrudContextInterface } from './CrudContext'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import metaFormSection from './metaFormSection'
-import CrudFormProvider from '../providers/CrudFormProvider'
-import useCrud from './useCrud'
-import { CrudContextInterface } from './CrudContext'
 import renderMetaReadOnlySection from './renderMetaReadOnlySection'
+import useCrud from './useCrud'
+import useCrudForm, { UseCrudFormArgs, UseCrudFormReturn } from './useCrudForm'
 
 type HiddenFunction = ({
   isNew,
@@ -29,82 +31,82 @@ type HiddenFunction = ({
 interface RenderHeaderProps
   extends Pick<
     CrudFormJsxProps,
-    'isNew' | 'isReadOnly' | 'setIsReadOnly' | 'onSubmit' | 'onDelete'
+    'isNew' | 'isReadOnly' | 'onDelete' | 'onSubmit' | 'setIsReadOnly'
   > {
   formContext: UseCrudFormReturn['formContext']
 }
 
 export interface CrudFormProps {
-  item?: CrudItem & {
-    created_by?: string | null
-    updated_by?: string | null
-  } // Typically gets injected via DetailPage cloneElement
-  setItem?: React.Dispatch<React.SetStateAction<CrudItem>> // Typically gets injected via DetailPage cloneElement
-  disableHeader?: boolean
-  sections: FormSectionsProps['sections']
-  module: CrudModule
-  useCrudFormProps?: Partial<UseCrudFormArgs>
-  headerProps?: Partial<DetailPageHeaderProps>
-  hidden?: boolean | HiddenFunction
   children?: FormProps<any>['children']
-  refetch?: UseCrudFormArgs['refetch']
-  loading?: boolean
+  defaultIsReadOnly?: boolean
+  defaultValues?: Record<string, unknown>
+  disableHeader?: boolean
+  disableMetaSection?: boolean
   disableReadOnlyButton?: boolean
   disableRedirectOnSuccess?: boolean
-  disableMetaSection?: boolean
-  shouldUseFullNameInMetaSection?: boolean
-  userModuleTableName?: string
-  defaultValues?: Record<string, unknown>
   disabledFields?: string[]
   formProps?: Partial<FormProps<any>>
   formTemplate?: React.JSXElementConstructor<any>
   formTemplateProps?: Record<string, unknown>
+  headerProps?: Partial<DetailPageHeaderProps>
+  hidden?: HiddenFunction | boolean
+  item?: CrudItem & {
+    created_by?: null | string
+    updated_by?: null | string
+  } // Typically gets injected via DetailPage cloneElement
+  loading?: boolean
+  module: CrudModule
+  refetch?: UseCrudFormArgs['refetch']
   renderHeader?: (props: RenderHeaderProps) => ReactNode
-  defaultIsReadOnly?: boolean
+  sections: FormSectionsProps['sections']
+  setItem?: React.Dispatch<React.SetStateAction<CrudItem>> // Typically gets injected via DetailPage cloneElement
+  shouldUseFullNameInMetaSection?: boolean
+  useCrudFormProps?: Partial<UseCrudFormArgs>
+  userModuleTableName?: string
 }
 
 export interface CrudFormJsxProps extends FormSectionsProps {
-  item?: CrudItem
+  crudContext: CrudContextInterface
+  disabledFields: CrudFormProps['disabledFields']
+  formContext: UseCrudFormReturn['formContext']
   isNew: boolean
   isPreview: boolean
   isReadOnly: boolean
-  setIsReadOnly: React.Dispatch<React.SetStateAction<boolean>>
-  sections: FormSectionsProps['sections']
+  item?: CrudItem
   module: CrudModule
-  disabledFields: CrudFormProps['disabledFields']
-  formContext: UseCrudFormReturn['formContext']
-  onSubmit: UseCrudFormReturn['onSubmit']
   onDelete: UseCrudFormReturn['onDelete']
+  onSubmit: UseCrudFormReturn['onSubmit']
+  sections: FormSectionsProps['sections']
+  setIsReadOnly: React.Dispatch<React.SetStateAction<boolean>>
   userContext: UserContextInterface
-  crudContext: CrudContextInterface
 }
 
 const CrudForm: React.FC<CrudFormProps> = (props) => {
   const {
-    headerProps,
+    children,
+    defaultIsReadOnly: injectedDefaultIsReadOnly,
     defaultValues,
     disabledFields,
+    disableHeader,
+    disableMetaSection,
     disableReadOnlyButton,
     disableRedirectOnSuccess,
-    disableMetaSection,
-    shouldUseFullNameInMetaSection = false,
-    userModuleTableName = 'user',
-    disableHeader,
-    useCrudFormProps,
-    sections,
     formProps,
-    item,
-    refetch,
-    module,
-    children,
-    loading,
-    defaultIsReadOnly: injectedDefaultIsReadOnly,
-
-    renderHeader,
-
     // Form Jsx is the template/ui/layout of the form
     formTemplate: FormTemplate = FormSections,
     formTemplateProps,
+    headerProps,
+    item,
+    loading,
+    module,
+    refetch,
+    renderHeader,
+    sections,
+
+    shouldUseFullNameInMetaSection = false,
+
+    useCrudFormProps,
+    userModuleTableName = 'user',
   } = props
   const { route } = module
 
@@ -117,14 +119,14 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   // useCrudForm
   const crudForm = useCrudForm({
     afterSubmit,
-    item,
-    refetch,
-    module,
     defaultValues,
+    item,
+    module,
+    refetch,
     sections,
     ...useCrudFormProps,
   })
-  const { formContext, isNew, onSubmit, onDelete } = crudForm
+  const { formContext, isNew, onDelete, onSubmit } = crudForm
   const { shouldSkipOnSubmit } = useCrudFormProps ?? {}
 
   // Read Only State
@@ -140,8 +142,8 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
   }, [isNew])
 
   // Form states
-  const { reset, formState } = formContext
-  const { isSubmitting, isDirty, isSubmitSuccessful } = formState
+  const { formState, reset } = formContext
+  const { isDirty, isSubmitSuccessful, isSubmitting } = formState
 
   // Reset readOnly after every submission
   useEffect(() => {
@@ -172,24 +174,24 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
 
   // Form JSX Props
   const formJsxProps: CrudFormJsxProps = {
-    item,
+    disabledFields,
+    formContext,
     isNew,
     isPreview,
     isReadOnly,
-    setIsReadOnly,
+    item,
+    module,
+    onDelete,
+    onSubmit, // For remote submits be sure to wrap in RHF.handleSubmit e.g. formContext.handleSubmit(onSubmit)()
     sections: [
       ...sections,
       // Hide meta section on new forms
       !isNew && !disableMetaSection && metaSection,
     ].filter(Boolean) as FormSectionsProps['sections'],
-    module,
-    disabledFields,
-    formContext,
-    onSubmit, // For remote submits be sure to wrap in RHF.handleSubmit e.g. formContext.handleSubmit(onSubmit)()
-    onDelete,
+    setIsReadOnly,
     ...formTemplateProps,
-    userContext: onUseUser,
     crudContext: onUseCrud,
+    userContext: onUseUser,
   }
 
   const formRenderProps = { sections }
@@ -201,30 +203,30 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
     <CrudFormProvider {...crudForm}>
       <Form
         formContext={formContext}
-        isReadOnly={isReadOnly}
-        setIsReadOnly={setIsReadOnly}
-        onSubmit={onSubmit}
         formJsx={<FormTemplate {...formJsxProps} />}
         formRenderProps={formRenderProps}
+        isReadOnly={isReadOnly}
+        onSubmit={onSubmit}
+        setIsReadOnly={setIsReadOnly}
         {...formProps}
       >
         {(renderProps: FormRenderPropsInterface) => (
           <>
             {renderHeader &&
               renderHeader({
-                isNew,
-                onSubmit,
-                onDelete,
                 formContext,
+                isNew,
                 isReadOnly,
+                onDelete,
+                onSubmit,
                 setIsReadOnly,
               })}
             {!disableHeader && (
               <DetailPageHeader
-                loading={loading}
-                item={item}
                 isPreview={isPreview}
                 isReadOnly={isReadOnly}
+                item={item}
+                loading={loading}
                 module={module}
                 {...headerProps}
                 actionButtons={[
@@ -232,24 +234,24 @@ const CrudForm: React.FC<CrudFormProps> = (props) => {
                   ...(!disableReadOnlyButton && !isNew
                     ? [
                         {
-                          key: 'edit',
-                          type: 'button' as ButtonProps['type'],
                           title: isReadOnly ? 'Edit' : 'Cancel',
                           disabled: isSubmitting,
+                          key: 'edit',
                           onClick: () => {
                             reset()
                             setIsReadOnly(!isReadOnly)
                           },
+                          type: 'button' as ButtonProps['type'],
                         },
                       ]
                     : []),
                 ]}
                 buttonProps={{
-                  key: 'save',
-                  type: 'submit' as ButtonProps['type'],
                   title: 'Save',
                   disabled:
                     isSubmitting || !isDirty || isLoadingRedirectOnSuccess,
+                  key: 'save',
+                  type: 'submit' as ButtonProps['type'],
                   ...headerProps?.buttonProps,
                 }}
               />

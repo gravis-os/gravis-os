@@ -1,9 +1,11 @@
 import React, { useState } from 'react'
 import { Controller, UseControllerProps } from 'react-hook-form'
+
+import { IconButton } from '@gravis-os/ui'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import VisibilityOffIcon from '@mui/icons-material/VisibilityOff'
 import { InputAdornment } from '@mui/material'
-import { IconButton } from '@gravis-os/ui'
+
 import TextField from './TextField'
 
 type ControlledPasswordFieldProps = UseControllerProps
@@ -11,17 +13,16 @@ type ControlledPasswordFieldProps = UseControllerProps
 const ControlledPasswordField: React.FC<ControlledPasswordFieldProps> = (
   props
 ) => {
-  const { name, control, ...rest } = props
+  const { control, name, ...rest } = props
   const [showPassword, setShowPassword] = useState(false)
 
   return (
     <Controller
-      name={name}
       control={control}
+      name={name}
       render={({ field }) => (
         <TextField
           {...field}
-          type={showPassword ? 'text' : 'password'}
           InputProps={{
             endAdornment: (
               <InputAdornment position="end">
@@ -35,6 +36,7 @@ const ControlledPasswordField: React.FC<ControlledPasswordFieldProps> = (
               </InputAdornment>
             ),
           }}
+          type={showPassword ? 'text' : 'password'}
           {...rest}
         />
       )}

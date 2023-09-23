@@ -1,3 +1,5 @@
+/* eslint-disable unicorn/consistent-function-scoping */
+
 import { CrudItem } from '@gravis-os/types'
 
 const withBlockedLocales =
@@ -20,7 +22,7 @@ const withBlockedLocales =
     }
 
     return isArrayItems
-      ? itemOrItems.filter(filterByBlockedLocales)
+      ? itemOrItems.filter((item) => filterByBlockedLocales(item))
       : filterByBlockedLocales(itemOrItems)
   }
 

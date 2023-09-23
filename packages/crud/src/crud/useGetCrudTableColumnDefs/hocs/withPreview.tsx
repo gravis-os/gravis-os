@@ -1,23 +1,25 @@
 import React from 'react'
-import get from 'lodash/get'
-import { Link, Stack } from '@gravis-os/ui'
-import { StorageAvatar, StorageAvatarWithUpload } from '@gravis-os/storage'
+
 import { FormSectionsProps } from '@gravis-os/form'
-import { ICellRendererParams } from 'ag-grid-community'
+import { StorageAvatar } from '@gravis-os/storage'
 import { CrudModule } from '@gravis-os/types'
-import { UsePreviewDrawerReturn } from '../../usePreviewDrawer'
+import { Link, Stack } from '@gravis-os/ui'
+import { ICellRendererParams } from 'ag-grid-community'
+import get from 'lodash/get'
+
 import getRelationFieldKey from '../../../utils/getRelationFieldKey'
+import { UsePreviewDrawerReturn } from '../../usePreviewDrawer'
 
 export const handlePreview = ({
   module,
+  params,
   previewFormSections,
   setPreview,
-  params,
 }: {
   module: CrudModule
+  params: ICellRendererParams
   previewFormSections: FormSectionsProps['sections']
   setPreview: UsePreviewDrawerReturn['setPreview']
-  params: ICellRendererParams
 }) => {
   const { colDef, data } = params
   const { field } = colDef
@@ -26,18 +28,18 @@ export const handlePreview = ({
   const previewSlug: string = get(data, relationFieldKey)
   const previewArgs = {
     module,
-    previewSlug,
     previewFormSections,
+    previewSlug,
   }
   setPreview?.(previewArgs)
 }
 
 const withPreview = (props) => {
   const {
-    setPreview,
+    disablePreview,
     module: injectedModule,
     previewFormSections: injectedPreviewFormSections,
-    disablePreview,
+    setPreview,
   } = props
   return (columnDefs) => {
     return columnDefs.map((columnDef, i) => {
@@ -60,6 +62,7 @@ const withPreview = (props) => {
           const { hasAvatar } = columnDef
 
           const linkProps = {
+            color: 'inherit',
             href: disablePreview
               ? module.route?.plural?.concat(`/${params.data[module.sk]}`) ?? ''
               : null,
@@ -68,22 +71,21 @@ const withPreview = (props) => {
               : () =>
                   handlePreview({
                     module,
+                    params,
                     previewFormSections,
                     setPreview,
-                    params,
                   }),
-            underline: 'hover' as const,
-            color: 'inherit',
             pointer: true,
+            underline: 'hover' as const,
           }
 
           return (
-            <Stack direction="row" alignItems="center" spacing={1}>
+            <Stack alignItems="center" direction="row" spacing={1}>
               {hasAvatar && params.data && (
                 <StorageAvatar
-                  src={params.data.avatar_src}
                   alt={params.data.avatar_alt || params.data.title}
                   size={32}
+                  src={params.data.avatar_src}
                 />
               )}
               <Link {...linkProps}>{params.value}</Link>

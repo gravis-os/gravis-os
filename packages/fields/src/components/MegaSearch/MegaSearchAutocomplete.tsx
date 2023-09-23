@@ -1,4 +1,6 @@
+import React from 'react'
 import { ControllerProps } from 'react-hook-form'
+
 import {
   Autocomplete,
   AutocompleteProps,
@@ -7,7 +9,6 @@ import {
   TextField,
   TextFieldProps,
 } from '@mui/material'
-import React from 'react'
 import { SxProps } from '@mui/system'
 
 // Constants
@@ -16,36 +17,36 @@ const paddingXInAutocomplete = 2
 const marginTopInAutocomplete = 5
 
 export interface MegaSearchAutocompleteProps {
-  key: string
-  control?: ControllerProps<any, any>['control']
-  name: string
-  options: Partial<AutocompleteProps<any, any, any, any>['options']>
   Icon?: React.JSXElementConstructor<IconProps>
-  sx?: SxProps
-  autocompleteProps?: Partial<AutocompleteProps<any, any, any, any>>
-  textFieldProps?: Partial<TextFieldProps>
-  label: string
-  placeholder: string
-  title?: React.ReactNode
-  onChange?: any
-  value?: any
   TextFieldElement?: React.JSXElementConstructor<any>
+  autocompleteProps?: Partial<AutocompleteProps<any, any, any, any>>
+  control?: ControllerProps<any, any>['control']
+  key: string
+  label: string
+  name: string
+  onChange?: any
+  options: Partial<AutocompleteProps<any, any, any, any>['options']>
+  placeholder: string
+  sx?: SxProps
+  textFieldProps?: Partial<TextFieldProps>
+  title?: React.ReactNode
+  value?: any
 }
 
 const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
   props
 ) => {
   const {
-    name,
     title,
-    options,
-    Icon,
-    sx,
     autocompleteProps,
-    textFieldProps,
+    Icon,
+    name,
     onChange,
-    value,
+    options,
+    sx,
     TextFieldElement = TextField,
+    textFieldProps,
+    value,
     ...rest
   } = props
 
@@ -53,23 +54,10 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
   const textFieldSx = {
     // Icon
     '& .MuiInputAdornment-root': { mt: -marginTopInAutocomplete },
-    // Overline
-    '& label': {
-      marginTop: marginTopInAutocomplete / 2,
-      fontSize: 'h6.fontSize',
-      left: (theme) =>
-        theme.spacing(
-          iconSpacing +
-            marginBetweenAutocompleteIconAndText +
-            paddingXInAutocomplete
-        ),
-      color: 'text.secondary',
-      ...sx?.['& label'],
-    },
     // Placeholder
     '& input::placeholder': {
-      fontWeight: 'bold',
       color: 'text.primary',
+      fontWeight: 'bold',
       opacity: 1,
       ...sx?.['& input::placeholder'],
     },
@@ -77,51 +65,63 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
     '& input:focus::placeholder': {
       opacity: 0.4,
     },
-    // Text Input Wrapper
-    '&& .MuiInput-root': {
-      paddingLeft: paddingXInAutocomplete,
-      paddingRight: paddingXInAutocomplete,
-      marginTop: marginTopInAutocomplete,
-      pb: 1.5,
-      // Caret
-      '& .MuiAutocomplete-endAdornment': {
-        right: (theme) => theme.spacing(paddingXInAutocomplete),
-        mt: -marginTopInAutocomplete / 2,
-      },
-      '&:before, &:hover:before': { borderBottom: 0 },
+    // Overline
+    '& label': {
+      color: 'text.secondary',
+      fontSize: 'h6.fontSize',
+      left: (theme) =>
+        theme.spacing(
+          iconSpacing +
+            marginBetweenAutocompleteIconAndText +
+            paddingXInAutocomplete
+        ),
+      marginTop: marginTopInAutocomplete / 2,
+      ...sx?.['& label'],
     },
     // Text Input
     '&& .MuiInput-input': {
-      marginLeft: marginBetweenAutocompleteIconAndText,
-      padding: (theme) => theme.spacing(0.5, 2, 0.5, 0),
-      fontWeight: 'bold',
       // Cursor
       '&:not(:focus)': { cursor: 'pointer' },
+      fontWeight: 'bold',
+      marginLeft: marginBetweenAutocompleteIconAndText,
+      padding: (theme) => theme.spacing(0.5, 2, 0.5, 0),
       ...sx?.['&& .MuiInput-input'],
+    },
+    // Text Input Wrapper
+    '&& .MuiInput-root': {
+      // Caret
+      '& .MuiAutocomplete-endAdornment': {
+        mt: -marginTopInAutocomplete / 2,
+        right: (theme) => theme.spacing(paddingXInAutocomplete),
+      },
+      '&:before, &:hover:before': { borderBottom: 0 },
+      marginTop: marginTopInAutocomplete,
+      paddingLeft: paddingXInAutocomplete,
+      paddingRight: paddingXInAutocomplete,
+      pb: 1.5,
     },
   }
 
   return (
     <Autocomplete
       disablePortal
-      options={options}
       fullWidth
-      value={value}
       onChange={(e, newValue: any, reason) =>
         onChange?.(e, newValue?.value || newValue, reason)
       }
+      options={options}
       renderInput={(params) => {
         return (
           <TextFieldElement
             {...params}
-            value={value}
             InputLabelProps={{
               shrink: true,
               ...params?.InputLabelProps,
             }}
             fullWidth
-            variant="standard"
             sx={{ ...sx, ...textFieldSx }}
+            value={value}
+            variant="standard"
             {...rest}
             {...textFieldProps}
             InputProps={{
@@ -142,6 +142,7 @@ const MegaSearchAutocomplete: React.FC<MegaSearchAutocompleteProps> = (
           />
         )
       }}
+      value={value}
       {...autocompleteProps}
     />
   )

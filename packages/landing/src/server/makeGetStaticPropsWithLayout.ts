@@ -1,8 +1,9 @@
-import { GetStaticPropsResult } from 'next'
-import flowRight from 'lodash/flowRight'
 import { withLocalesToStaticProps } from '@gravis-os/utils'
-import { LayoutConfig } from './types'
+import flowRight from 'lodash/flowRight'
+import { GetStaticPropsResult } from 'next'
+
 import makeWithLayoutProviderPropsToStaticProps from './makeWithLayoutProviderPropsToStaticProps'
+import { LayoutConfig } from './types'
 import withServerSideTranslationsToStaticProps from './withServerSideTranslationsToStaticProps'
 
 const makeGetStaticPropsWithLayout =

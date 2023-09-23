@@ -1,5 +1,3 @@
-import React, { createContext, useContext, useEffect } from 'react'
-import merge from 'lodash/merge'
 import type {
   ClientHighlight,
   ClientLogo,
@@ -14,32 +12,36 @@ import type {
   Technology,
   Workspace,
 } from '@gravis-os/types'
-import { FooterProps, ImageProps } from '@gravis-os/ui'
+
+import React, { createContext, useContext, useEffect } from 'react'
+
 import { useUserPreferences } from '@gravis-os/theme'
+import { FooterProps, ImageProps } from '@gravis-os/ui'
+import merge from 'lodash/merge'
 
 // ==============================
 // Types
 // ==============================
 export interface LayoutContextValue {
-  site?: Site
-  routeConfig?: Record<string, string>
+  clientHighlights?: ClientHighlight[]
+  clientLogos?: ClientLogo[]
+
+  clientTestimonials?: ClientTestimonial[]
+  industrys?: Industry[]
+  legalItems?: FooterProps['legalItems']
 
   // Calculated
   logoProps?: ImageProps
-  socialMediaItems?: FooterProps['socialMediaItems']
-  legalItems?: FooterProps['legalItems']
-
+  pages?: Page[]
+  postCategorys?: PostCategory[]
+  routeConfig?: Record<string, string>
+  serviceCategorys?: ServiceCategory[]
   // Modules
   services?: Service[]
-  industrys?: Industry[]
-  postCategorys?: PostCategory[]
-  pages?: Page[]
-  technologys?: Technology[]
   showcases?: Showcase[]
-  serviceCategorys?: ServiceCategory[]
-  clientTestimonials?: ClientTestimonial[]
-  clientLogos?: ClientLogo[]
-  clientHighlights?: ClientHighlight[]
+  site?: Site
+  socialMediaItems?: FooterProps['socialMediaItems']
+  technologys?: Technology[]
   workspaces?: Workspace[]
 }
 
@@ -47,27 +49,27 @@ export interface LayoutContextValue {
 // Initial State
 // ==============================
 export const layoutContextInitialState = {
-  site: {},
-  routeConfig: {},
-  logoProps: {
-    src: '',
-    alt: '',
-    width: '',
-    height: '',
-  },
-  socialMediaItems: {},
+  clientHighlights: [],
+  clientLogos: [],
+  clientTestimonials: [],
+  industrys: [],
   legalItems: {},
 
-  services: [],
-  industrys: [],
-  postCategorys: [],
+  logoProps: {
+    alt: '',
+    height: '',
+    src: '',
+    width: '',
+  },
   pages: [],
-  technologys: [],
-  showcases: [],
+  postCategorys: [],
+  routeConfig: {},
   serviceCategorys: [],
-  clientTestimonials: [],
-  clientLogos: [],
-  clientHighlights: [],
+  services: [],
+  showcases: [],
+  site: {},
+  socialMediaItems: {},
+  technologys: [],
   workspaces: [],
 }
 
@@ -104,23 +106,23 @@ const LayoutProvider: React.FC<LayoutProviderProps> = (props) => {
   const { setDefaultThemeMode } = useUserPreferences()
 
   // Calculated state
-  const { site, routeConfig } = injectedValue
+  const { routeConfig, site } = injectedValue
   const calculatedValues = {
+    legalItems: {
+      cookies: routeConfig?.COOKIES,
+      PDPA: routeConfig?.PDPA,
+      privacy: routeConfig?.PRIVACY,
+      terms: routeConfig?.TERMS,
+    },
     logoProps: {
-      src: site?.logo_src,
       alt: site?.logo_alt,
-      width: site?.logo_width,
       height: site?.logo_height,
       invertImageOnMode: 'dark' as const,
+      src: site?.logo_src,
+      width: site?.logo_width,
       ...(site?.logo_offset_y && {
         boxSx: { position: 'relative', top: site?.logo_offset_y },
       }),
-    },
-    legalItems: {
-      terms: routeConfig?.TERMS,
-      privacy: routeConfig?.PRIVACY,
-      cookies: routeConfig?.COOKIES,
-      PDPA: routeConfig?.PDPA,
     },
     socialMediaItems: Object.entries(site).reduce((acc, [key, value]) => {
       if (!key.startsWith('social_media_')) return acc

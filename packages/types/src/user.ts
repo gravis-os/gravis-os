@@ -2,18 +2,19 @@
 // User-Related Models
 // ==============================
 import { User as GotrueUser } from '@supabase/gotrue-js/dist/module/lib/types'
+
 import { CrudItem } from './crud'
 
 export interface Permission extends CrudItem {}
 export interface Role extends CrudItem {
+  authentication_success_redirect_route?: string
   permission: Permission[]
   valid_subdirectory_pathnames?: string[]
-  authentication_success_redirect_route?: string
 }
 export interface Feature extends CrudItem {}
 export interface Tier extends CrudItem {
-  feature_ids: Array<{ title: string }>
   feature: Feature[]
+  feature_ids: Array<{ title: string }>
 }
 export interface Workspace extends CrudItem {
   slug: string
@@ -21,11 +22,11 @@ export interface Workspace extends CrudItem {
 }
 export interface Company extends CrudItem {}
 export interface Person extends CrudItem {
+  avatar_alt?: string
+  avatar_src?: string
+  company?: Company
   first_name?: string
   last_name?: string
-  avatar_src?: string
-  avatar_alt?: string
-  company?: Company
   role?: Role
   workspace?: Workspace
 }
@@ -42,23 +43,23 @@ export interface DbUserWithAuthUser extends DbUser {
 }
 
 export interface UserContextInterface<AppDbUser = any> {
-  user?: DbUserWithAuthUser & AppDbUser // DbUser + Authuser mix
+  authRoutes?: {
+    authenticationFailureRedirect?: string
+    authenticationSuccessRedirect?: string
+    authorizationFailureRedirect?: string
+    authorizationSuccessRedirect?: string
+  }
 
-  authUserLoading: boolean
   authUser?: AuthUser
+  authUserLoading: boolean
 
   dbUser?: DbUser & AppDbUser
-  dbUserLoading: boolean
   dbUserFetching: boolean
+  dbUserLoading: boolean
   dbUserQueryResult: any
-  refetchDbUserQuery: () => any
-
   logout: () => Promise<boolean>
 
-  authRoutes?: {
-    authenticationSuccessRedirect?: string
-    authenticationFailureRedirect?: string
-    authorizationSuccessRedirect?: string
-    authorizationFailureRedirect?: string
-  }
+  refetchDbUserQuery: () => any
+
+  user?: DbUserWithAuthUser & AppDbUser // DbUser + Authuser mix
 }

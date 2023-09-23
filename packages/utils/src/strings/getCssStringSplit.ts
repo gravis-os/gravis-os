@@ -1,5 +1,5 @@
 const getCssStringSplit = (str: string): [number, string] => {
-  const number = str.replace(/[a-zA-Z]/g, '')
+  const number = str.replaceAll(/[A-Za-z]/g, '')
   const unit = str.replace(number, '')
   return [Number(number), unit]
 }

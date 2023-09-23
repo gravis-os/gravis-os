@@ -1,7 +1,9 @@
 import React from 'react'
-import { Box } from '@gravis-os/ui'
-import FilterAccordion from './FilterAccordion'
+
 import { UseFilterDefsReturn } from '@gravis-os/query'
+import { Box } from '@gravis-os/ui'
+
+import FilterAccordion from './FilterAccordion'
 
 export interface FilterAccordionsProps {
   useFilterDefsProps: UseFilterDefsReturn
@@ -15,13 +17,13 @@ const FilterAccordions: React.FC<FilterAccordionsProps> = (props) => {
   return (
     <Box
       sx={{
-        overflow: 'auto',
-        height: (theme) => `calc(100vh - ${theme.spacing(8)})`,
         /* Remove scrollbar space */
         '&::-webkit-scrollbar': {
-          width: 0,
           background: 'transparent',
+          width: 0,
         },
+        height: (theme) => `calc(100vh - ${theme.spacing(8)})`,
+        overflow: 'auto',
       }}
     >
       {filterDefs?.map((filterDef) => {
@@ -33,16 +35,16 @@ const FilterAccordions: React.FC<FilterAccordionsProps> = (props) => {
           (filterChip) => filterChip.key === name
         )
 
-        const activeOptionLabels = filterChipsWithCurrentFilterItemName
-          .map(({ value }) => value)
-          .flat()
+        const activeOptionLabels = filterChipsWithCurrentFilterItemName.flatMap(
+          ({ value }) => value
+        )
 
         return (
           <FilterAccordion
-            key={key}
-            activeOptionLabels={activeOptionLabels}
-            useFilterDefsProps={useFilterDefsProps}
             accordionProps={{ defaultExpanded }}
+            activeOptionLabels={activeOptionLabels}
+            key={key}
+            useFilterDefsProps={useFilterDefsProps}
             {...filterDef}
           />
         )

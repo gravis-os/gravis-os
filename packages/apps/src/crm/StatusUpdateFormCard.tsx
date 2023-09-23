@@ -1,4 +1,9 @@
 import React from 'react'
+import { UseFormReturn, useForm } from 'react-hook-form'
+
+import { ControlledTextField } from '@gravis-os/fields'
+import { StorageAvatar } from '@gravis-os/storage'
+import { RenderPropsFunction } from '@gravis-os/types'
 import {
   Box,
   BoxProps,
@@ -8,39 +13,35 @@ import {
   ListItem,
   Stack,
 } from '@gravis-os/ui'
-import { StorageAvatar } from '@gravis-os/storage'
-import { useForm, UseFormReturn } from 'react-hook-form'
-import { ControlledTextField } from '@gravis-os/fields'
-import { RenderPropsFunction } from '@gravis-os/types'
 
 export type StatusUpdateFormValuesCard = Record<string, unknown>
 
 export interface StatusUpdateFormPropsCard extends BoxProps {
-  onSubmit?: (values: unknown) => void
   defaultValues?: StatusUpdateFormValuesCard
-  submitButtonProps?: ButtonProps
-  headerProps?: BoxProps
   disableIcon?: boolean
+  headerProps?: BoxProps
+  onSubmit?: (values: unknown) => void
   person?: {
-    title?: string
-    subtitle?: string
-    avatar_src?: string
     avatar_alt?: string
+    avatar_src?: string
+    subtitle?: string
+    title?: string
   }
-  submitButtonTitle?: React.ReactNode
   renderActions?: RenderPropsFunction<{ form: UseFormReturn }>
+  submitButtonProps?: ButtonProps
+  submitButtonTitle?: React.ReactNode
 }
 
 const StatusUpdateFormCard: React.FC<StatusUpdateFormPropsCard> = (props) => {
   const {
     defaultValues: injectedDefaultValues,
-    onSubmit: injectedOnSubmit,
-    submitButtonProps,
     headerProps,
-    sx,
+    onSubmit: injectedOnSubmit,
     person,
-    submitButtonTitle = 'Post',
     renderActions,
+    submitButtonProps,
+    submitButtonTitle = 'Post',
+    sx,
   } = props
 
   // Form
@@ -66,20 +67,20 @@ const StatusUpdateFormCard: React.FC<StatusUpdateFormPropsCard> = (props) => {
       >
         {person && (
           <ListItem
-            disablePadding
             avatar={
               <StorageAvatar
-                src={person.avatar_src}
                 alt={person.avatar_alt || person.title}
-                size={40}
                 border
+                size={40}
+                src={person.avatar_src}
               />
             }
+            disableGutters
+            disablePadding
+            spacing={1}
+            subtitle={person.subtitle}
             title={person.title}
             titleProps={{ variant: 'subtitle1' }}
-            subtitle={person.subtitle}
-            spacing={1}
-            disableGutters
           />
         )}
       </Box>
@@ -88,30 +89,30 @@ const StatusUpdateFormCard: React.FC<StatusUpdateFormPropsCard> = (props) => {
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2}>
           <ControlledTextField
-            name="content"
             control={control}
-            placeholder="Maximum of 2000 characters."
             label="Add Meeting Log"
-            required
-            multiline
             minRows={2}
+            multiline
+            name="content"
+            placeholder="Maximum of 2000 characters."
+            required
             variant="standard"
           />
 
           <Stack
-            direction="row"
             alignItems="center"
+            direction="row"
             justifyContent="space-between"
             spacing={1}
           >
-            <Stack direction="row" alignItems="center" spacing={1}>
+            <Stack alignItems="center" direction="row" spacing={1}>
               {renderActions({ form })}
             </Stack>
 
             {/* Submit Button */}
             <Stack
-              direction="row"
               alignItems="center"
+              direction="row"
               justifyContent="flex-end"
               spacing={1}
               sx={{ flex: 0 }}

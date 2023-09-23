@@ -1,11 +1,12 @@
 import React, { useState } from 'react'
+
 import {
   Dialog,
   DialogTitle,
   Divider,
   IconButton,
-  Typography,
   Stack,
+  Typography,
 } from '@gravis-os/ui'
 import KeyboardArrowRightOutlinedIcon from '@mui/icons-material/KeyboardArrowRightOutlined'
 import MessageOutlinedIcon from '@mui/icons-material/MessageOutlined'
@@ -14,19 +15,20 @@ import PercentOutlinedIcon from '@mui/icons-material/PercentOutlined'
 import PersonIcon from '@mui/icons-material/Person'
 import { DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
+
 import PosAddCustomerDialog from './PosAddCustomerDialog'
 import PosAddNoteDialog from './PosAddNoteDialog'
 
 export interface PosCartMoreActionsDialogProps {
-  open: boolean
-  onClose: VoidFunction
   addCustomerProps?: Record<string, any>
+  onClose: VoidFunction
+  open: boolean
 }
 
 const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
   props
 ) => {
-  const { open, onClose, addCustomerProps } = props
+  const { addCustomerProps, onClose, open } = props
 
   const handleClose = () => {
     onClose()
@@ -42,42 +44,42 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
 
   const cartModifierOptions = [
     {
+      action: handleOnClickAddCustomer,
+      icon: <PeopleIcon sx={{ color: 'gray' }} />,
       key: 'add-customer',
       label: 'Add Customer',
-      icon: <PeopleIcon sx={{ color: 'gray' }} />,
-      action: handleOnClickAddCustomer,
     },
     {
+      icon: <PercentOutlinedIcon sx={{ color: 'gray' }} />,
       key: 'apply-discount',
       label: 'Apply Discount',
-      icon: <PercentOutlinedIcon sx={{ color: 'gray' }} />,
     },
     {
+      action: handleOnClickAddNote,
+      icon: <MessageOutlinedIcon sx={{ color: 'gray' }} />,
       key: 'add-note',
       label: 'Add Note',
-      icon: <MessageOutlinedIcon sx={{ color: 'gray' }} />,
-      action: handleOnClickAddNote,
     },
     {
+      icon: <PersonIcon sx={{ color: 'gray' }} />,
       key: 'add-staff',
       label: 'Add Staff',
-      icon: <PersonIcon sx={{ color: 'gray' }} />,
     },
   ]
 
   return (
     <Dialog
-      open={open}
-      onClose={handleClose}
-      fullScreen
       TransitionComponent={Slide}
       TransitionProps={{ direction: 'up' } as TransitionProps}
+      fullScreen
+      onClose={handleClose}
+      open={open}
     >
       <DialogTitle>
         <Stack
+          alignItems="center"
           direction="row"
           justifyContent="space-between"
-          alignItems="center"
         >
           More Actions
         </Stack>
@@ -85,23 +87,23 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
       <Divider />
       <DialogContent sx={{ pt: 4 }}>
         <Typography
-          variant="overline"
           fontSize={16}
           sx={{ color: 'text.secondary' }}
+          variant="overline"
         >
           Cart Modifiers
         </Typography>
-        <Stack spacing={1} mt={2}>
+        <Stack mt={2} spacing={1}>
           {cartModifierOptions.map((field) => (
             <React.Fragment key={field.key}>
               <Stack
+                alignItems="center"
                 direction="row"
                 justifyContent="space-between"
-                alignItems="center"
               >
-                <Stack direction="row" spacing={2} alignItems="center">
+                <Stack alignItems="center" direction="row" spacing={2}>
                   {field.icon}
-                  <Typography variant="h1" fontSize={18}>
+                  <Typography fontSize={18} variant="h1">
                     {field.label}
                   </Typography>
                 </Stack>
@@ -116,13 +118,13 @@ const PosCartMoreActionsDialog: React.FC<PosCartMoreActionsDialogProps> = (
 
         {/* Action dialogs */}
         <PosAddCustomerDialog
-          open={isAddCustomerDialogOpen}
           onClose={() => setIsAddCustomerDialogOpen(false)}
+          open={isAddCustomerDialogOpen}
           {...addCustomerProps}
         />
         <PosAddNoteDialog
-          open={isAddNoteDialogOpen}
           onClose={() => setIsAddNoteDialogOpen(false)}
+          open={isAddNoteDialogOpen}
         />
       </DialogContent>
     </Dialog>

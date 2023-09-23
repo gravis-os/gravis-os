@@ -1,16 +1,20 @@
 import { CartItem } from '../pos/types'
 
 const getDiscountedPriceFromItem = (item: CartItem) => {
-  const { price, discount, discountType, quantity } = item || {}
+  const { discount, discountType, price, quantity } = item || {}
   switch (discountType) {
-    case 'amount':
+    case 'amount': {
       return (price - discount) * (quantity || 1)
-    case 'percentage':
+    }
+    case 'percentage': {
       return price * (1 - discount / 100) * (quantity || 1)
-    case 'override':
+    }
+    case 'override': {
       return Number(discount) * (quantity || 1)
-    default:
+    }
+    default: {
       return price * (quantity || 1)
+    }
   }
 }
 
@@ -20,28 +24,36 @@ export const getDiscountedPrice = (
   discountType: string
 ) => {
   switch (discountType) {
-    case 'amount':
+    case 'amount': {
       return price - discount
-    case 'percentage':
+    }
+    case 'percentage': {
       return price * (1 - discount / 100)
-    case 'override':
+    }
+    case 'override': {
       return Number(discount)
-    default:
+    }
+    default: {
       return price
+    }
   }
 }
 
 export const getDiscountAmount = (item: CartItem) => {
   const { discount, discountType, quantity } = item || {}
   switch (discountType) {
-    case 'amount':
+    case 'amount': {
       return `- $${discount * (quantity || 1)}`
-    case 'percentage':
+    }
+    case 'percentage': {
       return `- ${discount}%`
-    case 'override':
+    }
+    case 'override': {
       return 'Special price'
-    default:
+    }
+    default: {
       return ''
+    }
   }
 }
 

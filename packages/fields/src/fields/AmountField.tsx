@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import NumberFormat from 'react-number-format'
+
 import TextField from './TextField'
 
 export interface AmountFieldProps {
@@ -18,17 +19,17 @@ const AmountField = (props) => {
     <NumberFormat
       customInput={TextField}
       {...rest}
-      value={displayValue}
-      fullWidth
-      thousandSeparator
       decimalScale={2}
+      fullWidth
+      isNumericString
       onValueChange={(target) => {
         if (target.floatValue === displayValue) return
         setDisplayValue(target.floatValue || null)
         onChange(target.floatValue || null)
       }}
-      isNumericString
       prefix="$ "
+      thousandSeparator
+      value={displayValue}
     />
   )
 }

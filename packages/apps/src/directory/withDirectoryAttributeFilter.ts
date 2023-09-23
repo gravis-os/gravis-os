@@ -1,5 +1,7 @@
-import partition from 'lodash/partition'
+/* eslint-disable unicorn/consistent-function-scoping */
+
 import groupBy from 'lodash/groupBy'
+import partition from 'lodash/partition'
 
 /**
  * withDirectoryAttributeFilter
@@ -8,7 +10,7 @@ import groupBy from 'lodash/groupBy'
  * attribute_value.attribute_option.title=eq.Five
  */
 const withDirectoryAttributeFilter = () => (props) => {
-  const { parsedQs, filters = [], module } = props
+  const { filters = [], module, parsedQs } = props
   if (!parsedQs || !Object.keys(parsedQs)?.length) return props
 
   const attrPrefix = 'attr:'
@@ -68,14 +70,14 @@ const withDirectoryAttributeFilter = () => (props) => {
 
       return {
         ...acc,
-        attributeTitles: [...acc.attributeTitles, attributeTitle],
         attributeOptionTitles: [
           ...acc.attributeOptionTitles,
           ...values.map((v) => v.value),
         ],
+        attributeTitles: [...acc.attributeTitles, attributeTitle],
       }
     },
-    { attributeTitles: [], attributeOptionTitles: [] }
+    { attributeOptionTitles: [], attributeTitles: [] }
   )
 
   const nextAttrFilters = nextAttrFiltersObject.attributeTitles?.length
@@ -95,7 +97,7 @@ const withDirectoryAttributeFilter = () => (props) => {
 
   const nextFilters = [...nonAttrFilters, ...nextAttrFilters]
 
-  return { props, select: nextSelect, filters: nextFilters }
+  return { filters: nextFilters, props, select: nextSelect }
 }
 
 export default withDirectoryAttributeFilter

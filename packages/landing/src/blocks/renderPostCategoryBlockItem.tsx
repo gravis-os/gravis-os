@@ -1,5 +1,6 @@
 import { Post, PostCategory } from '@gravis-os/types'
 import orderBy from 'lodash/orderBy'
+
 import renderPostBlockItem from './renderPostBlockItem'
 
 export interface RenderPostCategoryBlockItemProps {
@@ -12,40 +13,40 @@ const renderPostCategoryBlockItem = (
   props: RenderPostCategoryBlockItemProps
 ) => {
   const { item } = props
-  const { title, href, subtitle, description, items } = item || {}
+  const { title, description, href, items, subtitle } = item || {}
 
   return {
     sm: 12,
     md: 12,
     items: [
       {
-        type: 'link',
         title,
         titleProps: {
-          variant: 'overline' as const,
-          href,
           color: 'text.secondary',
+          href,
           sx: { mb: 1 },
+          variant: 'overline' as const,
         },
+        type: 'link',
       },
-      { type: 'h3', title: description },
+      { title: description, type: 'h3' },
       {
-        type: 'subtitle1',
         title: subtitle,
         titleProps: {
-          maxLines: 2,
           color: 'text.secondary',
+          maxLines: 2,
           maxWidth: true,
-          sx: { mt: 1, mb: 4 },
+          sx: { mb: 4, mt: 1 },
         },
+        type: 'subtitle1',
       },
       {
-        type: 'grid',
         gridItems: orderBy(items, 'published_at', 'desc').map((item) =>
           renderPostBlockItem({
             item,
           })
         ),
+        type: 'grid',
       },
     ],
   }

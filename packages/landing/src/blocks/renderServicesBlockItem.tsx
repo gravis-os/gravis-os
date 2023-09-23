@@ -1,4 +1,5 @@
 import { Service } from '@gravis-os/types'
+
 import { useLayout } from '../providers/LayoutProvider'
 import { BlockItemProps } from '../web/Block/BlockItem'
 import renderServiceBlockItem, {
@@ -14,7 +15,6 @@ const renderServicesBlockItem = (props: RenderServicesBlockItemProps) => {
   const { items, ...rest } = props
   const { routeConfig } = useLayout()
   return {
-    type: 'grid',
     gridItems: items.map((item) => {
       return renderServiceBlockItem({
         item: {
@@ -23,6 +23,7 @@ const renderServicesBlockItem = (props: RenderServicesBlockItemProps) => {
         },
       })
     }),
+    type: 'grid',
     ...rest,
   }
 }

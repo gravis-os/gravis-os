@@ -1,15 +1,18 @@
 import type { ChangeEvent, ElementType, FC, ReactNode } from 'react'
 import React from 'react'
-import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
-import ViewConfigIcon from '@mui/icons-material/ViewComfy'
-import ViewWeekIcon from '@mui/icons-material/ViewWeek'
-import ViewDayIcon from '@mui/icons-material/ViewDay'
+
+import { BoxProps } from '@gravis-os/ui'
 import ChevronLeftIcon from '@mui/icons-material/ChevronLeft'
 import ChevronRightIcon from '@mui/icons-material/ChevronRight'
-import { BoxProps } from '@gravis-os/ui'
+import ViewConfigIcon from '@mui/icons-material/ViewComfy'
+import ViewDayIcon from '@mui/icons-material/ViewDay'
+import ViewWeekIcon from '@mui/icons-material/ViewWeek'
+import { Box, Button, IconButton, TextField, Typography } from '@mui/material'
 import dayjs from 'dayjs'
-import { DAY_VIEW, MONTH_VIEW, WEEK_VIEW } from '../constants'
+
 import type { CalendarView } from '../types'
+
+import { DAY_VIEW, MONTH_VIEW, WEEK_VIEW } from '../constants'
 
 interface ViewOption {
   icon: ElementType
@@ -68,12 +71,12 @@ export const CalendarToolbar: FC<CalendarToolbarProps> = (props) => {
       sx={{
         alignItems: 'center',
         display: 'flex',
-        flexWrap: 'wrap',
-        justifyContent: 'space-between',
         flexDirection: {
           xs: 'column',
           md: 'row',
         },
+        flexWrap: 'wrap',
+        justifyContent: 'space-between',
         ...rest?.sx,
       }}
     >
@@ -102,8 +105,8 @@ export const CalendarToolbar: FC<CalendarToolbarProps> = (props) => {
       <Box
         sx={{
           alignItems: 'center',
-          flexWrap: 'wrap',
           display: 'flex',
+          flexWrap: 'wrap',
           m: -1,
         }}
       >
@@ -113,10 +116,10 @@ export const CalendarToolbar: FC<CalendarToolbarProps> = (props) => {
           </IconButton>
           <Button
             onClick={onDateToday}
-            variant="contained"
             sx={{
               m: 1,
             }}
+            variant="contained"
           >
             Today
           </Button>
@@ -126,26 +129,26 @@ export const CalendarToolbar: FC<CalendarToolbarProps> = (props) => {
           </IconButton>
         </Box>
         <TextField
+          SelectProps={{ native: true }}
           label="View"
           name="view"
           onChange={handleViewChange}
           select
           size="small"
-          value={view}
           sx={{
+            m: 1,
+            minWidth: 120,
             ml: {
               xs: 'auto',
               md: 1,
             },
-            m: 1,
-            minWidth: 120,
           }}
-          SelectProps={{ native: true }}
+          value={view}
         >
           {viewOptions.map((viewOption) => {
             if (
               mobile &&
-              !['timeGridDay', 'listWeek'].includes(viewOption.value)
+              !['listWeek', 'timeGridDay'].includes(viewOption.value)
             ) {
               return null
             }

@@ -2,7 +2,7 @@
 const cleanHref = (href: string): string => {
   if (!href) return ''
   if (href.startsWith('http')) return href
-  return href.replace(/\/\/+/g, '/') || ''
+  return href.replaceAll(/\/\/+/g, '/') || ''
 }
 
 export default cleanHref

@@ -1,107 +1,114 @@
 import { useEffect } from 'react'
-import { useForm, UseFormProps, UseFormReturn } from 'react-hook-form'
-import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
-import { useUser } from '@gravis-os/auth'
-import flowRight from 'lodash/flowRight'
+import { UseFormProps, UseFormReturn, useForm } from 'react-hook-form'
+import toast from 'react-hot-toast'
 import { useMutation, useQueryClient } from 'react-query'
+
+import { useUser } from '@gravis-os/auth'
 import {
-  withDbFormValues,
+  FormSectionsProps,
   getDefaultValues,
-  withoutId,
+  withDbFormValues,
   withSkipOnSubmit,
   withSlugFromTitle,
-  FormSectionsProps,
+  withoutId,
 } from '@gravis-os/form'
-import toast from 'react-hot-toast'
 import { CrudItem, CrudModule } from '@gravis-os/types'
+import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
+import flowRight from 'lodash/flowRight'
+
+import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
+import getDefaultValuesFromFields from './getDefaultValuesFromFields'
+import getFieldsFromFormSections from './getFieldsFromFormSections'
 import getIsNew from './getIsNew'
-import withCreatedUpdatedBy from './withCreatedUpdatedBy'
 import partitionManyToManyValues from './partitionManyToManyValues'
 import partitionOneToManyValues from './partitionOneToManyValues'
 import saveManyToManyValues from './saveManyToManyValues'
 import saveOneToManyValues from './saveOneToManyValues'
-import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
-import getFieldsFromFormSections from './getFieldsFromFormSections'
-import getDefaultValuesFromFields from './getDefaultValuesFromFields'
+import withCreatedUpdatedBy from './withCreatedUpdatedBy'
 
-type UseCrudFormValues = Record<string, any>
+const handleMutationError = (error) => {
+  toast.error('Something went wrong')
+  console.error('Error caught:', error)
+}
 
-interface UseCrudFormValuesInterface {
+export type UseCrudFormValues = Record<string, any>
+
+export interface UseCrudFormValuesInterface {
   isNew?: boolean
   item?: CrudItem
   values: UseCrudFormValues
 }
 
 export interface UseCrudFormArgs extends UseFormProps {
-  module: CrudModule
-  item?: CrudItem
-  refetch?: () => Promise<unknown>
-  client?: SupabaseClient
-  shouldCreateOnSubmit?: (formContext: UseFormReturn) => boolean
-  createOnSubmit?: boolean // Always create onSubmit only. Never update.
-  setFormValues?: ({
-    values,
-    isNew,
-    item,
-    rawValues,
-  }: UseCrudFormValuesInterface & {
-    rawValues: UseCrudFormValues
-  }) => Record<string, unknown>
-  onSubmit?: ({
-    rawValues,
-    values,
-    item,
-    isNew,
-    toast,
-    afterSubmit,
-  }: UseCrudFormValuesInterface & {
-    toast: any
-    afterSubmit: UseCrudFormArgs['afterSubmit']
-    rawValues: UseCrudFormValues
-  }) => unknown // Override submit action
+  afterDelete?: ({ item, values }: UseCrudFormValuesInterface) => unknown
   afterSubmit?: ({
-    rawValues, // Values before clean
-    values, // Values after clean
     isNew,
     item,
+    rawValues, // Values before clean
     toast,
+    values, // Values after clean
   }: UseCrudFormValuesInterface & {
     rawValues: UseCrudFormValues
     toast: any
   }) => unknown
-  shouldSkipOnSubmit?: (formContext: UseFormReturn) => boolean
-  afterDelete?: ({ values, item }: UseCrudFormValuesInterface) => unknown
+  client?: SupabaseClient
+  createOnSubmit?: boolean // Always create onSubmit only. Never update.
   defaultValues?:
-    | Record<string, unknown>
     | (({ item }: { item?: CrudItem }) => Record<string, unknown>)
+    | Record<string, unknown>
+  item?: CrudItem
+  module: CrudModule
+  onSubmit?: ({
+    afterSubmit,
+    isNew,
+    item,
+    rawValues,
+    toast,
+    values,
+  }: UseCrudFormValuesInterface & {
+    afterSubmit: UseCrudFormArgs['afterSubmit']
+    rawValues: UseCrudFormValues
+    toast: any
+  }) => unknown // Override submit action
+  refetch?: () => Promise<unknown>
   sections?: FormSectionsProps['sections']
+  setFormValues?: ({
+    isNew,
+    item,
+    rawValues,
+    values,
+  }: UseCrudFormValuesInterface & {
+    rawValues: UseCrudFormValues
+  }) => Record<string, unknown>
+  shouldCreateOnSubmit?: (formContext: UseFormReturn) => boolean
+  shouldSkipOnSubmit?: (formContext: UseFormReturn) => boolean
 }
 
 export interface UseCrudFormReturn {
   formContext: UseFormReturn
   isNew: boolean
-  onSubmit: any // (values: UseCrudFormValues) => Promise<void> // Combination of create and update
   onDelete: (values: UseCrudFormValues) => Promise<void>
+  onSubmit: any // (values: UseCrudFormValues) => Promise<void> // Combination of create and update
 }
 
 const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const {
-    defaultValues: injectedDefaultValues,
-    onSubmit: injectedOnSubmit,
-    afterSubmit,
     afterDelete,
-    setFormValues,
+    afterSubmit,
     client = supabaseClient,
     createOnSubmit,
+    defaultValues: injectedDefaultValues,
     item: injectedItem,
-    refetch,
     module,
+    onSubmit: injectedOnSubmit,
+    refetch,
     sections,
+    setFormValues,
     shouldCreateOnSubmit,
     shouldSkipOnSubmit,
     ...rest
   } = props
-  const { sk, table } = module
+  const { sk, table, triggers } = module
 
   const item = injectedItem || ({} as CrudItem)
 
@@ -153,10 +160,6 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       : client.from(table.name).update([nextValues]).match(queryMatcher)
   const deleteMutationFunction = async () =>
     client.from(table.name).delete().match(queryMatcher)
-  const handleMutationError = (error) => {
-    toast.error('Something went wrong')
-    console.error('Error caught:', error)
-  }
   const createOrUpdateMutation = useMutation({
     mutationFn: createOrUpdateMutationFunction,
     onError: handleMutationError,
@@ -171,7 +174,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     if (shouldSkipOnSubmit?.(form)) return
     // Cleaning function for dbFormValues
     const fields = getFieldsFromFormSections(sections)
-    const withValuesArgs = { isNew, user, fields, module }
+    const withValuesArgs = { fields, isNew, module, user }
     const dbFormValues = flowRight([
       // Add user.id to _by columns
       withCreatedUpdatedBy(withValuesArgs),
@@ -187,7 +190,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
     // Expose values to outer scope
     const exposedValues = setFormValues
-      ? setFormValues({ item, isNew, values: dbFormValues, rawValues: values })
+      ? setFormValues({ isNew, item, rawValues: values, values: dbFormValues })
       : dbFormValues
 
     // Split join (one to many / many to many) values
@@ -207,10 +210,10 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
       if (afterSubmit) {
         afterSubmit({
           isNew,
-          rawValues: values, // Original form values before clean
-          values: nextValues, // Submitted values
           item: nextItem,
+          rawValues: values, // Original form values before clean
           toast,
+          values: nextValues, // Submitted values
         })
       }
     }
@@ -218,14 +221,14 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
     // Fire Action - Allow user to inject custom onSubmit, or use default for Create/Update
     switch (true) {
       // Override default submit action to just get values and manual override outside
-      case typeof injectedOnSubmit === 'function':
+      case typeof injectedOnSubmit === 'function': {
         const injectedOnSubmitArgs = {
-          isNew,
-          rawValues: values,
-          values: nextValues,
-          toast,
-          item,
           afterSubmit,
+          isNew,
+          item,
+          rawValues: values,
+          toast,
+          values: nextValues,
         }
         // Trigger injectedOnSubmit
         const onInjectedOnSubmit = await injectedOnSubmit(injectedOnSubmitArgs)
@@ -233,12 +236,13 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
         // Handle success
         return handleSuccess({ item: onInjectedOnSubmit })
+      }
       // Default action: Create or Update
-      default:
+      default: {
         createOrUpdateMutation.mutate(nextValues, {
           onSuccess: async (result) => {
             // Handle errors
-            const { error, data } = result
+            const { data, error } = result
             if (error || !data) {
               console.error(
                 'error at useCrudForm.createOrUpdateMutation()',
@@ -254,40 +258,36 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             const nextItem = data[0]
 
             // Manage many to many values by creating records in join tables
-            const hasManyToManyValues = Boolean(
-              Object.keys(manyToManyValues).length
-            )
+            const hasManyToManyValues = Object.keys(manyToManyValues).length > 0
             if (hasManyToManyValues) {
               await saveManyToManyValues({
+                client,
+                data: nextItem,
+                fieldDefs,
                 item:
                   createOnSubmit || shouldCreateOnSubmit?.(form) ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
-                values: manyToManyValues,
-                data: nextItem,
-                client,
                 module,
-                fieldDefs,
+                values: manyToManyValues,
               })
             }
 
             // Manage one to many values by creating records in join tables
-            const hasOneToManyValues = Boolean(
-              Object.keys(oneToManyValues).length
-            )
+            const hasOneToManyValues = Object.keys(oneToManyValues).length > 0
             if (hasOneToManyValues) {
               await saveOneToManyValues({
+                client,
+                data: nextItem,
                 item:
                   createOnSubmit || shouldCreateOnSubmit?.(form) ? null : item, // when creating on submission, the prev item should be null since we don't want any diffing with the next item
-                values: oneToManyValues,
-                data: nextItem,
-                client,
                 module,
+                values: oneToManyValues,
               })
             }
 
             // Add `afterInsert` or `afterUpdate` trigger
-            const { afterInsert, afterUpdate } = module.triggers || {}
+            const { afterInsert, afterUpdate } = triggers || {}
             if (afterInsert || afterUpdate) {
-              const afterTriggerProps = { item: nextItem, values, user, client }
+              const afterTriggerProps = { client, item: nextItem, user, values }
               if (isNew && afterInsert) await afterInsert(afterTriggerProps)
               if (!isNew && afterUpdate) await afterUpdate(afterTriggerProps)
             }
@@ -306,17 +306,22 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
             return handleSuccess({ item: nextItem })
           },
         })
+      }
     }
   }
 
   const onDelete = async (values) => {
     // Delete
     deleteMutation.mutate(values, {
+      onError: (error) => {
+        toast.error('Something went wrong')
+        console.error('Error caught:', error)
+      },
       onSuccess: async (result) => {
         queryClient.invalidateQueries([table.name])
 
         // Handle errors
-        const { error, data } = result
+        const { data, error } = result
         if (error || !data) {
           console.error('error at useCrudForm.deleteMutation()', error.message)
           toast.error('Something went wrong')
@@ -333,19 +338,15 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
 
         if (afterDelete) {
           afterDelete({
-            values,
             item: nextItem,
+            values,
           })
         }
-      },
-      onError: (error) => {
-        toast.error('Something went wrong')
-        console.error('Error caught:', error)
       },
     })
   }
 
-  return { formContext: form, isNew, onSubmit, onDelete }
+  return { formContext: form, isNew, onDelete, onSubmit }
 }
 
 export default useCrudForm

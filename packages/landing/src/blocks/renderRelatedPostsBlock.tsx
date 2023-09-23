@@ -1,6 +1,7 @@
 import { Post } from '@gravis-os/types'
-import renderPostsBlockItem from './renderPostsBlockItem'
+
 import { BlockProps } from '../web/Block/Block'
+import renderPostsBlockItem from './renderPostsBlockItem'
 
 export interface RenderRelatedPostsBlockProps
   extends Omit<BlockProps, 'items'> {
@@ -14,9 +15,9 @@ const renderRelatedPostsBlock = (props: RenderRelatedPostsBlockProps) => {
     id: 'related-posts',
     items: [
       {
-        type: 'h4',
         title: 'Related Insights',
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
+        type: 'h4',
       },
       renderPostsBlockItem({ items }),
     ],

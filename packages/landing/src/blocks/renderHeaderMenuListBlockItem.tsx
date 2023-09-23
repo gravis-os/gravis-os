@@ -1,43 +1,43 @@
 import { BlockItemProps } from '../web/Block/BlockItem'
 
 export interface RenderHeaderMenuListBlockItemProps {
-  title: BlockItemProps['title']
-  subtitle?: BlockItemProps['title']
   href?: string
   items?: Array<{
-    title: BlockItemProps['title']
     href?: BlockItemProps['boxProps']['href']
+    title: BlockItemProps['title']
   }>
+  subtitle?: BlockItemProps['title']
+  title: BlockItemProps['title']
 }
 
 const renderHeaderMenuListBlockItem = (
   props: RenderHeaderMenuListBlockItemProps
 ) => {
-  const { title, subtitle, href, items = [] } = props
+  const { title, href, items = [], subtitle } = props
   return {
     items: [
       {
-        type: 'link',
         title,
         titleProps: {
-          variant: 'h6' as const,
           href,
           sx: { mb: 0.5 },
+          variant: 'h6' as const,
         },
+        type: 'link',
       },
       {
-        type: 'body2',
         title: subtitle,
         titleProps: { color: 'text.secondary', sx: { mb: 2 } },
+        type: 'body2',
       },
       ...(items.map((item) => ({
-        type: 'link',
         title: item.title,
         titleProps: {
+          gutterBottom: true,
           href: item.href,
           variant: 'body1',
-          gutterBottom: true,
         },
+        type: 'link',
         ...item,
       })) as BlockItemProps[]),
     ],

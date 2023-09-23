@@ -1,24 +1,27 @@
+/* eslint-disable fp/no-mutation, no-unsanitized/property */
+
 import React, { useEffect } from 'react'
-import startCase from 'lodash/startCase'
-import { useTheme } from '@mui/material/styles'
 import { useQuill } from 'react-quilljs'
+
 import { Box } from '@gravis-os/ui'
+import { useTheme } from '@mui/material/styles'
+import startCase from 'lodash/startCase'
 
 // Styles
 const minHeight = 170
 const borderRadius = 4
 
 export interface HtmlFieldProps {
-  name: string
-  label?: string
-  placeholder?: string
-  children?: React.ReactNode
-  onChange?: (value) => void
-  value: string
-  quillProps?: Record<string, unknown>
   basic?: boolean
+  children?: React.ReactNode
+  label?: string
+  name: string
+  onChange?: (value) => void
+  placeholder?: string
+  quillProps?: Record<string, unknown>
   // https://github.com/zenoamaro/react-quill/issues/317#issuecomment-877155420
   shouldQuillAutofocus?: boolean
+  value: string
 }
 
 /**
@@ -31,13 +34,13 @@ export interface HtmlFieldProps {
  */
 const HtmlField: React.FC<HtmlFieldProps> = (props) => {
   const {
-    children,
-    name,
-    label,
-    placeholder: injectedPlaceholder,
-    onChange,
-    quillProps,
     basic,
+    children,
+    label,
+    name,
+    onChange,
+    placeholder: injectedPlaceholder,
+    quillProps,
     shouldQuillAutofocus = true,
     ...rest
   } = props
@@ -72,13 +75,11 @@ const HtmlField: React.FC<HtmlFieldProps> = (props) => {
 
   // Reset value
   useEffect(() => {
-    if (quillRef) {
-      if (value === '') {
-        if (shouldQuillAutofocus) {
-          quillRef.clipboard.dangerouslyPasteHTML(value)
-        } else {
-          quillRef.root.innerHTML = value
-        }
+    if (quillRef && value === '') {
+      if (shouldQuillAutofocus) {
+        quillRef.clipboard.dangerouslyPasteHTML(value)
+      } else {
+        quillRef.root.innerHTML = value
       }
     }
   }, [quillRef, value, shouldQuillAutofocus])
@@ -91,45 +92,45 @@ const HtmlField: React.FC<HtmlFieldProps> = (props) => {
   return (
     <Box
       sx={{
-        // Height
-        '& .ql-editor': {
-          minHeight,
-          fontFamily: 'body1.fontFamily',
-          color: 'currentColor',
-        },
-        // Borders
-        '& .ql-toolbar': {
-          borderTopLeftRadius: borderRadius,
-          borderTopRightRadius: borderRadius,
-          borderColor: 'divider',
-          backgroundColor: 'background.default',
-        },
         '& .ql-container': {
           borderBottomLeftRadius: borderRadius,
           borderBottomRightRadius: borderRadius,
           borderColor: 'divider',
         },
-        // Button colors
-        '& .ql-fill': { fill: buttonColor },
-        '& .ql-stroke': { stroke: buttonColor },
-        '& .ql-picker-label::before': { color: buttonColor },
-        // Hover button colors
-        '& .ql-toolbar button:hover .ql-fill': { fill: buttonHoverColor },
-        '& .ql-toolbar button:hover .ql-stroke': { stroke: buttonHoverColor },
-        '& .ql-toolbar button:hover .ql-picker-label::before': {
-          color: buttonHoverColor,
-        },
-        // Placeholder
-        '& .ql-editor.ql-blank::before': {
-          fontSize: 'body1.fontSize',
-          color: 'text.secondary',
-          fontStyle: 'normal',
+        // Height
+        '& .ql-editor': {
+          color: 'currentColor',
+          fontFamily: 'body1.fontFamily',
+          minHeight,
         },
         // Font Size
         '& .ql-editor p': {
-          fontWeight: 'body1.fontWeight',
           fontSize: 'body1.fontSize',
+          fontWeight: 'body1.fontWeight',
         },
+        // Placeholder
+        '& .ql-editor.ql-blank::before': {
+          color: 'text.secondary',
+          fontSize: 'body1.fontSize',
+          fontStyle: 'normal',
+        },
+        // Button colors
+        '& .ql-fill': { fill: buttonColor },
+        '& .ql-picker-label::before': { color: buttonColor },
+        '& .ql-stroke': { stroke: buttonColor },
+        // Borders
+        '& .ql-toolbar': {
+          backgroundColor: 'background.default',
+          borderColor: 'divider',
+          borderTopLeftRadius: borderRadius,
+          borderTopRightRadius: borderRadius,
+        },
+        // Hover button colors
+        '& .ql-toolbar button:hover .ql-fill': { fill: buttonHoverColor },
+        '& .ql-toolbar button:hover .ql-picker-label::before': {
+          color: buttonHoverColor,
+        },
+        '& .ql-toolbar button:hover .ql-stroke': { stroke: buttonHoverColor },
       }}
     >
       <div ref={quillEditorRef} {...rest} />

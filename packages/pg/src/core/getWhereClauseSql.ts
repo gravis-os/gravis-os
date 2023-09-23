@@ -2,20 +2,20 @@ import { ApiRequestQuery } from '../types'
 import getQueryKey from '../utils/getQueryKey'
 
 const getWhereClauseSql = (props: {
-  query: ApiRequestQuery
   columnKeys: string[]
+  query: ApiRequestQuery
 }): string => {
-  const { query, columnKeys } = props
+  const { columnKeys, query } = props
 
   // Remove columnKeys that are not in the query
   const columnKeysThatExistInQuery = columnKeys.filter((columnKey) => {
-    const queryKey = getQueryKey({ query, columnKey })
+    const queryKey = getQueryKey({ columnKey, query })
     return queryKey
   })
 
   const whereArr = columnKeysThatExistInQuery
     .map((columnKey, i) => {
-      const queryKey = getQueryKey({ query, columnKey })
+      const queryKey = getQueryKey({ columnKey, query })
 
       // Key not found in query
       if (!queryKey) return
@@ -29,12 +29,14 @@ const getWhereClauseSql = (props: {
 
       const getOpValueByOp = (op) => {
         switch (op) {
-          case 'ilike':
+          case 'ilike': {
             // Concatenate % to the value via the || command
             // @link: https://github.com/knex/knex/issues/1207#issuecomment-185079698
             return `'%'||${defaultOpValue}||'%'`
-          default:
+          }
+          default: {
             return defaultOpValue
+          }
         }
       }
 
@@ -46,7 +48,7 @@ const getWhereClauseSql = (props: {
     .filter(Boolean)
 
   // 'WHERE cea_registration_number = $1 AND trans_type = $2'
-  return whereArr.length ? 'WHERE '.concat(whereArr.join(' AND ')) : ''
+  return whereArr.length > 0 ? 'WHERE '.concat(whereArr.join(' AND ')) : ''
 }
 
 export default getWhereClauseSql

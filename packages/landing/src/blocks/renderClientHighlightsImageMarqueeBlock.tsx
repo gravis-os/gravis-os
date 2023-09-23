@@ -1,7 +1,9 @@
 import React from 'react'
+
+import { ClientHighlight } from '@gravis-os/types'
 import { ImageMarquee, Stack } from '@gravis-os/ui'
 import { getSplitArrayIntoTwo } from '@gravis-os/utils'
-import { ClientHighlight } from '@gravis-os/types'
+
 import { BlockProps } from '../web/Block/Block'
 
 export interface RenderClientHighlightsImageMarqueeBlockProps
@@ -18,33 +20,33 @@ const renderClientHighlightsImageMarqueeBlock = (
     getSplitArrayIntoTwo<ClientHighlight>(items)
 
   return {
-    py: 2,
-    disableContainer: true,
     dark: true,
+    disableContainer: true,
     items: [
       {
-        type: 'jsx',
         title: (
           <Stack spacing={2}>
             <ImageMarquee
               imageProps={{ rounded: true }}
-              items={firstRowItems?.map(({ src, alt }) => ({
-                src,
+              items={firstRowItems?.map(({ alt, src }) => ({
                 alt,
+                src,
               }))}
             />
             <ImageMarquee
-              reverse
               imageProps={{ rounded: true }}
-              items={secondRowItems?.map(({ src, alt }) => ({
-                src,
+              items={secondRowItems?.map(({ alt, src }) => ({
                 alt,
+                src,
               }))}
+              reverse
             />
           </Stack>
         ),
+        type: 'jsx',
       },
     ],
+    py: 2,
     ...rest,
   }
 }

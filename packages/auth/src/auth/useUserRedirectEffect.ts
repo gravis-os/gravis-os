@@ -1,8 +1,10 @@
-import { useRouter } from 'next/router'
-import toast from 'react-hot-toast'
 import { useEffect } from 'react'
-import useUser from './useUser'
+import toast from 'react-hot-toast'
+
+import { useRouter } from 'next/router'
+
 import { ROLE_ADMIN, ROLE_SUPER_ADMIN } from '../constants'
+import useUser from './useUser'
 
 /**
  * Redirects the user to the success path after retrieving the authUser
@@ -30,7 +32,7 @@ const useUserRedirectEffect = () => {
     }
 
     // If dbUser check if there is a workspace to redirectTo
-    const { workspace, role } = dbUser?.person?.[0] || {}
+    const { role, workspace } = dbUser?.person?.[0] || {}
     if (workspace) {
       const nakedHostname = window.location.hostname.replace('www.', '')
       const isCorrectWorkspace =

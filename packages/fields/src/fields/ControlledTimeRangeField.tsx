@@ -1,5 +1,6 @@
 import React from 'react'
 import { Controller, ControllerProps } from 'react-hook-form'
+
 import TimeRangeField from './TimeRangeField'
 
 export interface ControlledTimeRangeFieldProps
@@ -11,14 +12,14 @@ export interface ControlledTimeRangeFieldProps
 const ControlledTimeRangeField: React.FC<ControlledTimeRangeFieldProps> = (
   props
 ) => {
-  const { timePickerProps, label, ...rest } = props
+  const { label, timePickerProps, ...rest } = props
 
   return (
     <Controller
+      defaultValue={new Date()}
       render={({ field }) => (
         <TimeRangeField label={label} {...field} {...timePickerProps} />
       )}
-      defaultValue={new Date()}
       {...rest}
     />
   )

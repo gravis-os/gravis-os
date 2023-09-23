@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react'
-import zipObject from 'lodash/zipObject'
 import { UseFormReturn, useWatch } from 'react-hook-form'
+
 import { CrudItem } from '@gravis-os/types'
+import zipObject from 'lodash/zipObject'
 
 export interface FieldEffectOptions {
   setValue: (
@@ -14,11 +15,11 @@ export interface FieldEffectOptions {
 }
 
 export interface FieldEffectProviderProps {
-  name: string
+  children: React.ReactElement
   fieldEffect: FieldEffectOptions
   formContext: UseFormReturn
-  children: React.ReactElement
   item: CrudItem
+  name: string
 }
 
 /**
@@ -27,9 +28,9 @@ export interface FieldEffectProviderProps {
  * @constructor
  */
 const FieldEffectProvider = (props: FieldEffectProviderProps) => {
-  const { item, name, fieldEffect, formContext, children } = props
+  const { children, fieldEffect, formContext, item, name } = props
   const { control, setValue } = formContext
-  const { watch: watchKeys, setValue: setFieldEffectValue } = fieldEffect
+  const { setValue: setFieldEffectValue, watch: watchKeys } = fieldEffect
 
   // Get the current form values in an object shape
   const watchedValues = useWatch({ control, name: watchKeys })
@@ -37,8 +38,8 @@ const FieldEffectProvider = (props: FieldEffectProviderProps) => {
 
   useEffect(() => {
     const nextValue = setFieldEffectValue({
-      values: watchedObject,
       item,
+      values: watchedObject,
       ...formContext,
     })
     setValue(name, nextValue)

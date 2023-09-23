@@ -1,4 +1,5 @@
 import { ClientTestimonial } from '@gravis-os/types'
+
 import { useLayout } from '../providers/LayoutProvider'
 import { BlockProps } from '../web/Block/Block'
 import { BlockItemProps } from '../web/Block/BlockItem'
@@ -7,9 +8,9 @@ import renderFeaturedIndustryBlockItem from './renderFeaturedIndustryBlockItem'
 export interface RenderFeaturedIndustrysBlockProps
   extends Omit<BlockProps, 'items' | 'title'> {
   items: ClientTestimonial[]
+  subtitle?: React.ReactNode
   title?: React.ReactNode
   titleType?: BlockItemProps['type']
-  subtitle?: React.ReactNode
 }
 
 const renderFeaturedIndustrysBlock = (
@@ -17,9 +18,9 @@ const renderFeaturedIndustrysBlock = (
 ) => {
   const {
     title = 'Featured Industries',
-    titleType = 'h3',
-    subtitle = '',
     items,
+    subtitle = '',
+    titleType = 'h3',
     ...rest
   } = props
   const { routeConfig } = useLayout()
@@ -28,32 +29,30 @@ const renderFeaturedIndustrysBlock = (
     id: 'featured-industrys',
     items: [
       {
-        type: 'overline',
         title: 'Industries',
         titleProps: {
           textAlign: { xs: 'center', md: 'left' },
         },
+        type: 'overline',
       },
       {
-        type: titleType,
         title,
         titleProps: {
           gutterBottom: true,
           textAlign: { xs: 'center', md: 'left' },
         },
+        type: titleType,
       },
       {
-        type: 'body1',
         title: subtitle,
         titleProps: {
           color: 'text.secondary',
           maxWidth: '50%',
           textAlign: { xs: 'center', md: 'left' },
         },
+        type: 'body1',
       },
       {
-        type: 'grid',
-        sx: { mt: { xs: 4, md: 8 } },
         gridItemProps: {
           xs: 12,
           md: 4,
@@ -71,6 +70,8 @@ const renderFeaturedIndustrysBlock = (
             }),
           }
         }),
+        sx: { mt: { xs: 4, md: 8 } },
+        type: 'grid',
       },
     ],
     ...rest,

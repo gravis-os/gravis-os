@@ -1,11 +1,16 @@
 import React from 'react'
 import { useQuery } from 'react-query'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+
 import { FormSectionReadOnlyStack } from '@gravis-os/form'
 import { Grid } from '@gravis-os/ui'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 
-const renderMetaReadOnlySection = ({ label, item }, userModuleTableName = "user") => {
+const renderMetaReadOnlySection = (
+  { item, label },
+  userModuleTableName = 'user'
+) => {
   const { data: creator } = useQuery({
+    enabled: Boolean(item?.created_by),
     queryFn: async () => {
       const { data } = await supabaseClient
         .from(userModuleTableName)
@@ -17,10 +22,10 @@ const renderMetaReadOnlySection = ({ label, item }, userModuleTableName = "user"
       return data
     },
     queryKey: [userModuleTableName],
-    enabled: Boolean(item?.created_by)
   })
 
   const { data: updater } = useQuery({
+    enabled: Boolean(item?.updated_by),
     queryFn: async () => {
       const { data } = await supabaseClient
         .from(userModuleTableName)
@@ -31,44 +36,34 @@ const renderMetaReadOnlySection = ({ label, item }, userModuleTableName = "user"
       return data
     },
     queryKey: [userModuleTableName],
-    enabled: Boolean(item?.updated_by)
   })
 
   return (
     <Grid container>
       <Grid item xs={12}>
+        <FormSectionReadOnlyStack label="id" title={item?.id} />
+      </Grid>
+
+      <Grid item md={6} xs={12}>
+        <FormSectionReadOnlyStack label="created_at" title={item?.created_at} />
+      </Grid>
+      <Grid item md={6} xs={12}>
         <FormSectionReadOnlyStack
-          label="id"
-          title={item?.id}
+          label="created_by"
+          title={creator?.full_name}
         />
       </Grid>
 
-        <Grid item xs={12} md={6}>
-          <FormSectionReadOnlyStack
-            label="created_at"
-            title={item?.created_at}
-          />
-        </Grid>
-        <Grid item xs={12} md={6}>
-          <FormSectionReadOnlyStack
-            label="created_by"
-            title={creator?.full_name}
-          />
-        </Grid>
+      <Grid item md={6} xs={12}>
+        <FormSectionReadOnlyStack label="updated_at" title={item?.updated_at} />
+      </Grid>
 
-        <Grid item xs={12} md={6}>
-          <FormSectionReadOnlyStack
-            label="updated_at"
-            title={item?.updated_at}
-          />
-        </Grid>
-
-        <Grid item xs={12} md={6}>
-          <FormSectionReadOnlyStack
-            label="updated_by"
-            title={updater?.full_name}
-          />
-        </Grid>
+      <Grid item md={6} xs={12}>
+        <FormSectionReadOnlyStack
+          label="updated_by"
+          title={updater?.full_name}
+        />
+      </Grid>
     </Grid>
   )
 }

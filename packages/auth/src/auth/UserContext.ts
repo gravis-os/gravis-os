@@ -1,4 +1,5 @@
 import { createContext } from 'react'
+
 import { UserContextInterface as InjectedUserContextInterface } from '@gravis-os/types'
 
 export interface UserContextInterface<AppDbUser = any>
@@ -6,11 +7,11 @@ export interface UserContextInterface<AppDbUser = any>
 
 const UserContext = createContext<UserContextInterface>({
   authUserLoading: true,
-  dbUserLoading: true,
   dbUserFetching: true,
+  dbUserLoading: true,
   dbUserQueryResult: null,
-  refetchDbUserQuery: () => Promise.resolve(null),
   logout: async () => false,
+  refetchDbUserQuery: () => Promise.resolve(null),
 })
 
 export default UserContext

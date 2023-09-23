@@ -1,47 +1,49 @@
 import React from 'react'
+import toast from 'react-hot-toast'
+import { useQueryClient } from 'react-query'
+
+import { CrudItem, CrudModule } from '@gravis-os/types'
+import { Button, Dialog, DialogProps, Typography } from '@gravis-os/ui'
 import {
   DialogActions,
   DialogContent,
   DialogContentText,
   DialogTitle,
 } from '@mui/material'
-import { Button, Dialog, DialogProps, Typography } from '@gravis-os/ui'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import toast from 'react-hot-toast'
-import { CrudItem, CrudModule } from '@gravis-os/types'
-import { useQueryClient } from 'react-query'
+
 import useCrud from './useCrud'
 
 export interface CrudDeleteDialogProps
-  extends Omit<DialogProps, 'open' | 'onClose'> {
-  module: CrudModule
-  items?: CrudItem[]
-
-  // Dialog
-  open?: DialogProps['open']
-  onClose?: DialogProps['onClose']
-
+  extends Omit<DialogProps, 'onClose' | 'open'> {
   // Methods
   afterDelete?: ({ item }: { item: CrudItem }) => Promise<unknown>
+  items?: CrudItem[]
+
+  module: CrudModule
   onCancel?: (e: React.SyntheticEvent) => void
+
+  onClose?: DialogProps['onClose']
+  // Dialog
+  open?: DialogProps['open']
 }
 
 const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
   const {
+    afterDelete,
     items: injectedItems,
     module,
-    open: injectedOpen,
-    onClose: injectedOnClose,
     onCancel: injectedOnCancel,
-    afterDelete,
+    onClose: injectedOnClose,
+    open: injectedOpen,
   } = props
 
   // State
   const {
+    deleteDialogOpen,
+    handleDeleteDialogClose,
     hasMultipleSelectedItems,
     selectedItems,
-    handleDeleteDialogClose,
-    deleteDialogOpen,
   } = useCrud()
 
   const open = injectedOpen || deleteDialogOpen
@@ -54,7 +56,7 @@ const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
   const item = !hasMultipleSelectedItems && selectedItems[0]
 
   // Methods
-  const { table, sk = 'id' } = module
+  const { sk = 'id', table } = module
   const queryClient = useQueryClient()
   const handleDeleteConfirmClick = async (e) => {
     try {
@@ -70,14 +72,14 @@ const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
       if (afterDelete) await afterDelete({ item })
       onCancel(e)
       toast.success('Success')
-    } catch (err) {
+    } catch (error) {
       toast.error('Error')
-      console.error('Error caught:', err)
+      console.error('Error caught:', error)
     }
   }
 
   return (
-    <Dialog maxWidth="xs" open={open} onClose={onClose}>
+    <Dialog maxWidth="xs" onClose={onClose} open={open}>
       <DialogTitle>
         <Typography variant="h3">
           {isBulkDelete ? 'Bulk Delete' : 'Delete'} Confirmation
@@ -94,10 +96,10 @@ const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
           Cancel
         </Button>
         <Button
-          variant="contained"
+          autoFocus
           color="error"
           onClick={handleDeleteConfirmClick}
-          autoFocus
+          variant="contained"
         >
           Confirm Delete
         </Button>

@@ -1,15 +1,17 @@
+/* eslint-disable fp/no-let, fp/no-loops, fp/no-mutation, no-continue, unicorn/consistent-function-scoping */
+
 import { FormSectionFieldProps } from '@gravis-os/form'
 
 interface GetQueryFromFiltersProps {
-  query: any
-  filters: Record<string, unknown>
   filterFields: FormSectionFieldProps[]
+  filters: Record<string, unknown>
+  query: any
 }
 
 const getQueryFromFilters = ({
-  query: injectedQuery,
-  filters,
   filterFields,
+  filters,
+  query: injectedQuery,
 }: GetQueryFromFiltersProps) => {
   const hasFilters = Object.keys(filters).length > 0
 
@@ -18,11 +20,11 @@ const getQueryFromFilters = ({
   let query = injectedQuery
 
   // Apply filters to query imperatively as necessitated by Postgrest query builder
-  Object.entries(filters).forEach((filter) => {
+  for (const filter of Object.entries(filters)) {
     const [key, value] = filter
 
     // Omit object values
-    if (typeof value === 'object' && !Array.isArray(value)) return
+    if (typeof value === 'object' && !Array.isArray(value)) continue
 
     const currentFilterField =
       filterFields.find((filterField) => filterField.name === key) ||
@@ -32,16 +34,18 @@ const getQueryFromFilters = ({
 
     const getValueByOp = (value, op) => {
       switch (op) {
-        case 'ilike':
+        case 'ilike': {
           return `%${value}%`
-        default:
+        }
+        default: {
           return value
+        }
       }
     }
 
     // @example query.eq('name', 'johnny english')
     query = query[op](filterKey, getValueByOp(value, op))
-  })
+  }
 
   return query
 }

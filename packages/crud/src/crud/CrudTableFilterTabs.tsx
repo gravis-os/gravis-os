@@ -1,6 +1,7 @@
 import React from 'react'
-import { Tab, Tabs, TabsProps } from '@gravis-os/ui'
+
 import { useRouterQuery } from '@gravis-os/query'
+import { Tab, Tabs, TabsProps } from '@gravis-os/ui'
 
 export interface CrudTableFilterTabsProps extends TabsProps {
   /**
@@ -14,9 +15,9 @@ export interface CrudTableFilterTabsProps extends TabsProps {
 }
 
 const CrudTableFilterTabs: React.FC<CrudTableFilterTabsProps> = (props) => {
-  const { items, filterKey = 'status', filterOp = 'eq', ...rest } = props
+  const { filterKey = 'status', filterOp = 'eq', items, ...rest } = props
 
-  const { replaceQueryString, removeQueryString, parsedQs } = useRouterQuery()
+  const { parsedQs, removeQueryString, replaceQueryString } = useRouterQuery()
 
   // Current value
   const defaultValue = 'all'
@@ -33,13 +34,13 @@ const CrudTableFilterTabs: React.FC<CrudTableFilterTabsProps> = (props) => {
   return (
     <Tabs
       disableMinHeight
-      value={currentTabValue}
       onChange={handleChange}
-      variant="scrollable"
       scrollButtons={false}
+      value={currentTabValue}
+      variant="scrollable"
       {...rest}
     >
-      <Tab value={defaultValue} label="All" />
+      <Tab label="All" value={defaultValue} />
       {items.map((item) => {
         if (!item) return null
         return <Tab key={item.key} {...item} />

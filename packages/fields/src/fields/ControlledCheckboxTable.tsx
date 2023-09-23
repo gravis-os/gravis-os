@@ -1,15 +1,16 @@
 /* @typescript-eslint/no-empty-function */
 import React from 'react'
 import { Controller, UseControllerProps } from 'react-hook-form'
-import groupBy from 'lodash/groupBy'
-import { CheckboxTable, CheckboxTableProps } from '@gravis-os/ui'
 
-export interface ControlledCheckboxTableOptions<T = { id: string | number }>
+import { CheckboxTable, CheckboxTableProps } from '@gravis-os/ui'
+import groupBy from 'lodash/groupBy'
+
+export interface ControlledCheckboxTableOptions<T = { id: number | string }>
   extends Pick<CheckboxTableProps<unknown>, 'isReadOnly' | 'title'> {
-  hasToggleRowColumn?: boolean
   columns: string[]
-  rows: T[]
   groupBy: (value: T) => string
+  hasToggleRowColumn?: boolean
+  rows: T[]
 }
 
 export interface ControlledCheckboxTableProps extends UseControllerProps {
@@ -19,12 +20,12 @@ export interface ControlledCheckboxTableProps extends UseControllerProps {
 const ControlledCheckboxTable: React.FC<ControlledCheckboxTableProps> = (
   props
 ) => {
-  const { control, name, checkboxTableProps, ...rest } = props
+  const { checkboxTableProps, control, name, ...rest } = props
 
   const {
+    groupBy: injectedGroupBy,
     hasToggleRowColumn,
     rows,
-    groupBy: injectedGroupBy,
   } = checkboxTableProps
 
   return (
@@ -34,7 +35,7 @@ const ControlledCheckboxTable: React.FC<ControlledCheckboxTableProps> = (
       render={({ field }) => {
         const { onChange, value: formValues = [], ...fieldProps } = field
 
-        const handleToggleCell = <T extends { id: string | number }>(
+        const handleToggleCell = <T extends { id: number | string }>(
           checked: boolean,
           value: T
         ) => {
@@ -62,10 +63,10 @@ const ControlledCheckboxTable: React.FC<ControlledCheckboxTableProps> = (
 
         const nextRows = groupBy(
           rows.map((row) => ({
-            value: row,
-            key: row.id,
             checked: formValues.some((formValue) => formValue.id === row.id),
+            key: row.id,
             onChange: handleToggleCell,
+            value: row,
           })),
           (row) => injectedGroupBy(row.value)
         )

@@ -1,24 +1,27 @@
 /* eslint-disable @typescript-eslint/no-var-requires */
 import React, { ReactNode, useEffect, useState } from 'react'
+
+import { Autocomplete, AutocompleteProps } from '@mui/material'
 import codes from 'country-calling-code'
-import sortBy from 'lodash/sortBy'
 import isEqual from 'lodash/isEqual'
+import sortBy from 'lodash/sortBy'
 import startCase from 'lodash/startCase'
 import uniqBy from 'lodash/uniqBy'
-import { Autocomplete, AutocompleteProps } from '@mui/material'
+
 import TextField, { TextFieldProps } from './TextField'
 
-export const PHONE_EXT_CODE_OPTIONS = sortBy(codes.map(code => ({
-    countryName: code.country,
+export const PHONE_EXT_CODE_OPTIONS = sortBy(
+  codes.map((code) => ({
     countryCode: code.isoCode2,
-    phoneExtCode: parseInt(code.countryCodes[0]).toString()
+    countryName: code.country,
+    phoneExtCode: Number(code.countryCodes[0]).toString(),
   })),
   'phoneExtCode'
 )
 
 export type GetOptionLabelArgs = {
-  countryName: string
   countryCode: string
+  countryName: string
   phoneExtCode: string
 }
 
@@ -29,28 +32,28 @@ export interface CountryCodeFieldProps
       'getOptionLabel' | 'onChange'
     >
   > {
-  name: string
-  label?: ReactNode
-  priorityExtCodes?: string[]
   getOptionLabel?: (args: GetOptionLabelArgs) => string
-  onChange?: (data: string | null) => void
-  textFieldProps?: TextFieldProps
+  label?: ReactNode
+  name: string
+  onChange?: (data: null | string) => void
+  priorityExtCodes?: string[]
   required?: boolean
   showCountry?: boolean
+  textFieldProps?: TextFieldProps
 }
 
 const CountryCodeField: React.FC<CountryCodeFieldProps> = (props) => {
   const {
-    name,
+    defaultValue: injectedDefaultValue,
+    getOptionLabel,
     label: injectedlabel,
+    name,
+    onChange: injectedOnChange,
+    priorityExtCodes,
     required,
     showCountry,
-    priorityExtCodes,
-    getOptionLabel,
-    defaultValue: injectedDefaultValue,
-    value: injectedValue,
-    onChange: injectedOnChange,
     textFieldProps,
+    value: injectedValue,
     ...rest
   } = props
 
@@ -59,7 +62,7 @@ const CountryCodeField: React.FC<CountryCodeFieldProps> = (props) => {
   // Options
   const defaultOptions = PHONE_EXT_CODE_OPTIONS.map(
     (option: GetOptionLabelArgs) => {
-      const { phoneExtCode, countryName } = option
+      const { countryName, phoneExtCode } = option
       return {
         label:
           getOptionLabel?.(option) ||
@@ -120,26 +123,26 @@ const CountryCodeField: React.FC<CountryCodeFieldProps> = (props) => {
   return (
     <Autocomplete
       {...rest}
-      value={selectedOption}
-      options={options}
       onChange={(e, data) => handleOnChange(data)}
+      options={options}
       renderInput={(params) => {
         return (
           <TextField
             {...params}
-            name={name}
-            label={label}
             inputProps={
               {
                 ...params?.inputProps,
                 ...(required && { required: true }),
               } as TextFieldProps['inputProps']
             }
+            label={label}
+            name={name}
             {...(required && { required: true })}
             {...textFieldProps}
           />
         )
       }}
+      value={selectedOption}
     />
   )
 }

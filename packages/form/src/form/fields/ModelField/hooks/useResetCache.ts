@@ -1,4 +1,4 @@
-import { useRef, useEffect } from 'react'
+import { useEffect, useRef } from 'react'
 import { VariableSizeList } from 'react-window'
 
 export const useResetCache = (data: any) => {

@@ -2,16 +2,16 @@ import { BlockProps } from '../web/Block/Block'
 
 export interface RenderHeroBlockProps extends BlockProps {
   item: {
-    title: string
-    subtitle?: string
-    hero_src?: string
     hero_alt?: string
+    hero_src?: string
+    subtitle?: string
+    title: string
   }
 }
 
 const renderHeroBlock = (props: RenderHeroBlockProps) => {
   const { item, ...rest } = props
-  const { title, subtitle, hero_src, hero_alt } = item || {}
+  const { title, hero_alt, hero_src, subtitle } = item || {}
   return {
     id: 'hero',
     pb: 0,
@@ -19,26 +19,26 @@ const renderHeroBlock = (props: RenderHeroBlockProps) => {
     sx: { backgroundColor: 'background.paper' },
     ...rest,
     items: [
-      { type: 'h1', title },
+      { title, type: 'h1' },
       {
-        type: 'subtitle1',
         title: subtitle,
         titleProps: {
           maxWidth: true,
           sx: { mt: { xs: 1, md: 3 } },
         },
+        type: 'subtitle1',
       },
       {
-        type: 'image',
         title: hero_src,
         disableContainer: true,
         titleProps: {
           alt: hero_alt,
-          priority: true,
           background: true,
           backgroundHeight: { xs: 400, md: 600 },
           backgroundSx: { mt: { xs: 5, md: 10 } },
+          priority: true,
         },
+        type: 'image',
       },
     ],
   }

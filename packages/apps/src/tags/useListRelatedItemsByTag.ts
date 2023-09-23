@@ -2,18 +2,18 @@ import { useList } from '@gravis-os/query'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 
 export interface UseListRelatedItemsByTagProps {
-  tags?: Array<Record<string, unknown>>
   item: CrudItem & {
-    tag_ids?: Array<Record<string, unknown>>
     tag?: Array<Record<string, unknown>>
+    tag_ids?: Array<Record<string, unknown>>
   }
+  joinModule?: CrudModule
   module: CrudModule
   relatedModule: CrudModule
-  joinModule?: CrudModule
+  tags?: Array<Record<string, unknown>>
 }
 
 const useListRelatedItemsByTag = (props: UseListRelatedItemsByTagProps) => {
-  const { tags, item, module, relatedModule, joinModule } = props
+  const { item, joinModule, module, relatedModule, tags } = props
 
   const relatedItemsTableName: string = relatedModule.table.name
   const isTheSameModule = module.table.name === relatedItemsTableName
@@ -23,12 +23,7 @@ const useListRelatedItemsByTag = (props: UseListRelatedItemsByTagProps) => {
   const hasRelatedTagIds = Boolean(relatedTagIds?.length)
   const onUseList = useList({
     disablePagination: true,
-    module:
-      joinModule ||
-      ({
-        select: { list: `*, ${relatedItemsTableName}(*)` },
-        table: { name: `tag_${relatedItemsTableName}` },
-      } as CrudModule),
+    disableWorkspacePlugin: true,
     filters: [
       hasRelatedTagIds && {
         key: 'tag_id',
@@ -42,7 +37,12 @@ const useListRelatedItemsByTag = (props: UseListRelatedItemsByTagProps) => {
       },
     ],
     limit: 3,
-    disableWorkspacePlugin: true,
+    module:
+      joinModule ||
+      ({
+        select: { list: `*, ${relatedItemsTableName}(*)` },
+        table: { name: `tag_${relatedItemsTableName}` },
+      } as CrudModule),
     queryOptions: { enabled: hasRelatedTagIds },
   })
 

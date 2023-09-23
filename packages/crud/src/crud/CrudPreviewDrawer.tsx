@@ -1,21 +1,23 @@
 import React from 'react'
+
 import { Drawer } from '@gravis-os/ui'
+
 import styleConfig from '../config/styleConfig'
 import CrudForm from './CrudForm'
 import getCrudItemHref from './getCrudItemHref'
 
 const CrudPreviewDrawer = (props) => {
   const {
+    crudFormProps,
     disableManage,
     disablePreview,
     isListPage,
-    refetch,
-    previewModule,
-    previewItem,
-    resetPreview,
     previewFormSections,
+    previewItem,
     previewLoading,
-    crudFormProps,
+    previewModule,
+    refetch,
+    resetPreview,
   } = props
 
   const isOpen =
@@ -23,40 +25,40 @@ const CrudPreviewDrawer = (props) => {
 
   return (
     <Drawer
-      anchor="right"
-      // We only want to show loading state from useGetItem if CrudTable is in ListPage
-      open={isOpen}
-      onClose={resetPreview}
       PaperProps={{
         sx: {
-          width: '100%',
-          maxWidth: styleConfig.rightAsideWidth,
           boxShadow: styleConfig.rightAsideBoxShadow,
+          maxWidth: styleConfig.rightAsideWidth,
+          width: '100%',
         },
       }}
+      anchor="right"
+      onClose={resetPreview}
+      // We only want to show loading state from useGetItem if CrudTable is in ListPage
+      open={isOpen}
     >
       <CrudForm
+        headerProps={{
+          actionButtons: [
+            !disableManage && {
+              children: 'Manage',
+              href: getCrudItemHref({
+                item: previewItem,
+                module: previewModule,
+              }),
+              key: 'manage',
+            },
+          ].filter(Boolean),
+          borderBottom: true,
+          disableBreadcrumbs: true,
+          onClose: resetPreview,
+          size: 'small',
+          sx: { mt: 2, px: 2 },
+        }}
+        item={previewItem}
         loading={previewLoading}
         module={previewModule}
         sections={previewFormSections}
-        item={previewItem}
-        headerProps={{
-          sx: { mt: 2, px: 2 },
-          disableBreadcrumbs: true,
-          onClose: resetPreview,
-          borderBottom: true,
-          size: 'small',
-          actionButtons: [
-            !disableManage && {
-              key: 'manage',
-              children: 'Manage',
-              href: getCrudItemHref({
-                module: previewModule,
-                item: previewItem,
-              }),
-            },
-          ].filter(Boolean),
-        }}
         {...crudFormProps}
         useCrudFormProps={{
           afterSubmit: () => {

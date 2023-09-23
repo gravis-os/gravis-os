@@ -1,7 +1,8 @@
 import { PressRelease } from '@gravis-os/types'
-import renderPostsBlockItem from './renderPostsBlockItem'
-import { BlockProps } from '../web/Block/Block'
+
 import { useLayout } from '../providers/LayoutProvider'
+import { BlockProps } from '../web/Block/Block'
+import renderPostsBlockItem from './renderPostsBlockItem'
 
 export interface RenderFeaturedNewsBlockProps
   extends Omit<BlockProps, 'items'> {
@@ -16,11 +17,11 @@ const renderFeaturedNewsBlock = (props: RenderFeaturedNewsBlockProps) => {
   return {
     id: 'featured-news',
     items: [
-      { type: 'overline', title: 'News' },
+      { title: 'News', type: 'overline' },
       {
-        type: 'h4',
         title,
         titleProps: { sx: { mb: { xs: 3, md: 5 } } },
+        type: 'h4',
       },
       renderPostsBlockItem({
         items: items.map((item) => {

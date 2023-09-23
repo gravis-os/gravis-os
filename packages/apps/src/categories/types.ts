@@ -1,21 +1,21 @@
 import { CrudItem } from '@gravis-os/types'
 
 export interface Thread extends CrudItem {
-  id: number
-  hero_src?: string
-  hero_alt?: string
-  avatar_src?: string
   avatar_alt?: string
-  title: string
-  subtitle?: string
+  avatar_src?: string
   forum_category?: {
-    id: number
-    title: string
-    slug: string
     forum?: {
       id: number
-      title: string
       slug: string
+      title: string
     }
+    id: number
+    slug: string
+    title: string
   }
+  hero_alt?: string
+  hero_src?: string
+  id: number
+  subtitle?: string
+  title: string
 }

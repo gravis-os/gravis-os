@@ -1,5 +1,5 @@
-import { LayoutConfig } from './types'
 import makeGetLayoutProviderProps from './makeGetLayoutProviderProps'
+import { LayoutConfig } from './types'
 
 const makeWithLayoutProviderPropsToStaticProps =
   (layoutConfig: LayoutConfig) => (context) => (staticPropsResult) => {

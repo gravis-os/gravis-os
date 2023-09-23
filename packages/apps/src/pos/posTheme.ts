@@ -4,15 +4,15 @@ const posTheme = {
   components: {
     MuiButton: {
       defaultProps: {
-        variant: 'contained',
         color: 'inherit',
         size: 'large',
+        variant: 'contained',
       },
       styleOverrides: {
         root: {
+          fontSize: posConfig.buttonFontSize,
           minHeight: posConfig.buttonMinHeight,
           minWidth: posConfig.buttonMinWidth,
-          fontSize: posConfig.buttonFontSize,
         },
       },
     },

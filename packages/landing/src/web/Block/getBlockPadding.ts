@@ -1,11 +1,12 @@
-import isNil from 'lodash/isNil'
 import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
+
+import isNil from 'lodash/isNil'
 
 export type BlockPadding = ResponsiveStyleValue<any>
 
 interface BlockVerticalPadding {
-  pt?: BlockPadding
   pb?: BlockPadding
+  pt?: BlockPadding
   py?: BlockPadding
 }
 
@@ -13,7 +14,7 @@ type GetBlockPaddingFunction = (
   props: BlockVerticalPadding
 ) => BlockVerticalPadding
 
-const getBlockPadding = ({ pt, pb, py }) => {
+const getBlockPadding = ({ pb, pt, py }) => {
   // Handle py: 0 gracefully while avoiding 0 from returning a false value
   if (py === 0) return { py }
 

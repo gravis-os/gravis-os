@@ -1,24 +1,26 @@
 import React from 'react'
+
 import { StorageAvatar } from '@gravis-os/storage'
+import { CrudModuleWithGetWebHref, Person } from '@gravis-os/types'
 import { Link, Stack, Typography } from '@gravis-os/ui'
 import dayjs from 'dayjs'
-import { CrudModuleWithGetWebHref, Person } from '@gravis-os/types'
+
 import { ForumCategory, Thread, ThreadComment } from './types'
 
 export interface ThreadAuthorLineProps {
-  person?: Person
-  item?: Thread | ThreadComment
   forumCategory?: ForumCategory
   forumCategoryModule?: CrudModuleWithGetWebHref
+  item?: Thread | ThreadComment
+  person?: Person
 }
 
 const ThreadAuthorLine: React.FC<ThreadAuthorLineProps> = (props) => {
-  const { person, item, forumCategory, forumCategoryModule } = props
+  const { forumCategory, forumCategoryModule, item, person } = props
   if (!person) return null
   return (
     <Stack
-      direction="row"
       alignItems="center"
+      direction="row"
       spacing={0.5}
       sx={{
         '&': { display: 'block' },
@@ -27,10 +29,10 @@ const ThreadAuthorLine: React.FC<ThreadAuthorLineProps> = (props) => {
     >
       <div>
         <StorageAvatar
-          letterAltFallback
-          src={person.avatar_src}
           alt={person.avatar_alt || person.title}
+          letterAltFallback
           size={24}
+          src={person.avatar_src}
         />
       </div>
 
@@ -38,7 +40,7 @@ const ThreadAuthorLine: React.FC<ThreadAuthorLineProps> = (props) => {
         {person.first_name || person.title}
       </Typography>
 
-      <Typography variant="body2" color="text.secondary">
+      <Typography color="text.secondary" variant="body2">
         {forumCategoryModule ? 'asked' : 'replied'} a question
         {forumCategoryModule ? ' in' : ''}
       </Typography>
@@ -54,7 +56,7 @@ const ThreadAuthorLine: React.FC<ThreadAuthorLineProps> = (props) => {
         </Link>
       )}
 
-      <Typography variant="body2" color="text.secondary">
+      <Typography color="text.secondary" variant="body2">
         on {dayjs(item?.created_at).format('D MMM YY')}
       </Typography>
     </Stack>

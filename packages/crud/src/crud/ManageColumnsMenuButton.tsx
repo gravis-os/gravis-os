@@ -1,6 +1,7 @@
 import React from 'react'
-import { MenuButton, ButtonProps } from '@gravis-os/ui'
+
 import { CheckboxGroup } from '@gravis-os/fields'
+import { ButtonProps, MenuButton } from '@gravis-os/ui'
 import { ColDef } from 'ag-grid-community/dist/lib/entities/colDef'
 
 export interface ManageColumnDef extends ColDef {
@@ -8,52 +9,52 @@ export interface ManageColumnDef extends ColDef {
 }
 
 export interface ManageColumnsMenuButtonProps extends ButtonProps {
-  initialColumnDefs: ManageColumnDef[]
   columnDefs: ManageColumnDef[]
+  initialColumnDefs: ManageColumnDef[]
   setColumnDefs: React.Dispatch<React.SetStateAction<ManageColumnDef[]>>
+}
+
+const getIsExcludedColumn = (field: string) =>
+  !field || ['actions', 'checkbox', 'index'].includes(field)
+
+const getCheckboxOptions = (columnDefs: ManageColumnDef[]) => {
+  return columnDefs
+    .map(({ field, headerName }) => {
+      // Exclude certain columns from showing up in the checkbox
+      if (getIsExcludedColumn(field)) return null
+
+      // Check if checkbox should be default checked
+      const currentKeys = columnDefs
+        .filter(({ hide }) => !hide)
+        .map(({ field }) => field)
+
+      const isChecked = currentKeys.includes(field)
+
+      return {
+        isChecked,
+        key: field,
+        label: headerName,
+        value: field,
+      }
+    })
+    .filter(Boolean)
 }
 
 const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
   props
 ) => {
-  const { columnDefs, setColumnDefs, initialColumnDefs, sx, ...rest } = props
+  const { columnDefs, initialColumnDefs, setColumnDefs, sx, ...rest } = props
 
   return (
     <MenuButton
-      title="Columns"
-      size="small"
       color="inherit"
-      variant="text"
+      size="small"
       sx={{ color: 'text.secondary', lineHeight: 1, ...sx }}
+      title="Columns"
+      variant="text"
       {...rest}
     >
       {() => {
-        const getIsExcludedColumn = (field: string) =>
-          !field || ['index', 'checkbox', 'actions'].includes(field)
-
-        const getCheckboxOptions = (columnDefs: ManageColumnDef[]) => {
-          return columnDefs
-            .map(({ field, headerName }) => {
-              // Exclude certain columns from showing up in the checkbox
-              if (getIsExcludedColumn(field)) return null
-
-              // Check if checkbox should be default checked
-              const currentKeys = columnDefs
-                .filter(({ hide }) => !hide)
-                .map(({ field }) => field)
-
-              const isChecked = currentKeys.includes(field)
-
-              return {
-                key: field,
-                value: field,
-                label: headerName,
-                isChecked,
-              }
-            })
-            .filter(Boolean)
-        }
-
         const options = getCheckboxOptions(initialColumnDefs)
         const value = getCheckboxOptions(columnDefs).filter(
           ({ isChecked }) => isChecked
@@ -61,10 +62,9 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
 
         return (
           <CheckboxGroup
-            sx={{ px: 2 }}
-            name="columns"
             checkboxProps={{ size: 'small' }}
             disableLabel
+            name="columns"
             onChange={(_, { params }) => {
               const nextColumnDefs = columnDefs.map((columnDef) =>
                 columnDef.field === params.key
@@ -74,6 +74,7 @@ const ManageColumnsMenuButton: React.FC<ManageColumnsMenuButtonProps> = (
               setColumnDefs(nextColumnDefs)
             }}
             options={options}
+            sx={{ px: 2 }}
             value={value}
           />
         )

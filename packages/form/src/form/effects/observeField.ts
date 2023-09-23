@@ -1,8 +1,7 @@
 const observeField = ({ source, target }) => {
   return {
-    watch: [source],
     setValue: (props) => {
-      const { formState, values, getValues } = props
+      const { formState, getValues, values } = props
       const { isDirty } = formState
 
       const previousValues = getValues()
@@ -12,6 +11,7 @@ const observeField = ({ source, target }) => {
 
       return nextTargetValue
     },
+    watch: [source],
   }
 }
 

@@ -6,7 +6,7 @@ export interface WithStatesOptions {
   props?: StatesProps
 }
 
-const withStates = (options: WithStatesOptions) => {
+const withStates = (options: WithStatesOptions = {}) => {
   return (Component) => {
     return (props) => {
       return (

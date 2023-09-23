@@ -1,6 +1,8 @@
 import { useState } from 'react'
+
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
+
 import useGetItem from './useGetItem'
 
 export interface UsePreviewDrawerProps {
@@ -9,13 +11,13 @@ export interface UsePreviewDrawerProps {
 }
 
 export interface UsePreviewDrawerReturn {
-  previewSlug?: string
-  previewModule?: CrudModule
   previewFormSections?: FormSectionsProps['sections']
   previewItem?: CrudItem
   previewLoading?: boolean
-  setPreview: ({ module, previewSlug, previewFormSections }) => void
+  previewModule?: CrudModule
+  previewSlug?: string
   resetPreview?: () => void
+  setPreview: ({ module, previewFormSections, previewSlug }) => void
 }
 
 const usePreviewDrawer = (
@@ -23,18 +25,18 @@ const usePreviewDrawer = (
 ): UsePreviewDrawerReturn => {
   const {
     module: injectedModule,
-    previewFormSections: injectedPreviewFormSections
+    previewFormSections: injectedPreviewFormSections,
   } = props
 
   // States
-  const [previewSlug, setPreviewSlug] = useState<string | null>('')
+  const [previewSlug, setPreviewSlug] = useState<null | string>('')
   const [previewModule, setPreviewModule] = useState<CrudModule>(injectedModule)
   const [previewFormSections, setPreviewFormSections] = useState<
     FormSectionsProps['sections']
   >(injectedPreviewFormSections)
 
   // Methods
-  const setPreview = ({ module, previewSlug, previewFormSections }) => {
+  const setPreview = ({ module, previewFormSections, previewSlug }) => {
     setPreviewModule(module)
     setPreviewSlug(previewSlug)
     /**
@@ -49,21 +51,20 @@ const usePreviewDrawer = (
   const resetPreview = () => setPreviewSlug('')
 
   // Preview item
-  const onUseGetItem = useGetItem({ module: previewModule, slug: previewSlug })
-  const { item: previewItem, isLoading: previewLoading } = previewSlug === ''
-    ? { item: null, isLoading: false }
-    : onUseGetItem
+  const onUseGetItem = useGetItem({ slug: previewSlug, module: previewModule })
+  const { isLoading: previewLoading, item: previewItem } =
+    previewSlug === '' ? { isLoading: false, item: null } : onUseGetItem
 
   return {
-    previewSlug,
-    previewModule,
     previewFormSections,
-
     previewItem,
     previewLoading,
 
+    previewModule,
+    previewSlug,
+
+    resetPreview,
     setPreview,
-    resetPreview
   }
 }
 

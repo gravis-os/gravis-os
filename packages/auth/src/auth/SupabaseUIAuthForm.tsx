@@ -1,7 +1,8 @@
 import React from 'react'
-import { UserProvider } from '@supabase/auth-helpers-react'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+
 import { Box, BoxProps } from '@gravis-os/ui'
+import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { UserProvider } from '@supabase/auth-helpers-react'
 
 export interface SupabaseUIAuthFormProps extends BoxProps {
   formProps?: Record<string, unknown>
@@ -13,21 +14,21 @@ const SupabaseUIAuthForm: React.FC<SupabaseUIAuthFormProps> = (props) => {
   return (
     <Box
       sx={{
-        width: '100%',
-        // Buttons
-        '& button': {
-          backgroundColor: 'primary.main',
-          '&:hover': {
-            backgroundColor: 'primary.dark',
-          },
-        },
         // Links
         '& .sbui-typography-link': {
-          color: 'primary.main',
           '&:hover': {
             color: 'primary.dark',
           },
+          color: 'primary.main',
         },
+        // Buttons
+        '& button': {
+          '&:hover': {
+            backgroundColor: 'primary.dark',
+          },
+          backgroundColor: 'primary.main',
+        },
+        width: '100%',
         ...sx,
       }}
       {...rest}

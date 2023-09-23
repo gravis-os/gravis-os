@@ -1,32 +1,33 @@
 import { useForm } from 'react-hook-form'
-import { supabaseClient, SupabaseClient } from '@supabase/auth-helpers-nextjs'
+import toast from 'react-hot-toast'
+
 import { getSearchFormValues } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import toast from 'react-hot-toast'
+import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
 
 interface UseSearchFormValues {
   values: Record<string, any>
 }
 
 export interface UseSearchFormArgs {
-  module: CrudModule
   client?: SupabaseClient
-  setFormValues?: ({ values }: UseSearchFormValues) => Record<string, any>
+  defaultValues?: Record<string, any>
+  module: CrudModule
   onSubmit?: (values: UseSearchFormValues) => void
   resetOnSubmit?: boolean
-  defaultValues?: Record<string, any>
+  setFormValues?: ({ values }: UseSearchFormValues) => Record<string, any>
 }
 
 const useSearchForm = (args: UseSearchFormArgs) => {
   const {
-    defaultValues,
-    resetOnSubmit,
-    onSubmit,
-    setFormValues,
     client = supabaseClient,
+    defaultValues,
     module,
+    onSubmit,
+    resetOnSubmit,
+    setFormValues,
   } = args
-  const { sk = 'slug', route, table } = module
+  const { route, sk = 'slug', table } = module
 
   // ==============================
   // Form
@@ -44,8 +45,8 @@ const useSearchForm = (args: UseSearchFormArgs) => {
         : searchFormValues
       if (onSubmit) onSubmit({ values: nextValues })
       if (resetOnSubmit) reset(defaultValues)
-    } catch (err) {
-      console.error('Error caught:', err)
+    } catch (error) {
+      console.error('Error caught:', error)
       toast.error('Something went wrong')
     }
   }

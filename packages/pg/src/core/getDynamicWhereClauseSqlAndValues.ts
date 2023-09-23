@@ -1,20 +1,21 @@
 import type { Pool } from 'pg'
+
+import fetchColumnNamesFromTable from '../fetchers/fetchColumnNamesFromTable'
 import { ApiRequestQuery } from '../types'
 import getWhereClauseSql from './getWhereClauseSql'
 import getWhereClauseValues from './getWhereClauseValues'
-import fetchColumnNamesFromTable from '../fetchers/fetchColumnNamesFromTable'
 
 const getDynamicWhereClauseSqlAndValues = async (props: {
+  pool: Pool
   query: ApiRequestQuery
   table: string
-  pool: Pool
 }) => {
-  const { query, table, pool } = props
+  const { pool, query, table } = props
 
-  const columnKeys = await fetchColumnNamesFromTable({ table, pool })
+  const columnKeys = await fetchColumnNamesFromTable({ pool, table })
 
-  const whereClauseSql = getWhereClauseSql({ query, columnKeys })
-  const whereClauseValues = getWhereClauseValues({ query, columnKeys })
+  const whereClauseSql = getWhereClauseSql({ columnKeys, query })
+  const whereClauseValues = getWhereClauseValues({ columnKeys, query })
 
   return [whereClauseSql, whereClauseValues]
 }

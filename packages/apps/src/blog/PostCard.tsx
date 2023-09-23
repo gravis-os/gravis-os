@@ -1,4 +1,7 @@
 import React from 'react'
+
+import { StorageImage } from '@gravis-os/storage'
+import { CrudModule } from '@gravis-os/types'
 import {
   Card,
   CardContent,
@@ -7,32 +10,31 @@ import {
   Link,
   Typography,
 } from '@gravis-os/ui'
-import { CrudModule } from '@gravis-os/types'
-import { StorageImage } from '@gravis-os/storage'
+
 import { Post } from './types'
 
 export interface PostCardProps extends CardProps {
+  blogCategoryModule: CrudModule | any
+  cardContentProps?: CardContentProps
+  disableSubtitle?: boolean
+  imageHeight?: number
   item: Post
   postModule: CrudModule | any
-  blogCategoryModule: CrudModule | any
-  size?: 'small' | 'medium' | 'large'
   reverse?: boolean
-  disableSubtitle?: boolean
-  cardContentProps?: CardContentProps
-  imageHeight?: number
+  size?: 'large' | 'medium' | 'small'
 }
 
 const PostCard: React.FC<PostCardProps> = (props) => {
   const {
-    item,
     blogCategoryModule,
-    postModule,
-    sx,
-    size,
-    reverse,
     cardContentProps,
     disableSubtitle,
     imageHeight,
+    item,
+    postModule,
+    reverse,
+    size,
+    sx,
     ...rest
   } = props
 
@@ -41,7 +43,7 @@ const PostCard: React.FC<PostCardProps> = (props) => {
   const isSmall = size === 'small'
   const isLarge = size === 'large'
 
-  const { title, subtitle, hero_src, hero_alt, blog_category } = item
+  const { id, title, blog_category, hero_alt, hero_src, subtitle } = item
 
   const postHref = postModule.getWebHref([
     blog_category?.blog,
@@ -51,8 +53,8 @@ const PostCard: React.FC<PostCardProps> = (props) => {
 
   return (
     <Card
-      key={item.id}
       disableCardContent
+      key={id}
       square
       stretch
       sx={{
@@ -71,11 +73,11 @@ const PostCard: React.FC<PostCardProps> = (props) => {
         }}
       >
         <StorageImage
-          src={hero_src}
           alt={hero_alt || title}
-          scaleOnHover
           ar="16:9"
           rounded
+          scaleOnHover
+          src={hero_src}
         />
       </Link>
 
@@ -93,18 +95,19 @@ const PostCard: React.FC<PostCardProps> = (props) => {
             blog_category,
           ])}
         >
-          <Typography variant="overline" gutterBottom>
+          <Typography gutterBottom variant="overline">
             {blog_category.title}
           </Typography>
         </Link>
-        <Link variant={isLarge ? 'h4' : isSmall ? 'h6' : 'h5'} href={postHref}>
+        {/* prettier-ignore */}
+        <Link href={postHref} variant={isLarge ? 'h4' : (isSmall ? 'h6' : 'h5')}>
           {title}
         </Link>
         {!disableSubtitle && subtitle && (
           <Typography
-            variant={isSmall ? 'body2' : 'body1'}
             color="text.secondary"
             maxLines={3}
+            variant={isSmall ? 'body2' : 'body1'}
           >
             {subtitle}
           </Typography>

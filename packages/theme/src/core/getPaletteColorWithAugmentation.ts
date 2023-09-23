@@ -1,4 +1,5 @@
 import { PaletteColorOptions } from '@mui/material/styles'
+
 import createGradientFromMainColor from './createGradientFromMainColor'
 
 /**
@@ -8,10 +9,10 @@ import createGradientFromMainColor from './createGradientFromMainColor'
  * @param mainColor
  */
 const getPaletteColorWithAugmentation = ({
-  themeOptions,
-  paletteOptions,
-  paletteKey,
   mainColor: injectedMainColor,
+  paletteKey,
+  paletteOptions,
+  themeOptions,
 }): { [key: string]: Record<string, unknown> } => {
   const mainColor =
     injectedMainColor ||

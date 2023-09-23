@@ -11,14 +11,14 @@ const renderHomeSummaryBlock = (props: RenderHomeSummaryBlockProps) => {
 
   return {
     id: 'home-summary',
-    pt: { xs: 5, md: 10 },
     pb: { xs: 5, md: 10 },
+    pt: { xs: 5, md: 10 },
     ...rest,
     items: [
       {
-        type: 'h4',
         title,
         titleProps: { maxWidth: true, ...titleProps },
+        type: 'h4',
       },
     ],
   }

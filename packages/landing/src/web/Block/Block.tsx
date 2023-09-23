@@ -1,4 +1,6 @@
 import React from 'react'
+
+import { WithPaletteModeProps, withPaletteMode } from '@gravis-os/theme'
 import {
   Box,
   BoxProps,
@@ -10,24 +12,12 @@ import {
   VideoProps,
 } from '@gravis-os/ui'
 import flowRight from 'lodash/flowRight'
-import { withPaletteMode, WithPaletteModeProps } from '@gravis-os/theme'
+
 import BlockItem, { BlockItemProps } from './BlockItem'
 import getBlockPadding from './getBlockPadding'
 import withBlockItemShorthand from './withBlockItemShorthand'
 
 export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
-  id?: string
-
-  items?: BlockItemProps[]
-  maxWidth?: BlockItemProps['maxWidth']
-  containerProps?: BlockItemProps['containerProps']
-  disableContainer?: BlockItemProps['disableContainer']
-  disableContainerOnMobile?: BlockItemProps['disableContainerOnMobile']
-
-  // Stack
-  spacing?: StackProps['spacing']
-  stackProps?: StackProps
-
   /**
    * Add a background image to the block
    *
@@ -36,10 +26,11 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
    * @link https://github.com/vercel/next.js/discussions/18357
    */
   backgroundImageProps?: ImageProps
-  backgroundVideoProps?: VideoProps
-  backgroundOverlayProps?: BoxProps
-  backgroundOverlayOpacity?: number
 
+  backgroundOverlayOpacity?: number
+  backgroundOverlayProps?: BoxProps
+  backgroundVideoProps?: VideoProps
+  containerProps?: BlockItemProps['containerProps']
   /**
    * Dark mode
    * Trigger MUI nesting behavior to invert the text colors
@@ -47,33 +38,44 @@ export interface BlockProps extends Omit<BoxProps, 'maxWidth'> {
    * @link https://mui.com/system/styles/advanced/#theme-nesting
    */
   dark?: boolean
+
+  disableContainer?: BlockItemProps['disableContainer']
+  disableContainerOnMobile?: BlockItemProps['disableContainerOnMobile']
+
+  id?: string
+  items?: BlockItemProps[]
+  maxWidth?: BlockItemProps['maxWidth']
   /**
    * Used for forcing dark/light mode
    */
   mode?: WithPaletteModeProps['mode']
+
+  // Stack
+  spacing?: StackProps['spacing']
+  stackProps?: StackProps
 }
 
 const Block: React.FC<BlockProps> = (props) => {
   const {
     id,
-    spacing,
-    stackProps,
-    pt,
-    pb,
-    py,
-    items: injectedItems = [],
-    sx,
-    maxWidth,
-    containerProps,
-    disableContainer,
-    disableContainerOnMobile,
-    reveal = true,
     backgroundImageProps,
-    backgroundVideoProps,
     backgroundOverlayOpacity,
     backgroundOverlayProps,
+    backgroundVideoProps,
+    containerProps,
     dark,
+    disableContainer,
+    disableContainerOnMobile,
+    items: injectedItems = [],
+    maxWidth,
     mode,
+    pb,
+    pt,
+    py,
+    reveal = true,
+    spacing,
+    stackProps,
+    sx,
     ...rest
   } = props
 
@@ -97,7 +99,7 @@ const Block: React.FC<BlockProps> = (props) => {
           backgroundColor: defaultBackgroundColor,
         }),
         color: 'text.primary',
-        ...getBlockPadding({ pt, pb, py }),
+        ...getBlockPadding({ pb, pt, py }),
         ...(hasBackgroundImage || hasBackgroundVideo
           ? { position: 'relative' }
           : { backgroundColor: defaultBackgroundColor }),
@@ -110,13 +112,13 @@ const Block: React.FC<BlockProps> = (props) => {
         <Box
           sx={{
             backgroundColor: 'black',
-            position: 'absolute',
-            top: 0,
             bottom: 0,
             left: 0,
-            right: 0,
-            zIndex: 0,
             opacity: backgroundOverlayOpacity || 0.25,
+            position: 'absolute',
+            right: 0,
+            top: 0,
+            zIndex: 0,
             ...backgroundOverlayProps?.sx,
           }}
         />
@@ -128,8 +130,8 @@ const Block: React.FC<BlockProps> = (props) => {
       {/* Background video */}
       {hasBackgroundVideo && (
         <Video
-          src={backgroundVideoProps.src}
           poster={backgroundVideoProps.poster}
+          src={backgroundVideoProps.src}
           sx={{
             height: '100%',
             position: 'absolute',
@@ -140,16 +142,16 @@ const Block: React.FC<BlockProps> = (props) => {
       )}
 
       {/* Content */}
-      <Box sx={{ width: '100%' }} reveal={reveal}>
+      <Box reveal={reveal} sx={{ width: '100%' }}>
         <Stack spacing={spacing} {...stackProps}>
           {items.map((item, i) => {
             return (
               <BlockItem
-                key={`block-item-${i}`}
-                maxWidth={maxWidth}
                 containerProps={containerProps}
                 disableContainer={disableContainer}
                 disableContainerOnMobile={disableContainerOnMobile}
+                key={`block-item-${i}`}
+                maxWidth={maxWidth}
                 {...item}
               />
             )
@@ -160,8 +162,8 @@ const Block: React.FC<BlockProps> = (props) => {
   )
 
   return withPaletteMode({
-    mode,
     dark,
+    mode,
   })(childrenJsx)
 }
 
