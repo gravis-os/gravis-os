@@ -22,6 +22,8 @@ module.exports = {
     'airbnb/hooks',
     'plugin:@typescript-eslint/recommended',
     'prettier',
+    'plugin:security/recommended',
+    'plugin:no-unsanitized/DOM',
   ],
   plugins: [
     'react',
@@ -31,8 +33,11 @@ module.exports = {
     'jest',
     'testing-library',
     'unused-imports',
+    'no-secrets',
   ],
   rules: {
+    // Security
+    'no-secrets/no-secrets': 2,
     // Javascript
     camelcase: 0,
     'arrow-body-style': 0,
