@@ -1,5 +1,22 @@
 # Changelog
 
+## 1.2.0
+
+### Minor Changes
+
+- [#485](https://github.com/gravis-os/gravis-os/pull/485) [`7eaea744`](https://github.com/gravis-os/gravis-os/commit/7eaea7441a1bc9d3ea7ee22c04173a5610bed419) Thanks [@clodal](https://github.com/clodal)! - Upgrade eslint, lint all packages
+
+### Patch Changes
+
+- Updated dependencies [[`7eaea744`](https://github.com/gravis-os/gravis-os/commit/7eaea7441a1bc9d3ea7ee22c04173a5610bed419)]:
+  - @gravis-os/crud@0.8.0
+  - @gravis-os/dashboard@0.4.0
+  - @gravis-os/fields@1.7.0
+  - @gravis-os/form@1.8.0
+  - @gravis-os/query@0.3.0
+  - @gravis-os/types@0.7.0
+  - @gravis-os/ui@0.12.0
+
 ## 1.1.1
 
 ### Patch Changes

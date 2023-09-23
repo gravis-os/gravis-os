@@ -1,5 +1,18 @@
 # Changelog
 
+## 0.4.0
+
+### Minor Changes
+
+- [#485](https://github.com/gravis-os/gravis-os/pull/485) [`7eaea744`](https://github.com/gravis-os/gravis-os/commit/7eaea7441a1bc9d3ea7ee22c04173a5610bed419) Thanks [@clodal](https://github.com/clodal)! - Upgrade eslint, lint all packages
+
+### Patch Changes
+
+- Updated dependencies [[`7eaea744`](https://github.com/gravis-os/gravis-os/commit/7eaea7441a1bc9d3ea7ee22c04173a5610bed419)]:
+  - @gravis-os/middleware@0.3.0
+  - @gravis-os/types@0.7.0
+  - @gravis-os/utils@0.6.0
+
 ## 0.3.0
 
 ### Minor Changes
