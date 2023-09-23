@@ -41,6 +41,8 @@ module.exports = {
     'unused-imports',
     'no-secrets',
     'fp',
+    'check-file',
+    'write-good-comments',
   ],
   rules: {
     '@typescript-eslint/ban-ts-comment': 1,
@@ -140,10 +142,24 @@ module.exports = {
     '@typescript-eslint/no-unused-vars': [1, { varsIgnorePattern: '^_' }],
     '@typescript-eslint/no-use-before-define': 1,
     'arrow-body-style': 0,
-    // Javascript
     camelcase: 0,
+    'check-file/filename-naming-convention': [
+      2,
+      {
+        '**/*.{js,ts}': 'CAMEL_CASE',
+        '**/*.{jsx,tsx}': 'PASCAL_CASE',
+      },
+    ],
+    'check-file/folder-naming-convention': [
+      2,
+      {
+        'components/*/': 'PASCAL_CASE',
+        'lib/*/': 'PASCAL_CASE',
+        // Check the first level of folders in src
+        'src/*/': 'CAMEL_CASE',
+      },
+    ],
     'consistent-return': 1,
-    // Fp
     'fp/no-mutating-methods': [
       2,
       {
@@ -304,6 +320,7 @@ module.exports = {
         varsIgnorePattern: '^_',
       },
     ],
+    'write-good-comments/write-good-comments': 1,
   },
   settings: {
     'import/resolver': {

@@ -11,6 +11,7 @@
     "eslint-config-next": "^12.0.8",
     "eslint-config-prettier": "^8.3.0",
     "eslint-import-resolver-typescript": "^2.2.0",
+    "eslint-plugin-check-file": "^2.6.2",
     "eslint-plugin-fp": "^2.3.0",
     "eslint-plugin-import": "^2.22.0",
     "eslint-plugin-jest": "^27.0.4",
@@ -26,6 +27,7 @@
     "eslint-plugin-testing-library": "^5.6.4",
     "eslint-plugin-unicorn": "^48.0.1",
     "eslint-plugin-unused-imports": "^2.0.0",
+    "eslint-plugin-write-good-comments": "^0.2.0",
     "prettier": "^2.0.5"
   },
   "publishConfig": {
