@@ -47,7 +47,7 @@ jobs:
           # #gvs channel in One X Slack
           channel-id: ${{ vars.SLACK_RELEASE_BOT_CHANNEL_ID }}
           # For posting a simple plain text message
-          slack-message: "<[${{ github.sha }}]|${{ github.event.head_commit.url }}>: A new version of ${{ github.repository }} was published! View release notes at https://github.com/${{ github.repository }}/releases."
+          slack-message: "<[${{ github.event.head_commit.url }}|${{ github.sha }}]>: A new version of ${{ github.repository }} was published! View release notes at https://github.com/${{ github.repository }}/releases."
         env:
           SLACK_BOT_TOKEN: ${{ secrets.SLACK_RELEASE_BOT_TOKEN }}
 
