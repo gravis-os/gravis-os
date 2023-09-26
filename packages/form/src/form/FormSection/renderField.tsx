@@ -64,7 +64,7 @@ const renderField = (props: RenderFieldProps) => {
     module,
     props: componentProps,
     render,
-
+    setTitle,
     type,
 
     ...rest
@@ -276,7 +276,7 @@ const renderField = (props: RenderFieldProps) => {
         )
       }
       default: {
-        const title = get(item, name)
+        const title = setTitle ? setTitle(item) : get(item, name)
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
