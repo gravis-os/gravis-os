@@ -1,5 +1,15 @@
 # Changelog
 
+## 1.9.0
+
+### Minor Changes
+
+- [#494](https://github.com/gravis-os/gravis-os/pull/494) [`6f6a4c95`](https://github.com/gravis-os/gravis-os/commit/6f6a4c95c4850a339ab2ba191915e19bf887677d) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(form): add setTitle props to set custom form value.
+
+### Patch Changes
+
+- [#488](https://github.com/gravis-os/gravis-os/pull/488) [`ab82c514`](https://github.com/gravis-os/gravis-os/commit/ab82c51435a01d95fa59c61755cfef093088fea8) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add renderReadOnly for renderField
+
 ## 1.8.0
 
 ### Minor Changes
