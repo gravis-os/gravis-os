@@ -3,13 +3,15 @@ import type { Theme } from '@mui/material'
 
 import React, { FC, useCallback, useEffect, useRef, useState } from 'react'
 
-import { CalendarOptions } from '@fullcalendar/common'
+/* eslint-disable perfectionist/sort-imports */
+import FullCalendar from '@fullcalendar/react'
+import type { CalendarOptions } from '@fullcalendar/common'
 import dayGridPlugin from '@fullcalendar/daygrid'
 import interactionPlugin from '@fullcalendar/interaction'
 import listPlugin from '@fullcalendar/list'
-import FullCalendar from '@fullcalendar/react'
 import timeGridPlugin from '@fullcalendar/timegrid'
 import timelinePlugin from '@fullcalendar/timeline'
+/* eslint-enable perfectionist/sort-imports */
 import { Box, Stack } from '@gravis-os/ui'
 import { useMediaQuery } from '@mui/material'
 import { styled } from '@mui/material/styles'
