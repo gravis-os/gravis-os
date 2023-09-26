@@ -122,6 +122,8 @@ export interface FormSectionFieldProps {
 
   setFilterQuery?: (filter: [key: string, value: any]) => string[]
 
+  setTitle?: (item: CrudItem) => string
+
   shouldQuillAutofocus?: boolean
 
   // Submission
