@@ -82,11 +82,9 @@ export interface FormSectionFieldProps {
   // Not to be confused with `fieldProps` as that is from RHF.
   filterLabel?: string
 
-  formatDateTimeValue?: (item: CrudItem) => string
   // Manage layout
   gridProps?: GridProps
   helperText?: React.ReactNode
-
   // Manage state
   hidden?: FormSectionFieldBooleanFunction | boolean
 
@@ -94,13 +92,13 @@ export interface FormSectionFieldProps {
   key: string
 
   label?: string
+
   // Declares the column names of non-foreign keys on the related many-to-many table for saving
   manyToManyExtraColumnKeys?: string[]
   modelFieldProps?: Partial<ModelFieldProps>
   module?: CrudModule
   multiple?: boolean
   name: string
-
   // Filters
   op?: string
 
@@ -113,13 +111,13 @@ export interface FormSectionFieldProps {
 
   // This is for passing props to the underlying component field.
   props?: Record<string, any>
+
   // Render - manage custom renders for installing hooks
   render?: (props: {
     children: React.ReactNode
     formContext: UseFormReturn
   }) => any // Typings not working here should be React.ReactNode
   required?: boolean
-
   select?: any // Can either be MUI textfield select or react-query selector
 
   setFilterQuery?: (filter: [key: string, value: any]) => string[]
@@ -131,6 +129,7 @@ export interface FormSectionFieldProps {
 
   // Styling
   sx?: SxProps
+
   type?: FormSectionFieldTypeEnum | string // Should not have string type but adding so as to prevent having to TS casting downstream
   // withCreate function
   withCreate?: boolean

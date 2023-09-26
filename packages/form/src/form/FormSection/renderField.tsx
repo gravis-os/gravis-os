@@ -57,15 +57,14 @@ const renderField = (props: RenderFieldProps) => {
     checkboxTableProps,
     chipFieldProps,
     fieldEffect,
-    formatDateTimeValue,
     gridProps,
     key,
-
     modelFieldProps,
+
     module,
     props: componentProps,
-
     render,
+
     type,
 
     ...rest
@@ -276,9 +275,7 @@ const renderField = (props: RenderFieldProps) => {
         )
       }
       default: {
-        const title = formatDateTimeValue
-          ? formatDateTimeValue(item)
-          : get(item, name)
+        const title = get(item, name)
 
         if (hasRenderReadOnly) {
           return renderReadOnly({
