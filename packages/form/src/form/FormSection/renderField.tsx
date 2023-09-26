@@ -60,7 +60,7 @@ const renderField = (props: RenderFieldProps) => {
     gridProps,
     key,
     modelFieldProps,
-
+    renderReadOnly: renderReadOnlyField,
     module,
     props: componentProps,
     render,
@@ -119,8 +119,9 @@ const renderField = (props: RenderFieldProps) => {
   if (isReadOnly || disableEdit) {
     const label = injectedLabel || startCase(name)
 
-    // Handle custom render
-    const hasRenderReadOnly = typeof renderReadOnly === 'function'
+    const hasRenderReadOnly =
+      typeof renderReadOnly === 'function' ||
+      typeof renderReadOnlyField === 'function'
 
     // Switch statements for managing readOnly mode for each field type
     switch (type) {
@@ -256,7 +257,7 @@ const renderField = (props: RenderFieldProps) => {
         const percentage = printPercentage(get(item, name), { dp: 2 })
 
         if (hasRenderReadOnly) {
-          return renderReadOnly({
+          return (renderReadOnly ?? renderReadOnlyField)({
             title: percentage,
             item,
             label,
