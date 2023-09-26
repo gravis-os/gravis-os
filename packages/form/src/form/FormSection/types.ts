@@ -101,7 +101,7 @@ export interface FormSectionFieldProps {
   name: string
   // Filters
   op?: string
-
+  renderReadOnly?: RenderPropsFunction<FormSectionRenderReadOnlyProps>
   options?:
     | CheckboxGroupProps['options']
     | RadioGroupProps['options']
