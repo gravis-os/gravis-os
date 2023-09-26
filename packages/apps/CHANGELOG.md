@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.1
+
+### Patch Changes
+
+- [#490](https://github.com/gravis-os/gravis-os/pull/490) [`c07c56b3`](https://github.com/gravis-os/gravis-os/commit/c07c56b3ef6903290bee8d783c1764da1bb1374e) Thanks [@clodal](https://github.com/clodal)! - Fix issue with Calendar import order causing build errors downstream"
+
+- Updated dependencies [[`ab82c514`](https://github.com/gravis-os/gravis-os/commit/ab82c51435a01d95fa59c61755cfef093088fea8), [`6f6a4c95`](https://github.com/gravis-os/gravis-os/commit/6f6a4c95c4850a339ab2ba191915e19bf887677d)]:
+  - @gravis-os/form@1.9.0
+
 ## 1.2.0
 
 ### Minor Changes

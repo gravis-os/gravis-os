@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.1
+
+### Patch Changes
+
+- [#493](https://github.com/gravis-os/gravis-os/pull/493) [`0e52ec59`](https://github.com/gravis-os/gravis-os/commit/0e52ec59f1b524669a4d18de3dd0f9a84b0062ee) Thanks [@clodal](https://github.com/clodal)! - Add guard in cleanHref util causing downstream breakage
+
 ## 0.6.0
 
 ### Minor Changes
