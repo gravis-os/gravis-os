@@ -47,7 +47,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     setUpsertRowsValue,
     storageModule,
     storageRecords,
-    onUploaded
+    onUploaded,
   } = props
 
   // Vars
@@ -95,7 +95,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
             position: file.position || 0,
             size: file.size,
             src: savedFileKey,
-            type: file.type
+            type: file.type,
           }
         }
       )
@@ -211,7 +211,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       'application/vnd.openxmlformats-officedocument.presentationml.presentation':
         ['.pptx'],
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
-        '.xlsx'
+        '.xlsx',
       ],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
         ['.docx'],
@@ -220,10 +220,10 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       'image/png': ['.png'],
       'image/svg+xml': ['.svg'],
       'image/webp': ['.webp'],
-      'text/csv': ['.csv']
+      'text/csv': ['.csv'],
     } as DropzoneOptions['accept'],
     onDrop: handleDrop,
-    ...dropzoneProps
+    ...dropzoneProps,
   }
   const dropzone = useDropzone(dropzoneOptions)
 
@@ -233,7 +233,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     files,
     onRemove: handleRemove,
     onUpload: handleUpload,
-    setFiles
+    setFiles,
   }
 }
 
