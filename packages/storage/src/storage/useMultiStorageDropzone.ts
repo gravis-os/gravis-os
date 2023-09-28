@@ -14,7 +14,7 @@ import useFiles from './useFiles'
 
 export interface UseMultiStorageDropzoneProps {
   attachToNewRecord?: boolean
-  onUploaded?: (uploadedData: any) => void
+  afterUpload?: (uploadedData: any) => void
   bucketName?: string
   dropzoneProps?: DropzoneOptions
   item?: CrudItem // The primary module instance (e.g. Product) instance, possibly undefined for a new product
@@ -47,7 +47,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     setUpsertRowsValue,
     storageModule,
     storageRecords,
-    onUploaded,
+    afterUpload
   } = props
 
   // Vars
@@ -95,7 +95,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
             position: file.position || 0,
             size: file.size,
             src: savedFileKey,
-            type: file.type,
+            type: file.type
           }
         }
       )
@@ -118,8 +118,8 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           // The relation_id e.g. product_id
           [`${primaryTableName}_id`]: primaryRecord.id,
           ...(primaryRecord.workspace_id && {
-            workspace_id: primaryRecord.workspace_id,
-          }),
+            workspace_id: primaryRecord.workspace_id
+          })
         }))
       )
 
@@ -162,7 +162,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
         })
       })
 
-      if (onUploaded) onUploaded(uploaded)
+      if (afterUpload) afterUpload(uploaded)
 
       toast.success('Success')
     } catch (error) {
@@ -211,7 +211,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       'application/vnd.openxmlformats-officedocument.presentationml.presentation':
         ['.pptx'],
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet': [
-        '.xlsx',
+        '.xlsx'
       ],
       'application/vnd.openxmlformats-officedocument.wordprocessingml.document':
         ['.docx'],
@@ -220,10 +220,10 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       'image/png': ['.png'],
       'image/svg+xml': ['.svg'],
       'image/webp': ['.webp'],
-      'text/csv': ['.csv'],
+      'text/csv': ['.csv']
     } as DropzoneOptions['accept'],
     onDrop: handleDrop,
-    ...dropzoneProps,
+    ...dropzoneProps
   }
   const dropzone = useDropzone(dropzoneOptions)
 
@@ -233,7 +233,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
     files,
     onRemove: handleRemove,
     onUpload: handleUpload,
-    setFiles,
+    setFiles
   }
 }
 
