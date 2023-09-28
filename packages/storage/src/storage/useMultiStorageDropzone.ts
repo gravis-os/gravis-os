@@ -13,6 +13,7 @@ import { File } from './types'
 import useFiles from './useFiles'
 
 export interface UseMultiStorageDropzoneProps {
+  afterUpload?: (uploadedData: any) => void
   attachToNewRecord?: boolean
   bucketName?: string
   dropzoneProps?: DropzoneOptions
@@ -36,6 +37,7 @@ export type UseMultiStorageDropzone = (props: UseMultiStorageDropzoneProps) => {
 
 const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const {
+    afterUpload,
     attachToNewRecord = false,
     bucketName = 'public',
     dropzoneProps,
@@ -159,6 +161,8 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
           return Object.assign(file, { url: URL.createObjectURL(file) })
         })
       })
+
+      if (afterUpload) afterUpload(uploaded)
 
       toast.success('Success')
     } catch (error) {
