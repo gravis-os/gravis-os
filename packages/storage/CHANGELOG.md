@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.1
+
+### Patch Changes
+
+- [#496](https://github.com/gravis-os/gravis-os/pull/496) [`53987dc4`](https://github.com/gravis-os/gravis-os/commit/53987dc45d776d5d74b8f1104c5caeecb83cebae) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add success callback for file upload
+
 ## 0.5.0
 
 ### Minor Changes
