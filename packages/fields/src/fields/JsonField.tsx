@@ -102,7 +102,6 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
               const sectionName = Array.isArray(sections)
                 ? `${name}[${i}].[${sectionKey}]`
                 : `${name}.[${key}].[${sectionKey}]`
-              if (!SORT_ORDER.includes(sectionKey)) return <></>
               const renderFieldContent = (sectionKey: string) => {
                 switch (sectionKey) {
                   case 'avatar_src':
