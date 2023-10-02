@@ -180,10 +180,11 @@ module.exports = {
       {
         ignore: [
           '^@gravis-os/apps/*',
-          '^@gravis-os/stripe/*',
-          '^@gravis-os/auth-server/*',
-          '^@gravis-os/landing/*',
-          '^@gravis-os/utils/*',
+          '^@gravis-os/stripe/server',
+          '^@gravis-os/auth-server/server',
+          '^@gravis-os/landing/server',
+          '^@gravis-os/utils/edge',
+          '^@gravis-os/saas/middleware',
         ],
       },
     ],
