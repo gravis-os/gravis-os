@@ -9,6 +9,7 @@ import {
   CardProps,
   Grid,
   Link,
+  Stack,
   Typography,
 } from '@gravis-os/ui'
 
@@ -40,6 +41,7 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
   const {
     id,
     title,
+    attribute_value,
     avatar_alt,
     avatar_src,
     brand,
@@ -48,7 +50,11 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
     subtitle,
   } = item
   const { directory } = directory_category
-  const { is_listing_image_enabled, is_listing_price_enabled } = directory
+  const {
+    is_listing_brand_image_enabled,
+    is_listing_image_enabled,
+    is_listing_price_enabled,
+  } = directory
 
   const listingHref = listingModule.getWebHref([
     directory,
@@ -64,7 +70,7 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
       sx={{ height: '100%', ...sx }}
       {...rest}
     >
-      <Grid container spacing={2}>
+      <Grid alignItems="center" container>
         {is_listing_image_enabled && (
           <Grid item lg={isSmall ? 3 : 2} xs={3}>
             <Link href={listingHref}>
@@ -80,7 +86,7 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
         )}
         <Grid item xs>
           <Box
-            py={2}
+            p={4}
             stretch
             sx={{
               display: 'flex',
@@ -90,20 +96,58 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
             }}
             {...cardContentProps}
           >
-            <Link
-              color="secondary"
-              href={brandModule.getWebHref([brand])}
-              variant="overline"
-            >
-              {brand?.title}
-            </Link>
-            <Link href={listingHref} variant={isSmall ? 'h5' : 'h4'}>
-              {title}
-            </Link>
-            <Typography>{subtitle}</Typography>
-            {is_listing_price_enabled && priceText && (
-              <Typography variant="body2">{priceText}</Typography>
-            )}
+            <Stack direction="row" justifyContent="space-between" spacing={4}>
+              <Stack>
+                <Link
+                  color="secondary"
+                  href={brandModule.getWebHref([brand])}
+                  variant="overline"
+                >
+                  {brand?.title}
+                </Link>
+                <Link href={listingHref} variant={isSmall ? 'h6' : 'h5'}>
+                  {title}
+                </Link>
+                <Typography>{subtitle}</Typography>
+                {is_listing_price_enabled && priceText && (
+                  <Typography variant="body2">{priceText}</Typography>
+                )}
+              </Stack>
+              {is_listing_brand_image_enabled && (
+                <StorageImage height={50} src={brand?.avatar_src} width={50} />
+              )}
+            </Stack>
+          </Box>
+        </Grid>
+        <Grid item xs={12}>
+          <Box
+            p={4}
+            stretch
+            sx={{
+              backgroundColor: 'background.muted',
+              display: 'flex',
+              flexDirection: 'column',
+              justifyContent: 'center',
+              ...cardContentProps?.sx,
+            }}
+            {...cardContentProps}
+          >
+            <Grid container spacing={2}>
+              {attribute_value
+                .slice(0, 4)
+                .map(({ attribute, attribute_option }) => (
+                  <Grid item md={3} xs={6}>
+                    <Stack>
+                      <Typography variant="h6">
+                        {attribute_option.title}
+                      </Typography>
+                      <Typography sx={{ opacity: 0.5 }}>
+                        {attribute.title}
+                      </Typography>
+                    </Stack>
+                  </Grid>
+                ))}
+            </Grid>
           </Box>
         </Grid>
       </Grid>

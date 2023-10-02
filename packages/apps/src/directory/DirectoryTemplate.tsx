@@ -69,11 +69,19 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const [showMap, setShowMap] = useState(true)
   const [expandMap, setExpandMap] = useState(false)
 
+  const isListMode = variant === PaginatedQueryViewVariantEnum.List
+
   // State: Bottom drawer
   const directoryListingsJsx = (
     <PaginatedListings
-      gridItemProps={gridItemProps}
-      gridProps={gridProps}
+      gridItemProps={
+        isListMode
+          ? { ...gridItemProps, md: 12, lg: 12, xl: 12 }
+          : gridItemProps
+      }
+      gridProps={
+        isListMode ? { ...gridProps, padding: 4, spacing: 4 } : gridProps
+      }
       itemProps={itemProps}
       items={items}
       pagination={pagination}
