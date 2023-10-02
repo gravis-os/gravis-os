@@ -80,7 +80,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
           : gridItemProps
       }
       gridProps={
-        isListMode ? { ...gridProps, padding: 4, spacing: 4 } : gridProps
+        isListMode ? { ...gridProps, padding: 2, spacing: 4 } : gridProps
       }
       itemProps={itemProps}
       items={items}
