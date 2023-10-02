@@ -1,14 +1,16 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 
 import { StorageAvatarWithUpload } from '@gravis-os/storage'
 import { CrudModule, Page } from '@gravis-os/types'
+import { Button, Stack } from '@gravis-os/ui'
 import { Box, Divider, Grid, GridProps, Typography } from '@mui/material'
 import capitalize from 'lodash/capitalize'
 import sortBy from 'lodash/sortBy'
 
 import ControlledHtmlField from './ControlledHtmlField'
 import ControlledTextField from './ControlledTextField'
+import TextField from './TextField'
 
 export interface JsonFieldProps {
   control: Control
@@ -100,7 +102,6 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
               const sectionName = Array.isArray(sections)
                 ? `${name}[${i}].[${sectionKey}]`
                 : `${name}.[${key}].[${sectionKey}]`
-              if (!SORT_ORDER.includes(sectionKey)) return <></>
               const renderFieldContent = (sectionKey: string) => {
                 switch (sectionKey) {
                   case 'avatar_src':
@@ -175,18 +176,48 @@ const renderJSONSection = (args: RenderJSONSectionArgs) => {
 export const JsonField: React.FC<JsonFieldProps> = (props) => {
   const { control, module, name, setValue, value = '{}' } = props
 
-  const sections = typeof value === 'string' ? JSON.parse(value) : value
+  const [isAdvancedEditMode, setIsAdvancedEditMode] = useState(false)
+  const toggleAdvancedEditMode = () =>
+    setIsAdvancedEditMode(!isAdvancedEditMode)
+
+  const [objectValue, setObjectValue] = useState<Page['sections']>({})
+
+  const getSectionsFromValue = (value: string) => {
+    try {
+      return JSON.parse(value)
+    } catch {
+      return {}
+    }
+  }
 
   // Handle degenerate case
-  if (sections === null)
+  if (objectValue === null)
     return (
       <div>Schema is not ready yet. Please contact support to expedite.</div>
     )
 
   return (
-    <Grid container spacing={3}>
-      {renderJSONSection({ control, module, name, sections, setValue })}
-    </Grid>
+    <Stack>
+      <Button onClick={toggleAdvancedEditMode}>
+        {isAdvancedEditMode ? 'Normal' : 'Advanced'} Edit Mode
+      </Button>
+      {isAdvancedEditMode ? (
+        <TextField
+          {...props}
+          multiline
+          value={typeof value === 'string' ? value : JSON.stringify(value)}
+        />
+      ) : (
+        renderJSONSection({
+          control,
+          module,
+          name,
+          sections:
+            typeof value === 'string' ? getSectionsFromValue(value) : value,
+          setValue,
+        })
+      )}
+    </Stack>
   )
 }
 
