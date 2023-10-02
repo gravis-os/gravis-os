@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+### Minor Changes
+
+- [#501](https://github.com/gravis-os/gravis-os/pull/501) [`1e9b6038`](https://github.com/gravis-os/gravis-os/commit/1e9b6038dd07cde0d8e6ea7fd342bac548da3390) Thanks [@clodal](https://github.com/clodal)! - Add @gravis-os/saas/middleware
+
 ## 0.4.0
 
 ### Minor Changes

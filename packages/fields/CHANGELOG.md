@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.7.1
+
+### Patch Changes
+
+- [#498](https://github.com/gravis-os/gravis-os/pull/498) [`a26f8233`](https://github.com/gravis-os/gravis-os/commit/a26f8233ed853d64fa2f29be14981f85d15d0439) Thanks [@shank1xt](https://github.com/shank1xt)! - add advanced feature to json field
+
 ## 1.7.0
 
 ### Minor Changes
