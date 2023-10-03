@@ -5,6 +5,13 @@
   "sideEffects": false,
   "private": false,
   "types": "build/types/types.d.ts",
+  "files": [
+    "build",
+    "LICENSE",
+    "README.md",
+    "docs",
+    "bin"
+  ],
   "bin": {
     "gravis": "bin/gravis"
   },
@@ -18,13 +25,6 @@
     "snapupdate": "jest --updateSnapshot",
     "coverage": "jest --coverage"
   },
-  "files": [
-    "build",
-    "LICENSE",
-    "readme.md",
-    "docs",
-    "bin"
-  ],
   "license": "MIT",
   "dependencies": {
     "gluegun": "latest",

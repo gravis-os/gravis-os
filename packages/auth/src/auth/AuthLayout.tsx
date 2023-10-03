@@ -37,7 +37,7 @@ const AuthLayout: React.FC<AuthLayoutProps> = (props) => {
   const {
     actions,
     authRoutes,
-    backgroundImgProps = {},
+    backgroundImgProps,
     backgroundImgSrc,
     children,
     copyright,
