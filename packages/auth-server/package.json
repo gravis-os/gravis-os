@@ -52,6 +52,9 @@
     "react-dom": ">=18.0.0",
     "react-query": ">=3.39.2"
   },
+  "dependencies": {
+    "axios": "^1.5.1"
+  },
   "devDependencies": {
     "@gravis-os/eslint-config": "*",
     "@gravis-os/tsconfig": "*",

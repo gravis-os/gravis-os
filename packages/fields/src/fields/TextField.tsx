@@ -10,6 +10,7 @@ import {
   StandardTextFieldProps as MuiTextFieldProps,
 } from '@mui/material'
 import isNil from 'lodash/isNil'
+import omit from 'lodash/omit'
 import startCase from 'lodash/startCase'
 
 export interface TextFieldOptionItem {
@@ -46,12 +47,13 @@ const TextField: React.FC<TextFieldProps> = (props) => {
     inputProps,
     InputProps,
     options,
+    setValue,
     start,
     sx,
     titleProps,
     ...rest
   } = props
-  const { error, name, placeholder, required, setValue, value } = rest
+  const { error, name, placeholder, required, value } = rest
 
   // Autofocus
   // @link https://github.com/mui/material-ui/issues/7247#issuecomment-576032102
@@ -113,7 +115,7 @@ const TextField: React.FC<TextFieldProps> = (props) => {
 
     variant: 'outlined' as TextFieldProps['variant'],
 
-    ...rest,
+    ...omit(rest, ['isNew']),
   }
 
   // To set defaultValue of options in the formState on load
