@@ -35,8 +35,8 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     title,
     enableMap,
     filterDrawerWidth = 240,
-    gridItemProps,
-    gridProps,
+    gridItemProps: injectedGridItemProps,
+    gridProps: injectedGridProps,
     itemProps,
     items,
     pagination,
@@ -68,6 +68,37 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   // State: Map
   const [showMap, setShowMap] = useState(true)
   const [expandMap, setExpandMap] = useState(false)
+
+  const getGridItemProps = (variant: PaginatedQueryViewVariantEnum) => {
+    switch (variant) {
+      case PaginatedQueryViewVariantEnum.Grid: {
+        return injectedGridItemProps
+      }
+      case PaginatedQueryViewVariantEnum.List: {
+        return { ...injectedGridItemProps, md: 12, lg: 12, xl: 12 }
+      }
+      default: {
+        return
+      }
+    }
+  }
+
+  const getGridProps = (variant: PaginatedQueryViewVariantEnum) => {
+    switch (variant) {
+      case PaginatedQueryViewVariantEnum.Grid: {
+        return injectedGridProps
+      }
+      case PaginatedQueryViewVariantEnum.List: {
+        return { ...injectedGridProps, padding: 2, spacing: 4 }
+      }
+      default: {
+        return
+      }
+    }
+  }
+
+  const gridItemProps = getGridItemProps(variant)
+  const gridProps = getGridProps(variant)
 
   // State: Bottom drawer
   const directoryListingsJsx = (
