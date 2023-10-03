@@ -45,6 +45,7 @@
   },
   "dependencies": {
     "@stripe/stripe-js": "^1.32.0",
+    "axios": "^1.5.1",
     "stripe": "^9.13.0"
   },
   "peerDependencies": {

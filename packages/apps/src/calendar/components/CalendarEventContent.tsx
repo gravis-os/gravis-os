@@ -1,7 +1,7 @@
 import React, { FC } from 'react'
 
 import { Box, Typography, TypographyProps } from '@gravis-os/ui'
-import { darken } from '@mui/system'
+import { darken } from '@mui/material/styles'
 import dayjs from 'dayjs'
 
 import type { CalendarEventApi } from '../types'
