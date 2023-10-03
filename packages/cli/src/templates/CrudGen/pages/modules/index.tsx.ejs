@@ -1,6 +1,5 @@
 import React from 'react'
-import type { NextPage } from 'next'
-import Head from 'next/head'
+import type { Metadata, NextPage } from 'next'
 import { ListPage } from '@gravis-os/crud'
 import DashboardLayout from '@dashboard/layouts/DashboardLayout'
 import {
@@ -9,13 +8,13 @@ import {
   <%= props.module.name.camelCase %>Module,
 } from '../../../src/modules/<%= props.module.name.titleCase %>'
 
+export const metadata: Metadata = {
+  title: Dashboard: <%= props.module.name.startCase %> List,
+}
+
 const <%= props.module.name.titleCase %>ListPage: NextPage = () => {
   return (
     <DashboardLayout>
-      <Head>
-        <title>Dashboard: <%= props.module.name.startCase %> List</title>
-      </Head>
-
       <ListPage
         module={<%= props.module.name.camelCase %>Module}
         columnDefs={<%= props.module.name.camelCase %>ColumnDefs}

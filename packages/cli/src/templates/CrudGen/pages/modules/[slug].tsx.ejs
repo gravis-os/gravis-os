@@ -1,17 +1,17 @@
 import React from 'react'
 import Head from 'next/head'
-import { NextPage } from 'next'
+import type { Metadata, NextPage } from 'next'
 import { DetailPage } from '@gravis-os/crud'
 import DashboardLayout from '@dashboard/layouts/DashboardLayout'
 import { <%= props.module.name.camelCase %>FormSections, <%= props.module.name.camelCase %>Module } from '../../../src/modules/<%= props.module.name.titleCase %>/<%= props.module.name.camelCase %>'
 
+export const metadata: Metadata = {
+  title: Dashboard: <%= props.module.name.titleCase %> Detail,
+}
+
 const <%= props.module.name.titleCase %>DetailPage: NextPage = () => {
   return (
     <DashboardLayout>
-      <Head>
-        <title>Dashboard: <%= props.module.name.titleCase %> Detail</title>
-      </Head>
-
       <DetailPage module={<%= props.module.name.camelCase %>Module} formSections={<%= props.module.name.camelCase %>FormSections} />
     </DashboardLayout>
   )
