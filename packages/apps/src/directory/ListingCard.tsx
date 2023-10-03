@@ -56,9 +56,10 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
     >
       {is_listing_brand_image_enabled && (
         <StorageImage
+          alt={brand?.title}
           fixed
           height={50}
-          src={brand?.hero_src || '/temp/brand_hero.png'}
+          src={brand?.hero_src || '/temp/placeholder.png'}
           sx={{
             backgroundColor: 'background.muted',
             height: '120px !important',
@@ -81,7 +82,7 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
 
       <CardContent
         disableGutterBottom
-        sx={{ height: '100%', mt: is_listing_brand_image_enabled ? -6 : 0 }}
+        sx={{ height: '100%', mt: is_listing_brand_image_enabled ? -4 : 0 }}
       >
         <Stack gap={2}>
           {is_listing_brand_image_enabled && (
