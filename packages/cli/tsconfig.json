@@ -16,6 +16,7 @@
     "target": "es5",
     "declaration": true,
     "declarationDir": "build/types",
+    "skipLibCheck": true
   },
   "include": ["src/**/*"],
   "exclude": ["node_modules"]

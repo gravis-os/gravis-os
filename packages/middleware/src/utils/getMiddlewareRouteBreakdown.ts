@@ -64,11 +64,7 @@ const getMiddlewareRouteBreakdown = async (
   const isBaseRoute = !subdomain && currentHost === hostname // e.g. localhost:3000
   const isWorkspace = Boolean(subdomain) // e.g. subdomain.localhost:3000
   const isWorkspaceBaseRoute = isWorkspace && pathname === '/' // e.g. subdomain.localhost:3000/
-  // TODO@Next13
-  const sbAccessToken =
-    typeof req.cookies?.getWithOptions === 'function'
-      ? req.cookies?.getWithOptions('sb-access-token')?.value
-      : (req.cookies.get('sb-access-token') as any)?.value
+  const sbAccessToken = req.cookies.get('sb-access-token')?.value
   const authUser =
     sbAccessToken &&
     (await (

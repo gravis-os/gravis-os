@@ -54,13 +54,12 @@ export const layoutContextInitialState = {
   clientTestimonials: [],
   industrys: [],
   legalItems: {},
-
   logoProps: {
     alt: '',
     height: '',
     src: '',
     width: '',
-  },
+  } as unknown as ImageProps,
   pages: [],
   postCategorys: [],
   routeConfig: {},
