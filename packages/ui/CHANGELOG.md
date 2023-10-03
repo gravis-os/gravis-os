@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.1
+
+### Patch Changes
+
+- [#503](https://github.com/gravis-os/gravis-os/pull/503) [`887adfa8`](https://github.com/gravis-os/gravis-os/commit/887adfa8353d38fb685b463d3c5fb1529220971c) Thanks [@clodal](https://github.com/clodal)! - Fix issues that were causing console warnings and hydration issues downstream"
+
 ## 0.12.0
 
 ### Minor Changes

@@ -1,5 +1,18 @@
 # Changelog
 
+## 1.2.2
+
+### Patch Changes
+
+- [#503](https://github.com/gravis-os/gravis-os/pull/503) [`887adfa8`](https://github.com/gravis-os/gravis-os/commit/887adfa8353d38fb685b463d3c5fb1529220971c) Thanks [@clodal](https://github.com/clodal)! - Fix issues that were causing console warnings and hydration issues downstream"
+
+* [#500](https://github.com/gravis-os/gravis-os/pull/500) [`67221499`](https://github.com/gravis-os/gravis-os/commit/67221499bc805b5b294801dc77e82dec673808d3) Thanks [@shank1xt](https://github.com/shank1xt)! - improve ui for listing card and list item
+
+* Updated dependencies [[`887adfa8`](https://github.com/gravis-os/gravis-os/commit/887adfa8353d38fb685b463d3c5fb1529220971c)]:
+  - @gravis-os/crud@0.8.1
+  - @gravis-os/fields@1.7.2
+  - @gravis-os/ui@0.12.1
+
 ## 1.2.1
 
 ### Patch Changes
