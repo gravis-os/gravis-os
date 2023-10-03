@@ -40,7 +40,7 @@
   "devDependencies": {
     "@gravis-os/eslint-config": "*",
     "@gravis-os/tsconfig": "*",
-    "@next/bundle-analyzer": "^12.1.5",
+    "@next/bundle-analyzer": "^13.5.3",
     "@types/node": "^17.0.12",
     "@types/react": "18.0.1",
     "@types/react-dom": "^18.0.0",
