@@ -60,10 +60,10 @@ const renderField = (props: RenderFieldProps) => {
     gridProps,
     key,
     modelFieldProps,
-    renderReadOnly: renderReadOnlyField,
     module,
     props: componentProps,
     render,
+    renderReadOnly: renderReadOnlyField,
     setTitle,
     type,
 
@@ -279,7 +279,7 @@ const renderField = (props: RenderFieldProps) => {
         const title = setTitle ? setTitle(item) : get(item, name)
 
         if (hasRenderReadOnly) {
-          return renderReadOnly({
+          return (renderReadOnly ?? renderReadOnlyField)({
             title,
             item,
             label,
