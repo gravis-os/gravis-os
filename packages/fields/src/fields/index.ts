@@ -52,6 +52,9 @@ export * from './TimeRangeField'
 export { default as ControlledTimeRangeField } from './ControlledTimeRangeField'
 export * from './ControlledTimeRangeField'
 
+export { default as ControlledMultiTimeRangeField } from './ControlledMultiTimeRangeField'
+export * from './ControlledMultiTimeRangeField'
+
 export { default as ControlledTimeField } from './ControlledTimeField'
 export * from './ControlledTimeField'
 
