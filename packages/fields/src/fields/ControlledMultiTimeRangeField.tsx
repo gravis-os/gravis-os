@@ -20,12 +20,8 @@ const ControlledMultiTimeRangeField: React.FC<
         <MultiTimeRangeField
           label={label}
           {...field}
-          value={field?.value?.map((ele) => new Date(ele))}
+          value={field?.value?.map((ele) => (ele ? new Date(ele) : null))}
           {...timePickerProps}
-          // @ts-ignore
-          defaultValue={timePickerProps?.defaultValue?.map(
-            (ele) => new Date(ele)
-          )}
         />
       )}
       {...rest}
