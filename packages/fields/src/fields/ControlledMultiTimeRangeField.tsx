@@ -1,5 +1,6 @@
 import React from 'react'
 import { Controller, ControllerProps } from 'react-hook-form'
+
 import MultiTimeRangeField from './MultiTimeRangeField'
 
 export interface ControlledMultiTimeRangeFieldProps
@@ -11,12 +12,21 @@ export interface ControlledMultiTimeRangeFieldProps
 const ControlledMultiTimeRangeField: React.FC<
   ControlledMultiTimeRangeFieldProps
 > = (props) => {
-  const { timePickerProps, label, ...rest } = props
+  const { label, timePickerProps, ...rest } = props
 
   return (
     <Controller
       render={({ field }) => (
-        <MultiTimeRangeField label={label} {...field} {...timePickerProps} />
+        <MultiTimeRangeField
+          label={label}
+          {...field}
+          value={field?.value?.map((ele) => new Date(ele))}
+          {...timePickerProps}
+          // @ts-ignore
+          defaultValue={timePickerProps?.defaultValue?.map(
+            (ele) => new Date(ele)
+          )}
+        />
       )}
       {...rest}
     />

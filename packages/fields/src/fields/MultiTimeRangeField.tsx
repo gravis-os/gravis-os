@@ -1,16 +1,18 @@
+import type { SxProps } from '@mui/material'
+
 import React, { type FC } from 'react'
+
+import { TextFieldProps } from '@mui/material'
 import {
   MultiInputTimeRangeField,
   UseMultiInputTimeRangeFieldProps,
 } from '@mui/x-date-pickers-pro/MultiInputTimeRangeField'
-import type { SxProps } from '@mui/material'
-import { TextFieldProps } from '@mui/material'
 
 export interface MultiTimeRangeFieldProps
   extends UseMultiInputTimeRangeFieldProps<Date> {
   label?: string
-  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
   sx?: SxProps
+  textFieldProps?: Partial<Omit<TextFieldProps, 'variant'>>
 }
 
 const MultiTimeRangeField: FC<MultiTimeRangeFieldProps> = (props) => {
