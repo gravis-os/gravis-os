@@ -4,7 +4,6 @@ import camelCase from 'lodash/camelCase'
 
 import config from '../../config/config'
 import initSupabaseAdminClient from '../supabase/initSupabaseAdminClient'
-import withApiAuthAndAuthz from '../utils/withApiAuthAndAuthz'
 
 export interface AuthServerMiddlewareProps {}
 
@@ -73,9 +72,6 @@ const AuthServerRouterMiddleware = (
   }
 }
 
-export default (
-  config: AuthServerMiddlewareProps = {},
-  options?: Parameters<typeof withApiAuthAndAuthz>[1]
-) => {
-  return withApiAuthAndAuthz(AuthServerRouterMiddleware(config), options)
+export default (config: AuthServerMiddlewareProps = {}) => {
+  return AuthServerRouterMiddleware(config)
 }

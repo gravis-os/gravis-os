@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from 'react'
 
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import { File } from './types'
 import { DEFAULT_BUCKET_NAME, cleanPath } from './utils'
+
+const supabase = createClientComponentClient()
 
 const fetchStorageUrls = async ({
   bucketName = DEFAULT_BUCKET_NAME,
@@ -14,9 +16,7 @@ const fetchStorageUrls = async ({
 }) => {
   try {
     const downloadPromises = srcs.map(async (src) =>
-      supabaseClient.storage
-        .from(bucketName)
-        .download(cleanPath(src, bucketName))
+      supabase.storage.from(bucketName).download(cleanPath(src, bucketName))
     )
     const downloadedItems = await Promise.all(downloadPromises)
 

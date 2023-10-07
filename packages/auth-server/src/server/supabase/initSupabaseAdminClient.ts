@@ -19,14 +19,14 @@ const initSupabaseAdminClient = (
   // ==============================
   // Methods
   // ==============================
-  const createUser = async (props) => supabaseAdmin.auth.api.createUser(props)
+  const createUser = async (props) => supabaseAdmin.auth.admin.createUser(props)
   const updateUser = async ({ id, ...attributes }) =>
-    supabaseAdmin.auth.api.updateUserById(id, attributes)
-  const deleteUser = async ({ id }) => supabaseAdmin.auth.api.deleteUser(id)
+    supabaseAdmin.auth.admin.updateUserById(id, attributes)
+  const deleteUser = async ({ id }) => supabaseAdmin.auth.admin.deleteUser(id)
   const inviteUserByEmail = async ({ email, options }) =>
-    supabaseAdmin.auth.api.inviteUserByEmail(email, options)
+    supabaseAdmin.auth.admin.inviteUserByEmail(email, options)
   const generateLink = async ({ email, options, type }) =>
-    supabaseAdmin.auth.api.generateLink(type, email, options)
+    supabaseAdmin.auth.admin.generateLink({ email, options, type })
 
   // ==============================
   // Return

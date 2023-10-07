@@ -1,9 +1,11 @@
 import toast from 'react-hot-toast'
 
 import { AuthUser } from '@gravis-os/types'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
-interface SupabaseAuthOptions {}
+const supabase = createClientComponentClient()
+
+export interface SupabaseAuthOptions {}
 
 // ==============================
 // Handle Sign Up
@@ -22,14 +24,15 @@ export const handleSignUp: HandleSignUp = async (
   const { email, password } = values
 
   try {
-    const onSignUp = await supabaseClient.auth.signUp(
-      {
-        email: email?.toLowerCase(),
-        password,
-      },
-      authOptions
-    )
-    const { error, user: authUser } = onSignUp
+    const onSignUp = await supabase.auth.signUp({
+      email: email?.toLowerCase(),
+      options: authOptions,
+      password,
+    })
+    const {
+      data: { user: authUser },
+      error,
+    } = onSignUp
 
     if (error) {
       toast.error('Something went wrong')
@@ -56,14 +59,15 @@ export const handleSignIn: HandleSignIn = async (values, authOptions = {}) => {
   const { email, password } = values
 
   try {
-    const onSignIn = await supabaseClient.auth.signIn(
-      {
-        email: email?.toLowerCase(),
-        password,
-      },
-      authOptions
-    )
-    const { error, user: authUser } = onSignIn
+    const onSignIn = await supabase.auth.signInWithPassword({
+      email: email?.toLowerCase(),
+      options: authOptions,
+      password,
+    })
+    const {
+      data: { user: authUser },
+      error,
+    } = onSignIn
 
     if (error) {
       toast.error('Authentication failed')
@@ -97,11 +101,10 @@ export const handleResetPassword: HandleResetPassword = async (
   }
 
   try {
-    const onResetPasswordForEmail =
-      await supabaseClient.auth.api.resetPasswordForEmail(
-        email?.toLowerCase(),
-        authOptions
-      )
+    const onResetPasswordForEmail = await supabase.auth.resetPasswordForEmail(
+      email?.toLowerCase(),
+      authOptions
+    )
     const { data: user, error } = onResetPasswordForEmail
 
     if (error) {
@@ -125,7 +128,7 @@ export type HandleRecoverPassword = (values: {
 }) => Promise<AuthUser>
 
 export const handleRecoverPassword: HandleRecoverPassword = async (values) => {
-  const { accessToken, password } = values
+  const { password } = values
 
   if (!password) {
     toast.error('Please enter your password')
@@ -133,10 +136,13 @@ export const handleRecoverPassword: HandleRecoverPassword = async (values) => {
   }
 
   try {
-    const onUpdateUser = await supabaseClient.auth.api.updateUser(accessToken, {
+    const onUpdateUser = await supabase.auth.updateUser({
       password,
     })
-    const { data: user, error } = onUpdateUser
+    const {
+      data: { user },
+      error,
+    } = onUpdateUser
 
     if (error) {
       toast.error('Something went wrong')

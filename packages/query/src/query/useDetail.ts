@@ -6,7 +6,7 @@ import type { QueryClient } from 'react-query'
 import { useQuery } from 'react-query'
 
 import { getObjectWithGetters } from '@gravis-os/utils'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import camelCase from 'lodash/camelCase'
 import capitalize from 'lodash/capitalize'
 import flowRight from 'lodash/flowRight'
@@ -22,6 +22,8 @@ import {
   UseDetailReturn,
 } from './types'
 import useRouterQuery from './useRouterQuery'
+
+const supabase = createClientComponentClient()
 
 // Matcher
 export const getFetchDetailFilters = (
@@ -110,7 +112,7 @@ export const getFetchDetail = (props: UseDetailProps) => {
     const { match } = detailFilters
     if (!match) return
 
-    return supabaseClient
+    return supabase
       .from(module.table.name)
       .select(module?.select?.detail)
       .match(match)

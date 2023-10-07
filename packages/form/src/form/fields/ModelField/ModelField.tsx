@@ -16,7 +16,7 @@ import {
   AutocompleteProps,
   createFilterOptions,
 } from '@mui/material'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import {
   PostgrestFilterBuilder,
   PostgrestResponse,
@@ -39,6 +39,8 @@ import { getIsCreateOption } from './getIsCreateOption'
 import { renderOptionFromListDataItem } from './renderModelFieldOption'
 import { ModelFieldDataItem } from './types'
 import { VirtualizedAutocompleteList } from './VirtualizedAutocompleteList'
+
+const supabase = createClientComponentClient()
 
 export type ModelAutocompleteProps = AutocompleteProps<any, any, any, any>
 
@@ -282,7 +284,7 @@ const ModelField: React.FC<ModelFieldProps> = forwardRef((props, ref) => {
 
       const select = injectedSelect || defaultSelect
 
-      let query: PostgrestFilterBuilder<ModelFieldDataItem> = supabaseClient
+      let query: PostgrestFilterBuilder<any, ModelFieldDataItem, any> = supabase
         .from(table.name)
         .select(select)
 

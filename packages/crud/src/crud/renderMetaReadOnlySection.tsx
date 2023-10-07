@@ -3,7 +3,9 @@ import { useQuery } from 'react-query'
 
 import { FormSectionReadOnlyStack } from '@gravis-os/form'
 import { Grid } from '@gravis-os/ui'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+
+const supabase = createClientComponentClient()
 
 const renderMetaReadOnlySection = (
   { item, label },
@@ -12,7 +14,7 @@ const renderMetaReadOnlySection = (
   const { data: creator } = useQuery({
     enabled: Boolean(item?.created_by),
     queryFn: async () => {
-      const { data } = await supabaseClient
+      const { data } = await supabase
         .from(userModuleTableName)
         .select('full_name')
         // @ts-ignore
@@ -27,7 +29,7 @@ const renderMetaReadOnlySection = (
   const { data: updater } = useQuery({
     enabled: Boolean(item?.updated_by),
     queryFn: async () => {
-      const { data } = await supabaseClient
+      const { data } = await supabase
         .from(userModuleTableName)
         .select('full_name')
         .match({ id: item?.updated_by })

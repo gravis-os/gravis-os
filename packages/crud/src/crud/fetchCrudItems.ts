@@ -1,6 +1,8 @@
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import getQueryFromFilters from './getQueryFromFilters'
+
+const supabase = createClientComponentClient()
 
 export type FetchCrudItemsProps = any
 
@@ -9,7 +11,7 @@ const fetchCrudItems = async (props: FetchCrudItemsProps = {}) => {
   const { select, table } = module
 
   // Prepare query
-  const defaultQuery = supabaseClient
+  const defaultQuery = supabase
     .from(table.name)
     .select(select?.list || '*')
     .order('id', { ascending: false })

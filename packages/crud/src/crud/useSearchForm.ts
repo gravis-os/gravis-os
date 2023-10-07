@@ -3,7 +3,12 @@ import toast from 'react-hot-toast'
 
 import { getSearchFormValues } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
+import {
+  SupabaseClient,
+  createClientComponentClient,
+} from '@supabase/auth-helpers-nextjs'
+
+const supabase = createClientComponentClient()
 
 interface UseSearchFormValues {
   values: Record<string, any>
@@ -20,7 +25,7 @@ export interface UseSearchFormArgs {
 
 const useSearchForm = (args: UseSearchFormArgs) => {
   const {
-    client = supabaseClient,
+    client = supabase,
     defaultValues,
     module,
     onSubmit,

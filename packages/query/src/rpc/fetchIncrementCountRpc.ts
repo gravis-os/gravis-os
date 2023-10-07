@@ -1,5 +1,7 @@
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+
+const supabase = createClientComponentClient()
 
 export interface FetchIncrementCountRpcProps {
   countColumnName?: string
@@ -12,7 +14,7 @@ export const fetchIncrementCountRpc = async ({
   item,
   module,
 }: FetchIncrementCountRpcProps) => {
-  return supabaseClient.rpc('increment_count', {
+  return supabase.rpc('increment_count', {
     count_column_name: countColumnName,
     slug_key: module.sk,
     // We cast later on in the function.

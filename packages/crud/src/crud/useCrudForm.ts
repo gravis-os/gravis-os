@@ -13,7 +13,10 @@ import {
   withoutId,
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
-import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
+import {
+  SupabaseClient,
+  createClientComponentClient,
+} from '@supabase/auth-helpers-nextjs'
 import flowRight from 'lodash/flowRight'
 
 import getFieldDefsFromSections from '../utils/getFieldDefsFromSections'
@@ -25,6 +28,8 @@ import partitionOneToManyValues from './partitionOneToManyValues'
 import saveManyToManyValues from './saveManyToManyValues'
 import saveOneToManyValues from './saveOneToManyValues'
 import withCreatedUpdatedBy from './withCreatedUpdatedBy'
+
+const supabase = createClientComponentClient()
 
 const handleMutationError = (error) => {
   toast.error('Something went wrong')
@@ -95,7 +100,7 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const {
     afterDelete,
     afterSubmit,
-    client = supabaseClient,
+    client = supabase,
     createOnSubmit,
     defaultValues: injectedDefaultValues,
     item: injectedItem,
@@ -156,10 +161,14 @@ const useCrudForm = (props: UseCrudFormArgs): UseCrudFormReturn => {
   const queryMatcher = { [sk]: item[sk] } // e.g. { id: 1 }
   const createOrUpdateMutationFunction = async (nextValues) =>
     createOnSubmit || isNew || shouldCreateOnSubmit?.(form)
-      ? client.from(table.name).insert([nextValues])
-      : client.from(table.name).update([nextValues]).match(queryMatcher)
+      ? client.from(table.name).insert([nextValues]).select()
+      : client
+          .from(table.name)
+          .update([nextValues])
+          .match(queryMatcher)
+          .select()
   const deleteMutationFunction = async () =>
-    client.from(table.name).delete().match(queryMatcher)
+    client.from(table.name).delete().match(queryMatcher).select()
   const createOrUpdateMutation = useMutation({
     mutationFn: createOrUpdateMutationFunction,
     onError: handleMutationError,
