@@ -2,12 +2,14 @@ import type { SupabaseClient, User } from '@supabase/supabase-js'
 
 import React from 'react'
 
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { UserProvider as AuthUserProvider } from '@supabase/auth-helpers-react'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { SessionContextProvider } from '@supabase/auth-helpers-react'
 
 import DbUserProvider, {
   UserProviderProps as DbUserProviderProps,
 } from './UserProvider'
+
+const supabase = createClientComponentClient()
 
 export interface AuthUserProviderProps {
   [propName: string]: any
@@ -15,7 +17,7 @@ export interface AuthUserProviderProps {
   callbackUrl?: string
   fetcher?: any
   profileUrl?: string
-  supabaseClient: SupabaseClient
+  supabase: SupabaseClient
   user?: User
 }
 
@@ -32,9 +34,9 @@ export interface AuthProviderProps extends DbUserProviderProps {
 const AuthProvider: React.FC<AuthProviderProps> = (props) => {
   const { authProps, children, ...rest } = props
   return (
-    <AuthUserProvider supabaseClient={supabaseClient} {...authProps}>
+    <SessionContextProvider supabaseClient={supabase} {...authProps}>
       <DbUserProvider {...rest}>{children}</DbUserProvider>
-    </AuthUserProvider>
+    </SessionContextProvider>
   )
 }
 

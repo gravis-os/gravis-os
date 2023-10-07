@@ -1,7 +1,7 @@
 import { createClient } from '@supabase/supabase-js'
 import Stripe from 'stripe'
 
-import { Customer, StripePrice, StripeProduct, UserDetails } from '../../types'
+import { StripePrice, StripeProduct } from '../../types'
 import toDateTime from '../../utils/toDateTime'
 import initStripeNode from '../stripe/initStripeNode'
 
@@ -35,8 +35,9 @@ const initStripeSupabaseAdmin = (
       name: product.name,
     }
     const { error } = await supabaseAdmin
-      .from<StripeProduct>('stripe_product')
+      .from('stripe_product')
       .upsert([productData])
+      .select()
     if (error) throw error
   }
   const upsertPriceRecord = async (price: Stripe.Price) => {
@@ -55,8 +56,9 @@ const initStripeSupabaseAdmin = (
     }
 
     const { error } = await supabaseAdmin
-      .from<StripePrice>('stripe_price')
+      .from('stripe_price')
       .upsert([priceData])
+      .select()
     if (error) throw error
   }
   const createOrRetrieveCustomer = async ({
@@ -67,7 +69,7 @@ const initStripeSupabaseAdmin = (
     uuid: string
   }) => {
     const { data, error } = await supabaseAdmin
-      .from<Customer>('user')
+      .from('user')
       .select('id, stripe_customer_id')
       .eq('id', uuid)
       .single()
@@ -91,6 +93,7 @@ const initStripeSupabaseAdmin = (
         .from('user')
         .update({ stripe_customer_id: customer.id })
         .match({ id: uuid })
+        .select()
 
       if (supabaseError) throw supabaseError
 
@@ -118,12 +121,13 @@ const initStripeSupabaseAdmin = (
       phone,
     })
     const { error } = await supabaseAdmin
-      .from<UserDetails>('user')
+      .from('user')
       .update({
         billing_address: address,
         payment_method: payment_method[payment_method.type],
       })
       .eq('id', uuid)
+      .select()
     if (error) throw error
   }
   const manageSubscriptionStatusChange = async (
@@ -133,7 +137,7 @@ const initStripeSupabaseAdmin = (
   ) => {
     // Get customer's UUID from mapping table.
     const { data: customerData, error: noCustomerError } = await supabaseAdmin
-      .from<Customer>('user')
+      .from('user')
       .select('id')
       .eq('stripe_customer_id', customerId)
       .single()
@@ -181,6 +185,7 @@ const initStripeSupabaseAdmin = (
     const { error } = await supabaseAdmin
       .from('stripe_subscription')
       .upsert([subscriptionData])
+      .select()
     if (error) throw error
 
     // For a new subscription copy the billing details to the customer object.

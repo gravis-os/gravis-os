@@ -3,13 +3,18 @@ import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react'
 import { Avatar, AvatarProps, Button, IconButton, Stack } from '@gravis-os/ui'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
-import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
+import {
+  SupabaseClient,
+  createClientComponentClient,
+} from '@supabase/auth-helpers-nextjs'
 import download from 'downloadjs'
 import startCase from 'lodash/startCase'
 
 import FieldLabel from './FieldLabel'
 import getFileMetaFromFile from './getFileMetaFromFile'
 import { cleanPath } from './utils'
+
+const supabase = createClientComponentClient()
 
 export interface StorageAvatarWithUploadProps extends AvatarProps {
   alt?: string
@@ -38,7 +43,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     alt,
     altKey: injectedAltKey,
     bucketName: injectedBucketName,
-    client = supabaseClient,
+    client = supabase,
     disableLabel,
     disablePublic = false,
     editable,
@@ -106,7 +111,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
 
       if (uploadError || !data) throw uploadError
 
-      const savedFileKey = data.Key
+      const savedFileKey = data.path
 
       setSavedFileInfo(fileMeta)
       setSavedFilePath(savedFileKey)
@@ -120,6 +125,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
           .from(module.table.name)
           .update([{ [altKey]: file.name, [name]: savedFileKey }])
           .match({ [module.sk]: item[module.sk] })
+          .select()
       }
     } catch (error) {
       console.error('Error at StorageAvatarWithUpload', error.message)

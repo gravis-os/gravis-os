@@ -4,11 +4,13 @@ import { QueryOptions, useQuery, useQueryClient } from 'react-query'
 import { DbUser } from '@gravis-os/types'
 import { CircularProgress } from '@gravis-os/ui'
 import { getGuestPaths, isPathMatch } from '@gravis-os/utils'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
 import { useRouter } from 'next/router'
 
 import UserContext, { UserContextInterface } from './UserContext'
+
+const supabase = createClientComponentClient()
 
 // Strip out /_workspaces/[workspace] prefix to accurately get the pathname
 const getSaasRoutePathname = ({ pathname: injectedPathname, query }) => {
@@ -28,7 +30,7 @@ export interface UserProviderProps {
   guestPaths?: string[]
   loader?: React.ReactElement
   queryOptions?: QueryOptions<DbUser>
-  select?: string // supabaseClient query selector
+  select?: string // query selector
   setUser?: ({
     user,
   }: {
@@ -56,16 +58,14 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   } = props
 
   const queryClient = useQueryClient()
-  const onUseAuthUser = useAuthUser()
-  const { user: authUser, ...useAuthUserRest } = onUseAuthUser
-  const { isLoading: authUserLoading } = useAuthUserRest
+  const authUser = useAuthUser()
 
   // ==============================
   // Methods
   // ==============================
   const fetchDbUserFromAuthUser = async ({ authUser }) => {
     if (!authUser) return
-    const { data } = await supabaseClient
+    const { data } = await supabase
       .from('user')
       .select(select)
       .eq(authColumnKey, authUser.id)
@@ -75,7 +75,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
     return dbUser
   }
   const getDbUserFromAuthUserQueryKey = ['get-db-user-from-auth-user-query']
-  const dbUserQueryResult = useQuery<DbUser>(
+  const dbUserQueryResult = useQuery<DbUser | any>(
     getDbUserFromAuthUserQueryKey,
     () => fetchDbUserFromAuthUser({ authUser }),
     {
@@ -95,14 +95,10 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
    * Only run query once user is logged in.
    */
   useEffect(() => {
-    if (
-      authUser &&
-      !authUserLoading &&
-      (!fetchedDbUser || fetchedDbUser?.id !== authUser?.id)
-    ) {
+    if (authUser && (!fetchedDbUser || fetchedDbUser?.id !== authUser?.id)) {
       refetchDbUserQuery()
     }
-  }, [authUser, fetchedDbUser, authUserLoading, select])
+  }, [authUser, fetchedDbUser, select])
 
   const dbUser = injectedDbUser || fetchedDbUser
 
@@ -133,22 +129,8 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
 
   // Auth Context methods
   const logout = async () => {
-    /**
-     * Trigger supabase auth logout instead of js package logout to ensure that
-     * cookies are removed as well because the method: supabaseClient.auth.signOut()
-     * doesn't seem to clear the cookies.
-     */
-    await fetch('/api/auth/logout')
-    await Promise.all([
-      /**
-       * Need to fire the API signOut as well to get authUser from useAuthUser
-       * to reset properly, else it will still linger on and cause side-effects.
-       */
-      supabaseClient.auth.signOut(),
-      // Unset dbUser by refetching again but this time without the authUser
-      queryClient.invalidateQueries(getDbUserFromAuthUserQueryKey),
-    ])
-
+    await supabase.auth.signOut()
+    await queryClient.invalidateQueries(getDbUserFromAuthUserQueryKey)
     return true
   }
 
@@ -160,7 +142,6 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   return (
     <UserContext.Provider
       value={{
-        ...onUseAuthUser,
         // Routes
         authRoutes: {
           authenticationFailureRedirect: '/auth/login',
@@ -169,18 +150,13 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
           authorizationSuccessRedirect: '/admin',
           ...authRoutes,
         },
-        // Users
         authUser,
-
-        authUserLoading,
-
         dbUser,
         dbUserFetching,
         dbUserLoading,
         dbUserQueryResult,
         // Methods
         logout,
-
         refetchDbUserQuery,
         user: nextUser,
       }}

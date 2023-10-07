@@ -10,9 +10,11 @@ import {
   DialogContentText,
   DialogTitle,
 } from '@mui/material'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import useCrud from './useCrud'
+
+const supabase = createClientComponentClient()
 
 export interface CrudDeleteDialogProps
   extends Omit<DialogProps, 'onClose' | 'open'> {
@@ -60,13 +62,16 @@ const CrudDeleteDialog: React.FC<CrudDeleteDialogProps> = (props) => {
   const queryClient = useQueryClient()
   const handleDeleteConfirmClick = async (e) => {
     try {
-      const defaultQuery = supabaseClient.from(table.name).delete()
+      const defaultQuery = supabase.from(table.name).delete()
       const onDelete = await (isBulkDelete
-        ? defaultQuery.in(
-            sk,
-            items.map((item) => item[sk])
-          )
-        : defaultQuery.match({ [sk]: item[sk] }))
+        ? defaultQuery
+            .in(
+              sk,
+              items.map((item) => item[sk])
+            )
+            .select()
+        : defaultQuery.match({ [sk]: item[sk] })
+      ).select()
 
       queryClient.invalidateQueries([table.name])
       if (afterDelete) await afterDelete({ item })

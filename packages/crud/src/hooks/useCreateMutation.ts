@@ -7,8 +7,10 @@ import {
 } from 'react-query'
 
 import { CrudModule } from '@gravis-os/types'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { PostgrestResponse } from '@supabase/postgrest-js'
+
+const supabase = createClientComponentClient()
 
 export interface UseCreateActionArg<
   TData = unknown,
@@ -55,13 +57,14 @@ const useCreateMutation = <
     PostgrestResponse<TData>,
     TVariables
   > = async (nextValues: TVariables) =>
-    supabaseClient
-      .from<TData>(table.name)
+    supabase
+      .from(table.name)
       .insert(
         (Array.isArray(nextValues)
           ? nextValues
           : [nextValues]) as Partial<TData>[]
       )
+      .select()
 
   const nextOptions: UseMutationOptions<
     PostgrestResponse<TData>,

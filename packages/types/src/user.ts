@@ -51,7 +51,6 @@ export interface UserContextInterface<AppDbUser = any> {
   }
 
   authUser?: AuthUser
-  authUserLoading: boolean
 
   dbUser?: DbUser & AppDbUser
   dbUserFetching: boolean

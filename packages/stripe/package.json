@@ -49,9 +49,9 @@
     "stripe": "^9.13.0"
   },
   "peerDependencies": {
-    "@supabase/auth-helpers-nextjs": ">=0.2.8",
-    "@supabase/auth-helpers-react": ">=0.2.4",
-    "@supabase/supabase-js": ">=1.35.6",
+    "@supabase/auth-helpers-nextjs": ">=0.8.1",
+    "@supabase/auth-helpers-react": ">=0.4.2",
+    "@supabase/supabase-js": ">=2.37.0",
     "next": ">=13.5.3",
     "react": ">=18.2.0",
     "react-dom": ">=18.2.0",
@@ -60,9 +60,9 @@
   "devDependencies": {
     "@gravis-os/eslint-config": "*",
     "@gravis-os/tsconfig": "*",
-    "@supabase/auth-helpers-nextjs": "^0.2.5",
-    "@supabase/auth-helpers-react": "^0.2.3",
-    "@supabase/supabase-js": "^1.35.6",
+    "@supabase/auth-helpers-nextjs": "^0.8.1",
+    "@supabase/auth-helpers-react": "^0.4.2",
+    "@supabase/supabase-js": "^2.37.0",
     "@types/react": "^18.0.26",
     "@types/react-dom": "^18.0.0",
     "@typescript-eslint/eslint-plugin": "^6.1.0",

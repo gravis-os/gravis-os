@@ -6,19 +6,19 @@ const getWorkspaceStaticPathsByRoute = async ({
   locales,
   params: injectedParams,
   route,
-  supabaseClient,
+  supabase,
   workspaceModule,
 }: {
   fallback?: boolean
   locales?: string[]
   params?: Record<string, string>
   route: string
-  supabaseClient: SupabaseClient
+  supabase: SupabaseClient
   workspaceModule: CrudModule
 }) => {
   const workspaceModuleSk = workspaceModule.sk
 
-  const { data: workspaces } = await supabaseClient
+  const { data: workspaces } = await supabase
     .from(workspaceModule.table.name)
     .select(`id, ${workspaceModuleSk}`)
 

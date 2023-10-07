@@ -60,10 +60,10 @@ const renderField = (props: RenderFieldProps) => {
     gridProps,
     key,
     modelFieldProps,
-    renderReadOnly: renderReadOnlyField,
     module,
     props: componentProps,
     render,
+    renderReadOnly: renderReadOnlyField,
     setTitle,
     type,
 

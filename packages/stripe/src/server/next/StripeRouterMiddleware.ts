@@ -28,7 +28,7 @@ export interface StripeRouterMiddlewareProps {}
 const StripeRouterMiddleware = (
   injectedConfig: StripeRouterMiddlewareProps = {}
 ) => {
-  return async (req: NextApiRequest, res: NextApiResponse): Promise<void> => {
+  return async (req: NextApiRequest, res: NextApiResponse) => {
     const {
       query: { stripe: injectedRoute },
     } = req

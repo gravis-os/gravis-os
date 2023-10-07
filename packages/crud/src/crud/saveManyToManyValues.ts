@@ -49,6 +49,7 @@ const saveManyToManyValues = async (args) => {
       .from(joinTableName)
       .delete()
       .in(opposingColumnName, opposingTableIdsToDelete)
+      .select()
   })
 
   const upsertPromises = Object.entries(values).map(([key, value]) => {
@@ -86,7 +87,7 @@ const saveManyToManyValues = async (args) => {
 
     if (joinTableRecords.length === 0) return
 
-    return client.from(joinTableName).upsert(joinTableRecords)
+    return client.from(joinTableName).upsert(joinTableRecords).select()
   })
 
   return Promise.all([...upsertPromises, ...deletePromises])

@@ -6,7 +6,6 @@ export interface UserContextInterface<AppDbUser = any>
   extends InjectedUserContextInterface<AppDbUser> {}
 
 const UserContext = createContext<UserContextInterface>({
-  authUserLoading: true,
   dbUserFetching: true,
   dbUserLoading: true,
   dbUserQueryResult: null,

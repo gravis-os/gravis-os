@@ -6,13 +6,15 @@ import { CrudModule } from '@gravis-os/types'
 import { Button, Dialog, DialogTitle, Divider, Stack } from '@gravis-os/ui'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import noop from 'lodash/noop'
 import omit from 'lodash/omit'
 import set from 'lodash/set'
 
 import { usePos } from './PosProvider'
 import { Salesperson } from './types'
+
+const supabase = createClientComponentClient()
 
 export interface PosAddStaffDialogProps {
   cartIndex: number
@@ -40,7 +42,7 @@ const PosAddStaffDialog: React.FC<PosAddStaffDialogProps> = (props) => {
   const getSalespersons = async ({ select }) =>
     injectedSetQuery
       ? injectedSetQuery({ select })
-      : supabaseClient
+      : supabase
           .from(salespersonModule.table.name)
           .select(select)
           .match({ 'role.type': 'salesperson' })
