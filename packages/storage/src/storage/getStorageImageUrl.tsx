@@ -1,9 +1,11 @@
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+
+const supabase = createClientComponentClient()
 
 const getStorageImageUrl = async (url: string): Promise<string> => {
   const bucketName = 'public'
   try {
-    const { data, error } = await supabaseClient.storage
+    const { data, error } = await supabase.storage
       .from(bucketName)
       .download(url)
     // If imageUrl cannot be fetched or if any error occured

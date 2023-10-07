@@ -101,12 +101,10 @@ export interface FormSectionFieldProps {
   name: string
   // Filters
   op?: string
-  renderReadOnly?: RenderPropsFunction<FormSectionRenderReadOnlyProps>
   options?:
     | CheckboxGroupProps['options']
     | RadioGroupProps['options']
     | TextFieldProps['options']
-
   placeholder?: string
 
   // This is for passing props to the underlying component field.
@@ -117,6 +115,8 @@ export interface FormSectionFieldProps {
     children: React.ReactNode
     formContext: UseFormReturn
   }) => any // Typings not working here should be React.ReactNode
+
+  renderReadOnly?: RenderPropsFunction<FormSectionRenderReadOnlyProps>
   required?: boolean
   select?: any // Can either be MUI textfield select or react-query selector
 

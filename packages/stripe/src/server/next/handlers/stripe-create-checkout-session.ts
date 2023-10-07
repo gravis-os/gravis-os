@@ -1,5 +1,6 @@
-import { getUser, withApiAuth } from '@supabase/auth-helpers-nextjs'
+import { createRouteHandlerClient } from '@supabase/auth-helpers-nextjs'
 import { NextApiRequest, NextApiResponse } from 'next'
+import { cookies } from 'next/headers'
 
 import initStripeNode from '../../stripe/initStripeNode'
 import initStripeSupabaseAdmin from '../../supabase/initStripeSupabaseAdmin'
@@ -14,7 +15,10 @@ const handleCreateStripeCheckoutSession = async (
     const { id: priceId, metadata = {}, quantity = 1 } = req.body
 
     try {
-      const { user } = await getUser({ req, res })
+      const supabase = createRouteHandlerClient({ cookies })
+      const {
+        data: { user },
+      } = await supabase.auth.getUser()
       if (!user) throw new Error('Could not get user')
 
       const StripeNode = initStripeNode(process.env.STRIPE_SECRET_KEY)
@@ -57,7 +61,5 @@ const handleCreateStripeCheckoutSession = async (
 }
 
 export default async (req, res, stripeConfig) => {
-  return withApiAuth(async (req, res) =>
-    handleCreateStripeCheckoutSession(req, res, stripeConfig)
-  )(req, res)
+  return (req, res) => handleCreateStripeCheckoutSession(req, res, stripeConfig)
 }

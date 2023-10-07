@@ -1,7 +1,12 @@
 import { useEffect, useState } from 'react'
 import { QueryObserverOptions, useQuery } from 'react-query'
 
-import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
+import {
+  SupabaseClient,
+  createClientComponentClient,
+} from '@supabase/auth-helpers-nextjs'
+
+const supabase = createClientComponentClient()
 
 type UseGetStorageObject = (props: {
   bucketName?: string
@@ -15,7 +20,7 @@ type UseGetStorageObject = (props: {
 const useGetStorageObject: UseGetStorageObject = (props) => {
   const {
     bucketName = 'public',
-    client = supabaseClient,
+    client = supabase,
     filePath: injectedFilePath, // The S3 file path
     queryOptions,
     skip,
@@ -39,11 +44,11 @@ const useGetStorageObject: UseGetStorageObject = (props) => {
     // Escape the first `public/` in the path
     const pathWithoutPublicPrefix = path.split('public/')[1]
 
-    const { error, publicURL: objectUrl } = client.storage
-      .from(bucketName)
-      .getPublicUrl(pathWithoutPublicPrefix)
+    const {
+      data: { publicUrl: objectUrl },
+    } = client.storage.from(bucketName).getPublicUrl(pathWithoutPublicPrefix)
 
-    if (error || !objectUrl) throw error
+    if (!objectUrl) throw new Error('Object URL not found')
     if (objectUrl) setObjectUrl(objectUrl)
 
     return objectUrl

@@ -1,8 +1,10 @@
 import React from 'react'
 
 import { Box, BoxProps } from '@gravis-os/ui'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
-import { UserProvider } from '@supabase/auth-helpers-react'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import { SessionContextProvider } from '@supabase/auth-helpers-react'
+
+const supabase = createClientComponentClient()
 
 export interface SupabaseUIAuthFormProps extends BoxProps {
   formProps?: Record<string, unknown>
@@ -33,7 +35,7 @@ const SupabaseUIAuthForm: React.FC<SupabaseUIAuthFormProps> = (props) => {
       }}
       {...rest}
     >
-      <UserProvider supabaseClient={supabaseClient} {...formProps} />
+      <SessionContextProvider supabaseClient={supabase} {...formProps} />
     </Box>
   )
 }

@@ -3,9 +3,11 @@ import axios from 'axios'
 
 import config from '../config/config'
 
-type CreateUserInput = Omit<AdminUserAttributes, 'email'> & { email: string }
-type UpdateUserInput = { id: string } & AdminUserAttributes
-type DeleteUserInput = { id: string }
+export type CreateUserInput = Omit<AdminUserAttributes, 'email'> & {
+  email: string
+}
+export type UpdateUserInput = { id: string } & AdminUserAttributes
+export type DeleteUserInput = { id: string }
 
 const useAuthServerApi = () => {
   const AuthServerMethods = {
@@ -34,7 +36,7 @@ const useAuthServerApi = () => {
       return axios.post(config.apiRoutes.generateLink, {
         email,
         options: {
-          redirectTo: 'http://localhost:3000/auth/reset',
+          redirectTo: 'http://localhost:3000/auth/callback',
         },
         type: 'recovery',
       })

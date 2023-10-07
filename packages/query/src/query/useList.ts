@@ -12,7 +12,7 @@ import {
 import { getRelationalObjectKey } from '@gravis-os/form'
 import { CrudItem } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import flowRight from 'lodash/flowRight'
 import groupBy from 'lodash/groupBy'
 import isEmpty from 'lodash/isEmpty'
@@ -31,6 +31,8 @@ import {
 } from './types'
 import usePagination from './usePagination'
 import useRouterQuery from './useRouterQuery'
+
+const supabase = createClientComponentClient()
 
 // ==============================
 // Constants
@@ -388,13 +390,11 @@ export const getFetchListQueryFn = (props: UseListProps) => {
 
     // @note: The order of the filters below matter.
     // Setup query
-    const query = supabaseClient
-      .from(module.table.name)
-      .select(getSelectString(), {
-        // This is both the HEAD and GET query as this count gets overriden from above.
-        count: 'exact',
-        ...countProps,
-      })
+    const query = supabase.from(module.table.name).select(getSelectString(), {
+      // This is both the HEAD and GET query as this count gets overriden from above.
+      count: 'exact',
+      ...countProps,
+    })
 
     // Apply filters
     if (match) query.match(match)
@@ -436,15 +436,19 @@ export const getFetchListQueryFn = (props: UseListProps) => {
         continue
       }
     }
-    if (gt) query.gt(gt[0], gt[1])
-    if (lt) query.lt(lt[0], lt[1])
-    if (gte) query.gte(gte[0], gte[1])
-    if (lte) query.lte(lte[0], lte[1])
+    if (gt) query.gt(String(gt[0]), gt[1])
+    if (lt) query.lt(String(lt[0]), lt[1])
+    if (gte) query.gte(String(gte[0]), gte[1])
+    if (lte) query.lte(String(lte[0]), lte[1])
     if (contains) query.contains(contains[0], contains[1])
 
     // @example { not: ['avatar_src', 'is', null] }
     if (not) {
-      query.not(not[0], not[1] as SupabasePostgrestFilterOperator, not[2])
+      query.not(
+        String(not[0]),
+        not[1] as SupabasePostgrestFilterOperator,
+        not[2]
+      )
     }
 
     // Terminate early for countOnly

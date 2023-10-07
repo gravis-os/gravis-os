@@ -1,5 +1,7 @@
 import { CrudModule } from '@gravis-os/types'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+
+const supabase = createClientComponentClient()
 
 // along with https://github.com/onextech/wmc/blob/develop/packages/dashboard/src/lib/useFetch/initUseFetch.tsx
 export interface MakeFetchCrudItemProps {
@@ -17,7 +19,7 @@ export interface MakeFetchCrudItemProps {
  */
 const makeFetchCrudItem = (props: MakeFetchCrudItemProps) => async () => {
   const { module, skValue } = props
-  return supabaseClient
+  return supabase
     .from(module.table.name)
     .select(module?.select?.detail)
     .match({ [module.sk]: skValue })

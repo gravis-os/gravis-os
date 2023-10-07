@@ -40,10 +40,12 @@ const saveOneToManyValues = async (props) => {
     )
 
     const promises = [
-      updateRows.length > 0 && client.from(foreignTableName).upsert(updateRows),
-      insertRows.length > 0 && client.from(foreignTableName).insert(insertRows),
+      updateRows.length > 0 &&
+        client.from(foreignTableName).upsert(updateRows).select(),
+      insertRows.length > 0 &&
+        client.from(foreignTableName).insert(insertRows).select(),
       deleteIds.length > 0 &&
-        client.from(foreignTableName).delete().in('id', deleteIds),
+        client.from(foreignTableName).delete().in('id', deleteIds).select(),
     ].filter(Boolean)
 
     // Batch upsert into a single table

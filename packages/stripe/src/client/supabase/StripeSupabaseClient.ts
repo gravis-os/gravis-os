@@ -1,11 +1,13 @@
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import { StripeProductWithPrice } from '../../types'
+
+const supabase = createClientComponentClient()
 
 const fetchActiveProductsWithPrices = async (): Promise<
   StripeProductWithPrice[]
 > => {
-  const { data, error } = await supabaseClient
+  const { data, error } = await supabase
     .from('stripe_product')
     .select('*, stripe_price(*)')
     .eq('active', true)

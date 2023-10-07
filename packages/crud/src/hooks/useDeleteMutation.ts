@@ -6,8 +6,10 @@ import {
 } from 'react-query'
 
 import { CrudModule } from '@gravis-os/types'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { PostgrestResponse } from '@supabase/postgrest-js'
+
+const supabase = createClientComponentClient()
 
 export interface UseDeleteActionArg<TData, TError, TVariables, TContext> {
   item: unknown
@@ -48,10 +50,11 @@ const useDeleteMutation = <
     PostgrestResponse<TData>,
     TVariables
   > = async () =>
-    supabaseClient
-      .from<TData>(table.name)
+    supabase
+      .from(table.name)
       .delete()
       .match({ [sk]: item[sk] })
+      .select()
   const nextOptions: UseMutationOptions<
     PostgrestResponse<TData>,
     TError,

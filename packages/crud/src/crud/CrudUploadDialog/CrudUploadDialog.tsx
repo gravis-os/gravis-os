@@ -16,7 +16,7 @@ import {
 import CheckCircleOutlinedIcon from '@mui/icons-material/CheckCircleOutlined'
 import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import omit from 'lodash/omit'
 import zipObject from 'lodash/zipObject'
 
@@ -26,6 +26,8 @@ import DataTable, { DataTableProps } from '../DataTable'
 import getManyToManyUploadedRows from './getManyToManyUploadedRows'
 import { getUploadedRows } from './getUploadedRows'
 import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFile'
+
+const supabase = createClientComponentClient()
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
   dataTableProps?: Partial<DataTableProps>
@@ -312,7 +314,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
                     const manyToManyTablesResponse = await Promise.allSettled(
                       manyToManyTables.map(async ({ rows, tableName }) =>
-                        supabaseClient.from(tableName).insert(rows)
+                        supabase.from(tableName).insert(rows).select()
                       )
                     )
 

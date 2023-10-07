@@ -16,7 +16,7 @@ import {
 import CloseOutlinedIcon from '@mui/icons-material/CloseOutlined'
 import { DialogActions, DialogContent, Slide } from '@mui/material'
 import { TransitionProps } from '@mui/material/transitions'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import noop from 'lodash/noop'
 import toString from 'lodash/toString'
 
@@ -25,6 +25,8 @@ import posConfig from './posConfig'
 import { GetPdfMakeGeneratorResult } from './PosPaymentSuccess'
 import { usePos } from './PosProvider'
 import { Receipt } from './types'
+
+const supabase = createClientComponentClient()
 
 interface PosPaymentReceiptEmailDialogProps {
   contactModule?: CrudModule
@@ -54,12 +56,12 @@ const PosPaymentReceiptEmailDialog: React.FC<
     // generate new pdf
     const filepath = `${posConfig.receipt_bucket}/${receiptFileName}`
 
-    const { data, error: uploadError } = await supabaseClient.storage
+    const { data, error: uploadError } = await supabase.storage
       .from('public')
       .upload(filepath, blob)
     if (uploadError) throw uploadError
 
-    return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data?.Key}`
+    return `${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/${data?.path}`
   }
 
   const sendEmail = async (pdfUrl: string) => {
@@ -78,7 +80,7 @@ const PosPaymentReceiptEmailDialog: React.FC<
   const handleSendEmailReceipt = async () => {
     try {
       getPdfMakeGenerator('Receipt', receipt).getBlob(async (blob) => {
-        const { data: paymentReceiptPdf, error } = await supabaseClient.storage
+        const { data: paymentReceiptPdf, error } = await supabase.storage
           .from('public')
           .list(posConfig.receipt_bucket, {
             search: receiptFileName,

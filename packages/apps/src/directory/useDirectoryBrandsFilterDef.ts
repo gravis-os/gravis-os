@@ -2,7 +2,9 @@ import type { FilterDef } from '@gravis-os/query'
 
 import { useQuery } from 'react-query'
 
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+
+const supabase = createClientComponentClient()
 
 export interface useDirectoryBrandsFilterDefProps {
   directory_id?: number
@@ -30,7 +32,7 @@ const useDirectoryBrandsFilterDef = (
 
   // Fetch brands with listings from this directory
   const fetchBrandsWithListingsFromDirectory = async () => {
-    return supabaseClient
+    return supabase
       .from('brand')
       .select(
         '*, listing!inner(directory_category!inner(id, directory!inner(id)))'

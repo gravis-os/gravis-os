@@ -1,9 +1,11 @@
 import { useQuery } from 'react-query'
 
 import { FilterDef } from '@gravis-os/query'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 
 import { Attribute, AttributeOption } from './types'
+
+const supabase = createClientComponentClient()
 
 const getDirectoryAttributesFromFilterDefs = (
   attributes?: Array<
@@ -48,7 +50,7 @@ const useDirectoryAttributesFilterDefs = (props: { directory_id?: number }) => {
   const { directory_id } = props
 
   const fetchDirectoryAttributes = async () => {
-    return supabaseClient
+    return supabase
       .from('attribute')
       .select(
         '*, attribute_option(*), directory_attribute!inner(*, directory!inner(*))'

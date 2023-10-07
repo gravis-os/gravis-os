@@ -1,6 +1,6 @@
 /**
- * Manually simulate the supabaseClient because at this point we are
- * unable to import supabaseClient in the Next middleware as
+ * Manually simulate the supabase because at this point we are
+ * unable to import supabase in the Next middleware as
  * the @supabase/supabase-js library is not compatible with NextJS middleware yet.
  * @issue https://github.com/supabase/supabase/issues/3783
  *

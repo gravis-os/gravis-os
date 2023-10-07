@@ -6,8 +6,8 @@ import {
   getMiddlewareRouteBreakdown,
 } from '@gravis-os/middleware'
 import { isPathMatch } from '@gravis-os/utils/edge'
-import { withMiddlewareAuth } from '@supabase/auth-helpers-nextjs/dist/middleware'
-import { NextFetchEvent, NextRequest, NextResponse } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { NextRequest, NextResponse } from 'next/server'
 
 import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 import getIsPermittedInSaaSMiddleware, {
@@ -55,7 +55,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     validRoles = [],
   } = props
 
-  return async (req: NextRequest, event: NextFetchEvent) => {
+  return async (req: NextRequest) => {
     /**
      * Bounce/filter out certain routes from this middleware
      * This is a replacement for the config.matcher in middleware.ts downstream
@@ -252,46 +252,57 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         }
 
         // Check for authc and authz if this is not a guest path
-        const middlewareAuth = await withMiddlewareAuth({
-          authGuard: {
-            /**
-             * Any throws here will be caught by the auth-helpers middleware
-             * which will force the redirectTo function to be called.
-             * @param authUser
-             */
-            isPermitted: async (authUser) => {
-              // Check if the user is permitted to access the route
-              await getIsPermittedInSaaSMiddleware({
-                authUser,
-                guestPaths,
-                modulesConfig,
-                pathname,
-                subdomain,
-                userAuthColumnKey,
-                userModule,
-                validRoles,
-              })(req)
+        const supabase = createMiddlewareClient({
+          req,
+          res: NextResponse.next(),
+        })
+        // Check if we have a session
+        const {
+          data: { session },
+        } = await supabase.auth.getSession()
 
-              // Final: Only allow the user to pass through if all checks pass
-              return true
-            },
-            redirectTo: authorizationFailureRedirectTo, // Invalid Authorisation
-          },
-          redirectTo: authenticationFailureRedirectTo, // Invalid Authentication
-        })(req, event)
-
-        // Block the user if they are not authorised to access this workspace
-        // @ts-ignore
-        if (middlewareAuth?.status === 307) {
+        // Not authenticated
+        if (!session?.user) {
           const middlewareAuthErrorRedirectUrl = req.nextUrl.clone()
-          middlewareAuthErrorRedirectUrl.pathname = isLoggedIn
-            ? authorizationFailureRedirectTo
-            : authenticationFailureRedirectTo
+          middlewareAuthErrorRedirectUrl.pathname =
+            authenticationFailureRedirectTo
           if (isDebug) {
-            console.log(`♻️ [DEBUG] Middleware isWorkspace 307 Redirect`, {
-              middlewareAuthErrorRedirectUrl:
-                middlewareAuthErrorRedirectUrl.pathname,
-            })
+            console.log(
+              `♻️ [DEBUG] Middleware isWorkspace Authentication Failure 307 Redirect`,
+              {
+                middlewareAuthErrorRedirectUrl:
+                  middlewareAuthErrorRedirectUrl.pathname,
+              }
+            )
+          }
+          return NextResponse.redirect(middlewareAuthErrorRedirectUrl)
+        }
+
+        // Check if the user is authorized to access the route
+        try {
+          await getIsPermittedInSaaSMiddleware({
+            authUser: session.user as any,
+            guestPaths,
+            modulesConfig,
+            pathname,
+            subdomain,
+            userAuthColumnKey,
+            userModule,
+            validRoles,
+          })(req)
+        } catch {
+          // Block the user if they are not authorised to access this workspace
+          const middlewareAuthErrorRedirectUrl = req.nextUrl.clone()
+          middlewareAuthErrorRedirectUrl.pathname =
+            authorizationFailureRedirectTo
+          if (isDebug) {
+            console.log(
+              `♻️ [DEBUG] Middleware isWorkspace Authorization Failure 307 Redirect`,
+              {
+                middlewareAuthErrorRedirectUrl:
+                  middlewareAuthErrorRedirectUrl.pathname,
+              }
+            )
           }
           return NextResponse.redirect(middlewareAuthErrorRedirectUrl)
         }

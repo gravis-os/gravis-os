@@ -5,12 +5,14 @@ import { DropzoneOptions, DropzoneState, useDropzone } from 'react-dropzone'
 import toast from 'react-hot-toast'
 
 import { CrudItem } from '@gravis-os/types'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import isEmpty from 'lodash/isEmpty'
 
 import getFileMetaFromFile from './getFileMetaFromFile'
 import { File } from './types'
 import useFiles from './useFiles'
+
+const supabase = createClientComponentClient()
 
 export interface UseMultiStorageDropzoneProps {
   afterUpload?: (uploadedData: any) => void
@@ -77,7 +79,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       const fileUploadPromises = files.map(async (file) => {
         const fileMeta = getFileMetaFromFile(file, storageModule.table.name)
         const { filePath } = fileMeta
-        return supabaseClient.storage.from(bucketName).upload(filePath, file)
+        return supabase.storage.from(bucketName).upload(filePath, file)
       })
 
       const uploadedFileMetas = await Promise.all(fileUploadPromises)
@@ -87,7 +89,7 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       // If uploaded successfully, prepare to save the S3 keys to db
       const defaultForeignTableRows = uploadedFileMetas.map(
         (uploadedFileMeta, i) => {
-          const savedFileKey = uploadedFileMeta.data.Key
+          const savedFileKey = uploadedFileMeta.data.path
           const file = files[i]
           return {
             alt: file.name,
@@ -112,16 +114,19 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
       }
 
       // Save to DB
-      const savedRows = await supabaseClient.from(foreignTableName).upsert(
-        foreignTableRows.map((row) => ({
-          ...row,
-          // The relation_id e.g. product_id
-          [`${primaryTableName}_id`]: primaryRecord.id,
-          ...(primaryRecord.workspace_id && {
-            workspace_id: primaryRecord.workspace_id,
-          }),
-        }))
-      )
+      const savedRows = await supabase
+        .from(foreignTableName)
+        .upsert(
+          foreignTableRows.map((row) => ({
+            ...row,
+            // The relation_id e.g. product_id
+            [`${primaryTableName}_id`]: primaryRecord.id,
+            ...(primaryRecord.workspace_id && {
+              workspace_id: primaryRecord.workspace_id,
+            }),
+          }))
+        )
+        .select()
 
       return savedRows
     } catch (error) {
@@ -172,17 +177,18 @@ const useMultiStorageDropzone: UseMultiStorageDropzone = (props) => {
   const handleRemove = async (file): Promise<void> => {
     try {
       // Remove from storage
-      const { data, error } = await supabaseClient.storage
+      const { data, error } = await supabase.storage
         .from(bucketName)
         .remove([file.src])
 
       if (error) throw new Error('Error removing image')
 
       // Remove from database
-      await supabaseClient
+      await supabase
         .from(foreignTableName)
         .delete()
         .match({ id: file.id })
+        .select()
 
       // Remove from UI
       setFiles((prevFiles) =>

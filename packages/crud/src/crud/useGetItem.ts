@@ -6,9 +6,11 @@ import {
   getObjectWithGetters,
   getQueryWithRouteParamsOnly,
 } from '@gravis-os/utils'
-import { supabaseClient } from '@supabase/auth-helpers-nextjs'
+import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import isNil from 'lodash/isNil'
 import { useRouter } from 'next/router'
+
+const supabase = createClientComponentClient()
 
 export interface UseGetItemProps {
   module: CrudModule
@@ -42,7 +44,7 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
   const fetchItem = async ({ slug }) => {
     if (!slug) return
 
-    const onItemQuery = await supabaseClient
+    const onItemQuery = await supabase
       .from(table.name)
       .select(select?.detail || '*')
       .match({ [sk]: slug })
