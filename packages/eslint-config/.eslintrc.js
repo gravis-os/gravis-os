@@ -293,6 +293,8 @@ module.exports = {
     'react/react-in-jsx-scope': 0,
     'react/require-default-props': 0,
     // Unicorn
+    'unicorn/consistent-destructuring': 1,
+    'unicorn/explicit-length-check': 1,
     'unicorn/filename-case': 0,
     'unicorn/no-array-reduce': 0,
     'unicorn/no-null': 1,
