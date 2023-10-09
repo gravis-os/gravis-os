@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.8.0
+
+### Minor Changes
+
+- [#450](https://github.com/gravis-os/gravis-os/pull/450) [`9b61b46`](https://github.com/gravis-os/gravis-os/commit/9b61b461da468e95ea9c5726d19f9b7c1886da42) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(form, fields): added ControlledMultiTimeRangeField component.
+
 ## 1.7.2
 
 ### Patch Changes
