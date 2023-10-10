@@ -1,7 +1,9 @@
+'use client'
+
 import React from 'react'
 
 import { FormProps } from '@gravis-os/form'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import AuthBox, { AuthBoxProps } from './AuthBox'
 import AuthForm from './AuthForm'
@@ -17,9 +19,8 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props) => {
 
   // Get access token from query params
   const router = useRouter()
-  const { asPath } = router
   // @example asPath "/auth/recover-password#access_token=eyXXX&expires_in=3600&refresh_token=XXX&token_type=bearer&type=recovery"
-  const accessToken = asPath.split('&')[0].split('#access_token=')[1]
+  const accessToken = typeof window !== 'undefined' ? window.location.href.split('&')[0].split('#access_token=')[1] : null
 
   return (
     <AuthBox

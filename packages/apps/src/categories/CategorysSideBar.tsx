@@ -1,8 +1,10 @@
+'use client'
+
 import React from 'react'
 
 import { CrudItem } from '@gravis-os/types'
 import { List } from '@gravis-os/ui'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 
 export interface CategorysSideBarProps {
   getHref: (item: Record<string, any>) => string
@@ -11,7 +13,7 @@ export interface CategorysSideBarProps {
 
 const CategorysSideBar: React.FC<CategorysSideBarProps> = (props) => {
   const { getHref, items } = props
-  const router = useRouter()
+  const searchParams = useSearchParams()
 
   if (!items?.length) return null
 
@@ -21,7 +23,7 @@ const CategorysSideBar: React.FC<CategorysSideBarProps> = (props) => {
       disablePadding
       items={items.map((item) => {
         if (!item) return
-        const selected = Object.values(router.query).includes(item.slug)
+        const selected = Array.from(searchParams.values()).includes(item.slug)
         return {
           title: item.title,
           avatar: item.emoji,

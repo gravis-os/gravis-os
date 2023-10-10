@@ -1,10 +1,10 @@
-import type { NextRouter } from 'next/router'
+import type { ReadonlyURLSearchParams } from 'next/navigation'
 
 // Exclude queryParams from router.query and only return routeParams.
 const getQueryWithRouteParamsOnly = (
-  router: NextRouter
-): NextRouter['query'] => {
-  const { pathname, query } = router
+  pathname: string,
+  searchParams: ReadonlyURLSearchParams
+): URLSearchParams => {
 
   const routeParams = new Set(
     pathname
@@ -13,7 +13,7 @@ const getQueryWithRouteParamsOnly = (
       .map((item: string) => item.replace('[', '').replace(']', ''))
   )
 
-  const queryWithRouteParamsOnly = Object.entries(query).reduce(
+  const queryWithRouteParamsOnly = Array.from(searchParams.entries()).reduce(
     (acc, [key, value]) => {
       const isRouteParam = routeParams.has(key)
       if (!isRouteParam) return acc
@@ -21,8 +21,9 @@ const getQueryWithRouteParamsOnly = (
     },
     {}
   )
+  const searchParamsWithRouteParamsOnly = new URLSearchParams(queryWithRouteParamsOnly)
 
-  return queryWithRouteParamsOnly
+  return searchParamsWithRouteParamsOnly
 }
 
 export default getQueryWithRouteParamsOnly

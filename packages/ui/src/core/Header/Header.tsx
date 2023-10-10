@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect } from 'react'
 
 import { WithPaletteModeProps, withPaletteMode } from '@gravis-os/theme'
@@ -19,7 +21,7 @@ import { SxProps } from '@mui/system'
 import useScrollPosition from '@react-hook/window-scroll'
 import flowRight from 'lodash/flowRight'
 import merge from 'lodash/merge'
-import { useRouter } from 'next/router'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import useOpen from '../../hooks/useOpen'
 import AppBar, { AppBarProps } from '../AppBar'
@@ -188,7 +190,7 @@ const renderNavItemPreset = (props: {
   }
 }
 const renderNavItems = (navItems, props) => {
-  const { renderProps, router } = props
+  const { renderProps, pathname } = props
 
   if (
     !navItems ||
@@ -254,7 +256,7 @@ const renderNavItems = (navItems, props) => {
             !disableNewTabIcon && isExternalLink && isOpenInNewTab
 
           // Check if isActive and show indicator
-          const isActive = href !== '/' && router?.pathname.startsWith(href)
+          const isActive = href !== '/' && pathname.startsWith(href)
 
           // Calculate button props
           const nextButtonProps: ButtonProps = {
@@ -407,7 +409,9 @@ const Header: React.FC<HeaderProps> = (props) => {
   } = props
 
   // Router
-  const router = useRouter()
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const asPath = `${pathname}?${searchParams}`
 
   // State
   const [isDrawerOpen, { close: closeDrawer, open: openDrawer }] =
@@ -423,7 +427,7 @@ const Header: React.FC<HeaderProps> = (props) => {
   // Hide drawer on route change on mobile
   useEffect(() => {
     if (isDrawerOpen && !isDesktop) closeDrawer()
-  }, [router.asPath, isDesktop])
+  }, [asPath, isDesktop])
 
   // Convert transparent header to translucent after initial height
   const scrollY = useScrollPosition(60 /* 60 fps */)
@@ -461,8 +465,8 @@ const Header: React.FC<HeaderProps> = (props) => {
     isGroupedNavItems,
     openDrawer,
 
-    // Router
-    router,
+    // Pathname
+    pathname,
   }
 
   // ChildrenJsx

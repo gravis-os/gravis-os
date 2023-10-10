@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useState } from 'react'
 
 import { Form, FormSections } from '@gravis-os/form'
@@ -10,7 +12,7 @@ import {
   getNames as getCountryNames,
 } from 'country-list'
 import freeEmailDomains from 'free-email-domains'
-import { useRouter } from 'next/router'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 import * as yup from 'yup'
 
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
@@ -197,17 +199,17 @@ const ResourceForm: React.FC<ResourceFormProps> = (props) => {
         ),
     })
   })
-  const { asPath, query } = router
-  const {
-    country = '',
-    email = '',
-    industry = '',
-    job_department = '',
-    job_role = '',
-    mobile = '',
-    name = '',
-    source = '',
-  } = query
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const asPath = `${pathname}?${searchParams}`
+  const country = searchParams.get('country')
+  const email = searchParams.get('email')
+  const industry = searchParams.get('industry')
+  const job_department = searchParams.get('job_department')
+  const job_role = searchParams.get('job_role')
+  const mobile = searchParams.get('mobile')
+  const name = searchParams.get('name')
+  const source = searchParams.get('source')
 
   const handleSubmit = async (values) => {
     if (onSubmit) return onSubmit(values)

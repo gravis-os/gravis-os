@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useMemo, useState } from 'react'
 import toast from 'react-hot-toast'
 
@@ -7,7 +9,7 @@ import { Alert } from '@gravis-os/ui'
 import { yupResolver } from '@hookform/resolvers/yup'
 import { parsePhoneNumber } from 'awesome-phonenumber'
 import freeEmailDomains from 'free-email-domains'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 import * as yup from 'yup'
 
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
@@ -18,14 +20,14 @@ export interface ContactFormProps {
   contactSuccessRoute?: string
   onSubmit?: (values: any) => void
   submitValues?: Record<string, string>
+  locale?: string
 }
 
 const ContactForm: React.FC<ContactFormProps> = (props) => {
-  const { contactSuccessRoute, onSubmit, submitValues } = props
+  const { contactSuccessRoute, onSubmit, submitValues, locale = '' } = props
   const [isLoading, setIsLoading] = useState(false)
   const [isSubmitSuccess, setIsSubmitSuccess] = useState(false)
   const router = useRouter()
-  const { locale } = router
   const { routeConfig } = useLayout()
 
   const contactFormSchema = useMemo(

@@ -1,8 +1,8 @@
 /* eslint-disable fp/no-mutating-methods, fp/no-mutation */
 
-import React, { useEffect } from 'react'
+import React from 'react'
 
-import { useRouter } from 'next/router'
+import { SuspenseNavigationEvents } from '@gravis-os/ui'
 
 export const GTM_ID = process.env.NEXT_PUBLIC_GTM_ID
 
@@ -21,21 +21,18 @@ export const setPageview = (url, options = {}) => {
   })
 }
 
-export const useGtmPageViewOnRouteChange = (
-  props: {
-    userId?: number | string
-  } = {}
+export interface GtmPageViewNavigationEventsProps {
+  userId?: number | string
+}
+
+export const GtmPageViewNavigationEvents: React.FC<GtmPageViewNavigationEventsProps> = (
+  props
 ) => {
   const { userId } = props
 
-  const router = useRouter()
   const handleRouteChangeComplete = (url) => setPageview(url, { userId })
-  useEffect(() => {
-    router.events.on('routeChangeComplete', handleRouteChangeComplete)
-    return () => {
-      router.events.off('routeChangeComplete', handleRouteChangeComplete)
-    }
-  }, [router.events])
+
+  return <SuspenseNavigationEvents onUrlChange={handleRouteChangeComplete} />
 }
 
 /**

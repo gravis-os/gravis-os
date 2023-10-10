@@ -1,3 +1,5 @@
+'use client'
+
 import { QueryObserverOptions, UseQueryResult, useQuery } from 'react-query'
 
 import { useUser } from '@gravis-os/auth'
@@ -8,7 +10,7 @@ import {
 } from '@gravis-os/utils'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import isNil from 'lodash/isNil'
-import { useRouter } from 'next/router'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 export interface UseGetItemProps {
   module: CrudModule
@@ -30,9 +32,10 @@ const useGetItem = (props: UseGetItemProps): UseGetItemResult => {
   const { user } = useUser()
 
   // Router
-  const router = useRouter()
-  const queryWithRouteParamsOnly = getQueryWithRouteParamsOnly(router)
-  const querySlug = queryWithRouteParamsOnly[sk] as string
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const searchParamsWithRouteParamsOnly = getQueryWithRouteParamsOnly(pathname, searchParams)
+  const querySlug = searchParamsWithRouteParamsOnly.get(sk)
   const routerSlug = querySlug === 'new' ? null : querySlug
 
   // Slug value to match

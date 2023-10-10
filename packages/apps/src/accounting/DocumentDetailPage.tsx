@@ -1,7 +1,9 @@
+'use client'
+
 import React from 'react'
 
 import { DetailPage, DetailPageProps } from '@gravis-os/crud'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { DocumentTypeEnum } from './constants'
 import DocumentFormSections from './DocumentFormSections'

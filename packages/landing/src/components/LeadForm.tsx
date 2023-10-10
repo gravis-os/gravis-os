@@ -1,10 +1,12 @@
+'use client'
+
 import React, { useState } from 'react'
 import toast from 'react-hot-toast'
 
 import { Form, FormSections } from '@gravis-os/form'
 import { FormCategoryEnum, ServiceCategory } from '@gravis-os/types'
 import { Alert } from '@gravis-os/ui'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { EnquiryTypeEnum } from '../enquiries/common/constants'
 import { postEnquiry } from '../enquiries/common/postEnquiry'

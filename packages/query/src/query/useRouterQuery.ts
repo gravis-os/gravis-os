@@ -1,6 +1,6 @@
 import omit from 'lodash/omit'
 import pick from 'lodash/pick'
-import { NextRouter, useRouter } from 'next/router'
+import { NextRouter, useRouter } from 'next/navigation'
 import qs, { ParsedQs } from 'qs'
 
 export interface UseRouterQueryReturn {

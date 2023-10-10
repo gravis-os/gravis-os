@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect } from 'react'
 import { QueryOptions, useQuery, useQueryClient } from 'react-query'
 
@@ -6,15 +8,15 @@ import { CircularProgress } from '@gravis-os/ui'
 import { getGuestPaths, isPathMatch } from '@gravis-os/utils'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import { useUser as useAuthUser } from '@supabase/auth-helpers-react'
-import { useRouter } from 'next/router'
+import { usePathname, useSearchParams } from 'next/navigation'
 
 import UserContext, { UserContextInterface } from './UserContext'
 
 // Strip out /_workspaces/[workspace] prefix to accurately get the pathname
-const getSaasRoutePathname = ({ pathname: injectedPathname, query }) => {
+const getSaasRoutePathname = ({ pathname: injectedPathname, searchParams }) => {
   const pathname = injectedPathname
     .replace('/_workspaces/[workspace]', '')
-    .replace(`/_workspaces/${query.workspace}`, '')
+    .replace(`/_workspaces/${searchParams.get('workspace')}`, '')
 
   // Fallback to '/' if we're on the workspaces' home route
   return pathname || '/'
@@ -107,8 +109,8 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   const dbUser = injectedDbUser || fetchedDbUser
 
   // Guest auth paths
-  const router = useRouter()
-  const { pathname: injectedPathname, query } = router
+  const injectedPathname = usePathname()
+  const searchParams = useSearchParams()
 
   /**
    * Manage SaaS routes where rewrites are used
@@ -119,7 +121,7 @@ const UserProvider: React.FC<UserProviderProps> = (props) => {
   const isSaaSRoute = injectedPathname.includes('/_workspaces')
 
   const pathname = isSaaSRoute
-    ? getSaasRoutePathname({ pathname: injectedPathname, query })
+    ? getSaasRoutePathname({ pathname: injectedPathname, searchParams })
     : injectedPathname
 
   const guestPaths = getGuestPaths(injectedGuestPaths)

@@ -1,5 +1,4 @@
 import { ListItemProps } from '@gravis-os/ui'
-import { NextRouter } from 'next/router'
 
 /**
  * getListItemsWithActiveStateFromRouter
@@ -7,7 +6,7 @@ import { NextRouter } from 'next/router'
  */
 const getListItemsWithActiveStateFromRouter = (
   listItems: ListItemProps['items'],
-  router?: NextRouter
+  pathname?: string
 ): ListItemProps['items'] => {
   // Handle degenerate cases
   if (!listItems?.length) return []
@@ -16,7 +15,7 @@ const getListItemsWithActiveStateFromRouter = (
     const { href, items, key } = listItem
 
     const isNestedMenu = Boolean(items?.length)
-    const isCurrentPath = router.pathname.endsWith(href)
+    const isCurrentPath = pathname?.endsWith(href)
 
     // Set ListItem.selected to true if the current path matches the href
     const nextListItem = isCurrentPath

@@ -1,3 +1,5 @@
+'use client'
+
 import React, { ReactNode, useEffect, useState } from 'react'
 
 import { UserContextInterface, useUser } from '@gravis-os/auth'
@@ -10,7 +12,7 @@ import {
 } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 import { ButtonProps, CircularProgress } from '@gravis-os/ui'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import CrudFormProvider from '../providers/CrudFormProvider'
 import { CrudContextInterface } from './CrudContext'

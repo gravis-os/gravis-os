@@ -1,6 +1,6 @@
 import React from 'react'
 
-import { useGtmPageViewOnRouteChange } from './GoogleTagManager'
+import { GtmPageViewNavigationEvents } from './GoogleTagManager'
 
 export interface AnalyticsProviderProps {
   children?: React.ReactNode
@@ -9,10 +9,11 @@ export interface AnalyticsProviderProps {
 const AnalyticsProvider: React.FC<AnalyticsProviderProps> = (props) => {
   const { children } = props
 
-  // Set page view on route change
-  useGtmPageViewOnRouteChange()
-
-  return <>{children}</>
+  return (<>
+    {/* Set page view on route change */}
+    <GtmPageViewNavigationEvents />
+    {children}
+  </>)
 }
 
 export default AnalyticsProvider

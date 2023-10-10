@@ -1,5 +1,7 @@
+'use client'
+
 import { getRelationalObjectKey } from '@gravis-os/form'
-import { useRouter } from 'next/router'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 /**
  * useRouterQueryFilters
@@ -14,7 +16,9 @@ const useRouterQueryFilters = (args) => {
 
   // Router
   const router = useRouter()
-  const { pathname, query: routerQuery } = router
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const routerQuery = Array.from(searchParams.entries()).reduce((obj, [key, value]) => ({ ...obj, [key]: value }), {})
 
   // Get query params to set into the router with the existing filters
   const getRouterQueryFromFilters = (filters) =>

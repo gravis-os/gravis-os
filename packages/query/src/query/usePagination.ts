@@ -1,4 +1,6 @@
-import { useRouter } from 'next/router'
+'use client'
+
+import { useSearchParams } from 'next/navigation'
 
 import useRouterQuery from './useRouterQuery'
 
@@ -36,10 +38,9 @@ export interface UsePaginationReturn {
 const usePagination = (props: UsePaginationProps): UsePaginationReturn => {
   const { count, pageSize } = props
 
-  const router = useRouter()
-  const { pathname, query } = router
+  const searchParams = useSearchParams()
 
-  const page = query?.page ? Number(query?.page) : 1
+  const page = searchParams.get('page') ? Number(searchParams.get('page')) : 1
   const range: [number, number] = [page * pageSize - pageSize, pageSize * page]
   const pageCount = count / pageSize > 0 ? Math.ceil(count / pageSize) : 1
   const hasNextPage = page < pageCount

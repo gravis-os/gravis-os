@@ -45,3 +45,9 @@ export * from './VerticalIconButton'
 
 export { default as WhatsappButton } from './WhatsappButton'
 export * from './WhatsappButton'
+
+export { default as NavigationEvents } from './NavigationEvents'
+export * from './NavigationEvents'
+
+export { default as SuspenseNavigationEvents } from './SuspenseNavigationEvents'
+export * from './SuspenseNavigationEvents'

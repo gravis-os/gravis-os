@@ -1,7 +1,9 @@
+'use client'
+
 import React from 'react'
 
 import { Stack, useMediaQuery, useTheme } from '@mui/material'
-import { useRouter } from 'next/router'
+import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
 import HeaderButtonWithMenu, {
   HeaderButtonWithMenuProps,
@@ -27,10 +29,11 @@ export interface Locale {
 export interface LocalePickerProps
   extends Omit<HeaderButtonWithMenuProps, 'key' | 'title'> {
   locales: Locale[]
+  locale?: string
 }
 
 const LocalePicker: React.FC<LocalePickerProps> = (props) => {
-  const { locales, ...rest } = props
+  const { locales, locale, ...rest } = props
 
   const theme = useTheme()
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
@@ -41,7 +44,9 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
 
   // Router
   const router = useRouter()
-  const { asPath, locale } = router
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const asPath = `${pathname}?${searchParams}`
 
   // Items
   const items = locales.map((localeItem) => {

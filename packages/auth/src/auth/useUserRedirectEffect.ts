@@ -1,7 +1,9 @@
+'use client'
+
 import { useEffect } from 'react'
 import toast from 'react-hot-toast'
 
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { ROLE_ADMIN, ROLE_SUPER_ADMIN } from '../constants'
 import useUser from './useUser'

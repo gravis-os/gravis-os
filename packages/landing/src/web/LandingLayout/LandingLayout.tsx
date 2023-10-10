@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import {
@@ -13,7 +15,7 @@ import {
   StackProps,
 } from '@gravis-os/ui'
 import { NextSeo, NextSeoProps } from 'next-seo'
-import { useRouter } from 'next/router'
+import { usePathname, useSearchParams } from 'next/navigation'
 import NextNProgress from 'nextjs-progressbar'
 
 import { useLayout } from '../../providers/LayoutProvider'
@@ -95,8 +97,10 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
 
   const { routeConfig, site } = useLayout()
 
-  const router = useRouter()
-  const isHomeRoute = router.pathname === routeConfig?.HOME
+  const pathname = usePathname()
+  const searchParams = useSearchParams()
+  const asPath = `${pathname}?${searchParams}`
+  const isHomeRoute = pathname === routeConfig?.HOME
 
   return (
     <Stack sx={{ backgroundColor, minHeight: '100vh', ...sx }} {...rest}>
@@ -110,7 +114,7 @@ const LandingLayout: React.FC<LandingLayoutProps> = (props) => {
             ...seo,
             openGraph: {
               ...seo.openGraph,
-              url: `${site?.absolute_url}${router.asPath}`,
+              url: `${site?.absolute_url}${asPath}`,
             },
           }}
         />

@@ -1,10 +1,11 @@
-import { useRouter } from 'next/router'
+'use client'
+
+import { useSearchParams } from 'next/navigation'
 
 // Get workspace slug from router
 const useWorkspaceSlugFromRouter = () => {
-  const { query } = useRouter()
-  const { workspace } = query || {}
-  const workspaceSlug = workspace ? String(workspace) : ''
+  const searchParams = useSearchParams()
+  const workspaceSlug = searchParams.get('workspace') ? String(searchParams.get('workspace')) : ''
   return workspaceSlug
 }
 

@@ -4,8 +4,9 @@
  */
 import React, { useEffect } from 'react'
 
-import { useRouter } from 'next/router'
 import Script from 'next/script'
+
+import { SuspenseNavigationEvents } from '@gravis-os/ui'
 
 export const FB_PIXEL_ID = process.env.NEXT_PUBLIC_FACEBOOK_PIXEL_ID
 
@@ -40,21 +41,14 @@ export const renderFacebookPixelNoScriptTag = () => {
 }
 
 export const FacebookPixel = () => {
-  const router = useRouter()
+  const handleRouteChange = () => {
+    facebookPixel.pageview()
+  }
 
   useEffect(() => {
     // This pageview only triggers the first time (it's important for Pixel to have real information)
-    if (!FB_PIXEL_ID) {
-      facebookPixel.pageview()
-      const handleRouteChange = () => {
-        facebookPixel.pageview()
-      }
-      router.events.on('routeChangeComplete', handleRouteChange)
-      return () => {
-        router.events.off('routeChangeComplete', handleRouteChange)
-      }
-    }
-  }, [router.events])
+    if (!FB_PIXEL_ID) facebookPixel.pageview()
+  }, [])
 
   if (!FB_PIXEL_ID) return null
 
@@ -78,6 +72,7 @@ export const FacebookPixel = () => {
         id="fb-pixel"
         strategy="afterInteractive"
       />
+      <SuspenseNavigationEvents onUrlChange={handleRouteChange} />
     </>
   )
 }

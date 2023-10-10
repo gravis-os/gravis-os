@@ -1,3 +1,5 @@
+'use client'
+
 import React, { ReactNode, useEffect, useState } from 'react'
 
 import {
@@ -14,7 +16,7 @@ import {
   TypographyProps,
 } from '@gravis-os/ui'
 import { SxProps, Theme, useMediaQuery, useTheme } from '@mui/material'
-import { useRouter } from 'next/router'
+import { usePathname } from 'next/navigation'
 import NextNProgress from 'nextjs-progressbar'
 
 import dashboardLayoutConfig from './dashboardLayoutConfig'
@@ -148,14 +150,14 @@ const DashboardLayout: React.FC<DashboardLayoutProps> = (props) => {
   } = props
 
   // Router
-  const router = useRouter()
+  const pathname = usePathname()
   const theme = useTheme()
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
 
   // List Items
   const leftAsideListItems = getListItemsWithActiveStateFromRouter(
     injectedLeftAsideListItems,
-    router
+    pathname
   )
   const primaryLeftAsideListItems =
     isDesktop && showSecondaryLeftAside

@@ -1,16 +1,17 @@
+'use client'
+
 import React from 'react'
 
 import { getRelationalObjectKey } from '@gravis-os/form'
 import isNil from 'lodash/isNil'
 import omit from 'lodash/omit'
 import startCase from 'lodash/startCase'
-import { useRouter } from 'next/router'
+import { useSearchParams } from 'next/navigation'
 
 import getValueWithoutOp from './getValueWithoutOp'
 
 const getChipsFromFilters = ({ fieldDefs, filters, setFilters }) => {
-  const router = useRouter()
-  const { query: routerQuery } = router
+  const searchParams = useSearchParams()
 
   if (!filters) return
 
@@ -38,7 +39,7 @@ const getChipsFromFilters = ({ fieldDefs, filters, setFilters }) => {
           label: (
             <>
               <b>{startCase(relationalObjectKey)}</b>:{' '}
-              {routerQuery[relationalObjectKey] || nextValue}
+              {searchParams.get(relationalObjectKey) || nextValue}
             </>
           ),
           onDelete: handleDelete(key),

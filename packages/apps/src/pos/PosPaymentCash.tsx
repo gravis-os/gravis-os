@@ -1,9 +1,11 @@
+'use client'
+
 import React, { useEffect } from 'react'
 
 import { Box, Button, Container, Grid, Stack, Typography } from '@gravis-os/ui'
 import { printAmount } from '@gravis-os/utils'
 import isNumber from 'lodash/isNumber'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import posConfig from './posConfig'
 import { usePos } from './PosProvider'

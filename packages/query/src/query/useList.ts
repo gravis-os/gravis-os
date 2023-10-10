@@ -19,7 +19,7 @@ import isEmpty from 'lodash/isEmpty'
 import partition from 'lodash/partition'
 import pick from 'lodash/pick'
 import uniqBy from 'lodash/uniqBy'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import {
   SupabasePostgrestBuilderFiltersType,

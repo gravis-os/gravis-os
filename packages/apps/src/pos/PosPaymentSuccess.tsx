@@ -1,3 +1,5 @@
+'use client'
+
 import React, { ElementType, useState } from 'react'
 
 import { useGetItem } from '@gravis-os/crud'
@@ -16,7 +18,7 @@ import {
 import { printAmount } from '@gravis-os/utils'
 import MoneyOutlinedIcon from '@mui/icons-material/MoneyOutlined'
 import toString from 'lodash/toString'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import { getReceiptFileName } from '.'
 import posConfig from './posConfig'

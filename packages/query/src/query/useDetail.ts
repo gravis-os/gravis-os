@@ -12,7 +12,7 @@ import capitalize from 'lodash/capitalize'
 import flowRight from 'lodash/flowRight'
 import omit from 'lodash/omit'
 import snakeCase from 'lodash/snakeCase'
-import { useRouter } from 'next/router'
+import { useRouter } from 'next/navigation'
 
 import {
   FetchDetailFilters,
@@ -142,7 +142,7 @@ const useDetail = <T = any>(props: UseDetailProps): UseDetailReturn<T> => {
    * Declutter the router.query. Picking on the queryParams and excluding the queryString
    * The queryParams are required for the detail query to function.
    * Remove queryParams from detail query because detail fetch should not
-   * be affected by queryString (?a=foo&b=bar). It should only listen to the queryParams /pages/[slug].tsx)
+   * be affected by queryString (?a=foo&b=bar). It should only listen to the queryParams /pages/[slug].tsxÍ›)
    * queryString only appears in the browser when router is ready. Not applicable in the server (getStaticProps)
    */
   const params = injectedParams || queryParams
