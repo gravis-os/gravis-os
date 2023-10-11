@@ -1,3 +1,4 @@
+'use client'
 import React, { ChangeEvent, ReactNode, useState } from 'react'
 
 import ErrorOutlinedIcon from '@mui/icons-material/ErrorOutlined'

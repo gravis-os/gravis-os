@@ -1,7 +1,7 @@
 import React from 'react'
 
 import { Stack, useMediaQuery, useTheme } from '@mui/material'
-import { useRouter } from 'next/router'
+import { usePathname, useRouter } from 'next/navigation'
 
 import HeaderButtonWithMenu, {
   HeaderButtonWithMenuProps,
@@ -41,7 +41,14 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
 
   // Router
   const router = useRouter()
-  const { asPath, locale } = router
+  const pathname = usePathname()
+
+  // @link: https://github.com/vercel/next.js/blob/canary/examples/app-dir-i18n-routing/app/%5Blang%5D/components/locale-switcher.tsx#L23
+  const redirectedPathName = (locale: string) => {
+    if (!pathname) return '/'
+    const segments = [...pathname.split('/'), locale]
+    return segments.join('/')
+  }
 
   // Items
   const items = locales.map((localeItem) => {
@@ -54,7 +61,7 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
         </Stack>
       ),
       key,
-      onClick: () => router.push(asPath, asPath, { locale: isoAlpha2 }),
+      onClick: () => router.push(redirectedPathName(isoAlpha2)),
     }
   })
 
@@ -69,7 +76,7 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
       }}
       items={items}
       key="locale-picker"
-      title={getFlagFromCountryISOAlpha2(locale)}
+      title={getFlagFromCountryISOAlpha2(pathname?.split('/')?.[1])}
       {...rest}
     />
   )
