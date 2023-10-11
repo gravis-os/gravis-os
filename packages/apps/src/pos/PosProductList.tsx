@@ -36,7 +36,7 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
   const items = injectedItems || queryResult?.items || []
 
   useEffect(() => {
-    if (isLastItemVisible && !isLoading) {
+    if (isLastItemVisible && !isLoading && fetchNextPage) {
       fetchNextPage()
     }
   }, [isLastItemVisible])
