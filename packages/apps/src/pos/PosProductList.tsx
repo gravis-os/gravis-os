@@ -1,9 +1,10 @@
-import React from 'react'
+import React, { useEffect, useRef } from 'react'
 
 import { UseListReturn } from '@gravis-os/query'
 import { CrudModule } from '@gravis-os/types'
 import { Box, CircularProgress, Stack } from '@gravis-os/ui'
 
+import { useIsComponentVisible } from '../hooks/useIsComponentVisible'
 import PosProductListItem from './PosProductListItem'
 
 export interface PosProductListProps {
@@ -18,6 +19,7 @@ export interface PosProductListProps {
 }
 
 const PosProductList: React.FC<PosProductListProps> = (props) => {
+  const lastItemRef = useRef<any>()
   const {
     disableEndIcon,
     disableImage,
@@ -29,8 +31,15 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
     ...rest
   } = props
 
-  const { isLoading } = queryResult || {}
+  const isLastItemVisible = useIsComponentVisible(lastItemRef)
+  const { fetchNextPage, isFetching, isLoading } = queryResult || {}
   const items = injectedItems || queryResult?.items || []
+
+  useEffect(() => {
+    if (isLastItemVisible && !isLoading) {
+      fetchNextPage()
+    }
+  }, [isLastItemVisible])
 
   return (
     <>
@@ -63,6 +72,12 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
           ))}
         </Stack>
       )}
+      {(isFetching || isLastItemVisible) && (
+        <Box alignItems="center" display="flex" justifyContent="center">
+          <CircularProgress />
+        </Box>
+      )}
+      <div ref={lastItemRef} />
     </>
   )
 }
