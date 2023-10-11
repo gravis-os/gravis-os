@@ -1,3 +1,5 @@
+'use client'
+
 import React, { useEffect, useState } from 'react'
 
 import {
@@ -5,7 +7,7 @@ import {
   BreadcrumbsProps as MuiBreadcrumbsProps,
 } from '@mui/material'
 import startCase from 'lodash/startCase'
-import { useRouter } from 'next/router'
+import { usePathname, useRouter } from 'next/navigation'
 
 import Box from './Box'
 import Link from './Link'
@@ -48,11 +50,12 @@ const Breadcrumbs: React.FC<BreadcrumbsProps> = (props) => {
 
   // Calculate autoBreadcrumbItems
   const router = useRouter()
+  const pathname = usePathname()
   const [autoBreadcrumbItems, setAutoBreadcrumbItems] = useState([])
   const hasAutoBreadcrumbItems = autoBreadcrumbs && autoBreadcrumbItems?.length
   useEffect(() => {
     if (router && autoBreadcrumbs) {
-      const asPaths = router.asPath.split('/')
+      const asPaths = pathname.split('/')
       const subPaths = asPaths.slice(1)
 
       const nextAutoBreadcrumbItems = subPaths

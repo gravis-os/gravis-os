@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import { useGravis } from '@gravis-os/config'

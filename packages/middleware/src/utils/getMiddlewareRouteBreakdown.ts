@@ -1,4 +1,5 @@
-import { NextRequest } from 'next/server'
+import { createMiddlewareClient } from '@supabase/auth-helpers-nextjs'
+import { NextRequest, NextResponse } from 'next/server'
 
 import fetchWorkspaceByCustomDomainFromMiddleware from '../supabase/fetchWorkspaceByCustomDomainFromMiddleware'
 
@@ -48,13 +49,13 @@ const getMiddlewareRouteBreakdown = async (
    * still need to add "*.platformize.vercel.app" as a wildcard domain on your Vercel dashboard.
    */
   const currentHost =
-    options.subdomainOverride ||
+    subdomainOverride ||
     (isVercelProduction
       ? customDomainWorkspace?.slug || hostname.replace(`.${nakedDomain}`, '')
       : hostname.replace(`.localhost:3000`, ''))
 
   const subdomain =
-    options.subdomainOverride ||
+    subdomainOverride ||
     (customDomainWorkspace?.slug || currentHost !== hostname ? currentHost : '') // e.g. merrymaker
   const workspacesPathnamePrefix = `/_workspaces/${currentHost}` // e.g. '/_workspaces/evfy'
 
@@ -64,19 +65,16 @@ const getMiddlewareRouteBreakdown = async (
   const isBaseRoute = !subdomain && currentHost === hostname // e.g. localhost:3000
   const isWorkspace = Boolean(subdomain) // e.g. subdomain.localhost:3000
   const isWorkspaceBaseRoute = isWorkspace && pathname === '/' // e.g. subdomain.localhost:3000/
-  const sbAccessToken = req.cookies.get('sb-access-token')?.value
-  const authUser =
-    sbAccessToken &&
-    (await (
-      await fetch(`${process.env.NEXT_PUBLIC_SUPABASE_URL}/auth/v1/user`, {
-        headers: {
-          apiKey: `${process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY}`,
-          Authorization: `Bearer ${sbAccessToken}`,
-        },
-      })
-    )
-      // eslint-disable-next-line unicorn/no-await-expression-member
-      .json())
+
+  // Check for authUser
+  const supabase = createMiddlewareClient({
+    req,
+    res: NextResponse.next(),
+  })
+  const {
+    data: { session },
+  } = await supabase.auth.getSession()
+  const authUser = session?.user
   const isLoggedIn = Boolean(authUser?.id)
 
   const result = {

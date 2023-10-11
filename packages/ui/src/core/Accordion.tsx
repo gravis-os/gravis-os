@@ -1,3 +1,5 @@
+'use client'
+
 import React from 'react'
 
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'

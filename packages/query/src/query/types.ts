@@ -91,7 +91,7 @@ export interface UseListFilters {
   lt: Array<number | string> | null
   lte: Array<number | string> | null
   match: SupabasePostgrestBuilderMatchType
-  not: Array<number | string> | null
+  not: Array<unknown> | null
   order:
     | [
         string,

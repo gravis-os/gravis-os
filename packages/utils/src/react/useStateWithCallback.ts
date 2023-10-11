@@ -1,5 +1,7 @@
 /* eslint-disable fp/no-mutation */
 
+'use client'
+
 import { useCallback, useEffect, useRef, useState } from 'react'
 
 function useStateWithCallback<T>(

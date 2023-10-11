@@ -1,3 +1,5 @@
+'use client'
+
 import type { TransitionProps } from '@mui/material/transitions'
 
 import React from 'react'

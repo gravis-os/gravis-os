@@ -1,3 +1,4 @@
+'use client'
 /* eslint-disable fp/no-mutation */
 
 import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
