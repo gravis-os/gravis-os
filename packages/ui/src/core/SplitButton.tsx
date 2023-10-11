@@ -1,3 +1,5 @@
+'use client'
+
 import React, { SyntheticEvent, useRef, useState } from 'react'
 
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown'

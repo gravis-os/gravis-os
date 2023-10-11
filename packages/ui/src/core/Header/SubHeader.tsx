@@ -1,3 +1,4 @@
+'use client'
 import React, { useState } from 'react'
 
 import ExpandMoreOutlinedIcon from '@mui/icons-material/ExpandMoreOutlined'

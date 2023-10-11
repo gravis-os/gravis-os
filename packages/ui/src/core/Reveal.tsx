@@ -1,3 +1,5 @@
+'use client'
+
 import type { RevealProps as ReactAwesomeRevealProps } from 'react-awesome-reveal'
 
 import React from 'react'

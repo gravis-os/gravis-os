@@ -1,3 +1,4 @@
+'use client'
 import type { ResponsiveStyleValue } from '@mui/system/styleFunctionSx'
 
 import React, { useState } from 'react'
