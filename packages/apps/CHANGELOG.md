@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.3
+
+### Patch Changes
+
+- [#511](https://github.com/gravis-os/gravis-os/pull/511) [`fc7123c`](https://github.com/gravis-os/gravis-os/commit/fc7123c54da9d664a47ca1f2fc6fdc5042e36e7b) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add pagination to PosProductList
+
 ## 1.2.2
 
 ### Patch Changes
