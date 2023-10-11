@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 
 import { StorageAvatarWithUpload } from '@gravis-os/storage'
@@ -7,6 +7,7 @@ import { Button, Stack } from '@gravis-os/ui'
 import { Box, Divider, Grid, GridProps, Typography } from '@mui/material'
 import capitalize from 'lodash/capitalize'
 import sortBy from 'lodash/sortBy'
+import Prism from 'prismjs'
 
 import ControlledHtmlField from './ControlledHtmlField'
 import ControlledTextField from './ControlledTextField'
@@ -190,6 +191,10 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
     }
   }
 
+  useEffect(() => {
+    Prism.highlightAll()
+  }, [])
+
   // Handle degenerate case
   if (objectValue === null)
     return (
@@ -199,14 +204,46 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
   return (
     <Stack>
       <Button onClick={toggleAdvancedEditMode}>
-        {isAdvancedEditMode ? 'Normal' : 'Advanced'} Edit Mode
+        {isAdvancedEditMode ? 'Normal' : 'Advanced'} Edit Modee
       </Button>
       {isAdvancedEditMode ? (
-        <TextField
-          {...props}
-          multiline
-          value={typeof value === 'string' ? value : JSON.stringify(value)}
-        />
+        <div style={{ position: 'relative' }}>
+          <TextField
+            {...props}
+            inputProps={{
+              sx: {
+                caretColor: 'black',
+                color: 'transparent',
+                fontFamily: 'monospace',
+                lineHeight: 1.5,
+              },
+            }}
+            multiline
+            spellCheck="false"
+            value={typeof value === 'string' ? value : JSON.stringify(value)}
+          />
+          <pre
+            id="highlighting"
+            style={{
+              left: 0,
+              margin: 0,
+              paddingBottom: 16.5,
+              paddingLeft: 14,
+              paddingRight: 14,
+              paddingTop: 16.5,
+              pointerEvents: 'none',
+              position: 'absolute',
+              top: 0,
+              whiteSpace: 'pre-wrap',
+              width: '100%',
+              wordWrap: 'break-word',
+            }}
+          >
+            <code className="language-javascript" id="highlighting-content">
+              {typeof value === 'string' ? value : JSON.stringify(value)}
+            </code>
+          </pre>
+        </div>
       ) : (
         renderJSONSection({
           control,
