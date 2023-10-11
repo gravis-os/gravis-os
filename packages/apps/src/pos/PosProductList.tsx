@@ -72,7 +72,7 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
           ))}
         </Stack>
       )}
-      {(isFetching || isLastItemVisible) && (
+      {isFetching && (
         <Box alignItems="center" display="flex" justifyContent="center">
           <CircularProgress />
         </Box>
