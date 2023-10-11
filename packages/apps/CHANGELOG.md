@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.4
+
+### Patch Changes
+
+- [#513](https://github.com/gravis-os/gravis-os/pull/513) [`068604d`](https://github.com/gravis-os/gravis-os/commit/068604d38e0da2a6f36453da1966a9592384bbec) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix fetchNextPage bug
+
 ## 1.2.3
 
 ### Patch Changes
