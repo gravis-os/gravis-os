@@ -10,6 +10,7 @@ import PosProductListItem from './PosProductListItem'
 export interface PosProductListProps {
   disableEndIcon?: boolean
   disableImage?: boolean
+  disableQty?: boolean
   disableRight?: boolean
   items?: any[]
   onClick?: (e: React.SyntheticEvent, item: any, i: number) => void
@@ -23,6 +24,7 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
   const {
     disableEndIcon,
     disableImage,
+    disableQty,
     disableRight,
     items: injectedItems,
     onClick,
@@ -57,6 +59,7 @@ const PosProductList: React.FC<PosProductListProps> = (props) => {
         <Stack horizontalDividers>
           {items?.map((item, i) => (
             <PosProductListItem
+              disableQty={disableQty}
               item={item}
               key={item?.id}
               {...queryResult}
