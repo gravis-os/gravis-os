@@ -3,7 +3,6 @@ import React from 'react'
 import { UseListReturn } from '@gravis-os/query'
 import { StorageAvatar } from '@gravis-os/storage'
 import {
-  Badge,
   ListItem,
   ListItemProps,
   Stack,
@@ -44,15 +43,7 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
         {item.title}
       </Typography>
     ),
-    avatar: (
-      <Badge
-        badgeContent={quantity}
-        color="secondary"
-        invisible={quantity <= 1}
-      >
-        <StorageAvatar alt={alt} src={src} sx={{ borderRadius: 0 }} />
-      </Badge>
-    ),
+    avatar: <StorageAvatar alt={alt} src={src} sx={{ borderRadius: 0 }} />,
     endIcon: (
       <KeyboardArrowRightOutlinedIcon sx={{ color: 'text.secondary' }} />
     ),
@@ -74,9 +65,14 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
       </Stack>
     ),
     subtitle: (
-      <Typography color="text.secondary" variant="body1">
-        {item.brand.title}
-      </Typography>
+      <div>
+        <Typography color="text.secondary" variant="body1">
+          {item.brand.title}
+        </Typography>
+        <Typography color="text.secondary" variant="body1">
+          Qty: {item.quantity ?? 1}
+        </Typography>
+      </div>
     ),
     ...rest,
     ...itemProps,

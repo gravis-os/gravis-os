@@ -54,7 +54,7 @@ const PosCartEditCartItemDialog: React.FC<PosCartEditCartItemDialogProps> = (
 
   useEffect(() => {
     setQuantity(item?.quantity || 1)
-  }, [cartIndex])
+  }, [cartIndex, item?.quantity])
 
   const handleClose = () => {
     if (quantity === 0) {
@@ -65,7 +65,6 @@ const PosCartEditCartItemDialog: React.FC<PosCartEditCartItemDialogProps> = (
         items: set(cart.items, `[${cartIndex}].quantity`, quantity),
       })
     }
-    setQuantity(1)
     onClose()
   }
 
