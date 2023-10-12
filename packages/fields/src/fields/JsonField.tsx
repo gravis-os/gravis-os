@@ -204,7 +204,7 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
   return (
     <Stack>
       <Button onClick={toggleAdvancedEditMode}>
-        {isAdvancedEditMode ? 'Normal' : 'Advanced'} Edit Modee
+        {isAdvancedEditMode ? 'Normal' : 'Advanced'} Edit Mode
       </Button>
       {isAdvancedEditMode ? (
         <div style={{ position: 'relative' }}>
