@@ -67,10 +67,10 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
     subtitle: (
       <div>
         <Typography color="text.secondary" variant="body1">
-          {item.brand.title}
+          {item?.brand?.title}
         </Typography>
         <Typography color="text.secondary" variant="body1">
-          Qty: {item.quantity ?? 1}
+          Qty: {item?.quantity ?? 1}
         </Typography>
       </div>
     ),
