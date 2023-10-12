@@ -18,13 +18,15 @@ import getDiscountedPriceFromItem, {
 import { CartItem } from './types'
 
 export interface PosProductListItemProps extends ListItemProps {
+  disableQty?: boolean
   item: CartItem
   itemProps?: ListItemProps
   productSpecImagesQueryResult?: UseListReturn
 }
 
 const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
-  const { item, itemProps, productSpecImagesQueryResult, ...rest } = props
+  const { disableQty, item, itemProps, productSpecImagesQueryResult, ...rest } =
+    props
   const { id: product_id, discount, discountType, price, quantity } = item || {}
 
   const { items: productSpecImages } = productSpecImagesQueryResult || {}
@@ -69,9 +71,11 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
         <Typography color="text.secondary" variant="body1">
           {item?.brand?.title}
         </Typography>
-        <Typography color="text.secondary" variant="body1">
-          Qty: {item?.quantity ?? 1}
-        </Typography>
+        {!disableQty && (
+          <Typography color="text.secondary" variant="body1">
+            Qty: {item?.quantity ?? 1}
+          </Typography>
+        )}
       </div>
     ),
     ...rest,
