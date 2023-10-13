@@ -4,6 +4,7 @@ import { NextRequest, NextResponse } from 'next/server'
 import fetchWorkspaceByCustomDomainFromMiddleware from '../supabase/fetchWorkspaceByCustomDomainFromMiddleware'
 
 export interface GetMiddlewareRouteBreakdownOptions {
+  hasNestedSubdomain?: boolean
   subdomainOverride?: string
 }
 
@@ -16,7 +17,7 @@ const getMiddlewareRouteBreakdown = async (
   req: NextRequest,
   options: GetMiddlewareRouteBreakdownOptions = {}
 ) => {
-  const { subdomainOverride } = options
+  const { hasNestedSubdomain, subdomainOverride = '' } = options
   const url = req.nextUrl.clone()
   const { locale, pathname } = url || {}
 
@@ -44,23 +45,69 @@ const getMiddlewareRouteBreakdown = async (
    * You can also use wildcard subdomains on .vercel.app links that are associated with your Vercel team slug
    * in this case, our team slug is "platformize", thus *.platformize.vercel.app works. Do note that you'll
    * still need to add "*.platformize.vercel.app" as a wildcard domain on your Vercel dashboard.
+   *
+   * ## currentSubdomain is different from subdomain.
+   *
+   * currentSubdomain is the full path before the domain of which the user has entered into the url bar.
+   * e.g.'lorem-ipsum.foo-123'
+   *
+   * subdomain ignores the user input and only returns the database workspace slug value.
+   * e.g. 'foo-123'
    */
-  const currentHost =
+  const currentSubdomain =
     subdomainOverride ||
     (isVercel
       ? customDomainWorkspace?.slug || hostname.replace(`.${nakedDomain}`, '')
       : hostname.replace(`.localhost:3000`, ''))
 
-  const subdomain =
+  /**
+   * First we check if there is a subdomainOverride, if there is, then we use that.
+   *
+   * Secondly, if there is no subdomainOverride, then we check if there is a customDomainWorkspace where we fetch
+   * the domain name to get the workspace slug from the database instead.
+   *
+   * Thirdly, if there is no customDomainWorkspace, then we check if the currentSubdomain is the same as the hostname
+   *
+   * e.g. 'evfy'
+   */
+  const workspaceSlug =
     subdomainOverride ||
-    (customDomainWorkspace?.slug || currentHost !== hostname ? currentHost : '') // e.g. merrymaker
-  const workspacesPathnamePrefix = `/_workspaces/${currentHost}` // e.g. '/_workspaces/evfy'
+    (customDomainWorkspace?.slug || currentSubdomain !== hostname
+      ? currentSubdomain
+      : '')
+
+  const getDynamicPathParams = (currentSubdomain: string) => {
+    if (!hasNestedSubdomain) return `/_workspaces/${currentSubdomain}`
+
+    /**
+     * If there is a nested subdomain, then we need to split the currentSubdomain into two parts.
+     *
+     * Nested subdomain pattern: portalSlug-portalType.workspaceSlug
+     *
+     * Nested subdomain example: showcase-2023-site.one-x
+     * Expected directory structure: _workspaces/[workspaceSlug]/[portalType]/[portalSlug]
+     * Expected dynamicPathParams: _workspaces/one-x/site/showcase-2023
+     */
+    const [portalSlugAndType, workspaceSlug] = currentSubdomain.split('.') // e.g. ['showcase-2023-site', 'one-x']
+    const portalType = portalSlugAndType.split('-').at(-1) // e.g. 'site'
+    const portalSlug = portalSlugAndType.split('-').slice(0, -1).join('-') // e.g. 'showcase-2023'
+
+    return [`/_workspaces`, workspaceSlug, portalType, portalSlug]
+      .filter(Boolean)
+      .join('/')
+  }
+  /**
+   * This is the output that will be used to prefix all routes for the workspace.
+   * e.g. /_workspaces/[workspaceSlug] -> /_workspaces/evfy
+   * This corresponds to the folder structure in the app directory.
+   */
+  const dynamicPathParams = getDynamicPathParams(currentSubdomain)
 
   const isApiRoute = pathname.startsWith('/api')
   const isAuthRoute = pathname.startsWith('/auth')
   const isLoginRoute = pathname === '/auth/login'
-  const isBaseRoute = !subdomain && currentHost === hostname // e.g. localhost:3000
-  const isWorkspace = Boolean(subdomain) // e.g. subdomain.localhost:3000
+  const isBaseRoute = !workspaceSlug && currentSubdomain === hostname // e.g. localhost:3000
+  const isWorkspace = Boolean(workspaceSlug)
   const isWorkspaceBaseRoute = isWorkspace && pathname === '/' // e.g. subdomain.localhost:3000/
 
   // Check for authUser
@@ -77,16 +124,17 @@ const getMiddlewareRouteBreakdown = async (
   const result = {
     // Auth
     authUser,
-    currentHost,
+    currentSubdomain,
     customDomainWorkspace,
+    dynamicPathParams,
     hostname,
     // Checks
     isApiRoute,
     isAuthRoute,
     isBaseRoute,
+
     // Custom Domain
     isCustomDomain,
-
     isLoggedIn,
     isLoginRoute,
     isWorkspace,
@@ -94,15 +142,14 @@ const getMiddlewareRouteBreakdown = async (
     // Locale
     locale,
     nakedCustomDomain,
+
     nakedDomain,
 
     pathname,
-
     protocol,
-    subdomain,
     url,
 
-    workspacesPathnamePrefix,
+    workspaceSlug,
   }
 
   return result

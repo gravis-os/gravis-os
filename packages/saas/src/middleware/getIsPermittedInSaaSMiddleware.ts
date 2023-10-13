@@ -30,6 +30,23 @@ export interface GetIsPermittedInSaaSMiddlewareProps {
   validRoles?: string[]
 }
 
+const getValidPathsByRole = (role) => {
+  const { title } = role
+  switch (title) {
+    case 'Super Admin':
+    case 'Admin': {
+      return ['/admin/*', '/dashboard/*', '/account/*']
+    }
+    case 'Workspace Superadmin':
+    case 'Workspace Owner': {
+      return ['/admin/*', '/dashboard/*', '/account/*']
+    }
+    default: {
+      return []
+    }
+  }
+}
+
 /**
  * getIsPermittedInSaaSMiddleware
  * Checks if the user is permitted to access the route
@@ -80,13 +97,9 @@ const getIsPermittedInSaaSMiddleware = (
     if (!isValidRole) throw new Error('Invalid user role!')
 
     // 4. Check if the user is permitted to access the subdirectory defined in his/her role.
-    const validSubdirectoryPathnames = role.valid_subdirectory_pathnames
-    if (!validSubdirectoryPathnames) {
-      throw new Error('Role `valid_subdirectory_pathnames` property missing!')
-    }
     const validPaths = getGuestPaths([
       ...guestPaths,
-      ...validSubdirectoryPathnames,
+      ...getValidPathsByRole(role),
     ])
     const isPermittedToAccessSubdirectory = isPathMatch(pathname, validPaths)
     if (!isPermittedToAccessSubdirectory) {
