@@ -19,6 +19,7 @@ export interface SaasRouterMiddlewareProps {
   authenticationSuccessRedirectTo: string
   authorizationFailureRedirectTo: string
   guestPaths?: GetIsPermittedInSaaSMiddlewareProps['guestPaths']
+  hasNestedSubdomain?: GetMiddlewareRouteBreakdownOptions['hasNestedSubdomain']
   modulesConfig: GetIsPermittedInSaaSMiddlewareProps['modulesConfig']
   reservedSubdomains?: string[]
   subdomainOverride?: GetMiddlewareRouteBreakdownOptions['subdomainOverride']
@@ -26,6 +27,10 @@ export interface SaasRouterMiddlewareProps {
   userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
   validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
 }
+
+const defaultGuestPaths = ['/auth/*']
+const adminPaths = ['/admin/*']
+const userPaths = ['/dashboard/*', '/account/*']
 
 /**
  * Middleware to detect workspace slug adapted from Vercel Platforms boilerplate
@@ -43,6 +48,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     authenticationSuccessRedirectTo,
     authorizationFailureRedirectTo,
     guestPaths: injectedGuestPaths = [],
+    hasNestedSubdomain,
     modulesConfig,
     reservedSubdomains: injectedReservedSubdomains = [],
     subdomainOverride,
@@ -51,19 +57,17 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     validRoles = [],
   } = props
 
-  const defaultGuestPaths = ['/auth/*']
   const guestPaths = [...defaultGuestPaths, ...injectedGuestPaths]
-
-  const adminPaths = ['/admin/*']
-  const userPaths = ['/dashboard/*', '/account/*']
 
   return async (req: NextRequest) => {
     const middlewareRouteBreakdown = await getMiddlewareRouteBreakdown(req, {
+      hasNestedSubdomain,
       subdomainOverride,
     })
 
     const {
       authUser,
+      dynamicPathParams,
       hostname,
       // Checks
       isBaseRoute,
@@ -75,9 +79,8 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       nakedDomain,
       pathname,
       protocol,
-      subdomain,
       url,
-      workspacesPathnamePrefix,
+      workspaceSlug,
     } = middlewareRouteBreakdown
 
     const isReservedSubdomain = [
@@ -89,7 +92,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       'www',
       // User-defined
       ...injectedReservedSubdomains,
-    ].includes(subdomain)
+    ].includes(workspaceSlug)
 
     const SCENARIOS = {
       isCustomDomain,
@@ -121,7 +124,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         return NextResponse.next()
       }
       case SCENARIOS.isGuestAtWorkspacePage: {
-        url.pathname = workspacesPathnamePrefix // Redirect to the workspace home
+        url.pathname = dynamicPathParams // Redirect to the workspace home
         return NextResponse.rewrite(url)
       }
       case SCENARIOS.isWorkspaceRoute: {
@@ -134,7 +137,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         const isGuestPath = !isAdminPath && !isUserPath
         if (isGuestPath) {
           // Go to pages/_workspaces/[workspace]/*
-          url.pathname = `${workspacesPathnamePrefix}${url.pathname}`
+          url.pathname = `${dynamicPathParams}${url.pathname}`
           if (isDebug) {
             console.log(
               `♻️ [DEBUG] Middleware isWorkspace Rewrite for Guest Paths`,
@@ -178,13 +181,14 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
             guestPaths,
             modulesConfig,
             pathname,
-            subdomain,
+            subdomain: workspaceSlug,
             userAuthColumnKey,
             userModule,
             validRoles,
           })(req)
-        } catch {
+        } catch (error) {
           // Block the user if they are not authorised to access this workspace
+          console.error('Error caught at 403 Redirect:', error)
           const middlewareAuthErrorRedirectUrl = req.nextUrl.clone()
           middlewareAuthErrorRedirectUrl.pathname =
             authorizationFailureRedirectTo
@@ -192,8 +196,10 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
             console.log(
               `♻️ [DEBUG] Middleware isWorkspace Authorization Failure 403 Redirect`,
               {
+                error,
                 middlewareAuthErrorRedirectUrl:
                   middlewareAuthErrorRedirectUrl.pathname,
+                pathname,
               }
             )
           }
@@ -202,7 +208,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
         // Allow user to pass through
         // Go to pages/_workspaces/[workspace]/*
-        url.pathname = `${workspacesPathnamePrefix}${url.pathname}`
+        url.pathname = `${dynamicPathParams}${url.pathname}`
         if (isDebug) {
           console.log(`♻️ [DEBUG] Middleware isWorkspace Rewrite`, url.pathname)
         }

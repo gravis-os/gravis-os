@@ -37,8 +37,6 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
 
   const mobileStyles = isMobile ? { minWidth: 48, paddingX: 0 } : {}
 
-  if (!locales?.length) return null
-
   // Router
   const router = useRouter()
   const pathname = usePathname()
@@ -49,6 +47,8 @@ const LocalePicker: React.FC<LocalePickerProps> = (props) => {
     const segments = [...pathname.split('/'), locale]
     return segments.join('/')
   }
+
+  if (!locales?.length) return null
 
   // Items
   const items = locales.map((localeItem) => {

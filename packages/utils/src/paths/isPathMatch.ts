@@ -13,8 +13,21 @@ const isPathMatch = (path: string, patterns: string[]) => {
 
   return patterns.some((pattern) => {
     if (pattern.endsWith('*')) {
-      // Remove the '*' and check if the path starts with the pattern
-      return path.startsWith(pattern.slice(0, -1))
+      const patternWithoutStar = pattern.slice(0, -1)
+
+      // Remove trailing slash if it exists
+      const pathWithoutTrailingSlash = path.endsWith('/')
+        ? path.slice(0, -1)
+        : path
+      const patternWithoutTrailingSlash = patternWithoutStar.endsWith('/')
+        ? patternWithoutStar.slice(0, -1)
+        : patternWithoutStar
+
+      // Check if the path is exactly the pattern without '*' or starts with the pattern
+      return (
+        pathWithoutTrailingSlash === patternWithoutTrailingSlash ||
+        path.startsWith(`${patternWithoutStar}`)
+      )
     }
     return path === pattern
   })
