@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.5
+
+### Patch Changes
+
+- [#515](https://github.com/gravis-os/gravis-os/pull/515) [`4c7bc43`](https://github.com/gravis-os/gravis-os/commit/4c7bc4394f61e7ca4762089a56cce6ac2d3ecaa2) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - display quantity in full
+
+- Updated dependencies [[`e454bd6`](https://github.com/gravis-os/gravis-os/commit/e454bd6301758ba3876bf37b36a5afe30c3a1961)]:
+  - @gravis-os/fields@1.8.1
+
 ## 1.2.4
 
 ### Patch Changes

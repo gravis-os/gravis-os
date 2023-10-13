@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.8.1
+
+### Patch Changes
+
+- [#509](https://github.com/gravis-os/gravis-os/pull/509) [`e454bd6`](https://github.com/gravis-os/gravis-os/commit/e454bd6301758ba3876bf37b36a5afe30c3a1961) Thanks [@shank1xt](https://github.com/shank1xt)! - add syntax highlighting to json field
+
 ## 1.8.0
 
 ### Minor Changes
