@@ -119,37 +119,39 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
             </Stack>
           </Box>
         </Grid>
-        <Grid item xs={12}>
-          <Box
-            p={4}
-            stretch
-            sx={{
-              backgroundColor: 'background.muted',
-              display: 'flex',
-              flexDirection: 'column',
-              justifyContent: 'center',
-              ...cardContentProps?.sx,
-            }}
-            {...cardContentProps}
-          >
-            <Grid container spacing={2}>
-              {attribute_value
-                .slice(0, 4)
-                .map(({ attribute, attribute_option }) => (
-                  <Grid item md={3} xs={6}>
-                    <Stack>
-                      <Typography variant="h6">
-                        {attribute_option.title}
-                      </Typography>
-                      <Typography sx={{ opacity: 0.5 }}>
-                        {attribute.title}
-                      </Typography>
-                    </Stack>
-                  </Grid>
-                ))}
-            </Grid>
-          </Box>
-        </Grid>
+        {attribute_value?.length > 0 && (
+          <Grid item xs={12}>
+            <Box
+              p={4}
+              stretch
+              sx={{
+                backgroundColor: 'background.muted',
+                display: 'flex',
+                flexDirection: 'column',
+                justifyContent: 'center',
+                ...cardContentProps?.sx,
+              }}
+              {...cardContentProps}
+            >
+              <Grid container spacing={2}>
+                {attribute_value
+                  .slice(0, 4)
+                  .map(({ attribute, attribute_option }) => (
+                    <Grid item md={3} xs={6}>
+                      <Stack>
+                        <Typography variant="h6">
+                          {attribute_option.title}
+                        </Typography>
+                        <Typography sx={{ opacity: 0.5 }}>
+                          {attribute.title}
+                        </Typography>
+                      </Stack>
+                    </Grid>
+                  ))}
+              </Grid>
+            </Box>
+          </Grid>
+        )}
       </Grid>
     </Card>
   )

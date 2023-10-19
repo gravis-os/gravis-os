@@ -8,7 +8,7 @@ import { Box } from '@gravis-os/ui'
 import { useTheme } from '@mui/material/styles'
 import xor from 'lodash/xor'
 
-mapboxgl.accessToken = process.env.MAPBOX_ACCESS_TOKEN
+mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 
 export interface MapProps {
   markers?: Array<{
