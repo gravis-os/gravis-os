@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.8.2
+
+### Patch Changes
+
+- [#518](https://github.com/gravis-os/gravis-os/pull/518) [`b8f163c`](https://github.com/gravis-os/gravis-os/commit/b8f163c13f334238685e62b06a201304adf6f6e9) Thanks [@shank1xt](https://github.com/shank1xt)! - change package for syntax highlighting
+
 ## 1.8.1
 
 ### Patch Changes
