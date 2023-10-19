@@ -1,5 +1,14 @@
 # Changelog
 
+## 1.2.6
+
+### Patch Changes
+
+- [#519](https://github.com/gravis-os/gravis-os/pull/519) [`9b8c3ff`](https://github.com/gravis-os/gravis-os/commit/9b8c3ffc0e80f2ffb0233a68f023cd4386a8a6dc) Thanks [@shank1xt](https://github.com/shank1xt)! - fix environment variable for map api key
+
+- Updated dependencies [[`b8f163c`](https://github.com/gravis-os/gravis-os/commit/b8f163c13f334238685e62b06a201304adf6f6e9)]:
+  - @gravis-os/fields@1.8.2
+
 ## 1.2.5
 
 ### Patch Changes
