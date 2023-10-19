@@ -1,5 +1,6 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
+import SyntaxHighlighter from 'react-syntax-highlighter'
 
 import { StorageAvatarWithUpload } from '@gravis-os/storage'
 import { CrudModule, Page } from '@gravis-os/types'
@@ -7,7 +8,6 @@ import { Button, Stack } from '@gravis-os/ui'
 import { Box, Divider, Grid, GridProps, Typography } from '@mui/material'
 import capitalize from 'lodash/capitalize'
 import sortBy from 'lodash/sortBy'
-import Prism from 'prismjs'
 
 import ControlledHtmlField from './ControlledHtmlField'
 import ControlledTextField from './ControlledTextField'
@@ -191,10 +191,6 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
     }
   }
 
-  useEffect(() => {
-    Prism.highlightAll()
-  }, [])
-
   // Handle degenerate case
   if (objectValue === null)
     return (
@@ -222,9 +218,9 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
             spellCheck="false"
             value={typeof value === 'string' ? value : JSON.stringify(value)}
           />
-          <pre
-            id="highlighting"
-            style={{
+          <SyntaxHighlighter
+            customStyle={{
+              background: 'none',
               left: 0,
               margin: 0,
               paddingBottom: 16.5,
@@ -238,11 +234,12 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
               width: '100%',
               wordWrap: 'break-word',
             }}
+            language="json"
+            wrapLines
+            wrapLongLines
           >
-            <code className="language-javascript" id="highlighting-content">
-              {typeof value === 'string' ? value : JSON.stringify(value)}
-            </code>
-          </pre>
+            {typeof value === 'string' ? value : JSON.stringify(value)}
+          </SyntaxHighlighter>
         </div>
       ) : (
         renderJSONSection({
