@@ -55,18 +55,20 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
       {...rest}
     >
       {is_listing_brand_image_enabled && (
-        <StorageImage
-          alt={brand?.title}
-          fixed
-          height={50}
-          src={brand?.hero_src || '/temp/placeholder.png'}
-          sx={{
-            backgroundColor: 'background.muted',
-            height: '120px !important',
-            minWidth: '100%',
-          }}
-          width={50}
-        />
+        <Link href={listingHref}>
+          <StorageImage
+            alt={brand?.title}
+            fixed
+            height={50}
+            src={brand?.hero_src || '/temp/placeholder.png'}
+            sx={{
+              backgroundColor: 'background.muted',
+              height: '120px !important',
+              minWidth: '100%',
+            }}
+            width={50}
+          />
+        </Link>
       )}
       {is_listing_image_enabled && (
         <Link href={listingHref}>
@@ -86,7 +88,9 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
       >
         <Stack gap={2}>
           {is_listing_brand_image_enabled && (
-            <StorageImage height={50} src={brand?.avatar_src} width={50} />
+            <Link href={listingHref}>
+              <StorageImage height={50} src={brand?.avatar_src} width={50} />
+            </Link>
           )}
           <Box>
             <Link

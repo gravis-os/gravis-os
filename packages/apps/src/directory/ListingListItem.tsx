@@ -71,7 +71,7 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
       {...rest}
     >
       <Grid alignItems="center" container>
-        {is_listing_image_enabled && (
+        {is_listing_image_enabled && avatar_src && (
           <Grid item lg={isSmall ? 3 : 2} xs={3}>
             <Link href={listingHref}>
               <StorageImage
