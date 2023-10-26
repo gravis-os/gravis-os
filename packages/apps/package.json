@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/apps",
-  "version": "1.2.6",
+  "version": "1.2.7",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
