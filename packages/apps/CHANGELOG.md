@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.7
+
+### Patch Changes
+
+- [#521](https://github.com/gravis-os/gravis-os/pull/521) [`5f25ed7`](https://github.com/gravis-os/gravis-os/commit/5f25ed75b02f2ae5218952ba5c80b860e51e72a2) Thanks [@shank1xt](https://github.com/shank1xt)! - improvements to listing card and listing list items
+
 ## 1.2.6
 
 ### Patch Changes
