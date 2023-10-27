@@ -25,6 +25,7 @@ export interface SearchFormProps {
   children?: FormProps<any>['children']
   formSectionsProps?: FormSectionsProps
   item?: CrudItem
+  maxWidthBreakpoints?: { [key: string]: number | string }
   module: CrudModule
   onSubmit?: UseSearchFormArgs['onSubmit']
   sections: FormSectionsProps['sections']

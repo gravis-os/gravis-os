@@ -208,7 +208,10 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
         {hasSearchFormSections && (
           <Box
             sx={{
-              maxWidth: { xs: '100%', md: styleConfig.searchWidth },
+              maxWidth: searchFormProps.maxWidthBreakpoints ?? {
+                xs: '100%',
+                md: styleConfig.searchWidth,
+              },
               width: '100%',
             }}
           >
