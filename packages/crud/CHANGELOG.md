@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.2
+
+### Patch Changes
+
+- [#523](https://github.com/gravis-os/gravis-os/pull/523) [`59465a6`](https://github.com/gravis-os/gravis-os/commit/59465a6e44c7e20da5c8c784bbe490143b963123) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add custom search breakpoints
+
 ## 0.8.1
 
 ### Patch Changes
