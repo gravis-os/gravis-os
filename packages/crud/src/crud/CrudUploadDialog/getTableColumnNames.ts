@@ -12,19 +12,18 @@ const getTableColumnNames = (
   if (!tableDefinition) return []
 
   // Remove unwanted columns
-  const columns = [
+  const columns = new Set([
     ...Object.keys(tableDefinition.properties),
     ...(manyToManyKeys || []),
-  ]
+  ])
 
-  const processedColumns = columns.reduce((acc, key) => {
+  const processedColumns = (uploadFields ?? []).reduce((acc, key) => {
     const isPrimaryKey = key === 'id'
     const isCreatedOrUpdatedKey =
       key.startsWith('created_') || key.startsWith('updated_')
-    const isRequiredKey = uploadFields ? uploadFields.includes(key) : false
+    const hasKey = columns.has(key)
 
-    const shouldSkipKey =
-      isPrimaryKey || isCreatedOrUpdatedKey || !isRequiredKey
+    const shouldSkipKey = isPrimaryKey || isCreatedOrUpdatedKey || !hasKey
 
     return shouldSkipKey ? acc : concat(acc, key)
   }, [])
