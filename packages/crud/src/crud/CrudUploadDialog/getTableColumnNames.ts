@@ -2,6 +2,7 @@ import concat from 'lodash/concat'
 import has from 'lodash/has'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
+import uniq from 'lodash/uniq'
 
 const getTableColumnNames = (
   tableDefinition,
@@ -12,19 +13,18 @@ const getTableColumnNames = (
   if (!tableDefinition) return []
 
   // Remove unwanted columns
-  const columns = [
+  const columns = uniq([
     ...Object.keys(tableDefinition.properties),
     ...(manyToManyKeys || []),
-  ]
+  ])
 
-  const processedColumns = columns.reduce((acc, key) => {
+  const processedColumns = (uploadFields ?? []).reduce((acc, key) => {
     const isPrimaryKey = key === 'id'
     const isCreatedOrUpdatedKey =
       key.startsWith('created_') || key.startsWith('updated_')
-    const isRequiredKey = uploadFields ? uploadFields.includes(key) : false
+    const hasKey = columns.includes(key)
 
-    const shouldSkipKey =
-      isPrimaryKey || isCreatedOrUpdatedKey || !isRequiredKey
+    const shouldSkipKey = isPrimaryKey || isCreatedOrUpdatedKey || !hasKey
 
     return shouldSkipKey ? acc : concat(acc, key)
   }, [])
