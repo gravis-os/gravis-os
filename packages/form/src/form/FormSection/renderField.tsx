@@ -50,7 +50,7 @@ const renderField = (props: RenderFieldProps) => {
     item,
     module: injectedModule,
     readOnlySx,
-    renderReadOnly,
+    renderReadOnly: injectedRenderReadOnly,
   } = sectionProps
   const {
     // These props should be deprecated in favor of `props`
@@ -85,6 +85,7 @@ const renderField = (props: RenderFieldProps) => {
   // ==============================
   // The set of props available to the end-user when defining a function in the fieldDef
   const renderProps = getFormSectionFieldRenderProps(props)
+  const renderReadOnly = renderReadOnlyField ?? injectedRenderReadOnly
 
   // Calculate if the field is in disabledFields, else fallback to check if the disabled prop is defined
   const isDisabled =
@@ -119,9 +120,7 @@ const renderField = (props: RenderFieldProps) => {
   if (isReadOnly || disableEdit) {
     const label = injectedLabel || startCase(name)
 
-    const hasRenderReadOnly =
-      typeof renderReadOnly === 'function' ||
-      typeof renderReadOnlyField === 'function'
+    const hasRenderReadOnly = typeof renderReadOnly === 'function'
 
     // Switch statements for managing readOnly mode for each field type
     switch (type) {
@@ -257,7 +256,7 @@ const renderField = (props: RenderFieldProps) => {
         const percentage = printPercentage(get(item, name), { dp: 2 })
 
         if (hasRenderReadOnly) {
-          return (renderReadOnly ?? renderReadOnlyField)({
+          return renderReadOnly({
             title: percentage,
             item,
             label,
@@ -279,7 +278,7 @@ const renderField = (props: RenderFieldProps) => {
         const title = setTitle ? setTitle(item) : get(item, name)
 
         if (hasRenderReadOnly) {
-          return (renderReadOnly ?? renderReadOnlyField)({
+          return renderReadOnly({
             title,
             item,
             label,
