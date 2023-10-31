@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.10.1
+
+### Patch Changes
+
+- [#525](https://github.com/gravis-os/gravis-os/pull/525) [`5af6941`](https://github.com/gravis-os/gravis-os/commit/5af69419741e01d8ad70c83d6e00ca26de17d937) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - allow individual field to overwrite renderReadOnly
+
 ## 1.10.0
 
 ### Minor Changes

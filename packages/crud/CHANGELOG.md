@@ -1,5 +1,14 @@
 # Changelog
 
+## 0.8.3
+
+### Patch Changes
+
+- [#526](https://github.com/gravis-os/gravis-os/pull/526) [`aab358f`](https://github.com/gravis-os/gravis-os/commit/aab358f11ea5e72a7cd2c10dc90d8ff8496757d0) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - generate columns based on uploadFields instead
+
+- Updated dependencies [[`5af6941`](https://github.com/gravis-os/gravis-os/commit/5af69419741e01d8ad70c83d6e00ca26de17d937)]:
+  - @gravis-os/form@1.10.1
+
 ## 0.8.2
 
 ### Patch Changes
