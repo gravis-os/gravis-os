@@ -2,6 +2,7 @@ import concat from 'lodash/concat'
 import has from 'lodash/has'
 import isNil from 'lodash/isNil'
 import map from 'lodash/map'
+import uniq from 'lodash/uniq'
 
 const getTableColumnNames = (
   tableDefinition,
@@ -12,7 +13,7 @@ const getTableColumnNames = (
   if (!tableDefinition) return []
 
   // Remove unwanted columns
-  const columns = new Set([
+  const columns = uniq([
     ...Object.keys(tableDefinition.properties),
     ...(manyToManyKeys || []),
   ])
@@ -21,7 +22,7 @@ const getTableColumnNames = (
     const isPrimaryKey = key === 'id'
     const isCreatedOrUpdatedKey =
       key.startsWith('created_') || key.startsWith('updated_')
-    const hasKey = columns.has(key)
+    const hasKey = columns.includes(key)
 
     const shouldSkipKey = isPrimaryKey || isCreatedOrUpdatedKey || !hasKey
 
