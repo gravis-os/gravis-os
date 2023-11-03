@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.9.0
+
+### Minor Changes
+
+- [#528](https://github.com/gravis-os/gravis-os/pull/528) [`a1aa107`](https://github.com/gravis-os/gravis-os/commit/a1aa1079d5635ac2767d9f7721a98bcfc1be283a) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(fields): fixed form validation when ControlledChipField is required.
+
 ## 1.8.2
 
 ### Patch Changes
