@@ -32,6 +32,7 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
   manyToManyKeys?: string[]
   module: CrudModule
   onUpload?: (store: TypeformState, fileData: any) => Promise<void>
+  parserOptions?: any
   requireDownload?: boolean
   submitData?: (data) => Promise<{ error: { message: string } | null }>
   uploadFields?: string[]
@@ -46,6 +47,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
     manyToManyKeys,
     module,
     onUpload,
+    parserOptions = {},
     requireDownload = true,
     submitData,
     uploadFields,
@@ -199,11 +201,13 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                   ) : (
                     <CSVReader
                       onFileLoaded={handleCsvFileUpload}
-                      parserOptions={{
-                        dynamicTyping: true,
-                        header: true,
-                        skipEmptyLines: true,
-                      }}
+                      parserOptions={
+                        parserOptions ?? {
+                          dynamicTyping: true,
+                          header: true,
+                          skipEmptyLines: true,
+                        }
+                      }
                     />
                   )}
 
