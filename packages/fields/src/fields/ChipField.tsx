@@ -24,16 +24,13 @@ const ChipField: React.FC<ChipFieldProps> = (props) => {
       onChange={(e, data) => onChange?.(data)}
       options={options || []}
       renderInput={(params) => {
-        const nextParams = {
+        const restParams = {
           ...params,
+          ...rest,
           inputProps: {
             ...params.inputProps,
             value,
           },
-        }
-
-        const restParams = {
-          ...rest,
           sx: {
             ...rest.sx,
             '& input': {
@@ -45,7 +42,6 @@ const ChipField: React.FC<ChipFieldProps> = (props) => {
         return (
           <TextField
             helperText={<span>Hit Enter &#8592; to Add</span>}
-            {...nextParams}
             {...restParams}
           />
         )
