@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.4
+
+### Patch Changes
+
+- [#530](https://github.com/gravis-os/gravis-os/pull/530) [`94a21b6`](https://github.com/gravis-os/gravis-os/commit/94a21b65b4f25c0e0596160dbe85f6ba578c6093) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - add custom csv parser options
+
 ## 0.8.3
 
 ### Patch Changes
