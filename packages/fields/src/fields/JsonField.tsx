@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import { Control, FieldValues, UseFormSetValue } from 'react-hook-form'
 import SyntaxHighlighter from 'react-syntax-highlighter'
 
@@ -181,8 +181,6 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
   const toggleAdvancedEditMode = () =>
     setIsAdvancedEditMode(!isAdvancedEditMode)
 
-  const [objectValue, setObjectValue] = useState<Page['sections']>({})
-
   const getSectionsFromValue = (value: string) => {
     try {
       return JSON.parse(value)
@@ -190,6 +188,20 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
       return {}
     }
   }
+
+  const stringValue = typeof value === 'string' ? value : JSON.stringify(value)
+  const objectValue =
+    typeof value === 'string' ? getSectionsFromValue(value) : value
+
+  const [advancedEditInput, setAdvancedEditInput] = useState(stringValue)
+
+  useEffect(() => {
+    const newObjectValue = getSectionsFromValue(advancedEditInput)
+    if (JSON.stringify(newObjectValue) === '{}') return
+    if (JSON.stringify(objectValue) !== JSON.stringify(newObjectValue)) {
+      setValue(name, newObjectValue)
+    }
+  }, [advancedEditInput])
 
   // Handle degenerate case
   if (objectValue === null)
@@ -205,7 +217,6 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
       {isAdvancedEditMode ? (
         <div style={{ position: 'relative' }}>
           <TextField
-            {...props}
             inputProps={{
               sx: {
                 caretColor: 'black',
@@ -215,8 +226,9 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
               },
             }}
             multiline
+            onChange={(e) => setAdvancedEditInput(e.currentTarget.value)}
             spellCheck="false"
-            value={typeof value === 'string' ? value : JSON.stringify(value)}
+            value={advancedEditInput}
           />
           <SyntaxHighlighter
             customStyle={{
@@ -238,7 +250,7 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
             wrapLines
             wrapLongLines
           >
-            {typeof value === 'string' ? value : JSON.stringify(value)}
+            {advancedEditInput}
           </SyntaxHighlighter>
         </div>
       ) : (
@@ -246,8 +258,7 @@ export const JsonField: React.FC<JsonFieldProps> = (props) => {
           control,
           module,
           name,
-          sections:
-            typeof value === 'string' ? getSectionsFromValue(value) : value,
+          sections: objectValue,
           setValue,
         })
       )}
