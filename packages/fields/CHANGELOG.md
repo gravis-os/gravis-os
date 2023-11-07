@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.9.1
+
+### Patch Changes
+
+- [#531](https://github.com/gravis-os/gravis-os/pull/531) [`20c968f`](https://github.com/gravis-os/gravis-os/commit/20c968f77121efdc8fc886783a4f3d361f736bc7) Thanks [@shank1xt](https://github.com/shank1xt)! - fix: json field value issue
+
 ## 1.9.0
 
 ### Minor Changes
