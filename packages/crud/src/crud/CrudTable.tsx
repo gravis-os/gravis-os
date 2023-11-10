@@ -110,7 +110,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   // Contexts
   const { user } = useUser()
   const onUseCrud = useCrud()
-  const { setSelectedItems } = onUseCrud
+  const { crudQueryOptions, setSelectedItems } = onUseCrud
 
   // Filters
   const filterFields = getFieldsFromFormSections([
@@ -127,7 +127,11 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     module,
     ...useListProps,
     pagination: { pageSize: 100, ...useListProps?.pagination },
-    queryOptions: { enabled: Boolean(user), ...useListProps?.queryOptions },
+    queryOptions: {
+      enabled: Boolean(user),
+      ...crudQueryOptions,
+      ...useListProps?.queryOptions,
+    },
     setQuery,
   })
   const {
