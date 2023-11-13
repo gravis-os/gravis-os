@@ -27,6 +27,7 @@ export interface DataTableProps extends AgGridProps {
   renderGridComponent?: RenderPropsFunction<{
     items
   }>
+  defaultViewStyle?: 'list' | 'grid'
   /**
    * To display the total row count
    */
@@ -65,6 +66,7 @@ const DataTable = React.forwardRef<
 
     module,
     renderGridComponent,
+    defaultViewStyle,
     rowData,
 
     // Server-side pagination
@@ -77,7 +79,7 @@ const DataTable = React.forwardRef<
     ...rest
   } = props
 
-  const [viewStyle, setViewStyle] = useState<'grid' | 'list'>('list')
+  const [viewStyle, setViewStyle] = useState<'grid' | 'list'>(defaultViewStyle ?? 'list')
 
   const [columnDefs, setColumnDefs] = useState(injectedColumnDefs)
   useEffect(() => {
