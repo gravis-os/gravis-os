@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.1
+
+### Patch Changes
+
+- [#534](https://github.com/gravis-os/gravis-os/pull/534) [`d77a653`](https://github.com/gravis-os/gravis-os/commit/d77a6539aa2eccfad66dac9fbc4e3bda664f42ab) Thanks [@shank1xt](https://github.com/shank1xt)! - add crud query options
+
 ## 0.7.0
 
 ### Minor Changes
