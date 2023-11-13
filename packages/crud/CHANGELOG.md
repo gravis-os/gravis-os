@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.8.5
+
+### Patch Changes
+
+- [#534](https://github.com/gravis-os/gravis-os/pull/534) [`d77a653`](https://github.com/gravis-os/gravis-os/commit/d77a6539aa2eccfad66dac9fbc4e3bda664f42ab) Thanks [@shank1xt](https://github.com/shank1xt)! - add crud query options
+
+* [#533](https://github.com/gravis-os/gravis-os/pull/533) [`cd522ad`](https://github.com/gravis-os/gravis-os/commit/cd522ada7a31cfaf8c565f8293d531c5e7088df8) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): added defaultViewStyle props.
+
+* Updated dependencies [[`d77a653`](https://github.com/gravis-os/gravis-os/commit/d77a6539aa2eccfad66dac9fbc4e3bda664f42ab)]:
+  - @gravis-os/types@0.7.1
+
 ## 0.8.4
 
 ### Patch Changes
