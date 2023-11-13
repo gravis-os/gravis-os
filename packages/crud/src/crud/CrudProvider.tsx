@@ -1,9 +1,10 @@
 import React, { useState } from 'react'
 
-import CrudContext from './CrudContext'
+import CrudContext, { CrudContextInterface } from './CrudContext'
 
 export interface CrudProviderProps {
   children?: React.ReactNode
+  crudQueryOptions?: CrudContextInterface['crudQueryOptions']
 }
 
 /**
@@ -12,7 +13,7 @@ export interface CrudProviderProps {
  * @constructor
  */
 const CrudProvider: React.FC<CrudProviderProps> = (props) => {
-  const { children, ...rest } = props
+  const { children, crudQueryOptions, ...rest } = props
 
   const [selectedItems, setSelectedItems] = useState([])
 
@@ -23,12 +24,13 @@ const CrudProvider: React.FC<CrudProviderProps> = (props) => {
   return (
     <CrudContext.Provider
       value={{
+        crudQueryOptions,
         // Delete Dialog
         deleteDialogOpen,
         handleDeleteDialogClose,
         handleDeleteDialogOpen,
-        hasMultipleSelectedItems: selectedItems?.length > 1,
 
+        hasMultipleSelectedItems: selectedItems?.length > 1,
         hasSelectedItems: Boolean(selectedItems?.length),
         // Selected Items
         selectedItems,

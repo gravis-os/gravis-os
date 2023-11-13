@@ -1,5 +1,7 @@
 import type { SupabaseClient } from '@supabase/auth-helpers-nextjs'
 
+import { QueryObserverOptions } from 'react-query'
+
 import { DbUserWithAuthUser } from './user'
 // ==============================
 // Crud
@@ -62,11 +64,11 @@ export interface CrudItem {
 // Context
 // ==============================
 export interface CrudContextInterface<AppCrudModule = any, AppCrudItem = any> {
+  crudQueryOptions?: QueryObserverOptions
   deleteDialogOpen: boolean
   handleDeleteDialogClose: () => void
   handleDeleteDialogOpen: () => void
   hasMultipleSelectedItems: boolean
-
   hasSelectedItems: boolean
   selectedItems: AppCrudItem[]
   setSelectedItems: React.Dispatch<React.SetStateAction<AppCrudItem[]>>

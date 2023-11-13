@@ -3,6 +3,7 @@ import { useState } from 'react'
 import { FormSectionsProps } from '@gravis-os/form'
 import { CrudItem, CrudModule } from '@gravis-os/types'
 
+import useCrud from './useCrud'
 import useGetItem from './useGetItem'
 
 export interface UsePreviewDrawerProps {
@@ -50,8 +51,14 @@ const usePreviewDrawer = (
   }
   const resetPreview = () => setPreviewSlug('')
 
+  const { crudQueryOptions } = useCrud()
+
   // Preview item
-  const onUseGetItem = useGetItem({ slug: previewSlug, module: previewModule })
+  const onUseGetItem = useGetItem({
+    slug: previewSlug,
+    module: previewModule,
+    options: crudQueryOptions,
+  })
   const { isLoading: previewLoading, item: previewItem } =
     previewSlug === '' ? { isLoading: false, item: null } : onUseGetItem
 

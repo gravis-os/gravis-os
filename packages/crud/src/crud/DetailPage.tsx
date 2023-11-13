@@ -18,6 +18,7 @@ import CrudForm, { CrudFormProps } from './CrudForm'
 import DetailBanner, { DetailBannerProps } from './DetailBanner'
 import DetailPageHeader, { DetailPageHeaderProps } from './DetailPageHeader'
 import getIsNew from './getIsNew'
+import useCrud from './useCrud'
 import useGetItem, { UseGetItemProps } from './useGetItem'
 
 interface DetailPageRenderProps {
@@ -64,7 +65,12 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
   } = props
 
   // Get Item
-  const onUseGetItem = useGetItem({ module, ...useGetItemProps })
+  const { crudQueryOptions } = useCrud()
+  const onUseGetItem = useGetItem({
+    module,
+    options: crudQueryOptions,
+    ...useGetItemProps,
+  })
   const { isLoading, item } = onUseGetItem
 
   // renderProps for injection later

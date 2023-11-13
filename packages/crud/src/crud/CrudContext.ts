@@ -6,6 +6,7 @@ export interface CrudContextInterface<AppCrudModule = any, AppCrudItem = any>
   extends InjectedCrudContextInterface<AppCrudModule, AppCrudItem> {}
 
 const CrudContext = createContext<CrudContextInterface>({
+  crudQueryOptions: {},
   deleteDialogOpen: false,
   handleDeleteDialogClose: () => false,
   handleDeleteDialogOpen: () => false,
