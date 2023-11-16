@@ -13,9 +13,11 @@ const getIdValuesWithRelationalKeysFromRelationalObjects = (values) => {
     if (Array.isArray(value) && !getIsArrayColumn(value)) {
       return {
         ...acc,
-        [key]: value.map((val) =>
-          getIdValuesWithRelationalKeysFromRelationalObjects(val)
-        ),
+        [key]: value
+          .filter(Boolean)
+          .map((val) =>
+            getIdValuesWithRelationalKeysFromRelationalObjects(val)
+          ),
       }
     }
 
