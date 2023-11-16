@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.10.2
+
+### Patch Changes
+
+- [#536](https://github.com/gravis-os/gravis-os/pull/536) [`a6fda70`](https://github.com/gravis-os/gravis-os/commit/a6fda7085c48b5d6217deb5fea0d8db831d0567c) Thanks [@shank1xt](https://github.com/shank1xt)! - handle undefined values in form list values
+
 ## 1.10.1
 
 ### Patch Changes
