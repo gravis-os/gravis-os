@@ -41,11 +41,26 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
 
   const listItemProps = {
     title: (
-      <Typography gutterBottom variant="h5">
+      <Typography
+        gutterBottom
+        maxLines={1}
+        maxWidth="80%"
+        textOverflow="ellipsis"
+        variant="h5"
+      >
         {item.title}
       </Typography>
     ),
-    avatar: <StorageAvatar alt={alt} src={src} sx={{ borderRadius: 0 }} />,
+    avatar: (
+      <StorageAvatar
+        alt={alt}
+        size={120}
+        src={src}
+        sx={{
+          borderRadius: 0,
+        }}
+      />
+    ),
     endIcon: (
       <KeyboardArrowRightOutlinedIcon sx={{ color: 'text.secondary' }} />
     ),
@@ -61,13 +76,16 @@ const PosProductListItem: React.FC<PosProductListItemProps> = (props) => {
             </Typography>
           </>
         )}
-        <Typography variant="subtitle1">
+        <Typography fontSize={24} variant="subtitle1">
           {printAmount(getDiscountedPriceFromItem(item))}
         </Typography>
       </Stack>
     ),
     subtitle: (
       <div>
+        <Typography color="text.secondary" variant="body1">
+          {item?.model_code}
+        </Typography>
         <Typography color="text.secondary" variant="body1">
           {item?.brand?.title}
         </Typography>
