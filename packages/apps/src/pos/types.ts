@@ -21,6 +21,7 @@ export interface CartItem extends CrudItem {
   brand: { id: string; title: string }
   discount: number
   discountType: string
+  model_code: string
   price: number
   quantity: number
   staff: Salesperson
