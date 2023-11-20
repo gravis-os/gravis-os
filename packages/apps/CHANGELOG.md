@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.2.8
+
+### Patch Changes
+
+- [#538](https://github.com/gravis-os/gravis-os/pull/538) [`d9f4480`](https://github.com/gravis-os/gravis-os/commit/d9f4480af26d007404698749323a1c2dfadeea90) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - update pos ui
+
 ## 1.2.7
 
 ### Patch Changes
