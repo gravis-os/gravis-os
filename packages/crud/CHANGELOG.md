@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.8.6
+
+### Patch Changes
+
+- [#540](https://github.com/gravis-os/gravis-os/pull/540) [`3583dcd`](https://github.com/gravis-os/gravis-os/commit/3583dcdaa17fc71cb698d1c43229432ccd17ddd3) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - memo ag grid columns state and positions
+
 ## 0.8.5
 
 ### Patch Changes
