@@ -1,13 +1,19 @@
 import type { FormSectionsProps } from '@gravis-os/form'
 
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useMemo, useRef } from 'react'
 
 import { useUser } from '@gravis-os/auth'
 import { UseListProps, useList } from '@gravis-os/query'
 import { CrudModule } from '@gravis-os/types'
 import { getObjectWithGetters } from '@gravis-os/utils'
 import { RowModelType } from 'ag-grid-community'
+// eslint-disable-next-line unicorn/prefer-node-protocol
+import { createHash } from 'crypto'
+import assign from 'lodash/assign'
+import isEqual from 'lodash/isEqual'
+import reduce from 'lodash/reduce'
 import size from 'lodash/size'
+import sortBy from 'lodash/sortBy'
 
 import { CrudTableColumnDef } from '../types'
 import CrudDeleteDialog, { CrudDeleteDialogProps } from './CrudDeleteDialog'
@@ -120,7 +126,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   const { filters, setFilters } = useRouterQueryFilters({ filterFields })
 
   // List Query
-  const onUseList = useList({
+  const onUseListProps = {
     defaultSortOrder: 'id.desc',
     disableWorkspacePlugin: true,
     filterByQueryString: true,
@@ -133,7 +139,8 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
       ...useListProps?.queryOptions,
     },
     setQuery,
-  })
+  }
+  const onUseList = useList(onUseListProps)
   const {
     count,
     fetchNextPage,
@@ -155,8 +162,29 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   })
   const { previewFormSections, setPreview } = usePreviewDrawerProps
 
+  const getSavedColumnStateKey = () => {
+    const uniqHash = createHash('sha256')
+      .update(
+        JSON.stringify({
+          injectedColumnDefs,
+          name: module.table.name,
+          onUseListProps,
+        })
+      )
+      .digest('base64')
+
+    return `${uniqHash}-table-config`
+  }
+
   // AgGrid Ref
   const gridRef = useRef(null)
+  const savedColumnStateKey = useMemo(
+    () => getSavedColumnStateKey(),
+    [injectedColumnDefs, onUseListProps]
+  )
+  const savedColumnState = JSON.parse(
+    localStorage.getItem(savedColumnStateKey) ?? '[]'
+  )
 
   useEffect(() => {
     const gridApi = gridRef.current?.api
@@ -175,13 +203,37 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
   }, [isFetching, items])
 
   // DataTable props
-  const dataTableProps = {
+  const dataTableProps: DataTableProps = {
+    onColumnEverythingChanged: (props) => {
+      const { columnApi, source } = props
+
+      if (source !== 'gridOptionsChanged') return
+
+      const columnState = columnApi.getColumnState()
+
+      // ignore if new changes are identical to original
+      if (
+        isEqual(
+          columnState?.map((col) => Boolean(col.hide)),
+          columnDefs?.map((col) => Boolean(col.hide))
+        )
+      ) {
+        return
+      }
+
+      localStorage.setItem(savedColumnStateKey, JSON.stringify(columnState))
+    },
+    onColumnMoved: (props) => {
+      const { columnApi } = props
+      const columnState = columnApi.getColumnState()
+
+      localStorage.setItem(savedColumnStateKey, JSON.stringify(columnState))
+    },
     onSelectionChanged: (event) => {
       const selectedRows = event.api.getSelectedNodes()
       const selectedRowData = selectedRows?.map(({ data }) => data)
       setSelectedItems(selectedRowData)
     },
-
     // By default, fetch data from server-side paginated
     ...(!disableServerSideRowModel && {
       height: '60vh',
@@ -192,9 +244,31 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
     ...injectedDataTableProps,
   }
 
+  const nextColumnDefs = useMemo(() => {
+    const savedColConfigMappings = reduce(
+      savedColumnState,
+      (acc, colState, index) =>
+        assign(acc, {
+          [colState.colId]: {
+            hide: colState.hide,
+            index,
+          },
+        }),
+      {}
+    )
+
+    return sortBy(
+      injectedColumnDefs?.map((colDef) => ({
+        ...colDef,
+        hide: savedColConfigMappings[colDef.colId ?? colDef.field]?.hide,
+      })),
+      (colDef) => savedColConfigMappings[colDef.colId ?? colDef.field]?.index
+    )
+  }, [savedColumnState, injectedColumnDefs])
+
   // ColumnDefs
   const columnDefs = useGetCrudTableColumnDefs({
-    columnDefs: injectedColumnDefs,
+    columnDefs: nextColumnDefs,
     disableActions,
     disableDelete,
     disableManage,
