@@ -1,6 +1,7 @@
 import React from 'react'
 
-import { Autocomplete } from '@mui/material'
+import Autocomplete from '@mui/material/Autocomplete'
+import isEmpty from 'lodash/isEmpty'
 
 import TextField, { TextFieldProps } from './TextField'
 
@@ -29,13 +30,10 @@ const ChipField: React.FC<ChipFieldProps> = (props) => {
           ...rest,
           inputProps: {
             ...params.inputProps,
-            value,
-          },
-          sx: {
-            ...rest.sx,
-            '& input': {
-              color: 'transparent',
-            },
+            // validate value only if the chip field has options.
+            // if value is not empty, display 1 character string,
+            // or, pass empty string as its value.
+            ...(!isEmpty(options) && { value: isEmpty(value) ? '' : ' ' }),
           },
         }
 
