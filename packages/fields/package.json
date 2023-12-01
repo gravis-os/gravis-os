@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/fields",
-  "version": "1.9.1",
+  "version": "1.10.0",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",

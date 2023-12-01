@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.5.0
+
+### Minor Changes
+
+- [#542](https://github.com/gravis-os/gravis-os/pull/542) [`3b3e6a5`](https://github.com/gravis-os/gravis-os/commit/3b3e6a5afc8969eacb2e41779a0dae03f36ba96d) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(auth): check if email existed before reset password.
+
 ## 0.4.0
 
 ### Minor Changes
