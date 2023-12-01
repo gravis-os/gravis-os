@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.10.0
+
+### Minor Changes
+
+- [#544](https://github.com/gravis-os/gravis-os/pull/544) [`ac7da46`](https://github.com/gravis-os/gravis-os/commit/ac7da467f2a4b72c10291ea6375f1b13fefd0d73) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(fields): use empty or 1 character string to replace css transparent.
+
 ## 1.9.1
 
 ### Patch Changes

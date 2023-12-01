@@ -1,5 +1,16 @@
 # Changelog
 
+## 0.9.0
+
+### Minor Changes
+
+- [#544](https://github.com/gravis-os/gravis-os/pull/544) [`ef4a81e`](https://github.com/gravis-os/gravis-os/commit/ef4a81edcff85e495ae3eeb1f822c9038f1ed49e) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): support to search and filter records with related table.
+
+### Patch Changes
+
+- Updated dependencies [[`3b3e6a5`](https://github.com/gravis-os/gravis-os/commit/3b3e6a5afc8969eacb2e41779a0dae03f36ba96d)]:
+  - @gravis-os/auth@0.5.0
+
 ## 0.8.6
 
 ### Patch Changes
