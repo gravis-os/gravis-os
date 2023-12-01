@@ -25,6 +25,7 @@ import CrudUploadDialog, {
   CrudUploadDialogProps,
 } from './CrudUploadDialog/CrudUploadDialog'
 import FilterForm, { FilterFormProps } from './FilterForm'
+import flattenObjectToPgFilter from './flattenObjectToPgFilter'
 import getChipsFromFilters from './getChipsFromFilters'
 import SearchForm, { SearchFormProps } from './SearchForm'
 import useAddDialog from './useAddDialog'
@@ -135,7 +136,16 @@ const CrudTableHeader: React.FC<CrudTableHeaderProps> = (props) => {
           return nextFilters
         }
 
-        if (typeof value === 'object') return acc
+        // value is `{ address_country: 'Singapore' }` in object: { user: { address_country: 'Singapore' } }
+        if (typeof value === 'object' && !Array.isArray(value)) {
+          const nextFilter = flattenObjectToPgFilter(
+            { [key]: value },
+            null,
+            filterAndSearchFormFieldDefs
+          )
+
+          return { ...acc, ...nextFilter }
+        }
 
         // Get the operator and apply op to the filters by scanning through the defs
         const op = fieldDef?.op
