@@ -18,8 +18,10 @@ import FileDownloadOutlinedIcon from '@mui/icons-material/FileDownloadOutlined'
 import FileUploadOutlinedIcon from '@mui/icons-material/FileUploadOutlined'
 import { supabaseClient } from '@supabase/auth-helpers-nextjs'
 import omit from 'lodash/omit'
+import zipObject from 'lodash/zipObject'
 
 import useCreateMutation from '../../hooks/useCreateMutation'
+import { isValidFileData } from '../../utils/isValidFileData'
 import DataTable, { DataTableProps } from '../DataTable'
 import getManyToManyUploadedRows from './getManyToManyUploadedRows'
 import { getUploadedRows } from './getUploadedRows'
@@ -169,7 +171,14 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
               const handleCsvFileUpload = (fileData) => {
                 if (!fileData) return
-                store.add({ uploadedRows: fileData })
+
+                const uploadedRows = isValidFileData(fileData)
+                  ? (fileData as [])
+                      .slice(1)
+                      .map((values) => zipObject(fileData[0], values))
+                  : fileData
+
+                store.add({ uploadedRows })
               }
 
               return (
@@ -251,6 +260,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
               } = props
 
               const { uploadedRows } = store.values
+
               const items = uploadedRows as any
 
               const columnDefs = tableColumnNames.map((tableColumnName) => ({
@@ -273,8 +283,9 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
                   >[]
                 )?.map((row) => omit(row, manyToManyKeys))
 
-                const updatedUploadedRows =
-                  injectedGetUploadedValues(mainTableRows)
+                const updatedUploadedRows = injectedGetUploadedValues
+                  ? injectedGetUploadedValues(mainTableRows)
+                  : mainTableRows
 
                 const { data, error } = await createMutation.mutateAsync(
                   updatedUploadedRows
