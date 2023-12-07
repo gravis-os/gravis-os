@@ -143,8 +143,13 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
           userAuthColumnKey,
           userModule,
         })
-        const { isAdmin, role, workspace } =
-          getPersonRelationsFromDbUser(dbUser)
+        const {
+          isAdmin: isPersonAdmin,
+          role,
+          workspace,
+        } = dbUser?.person?.[0] ? getPersonRelationsFromDbUser(dbUser) : dbUser
+
+        const isAdmin = isPersonAdmin ?? role.slug === 'admin'
 
         // Redirect user to the correct workspace
         const isLoggedInButIncorrectWorkspace =
