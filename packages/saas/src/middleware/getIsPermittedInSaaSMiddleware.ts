@@ -62,9 +62,14 @@ const getIsPermittedInSaaSMiddleware = (
     if (!dbUser) throw new Error('No db user found!')
 
     // 2. Check if the user has the role to access the dashboard
-    const { permissions, role, workspace } =
-      getPersonRelationsFromDbUser(dbUser)
+    const {
+      permissions: personPermissions,
+      role,
+      workspace,
+    } = dbUser?.person?.[0] ? getPersonRelationsFromDbUser(dbUser) : dbUser
     if (!role) throw new Error('No user role found!')
+
+    const permissions = personPermissions ?? role.permission
 
     // 3. Check if the role is a valid role by duck-typing the role title
     const roleTitle = role.title
