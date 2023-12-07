@@ -1,5 +1,13 @@
 # Changelog
 
+## 0.5.1
+
+### Patch Changes
+
+- [#548](https://github.com/gravis-os/gravis-os/pull/548) [`a190191`](https://github.com/gravis-os/gravis-os/commit/a1901913a9ad25e011d2600b99978fbb4566e938) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - update saas middleware logic
+
+* [#547](https://github.com/gravis-os/gravis-os/pull/547) [`b42a9c5`](https://github.com/gravis-os/gravis-os/commit/b42a9c58c1e95019c2db598fe1ad9673b4253124) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - update logic to use user if person is null
+
 ## 0.5.0
 
 ### Minor Changes

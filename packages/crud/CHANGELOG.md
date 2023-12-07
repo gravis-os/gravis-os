@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.10.0
+
+### Minor Changes
+
+- [#545](https://github.com/gravis-os/gravis-os/pull/545) [`8affc2d`](https://github.com/gravis-os/gravis-os/commit/8affc2dbf30566e1cc1c9b601578c2833cff4ca7) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(curd): enhanced csv reader data parsing.
+
 ## 0.9.0
 
 ### Minor Changes
