@@ -65,12 +65,15 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const [variant, setVariant] = useState(injectedVariant)
   useEffect(() => {
     if (variant !== injectedVariant) setVariant(injectedVariant)
-    if (enableMap) setVariant(PaginatedQueryViewVariantEnum.List)
   }, [injectedVariant])
 
   // State: Map
   const [showMap, setShowMap] = useState(true)
   const [expandMap, setExpandMap] = useState(false)
+
+  useEffect(() => {
+    if (enableMap && showMap) setVariant(PaginatedQueryViewVariantEnum.List)
+  }, [enableMap, showMap])
 
   const getGridItemProps = (variant: PaginatedQueryViewVariantEnum) => {
     switch (variant) {
@@ -111,6 +114,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
         setLng(item.lng)
         setLat(item.lat)
       },
+      size: 'small',
     }),
   }
   const directoryListingsJsx = (
@@ -174,7 +178,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     <>
       <FilterAppBar
         directoryVariant={variant}
-        disableGridOption={enableMap}
+        disableGridOption={enableMap && showMap}
         setDirectoryVariant={setVariant}
         subtitle={`(${itemsCount} results)`}
         title={title}
