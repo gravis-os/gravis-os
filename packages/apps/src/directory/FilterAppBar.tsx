@@ -23,6 +23,8 @@ import { ToggleButton, ToggleButtonGroup, Toolbar } from '@mui/material'
 
 export interface FilterAppBarProps {
   directoryVariant: PaginatedQueryViewVariantEnum
+  disableGridOption?: boolean
+  disableListOption?: boolean
   setDirectoryVariant: React.Dispatch<
     React.SetStateAction<PaginatedQueryViewVariantEnum>
   >
@@ -38,6 +40,8 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
   const {
     title,
     directoryVariant,
+    disableGridOption,
+    disableListOption,
     setDirectoryVariant,
     setShowMap,
     showMap,
@@ -170,10 +174,16 @@ const FilterAppBar: React.FC<FilterAppBarProps> = (props) => {
                 size="small"
                 value={directoryVariant}
               >
-                <ToggleButton value={PaginatedQueryViewVariantEnum.Grid}>
+                <ToggleButton
+                  disabled={disableGridOption}
+                  value={PaginatedQueryViewVariantEnum.Grid}
+                >
                   <GridViewOutlinedIcon fontSize="small" />
                 </ToggleButton>
-                <ToggleButton value={PaginatedQueryViewVariantEnum.List}>
+                <ToggleButton
+                  disabled={disableListOption}
+                  value={PaginatedQueryViewVariantEnum.List}
+                >
                   <FormatListBulletedOutlinedIcon fontSize="small" />
                 </ToggleButton>
               </ToggleButtonGroup>
