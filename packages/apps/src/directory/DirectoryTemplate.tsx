@@ -53,6 +53,8 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   // Effect: Hide drawer on mobile, switch to overlay drawer
   const { isFilterDrawerOpen, setFilterDrawerOpen } = useFilterDefsProps
   const theme = useTheme()
+  const [lng, setLng] = useState(103.809_676_230_792_66)
+  const [lat, setLat] = useState(1.353_937_636_282_964_3)
   const isDesktop = useMediaQuery(theme.breakpoints.up('md'), { noSsr: true })
   useEffect(() => {
     if (isDesktop && !isFilterDrawerOpen) setFilterDrawerOpen(true)
@@ -63,6 +65,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const [variant, setVariant] = useState(injectedVariant)
   useEffect(() => {
     if (variant !== injectedVariant) setVariant(injectedVariant)
+    if (enableMap) setVariant(PaginatedQueryViewVariantEnum.List)
   }, [injectedVariant])
 
   // State: Map
@@ -101,11 +104,20 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
   const gridProps = getGridProps(variant)
 
   // State: Bottom drawer
+  const nextItemProps = {
+    ...itemProps,
+    ...(enableMap && {
+      itemOnClick: (item) => {
+        setLng(item.lng)
+        setLat(item.lat)
+      },
+    }),
+  }
   const directoryListingsJsx = (
     <PaginatedListings
       gridItemProps={gridItemProps}
       gridProps={gridProps}
-      itemProps={itemProps}
+      itemProps={nextItemProps}
       items={items}
       pagination={pagination}
       paginationType={paginationType}
@@ -162,6 +174,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
     <>
       <FilterAppBar
         directoryVariant={variant}
+        disableGridOption={enableMap}
         setDirectoryVariant={setVariant}
         subtitle={`(${itemsCount} results)`}
         title={title}
@@ -197,6 +210,7 @@ const DirectoryTemplate: React.FC<DirectoryTemplateProps> = (props) => {
               <MapDrawer
                 expandMap={expandMap}
                 items={items}
+                mapProps={{ lat, lng, setLat, setLng }}
                 setExpandMap={setExpandMap}
                 setShowMap={setShowMap}
                 showMap={showMap}
