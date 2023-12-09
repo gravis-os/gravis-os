@@ -1,6 +1,12 @@
 /* eslint-disable fp/no-let, fp/no-mutation, fp/no-loops, fp/no-mutating-methods, import/no-unresolved, import/no-webpack-loader-syntax */
 
-import React, { useEffect, useRef, useState } from 'react'
+import React, {
+  Dispatch,
+  SetStateAction,
+  useEffect,
+  useRef,
+  useState,
+} from 'react'
 
 // @ts-ignore
 import mapboxgl from '!mapbox-gl'
@@ -11,6 +17,8 @@ import xor from 'lodash/xor'
 mapboxgl.accessToken = process.env.NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN
 
 export interface MapProps {
+  lat: number
+  lng: number
   markers?: Array<{
     geometry: {
       coordinates: number[] // Lng, Lat
@@ -23,6 +31,8 @@ export interface MapProps {
     }
     type: string // 'Feature'
   }>
+  setLat: Dispatch<SetStateAction<number>>
+  setLng: Dispatch<SetStateAction<number>>
   shouldResize?: boolean
 }
 
@@ -44,8 +54,17 @@ export interface MapProps {
  */
 let mapMarkers = []
 
+const MAP_LATENCY = 250
+
 const Map = (props: MapProps) => {
-  const { markers: injectedMarkers, shouldResize } = props
+  const {
+    lat,
+    lng,
+    markers: injectedMarkers,
+    setLat,
+    setLng,
+    shouldResize,
+  } = props
 
   const theme = useTheme()
   const mapContainerRef = useRef(null)
@@ -54,7 +73,7 @@ const Map = (props: MapProps) => {
   // Effect: Initialize map when component mounts
   useEffect(() => {
     const map = new mapboxgl.Map({
-      center: [103.809_676_230_792_66, 1.353_937_636_282_964_3],
+      center: [lng, lat],
       container: mapContainerRef.current,
       style: 'mapbox://styles/mapbox/streets-v11',
       zoom: 11,
@@ -63,6 +82,15 @@ const Map = (props: MapProps) => {
     // Add navigation control (the +/- zoom buttons)
     map.addControl(new mapboxgl.NavigationControl(), 'top-right')
 
+    map.on('move', () => {
+      if (window) {
+        window.setTimeout(() => {
+          setLng(map.getCenter().lng.toFixed(4))
+          setLat(map.getCenter().lat.toFixed(4))
+        }, MAP_LATENCY)
+      }
+    })
+
     // Set map instance to access methods later
     setMapInstance(map)
 
@@ -70,12 +98,22 @@ const Map = (props: MapProps) => {
     return () => map.remove()
   }, [])
 
+  useEffect(() => {
+    if (!mapInstance) return
+    const currLng = mapInstance.getCenter().lng.toFixed(4)
+    const currLat = mapInstance.getCenter().lat.toFixed(4)
+    const isCentered = currLng === lng && currLat === lat
+    if (!isCentered) {
+      mapInstance.flyTo({ center: [lng, lat], essential: true })
+    }
+  }, [lng, lat])
+
   // Effect: Resize map
   useEffect(() => {
     if (mapInstance && window) {
       // Only able to trigger resize after adding timeout
       // @issue: https://gis.stackexchange.com/questions/379976/putting-a-mapbox-gl-canvas-into-an-openlayers-node-results-in-the-mapbox-canvas
-      window.setTimeout(() => mapInstance.resize(), 200)
+      window.setTimeout(() => mapInstance.resize(), MAP_LATENCY)
     }
   }, [shouldResize])
 
