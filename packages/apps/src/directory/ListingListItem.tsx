@@ -19,6 +19,7 @@ export interface ListingListItemProps extends CardProps {
   brandModule: CrudModule | any
   cardContentProps?: BoxProps
   item: Listing
+  itemOnClick?: (item: Listing) => void
   listingModule: CrudModule | any
   size?: 'large' | 'medium' | 'small'
 }
@@ -28,6 +29,7 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
     brandModule,
     cardContentProps,
     item,
+    itemOnClick,
     listingModule,
     size = 'medium',
     sx,
@@ -105,7 +107,11 @@ const ListingListItem: React.FC<ListingListItemProps> = (props) => {
                 >
                   {brand?.title}
                 </Link>
-                <Link href={listingHref} variant={isSmall ? 'h6' : 'h5'}>
+                <Link
+                  href={!itemOnClick && listingHref}
+                  onClick={() => itemOnClick(item)}
+                  variant={isSmall ? 'h6' : 'h5'}
+                >
                   {title}
                 </Link>
                 <Typography>{subtitle}</Typography>

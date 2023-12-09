@@ -17,11 +17,12 @@ import { Listing } from './types'
 export interface ListingCardProps extends CardProps {
   brandModule: CrudModule | any
   item: Listing
+  itemOnClick?: (item: Listing) => void
   listingModule: CrudModule | any
 }
 
 const ListingCard: React.FC<ListingCardProps> = (props) => {
-  const { brandModule, item, listingModule, sx, ...rest } = props
+  const { brandModule, item, itemOnClick, listingModule, sx, ...rest } = props
 
   if (!item) return null
 
@@ -100,7 +101,11 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
             >
               {brand?.title}
             </Link>
-            <Link href={listingHref} variant="h6">
+            <Link
+              href={!itemOnClick && listingHref}
+              onClick={() => itemOnClick(item)}
+              variant="h6"
+            >
               {title}
             </Link>
             {is_listing_price_enabled && priceText && (
