@@ -15,7 +15,6 @@ const getMiddlewareRouteBreakdown = async (
   req: NextRequest,
   options: GetMiddlewareRouteBreakdownOptions = {}
 ) => {
-  const { subdomainOverride = '' } = options
   const url = req.nextUrl.clone()
   const { locale, pathname } = url || {}
 
@@ -23,10 +22,7 @@ const getMiddlewareRouteBreakdown = async (
   const protocol = req.headers.get('x-forwarded-proto') || 'http'
   const nakedDomain =
     process.env.NEXT_PUBLIC_APP_ABSOLUTE_URL?.split('://')?.at(-1)
-
-  const isProduction = process.env.NODE_ENV === 'production'
   const isVercel = process.env.VERCEL === '1'
-  const isVercelProduction = isProduction && isVercel
 
   // ==============================
   // Custom Domain
@@ -49,7 +45,7 @@ const getMiddlewareRouteBreakdown = async (
    */
   const currentHost =
     options.subdomainOverride ||
-    (isVercelProduction
+    (isVercel
       ? customDomainWorkspace?.slug || hostname.replace(`.${nakedDomain}`, '')
       : hostname.replace(`.localhost:3000`, ''))
 
