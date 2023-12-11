@@ -54,6 +54,7 @@ const ListingCard: React.FC<ListingCardProps> = (props) => {
       sx={{ height: '100%', ...sx }}
       {...rest}
     >
+      <Box />
       {is_listing_brand_image_enabled && (
         <Link href={listingHref}>
           <StorageImage
