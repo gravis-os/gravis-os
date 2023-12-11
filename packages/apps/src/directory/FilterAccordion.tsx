@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 
-import { TextField } from '@gravis-os/fields'
+import { SliderField, TextField } from '@gravis-os/fields'
 import {
   FilterDef,
   FilterDefOptionValue,
@@ -19,6 +19,8 @@ import {
   FormControlLabel,
   FormGroup,
 } from '@mui/material'
+import debounce from 'lodash/debounce'
+import isArray from 'lodash/isArray'
 import startCase from 'lodash/startCase'
 
 export interface FilterAccordionOptionInterface {
@@ -70,9 +72,39 @@ const renderCheckboxes = (props: RenderOptionProps) => {
   )
 }
 
+export interface RenderSliderProps extends CommonRenderProps {
+  handleSliderChange: (value: number) => void
+  max?: number
+  min?: number
+}
+
+const renderSlider = (props: RenderSliderProps) => {
+  const { filterChips, handleSliderChange, max, name, op, ...rest } = props
+  const currentFilterChip = filterChips?.find(
+    (filterChip) => filterChip.key === name
+  )
+  const defaultValue =
+    typeof currentFilterChip?.value === 'string'
+      ? Number.parseInt(currentFilterChip.value.replace(`${op}.`, ''), 10) ||
+        max
+      : max
+  const step = Math.floor(max / 100)
+  return (
+    <SliderField
+      defaultValue={defaultValue}
+      max={max || 1_000_000}
+      onChange={(_, v) => handleSliderChange(isArray(v) ? v.at(0) : v)}
+      step={step}
+      valueLabelDisplay="auto"
+      {...rest}
+    />
+  )
+}
+
 export interface RenderInputProps extends CommonRenderProps {
   handleInputChange: (inputValue: string) => void
 }
+
 const renderInput = (props: RenderInputProps) => {
   const { filterChips, handleInputChange, label, name } = props
 
@@ -115,6 +147,8 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
     accordionProps = {},
     activeOptionLabels,
     label,
+    max,
+    min,
     name,
     op,
     options,
@@ -145,6 +179,16 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
     return toggleQueryString(newQsItem)
   }
 
+  const debouncedReplaceQueryString = debounce(
+    (newQsItem: { [x: string]: string }) => replaceQueryString(newQsItem),
+    1000
+  )
+
+  const handleSliderChange = (number) => {
+    const newQsItem = { [name]: `${op}.${number}` }
+    return debouncedReplaceQueryString(newQsItem)
+  }
+
   const { filterChips } = useFilterDefsProps || {}
   const commonRenderProps = { filterChips, label, name, op }
   const renderInputProps = {
@@ -157,11 +201,20 @@ const FilterAccordion: React.FC<FilterAccordionProps> = (props) => {
     handleCheckboxChange,
     options,
   }
+  const renderSliderProps = {
+    ...commonRenderProps,
+    handleSliderChange,
+    max,
+    min,
+  }
 
   const renderChildren = () => {
     switch (type) {
       case FilterDefTypeEnum.Input: {
         return renderInput(renderInputProps)
+      }
+      case FilterDefTypeEnum.Slider: {
+        return renderSlider(renderSliderProps)
       }
       case FilterDefTypeEnum.Checkbox:
       default: {
