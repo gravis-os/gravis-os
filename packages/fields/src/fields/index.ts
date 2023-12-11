@@ -25,6 +25,9 @@ export * from './CheckboxGroup'
 export { default as NumberField } from './NumberField'
 export * from './NumberField'
 
+export { default as SliderField } from './SliderField'
+export * from './SliderField'
+
 export { default as JsonField } from './JsonField'
 export * from './JsonField'
 
