@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.2
+
+### Patch Changes
+
+- [#551](https://github.com/gravis-os/gravis-os/pull/551) [`11429ad`](https://github.com/gravis-os/gravis-os/commit/11429ad230e06eded3155039c197972f500238c2) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - update saas middleware to work on staging
+
 ## 0.3.1
 
 ### Patch Changes
