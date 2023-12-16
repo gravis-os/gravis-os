@@ -141,7 +141,14 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
           if (isDebug) {
             console.log(
               `♻️ [DEBUG] Middleware isWorkspace Rewrite for Guest Paths`,
-              url.pathname
+              {
+                adminPaths,
+                isAdminPath,
+                isUserPath,
+                pathname,
+                urlPathname: url.pathname,
+                userPaths,
+              }
             )
           }
           return NextResponse.rewrite(url)

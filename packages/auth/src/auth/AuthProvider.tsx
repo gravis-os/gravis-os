@@ -12,6 +12,7 @@ import DbUserProvider, {
 const supabase = createClientComponentClient()
 
 export interface AuthUserProviderProps {
+  // TODO: Refactor this
   [propName: string]: any
   autoRefreshToken?: boolean
   callbackUrl?: string
