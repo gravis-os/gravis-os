@@ -237,15 +237,16 @@ const DocumentFormSections: React.FC<any> = (props) => {
         <Stack
           alignItems="center"
           direction="row"
+          flexWrap={{ xs: 'wrap', md: 'nowrap' }}
+          gap={1}
           justifyContent="space-between"
-          spacing={1}
         >
           {/* Left */}
           <Stack
             alignItems="center"
             direction="row"
             display={printMode ? 'none' : 'flex'}
-            spacing={0.5}
+            flexWrap="wrap"
           >
             {actionButtons?.map((actionButton) => {
               const isReactElement = React.isValidElement(actionButton)
@@ -257,11 +258,11 @@ const DocumentFormSections: React.FC<any> = (props) => {
 
           {/* Right */}
           <Box sx={{ width: '100%' }}>
-            <Grid container>
+            <Grid container spacing={1}>
               {/* Assignee */}
               {Boolean(sectionsPropsByKey.assignee) && (
                 <FormSection
-                  gridProps={{ xs: 6 }}
+                  gridProps={{ xs: isReadOnly ? 6 : 12, sm: 6 }}
                   {...formSectionProps}
                   {...sectionsPropsByKey.assignee}
                 />
@@ -270,7 +271,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
               {/* Salesperson */}
               {Boolean(sectionsPropsByKey.salesperson) && (
                 <FormSection
-                  gridProps={{ xs: 6 }}
+                  gridProps={{ xs: isReadOnly ? 6 : 12, sm: 6 }}
                   {...formSectionProps}
                   {...sectionsPropsByKey.salesperson}
                 />
@@ -279,7 +280,7 @@ const DocumentFormSections: React.FC<any> = (props) => {
               {/* Status */}
               {Boolean(sectionsPropsByKey.status) && (
                 <FormSection
-                  gridProps={{ xs: 6 }}
+                  gridProps={{ xs: isReadOnly ? 6 : 12, sm: 6 }}
                   readOnlySx={{ textAlign: 'right' }}
                   {...formSectionProps}
                   {...sectionsPropsByKey.status}
