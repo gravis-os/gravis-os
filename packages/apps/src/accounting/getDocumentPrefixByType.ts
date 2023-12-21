@@ -32,6 +32,9 @@ const getDocumentPrefixByType = (type) => {
     case DocumentTypeEnum.GOODS_RETURN_NOTE: {
       return 'GRN'
     }
+    case DocumentTypeEnum.SUPPLIER_DISCOUNT_FORM: {
+      return 'SDF'
+    }
     default: {
       return ''
     }
