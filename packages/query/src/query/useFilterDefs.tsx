@@ -15,11 +15,17 @@ export type FilterDefOptionValue = boolean | number | string
 export enum FilterDefTypeEnum {
   Checkbox = 'checkbox',
   Input = 'input',
+  Slider = 'slider',
 }
 
 export interface FilterDef {
   key: string
   label: React.ReactNode
+  max?: number
+  /**
+   * Ranges for the slider field
+   */
+  min?: number
   /**
    * The name of the column to filter on
    */
@@ -91,7 +97,8 @@ export const useFilterDefs = (
       if (!filterValue) return
 
       switch (currentFilterDef.type) {
-        case FilterDefTypeEnum.Input: {
+        case FilterDefTypeEnum.Input:
+        case FilterDefTypeEnum.Slider: {
           return filterValue?.replaceAll('%', '')
         }
         default: {
