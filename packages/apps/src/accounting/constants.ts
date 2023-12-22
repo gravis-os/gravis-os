@@ -8,5 +8,6 @@ export enum DocumentTypeEnum {
   PURCHASE_ORDER = 'purchase_order',
   QUOTATION = 'quotation',
   SALES_ORDER = 'sales_order',
+  SUPPLIER_DISCOUNT_FORM = 'supplier_discount_form',
   SUPPLIER_INVOICE = 'supplier_invoice',
 }
