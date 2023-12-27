@@ -31,6 +31,7 @@ const RecoverPasswordForm: React.FC<RecoverPasswordFormProps> = (props) => {
         fields={['password']}
         onSubmit={async (values) => {
           const user = await handleRecoverPassword({ accessToken, ...values })
+          if (!user) return false
           return router.push(redirectTo)
         }}
         {...rest}
