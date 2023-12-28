@@ -157,9 +157,8 @@ export const handleRecoverPassword: HandleRecoverPassword = async (values) => {
     const { data: user, error } = onUpdateUser
 
     if (error) {
-      toast.error('Something went wrong')
-      console.error(error)
-      return
+      toast.error(error.message)
+      throw error
     }
 
     toast.success('Success')
