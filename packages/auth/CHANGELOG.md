@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+### Minor Changes
+
+- [#557](https://github.com/gravis-os/gravis-os/pull/557) [`8307730`](https://github.com/gravis-os/gravis-os/commit/8307730a4eae2872261c8c4d75bb9bb658d7a8b6) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(auth): show real reset password error.
+
 ## 0.5.0
 
 ### Minor Changes
