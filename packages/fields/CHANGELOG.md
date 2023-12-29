@@ -1,5 +1,11 @@
 # @gravis-os/fields
 
+## 1.11.0
+
+### Minor Changes
+
+- [#553](https://github.com/gravis-os/gravis-os/pull/553) [`4091f00`](https://github.com/gravis-os/gravis-os/commit/4091f00d0f47553df376b5a4289d8b41466a0926) Thanks [@shank1xt](https://github.com/shank1xt)! - add sliderfield component and update filteraccordions
+
 ## 1.10.0
 
 ### Minor Changes

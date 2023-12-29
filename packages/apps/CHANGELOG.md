@@ -1,5 +1,21 @@
 # Changelog
 
+## 1.3.0
+
+### Minor Changes
+
+- [#554](https://github.com/gravis-os/gravis-os/pull/554) [`4f1e9ac`](https://github.com/gravis-os/gravis-os/commit/4f1e9ac0a16b873eff30f6a449d335c8e61a19ba) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(apps): added supplier discount form document type.
+
+### Patch Changes
+
+- [#555](https://github.com/gravis-os/gravis-os/pull/555) [`9b9f6d5`](https://github.com/gravis-os/gravis-os/commit/9b9f6d5388b802139479bed0ae905f96c2aab1b7) Thanks [@hieudaongoc](https://github.com/hieudaongoc)! - fix mobile view for DocumentFormSections
+
+* [#553](https://github.com/gravis-os/gravis-os/pull/553) [`4091f00`](https://github.com/gravis-os/gravis-os/commit/4091f00d0f47553df376b5a4289d8b41466a0926) Thanks [@shank1xt](https://github.com/shank1xt)! - add sliderfield component and update filteraccordions
+
+* Updated dependencies [[`4091f00`](https://github.com/gravis-os/gravis-os/commit/4091f00d0f47553df376b5a4289d8b41466a0926)]:
+  - @gravis-os/fields@1.11.0
+  - @gravis-os/query@0.3.1
+
 ## 1.2.8
 
 ### Patch Changes
