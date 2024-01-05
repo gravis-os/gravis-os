@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/pg",
-  "version": "0.3.0",
+  "version": "1.0.0-next.0",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
@@ -32,7 +32,7 @@
     "tslint": "tsc --noEmit --incremental"
   },
   "dependencies": {
-    "@gravis-os/types": "*",
+    "@gravis-os/types": "1.0.0-next.0",
     "lodash": "^4.17.21",
     "pg": "^8.8.0",
     "qs": "^6.11.0",
@@ -63,8 +63,8 @@
     "@babel/runtime": "^7.17.9",
     "@emotion/react": "^11.9.0",
     "@emotion/styled": "^11.8.1",
-    "@gravis-os/eslint-config": "*",
-    "@gravis-os/tsconfig": "*",
+    "@gravis-os/eslint-config": "1.0.0-next.0",
+    "@gravis-os/tsconfig": "1.0.0-next.0",
     "@mui/icons-material": "^5.6.2",
     "@mui/lab": "^5.0.0-alpha.78",
     "@mui/material": "^5.6.2",

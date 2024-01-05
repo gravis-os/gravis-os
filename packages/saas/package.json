@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/saas",
-  "version": "0.5.1",
+  "version": "1.0.0-next.0",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
@@ -53,13 +53,13 @@
     "react-query": ">=3.39.2"
   },
   "dependencies": {
-    "@gravis-os/middleware": "*",
-    "@gravis-os/types": "*",
-    "@gravis-os/utils": "*"
+    "@gravis-os/middleware": "1.0.0-next.0",
+    "@gravis-os/types": "1.0.0-next.0",
+    "@gravis-os/utils": "1.0.0-next.0"
   },
   "devDependencies": {
-    "@gravis-os/eslint-config": "*",
-    "@gravis-os/tsconfig": "*",
+    "@gravis-os/eslint-config": "1.0.0-next.0",
+    "@gravis-os/tsconfig": "1.0.0-next.0",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
     "@supabase/auth-helpers-react": "^0.4.2",
     "@supabase/supabase-js": "^2.37.0",

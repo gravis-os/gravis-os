@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/cli",
-  "version": "0.2.0",
+  "version": "1.0.0-next.0",
   "description": "gravis CLI",
   "sideEffects": false,
   "private": false,
@@ -31,7 +31,7 @@
     "lodash": "^4.17.21"
   },
   "devDependencies": {
-    "@gravis-os/eslint-config": "*",
+    "@gravis-os/eslint-config": "1.0.0-next.0",
     "@types/jest": "^26.0.20",
     "@types/node": "^12.7.11",
     "@typescript-eslint/eslint-plugin": "^6.1.0",

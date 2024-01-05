@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/auth-server",
-  "version": "0.2.1",
+  "version": "1.0.0-next.0",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
@@ -56,8 +56,8 @@
     "axios": "^1.5.1"
   },
   "devDependencies": {
-    "@gravis-os/eslint-config": "*",
-    "@gravis-os/tsconfig": "*",
+    "@gravis-os/eslint-config": "1.0.0-next.0",
+    "@gravis-os/tsconfig": "1.0.0-next.0",
     "@supabase/auth-helpers-nextjs": "^0.8.1",
     "@supabase/auth-helpers-react": "^0.4.2",
     "@supabase/supabase-js": "^2.37.0",

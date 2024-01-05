@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/tsconfig",
-  "version": "0.1.0",
+  "version": "1.0.0-next.0",
   "sideEffects": false,
   "main": "index.js",
   "publishConfig": {

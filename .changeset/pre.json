@@ -30,5 +30,7 @@
     "@gravis-os/ui": "0.12.1",
     "@gravis-os/utils": "0.6.1"
   },
-  "changesets": []
+  "changesets": [
+    "mighty-seas-pay"
+  ]
 }
