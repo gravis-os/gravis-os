@@ -1,8 +1,8 @@
 import toast from 'react-hot-toast'
 
 import { AuthUser } from '@gravis-os/types'
-import isEmpty from 'lodash/isEmpty'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
+import isEmpty from 'lodash/isEmpty'
 
 const supabase = createClientComponentClient()
 
@@ -102,9 +102,8 @@ export const handleResetPassword: HandleResetPassword = async (
   }
 
   try {
-<<<<<<< HEAD
     // Supabase will not check if user exists before sent reset password emails, we need handle it internally
-    const { data: existedUsers, error: queryUserError } = await supabaseClient
+    const { data: existedUsers, error: queryUserError } = await supabase
       .from('user')
       .select('id')
       .eq('email', email?.toLowerCase())
@@ -120,17 +119,10 @@ export const handleResetPassword: HandleResetPassword = async (
       return
     }
 
-    const onResetPasswordForEmail =
-      await supabaseClient.auth.api.resetPasswordForEmail(
-        email?.toLowerCase(),
-        authOptions
-      )
-=======
     const onResetPasswordForEmail = await supabase.auth.resetPasswordForEmail(
       email?.toLowerCase(),
       authOptions
     )
->>>>>>> 25e35fd7 (refactor: complete supabase and auth helpers migration guides and pass build)
     const { data: user, error } = onResetPasswordForEmail
 
     if (error) {
