@@ -31,6 +31,7 @@
     "@gravis-os/utils": "0.6.1"
   },
   "changesets": [
+    "clever-apricots-kneel",
     "mighty-seas-pay",
     "slow-cougars-float",
     "yellow-insects-judge"

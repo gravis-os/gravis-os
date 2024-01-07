@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-next.3
+
+### Minor Changes
+
+- [`8b710ef2`](https://github.com/gravis-os/gravis-os/commit/8b710ef278b4d756d9c0b41b44f80c37704eee79) Thanks [@clodal](https://github.com/clodal)! - Expose callback function to setPathname before redirect
+
 ## 1.0.0-next.2
 
 ### Patch Changes
