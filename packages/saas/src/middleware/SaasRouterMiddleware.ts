@@ -23,6 +23,7 @@ export interface SaasRouterMiddlewareProps {
   hasNestedSubdomain?: GetMiddlewareRouteBreakdownOptions['hasNestedSubdomain']
   modulesConfig: GetIsPermittedInSaaSMiddlewareProps['modulesConfig']
   reservedSubdomains?: string[]
+  setPathnameBeforeSuccessRewrite?: (pathname: string) => string
   subdomainOverride?: GetMiddlewareRouteBreakdownOptions['subdomainOverride']
   userAuthColumnKey?: string
   userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
@@ -54,6 +55,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     hasNestedSubdomain,
     modulesConfig,
     reservedSubdomains: injectedReservedSubdomains = [],
+    setPathnameBeforeSuccessRewrite,
     subdomainOverride,
     userAuthColumnKey = 'id',
     userModule,
@@ -223,7 +225,10 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
         // Allow user to pass through
         // Go to pages/_workspaces/[workspace]/*
-        url.pathname = `${dynamicPathParams}${url.pathname}`
+        const nextPathname = `${dynamicPathParams}${url.pathname}`
+        url.pathname = setPathnameBeforeSuccessRewrite
+          ? setPathnameBeforeSuccessRewrite(nextPathname)
+          : nextPathname
         if (isDebug) {
           console.log(`♻️ [DEBUG] Middleware isWorkspace Rewrite`, url.pathname)
         }
