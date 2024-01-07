@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-next.2
+
+### Patch Changes
+
+- [`9dde2795`](https://github.com/gravis-os/gravis-os/commit/9dde27952bc7738449781ded84d22f03460d60fa) Thanks [@clodal](https://github.com/clodal)! - Fix issue with userPaths and adminPaths code which wasn't working
+
 ## 1.0.0-next.1
 
 ### Patch Changes
