@@ -15,7 +15,7 @@ import getIsPermittedInSaaSMiddleware, {
 const isDebug = process.env.DEBUG === 'true'
 
 export interface SaasRouterMiddlewareProps {
-  adminPaths?: string[]
+  adminPaths?: GetIsPermittedInSaaSMiddlewareProps['adminPaths']
   authenticationFailureRedirectTo: string
   authenticationSuccessRedirectTo: string
   authorizationFailureRedirectTo: string
@@ -26,7 +26,7 @@ export interface SaasRouterMiddlewareProps {
   subdomainOverride?: GetMiddlewareRouteBreakdownOptions['subdomainOverride']
   userAuthColumnKey?: string
   userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
-  userPaths?: string[]
+  userPaths?: GetIsPermittedInSaaSMiddlewareProps['userPaths']
   validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
 }
 
@@ -190,6 +190,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
         // Check if the user is authorized to access the route
         try {
           await getIsPermittedInSaaSMiddleware({
+            adminPaths,
             authUser: session.user as any,
             guestPaths,
             modulesConfig,
@@ -197,6 +198,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
             subdomain: workspaceSlug,
             userAuthColumnKey,
             userModule,
+            userPaths,
             validRoles,
           })(req)
         } catch (error) {

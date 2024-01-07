@@ -9,6 +9,7 @@ import getIsValidPermissions from '../utils/getIsValidPermissions'
 import getPersonRelationsFromDbUser from '../utils/getPersonRelationsFromDbUser'
 
 export interface GetIsPermittedInSaaSMiddlewareProps {
+  adminPaths?: string[]
   authUser: { id?: string; sub: string }
   /**
    * A list of paths that are accessible to guests
@@ -18,33 +19,17 @@ export interface GetIsPermittedInSaaSMiddlewareProps {
   modulesConfig: CrudModule[] // List of the app's modules
   // Get parts of the route needed to calculate the permissions
   pathname?: string
-
   subdomain?: string
-  userAuthColumnKey?: string // The column key in the userModule table that matches the authUser id
 
+  userAuthColumnKey?: string // The column key in the userModule table that matches the authUser id
   userModule: CrudModule // The app's userModule
+
+  userPaths?: string[]
   /**
    * A list of role.titles that are defined in the database
    * @default []
    */
   validRoles?: string[]
-}
-
-const getValidPathsByRole = (role) => {
-  const { title } = role
-  switch (title) {
-    case 'Super Admin':
-    case 'Admin': {
-      return ['/admin/*', '/dashboard/*', '/account/*']
-    }
-    case 'Workspace Superadmin':
-    case 'Workspace Owner': {
-      return ['/admin/*', '/dashboard/*', '/account/*']
-    }
-    default: {
-      return []
-    }
-  }
 }
 
 /**
@@ -56,6 +41,7 @@ const getIsPermittedInSaaSMiddleware = (
   props: GetIsPermittedInSaaSMiddlewareProps
 ) => {
   const {
+    adminPaths = [],
     authUser,
     guestPaths = [],
     modulesConfig,
@@ -63,6 +49,7 @@ const getIsPermittedInSaaSMiddleware = (
     subdomain,
     userAuthColumnKey = 'id',
     userModule,
+    userPaths = [],
     validRoles = [],
   } = props
 
@@ -97,6 +84,29 @@ const getIsPermittedInSaaSMiddleware = (
     if (!isValidRole) throw new Error('Invalid user role!')
 
     // 4. Check if the user is permitted to access the subdirectory defined in his/her role.
+    const getValidPathsByRole = (role) => {
+      const { title } = role
+      switch (title) {
+        case 'Super Admin':
+        case 'Admin': {
+          return [
+            '/admin/*',
+            '/dashboard/*',
+            '/account/*',
+            ...userPaths,
+            ...adminPaths,
+          ]
+        }
+        case 'Workspace Superadmin':
+        case 'Workspace Owner': {
+          return ['/admin/*', '/dashboard/*', '/account/*', ...userPaths]
+        }
+        default: {
+          return []
+        }
+      }
+    }
+
     const validPaths = getGuestPaths([
       ...guestPaths,
       ...getValidPathsByRole(role),
