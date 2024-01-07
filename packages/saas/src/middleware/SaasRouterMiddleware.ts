@@ -15,6 +15,7 @@ import getIsPermittedInSaaSMiddleware, {
 const isDebug = process.env.DEBUG === 'true'
 
 export interface SaasRouterMiddlewareProps {
+  adminPaths?: string[]
   authenticationFailureRedirectTo: string
   authenticationSuccessRedirectTo: string
   authorizationFailureRedirectTo: string
@@ -25,12 +26,13 @@ export interface SaasRouterMiddlewareProps {
   subdomainOverride?: GetMiddlewareRouteBreakdownOptions['subdomainOverride']
   userAuthColumnKey?: string
   userModule: GetIsPermittedInSaaSMiddlewareProps['userModule']
+  userPaths?: string[]
   validRoles?: GetIsPermittedInSaaSMiddlewareProps['validRoles']
 }
 
 const defaultGuestPaths = ['/auth/*']
-const adminPaths = ['/admin/*']
-const userPaths = ['/dashboard/*', '/account/*']
+const defaultAdminPaths = ['/admin/*']
+const defaultUserPaths = ['/dashboard/*', '/account/*']
 
 /**
  * Middleware to detect workspace slug adapted from Vercel Platforms boilerplate
@@ -44,6 +46,7 @@ const userPaths = ['/dashboard/*', '/account/*']
  */
 const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
   const {
+    adminPaths: injectedAdminPaths = [],
     authenticationFailureRedirectTo,
     authenticationSuccessRedirectTo,
     authorizationFailureRedirectTo,
@@ -54,6 +57,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     subdomainOverride,
     userAuthColumnKey = 'id',
     userModule,
+    userPaths: injectedUserPaths = [],
     validRoles = [],
   } = props
 
@@ -132,6 +136,8 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
          * Allow visitors to pass through guestPaths in a workspace
          * e.g. ['/about*] in workspaces e.g. evfy.marketbolt.io/about
          */
+        const adminPaths = [...defaultAdminPaths, ...injectedAdminPaths]
+        const userPaths = [...defaultUserPaths, ...injectedUserPaths]
         const isAdminPath = isPathMatch(pathname, adminPaths)
         const isUserPath = isPathMatch(pathname, userPaths)
         const isGuestPath = !isAdminPath && !isUserPath
