@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0-next.1
+
+### Patch Changes
+
+- Updated dependencies [[`53ac33c9`](https://github.com/gravis-os/gravis-os/commit/53ac33c99be5dcd4bd50bacf403df2d999e36440)]:
+  - @gravis-os/middleware@1.0.0-next.1
+
 ## 1.0.0-next.0
 
 ### Major Changes

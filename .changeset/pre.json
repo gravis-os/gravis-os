@@ -31,6 +31,7 @@
     "@gravis-os/utils": "0.6.1"
   },
   "changesets": [
-    "mighty-seas-pay"
+    "mighty-seas-pay",
+    "slow-cougars-float"
   ]
 }

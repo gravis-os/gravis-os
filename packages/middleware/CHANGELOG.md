@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-next.1
+
+### Minor Changes
+
+- [`53ac33c9`](https://github.com/gravis-os/gravis-os/commit/53ac33c99be5dcd4bd50bacf403df2d999e36440) Thanks [@clodal](https://github.com/clodal)! - Add userPaths and adminPaths to SaaSRouterMiddleware
+
 ## 1.0.0-next.0
 
 ### Major Changes
