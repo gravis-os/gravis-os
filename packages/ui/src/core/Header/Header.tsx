@@ -254,7 +254,7 @@ const renderNavItems = (navItems, props) => {
             !disableNewTabIcon && isExternalLink && isOpenInNewTab
 
           // Check if isActive and show indicator
-          const isActive = href !== '/' && router?.pathname.startsWith(href)
+          const isActive = href !== '/' && router?.pathname?.startsWith(href)
 
           // Calculate button props
           const nextButtonProps: ButtonProps = {
