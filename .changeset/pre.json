@@ -31,6 +31,7 @@
     "@gravis-os/utils": "0.6.1"
   },
   "changesets": [
+    "calm-jokes-rescue",
     "clever-apricots-kneel",
     "mighty-seas-pay",
     "slow-cougars-float",

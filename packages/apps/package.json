@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/apps",
-  "version": "2.0.0-next.1",
+  "version": "2.0.0-next.2",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
@@ -117,13 +117,13 @@
     "tslint": "tsc --noEmit --incremental"
   },
   "dependencies": {
-    "@gravis-os/crud": "1.0.0-next.1",
-    "@gravis-os/dashboard": "1.0.0-next.1",
+    "@gravis-os/crud": "1.0.0-next.2",
+    "@gravis-os/dashboard": "1.0.0-next.2",
     "@gravis-os/fields": "2.0.0-next.0",
-    "@gravis-os/form": "2.0.0-next.1",
+    "@gravis-os/form": "2.0.0-next.2",
     "@gravis-os/query": "1.0.0-next.0",
     "@gravis-os/types": "1.0.0-next.0",
-    "@gravis-os/ui": "1.0.0-next.1",
+    "@gravis-os/ui": "1.0.0-next.2",
     "lodash": "^4.17.21",
     "mapbox-gl": "^2.10.0",
     "react-intersection-observer": "^9.4.0",

@@ -1,5 +1,13 @@
 # Changelog
 
+## 1.0.0-next.2
+
+### Patch Changes
+
+- Updated dependencies [[`f2a23602`](https://github.com/gravis-os/gravis-os/commit/f2a23602b20d24dafe74242c7e570b799e74f4d7)]:
+  - @gravis-os/ui@1.0.0-next.2
+  - @gravis-os/form@2.0.0-next.2
+
 ## 1.0.0-next.1
 
 ### Patch Changes
