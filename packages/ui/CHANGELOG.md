@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-next.1
+
+### Minor Changes
+
+- [#558](https://github.com/gravis-os/gravis-os/pull/558) [`c5c976cc`](https://github.com/gravis-os/gravis-os/commit/c5c976cc6735ed015a8c37e173878654fddf19c6) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(ui): optional access router pathname [core/Header].
+
 ## 1.0.0-next.0
 
 ### Major Changes

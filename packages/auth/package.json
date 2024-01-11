@@ -1,6 +1,6 @@
 {
   "name": "@gravis-os/auth",
-  "version": "1.0.0-next.0",
+  "version": "1.0.0-next.1",
   "sideEffects": false,
   "private": false,
   "main": "./dist/cjs/index.js",
@@ -32,9 +32,9 @@
     "tslint": "tsc --noEmit --incremental"
   },
   "dependencies": {
-    "@gravis-os/form": "2.0.0-next.0",
+    "@gravis-os/form": "2.0.0-next.1",
     "@gravis-os/types": "1.0.0-next.0",
-    "@gravis-os/ui": "1.0.0-next.0",
+    "@gravis-os/ui": "1.0.0-next.1",
     "@gravis-os/utils": "1.0.0-next.0",
     "lodash": "^4.17.21",
     "tslib": "^2.4.0"

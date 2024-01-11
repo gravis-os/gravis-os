@@ -1,5 +1,12 @@
 # Changelog
 
+## 1.0.0-next.1
+
+### Patch Changes
+
+- Updated dependencies [[`c5c976cc`](https://github.com/gravis-os/gravis-os/commit/c5c976cc6735ed015a8c37e173878654fddf19c6)]:
+  - @gravis-os/ui@1.0.0-next.1
+
 ## 1.0.0-next.0
 
 ### Major Changes
