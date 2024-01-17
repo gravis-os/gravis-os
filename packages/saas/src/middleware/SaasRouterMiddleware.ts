@@ -76,6 +76,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
       dynamicPathParams,
       hostname,
       // Checks
+      isAuthRoute,
       isBaseRoute,
       isCustomDomain,
       isLoggedIn,
@@ -101,6 +102,7 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
     ].includes(workspaceSlug)
 
     const SCENARIOS = {
+      isAuthRoute,
       isCustomDomain,
       isGuestAtWorkspacePage: !isLoggedIn && isWorkspaceBaseRoute,
       isNakedDomainBaseRoute: isBaseRoute,
@@ -117,6 +119,17 @@ const SaasRouterMiddleware = (props: SaasRouterMiddlewareProps) => {
 
     // The sequence of these checks is important.
     switch (true) {
+      case SCENARIOS.isAuthRoute: {
+        if (isDebug) {
+          console.log(`♻️ [DEBUG] Middleware: isAuthRoute Redirect`, {
+            dynamicPathParams,
+            isAuthRoute,
+            pathname: url.pathname,
+          })
+        }
+
+        return NextResponse.next()
+      }
       case SCENARIOS.isReservedSubdomain: {
         // Terminate reserved subdomains directly out to the main page.
         if (isDebug) {
