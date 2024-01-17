@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-next.4
+
+### Patch Changes
+
+- [`44407a56`](https://github.com/gravis-os/gravis-os/commit/44407a56e21ec9bfc1a46973b090c4a1916f230d) - Add auth route bypass so that auth pages will be opened up in the middleware
+
 ## 1.0.0-next.3
 
 ### Minor Changes
