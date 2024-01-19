@@ -72,8 +72,10 @@ const ContactCallout: React.FC<ContactCalloutProps> = (props) => {
     sx: {
       backgroundColor: 'background.paper',
       borderBottom: 1,
+      borderBottomColor: 'divider',
       borderColor: 'divider',
       borderTop: 1,
+      borderTopColor: 'divider',
     },
   }
 
