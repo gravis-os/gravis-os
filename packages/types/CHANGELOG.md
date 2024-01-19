@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.2
+
+### Patch Changes
+
+- [#561](https://github.com/gravis-os/gravis-os/pull/561) [`62596f8`](https://github.com/gravis-os/gravis-os/commit/62596f8183f74f4a380bca01aeda0920396a7cd3) Thanks [@clodal](https://github.com/clodal)! - Update landing styles
+
 ## 0.7.1
 
 ### Patch Changes
