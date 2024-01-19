@@ -1,5 +1,15 @@
 # @gravis-os/landing
 
+## 2.0.1
+
+### Patch Changes
+
+- [#561](https://github.com/gravis-os/gravis-os/pull/561) [`62596f8`](https://github.com/gravis-os/gravis-os/commit/62596f8183f74f4a380bca01aeda0920396a7cd3) Thanks [@clodal](https://github.com/clodal)! - Update landing styles
+
+- Updated dependencies [[`a3bd586`](https://github.com/gravis-os/gravis-os/commit/a3bd5868ea9e8a854679ba5e5f5c1286d4b09330), [`62596f8`](https://github.com/gravis-os/gravis-os/commit/62596f8183f74f4a380bca01aeda0920396a7cd3)]:
+  - @gravis-os/ui@0.13.0
+  - @gravis-os/types@0.7.2
+
 ## 2.0.0
 
 ### Minor Changes
