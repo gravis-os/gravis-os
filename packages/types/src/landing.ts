@@ -185,6 +185,8 @@ export interface Site {
   default_theme_mode?: DEFAULT_THEME_MODE_ENUM
   // Hide faqs
   disable_faqs_on_home_page?: boolean
+  // Hide serviceCategorys from contact form
+  disable_service_categorys?: boolean
   // Hide testimonials
   disable_testimonials?: boolean
 

@@ -16,7 +16,7 @@ const renderFeaturedIndustryBlockItem = (
       titleProps: { sx: { mb: 3 } },
       type: 'fa-icon',
     },
-    { title, titleProps: { href, variant: 'h5' }, type: 'link' },
+    { title, titleProps: { href, variant: 'h5' }, type: href ? 'link' : 'h5' },
     {
       title: subtitle,
       titleProps: {
@@ -26,7 +26,7 @@ const renderFeaturedIndustryBlockItem = (
       },
       type: 'body1',
     },
-    {
+    href && {
       title: 'Learn more',
       titleProps: { href, rightCaret: true, variant: 'body2' },
       type: 'link',

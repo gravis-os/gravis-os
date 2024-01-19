@@ -1,4 +1,5 @@
 import { BlockProps } from '../web/Block/Block'
+import { BlockItemProps } from '../web/Block/BlockItem'
 import renderGhostButtonBlockItem, {
   RenderGhostButtonBlockItemProps,
 } from './renderGhostButtonBlockItem'
@@ -9,6 +10,7 @@ export interface RenderHeroWithVideoBackgroundBlockProps
   overline?: string
   secondaryButtonProps?: RenderGhostButtonBlockItemProps
   subtitle?: string
+  subtitleProps?: BlockItemProps
   title: string
   video_poster_src?: string
   video_src?: string
@@ -24,6 +26,7 @@ const renderHeroWithVideoBackgroundBlock = (
     overline,
     secondaryButtonProps,
     subtitle,
+    subtitleProps,
     video_poster_src,
     video_src,
     ...rest
@@ -49,7 +52,11 @@ const renderHeroWithVideoBackgroundBlock = (
       },
       {
         title: subtitle,
-        titleProps: { color: 'text.secondary', maxWidth: center || '45%' },
+        titleProps: {
+          color: 'text.secondary',
+          maxWidth: center || '45%',
+          ...subtitleProps,
+        },
         type: 'subtitle1',
       },
       {
