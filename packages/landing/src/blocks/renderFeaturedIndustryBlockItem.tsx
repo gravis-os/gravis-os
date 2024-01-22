@@ -1,14 +1,17 @@
 import { Industry } from '@gravis-os/types'
 
 export interface RenderFeaturedIndustryBlockItemProps {
+  disableHref?: boolean
   item: Industry & { href: string }
 }
 
 const renderFeaturedIndustryBlockItem = (
   props: RenderFeaturedIndustryBlockItemProps
 ) => {
-  const { item } = props
+  const { disableHref, item } = props
   const { title, fa_icon, href, subtitle } = item || {}
+
+  const hasHref = !disableHref && href
 
   return [
     {
@@ -16,7 +19,11 @@ const renderFeaturedIndustryBlockItem = (
       titleProps: { sx: { mb: 3 } },
       type: 'fa-icon',
     },
-    { title, titleProps: { href, variant: 'h5' }, type: href ? 'link' : 'h5' },
+    {
+      title,
+      titleProps: { href, variant: 'h5' },
+      type: hasHref ? 'link' : 'h5',
+    },
     {
       title: subtitle,
       titleProps: {
@@ -26,7 +33,7 @@ const renderFeaturedIndustryBlockItem = (
       },
       type: 'body1',
     },
-    href && {
+    hasHref && {
       title: 'Learn more',
       titleProps: { href, rightCaret: true, variant: 'body2' },
       type: 'link',

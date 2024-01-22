@@ -11,6 +11,7 @@ export interface RenderFeaturedIndustrysBlockProps
   subtitle?: React.ReactNode
   title?: React.ReactNode
   titleType?: BlockItemProps['type']
+  disableHref?: boolean
 }
 
 const renderFeaturedIndustrysBlock = (
@@ -21,6 +22,7 @@ const renderFeaturedIndustrysBlock = (
     items,
     subtitle = '',
     titleType = 'h3',
+    disableHref,
     ...rest
   } = props
   const { routeConfig } = useLayout()
@@ -63,6 +65,7 @@ const renderFeaturedIndustrysBlock = (
             xs: 12,
             md: 4,
             items: renderFeaturedIndustryBlockItem({
+              disableHref,
               item: {
                 href: `${routeConfig?.INDUSTRYS}/${item.slug}`,
                 ...item,
