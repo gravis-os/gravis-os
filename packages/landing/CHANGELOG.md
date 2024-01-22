@@ -1,5 +1,11 @@
 # @gravis-os/landing
 
+## 2.0.2
+
+### Patch Changes
+
+- [`813ecab`](https://github.com/gravis-os/gravis-os/commit/813ecab392f4e8ca3c8bd6663c8e750b2d402fc7) Thanks [@clodal](https://github.com/clodal)! - Minor update industry page with disableHref prop
+
 ## 2.0.1
 
 ### Patch Changes
