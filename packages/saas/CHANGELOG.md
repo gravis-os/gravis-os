@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.0.0-next.5
+
+### Patch Changes
+
+- [#563](https://github.com/gravis-os/gravis-os/pull/563) [`c32ed995`](https://github.com/gravis-os/gravis-os/commit/c32ed995afc7841d8b3dac8b5f5df0fb6066f21e) Thanks [@fernandoonextech](https://github.com/fernandoonextech)! - add subdomain override logic for checking valid workspace
+
 ## 1.0.0-next.4
 
 ### Patch Changes
