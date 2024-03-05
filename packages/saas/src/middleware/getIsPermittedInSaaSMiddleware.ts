@@ -132,7 +132,9 @@ const getIsPermittedInSaaSMiddleware = (
     }
 
     // 6. Check if the user has the permission to access this workspace
-    const isValidWorkspace = workspace?.slug === subdomain
+    const isValidWorkspace =
+      process.env.NEXT_PUBLIC_SAAS_SUBDOMAIN_OVERRIDE ||
+      workspace?.slug === subdomain
     const isAdmin = getIsAdminRole(role)
     if (!isAdmin && !isValidWorkspace) {
       throw new Error('Incorrect workspace!')
