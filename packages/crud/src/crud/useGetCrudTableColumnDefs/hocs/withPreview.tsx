@@ -59,7 +59,7 @@ const withPreview = (props) => {
         ...columnDef,
         cellRenderer: (params) => {
           // Show with avatar if avatar_src is present
-          const { hasAvatar } = columnDef
+          const { avatarSxProps, containerSxProps, hasAvatar } = columnDef
 
           const linkProps = {
             color: 'inherit',
@@ -80,12 +80,18 @@ const withPreview = (props) => {
           }
 
           return (
-            <Stack alignItems="center" direction="row" spacing={1}>
+            <Stack
+              alignItems="center"
+              direction="row"
+              spacing={1}
+              sx={containerSxProps}
+            >
               {hasAvatar && params.data && (
                 <StorageAvatar
                   alt={params.data.avatar_alt || params.data.title}
                   size={32}
                   src={params.data.avatar_src}
+                  sx={avatarSxProps}
                 />
               )}
               <Link {...linkProps}>{params.value}</Link>
