@@ -1,5 +1,17 @@
 # Changelog
 
+## 0.11.0
+
+### Minor Changes
+
+- [#564](https://github.com/gravis-os/gravis-os/pull/564) [`e0cf08e5`](https://github.com/gravis-os/gravis-os/commit/e0cf08e55f29d5101348e682fefdb5a43cdbd246) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): added sx props support into ag-grid columnDef with avatar.
+
+### Patch Changes
+
+- Updated dependencies [[`cddbc4e4`](https://github.com/gravis-os/gravis-os/commit/cddbc4e41ac3c3b5a18197af5fede9b069100eef)]:
+  - @gravis-os/form@1.11.0
+  - @gravis-os/storage@0.6.0
+
 ## 0.10.0
 
 ### Minor Changes
