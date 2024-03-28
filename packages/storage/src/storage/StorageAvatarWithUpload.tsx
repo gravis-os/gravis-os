@@ -2,7 +2,9 @@ import React, { InputHTMLAttributes, useEffect, useRef, useState } from 'react'
 
 import { Avatar, AvatarProps, Button, IconButton, Stack } from '@gravis-os/ui'
 import AddOutlinedIcon from '@mui/icons-material/AddOutlined'
+import CancelIcon from '@mui/icons-material/Cancel'
 import DeleteOutlinedIcon from '@mui/icons-material/DeleteOutlined'
+import Badge from '@mui/material/Badge'
 import { SupabaseClient, supabaseClient } from '@supabase/auth-helpers-nextjs'
 import download from 'downloadjs'
 import startCase from 'lodash/startCase'
@@ -15,6 +17,7 @@ export interface StorageAvatarWithUploadProps extends AvatarProps {
   alt?: string
   altKey?: string
   bucketName?: string
+  canRemove?: boolean
   client?: SupabaseClient
   disableLabel?: boolean
   disablePublic?: boolean
@@ -25,7 +28,9 @@ export interface StorageAvatarWithUploadProps extends AvatarProps {
   label?: string
   module?: any
   name?: string // The database key to save this src to
+  onRemove?: (savedFilePath: string) => void
   onUpload?: (savedFilePath: string) => void
+  removeIconSxProps?: any
   size?: number // Image size
   src?: string // defaultValue to render the image. Storage filepath where image is currently stored
   value?: string // Typically the form value
@@ -38,6 +43,7 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     alt,
     altKey: injectedAltKey,
     bucketName: injectedBucketName,
+    canRemove = false,
     client = supabaseClient,
     disableLabel,
     disablePublic = false,
@@ -48,7 +54,9 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
     label: injectedLabel,
     module,
     name = 'avatar_src',
+    onRemove,
     onUpload,
+    removeIconSxProps,
     size = 64,
     src: injectedFilePath,
     sx,
@@ -155,11 +163,14 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
   // Disable label for `avatar_src` keys by default
   const hasLabel = !disableLabel && label !== 'Avatar' && label !== 'Avatar Src'
 
-  return (
-    <div>
-      {/* Label */}
-      {hasLabel && <FieldLabel>{label}</FieldLabel>}
+  const removeAvatar = () => {
+    onRemove?.('')
+    setAvatarUrl('')
+    setSavedFilePath('')
+  }
 
+  const field = (
+    <>
       <Avatar
         alt={alt || (avatarUrl ? 'Avatar' : 'No image')}
         onClick={() => {
@@ -218,6 +229,36 @@ const StorageAvatarWithUpload: React.FC<StorageAvatarWithUploadProps> = (
         type="file"
         {...inputProps}
       />
+    </>
+  )
+
+  return (
+    <div>
+      {/* Label */}
+      {hasLabel && <FieldLabel>{label}</FieldLabel>}
+
+      {canRemove ? (
+        <Badge
+          anchorOrigin={{ horizontal: 'right', vertical: 'top' }}
+          badgeContent={
+            <IconButton
+              aria-label="remove-avatar"
+              color="error"
+              disabled={uploading}
+              onClick={removeAvatar}
+              sx={removeIconSxProps}
+            >
+              <CancelIcon fontSize="medium" />
+            </IconButton>
+          }
+          invisible={!avatarUrl}
+          overlap="circular"
+        >
+          {field}
+        </Badge>
+      ) : (
+        field
+      )}
     </div>
   )
 }

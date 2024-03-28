@@ -507,6 +507,9 @@ const renderField = (props: RenderFieldProps) => {
                 editable
                 item={item}
                 module={injectedModule as CrudModule}
+                onRemove={(savedFilePath) =>
+                  setValue(field.name, savedFilePath, { shouldDirty: true })
+                }
                 onUpload={(savedFilePath) =>
                   setValue(field.name, savedFilePath, { shouldDirty: true })
                 }
