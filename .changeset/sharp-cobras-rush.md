@@ -3,4 +3,4 @@
 "@gravis-os/storage": minor
 ---
 
-feat(storage, form): support to remove avatar.
+feat(storage,form): support to remove avatar.
