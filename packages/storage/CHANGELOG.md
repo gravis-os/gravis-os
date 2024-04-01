@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.6.0
+
+### Minor Changes
+
+- [#566](https://github.com/gravis-os/gravis-os/pull/566) [`cddbc4e4`](https://github.com/gravis-os/gravis-os/commit/cddbc4e41ac3c3b5a18197af5fede9b069100eef) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(storage,form): support to remove avatar.
+
 ## 0.5.1
 
 ### Patch Changes

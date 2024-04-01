@@ -1,5 +1,13 @@
 # @gravis-os/landing
 
+## 3.0.0
+
+### Patch Changes
+
+- Updated dependencies [[`cddbc4e4`](https://github.com/gravis-os/gravis-os/commit/cddbc4e41ac3c3b5a18197af5fede9b069100eef)]:
+  - @gravis-os/form@1.11.0
+  - @gravis-os/storage@0.6.0
+
 ## 2.0.2
 
 ### Patch Changes
