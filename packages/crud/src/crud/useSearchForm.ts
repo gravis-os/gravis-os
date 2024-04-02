@@ -41,7 +41,7 @@ const useSearchForm = (args: UseSearchFormArgs) => {
     try {
       const searchFormValues = getSearchFormValues({ values })
       const nextValues = setFormValues
-        ? setFormValues({ values: searchFormValues })
+        ? await setFormValues({ values: searchFormValues })
         : searchFormValues
       if (onSubmit) onSubmit({ values: nextValues })
       if (resetOnSubmit) reset(defaultValues)
