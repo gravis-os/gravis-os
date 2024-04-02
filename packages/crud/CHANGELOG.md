@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.12.0
+
+### Minor Changes
+
+- [#568](https://github.com/gravis-os/gravis-os/pull/568) [`a500d7fd`](https://github.com/gravis-os/gravis-os/commit/a500d7fda9244df41d51832173eb4edf22f1ea35) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): support Promise based setFormValues.
+
 ## 0.11.0
 
 ### Minor Changes
