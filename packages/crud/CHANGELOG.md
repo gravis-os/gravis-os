@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.0
+
+### Minor Changes
+
+- [#570](https://github.com/gravis-os/gravis-os/pull/570) [`99122d8d`](https://github.com/gravis-os/gravis-os/commit/99122d8df7b459d672cb34c4382af697a92679d4) Thanks [@yyhernest](https://github.com/yyhernest)! - feat(crud): support modifying crud preview drawer href
+
 ## 0.12.0
 
 ### Minor Changes
