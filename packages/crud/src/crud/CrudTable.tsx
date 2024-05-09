@@ -32,6 +32,7 @@ import useGetCrudTableColumnDefs, {
 } from './useGetCrudTableColumnDefs/useGetCrudTableColumnDefs'
 import usePreviewDrawer from './usePreviewDrawer'
 import useRouterQueryFilters from './useRouterQueryFilters'
+import { GetCrudItemHrefParams } from './getCrudItemHref'
 
 export interface CrudTableProps {
   actions?: React.ReactNode
@@ -62,6 +63,7 @@ export interface CrudTableProps {
   module: CrudModule
   previewFormProps?: Partial<CrudFormProps>
   previewFormSections?: FormSectionsProps['sections']
+  getPreviewCrudItemHref?: ({ item, module }: GetCrudItemHrefParams) => string
   searchFormSections?: FormSectionsProps['sections']
   setQuery?: UseListProps['setQuery']
   uploadFields?: string[]
@@ -104,6 +106,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
 
     manyToManyKeys,
     previewFormProps,
+    getPreviewCrudItemHref,
     // Form Sections
     previewFormSections: injectedPreviewFormSections = [],
     searchFormSections = [],
@@ -329,6 +332,7 @@ const CrudTable: React.FC<CrudTableProps> = (props) => {
         crudFormProps={previewFormProps}
         disableManage={disableManage}
         disablePreview={disablePreview}
+        getCrudItemHref={getPreviewCrudItemHref}
       />
 
       {/* Delete Dialog */}

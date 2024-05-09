@@ -18,6 +18,7 @@ const CrudPreviewDrawer = (props) => {
     previewModule,
     refetch,
     resetPreview,
+    getCrudItemHref: injectedGetCrudItemHref,
   } = props
 
   const isOpen =
@@ -42,7 +43,7 @@ const CrudPreviewDrawer = (props) => {
           actionButtons: [
             !disableManage && {
               children: 'Manage',
-              href: getCrudItemHref({
+              href: (injectedGetCrudItemHref || getCrudItemHref)({
                 item: previewItem,
                 module: previewModule,
               }),
