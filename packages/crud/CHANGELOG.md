@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.13.1
+
+### Patch Changes
+
+- [#572](https://github.com/gravis-os/gravis-os/pull/572) [`16c347c5`](https://github.com/gravis-os/gravis-os/commit/16c347c53636d80f959150fa10002d4651d379f0) Thanks [@al1xt](https://github.com/al1xt)! - Allow uploadFields to define custom fields for upload
+
 ## 0.13.0
 
 ### Minor Changes
