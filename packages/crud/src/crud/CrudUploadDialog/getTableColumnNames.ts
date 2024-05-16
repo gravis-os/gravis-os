@@ -4,12 +4,19 @@ import isNil from 'lodash/isNil'
 import map from 'lodash/map'
 import uniq from 'lodash/uniq'
 
-const getTableColumnNames = (
+const getTableColumnNames = ({
+  disableCheckingFieldExists,
+  manyToManyKeys,
   tableDefinition,
-  tableHeaderRenameMapping?: Record<string, string>,
-  uploadFields?: string[],
+  tableHeaderRenameMapping,
+  uploadFields,
+}: {
+  disableCheckingFieldExists?: boolean
   manyToManyKeys?: string[]
-): never[] | string[] => {
+  tableDefinition
+  tableHeaderRenameMapping?: Record<string, string>
+  uploadFields?: string[]
+}): never[] | string[] => {
   if (!tableDefinition) return []
 
   // Remove unwanted columns
@@ -22,7 +29,7 @@ const getTableColumnNames = (
     const isPrimaryKey = key === 'id'
     const isCreatedOrUpdatedKey =
       key.startsWith('created_') || key.startsWith('updated_')
-    const hasKey = columns.includes(key)
+    const hasKey = disableCheckingFieldExists || columns.includes(key)
 
     const shouldSkipKey = isPrimaryKey || isCreatedOrUpdatedKey || !hasKey
 

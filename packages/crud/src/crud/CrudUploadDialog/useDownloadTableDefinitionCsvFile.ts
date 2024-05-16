@@ -8,12 +8,19 @@ import getTableColumnNames from './getTableColumnNames'
 import useGetTableDefinitionByTableName from './useGetTableDefinitionByTableName'
 
 const useDownloadTableDefinitionCsvFile = (props: {
+  disableCheckingFieldExists?: boolean
   hasUploadTemplate?: boolean
   manyToManyKeys?: string[]
   module: CrudModule
   uploadFields?: string[]
 }) => {
-  const { hasUploadTemplate, manyToManyKeys, module, uploadFields } = props
+  const {
+    disableCheckingFieldExists,
+    hasUploadTemplate,
+    manyToManyKeys,
+    module,
+    uploadFields,
+  } = props
   const { tableHeaderRenameMapping } = module ?? {}
 
   // Get table names for downloading the color
@@ -25,12 +32,13 @@ const useDownloadTableDefinitionCsvFile = (props: {
     enabled: shouldDownload || hasUploadTemplate,
   })
 
-  const tableColumnNames = getTableColumnNames(
+  const tableColumnNames = getTableColumnNames({
+    disableCheckingFieldExists,
+    manyToManyKeys,
     tableDefinition,
     tableHeaderRenameMapping,
     uploadFields,
-    manyToManyKeys
-  )
+  })
 
   // Effect: Download csv file with fetched column names
   useEffect(() => {

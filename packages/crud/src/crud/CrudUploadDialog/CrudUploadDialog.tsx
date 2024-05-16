@@ -29,6 +29,7 @@ import useDownloadTableDefinitionCsvFile from './useDownloadTableDefinitionCsvFi
 
 export interface CrudUploadDialogProps extends DialogButtonProps {
   dataTableProps?: Partial<DataTableProps>
+  disableCheckingFieldExists?: boolean
   getUploadValues?: (rows: unknown) => unknown
   hasUploadTemplate?: boolean
   manyToManyKeys?: string[]
@@ -44,6 +45,7 @@ export interface CrudUploadDialogProps extends DialogButtonProps {
 const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
   const {
     dataTableProps = {},
+    disableCheckingFieldExists,
     getUploadValues: injectedGetUploadedValues,
     hasUploadTemplate,
     manyToManyKeys,
@@ -61,6 +63,7 @@ const CrudUploadDialog: React.FC<CrudUploadDialogProps> = (props) => {
 
   const { handleDownload, isDownloaded, resetIsDownloaded, tableColumnNames } =
     useDownloadTableDefinitionCsvFile({
+      disableCheckingFieldExists,
       hasUploadTemplate,
       manyToManyKeys,
       module,
