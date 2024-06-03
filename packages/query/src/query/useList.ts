@@ -217,6 +217,34 @@ const withPostgrestFilters = () => (props: UseListProps & UseListFilters) => {
       const parsedQsValue = String(injectedParsedQsValue)
 
       const getOpAndFilterValueFromParsedQsValue = (parsedQsValue: string) => {
+        // Preferred approach (matches most commonly used operators)
+        const knownOperators = [
+          'eq',
+          'neq',
+          'gt',
+          'gte',
+          'lt',
+          'lte',
+          'like',
+          'ilike',
+          'in',
+          'is',
+        ]
+        const negatedKnownOperators = knownOperators.map(
+          (operator) => `not.${operator}`
+        )
+        const matchingKnownOperator = [
+          ...knownOperators,
+          ...negatedKnownOperators,
+        ].find((operator) => parsedQsValue.startsWith(`${operator}.`))
+        if (matchingKnownOperator) {
+          return [
+            matchingKnownOperator,
+            parsedQsValue.replace(`${matchingKnownOperator}.`, ''),
+          ]
+        }
+
+        // Fallback approach (fails to account for values containing .)
         const parsedQsValueArr = parsedQsValue.split('.')
         return [
           parsedQsValueArr.slice(0, -1).join('.'),
