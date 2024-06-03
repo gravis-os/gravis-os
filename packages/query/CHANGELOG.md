@@ -1,5 +1,11 @@
 # @gravis-os/query
 
+## 0.3.2
+
+### Patch Changes
+
+- [#574](https://github.com/gravis-os/gravis-os/pull/574) [`ec987ed4`](https://github.com/gravis-os/gravis-os/commit/ec987ed4b6d49c351ea5971e8e1d50b532d8e629) Thanks [@al1xt](https://github.com/al1xt)! - Fix withPostgrestFilters not accounting for dot in value
+
 ## 0.3.1
 
 ### Patch Changes
