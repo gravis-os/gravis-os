@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.14.0
+
+### Minor Changes
+
+- [#576](https://github.com/gravis-os/gravis-os/pull/576) [`0b602e58`](https://github.com/gravis-os/gravis-os/commit/0b602e58fc5e4503bcc4a95bb9d6d3c2236f4039) Thanks [@yyhernest](https://github.com/yyhernest)! - feat(crud): support injecting tab content props for detail page
+
 ## 0.13.1
 
 ### Patch Changes
