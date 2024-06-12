@@ -6,6 +6,7 @@ import {
   Container,
   Divider,
   TabContent,
+  TabContentProps,
   Tabs,
   TabsProps,
   UseTabsProps,
@@ -40,6 +41,7 @@ export interface DetailPageProps {
   // Tabs
   tabs?: TabsProps['items']
   tabsProps?: TabsProps
+  tabContentProps?: TabContentProps
 
   useGetItemProps?: UseGetItemProps
   useTabsProps?: UseTabsProps
@@ -59,6 +61,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
     // Tabs
     tabs: injectedTabs,
     tabsProps,
+    tabContentProps,
 
     useGetItemProps,
     useTabsProps,
@@ -144,6 +147,7 @@ const DetailPage: React.FC<DetailPageProps> = (props) => {
           currentTab={currentTab}
           items={tabs}
           renderProps={renderProps}
+          {...tabContentProps}
         />
       ) : (
         childrenJsx
