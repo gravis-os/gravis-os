@@ -1,11 +1,12 @@
+import type { FormSectionsProps } from '@gravis-os/form'
+
 import React from 'react'
 
-import { FormSectionsProps } from '@gravis-os/form'
 import { CrudModule } from '@gravis-os/types'
-import { Container, ContainerProps } from '@gravis-os/ui'
+import { Container, type ContainerProps } from '@gravis-os/ui'
 
-import CrudTable, { CrudTableProps } from './CrudTable'
-import PageHeader from './PageHeader'
+import CrudTable, { type CrudTableProps } from './CrudTable'
+import PageHeader, { type PageHeaderProps } from './PageHeader'
 
 export interface ListPageProps {
   addFormSections?: FormSectionsProps['sections']
@@ -15,6 +16,7 @@ export interface ListPageProps {
   disableHeader?: boolean
   filterFormSections?: FormSectionsProps['sections']
   module: CrudModule
+  pageHeaderProps?: PageHeaderProps
   previewFormSections?: FormSectionsProps['sections']
   rightTitle?: React.ReactNode
   searchFormSections?: FormSectionsProps['sections']
@@ -29,6 +31,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     disableHeader,
     filterFormSections,
     module,
+    pageHeaderProps: injectedPageHeaderProps,
     previewFormSections,
     rightTitle,
     searchFormSections: injectedSearchFormSections,
@@ -40,6 +43,7 @@ const ListPage: React.FC<ListPageProps> = (props) => {
     title: name.plural,
     breadcrumbs: [{ title: name.plural, href: route.plural, key: name.plural }],
     rightTitle,
+    ...injectedPageHeaderProps,
   }
 
   // Search
