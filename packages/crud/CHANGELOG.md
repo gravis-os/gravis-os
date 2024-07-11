@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.15.0
+
+### Minor Changes
+
+- [#578](https://github.com/gravis-os/gravis-os/pull/578) [`45d1349c`](https://github.com/gravis-os/gravis-os/commit/45d1349ce0df4007f8a125916758cb30907622b0) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(crud): added pageHeaderProps into ListPage component.
+
 ## 0.14.0
 
 ### Minor Changes
