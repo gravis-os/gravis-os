@@ -52,6 +52,7 @@ export default function withApiAuthAndAuthz(
   options: {
     authorizer?: AuthorizerFunction
     cookieOptions?: CookieOptions
+    shouldOmitUserOptions?: boolean
     tokenRefreshMargin?: number
   } = {}
 ) {
@@ -65,17 +66,26 @@ export default function withApiAuthAndAuthz(
         options.tokenRefreshMargin ?? TOKEN_REFRESH_MARGIN
 
       // Use supabase's getUser to check for authentication instead
-      const { accessToken, user: authUser } = await getAuthUser(context, {
-        cookieOptions,
-        tokenRefreshMargin,
-      })
+      const userOptions = options?.shouldOmitUserOptions
+        ? // eslint-disable-next-line fp/no-nil
+          undefined
+        : {
+            cookieOptions,
+            tokenRefreshMargin,
+          }
+
+      const { accessToken, user: authUser } = await getAuthUser(
+        context,
+        userOptions
+      )
       if (!accessToken || !authUser) throw new Error('No access token or user')
 
       const isAuthorized = await options.authorizer({ context, user: authUser })
       if (!isAuthorized) throw new Error('Unauthorized')
 
       await handler(req, res)
-    } catch {
+    } catch (error) {
+      console.error('Error caught:', error.message)
       res.status(401).json({
         description:
           'The user does not have an active session or is not authenticated',
