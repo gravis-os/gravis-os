@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0
+
+### Minor Changes
+
+- [#580](https://github.com/gravis-os/gravis-os/pull/580) [`52c0390b`](https://github.com/gravis-os/gravis-os/commit/52c0390b798b7c8c189c2946633320ea126084e0) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - feat(auth-server): added `shouldOmitUserOptions` in `withApiAuthAndAuthz` fn.
+
 ## 0.2.1
 
 ### Patch Changes
