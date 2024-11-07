@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.7.0
+
+### Minor Changes
+
+- [#582](https://github.com/gravis-os/gravis-os/pull/582) [`e3aca246`](https://github.com/gravis-os/gravis-os/commit/e3aca2469c2d0750a861aa141e2f6c8ee1047b83) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(auth): removed user checking before resetting password.
+
 ## 0.6.0
 
 ### Minor Changes
