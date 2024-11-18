@@ -101,7 +101,7 @@ const StatusUpdateFormCard: React.FC<StatusUpdateFormPropsCard> = (props) => {
 
           <Stack
             alignItems="center"
-            direction="row"
+            direction={{ xs: 'column', sm: 'column', md: 'row' }}
             justifyContent="space-between"
             spacing={1}
           >
