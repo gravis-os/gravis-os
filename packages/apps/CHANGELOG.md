@@ -1,5 +1,11 @@
 # Changelog
 
+## 1.3.1
+
+### Patch Changes
+
+- [#584](https://github.com/gravis-os/gravis-os/pull/584) [`4ffa9890`](https://github.com/gravis-os/gravis-os/commit/4ffa98905d8aad769ccc2a8a4ea83784a512790e) Thanks [@Yadong-OneXTech](https://github.com/Yadong-OneXTech)! - fix(apps): added responsive style.
+
 ## 1.3.0
 
 ### Minor Changes
